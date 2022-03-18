@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 --
 show user;
 -- USER이(가) "SYS"입니다.
@@ -9,10 +9,15 @@ create user semiorauser3 identified by cclass default tablespace users;
 grant connect, resource, create view, unlimited tablespace to semiorauser3;
 -- Grant을(를) 성공했습니다. 권한 부여
 --
-=======
+
 show user;
 -- USER이(가) "SYS"입니다.
 
 select *
 from tbl_main_image;
 
+drop table tbl_main_image purge; 
+-- Table TBL_MAIN_IMAGE이(가) 삭제되었습니다.
+
+commit;
+-- 커밋 완료.
