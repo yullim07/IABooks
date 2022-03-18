@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 		description = "사용자가 웹에서 .up을 했을 경우 이 서블릿이 응답을 해준다.", 
 		urlPatterns = { "*.up" }, 
 		initParams = { 
-				@WebInitParam(name = "propertyConfig", value = "C:/NCS/workspace(jsp)/MyMVC/src/main/webapp/WEB-INF/Command.properties", description = "*.up 에 대한 클래스의 매핑파일")
+				@WebInitParam(name = "propertyConfig", value = "C:/NCS/workspace(jsp)/IABooks/src/main/webapp/WEB-INF/Command.properties", description = "*.up 에 대한 클래스의 매핑파일")
 		})
 public class FrontController extends HttpServlet {
 	
@@ -119,7 +119,7 @@ public class FrontController extends HttpServlet {
 			// 여기까지가 환경 설정! 딱 한 번만 해야 하므로 init 메소드에 해주는 것이다!
 			
 		} catch (FileNotFoundException e) {
-			System.out.println(">>> C:/NCS/workspace(jsp)/MyMVC/src/main/webapp/WEB-INF/Command.properties 파일이 없습니다.");
+			System.out.println(">>> C:/NCS/workspace(jsp)/IABooks/src/main/webapp/WEB-INF/Command.properties 파일이 없습니다.");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
