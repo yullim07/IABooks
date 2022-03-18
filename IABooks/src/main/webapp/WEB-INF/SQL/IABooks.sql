@@ -15,4 +15,4 @@ show user;
 
 select *
 from tbl_main_image;
->>>>>>> branch 'main' of https://github.com/yullim07/IABooks.git
+
