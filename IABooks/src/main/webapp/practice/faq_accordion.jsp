@@ -1,20 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%
+    String ctxPath = request.getContextPath();
+%>
 <!doctype html>
 <html lang="ko">
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<!-- meta 태그 속성은 대부분 name과 content속성으로 이루어져 있으며 그 중에서 viewport는 웹 페이지의 크기를 결정한다. 
-		 width=device-width는 웹 페이지의 크기가 모니터가 스마트폰의 실제 액정 크기를 따라가도록 함.
-		 initial-scale=1는 보여지는 화면의 zoom up 정도를 1배율로 한다.
-		 shrink-to-fit=no viewport의 크기보다 보여줘야할 내용이 크면, 보여줘야할 내용을 줄여서 보여주는 것을 비활성화(사파리) 
-	-->
+
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+
+<!-- Font Awesome 5 Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
+
+<!-- Optional JavaScript -->
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
+
+<!-- datepicker 삽입을 위한 link -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css" > 
+<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
+
+
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+	});
+
+</script>
+
+
     <title>table</title>
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="../css/bootstrap.min.css" type="text/css">
     
 <style type="text/css">
 
