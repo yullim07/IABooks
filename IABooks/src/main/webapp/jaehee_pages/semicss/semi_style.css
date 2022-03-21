@@ -1,0 +1,207 @@
+@charset "UTF-8";
+
+div.title {
+        margin: 10px 0 20px 0;
+        border-bottom: 1px solid #e8e8e8;
+        min-height: 30px;
+    }
+    div.title > div.title_icon{
+    	display:inline-block; 
+    }
+    div.title > h2{
+    	display:inline-block; 
+    	font-size:16px; 
+    	font-weight: bold; 
+    	padding: 0 0 0 12px;
+	}
+	div.title> div.bar_icon{
+    	display:inline-block;
+    }
+    div.title > span{
+    	font-size: 12px; color: #939393;
+    }
+	
+	table,th,td, div.write_btn_zone{
+		border: solid 1px #d7d5d5;
+		border-collapse:collapse; /* 보더와 보더 사이의 경계를 허물어라.*/
+		padding: auto;
+	}
+	
+	div.table_all > div > table > thead > tr > th{
+		border-bottom: solid 0px gray;
+		background-color: #FBFAFA;
+		height: 39.8px;
+		padding: 12px 0 10px 0;
+		text-align: center;
+		font-size: 12px;
+	}
+	div.table_all > div > table > tbody > tr >td{
+		padding: 6px 3px 4px 3px;
+		height: 57px;
+		font-size: 12px;
+		vertical-align: middle;
+		
+	}
+	div.table_all > div > table > tbody > tr > td > a{
+		color: black;
+		text-decoration: none;
+	}
+	div.table_all > div > table > tbody > tr > td.tbl_bookname > a > img{
+		width:46px; 
+		float:left;
+	}
+	div.table_all > div > table > tbody > tr > td.tbl_bookname > a> span{
+		padding: 0 0 0 8px; 
+		float: left;
+		text-align: left;
+		width: 80px;
+		/* cursor: pointer; */
+	}
+	
+	img[name="file_attach"]{
+		margin: 0 1px;
+		cursor:default;
+	}
+	
+	
+	
+	div.table_all > div > table > tbody > tr >td.tbl_subject{
+		color: #555;
+		padding: 6px 3px 4px 8px;
+	}
+	div.table_all > div > table > tbody > tr > td.tbl_date{
+		font-size: 11px;
+		color: #939393;
+	}
+	
+	
+	
+	td.myright{
+    text-align: right;
+    }
+    
+    div.title > div.square > h2{
+    	font-size: 16px;
+    }
+    
+    
+   
+    
+    
+    table.table{
+    margin-bottom:0;
+    padding-bottom:0;
+    }
+  	
+  	td.mycenter{
+  		text-align: center;
+  		vertical-align: middle;
+  	}
+  	
+  	div.pagination2{
+  		text-align: center;
+  		margin: 30px 0; 
+  		height: 37px;
+  		
+  	}
+  	div.pagination2 > ul{
+  		margin: 0;
+  		padding: 0;
+  	}
+  	div.pagination2 > ul > li{
+  		width: 33px;
+  		height: 32px;
+  		list-style: none;
+  		display:inline-block;
+  		vertical-align: center;
+  		
+  		
+  	}
+  	
+  	div.pagination2 > ul > li > a{
+	  	padding: 9px 0; 
+	  	color: gray;
+	  	font-weight: bold;
+	  	font-size: 12px;
+	  	width: 33px;
+  		height: 32px;
+  		line-height: 14px;
+  		display: block;
+	  	
+  	}
+
+  	div.pagination2 > ul > li.active  {
+	  	border-bottom: solid 2px #333;
+	 
+  	}
+  	div.pagination2 > ul > li.active >a{
+  		color: #333 !important; 
+  	}
+  	
+  	
+  	div.pagination2 > ul > li > a > img:hover{
+  		opacity:0.3;
+  	}
+  	div.pagination2 > ul > li > a:hover{
+  		text-decoration: none;
+  	}
+  	
+  	div.write_btn_zone{
+		padding: 15px 20px 15px 0;
+		text-align: right;
+		background-color:  #FBFAFA;
+		border-top: 0;
+		margin-top: 0;
+	}
+  	div.write_btn_zone > button.btn{
+    	width:100px;
+        height:30px;
+        margin: 0;
+        font-size: 12px;
+        margin: 0;
+    }
+    
+    body > div > div.search_outer > div > p{
+    	margin: 0;
+    }
+    
+	div.search_outer{
+    	padding: 20px 0 20px 10px;
+    	
+    	
+    }
+    div.search_inner{
+    	/* display: block; */
+    	padding:0;
+    	margin:0 0 0 10px;
+    	vertical-align: middle; 
+    }
+    
+    [name="search"]{
+    	height: 24px;
+    	font-size: 12px;
+    	
+    }
+	
+  	div.search_outer > div.search_inner > button{
+  		width: 59px;
+  		background-color: #999;
+  		color: white;
+  		font-size: 12px;
+  		/* vertical-align: middle; */
+  		padding: 0;
+  	}
+  	
+  	div.search_outer div.search_inner > select {
+  		width: 72px;
+  		
+  	}
+  	div.search_outer div.search_inner > select#searchDate {
+  		margin: 0 2px 0 22px;	
+  	}
+  	div.search_outer div.search_inner > select#searchContent{
+  		margin: 0 2px 0 0;
+  	}
+  	div.contents{
+  		padding: 0 0 30px 0;
+  	}
