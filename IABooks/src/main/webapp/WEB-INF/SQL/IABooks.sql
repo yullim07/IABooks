@@ -16,3 +16,6 @@ show user;
 select *
 from tbl_main_image;
 
+SELECT * FROM tabs;
+
+SELECT * FROM dba_tables;

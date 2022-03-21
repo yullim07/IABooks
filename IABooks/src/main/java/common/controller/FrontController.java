@@ -15,10 +15,10 @@ import javax.servlet.http.HttpServletResponse;
 
 
 @WebServlet(
-		description = "사용자가 웹에서 .up을 했을 경우 이 서블릿이 응답을 해준다.", 
-		urlPatterns = { "*.up" }, 
+		description = "사용자가 웹에서 .book을 했을 경우 이 서블릿이 응답을 해준다.", 
+		urlPatterns = { "*.book" }, 
 		initParams = { 
-				@WebInitParam(name = "propertyConfig", value = "C:/Users/sist/git/IABooks/IABooks/src/main/webapp/WEB-INF/Command.properties", description = "*.up 에 대한 클래스의 매핑파일")
+				@WebInitParam(name = "propertyConfig", value = "C:/Users/sist/git/IABooks/IABooks/src/main/webapp/WEB-INF/Command.properties", description = "*.book 에 대한 클래스의 매핑파일")
 		})
 public class FrontController extends HttpServlet {
 	
