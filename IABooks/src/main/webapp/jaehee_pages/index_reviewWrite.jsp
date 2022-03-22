@@ -55,7 +55,7 @@
 		      <td class="col-10" ><input id="subject" name="subject" /></td>
 		    </tr>
 		  	
-		    <tr>
+		    <tr class="notMember">
 		      <th>작성자</th>
 		      <td><input id="writer" name="writer" /></td>
 		    </tr>
@@ -82,31 +82,27 @@
 		      </td>
 		    </tr>
 		    
+		    
+		    <tr>
+		      <th>평점</th>
+		      <td>
+				  <input type="radio" id="point0" name="point" value="5">
+				  <label for="point0"><span class="point5"><p>★★★★★</p></span></label>
+				  <input type="radio" id="point1" name="point" value="5">
+				  <label for="point1"><span class="point5"><p>★★★★</p></span></label>
+				  <input type="radio" id="point2" name="point" value="5">
+				  <label for="point2"><span class="point5"><p>★★★</p></span></label>
+				  <input type="radio" id="point3" name="point" value="5">
+				  <label for="point3"><span class="point5"><p>★★</p></span></label>
+				  <input type="radio" id="point4" name="point" value="5">
+				  <label for="point4"><span class="point5"><p>★</p></span></label>
+		      </td>
+		    </tr>
+		    
 		    <tr>
 		      
 		      <td colspan="2">
-		      	<ul>
-		      		<li>
-		      			<strong>평점</strong>
-		      			<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_point5.gif"/>
-		      		</li>
-		      		<li>
-		      			<strong>작성일</strong>
-		      			<span style="font-size: 11px; color: gray; ">2022-03-10 04:06:33</span>
-		      		</li>
 		      	
-		      	</ul>
-		      	<div class="detail">
-		      		<img src="<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg"/>
-		      		<div>
-		      		<p>배송도 빠르도 책도 잘 포장돼서 왔어요!</p>
-		      		<br/>
-		      		<br/>
-		      		<span style="color: #999;">(2022-03-09 17:33:49 에 등록된 네이버 페이 구매평)</span>
-		      		
-		      		</div>
-		      	</div>
-		      
 		      </td>
 		    
 		    
@@ -119,16 +115,79 @@
 			      	<a class="file_attach" href="#">review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg</a>
 			    </a>
 		      </td>
-		     
+		    </tr>
+		    <tr>
+		      <th>UCC URL</th>
+		      <td class="uccurl_input">
+		      	<input id="ucc_url" name="ucc_url"/>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th>첨부파일1</th>
+		      <td class="" >
+		      	<button name="file_attach" type="file">파일 선택</button> <%--  button으로 할지 input으로 할지 고민고민 --%>
+		      	<span>선택된 파일 없음</span>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th>첨부파일2</th>
+		      <td class="" >
+		      	<button name="file_attach" type="file">파일 선택</button>
+		      	<span>선택된 파일 없음</span>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th>첨부파일3</th>
+		      <td class="" >
+		      	<button name="file_attach" type="file">파일 선택</button>
+		      	<span>선택된 파일 없음</span>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th>첨부파일4</th>
+		      <td class="" >
+		      	<button name="file_attach" type="file">파일 선택</button>
+		      	<span>선택된 파일 없음</span>
+		      </td>
+		    </tr>
+		    <tr>
+		      <th>첨부파일5</th>
+		      <td class="" >
+		      	<button name="file_attach" type="file">파일 선택</button>
+		      	<span>선택된 파일 없음</span>
+		      </td>
 		    </tr>
 		    <tr>
 		      <th>비밀번호</th>
-		      <td class="password">
-		      	<input id="password" name="password"/>
-		      	<div class="exclam_mark">!</div>
-		      	<span>삭제하려면 비밀번호를 입력하세요.</span>
+		      <td>
+		      	<input id="password" name="password" type="password"/>
 		      </td>
 		    </tr>
+		    
+		    <tr class="notMember">
+		      <th>자동등록방지<br>보안문자</th>
+		      <td>
+		      	<img id="captcha" /> <%-- captcha 오픈소스를 가져와야겠다 --%>
+		      	<img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_captcha_refresh.png"/>
+		      	
+		      	<p class="gBlank5"> 
+		      		<input id="captcha" name="captcha" placeholder="보안문자를 입력해 주세요." type="text"/>
+		      		<%-- 느낌표 이미지를 span::before로 가져와보기 --%>
+		      		<span class="ec-base-help txtInfo">영문, 숫자 조합을 공백없이 입력하세요(대소문자구분)</span> 
+		      	</p>
+		      </td>
+		    </tr>
+		    <tr>
+		    	<th>
+		    		
+		    	</th>
+		    	<td>
+		    		
+		    	</td>
+		    </tr>
+		    
+		    
+		    
 		    </tbody>
 		  
 		</table>
