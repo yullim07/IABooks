@@ -152,6 +152,14 @@
 		padding: 10px;
 	}
     
+    span.gRight {
+		float: right;
+	}
+	
+	span.admin {
+		display: none; /* 추후 수정 예정 비회원 모드일때 보이게*/
+	}
+	
 </style>
     
 </head>
@@ -216,6 +224,14 @@
 				<span class="gLeft">
 					<button type="button" class="btn" id="btnList">
 						<a href="">목록</a>
+					</button>
+				</span>
+				<span class="gRight admin">
+					<button type="button" class="btn" id="btnList">
+						<a href="">수정</a>
+					</button>
+					<button type="button" class="btn" id="btnList">
+						<a href="">삭제</a>
 					</button>
 				</span>
 			</div>
