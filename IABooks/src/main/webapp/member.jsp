@@ -54,7 +54,7 @@
 					}
 					// 조합된 참고항목을 해당 필드에 넣는다.
 					document.getElementById("extraAddress").value = extraAddr;
-
+					
 				} else {
 					document.getElementById("extraAddress").value = '';
 				}
