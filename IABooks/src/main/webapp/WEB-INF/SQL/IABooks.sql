@@ -14,4 +14,6 @@ show user;
 -- USER이(가) "SEMIORAUSER3"입니다.
 
 
+SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
+
 
