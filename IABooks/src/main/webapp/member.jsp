@@ -15,7 +15,7 @@
 	<!-- Optional JavaScript-->
 	<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
-	
+	<%-- 테스트용  --%>
  
 <script type="text/javascript">
 	
