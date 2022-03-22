@@ -58,7 +58,7 @@ div.title {
 		/* cursor: pointer; */
 	}
 	
-	img[name="file_attach"]{
+	img#file_attach{
 		margin: 0 1px;
 		cursor:default;
 	}
@@ -205,3 +205,281 @@ div.title {
   	div.contents{
   		padding: 0 0 30px 0;
   	}
+  	
+  	
+  	/* //////////////////inex_revietable.jsp//////////////////// */
+  	
+  	div.pdt_img_info{
+  		border: solid 5px #e8e8e8;
+  		padding: 15px 0 ;
+  		margin: 0 0 20px 0;
+  		display: table;
+  		width: 100%;
+  	}
+  	
+  	div.pdt_img_info >  p {
+  		padding: 0 20px;
+  		width: 190px;
+  		heith: 152px;
+  		display: table-cell;
+  	}
+  	
+  	
+  	div.pdt_img_info >  p > img{
+  		width: 152px;
+  		height: 152px;
+  		border: solid 1px #d7d5d5;
+  		cursor: pointer;
+	}
+	div.pdt_info > h3 > a:hover{
+		text-decoration: underline;
+	}
+	
+	
+	button.btn_detail{
+		background-color: #999;
+  		color: white;
+  		font-size: 12px;
+  		width: 105px;
+  		height: 24px;
+  		border: none;
+  		padding: 0;
+  		
+	}	
+	div.pdt_info > p.button{
+		padding: 13px 0 0 0;
+		margin: 19px 0 0 0;
+		border-top: solid 1px #e8e8e8;;
+	}
+	
+	button.btn_detail >a{
+		color: white;
+	}
+	div.pdt_info {
+		
+		height: 152px;
+		width: auto;
+		padding: 0 20px 0 0 ;
+		display: table-cell;
+		vertical-align: middle;
+		text-align: left;
+	}
+	div.pdt_info > h3{
+		margin: 17px 0 5px 0;
+		font-size: 15px;
+		
+		
+	}
+	
+		
+	div.pdt_info  p.p_price{
+		font-size: 14px;
+		font-weight: bold;
+		padding: 0;
+	}
+	
+	
+	
+	table.review_table{
+		position: relative;
+		border-collapse: collapse;
+		border-left: solid 0px #d5d5d5;
+		border-right: solid 0px #d5d5d5;
+		width: 100%;
+		font-size: 12px;
+		border-top: solid 2px #dfdfdf;
+		border-bottom: solid 2px #dfdfdf ;
+	}
+	table.review_table , table.review_table tr, table.review_table >tbody > tr> th, table.review_table >tbody > tr> td{
+		border-left: solid 0px #dfdfdf !important;
+		border-right: solid 0px #dfdfdf !important;
+	}
+  		
+  	table.review_table >tbody > tr > th{
+  		width: 130px;
+  		background-color: #fbfafa;
+  		padding: 11px 0 10px 18px;
+  		border: 1px solid #dfdfdf;
+  		
+  	}
+  	
+
+  	table.review_table > tbody > tr> td> ul > li{
+  		display: inline-block;
+  		padding: 8px 20px 10px 20px;
+  		font-size: 12px;
+  		vertical-align: middle;
+  	}
+  	div.detail{
+  		padding: 30px 20px;
+  		border-top: solid 1px #dfdfdf;
+  		/* margin: -9px 0 0 0 ; */
+  	}
+  	
+  	input#password{
+  		border: solid 1px #d5d5d5;
+  	}
+  	div.exclam_mark{
+  		display: inline-block;
+  		width: 16px;
+  		height: 16px;
+  		border: solid 1px #d5d5d5;
+  		padding: auto;
+  		font-size: 8pt;
+  		font-weight: bold;
+  		color: red;
+  		text-align: center;
+  		border-radius: 3px;
+  		vertical-align: middle;
+  		margin: 2px 0 2px 9px;
+  	}
+  	
+  	a.file_attach{
+  		color: #8f8f8f;
+  		font-size: 12px;
+  	}
+  	a.file_attach:hover{
+  		text-decoration: underline;
+  		color: #8f8f8f;
+  	}
+  	td.password{
+  		padding: 10px 10px 9px;
+  		vertical-align: middle;
+  		
+  	}
+  	td.password > span{
+  		font-size: 12px;
+  		
+  	}
+  
+  	div.buttons {
+  		margin: 10px 0 20px 0;
+  		padding: 10px 0;
+  	}
+  	div.buttons > button{
+  		width: 100px;
+  		height: 30px;
+  		border: solid 1px #aaa;
+  		font-size: 13px;
+  		
+  		padding: 0;
+  	}
+  	button.btn_list{
+  		float: left;
+  	}
+  	button.btn_delete,button.btn_update {
+  		float: right;
+  	}
+  	button.btn_update{
+  		margin: 0 0 0 5px;
+  		background-color: #999;
+  		color: white;
+  	}
+  	
+  	
+  	table.prev_next{
+  		width: 100%;
+  		font-size: 12px;
+  	}
+  	table.prev_next >tbody>  tr > td {
+  		height: 36.8px;
+  	}
+  	table.prev_next > tbody > tr> th {
+  		padding: 10px;
+  		text-align: center;
+  		width: 90px;
+  	}
+  	table.prev_next > tbody > tr> th > a{
+  		margin : 0  0  0 5px;
+  		font-style: none;
+  	} 
+  	div.prev_next{
+  		margin: 60px 0 20px 0;
+  	}
+  	
+  	
+  	div.related > div.table >table {
+  		width: 100%;
+  	}
+  	
+  	
+  	div.related > h3{
+  		margin: 0 0 10px 0;
+  		font-size: 12px;
+  		font-weight: bold;
+  	}
+  	div.related > div > table {
+  		font-size: 12px;
+  	}
+  	
+  	
+  	table.tbl_related{
+		position: relative;
+		border-collapse: collapse;
+		border-left: solid 0px #d5d5d5;
+		border-right: solid 0px #d5d5d5;
+		width: 100%;
+		
+		
+	}
+	table.tbl_related , table.tbl_related tr, table.tbl_related >thead > tr> th, table.tbl_related >tbody > tr> td{
+		border-left: solid 0px #dfdfdf !important;
+		border-right: solid 0px #dfdfdf !important;
+	}
+	
+	table.tbl_related >thead > tr> th{
+	  		border-bottom: none;
+	  		text-align: center;
+	  		font-weight: normal;
+	  		background-color: #fbfafa;
+  	}
+  	table.tbl_related >tbody > tr> td{
+  		width: 34px;
+  		padding: 8px 0 7px 0;
+  	}
+  	table.tbl_related >tbody > tr> td.tbl_bookname{
+  		text-align: center;
+  	}
+  	
+  	table.tbl_related >tbody > tr> td.tbl_subject{
+  		padding: 8px 0 7px 10px !important;
+  	}
+  	div.related > div > table > tbody > tr > td.tbl_date{
+  		font-size: 11px;
+  		color: #939393;
+  	
+  	}
+  	
+  	div.related{
+  		margin: 0 0 10px 0;
+  	}
+  	
+  	
+	table.prev_next > tbody > tr> td > a:hover{
+	  	text-decoration: underline;
+	}
+	
+	td.tbl_subject > a:hover{
+		text-decoration: underline;
+	}
+	
+	
+	
+	/* ////////////index_reviewWrite///////////////// */
+  	
+  	
+  	
+  	/* ////////////index_qnaboard///////////// */
+  	div.contents > p.board_top{
+  		margin: 0 0 20px 0;
+  	}
+  	
+  	div.contents > p.board_top > img{
+  		width: 100%;
+  	}
+  	
+  	
+  	td.tbl_subject > a > img.lock{
+  		margin: 0 0 2px 0;
+  	}
+  	

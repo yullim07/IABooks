@@ -15,7 +15,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>타인의 책장</title>
+<title>배송도 빠르도 책도 잘 포장돼서 왔어요! 타인의 책장</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
@@ -46,42 +46,28 @@
   </div>
   <p class="mb-3"></p>
   
-  
+  <div class="pdt_img_info" >
+  	<p><img  onclick="#" src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg"/></p>
+  	<div class="pdt_info" >
+  		<h3><a href="#">직업이 술꾼입니다!</a></h3>
+  		<p class="p_price">16,000원</p>
+  		<p class="button"><button class="btn btn_detail" type="button"><a href="#">상품 상세보기 ></a></button></p>
+  	</div>
+  </div>
+	
+	
 	<div class="table table-responsive">
-		<table class=" write_review">
+		<table class=" review_table">
 		  	<tbody>
 		    <tr>
 		      <th class="col-2" >제목</th>
-		      <td class="col-10" ><input id="subject" name="subject" /></td>
+		      <td class="col-10" >배송도 빠르도 책도 잘 포장돼서 왔어요!</td>
 		    </tr>
 		  	
 		    <tr>
 		      <th>작성자</th>
-		      <td><input id="writer" name="writer" /></td>
+		      <td>네****</td>
 		    </tr>
-		    
-		    <tr>
-		      <th>이메일</th>
-		      <td>
-		      	<input id="email1" name="email1" />
-		      	@
-		      	<input id="email2" name="email2" />
-		      	<select id="email3">
-		      		<option selected="selected">-이메일선택-</option>
-		      		<option>naver.com</option>
-		      		<option>daum.net</option>
-		      		<option>nate.com</option>
-		      		<option>hotmail.com</option>
-		      		<option>yahoo.com</option>
-		      		<option>empas.com</option>
-		      		<option>korea.com</option>
-		      		<option>dreamwiz.com</option>
-		      		<option>gmail.com</option>
-		      		<option>직접입력</option>
-		      	</select>
-		      </td>
-		    </tr>
-		    
 		    <tr>
 		      
 		      <td colspan="2">
