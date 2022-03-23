@@ -29,6 +29,18 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css" > 
 <script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
 
+<!-- 실험 
+
+include libraries(jQuery, bootstrap)
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script>
+
+    include summernote css/js
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+
+ -->
 
 
 	<script type="text/javascript">
@@ -152,7 +164,7 @@
 	}
 	
 	tr.notMember {
-		display: none; /* 추후 수정 예정 비회원 모드일때 보이게*/
+		 display: none;  /* 추후 수정 예정 비회원 모드일때 보이게*/
 	}
 	
 	textarea {
