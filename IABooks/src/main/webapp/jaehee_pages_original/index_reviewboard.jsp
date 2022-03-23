@@ -56,7 +56,7 @@
 	  <table class="table">
 	    <thead>
 	      <tr class="tblHeader">
-	        <th width="9.5%">번호</th>
+	        <th width="9.2%">번호</th>
 	        <th width="18.5%">도서명</th>
 	        <th width="40%">제목</th>
 	        <th width="11%">작성자</th>
@@ -222,7 +222,7 @@
 	    </tbody>
 	  </table>
 	  <div class="write_btn_zone">
-      	<button type="button" class="btn btn-dark" id="write_btn">글쓰기</button>
+      	<button type="button" class="btn btn-dark">글쓰기</button>
   	  </div>
 	  
 	</div>

@@ -186,7 +186,7 @@
     	vertical-align: middle; 
     }
     
-    [name=search]{
+    [name="search"]{
     	height: 24px;
     	font-size: 14px;
     	
@@ -333,8 +333,8 @@
   	}
   	div.exclam_mark{
   		display: inline-block;
-  		width: 18px;
-  		height: 18px;
+  		width: 14px;
+  		height: 14px;
   		border: solid 1px #d5d5d5;
   		padding: auto;
   		font-size: 8pt;
@@ -344,11 +344,6 @@
   		border-radius: 3px;
   		vertical-align: middle;
   		margin: 2px 0 2px 9px;
-  	}
-  	
-  	p#wow {
-  		vertical-align: middle;
-  		padding: 0;
   	}
   	
   	a.file_attach{
@@ -407,29 +402,22 @@
   		width: 100%;
   		font-size: 14px;
   	}
-  	
   	table.prev_next >tbody>  tr > td {
   		height: 36.8px;
   	}
-  	
   	table.prev_next > tbody > tr> th {
   		padding: 10px;
   		text-align: center;
   		width: 90px;
   	}
-  	
   	table.prev_next > tbody > tr> th > a{
   		margin : 0  0  0 5px;
   		font-style: none;
   	} 
-  	
   	div.prev_next{
   		margin: 60px 0 20px 0;
   	}
   	
-  	img#img_prev {
-  		padding-bottom: 3px;
-  	}
   	
   	div.related > div.table >table {
   		width: 100%;
@@ -496,22 +484,7 @@
 		text-decoration: underline;
 	}
 	
-	li.li_header {
-		vertical-align: middle;
-		padding: auto 0;
-	}
 	
-	img#star {
-		padding-bottom: 2px;
-	}
-	
-	span.point {
-		margin-right: 10px;
-	}
-	
-	#point0, #point1, #point2, #point3, #point4, #point5, #privacy_agreement0, #privacy_agreement1  {
-		vertical-align: middle;
-	}
 	
 	/* ////////////index_reviewWrite///////////////// */
   	
@@ -526,13 +499,11 @@
   		width: 100%;
   	}
   	
-  	td.tbl_subject > img{
-  		padding-bottom: 4px;
-  	}
   	
   	td.tbl_subject > a > img.lock{
-  		margin: 0 0 2px 5px;
+  		margin: 0 0 2px 0;
   	}
+  	
   	
   	
   	/* 정환모 작성 css! 
@@ -547,6 +518,10 @@
 	    list-style: none;
 	    margin: 0;
 	    padding: 0;
+	}
+
+	h1 {
+		margin : 20px 0 ;
 	}
 	
 	div#contents {
@@ -563,6 +538,12 @@
 	div#faqmore {
 		display: block;
     	padding: 10px 0;
+	}
+
+	h3 {
+		display: inline;
+		padding-left: 10px;
+	    height: 35px;
 	}
 	
 	a.more {
@@ -624,7 +605,7 @@
   	   faq_board
   	*/
   	
-	div#title {
+  		div#title {
 		margin: 10px 0;
 	}
    
@@ -633,22 +614,22 @@
     	width: 80%;
     }
     
-    /* div#container {
+ /*    div#container {
     	margin: 0 auto;
-    } */
+    }
     
-   /*  tr {
+    tr {
     	border-bottom: solid 1px gray;
-    } */
+    }
     
-   /*  tr > td:nth-child(1), td:nth-child(2), td:nth-child(4) {
+    tr > td:nth-child(1), td:nth-child(2), td:nth-child(4) {
     	text-align: center;
     }
     
     tr > td:nth-child(3) {
     	text-align: left;
-    } */
-    
+    }
+     */
     select {
     	height: 24px;
     	border: 1px solid #d5d5d5;

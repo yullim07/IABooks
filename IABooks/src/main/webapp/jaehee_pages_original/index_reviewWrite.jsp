@@ -52,20 +52,20 @@
 		  	<tbody>
 		    <tr>
 		      <th class="col-2" >제목</th>
-		      <td class="col-10" ><input type="text" id="subject" name="subject" /></td>
+		      <td class="col-10" ><input id="subject" name="subject" /></td>
 		    </tr>
 		  	
 		    <tr class="notMember">
 		      <th>작성자</th>
-		      <td><input type="text" id="writer" name="writer" /></td>
+		      <td><input id="writer" name="writer" /></td>
 		    </tr>
 		    
 		    <tr>
 		      <th>이메일</th>
 		      <td>
-		      	<input type="text" id="email1" name="email1" />
+		      	<input id="email1" name="email1" />
 		      	@
-		      	<input type="text" id="email2" name="email2" />
+		      	<input id="email2" name="email2" />
 		      	<select id="email3">
 		      		<option selected="selected">-이메일선택-</option>
 		      		<option>naver.com</option>
@@ -87,15 +87,15 @@
 		      <th>평점</th>
 		      <td>
 				  <input type="radio" id="point0" name="point" value="5">
-				  <label for="point0"><span class="point" style="color:red;"><em>★★★★★</em></span></label>
+				  <label for="point0"><span class="point5"><p>★★★★★</p></span></label>
 				  <input type="radio" id="point1" name="point" value="5">
-				  <label for="point1"><span class="point" style="color:red;"><em>★★★★</em></span></label>
+				  <label for="point1"><span class="point5"><p>★★★★</p></span></label>
 				  <input type="radio" id="point2" name="point" value="5">
-				  <label for="point2"><span class="point" style="color:red;"><em>★★★</em></span></label>
+				  <label for="point2"><span class="point5"><p>★★★</p></span></label>
 				  <input type="radio" id="point3" name="point" value="5">
-				  <label for="point3"><span class="point" style="color:red;"><em>★★</em></span></label>
+				  <label for="point3"><span class="point5"><p>★★</p></span></label>
 				  <input type="radio" id="point4" name="point" value="5">
-				  <label for="point4"><span class="point" style="color:red;"><em>★</em></span></label>
+				  <label for="point4"><span class="point5"><p>★</p></span></label>
 		      </td>
 		    </tr>
 		    
@@ -119,7 +119,7 @@
 		    <tr>
 		      <th>UCC URL</th>
 		      <td class="uccurl_input">
-		      	<input type="text" id="ucc_url" name="ucc_url"/>
+		      	<input id="ucc_url" name="ucc_url"/>
 		      </td>
 		    </tr>
 		    <tr>
@@ -160,7 +160,7 @@
 		    <tr>
 		      <th>비밀번호</th>
 		      <td>
-		      	<input type="text" id="password" name="password" type="password"/>
+		      	<input id="password" name="password" type="password"/>
 		      </td>
 		    </tr>
 		    
@@ -171,7 +171,7 @@
 		      	<img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_captcha_refresh.png"/>
 		      	
 		      	<p class="gBlank5"> 
-		      		<input type="text"  id="captcha" name="captcha" placeholder="보안문자를 입력해 주세요." type="text"/>
+		      		<input id="captcha" name="captcha" placeholder="보안문자를 입력해 주세요." type="text"/>
 		      		<%-- 느낌표 이미지를 span::before로 가져와보기 --%>
 		      		<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_info.gif"/>
 		      		<span class="ec-base-help txtInfo">영문, 숫자 조합을 공백없이 입력하세요(대소문자구분)</span> 
@@ -183,15 +183,14 @@
 		    		개인정보 수집 및<br>이용 동의
 		    	</th>
 		    	<td>
-		    		<textarea id="terms" class="agree" name="terms" style="width: 60%; height: 140px; margin: 0 0 10px 0; ">
-		    			■ 개인정보의 수집·이용 목적
+		    		<textarea id="terms" name="terms" style="width: 60%; height: 140px; margin: 0 0 10px 0;">■ 개인정보의 수집·이용 목적
 						서비스 제공 및 계약의 이행, 구매 및 대금결제, 물품배송 또는 청구지 발송, 회원관리 등을 위한 목적
 						
 						■ 수집하려는 개인정보의 항목
 						이름, 주소, 연락처, 이메일 등
 						
 						■ 개인정보의 보유 및 이용 기간
-						회사는 개인정보 수집 및 이용목적이 달성된 후에는 예외없이 해당정보를 파기합니다.
+						회사는 개인정보 수집 및 이용목적이 달성된 후에는 예외없이 해당정보를 파기합니다. 
 					</textarea>
 					<div>
 						개인정보 수집 및 이용에 동의하십니까?  

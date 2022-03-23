@@ -59,7 +59,7 @@
 	  <table class="table qna_table">
 	    <thead>
 	      <tr class="tblHeader">
-	        <th width="9.2%">번호</th>
+	        <th width="9.5%">번호</th>
 	        <th width="18.5%">도서명</th>
 	        <th width="40%">제목</th>
 	        <th width="11%">작성자</th>
@@ -288,7 +288,7 @@
 	        <option value="product">상품정보</option>
 	
 	    </select>
-	    <input name="search"></input>
+	    <input type="text" name="search"></input>
 	    <button class="btn" name="search" >찾기</button>
 	    </div>
     

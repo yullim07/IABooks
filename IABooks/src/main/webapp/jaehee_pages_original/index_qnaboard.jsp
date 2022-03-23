@@ -15,7 +15,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>타인의 책장</title>
+<title>상품 Q&A</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
@@ -42,57 +42,82 @@
 
 <div class="container">
 <div class="contents">
+  <p><br></p>
   <div class="title" >
   	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
-  	<h2 >타인의 책장</h2>
+  	<h2 >상품 Q&A</h2>
   	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
-  	<span >후기를 작성하는 공간입니다.</span>
+  	<span >상품 Q&A입니다. 상품에 관해서 궁금하신 점을 질문해주세요.</span>
     
   </div>
   <p class="mb-3"></p>
   
+  <p class="board_top"><img  src="<%= ctxPath%>/jaehee_pages/semi_images/board_top.gif" /></p>
+  
   <div class="table_all">
   <div class="table">
-	  <table class="table">
+	  <table class="table qna_table">
 	    <thead>
 	      <tr class="tblHeader">
-	        <th width="9.5%">번호</th>
+	        <th width="9.2%">번호</th>
 	        <th width="18.5%">도서명</th>
 	        <th width="40%">제목</th>
 	        <th width="11%">작성자</th>
 	        <th width="10.5%">작성일</th>
-	        <th width="10.5%">평점</th>
+	        <th width="10.5%">조회</th>
 	      </tr>
 	    </thead>
 	    <tbody>
 	      <tr>
-	        <td class="tbl_number mycenter">98</td>
+	        <td class="tbl_number mycenter">73</td>
 	        <td class="tbl_bookname">
-	        	<a  href="#">
+	        	<%-- <a  href="#">
 	            	<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
 					<span >지금, 사랑하는 나에게</span>
-				</a>
+				</a> --%>
 				
 	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-10 04:06:33</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	        <td class="tbl_subject"><a href="">도매가 구입 방법<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/></a></td>
+	        <td class="tbl_writer mycenter">홍****</td>
+	        <td class="tbl_date mycenter">2022-03-18 19:05:42</td>
+	        <td class="tbl_viewcount mycenter">1</td>
 	      </tr>
 	      
 	      <tr>
-	        <td class="tbl_number mycenter">97</td>
+	        <td class="tbl_number mycenter">72</td>
 	        <td class="tbl_bookname">
 	        	<a  href="#">
 	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span >직업이 술꾼입니다!</span>
+					<span>추천곡</span>
 				</a>
 				
 	        </td>
-	        <td class="tbl_subject"><a href="">배송도 빠르도 책도 잘 포장돼서 왔어요!<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	        <td class="tbl_subject"><a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a></td>
+	        <td class="tbl_writer mycenter">이****</td>
+	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
+	        <td class="tbl_viewcount mycenter">23</td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">71</td>
+	        <td class="tbl_bookname">
+	        	<%-- 
+	        	<a  href="#">
+	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
+					<span>추천곡</span>
+				</a> 
+				--%>
+				
+	        </td>
+	        <td class="tbl_subject">
+	        	&nbsp;&nbsp;&nbsp;
+	        	<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_re.gif"/>
+	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
+	        	<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/>
+	        </td>
+	        <td class="tbl_writer mycenter">인디펍</td>
+	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
+	        <td class="tbl_viewcount mycenter">3</td>
 	      </tr>
 	      
 	      <tr>
@@ -222,7 +247,7 @@
 	    </tbody>
 	  </table>
 	  <div class="write_btn_zone">
-      	<button type="button" class="btn btn-dark" id="write_btn">글쓰기</button>
+      	<button type="button" class="btn btn-dark">글쓰기</button>
   	  </div>
 	  
 	</div>
@@ -238,11 +263,7 @@
 		    <li><a href="#">3</a></li>
 		    <li><a href="#">4</a></li>
 		    <li><a href="#">5</a></li>
-		    <li><a href="#">6</a></li>
-		    <li><a href="#">7</a></li>
-		    <li><a href="#">8</a></li>
-		    <li><a href="#">9</a></li>
-		    <li><a href="#">10</a></li>
+		   
 		    <li><a href="#"><img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_page_last.gif" /></a></li>
 	    </ul>
 	</div>

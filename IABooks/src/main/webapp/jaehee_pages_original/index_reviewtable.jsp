@@ -72,11 +72,11 @@
 		      
 		      <td colspan="2">
 		      	<ul>
-		      		<li class="li_header">
+		      		<li>
 		      			<strong>평점</strong>
-		      			<img id="star" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_point5.gif"/>
+		      			<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_point5.gif"/>
 		      		</li>
-		      		<li class="li_header">
+		      		<li>
 		      			<strong>작성일</strong>
 		      			<span style="font-size: 11px; color: gray; ">2022-03-10 04:06:33</span>
 		      		</li>
@@ -110,8 +110,8 @@
 		    <tr>
 		      <th>비밀번호</th>
 		      <td class="password">
-		      	<input type="text" id="password" name="password"/>
-		      	<div class="exclam_mark"><p id="wow">!</p></div>
+		      	<input id="password" name="password"/>
+		      	<div class="exclam_mark">!</div>
 		      	<span>삭제하려면 비밀번호를 입력하세요.</span>
 		      </td>
 		    </tr>
@@ -132,11 +132,11 @@
 		<table class="prev_next">
 			<tbody>
 				<tr>
-					<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
+					<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_prev.gif"/><a>이전글</a></th>
 					<td><a href="">만족</a></td>
 				</tr>
 				<tr>
-					<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
+					<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_next.gif"/><a>다음글</a></th>
 					<td><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
 				</tr>
 			</tbody>
