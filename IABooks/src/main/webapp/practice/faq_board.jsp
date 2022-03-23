@@ -1,33 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <%
-    String ctxPath = request.getContextPath();
+	String ctxPath = request.getContextPath();
+	
 %>
-<!doctype html>
-<html lang="ko">
-  <head>
+<style type="text/css">
 
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
-
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-<!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
-
-<!-- Optional JavaScript -->
-<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
-
-<!-- datepicker 삽입을 위한 link -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css" > 
-<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
+</style>
 
 
 
@@ -39,106 +23,46 @@
 	
 	</script>
 
-    <title>table</title>
 
-    
-<style type="text/css">
+<jsp:include page="../header.jsp"/>
 
-	a:link { color: black; text-decoration: none;}
- 	a:visited { color: black; text-decoration: none;}
- 	a:hover { color: black; text-decoration: underline;}
 
-	div#title {
-		margin: 10px 0;
-	}
-   
-    .row {
-    	margin: 0 auto;
-    	width: 80%;
-    }
+
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
     
-    div#container {
-    	margin: 0 auto;
-    }
-    
-    tr {
-    	border-bottom: solid 1px gray;
-    }
-    
-    tr > td:nth-child(1), td:nth-child(2), td:nth-child(4) {
-    	text-align: center;
-    }
-    
-    tr > td:nth-child(3) {
-    	text-align: left;
-    }
-    
-    div#searchtab {
-    	display : inline-block;
-    	vertical-align: middle;
-    	padding-top: 1px;
-    	
-    }
-    
-    select {
-    	height: 24px;
-    	border: 1px solid #d5d5d5;
-    	vertical-align: middle;
-    	
-    }
-    
-    input[type=text], input[type=button] {
-    	height: 24px;
-	    line-height: 20px;
-	    border: 1px solid #d5d5d5;
-	    color: #353535; 
-	    font-size: 12px;
-	    vertical-align: middle;
-    }
-    
-</style>
+<!-- Font Awesome 5 Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
     
 </head>
 <body>
-	<div class="row">
-	
-	    <div id="container" class="col-10">
-	    
-			<div id="title">
-				<p>
-				<span style="font-size: 20pt; font-weight:bold;">FAQ</span>
-				<span style="font-color: gray; font-size:10pt;">&nbsp;&nbsp;&nbsp;이용안내 FAQ입니다.</span>
-				</p>
-			</div>
+
+
+	    <div class="container">
+			    <div class="title" >
+				  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+				  	<h2>FAQ</h2>
+				  	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
+				  	<span >이용안내 FAQ입니다.</span>
+			    
+			   </div>
+			  <!-- <p class="mb-3"></p> -->
 			
-			<br>
-			<!-- <div class="dropdown">
-			  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			    전체
-			  </a>
-			
-		    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-			    <a class="dropdown-item" href="#">회원</a>
-			    <a class="dropdown-item" href="#">상품</a>
-			    <a class="dropdown-item" href="#">반품/교환</a>
-			    <a class="dropdown-item" href="#">주문/배송</a>
-			    <a class="dropdown-item" href="#">제휴</a>
-			  </div>
-			</div> -->
-			
-            <select name="faqcategory" id="faqcategory">
-               <option value="">전체</option>
-               <option>회원</option>
-               <option>상품</option>
-               <option>반품/교환</option>
-               <option>주문/배송</option>
-               <option>제휴</option>
-            </select>
+			  	
+			    <select id="" class="cateDropdown" name="search">
+			       <option value="">전체</option>
+	               <option>회원</option>
+	               <option>상품</option>
+	               <option>반품/교환</option>
+	               <option>주문/배송</option>
+	               <option>제휴</option>
+			    </select>
+		    
 			
 			<hr>
-			<div class="table-responsive">
-			  <table class="table">
-			  <thead class="thead-light">
+			  <table class="table" id="faq_table_all">
+			  <thead class="thead-light" id="faq_thead">
 			    <tr style="text-align: center;">
 			      <th style="width:10%;">번호</th>
 			      <th style="width:15%;">카테고리</th>
@@ -203,38 +127,34 @@
 			    </tr>
 			  </tbody>
 			</table>
-			</div>
-			<div id="searchtab">
-				<p>검색어&nbsp;
-				<select name="searchtime" id="searchtime">
-	                <option value="">기간</option>
-	                <option>일주일</option>
-	                <option>한달</option>
-	                <option>세달</option>
-            	</select>
-            	&nbsp;
-            	<select name="searchtype" id="searchtype">
-	                <option value="">전체</option>
-	                <option>내용</option>
-	                <option>글쓴이</option>
-	                <option>아이디</option>
-	                <option>별명</option>
-            	</select>
-            	&nbsp;
-            	<input type="text" id="search" name="search"/>
-            	<input type="button" id="searchbtn" name="searchbtn" value="찾기"/> 
-            	</p>
-			</div>
+			
+			<div class="search_outer" >
+		 		<div class="search_inner">
+		 		<a><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_triangle3.gif" /></a>
+			  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
+			  	
+			    <select id="searchDate" name="search">
+			    	<option value="week">일주일</option>
+			        <option value="month">한달</option>
+			        <option value="3months">세달</option>
+			        <option value="all">전체</option>
+			    </select>
+			    <select id="searchContent" name="search">
+			    	<option value="subject">제목</option>
+			        <option value="content">내용</option>
+			        <option value="writername">글쓴이</option>
+			        <option value="userid">아이디</option>
+			        <option value="nickname">별명</option>
+			        <option value="product">상품정보</option>
+			
+			    </select>
+			    <input type="text" name="search"></input>
+			    <button class="btn" name="search" >찾기</button>
+			    </div>
+		    
+		  	</div>
 			
 		</div> <!-- container 끝 -->
 		
-	</div>
 		
-		
-
-    <!-- Optional JavaScript -->
-    <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
-</body>
-</html>
-
+<jsp:include page="../footer.jsp"/>

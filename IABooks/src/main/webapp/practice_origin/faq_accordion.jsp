@@ -1,46 +1,148 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
-
+    
 <%
-	String ctxPath = request.getContextPath();
-	
+    String ctxPath = request.getContextPath();
 %>
-<style type="text/css">
+<!doctype html>
+<html lang="ko">
+  <head>
 
-</style>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	  
-<meta charset="UTF-8">
-<title>상품 Q&A</title>
-
-<!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
+
+<!-- Optional JavaScript -->
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
+
+<!-- datepicker 삽입을 위한 link -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css" > 
+<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
+
+
 
 <script type="text/javascript">
 	
 	$(document).ready(function(){
 		
-	
 	});
 
 </script>
 
 
-<jsp:include page="../header.jsp"/>
+    <title>table</title>
+    
+<style type="text/css">
 
-<div class="container">	
+	a:link { color: black; text-decoration: none;}
+ 	a:visited { color: black; text-decoration: none;}
+ 	a:hover { color: black; text-decoration: underline;}
 
+	html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, img {
+	    list-style: none;
+	    margin: 0;
+	    padding: 0;
+	}
+
+	h1 {
+		margin : 20px 0 ;
+	}
+	
+	div#contents {
+		width: 80%;
+		margin : 0 auto;
+	}
+	
+	div#faqTitle {
+	    background: #f4f4f4;
+    	border-bottom: solid 1px #ddd;
+    	height: 60px;
+    	padding: 10px 0;
+	}
+	
+	div#faqmore {
+		display: block;
+    	padding: 10px 0;
+	}
+
+	h3 {
+		display: inline;
+		padding-left: 10px;
+	    height: 35px;
+	}
+	
+	a.more {
+		float : right;
+		padding-right: 10px;
+	}
+		
+	div.faq {
+		border : solid 1px #111;
+	}
+
+	.cs_btn {
+		display: block;
+		clear: both;
+		width: 100%;
+		margin: 0 0 10px;
+		text-align: center;
+	}
+	
+	.cs_btn ul {
+	    font-size: 0;
+	    line-height: 0;
+	    letter-spacing: -4px;
+	}
+	
+	.cs_btn li {
+	    display: inline-block;
+	    width: 20%;
+	    margin: 0 0 10px 0;
+	    letter-spacing: 0.1em;
+	}
+	
+	.cs_btn li a {
+	    display: block;
+	    width: 95%;
+	    height: 40px;
+	    line-height: 40px;
+	    margin: 0 auto;
+	    background: #333;
+	    border: solid 1px #111;
+	    font-size: 13px;
+	    text-align: center;
+	    color: #fff;
+	    letter-spacing: 0.1em;
+		border-radius: 5px;
+	}
+	
+	#btnmore {
+		display: block;
+    	margin: auto;
+	}
+	
+	.p {
+		padding-left: 30px; 
+	}
+
+</style>
+    
+</head>
+<body>
 	<div id="contents" style="align:center;">
 	
 	
-	<h2 id="cscenter">고객센터</h2>
+	<h1>고객센터</h1>
 		<div class="cs_btn">
 			<ul>
 				<li>
@@ -63,16 +165,14 @@
 		
 		<div class="faq">
 			<div id="faqTitle">
-			<i class="fas fa-ellipsis-v"></i><span id="faq">FAQ</span><a href=""><img src="<%= ctxPath%>/jaehee_pages/semi_images/board_btn_more.gif" alt="more" class="more"/></a>
+			<h3>FAQ</h3><a href="" class="more"><img src="" alt="more" /></a>
 			</div>
 			<div class="accordion" id="accordionFaq">
 				   <div class="card">
 				      <div class="card-header" id="headingOne">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 상품 ]</span> 독립출판물이란 무엇인가요?
+				            <span>[ 상품 ]</span> 독립출판물이란 무엇인가요?
 				          </button>
 				        </h2>
 				      </div>
@@ -80,8 +180,8 @@
 				      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionFaq">
 				         <!-- .collapse show 는 맨 처음에는  내용물을 보여주도록 하는 것임. -->
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
-					      	   <p><b>독립출판물</b>이란 상업성을 떠나 창의적이고 실험적인 내용을 주제로 작가 개인이 기획하고 완성하는 저작물을 말합니다.
+					           <p>
+					      	   		<b>독립출판물</b>이란 상업성을 떠나 창의적이고 실험적인 내용을 주제로 작가 개인이 기획하고 완성하는 저작물을 말합니다.
 					           </p>
 					           <p>
 					           		<b>인디펍</b>에서는 시중 서점에서 쉽게 접할 수 없는 독립출판물을 소개합니다.
@@ -94,16 +194,13 @@
 				      <div class="card-header" id="headingTwo">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 반품/교환 ]</span> 반품은 어떻게 하나요?
+				            <span>[ 반품/교환 ]</span> 반품은 어떻게 하나요?
 				          </button>
 				        </h2>
 				      </div>
 				      
 				      <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionFaq">
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
 				            <p><b>단순 변심</b>에 의한 반품은 배송완료 후 7일 이내에 가능합니다.</p>
 							<p><b>오배송/상품 하자</b>에 의한 반품은 <b>30일 이내</b>에만 접수가능합니다.</p>
 							<p>인디펍 지정 택배(CJ대한통운)로 회수 신청 시 택배 반송료 3,000원이 환불 금액에서 차감 후 환불 처리가 되며,</p>
@@ -125,16 +222,13 @@
 				      <div class="card-header" id="headingThree">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 주문/배송 ]</span> 주문한 상품은 언제 받을 수 있나요?
+				            <span>[ 주문/배송 ]</span> 주문한 상품은 언제 받을 수 있나요?
 				          </button>
 				        </h2>
 				      </div>
 				      
 				      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionFaq">
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
 				         		<p>오후 3시 결제건까지 당일 발송되며, 발송 후 평균 3~5일 이내에 배송됩니다. (주말/공휴일은 해당기간에서 제외)</p>
 								<p><br/></p>
 								<p>이용 택배사 : CJ대한통운</p>
@@ -149,16 +243,13 @@
 				      <div class="card-header" id="headingFour">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 주문/배송 ]</span> 현금영수증 발행신청은 어디서 하나요?
+				            <span>[ 주문/배송 ]</span>현금영수증 발행신청은 어디서 하나요?
 				          </button>
 				        </h2>
 				      </div>
 				      
 				      <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionFaq">
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
 				         		<p>홈페이지 오른쪽 상단 마이페이지>주문조회>를 클릭해주세요.</p>
 								<p>해당 상품에 대한 주문번호를 클릭하면, 현금영수증 신청을 하실 수 있습니다.</p>
 								<p>신청여부와 관계없이 주문 시 입력하신 번호로 배송 완료 후 발행하여 국세청으로 전송하고 있습니다.</p>
@@ -171,16 +262,13 @@
 				      <div class="card-header" id="headingFive">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 주문/배송 ]</span> 배송비는 얼마인가요?
+				            <span>[ 주문/배송 ]</span>배송비는 얼마인가요?
 				          </button>
 				        </h2>
 				      </div>
 				      
 				      <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionFaq">
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
 				         		<p>50,000원 미만 구매 시 배송비 3,000원입니다.</p>
 								<p>50,000원 이상 구매 시 무료 배송입니다.</p>
 								<p><br/></p>
@@ -193,16 +281,13 @@
 				      <div class="card-header" id="headingSix">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 주문/배송 ]</span> 비회원 주문조회는 어떻게 하나요?
+				            <span>[ 주문/배송 ]</span>비회원 주문조회는 어떻게 하나요?
 				          </button>
 				        </h2>
 				      </div>
 				      
 				      <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionFaq">
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
 				         		<p>결제완료 후 나오는 주문번호로 주문조회가 가능합니다.</p>
 								<p>PC로 사이트에 접속하신 후 오른쪽 상단 마이페이지>주문조회로 들어가셔서 로그인 창 하단에 있는 비회원 주문조회를 하시면 됩니다.</p>
 								<p>주문하셨을 때 입력하셨던 이름, 주문번호, 비밀번호가 필요합니다.</p>
@@ -215,16 +300,13 @@
 				      <div class="card-header" id="headingSeven">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 주문/배송 ]</span> 해외 배송이 가능한가요?
+				            <span>[ 주문/배송 ]</span>해외 배송이 가능한가요?
 				          </button>
 				        </h2>
 				      </div>
 				      
 				      <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionFaq">
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
 				         		<p>해외 배송은 불가능합니다.</p>
 				         </div>
 				      </div>
@@ -234,16 +316,13 @@
 				      <div class="card-header" id="headingEight">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 반품/교환 ]</span> 교환은 어떻게 하나요?
+				            <span>[ 반품/교환 ]</span>교환은 어떻게 하나요?
 				          </button>
 				        </h2>
 				      </div>
 				      
 				      <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionFaq">
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
 				         		<p>단순 변심, 오배송/상품 하자의 빠른 교환 처리를 위하여 교환 대신 반품 후 재주문 정책을 시행하고 있습니다.</p>
 								<p>반품 후 재주문 부탁드립니다.</p>
 								<p><br/></p>
@@ -256,16 +335,13 @@
 				      <div class="card-header" id="headingNine">
 				        <h2 class="mb-0">
 				          <button class="btn" type="button" data-toggle="collapse" data-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-				            <span>
-				            <img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_q.png" alt="more" class="faq_qna"/>
-				            [ 상품 ]</span> 품절된 도서입니다. 재입고는 언제 되나요?
+				            <span>[ 상품 ]</span>품절된 도서입니다. 재입고는 언제 되나요?
 				          </button>
 				        </h2>
 				      </div>
 				      
 				      <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordionFaq">
 				         <div class="card-body">
-				         	<div id="qna_a"><img src="<%= ctxPath%>/jaehee_pages/semi_images/faq_a.png" alt="more" class="faq_qna"/></div>
 				         		<p></p>
 				         		<p>일반적으로 재입고 가능한 도서의 경우 7일 정도 시간이 소요됩니다.</p>
 								<p>아래의 방법으로 재입고 가능 여부를 확인하실 수 있습니다.</p>
@@ -282,15 +358,18 @@
 			</div>
 			
 			<div id="faqmore">
-				<!-- <button type="button" class="btn btn-secondary" id="btnmore">
-					<a href="/board/free/list.html?board_no=3">자주 묻는 질문 더보기</a>
-				</button> -->
-				<button class="btn" id="btnmore" type="button">자주 묻는 질문 더보기</button>
+				<button type="button" class="btn btn-secondary" id="btnmore">
+					<a href="/board/free/list.html?board_no=3">자주 묻는 질문 더보기></a>
+				</button>
 			</div>
 		</div>
 		
 	</div>
 		
-</div>
-	
-<jsp:include page="../footer.jsp"/>
+	<!-- Optional JavaScript -->
+    <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+
+</body>
+</html>

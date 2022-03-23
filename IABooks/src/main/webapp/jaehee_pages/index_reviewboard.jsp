@@ -1,0 +1,281 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<%
+	String ctxPath = request.getContextPath();
+	
+%>
+<style type="text/css">
+
+</style>
+
+	  
+<meta charset="UTF-8">
+<title>타인의 책장</title>
+
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+	
+	});
+
+</script>
+
+
+<jsp:include page="../header.jsp"/>
+
+	
+	
+
+
+
+
+
+<div class="container">
+<div class="contents">
+  <div class="title" >
+  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+  	<h2 >타인의 책장</h2>
+  	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
+  	<span >후기를 작성하는 공간입니다.</span>
+    
+  </div>
+  <p class="mb-3"></p>
+  
+  <div class="table_all">
+  <div class="table">
+	  <table class="table">
+	    <thead>
+	      <tr class="tblHeader">
+	        <th width="9.5%">번호</th>
+	        <th width="18.5%">도서명</th>
+	        <th width="40%">제목</th>
+	        <th width="11%">작성자</th>
+	        <th width="10.5%">작성일</th>
+	        <th width="10.5%">평점</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr>
+	        <td class="tbl_number mycenter">98</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-10<br/>04:06:33</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">97</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
+					<span >직업이 술꾼입니다!</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">배송도 빠르도 책도 잘 포장돼서 왔어요!<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">96</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">95</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">94</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">93</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">92</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">91</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">90</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	      <tr>
+	        <td class="tbl_number mycenter">89</td>
+	        <td class="tbl_bookname">
+	        	<a  href="#">
+	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+					<span >지금, 사랑하는 나에게</span>
+				</a>
+				
+	        </td>
+	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_writer mycenter">네****</td>
+	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
+	      </tr>
+	      
+	     
+	  
+	      
+	      
+	    </tbody>
+	  </table>
+	  <div class="write_btn_zone">
+      	<button type="button" class="btn btn-dark" id="write_btn">글쓰기</button>
+  	  </div>
+	  
+	</div>
+  	
+  	</div>
+  	
+  	
+  	<div class="pagination2 justify-content-center" >
+	    <ul>
+		    <li><a href="#"><img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_page_first.gif" /></a></li>
+		    <li class="active"><a href="#">1</a></li>
+		    <li><a href="#">2</a></li>
+		    <li><a href="#">3</a></li>
+		    <li><a href="#">4</a></li>
+		    <li><a href="#">5</a></li>
+		    <li><a href="#">6</a></li>
+		    <li><a href="#">7</a></li>
+		    <li><a href="#">8</a></li>
+		    <li><a href="#">9</a></li>
+		    <li><a href="#">10</a></li>
+		    <li><a href="#"><img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_page_last.gif" /></a></li>
+	    </ul>
+	</div>
+ 	
+ 	<div class="search_outer" >
+ 		<div class="search_inner">
+ 		<a><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_triangle3.gif" /></a>
+	  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
+	  	
+	    <select id="searchDate" name="search">
+	    	<option value="week">일주일</option>
+	        <option value="month">한달</option>
+	        <option value="3months">세달</option>
+	        <option value="all">전체</option>
+	    </select>
+	    <select id="searchContent" name="search">
+	    	<option value="subject">제목</option>
+	        <option value="content">내용</option>
+	        <option value="writername">글쓴이</option>
+	        <option value="userid">아이디</option>
+	        <option value="nickname">별명</option>
+	        <option value="product">상품정보</option>
+	
+	    </select>
+	    <input type="text" name="search"></input>
+	    <button class="btn" name="search" >찾기</button>
+	    </div>
+    
+  	</div>
+</div>
+</div>
+
+
+	
+<jsp:include page="../footer.jsp"/>
+ 
