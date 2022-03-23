@@ -220,7 +220,7 @@ div.title {
   	div.pdt_img_info >  p {
   		padding: 0 20px;
   		width: 190px;
-  		heith: 152px;
+  		height: 152px;
   		display: table-cell;
   	}
   	
@@ -280,7 +280,7 @@ div.title {
 	
 	
 	
-	table.review_table{
+	table.review_table , table.write_review{
 		position: relative;
 		border-collapse: collapse;
 		border-left: solid 0px #d5d5d5;
@@ -290,12 +290,15 @@ div.title {
 		border-top: solid 2px #dfdfdf;
 		border-bottom: solid 2px #dfdfdf ;
 	}
-	table.review_table , table.review_table tr, table.review_table >tbody > tr> th, table.review_table >tbody > tr> td{
+	
+	table.review_table , table.review_table tr, table.review_table >tbody > tr> th, table.review_table >tbody > tr> td
+	table.write_review, table.write_review tr, table.write_review th, table.write_review td
+	{
 		border-left: solid 0px #dfdfdf !important;
 		border-right: solid 0px #dfdfdf !important;
 	}
   		
-  	table.review_table >tbody > tr > th{
+  	table.review_table >tbody > tr > th , table.write_review th{
   		width: 130px;
   		background-color: #fbfafa;
   		padding: 11px 0 10px 18px;
@@ -367,7 +370,8 @@ div.title {
   	button.btn_list{
   		float: left;
   	}
-  	button.btn_delete,button.btn_update {
+  	button.btn_delete,button.btn_update ,
+  	button.btn_cancel, button.btn_submit {
   		float: right;
   	}
   	button.btn_update{
@@ -375,7 +379,15 @@ div.title {
   		background-color: #999;
   		color: white;
   	}
-  	
+  	/* reviewWrite css */
+  	button.btn_cancel{
+  		margin: 0 0 0 5px;
+  		background-color:  #e6e6e6;
+  	}
+  	button.btn_submit {
+  		background-color: #47476b;
+  		color: white;
+  	}
   	
   	table.prev_next{
   		width: 100%;

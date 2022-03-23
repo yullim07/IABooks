@@ -173,16 +173,33 @@
 		      	<p class="gBlank5"> 
 		      		<input id="captcha" name="captcha" placeholder="보안문자를 입력해 주세요." type="text"/>
 		      		<%-- 느낌표 이미지를 span::before로 가져와보기 --%>
+		      		<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_info.gif"/>
 		      		<span class="ec-base-help txtInfo">영문, 숫자 조합을 공백없이 입력하세요(대소문자구분)</span> 
 		      	</p>
 		      </td>
 		    </tr>
 		    <tr>
 		    	<th>
-		    		
+		    		개인정보 수집 및<br>이용 동의
 		    	</th>
 		    	<td>
-		    		
+		    		<textarea id="terms" name="terms" style="width: 60%; height: 140px; margin: 0 0 10px 0;">■ 개인정보의 수집·이용 목적
+						서비스 제공 및 계약의 이행, 구매 및 대금결제, 물품배송 또는 청구지 발송, 회원관리 등을 위한 목적
+						
+						■ 수집하려는 개인정보의 항목
+						이름, 주소, 연락처, 이메일 등
+						
+						■ 개인정보의 보유 및 이용 기간
+						회사는 개인정보 수집 및 이용목적이 달성된 후에는 예외없이 해당정보를 파기합니다. 
+					</textarea>
+					<div>
+						개인정보 수집 및 이용에 동의하십니까?  
+						<input type="radio" id="privacy_agreement0" name="privacy_agreement" value="T">
+				    	<label for="privacy_agreement0">동의함</label>
+				    	<input type="radio" id="privacy_agreement1" name="privacy_agreement" value="F">
+				    	<label for="privacy_agreement1">동의안함</label>
+					</div>
+					
 		    	</td>
 		    </tr>
 		    
@@ -196,97 +213,8 @@
 	<div class="buttons">
 		
 		<button class="btn btn_list" type="button">목록</button>
-		<button class="btn btn_update" type="button">수정</button>
-		<button class="btn btn_delete" type="button">삭제</button>	
-		
-	</div>
-	
-	<div class="prev_next table table-responsive">
-		<table class="prev_next">
-			<tbody>
-				<tr>
-					<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_prev.gif"/><a>이전글</a></th>
-					<td><a href="">만족</a></td>
-				</tr>
-				<tr>
-					<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_next.gif"/><a>다음글</a></th>
-					<td><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
-				</tr>
-			</tbody>
-			
-		</table>
-	</div>
-	
-	
- 	<div class="related">
- 		<h3>관련 글 보기</h3>
- 
-  		<div class="table">
-	  		<table class="table tbl_related table-hover">
-			    <thead>
-			      <tr class="tblHeader">
-			        <th width="9.2%">번호</th>
-			        <th width="18.5%">상품명</th>
-			        <th width="40%">제목</th>
-			        <th width="11%">작성자</th>
-			        <th width="10.5%">작성일</th>
-			       <!--  <th width="10.5%">조회</th> -->
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <td class="tbl_number mycenter">218</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">만족</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-03-10</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">214</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">보통</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-02-13</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">204</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">만족</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-25</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">203</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">직업이 술꾼이라니 너무 재밌는 책이라 구입했습니다. 먼저 일러스트로 알게 되었고, 그 다음<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-24</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">194</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">배송이 빨라 좋았어요!<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-04</td>
-			      </tr>
-			    </tbody>
-			</table>
-			
-		</div>
+		<button class="btn btn_cancel" type="button">취소</button>
+		<button class="btn btn_submit" type="button">등록</button>	
 		
 	</div>
   
