@@ -49,10 +49,6 @@
 		  	<span >이용안내 FAQ입니다.</span>
 	    
 	   </div>
-
-			<hr>
-						
-			<br>
 				<table class=" review_table table_content">
 				  	<tbody>
 				    <tr>
