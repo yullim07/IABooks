@@ -188,6 +188,7 @@
     	padding:0;
     	margin:0 0 0 10px;
     	vertical-align: middle; 
+    	
     }
     
     [name=search]{
@@ -215,10 +216,10 @@
   	div.search_outer div.search_inner > select#searchContent{
   		margin: 0 2px 0 0;
   	}
-  	
   	div.contents{
   		padding: 0 0 30px 0;
   	}
+  	
   	
   	/* //////////////////inex_revietable.jsp//////////////////// */
   	
@@ -305,7 +306,7 @@
 	}
 	
 	table.review_table , table.review_table tr, table.review_table >tbody > tr> th, table.review_table >tbody > tr> td
-	table.write_review, table.write_review tr, table.write_review th, table.write_review td, table#faq_table_all 
+	table.write_review, table.write_review tr, table.write_review th, table.write_review td
 	{
 		border-left: solid 0px #dfdfdf !important;
 		border-right: solid 0px #dfdfdf !important;
@@ -482,7 +483,7 @@
   		padding: 8px 0 7px 10px !important;
   	}
   	div.related > div > table > tbody > tr > td.tbl_date{
-  		font-size: 12px;
+  		font-size: 11px;
   		color: #939393;
   	
   	}
@@ -539,16 +540,6 @@
   	}
   	
   	
-  	/*
-  		재희 추가 css(22/3/24)
-  		///////////////////////////////////////////////////////////////////////////////////////////////////////
-  	*/
-  	
-  	
-  	/*
-  		///////////////////////////////////////////////////////////////////////////////////////////////////////
-  	*/
-  	
   	/* 정환모 작성 css! 
   	   faq_accordion
   	*/
@@ -576,27 +567,16 @@
 	
 	div#faqmore {
 		display: block;
-    	padding: 15px 0 10px 0;
+    	padding: 10px 0;
 	}
 	
-	#faqTitle > i {
-		margin-left: 10px;
-	}
-	
-	span#faq {
-		font-size: 24px;
-		font-weight: bold;
-		margin-left: 10px;
-	}
-	
-	img.more {
+	a.more {
 		float : right;
 		padding-right: 10px;
-		padding-top: 10px;
 	}
 		
 	div.faq {
-		border : solid 1px #ddd;
+		border : solid 1px #111;
 	}
 
 	.cs_btn {
@@ -617,7 +597,7 @@
 	    display: inline-block;
 	    width: 20%;
 	    margin: 0 0 10px 0;
-	    letter-spacing: 0.1em;	
+	    letter-spacing: 0.1em;
 	}
 	
 	.cs_btn li a {
@@ -628,7 +608,7 @@
 	    margin: 0 auto;
 	    background: #333;
 	    border: solid 1px #111;
-	    font-size: 16px;
+	    font-size: 13px;
 	    text-align: center;
 	    color: #fff;
 	    letter-spacing: 0.1em;
@@ -638,109 +618,11 @@
 	#btnmore {
 		display: block;
     	margin: auto;
-    	font-size: 16px;
-    	border: solid 1px #ddd;
-    	background-color: #F2F2F2;
 	}
 	
 	.p {
 		padding-left: 30px; 
 	}
-  	
-  	
-  	/* ////////// index_siteinfo.jsp//////////// */
-   
-    
-    div.info_list > div > ul.menu {
-       display: table;
-       width: 100%;
-       margin: 0 0 20px 0;
-       
-    }
-    div.info_list > div>  ul.menu,
-    div.info_list > div>  ul.menu > li{
-       border-collapse: collapse;
-    }
-    
-    
-    div.info_list > div>  ul.menu > li{
-       
-       display: table-cell;
-       border: solid 1px #cbcdce;
-       width: 14.2%;
-       text-align: center;
-       height: 37px;
-       border-bottom: solid 2px #4a5164 ;
-       background-color: #f2f2f2;
-       vertical-align: middle;
-       
-    }
-    
-    div.info_list > div>  ul.menu > li.selected{
-       background-color: #4a5164;
-       
-    }
-    
-    div.info_list > div>  ul.menu > li.selected > a{
-       color: white !important;
-    }
-    
-    div.info_list > div > ul.menu > li > a{
-       display: inline-block;
-      padding: 11px 0;
-      text-align: center;
-      color: #707070;
-      font-weight: normal;
-      width: 100%;
-    }
-   
-    div.info_list > div > div.cont{
-      padding: 17px 10px 46px 9px;
-      font-weight: normal;
-      font-size: 14px;  
-    } 
-    
-    div.info_list >div  >  div.cont > h3{
-       font-weight: bold; 
-       margin: 0 0 20px 0;
-    } 
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
-  	
   	
   	
   	/* 정환모 작성 css! 
@@ -755,6 +637,22 @@
     	margin: 0 auto;
     	width: 80%;
     }
+    
+    /* div#container {
+    	margin: 0 auto;
+    } */
+    
+   /*  tr {
+    	border-bottom: solid 1px gray;
+    } */
+    
+   /*  tr > td:nth-child(1), td:nth-child(2), td:nth-child(4) {
+    	text-align: center;
+    }
+    
+    tr > td:nth-child(3) {
+    	text-align: left;
+    } */
     
     select {
     	height: 24px;
@@ -772,177 +670,65 @@
 	    vertical-align: middle;
     }
     
-    a.more {
-		float : right;
-		padding-right: 10px;
-	}
-	
-	h2#cscenter {
-		margin: 10px;
-	}
-	
-	div.card-body {
-		padding: 30px 10px 40px 35px;
-	}
-	
-	img.faq_qna {
-		margin-bottom: 5px;
-	}
-	
-	thead#faq_thead {
-		font-size: 16px;
-	}
-	
-	
-	
-	#faq_thead > tr, #faq_table_all > tbody > tr {
-		vertical-align: middle;
-		height: 40px;
-	}
-	
-	#faq_table_all > tbody > tr > td:nth-child(1), #faq_thead > tr > td:nth-child(1), td:nth-child(2), td:nth-child(4) {
+    
+    
+    /* ////////// index_siteinfo.jsp//////////// */
+   
+    
+    div.info_list > div > ul.menu {
+    	display: table;
+    	width: 100%;
+    	margin: 0 0 20px 0;
+    	
+    }
+    div.info_list > div>  ul.menu,
+    div.info_list > div>  ul.menu > li{
+    	border-collapse: collapse;
+    }
+    
+    
+    div.info_list > div>  ul.menu > li{
+    	
+    	display: table-cell;
+    	border: solid 1px #cbcdce;
+    	width: 14.2%;
     	text-align: center;
+    	height: 37px;
+    	border-bottom: solid 2px #4a5164 ;
+    	background-color: #f2f2f2;
+    	vertical-align: middle;
+    	
     }
     
-    #faq_thead > tr > td:nth-child(3) {
-    	text-align: left;
+    div.info_list > div>  ul.menu > li.selected{
+    	background-color: #4a5164;
+    	
     }
-	
-	#faq_thead > tr > th, #faq_table_all > tbody > tr > td {
-		border-left: solid 0px #d5d5d5;
-		border-right: solid 0px #d5d5d5;
-		height: 20px;
-		font-size: 14px;
-	} 
-	
-	
-	td#td_left {
-		text-align: left;
-		border-left: solid 0px #d5d5d5;
-		border-right: solid 0px #d5d5d5;
-		padding-left: 15px;
-	}
-	
-	td.td_content {
-		border-left: solid 0px #dfdfdf !important;
-		border-right: solid 0px #dfdfdf !important;
-	}
-	
-
-
-
-	/* */
-	
-	/* ToS.jsp 서식 시작  */
-	
-	#ToS_outer {
-		width: 100%;
-		border: solid 1px #d7d5d5;
-		background-color: #fbfafa;
-		min-height: 1000px;
-	}
-	
-	
-	#ToS_inner {
-		padding: 20px;
-	    border: 1px solid #e8e8e8;
-	    color: #404040;
-	    min-height: 980px;
-	}
-	
-	#ToS_content {
-		padding: 20px;
-	    border: 1px solid #d7d5d5;
-	    background-color: #fff;
-	    min-height: 960px;
-	    font-size: 14px;
-	}
-	
-	
-	/* ToS.jsp 서식 끝  */
-
-
-
-	/* privacy_policy.jsp 서식 시작  */
-	
-	#PP_outer {
-		width: 100%;
-		border: solid 1px #d7d5d5;
-		background-color: #fbfafa;
-		min-height: 1000px;
-	}
-	
-	
-	#PP_inner {
-		padding: 20px;
-	    border: 1px solid #e8e8e8;
-	    color: #404040;
-	    min-height: 980px;
-	}
-	
-	#PP_content {
-		padding: 20px;
-	    border: 1px solid #d7d5d5;
-	    background-color: #fff;
-	    min-height: 960px;
-	    font-size: 14px;
-	}
-	
-	/* privacy_policy.jsp 서식 끝  */
-	
-	
-	
-	
-	/* product_detailboard 서식 시작 */
     
-    div.view_btn_zone {
-		padding: 15px 20px 15px 0;
-	    text-align: right;
-	    background-color: #FBFAFA;
-	    border: none;
-	    margin-top: 0;
-		border-collapse:collapse; /* 보더와 보더 사이의 경계를 허물어라.*/
-		padding: auto;
-	}
-	
-	#faq_tbody > tr {
-		border-bottom: solid 1px #dfdfdf;
-	}
-	
-	td#td_left {
-		text-align: left;
-		padding-left: 40px;
-	}
-	
-	#faq_tbody > tr#notExist > td {
-		padding: 50px 0 !important;
-	} 
-	
-	/* product_detailboard 서식 끝 */
-	
-	
-	
-	/* my_board.jsp 서식 시작 */
-	
-	select.cateDropdown {
-		margin-bottom: 5px;
-	}
-	
-	div#tab_center {
+    div.info_list > div>  ul.menu > li.selected > a{
+    	color: white !important;
+    }
+    
+    div.info_list > div > ul.menu > li > a{
+    	display: inline-block;
+		padding: 11px 0;
 		text-align: center;
-   		display: inline-block;
-   		width: 100%;
-	}
-	
-	
-	/* my_board.jsp 서식 끝 */
-	
-	
-	
-	
-	
-	
-	
+		color: #707070;
+		font-weight: normal;
+		width: 100%;
+    }
+   
+    div.info_list > div > div.cont{
+		padding: 17px 10px 46px 9px;
+		font-weight: normal;
+		font-size: 14px;  
+    } 
+    
+    div.info_list >div  >  div.cont > h3{
+    	font-weight: bold; 
+    	margin: 0 0 20px 0;
+    } 
+    
     
     
     
