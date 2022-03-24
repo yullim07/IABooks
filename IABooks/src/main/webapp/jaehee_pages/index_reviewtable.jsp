@@ -20,6 +20,7 @@
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
 
+<jsp:include page="../header.jsp"/>
 
 <script type="text/javascript">
 	
@@ -31,7 +32,7 @@
 </script>
 
 
-<jsp:include page="../header.jsp"/>
+
 
 	
 <div class="container">
