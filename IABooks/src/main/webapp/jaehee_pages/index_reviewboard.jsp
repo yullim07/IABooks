@@ -10,7 +10,6 @@
 	
 %>
 <style type="text/css">
-
 </style>
 
 	  
@@ -19,19 +18,58 @@
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<jsp:include page="../header.jsp"/>
 
 
 <script type="text/javascript">
 	
+	/* function showImg(){
+		console.log("hoi");
+	}
+	function hideImg(){
+		
+	} */
 	$(document).ready(function(){
+		
+		/* 
+		 $("span.error").hide();
+		 $("input#name").focus();
+		 */
+		 let html = "";
+		 $("img#file_attach").mouseover( ()=>{
+			  
+			  const $target = $(event.target);
+			  console.log($target.text()+"에 마우스가 올라갔군요");
+			  $("span#mouseover_img").html("<img style='height: 80px; vertical-align:middle; ' src='<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
+		 });
+		 
+		 $("img#file_attach").mouseout(function(){
+			 const $target = $(event.target);   
+			 $("span#mouseover_img").html("");
+		 });
+		<%-- let html = "";
+		 $("img#file_attach").mouseover(function(){
+			    $("div#mouseover_img").css("background-color", "yellow");
+			    
+			    const $target = $(event.target);
+				console.log($target.text()+"에 마우스가 올라갔군요");
+					
+				$("div#mouseover_img").html("<img src='<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
+			    
+			    
+		  });
+		  $("img#file_attach").mouseout(function(){
+		    $("div#mouseover_img").html("<img src='<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
+		  }); --%>
 		
 	
 	});
-
+	
+	
 </script>
 
 
-<jsp:include page="../header.jsp"/>
+
 
 	
 	
@@ -74,9 +112,12 @@
 				</a>
 				
 	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_subject">
+	        	<a href="">만족</a>
+	        	<span class="new_tag">NEW</span>
+	        </td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-10<br/>04:06:33</td>
+	        <td class="tbl_date mycenter">2022-03-10 04:06:33</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -89,9 +130,18 @@
 				</a>
 				
 	        </td>
-	        <td class="tbl_subject"><a href="">배송도 빠르도 책도 잘 포장돼서 왔어요!<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
+	        <td class="tbl_subject">
+	        	<a href="">
+	        		배송도 빠르도 책도 잘 포장돼서 왔어요!
+	        	</a>
+	        	<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif"  <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> />
+	        	
+	        	<span id="mouseover_img" style="position:absolute;  "></span>
+	        	
+	        	<span class="new_tag">NEW</span>
+	        </td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -106,7 +156,7 @@
 	        </td>
 	        <td class="tbl_subject"><a href="">만족</a></td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -119,9 +169,18 @@
 				</a>
 				
 	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
+	        <td class="tbl_subject">
+	        	<a href="">
+	        		만족
+	        	</a>
+	        	
+	        	<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif"  onmouseover="showImg()" onmouseout="hideImg()" />
+	        	<span id="mouseover_img" style="position:absolute;   "></span>
+	        	<span class="new_tag" >NEW</span>
+	         	
+	        </td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -136,7 +195,7 @@
 	        </td>
 	        <td class="tbl_subject"><a href="">만족</a></td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -151,7 +210,7 @@
 	        </td>
 	        <td class="tbl_subject"><a href="">만족</a></td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -166,7 +225,7 @@
 	        </td>
 	        <td class="tbl_subject"><a href="">만족</a></td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -181,7 +240,7 @@
 	        </td>
 	        <td class="tbl_subject"><a href="">만족</a></td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -196,7 +255,7 @@
 	        </td>
 	        <td class="tbl_subject"><a href="">만족</a></td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      
@@ -211,7 +270,7 @@
 	        </td>
 	        <td class="tbl_subject"><a href="">만족</a></td>
 	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17<br/>02:25:14</td>
+	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="semi_images/ico_point5.gif"/></td>
 	      </tr>
 	      

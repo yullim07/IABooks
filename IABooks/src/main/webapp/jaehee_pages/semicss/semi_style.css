@@ -648,6 +648,101 @@
 	}
   	
   	
+  	/* ////////// index_siteinfo.jsp//////////// */
+   
+    
+    div.info_list > div > ul.menu {
+       display: table;
+       width: 100%;
+       margin: 0 0 20px 0;
+       
+    }
+    div.info_list > div>  ul.menu,
+    div.info_list > div>  ul.menu > li{
+       border-collapse: collapse;
+    }
+    
+    
+    div.info_list > div>  ul.menu > li{
+       
+       display: table-cell;
+       border: solid 1px #cbcdce;
+       width: 14.2%;
+       text-align: center;
+       height: 37px;
+       border-bottom: solid 2px #4a5164 ;
+       background-color: #f2f2f2;
+       vertical-align: middle;
+       
+    }
+    
+    div.info_list > div>  ul.menu > li.selected{
+       background-color: #4a5164;
+       
+    }
+    
+    div.info_list > div>  ul.menu > li.selected > a{
+       color: white !important;
+    }
+    
+    div.info_list > div > ul.menu > li > a{
+       display: inline-block;
+      padding: 11px 0;
+      text-align: center;
+      color: #707070;
+      font-weight: normal;
+      width: 100%;
+    }
+   
+    div.info_list > div > div.cont{
+      padding: 17px 10px 46px 9px;
+      font-weight: normal;
+      font-size: 14px;  
+    } 
+    
+    div.info_list >div  >  div.cont > h3{
+       font-weight: bold; 
+       margin: 0 0 20px 0;
+    } 
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
   	/* 정환모 작성 css! 
   	   faq_board
   	*/
@@ -734,23 +829,120 @@
 	}
 	
 
-		/* ToS.jsp 서식 시작  */
+
+
+	/* */
 	
-	div#ToS_outer {
+	/* ToS.jsp 서식 시작  */
+	
+	#ToS_outer {
 		width: 100%;
 		border: solid 1px #d7d5d5;
 		background-color: #fbfafa;
-		min-height: 500px;
+		min-height: 1000px;
 	}
 	
 	
-	div#ToS_inner {
-		width: 80%;
+	#ToS_inner {
 		padding: 20px;
-	    border: 5px solid #e8e8e8;
+	    border: 1px solid #e8e8e8;
 	    color: #404040;
+	    min-height: 980px;
 	}
+	
+	#ToS_content {
+		padding: 20px;
+	    border: 1px solid #d7d5d5;
+	    background-color: #fff;
+	    min-height: 960px;
+	    font-size: 14px;
+	}
+	
 	
 	/* ToS.jsp 서식 끝  */
+
+
+
+	/* privacy_policy.jsp 서식 시작  */
+	
+	#PP_outer {
+		width: 100%;
+		border: solid 1px #d7d5d5;
+		background-color: #fbfafa;
+		min-height: 1000px;
+	}
+	
+	
+	#PP_inner {
+		padding: 20px;
+	    border: 1px solid #e8e8e8;
+	    color: #404040;
+	    min-height: 980px;
+	}
+	
+	#PP_content {
+		padding: 20px;
+	    border: 1px solid #d7d5d5;
+	    background-color: #fff;
+	    min-height: 960px;
+	    font-size: 14px;
+	}
+	
+	/* privacy_policy.jsp 서식 끝  */
+	
+	
+	
+	
+	/* product_detailboard 서식 시작 */
+    
+    div.view_btn_zone {
+		padding: 15px 20px 15px 0;
+	    text-align: right;
+	    background-color: #FBFAFA;
+	    border: none;
+	    margin-top: 0;
+		border-collapse:collapse; /* 보더와 보더 사이의 경계를 허물어라.*/
+		padding: auto;
+	}
+	
+	#faq_tbody > tr {
+		border-bottom: solid 1px #dfdfdf;
+	}
+	
+	td#td_left {
+		text-align: left;
+		padding-left: 40px;
+	}
+	
+	#faq_tbody > tr#notExist > td {
+		padding: 50px 0 !important;
+	} 
+	
+	/* product_detailboard 서식 끝 */
+	
+	
+	
+	/* my_board.jsp 서식 시작 */
+	
+	select.cateDropdown {
+		margin-bottom: 5px;
+	}
+	
+	div#tab_center {
+		text-align: center;
+   		display: inline-block;
+   		width: 100%;
+	}
+	
+	
+	/* my_board.jsp 서식 끝 */
+	
+	
+	
+	
+	
+	
+	
+    
     
     

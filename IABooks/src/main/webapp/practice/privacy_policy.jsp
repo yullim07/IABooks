@@ -27,7 +27,7 @@
 
 <style type="text/css">
 
-	#PP_outer {
+	/* #PP_outer {
 		width: 100%;
 		border: solid 1px #d7d5d5;
 		background-color: #fbfafa;
@@ -48,7 +48,7 @@
 	    background-color: #fff;
 	    min-height: 960px;
 	    font-size: 14px;
-	}
+	} */
 	
 	/* privacy_policy.jsp 서식 끝  */
 
