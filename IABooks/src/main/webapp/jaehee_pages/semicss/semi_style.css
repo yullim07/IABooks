@@ -733,7 +733,8 @@
 		border-right: solid 0px #dfdfdf !important;
 	}
 	
-	/* ToS.jsp 서식 시작  */
+
+		/* ToS.jsp 서식 시작  */
 	
 	div#ToS_outer {
 		width: 100%;
@@ -744,12 +745,12 @@
 	
 	
 	div#ToS_inner {
+		width: 80%;
 		padding: 20px;
-	    border: solid 1px #e6e6e6;
-	    background-color: #fff;
+	    border: 5px solid #e8e8e8;
+	    color: #404040;
 	}
 	
 	/* ToS.jsp 서식 끝  */
-	
     
     

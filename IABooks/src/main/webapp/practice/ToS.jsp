@@ -17,11 +17,42 @@
 <meta charset="UTF-8">
 <title>이용약관</title>
 
-<!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
 
 
 <jsp:include page="../header.jsp"/>
+
+
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+
+<style type="text/css">
+
+	#ToS_outer {
+		width: 100%;
+		border: solid 1px #d7d5d5;
+		background-color: #fbfafa;
+		min-height: 1000px;
+	}
+	
+	
+	#ToS_inner {
+		padding: 20px;
+	    border: 1px solid #e8e8e8;
+	    color: #404040;
+	    min-height: 980px;
+	}
+	
+	#ToS_content {
+		padding: 20px;
+	    border: 1px solid #d7d5d5;
+	    background-color: #fff;
+	    min-height: 960px;
+	    font-size: 14px;
+	}
+	
+	/* ToS.jsp 서식 끝  */
+
+</style>
 
 <script type="text/javascript">
 		
