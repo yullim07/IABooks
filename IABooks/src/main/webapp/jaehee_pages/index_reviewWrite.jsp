@@ -9,29 +9,58 @@
 	String ctxPath = request.getContextPath();
 	
 %>
+
 <style type="text/css">
+
+#navbar2 {
+	display: inline-block !important;
+}
 
 </style>
 
-	  
+  
 <meta charset="UTF-8">
 <title>타인의 책장</title>
 
+<jsp:include page="../header.jsp"/>
+
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+
+
+
+
+<!-- 서머노트를 위해 추가해야할 부분 시작 -->
+  <script src="<%= ctxPath%>/summernote/summernote-lite.js"></script>
+  <script src="<%= ctxPath%>/summernote//summernote-ko-KR.js"></script>
+  <link rel="stylesheet" href="<%= ctxPath%>/summernote/summernote-lite.css">
+  <!--  -->
+  
+ <!-- include libraries(jQuery, bootstrap) -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+
+<!-- include summernote css/js -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+<!-- 썸머노트 추가 끝 -->
+
+ 
 
 
 <script type="text/javascript">
 	
 	$(document).ready(function(){
 		
-	
+		
 	});
 
 </script>
 
 
-<jsp:include page="../header.jsp"/>
+
 
 	
 <div class="container">
@@ -102,6 +131,19 @@
 		    <tr>
 		      
 		      <td colspan="2">
+		      	
+		      		<textarea class="summernote" name="editordata"></textarea>
+                        <script>
+                        $('.summernote').summernote({
+                        	height: 300,                 // 에디터 높이
+                            minHeight: 600,             // 최소 높이
+                            maxHeight: null,             // 최대 높이
+                            focus: false,                  // 에디터 로딩후 포커스를 맞출지 여부
+                            lang: "ko-KR",               // 한글 설정
+                            placeholder: '최대 2048자까지 쓸 수 있습니다'   //placeholder 설정
+                           });
+                        </script>
+		      	
 		      	
 		      </td>
 		    
@@ -184,14 +226,14 @@
 		    	</th>
 		    	<td>
 		    		<textarea id="terms" class="agree" name="terms" style="width: 60%; height: 140px; margin: 0 0 10px 0; ">
-		    			■ 개인정보의 수집·이용 목적
-						서비스 제공 및 계약의 이행, 구매 및 대금결제, 물품배송 또는 청구지 발송, 회원관리 등을 위한 목적
-						
-						■ 수집하려는 개인정보의 항목
-						이름, 주소, 연락처, 이메일 등
-						
-						■ 개인정보의 보유 및 이용 기간
-						회사는 개인정보 수집 및 이용목적이 달성된 후에는 예외없이 해당정보를 파기합니다.
+■ 개인정보의 수집·이용 목적
+서비스 제공 및 계약의 이행, 구매 및 대금결제, 물품배송 또는 청구지 발송, 회원관리 등을 위한 목적
+
+■ 수집하려는 개인정보의 항목
+이름, 주소, 연락처, 이메일 등
+
+■ 개인정보의 보유 및 이용 기간
+회사는 개인정보 수집 및 이용목적이 달성된 후에는 예외없이 해당정보를 파기합니다. 
 					</textarea>
 					<div>
 						개인정보 수집 및 이용에 동의하십니까?  
