@@ -103,8 +103,8 @@
 			        <option value="userid">아이디</option>
 			        <option value="nickname">별명</option>
 			    </select>
-			    <input type="text" name="search"></input>
-			    <button class="btn" name="search" >찾기</button>
+			    <input type="text" name="search" id="input_myboard_search"></input>
+			    <button class="btn btn_myboard_search" name="search" >찾기</button>
 			    </div>
 		    
 		  	</div>

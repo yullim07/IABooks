@@ -28,7 +28,6 @@
 <style type="text/css">
 
 .out {
-	 width: 100%;
 	 text-align: center;
 	 border: solid 5px #e8e8e8;
 	 padding: 20px;
@@ -39,7 +38,7 @@
 	 display: inline-block;
 	 width: 50%;
 	 /* border: solid 1px red; */
-	 height: 200px;
+	 height: 240px;
  }
 
 table#p_search_tbl, #p_search_tbl > tbody > tr, #p_search_tbl > tbody > tr > th, #p_search_tbl > tbody > tr > td {
@@ -64,15 +63,16 @@ table#p_search_tbl, #p_search_tbl > tbody > tr, #p_search_tbl > tbody > tr > th,
 	
 #p_search_tbl > tbody > tr > td > select {
 	font-size: 13px;
+	margin-right: 5px;
 }
 
 button.btn_pro_search {
     width: 150px;
     height: 30px;
     border: solid 1px #aaa;
-    font-size: 13px;
+    font-size: 18px;
     padding: 0;
-    margin: 5px 0 0 5px;
+    margin: 20px 0 0 5px;
     background-color: #999;
     color: white;
     border-radius: 5%;
@@ -96,7 +96,7 @@ button.btn_pro_search {
 	</div>
 	
 	<div class="out">
-	    <div class="in">
+	    <div class="in" style="overflow-x:auto;">
 	    	<table id="p_search_tbl">
 	 			
 	 			<tr>

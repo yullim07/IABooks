@@ -53,12 +53,12 @@
 				  	<tbody>
 				    <tr>
 				      <th class="col-2" >제목</th>
-				      <td class="col-10" id="td_left" >배송도 빠르도 책도 잘 포장돼서 왔어요!</td>
+				      <td class="col-10 subject" id="td_left" >배송도 빠르도 책도 잘 포장돼서 왔어요!</td>
 				    </tr>
 				  	
 				    <tr>
 				      <th>작성자</th>
-				      <td id="td_left" >네****</td>
+				      <td class="writer" id="td_left" >네****</td>
 				    </tr>
 				    <tr>
 				      
@@ -103,11 +103,11 @@
 					<tbody>
 						<tr>
 							<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
-							<td id="td_left"><a href="">만족</a></td>
+							<td id="td_left" class="board_prev"><a href="">만족</a></td>
 						</tr>
 						<tr>
 							<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
-							<td id="td_left"><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
+							<td id="td_left" class="board_next"><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
 						</tr>
 					</tbody>
 					

@@ -285,7 +285,7 @@
 				<!-- <button type="button" class="btn btn-secondary" id="btnmore">
 					<a href="/board/free/list.html?board_no=3">자주 묻는 질문 더보기</a>
 				</button> -->
-				<button class="btn" id="btnmore" type="button">자주 묻는 질문 더보기</button>
+				<button class="btn" id="btnmore_faq" type="button">자주 묻는 질문 더보기</button>
 			</div>
 		</div>
 		
