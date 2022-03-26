@@ -1,10 +1,5 @@
 @charset "UTF-8";
 
-/* 상단컨텐츠 - 메인이미지와 썸네일 이미지가 div 밖으로 빠져나가지 못하게 막기 */
-/* div.img_display, div.img_thumbnail {
-	width: 50%;
-} */
-
 /* 폰트 */
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
@@ -12,12 +7,22 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
+/* 상단컨테이너, 하단컨테이너 */
+/* div#container {
+	width: 100%;
+	padding: 1em;
+	border: solid 30px pink;
+} */
+
+div.img_area, div.text_area {
+	max-width: 70%;
+}
+
 /* 상단컨텐츠 - 메인이미지영역 크기 설정 */
 div.img_display {
 	display: inline-block;
-	min-width: 500px;
-	min-height: 800px;
-	margin: 0 auto;
+	max-width: 100%;
+	margin: 100px auto;
 }
 
 /* 상단컨텐츠 - 매인이미지의 최대 크기 지정 */

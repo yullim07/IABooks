@@ -1,0 +1,948 @@
+@charset "UTF-8";
+
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.notosanskr * { 
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+	 div.title {
+        margin: 20px 0 20px 0;
+        border-bottom: 1px solid #e8e8e8;
+        min-height: 30px;
+    }
+    div.title > div.title_icon{
+    	display:inline-block; 
+    	margin-left: 10px;
+    }
+    div.title > h2{
+    	display:inline-block; 
+    	font-size:18px; 
+    	font-weight: bold; 
+    	padding: 0 0 0 14px;
+	}
+	div.title> div.bar_icon{
+    	display:inline-block;
+    }
+    div.title > span{
+    	font-size: 14px; color: #939393;
+    }
+	
+	table,th,td, div.write_btn_zone{
+		border: solid 1px #d7d5d5;
+		border-collapse:collapse; /* 보더와 보더 사이의 경계를 허물어라.*/
+		padding: auto;
+	}
+	
+	div.table_all > div > table > thead > tr > th{
+		border-bottom: solid 0px gray;
+		background-color: #FBFAFA;
+		height: 39.8px;
+		padding: 14px 0 10px 0;
+		text-align: center;
+		font-size: 12pt;
+	}
+	div.table_all > div > table > tbody > tr >td{
+		padding: 6px 3px 4px 3px;
+		height: 57px;
+		font-size: 14px;
+		vertical-align: middle;
+		
+	}
+	div.table_all > div > table > tbody > tr > td > a{
+		color: black;
+		text-decoration: none;
+	}
+	div.table_all > div > table > tbody > tr > td.tbl_bookname > a > img{
+		width:46px; 
+		float:left;
+	}
+	div.table_all > div > table > tbody > tr > td.tbl_bookname > a> span{
+		padding: 0 0 0 8px; 
+		float: left;
+		text-align: left;
+		width: 80px;
+		/* cursor: pointer; */
+	}
+	
+	img#file_attach{
+		margin: 0 1px;
+		cursor:default;
+	}
+	
+	span.new_tag{
+		background-color: #0099ff;
+		color: white;
+		padding: 0 4px ;
+	}
+	
+	div.table_all > div > table > tbody > tr >td.tbl_subject{
+		color: #555;
+		padding: 6px 3px 4px 8px;
+	}
+	div.table_all > div > table > tbody > tr > td.tbl_date{
+		font-size: 12px;
+		color: #939393;
+	}
+	
+	
+	
+	td.myright{
+    text-align: right;
+    }
+    
+    div.title > div.square > h2{
+    	font-size: 14px;
+    }
+    
+    
+   
+    
+    
+    table.table{
+    margin-bottom:0;
+    padding-bottom:0;
+    }
+  	
+  	td.mycenter{
+  		text-align: center;
+  		vertical-align: middle;
+  	}
+  	
+  	div.pagination2{
+  		text-align: center;
+  		margin: 30px 0; 
+  		height: 37px;
+  		
+  	}
+  	div.pagination2 > ul{
+  		margin: 0;
+  		padding: 0;
+  	}
+  	div.pagination2 > ul > li{
+  		width: 33px;
+  		height: 32px;
+  		list-style: none;
+  		display:inline-block;
+  		vertical-align: center;
+  		
+  		
+  	}
+  	
+  	div.pagination2 > ul > li > a{
+	  	padding: 9px 0; 
+	  	color: gray;
+	  	font-weight: bold;
+	  	font-size: 14px;
+	  	width: 33px;
+  		height: 32px;
+  		line-height: 14px;
+  		display: block;
+	  	
+  	}
+
+  	div.pagination2 > ul > li.active  {
+	  	border-bottom: solid 2px #333;
+	 
+  	}
+  	div.pagination2 > ul > li.active >a{
+  		color: #333 !important; 
+  	}
+  	
+  	
+  	div.pagination2 > ul > li > a > img:hover{
+  		opacity:0.3;
+  	}
+  	div.pagination2 > ul > li > a:hover{
+  		text-decoration: none;
+  	}
+  	
+  	div.write_btn_zone{
+		padding: 15px 20px 15px 0;
+		text-align: right;
+		background-color:  #FBFAFA;
+		border-top: 0;
+		margin-top: 0;
+	}
+  	div.write_btn_zone > button.btn{
+    	width:100px;
+        height:30px;
+        margin: 0;
+        font-size: 14px;
+        padding : 0;
+        vertical-align: middle;
+    }
+    
+    body > div > div.search_outer > div > p{
+    	margin: 0;
+    }
+    
+	div.search_outer{
+    	padding: 20px 0 20px 10px;
+    	vertical-align: middle;
+    	
+    	
+    }
+    div.search_inner{
+    	/* display: block; */
+    	padding:0;
+    	margin:0 0 0 10px;
+    	vertical-align: middle; 
+    }
+    
+    [name=search]{
+    	height: 24px;
+    	font-size: 14px;
+    	
+    }
+	
+  	div.search_outer > div.search_inner > button{
+  		width: 59px;
+  		background-color: #999;
+  		color: white;
+  		font-size: 14px;
+  		/* vertical-align: middle; */
+  		padding: 0;
+  	}
+  	
+  	div.search_outer div.search_inner > select {
+  		width: 72px;
+  		
+  	}
+  	div.search_outer div.search_inner > select#searchDate {
+  		margin: 0 2px 0 22px;	
+  	}
+  	div.search_outer div.search_inner > select#searchContent{
+  		margin: 0 2px 0 0;
+  	}
+  	
+  	div.contents{
+  		padding: 0 0 30px 0;
+  	}
+  	
+  	/* //////////////////inex_revietable.jsp//////////////////// */
+  	
+  	div.pdt_img_info{
+  		border: solid 5px #e8e8e8;
+  		padding: 15px 0 ;
+  		margin: 0 0 20px 0;
+  		display: table;
+  		width: 100%;
+  	}
+  	
+  	div.pdt_img_info >  p {
+  		padding: 0 20px;
+  		width: 190px;
+  		height: 152px;
+  		display: table-cell;
+  	}
+  	
+  	
+  	div.pdt_img_info >  p > img{
+  		width: 152px;
+  		height: 152px;
+  		border: solid 1px #d7d5d5;
+  		cursor: pointer;
+	}
+	div.pdt_info > h3 > a:hover{
+		text-decoration: underline;
+	}
+	
+	
+	button.btn_detail{
+		background-color: #999;
+  		color: white;
+  		font-size: 14px;
+  		width: 105px;
+  		height: 24px;
+  		border: none;
+  		padding: 0;
+  		
+	}	
+	div.pdt_info > p.button{
+		padding: 13px 0 0 0;
+		margin: 19px 0 0 0;
+		border-top: solid 1px #e8e8e8;;
+	}
+	
+	button.btn_detail >a{
+		color: white;
+	}
+	div.pdt_info {
+		
+		height: 152px;
+		width: auto;
+		padding: 0 20px 0 0 ;
+		display: table-cell;
+		vertical-align: middle;
+		text-align: left;
+	}
+	div.pdt_info > h3{
+		margin: 17px 0 5px 0;
+		font-size: 15px;
+		
+		
+	}
+	
+		
+	div.pdt_info  p.p_price{
+		font-size: 14px;
+		font-weight: bold;
+		padding: 0;
+	}
+	
+	
+	
+	table.review_table , table.write_review{
+		position: relative;
+		border-collapse: collapse;
+		border-left: solid 0px #d5d5d5;
+		border-right: solid 0px #d5d5d5;
+		width: 100%;
+		font-size: 14px;
+		border-top: solid 2px #dfdfdf;
+		border-bottom: solid 2px #dfdfdf ;
+	}
+	
+	table.review_table , table.review_table tr, table.review_table >tbody > tr> th, table.review_table >tbody > tr> td
+	table.write_review, table.write_review tr, table.write_review th, table.write_review td, table#faq_table_all 
+	{
+		border-left: solid 0px #dfdfdf !important;
+		border-right: solid 0px #dfdfdf !important;
+	}
+  		
+  	table.review_table >tbody > tr > th , table.write_review th{
+  		width: 130px;
+  		background-color: #fbfafa;
+  		padding: 11px 0 10px 18px;
+  		border: 1px solid #dfdfdf;
+  		
+  	}
+  	
+
+  	table.review_table > tbody > tr> td> ul > li{
+  		display: inline-block;
+  		padding: 8px 20px 10px 20px;
+  		font-size: 14px;
+  		vertical-align: middle;
+  	}
+  	div.detail{
+  		padding: 30px 20px;
+  		border-top: solid 1px #dfdfdf;
+  		/* margin: -9px 0 0 0 ; */
+  	}
+  	
+  	input#password{
+  		border: solid 1px #d5d5d5;
+  	}
+  	div.exclam_mark{
+  		display: inline-block;
+  		width: 18px;
+  		height: 18px;
+  		border: solid 1px #d5d5d5;
+  		padding: auto;
+  		font-size: 8pt;
+  		font-weight: bold;
+  		color: red;
+  		text-align: center;
+  		border-radius: 3px;
+  		vertical-align: middle;
+  		margin: 2px 0 2px 9px;
+  	}
+  	
+  	p#wow {
+  		vertical-align: middle;
+  		padding: 0;
+  	}
+  	
+  	a.file_attach{
+  		color: #8f8f8f;
+  		font-size: 14px;
+  	}
+  	a.file_attach:hover{
+  		text-decoration: underline;
+  		color: #8f8f8f;
+  	}
+  	td.password{
+  		padding: 10px 10px 9px;
+  		vertical-align: middle;
+  		
+  	}
+  	td.password > span{
+  		font-size: 14px;
+  		
+  	}
+  
+  	div.buttons {
+  		margin: 10px 0 20px 0;
+  		padding: 10px 0;
+  	}
+  	div.buttons > button{
+  		width: 100px;
+  		height: 30px;
+  		border: solid 1px #aaa;
+  		font-size: 13px;
+  		
+  		padding: 0;
+  	}
+  	button.btn_list{
+  		float: left;
+  	}
+  	button.btn_delete,button.btn_update ,
+  	button.btn_cancel, button.btn_submit {
+  		float: right;
+  	}
+  	button.btn_update{
+  		margin: 0 0 0 5px;
+  		background-color: #999;
+  		color: white;
+  	}
+  	/* reviewWrite css */
+  	button.btn_cancel{
+  		margin: 0 0 0 5px;
+  		background-color:  #e6e6e6;
+  	}
+  	button.btn_submit {
+  		background-color: #47476b;
+  		color: white;
+  	}
+  	
+  	table.prev_next{
+  		width: 100%;
+  		font-size: 14px;
+  	}
+  	
+  	table.prev_next >tbody>  tr > td {
+  		height: 36.8px;
+  	}
+  	
+  	table.prev_next > tbody > tr> th {
+  		padding: 10px;
+  		text-align: center;
+  		width: 90px;
+  	}
+  	
+  	table.prev_next > tbody > tr> th > a{
+  		margin : 0  0  0 5px;
+  		font-style: none;
+  	} 
+  	
+  	div.prev_next{
+  		margin: 60px 0 20px 0;
+  	}
+  	
+  	img#img_prev {
+  		padding-bottom: 3px;
+  	}
+  	
+  	div.related > div.table >table {
+  		width: 100%;
+  	}
+  	
+  	
+  	div.related > h3{
+  		margin: 0 0 10px 0;
+  		font-size: 14px;
+  		font-weight: bold;
+  	}
+  	div.related > div > table {
+  		font-size: 14px;
+  	}
+  	
+  	
+  	table.tbl_related{
+		position: relative;
+		border-collapse: collapse;
+		border-left: solid 0px #d5d5d5;
+		border-right: solid 0px #d5d5d5;
+		width: 100%;
+		
+		
+	}
+	table.tbl_related , table.tbl_related tr, table.tbl_related >thead > tr> th, table.tbl_related >tbody > tr> td{
+		border-left: solid 0px #dfdfdf !important;
+		border-right: solid 0px #dfdfdf !important;
+	}
+	
+	table.tbl_related >thead > tr> th{
+	  		border-bottom: none;
+	  		text-align: center;
+	  		font-weight: normal;
+	  		background-color: #fbfafa;
+  	}
+  	table.tbl_related >tbody > tr> td{
+  		width: 34px;
+  		padding: 8px 0 7px 0;
+  	}
+  	table.tbl_related >tbody > tr> td.tbl_bookname{
+  		text-align: center;
+  	}
+  	
+  	table.tbl_related >tbody > tr> td.tbl_subject{
+  		padding: 8px 0 7px 10px !important;
+  	}
+  	div.related > div > table > tbody > tr > td.tbl_date{
+  		font-size: 12px;
+  		color: #939393;
+  	
+  	}
+  	
+  	div.related{
+  		margin: 0 0 10px 0;
+  	}
+  	
+  	
+	table.prev_next > tbody > tr> td > a:hover{
+	  	text-decoration: underline;
+	}
+	
+	td.tbl_subject > a:hover{
+		text-decoration: underline;
+	}
+	
+	li.li_header {
+		vertical-align: middle;
+		padding: auto 0;
+	}
+	
+	img#star {
+		padding-bottom: 2px;
+	}
+	
+	span.point {
+		margin-right: 10px;
+	}
+	
+	#point0, #point1, #point2, #point3, #point4, #point5, #privacy_agreement0, #privacy_agreement1  {
+		vertical-align: middle;
+	}
+	
+	/* ////////////index_reviewWrite///////////////// */
+  	
+  	
+  	
+  	/* ////////////index_qnaboard///////////// */
+  	div.contents > p.board_top{
+  		margin: 0 0 20px 0;
+  	}
+  	
+  	div.contents > p.board_top > img{
+  		width: 100%;
+  	}
+  	
+  	td.tbl_subject > img{
+  		padding-bottom: 4px;
+  	}
+  	
+  	td.tbl_subject > a > img.lock{
+  		margin: 0 0 2px 5px;
+  	}
+  	
+  	
+  	/*
+  		재희 추가 css(22/3/24)
+  		///////////////////////////////////////////////////////////////////////////////////////////////////////
+  	*/
+  	
+  	
+  	/*
+  		///////////////////////////////////////////////////////////////////////////////////////////////////////
+  	*/
+  	
+  	/* 정환모 작성 css! 
+  	   faq_accordion
+  	*/
+  	
+  	a:link { color: black; text-decoration: none;}
+ 	a:visited { color: black; text-decoration: none;}
+ 	a:hover { color: black; text-decoration: underline;}
+
+	html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, img {
+	    list-style: none;
+	    margin: 0;
+	    padding: 0;
+	}
+	
+	div#contents {
+		margin : 0 auto;
+	}
+	
+	div#faqTitle {
+	    background: #f4f4f4;
+    	border-bottom: solid 1px #ddd;
+    	height: 60px;
+    	padding: 10px 0;
+	}
+	
+	div#faqmore {
+		display: block;
+    	padding: 15px 0 10px 0;
+	}
+	
+	#faqTitle > i {
+		margin-left: 10px;
+	}
+	
+	span#faq {
+		font-size: 24px;
+		font-weight: bold;
+		margin-left: 10px;
+	}
+	
+	img.more {
+		float : right;
+		padding-right: 10px;
+		padding-top: 10px;
+	}
+		
+	div.faq {
+		border : solid 1px #ddd;
+	}
+
+	.cs_btn {
+		display: block;
+		clear: both;
+		width: 100%;
+		margin: 0 0 10px;
+		text-align: center;
+	}
+	
+	.cs_btn ul {
+	    font-size: 0;
+	    line-height: 0;
+	    letter-spacing: -4px;
+	}
+	
+	.cs_btn li {
+	    display: inline-block;
+	    width: 20%;
+	    margin: 0 0 10px 0;
+	    letter-spacing: 0.1em;	
+	}
+	
+	.cs_btn li a {
+	    display: block;
+	    width: 95%;
+	    height: 40px;
+	    line-height: 40px;
+	    margin: 0 auto;
+	    background: #333;
+	    border: solid 1px #111;
+	    font-size: 16px;
+	    text-align: center;
+	    color: #fff;
+	    letter-spacing: 0.1em;
+		border-radius: 5px;
+	}
+	
+	#btnmore {
+		display: block;
+    	margin: auto;
+    	font-size: 16px;
+    	border: solid 1px #ddd;
+    	background-color: #F2F2F2;
+	}
+	
+	.p {
+		padding-left: 30px; 
+	}
+  	
+  	
+  	/* ////////// index_siteinfo.jsp//////////// */
+   
+    
+    div.info_list > div > ul.menu {
+       display: table;
+       width: 100%;
+       margin: 0 0 20px 0;
+       
+    }
+    div.info_list > div>  ul.menu,
+    div.info_list > div>  ul.menu > li{
+       border-collapse: collapse;
+    }
+    
+    
+    div.info_list > div>  ul.menu > li{
+       
+       display: table-cell;
+       border: solid 1px #cbcdce;
+       width: 14.2%;
+       text-align: center;
+       height: 37px;
+       border-bottom: solid 2px #4a5164 ;
+       background-color: #f2f2f2;
+       vertical-align: middle;
+       
+    }
+    
+    div.info_list > div>  ul.menu > li.selected{
+       background-color: #4a5164;
+       
+    }
+    
+    div.info_list > div>  ul.menu > li.selected > a{
+       color: white !important;
+    }
+    
+    div.info_list > div > ul.menu > li > a{
+       display: inline-block;
+      padding: 11px 0;
+      text-align: center;
+      color: #707070;
+      font-weight: normal;
+      width: 100%;
+    }
+   
+    div.info_list > div > div.cont{
+      padding: 17px 10px 46px 9px;
+      font-weight: normal;
+      font-size: 14px;  
+    } 
+    
+    div.info_list >div  >  div.cont > h3{
+       font-weight: bold; 
+       margin: 0 0 20px 0;
+    } 
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	
+  	/* 정환모 작성 css! 
+  	   faq_board
+  	*/
+  	
+	div#title {
+		margin: 10px 0;
+	}
+   
+    .row {
+    	margin: 0 auto;
+    	width: 80%;
+    }
+    
+    select {
+    	height: 24px;
+    	border: 1px solid #d5d5d5;
+    	vertical-align: middle;
+    	
+    }
+    
+    input[type=text], input[type=button] {
+    	height: 24px;
+	    line-height: 20px;
+	    border: 1px solid #d5d5d5;
+	    color: #353535; 
+	    font-size: 14px;
+	    vertical-align: middle;
+    }
+    
+    a.more {
+		float : right;
+		padding-right: 10px;
+	}
+	
+	h2#cscenter {
+		margin: 10px;
+	}
+	
+	div.card-body {
+		padding: 30px 10px 40px 35px;
+	}
+	
+	img.faq_qna {
+		margin-bottom: 5px;
+	}
+	
+	thead#faq_thead {
+		font-size: 16px;
+	}
+	
+	
+	
+	#faq_thead > tr, #faq_table_all > tbody > tr {
+		vertical-align: middle;
+		height: 40px;
+	}
+	
+	#faq_table_all > tbody > tr > td:nth-child(1), #faq_thead > tr > td:nth-child(1), td:nth-child(2), td:nth-child(4) {
+    	text-align: center;
+    }
+    
+    #faq_thead > tr > td:nth-child(3) {
+    	text-align: left;
+    }
+	
+	#faq_thead > tr > th, #faq_table_all > tbody > tr > td {
+		border-left: solid 0px #d5d5d5;
+		border-right: solid 0px #d5d5d5;
+		height: 20px;
+		font-size: 14px;
+	} 
+	
+	
+	td#td_left {
+		text-align: left;
+		border-left: solid 0px #d5d5d5;
+		border-right: solid 0px #d5d5d5;
+		padding-left: 15px;
+	}
+	
+	td.td_content {
+		border-left: solid 0px #dfdfdf !important;
+		border-right: solid 0px #dfdfdf !important;
+	}
+	
+
+
+
+	/* */
+	
+	/* ToS.jsp 서식 시작  */
+	
+	#ToS_outer {
+		width: 100%;
+		border: solid 1px #d7d5d5;
+		background-color: #fbfafa;
+		min-height: 1000px;
+	}
+	
+	
+	#ToS_inner {
+		padding: 20px;
+	    border: 1px solid #e8e8e8;
+	    color: #404040;
+	    min-height: 980px;
+	}
+	
+	#ToS_content {
+		padding: 20px;
+	    border: 1px solid #d7d5d5;
+	    background-color: #fff;
+	    min-height: 960px;
+	    font-size: 14px;
+	}
+	
+	
+	/* ToS.jsp 서식 끝  */
+
+
+
+	/* privacy_policy.jsp 서식 시작  */
+	
+	#PP_outer {
+		width: 100%;
+		border: solid 1px #d7d5d5;
+		background-color: #fbfafa;
+		min-height: 1000px;
+	}
+	
+	
+	#PP_inner {
+		padding: 20px;
+	    border: 1px solid #e8e8e8;
+	    color: #404040;
+	    min-height: 980px;
+	}
+	
+	#PP_content {
+		padding: 20px;
+	    border: 1px solid #d7d5d5;
+	    background-color: #fff;
+	    min-height: 960px;
+	    font-size: 14px;
+	}
+	
+	/* privacy_policy.jsp 서식 끝  */
+	
+	
+	
+	
+	/* product_detailboard 서식 시작 */
+    
+    div.view_btn_zone {
+		padding: 15px 20px 15px 0;
+	    text-align: right;
+	    background-color: #FBFAFA;
+	    border: none;
+	    margin-top: 0;
+		border-collapse:collapse; /* 보더와 보더 사이의 경계를 허물어라.*/
+		padding: auto;
+	}
+	
+	#faq_tbody > tr {
+		border-bottom: solid 1px #dfdfdf;
+	}
+	
+	td#td_left {
+		text-align: left;
+		padding-left: 40px;
+	}
+	
+	#faq_tbody > tr#notExist > td {
+		padding: 50px 0 !important;
+	} 
+	
+	/* product_detailboard 서식 끝 */
+	
+	
+	
+	/* my_board.jsp 서식 시작 */
+	
+	select.cateDropdown {
+		margin-bottom: 5px;
+	}
+	
+	div#tab_center {
+		text-align: center;
+   		display: inline-block;
+   		width: 100%;
+	}
+	
+	
+	/* my_board.jsp 서식 끝 */
+	
+	
+	
+	
+	
+	
+	
+    
+    
+    
