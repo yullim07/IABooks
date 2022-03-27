@@ -45,8 +45,9 @@
 
 <!-- 썸머노트 추가 끝 -->
 
- 
-
+<!-- 리캡차 추가 -->
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<!-- 리캡차 추가 끝 -->
 
 <script type="text/javascript">
 	
@@ -207,11 +208,17 @@
 		    <tr class="notMember">
 		      <th>자동등록방지<br>보안문자</th>
 		      <td>
-		      	<img id="captcha" /> <%-- captcha 오픈소스를 가져와야겠다 --%>
+		      	<%-- 구글 리캡차 시작 --%>
+	      		<form action="?" method="POST">
+			      <div class="g-recaptcha" data-sitekey="6Ld4ixQfAAAAAHvggMFy0u4KfeGjviIRkavHDHg2"></div>
+			      <br/>
+			      <input type="submit" value="Submit">
+			    </form>
+			    <%-- 구글 리캡차 끝 --%>
 		      	<img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_captcha_refresh.png"/>
 		      	
 		      	<p class="gBlank5"> 
-		      		<input type="text"  id="captcha" name="captcha" placeholder="보안문자를 입력해 주세요." type="text"/>
+		      		
 		      		<%-- 느낌표 이미지를 span::before로 가져와보기 --%>
 		      		<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_info.gif"/>
 		      		<span class="ec-base-help txtInfo">영문, 숫자 조합을 공백없이 입력하세요(대소문자구분)</span> 

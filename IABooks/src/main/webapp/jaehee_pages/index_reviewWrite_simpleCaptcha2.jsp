@@ -1,3 +1,5 @@
+
+<%@page import="nl.captcha.Captcha"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -8,7 +10,13 @@
 <%
 	String ctxPath = request.getContextPath();
 	
+	response.setHeader("Pragma-directive", "no-cache");
+	response.setHeader("Cache-directive", "no-cache");
+	response.setHeader("Pragma", "no-cache");
+	response.setHeader("Cache-Control", "no-cache");
+	response.setDateHeader("Expires",0);
 %>
+
 
 <style type="text/css">
 	#navbar2 {
@@ -16,8 +24,14 @@
 }
 </style>
 
-  
-<meta charset="UTF-8">
+ <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, target-densitydpi=medium-dpi" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Cache-Control" content="no-cache" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Imagetoolbar" content="no" />
+
 <title>타인의 책장</title>
 
 <jsp:include page="../header.jsp"/>
@@ -46,15 +60,50 @@
 <!-- 썸머노트 추가 끝 -->
 
  
+<script type="text/javascript"
+        src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js">
 
+var rand;
 
-<script type="text/javascript">
+//캡차 이미지 요청 (캐쉬문제로 인해 이미지가 변경되지 않을수있으므로 요청시마다 랜덤숫자를 생성하여 요청)
+
+function changeCaptcha() {
+
+        rand = Math.random();
+
+        $('#catpcha').html('<img src="<%=ctxPath%>/captcha/CaptChaImg.jsp?rand=' + rand + '"/>');
+
+}
+
+ 
+
+$(document).ready(function() {
+        changeCaptcha(); //캡차 이미지 요청
+
+        $('#reLoad').click(function(){ changeCaptcha(); }); //새로고침버튼에 클릭이벤트 등록
+
+        //확인 버튼 클릭시
+        $('#frmSubmit').click(function(){
+               if ( !$('#answer').val() ) {
+                       alert('이미지에 보이는 숫자 또는 스피커를 통해 들리는 숫자를 입력해 주세요.');
+               } else {
+                       $.ajax({
+                              url: 'captcha/captchaSubmit.jsp',
+                              type: 'POST',
+                              dataType: 'text',
+                              data: 'answer=' + $('#answer').val(),
+                              async: false,         
+                              success: function(resp) {
+                                      alert(resp);
+                                      $('#reLoad').click();
+                                      $('#answer').val('');
+                              }
+                       });
+               }
+        });
+});
+
 	
-	$(document).ready(function(){
-		
-		
-	});
-
 </script>
 
 
@@ -207,7 +256,16 @@
 		    <tr class="notMember">
 		      <th>자동등록방지<br>보안문자</th>
 		      <td>
-		      	<img id="captcha" /> <%-- captcha 오픈소스를 가져와야겠다 --%>
+		      	<!-- captcha자리 -->
+			        <div id="catpcha"></div>
+			        <div id="audiocatpch" style="display: none;"></div>
+			        
+			        <input id="reLoad" type="button" value="새로고침" />
+			        <br />
+			        <input type="text" id="answer" name="answer" value="" />
+			        <input type="button" id="frmSubmit" value="확인" />
+				<!-- captcha자리 끝 -->
+
 		      	<img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_captcha_refresh.png"/>
 		      	
 		      	<p class="gBlank5"> 

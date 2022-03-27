@@ -18,7 +18,53 @@
 	 	<res-auth>Container</res-auth>
 	  </resource-ref>
 	<!-- ========= MyDBCP Setting End  ===========  -->
-	  
+	
+	
+	<!-- ==== SimpleCaptcha  Start  ==== -->
+	
 
+    <display-name>CaptchaSample</display-name>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>default.html</welcome-file>
+        <welcome-file>default.htm</welcome-file>
+        <welcome-file>default.jsp</welcome-file>
+    </welcome-file-list>
+
+    <servlet>
+        <servlet-name>SimpleCaptcha</servlet-name>
+        <servlet-class>nl.captcha.servlet.SimpleCaptchaServlet</servlet-class>
+        <init-param>
+            <param-name>captcha-width</param-name>
+            <param-value>300</param-value>
+        </init-param>
+        <init-param>
+            <param-name>captcha-height</param-name>
+            <param-value>100</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SimpleCaptcha</servlet-name>
+        <url-pattern>/simpleCaptcha.png</url-pattern>
+    </servlet-mapping>
+
+	
+	 <!-- SimpleCaptcha 예제2 -->
+        <servlet>
+               <description></description>
+               <display-name>CaptCha</display-name>
+               <servlet-name>CaptCha</servlet-name>
+               <servlet-class>CaptCha</servlet-class>
+        </servlet>
+        <servlet-mapping>
+               <servlet-name>CaptCha</servlet-name>
+               <url-pattern>/CaptCha</url-pattern>
+        </servlet-mapping>
+	
+	
+	<!-- ==== SimpleCaptcha  End  ==== -->
 
 </web-app>

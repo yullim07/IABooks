@@ -10,7 +10,11 @@
 	
 %>
 <style type="text/css">
-
+/* 	container img {
+  max-width: 100%;
+  height: auto;
+  display: block; */
+}
 </style>
 
 	  
@@ -57,8 +61,8 @@
   </div>
 	
 	
-	<div class="table table-responsive">
-		<table class=" review_table">
+	<div class="table ">
+		<table class=" review_table ">
 		  	<tbody>
 		    <tr>
 		      <th class="col-2" >제목</th>
@@ -83,8 +87,8 @@
 		      		</li>
 		      	
 		      	</ul>
-		      	<div class="detail">
-		      		<img src="<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg"/>
+		      	<div class="detail " >
+		      		<img style="max-width:100%; height:auto;"  src="<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg"/>
 		      		<div>
 		      		<p>배송도 빠르도 책도 잘 포장돼서 왔어요!</p>
 		      		<br/>
@@ -130,10 +134,10 @@
 	</div>
 	
 	<div class="prev_next table table-responsive">
-		<table class="prev_next">
+		<table class="prev_next line_table">
 			<tbody>
 				<tr>
-					<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
+					<th><img style="max-width:100%; height:auto;" src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
 					<td><a href="">만족</a></td>
 				</tr>
 				<tr>

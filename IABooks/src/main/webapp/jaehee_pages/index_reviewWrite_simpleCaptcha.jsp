@@ -1,3 +1,5 @@
+
+<%@page import="nl.captcha.Captcha"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
@@ -10,14 +12,15 @@
 	
 %>
 
+
 <style type="text/css">
 	#navbar2 {
    display: inline-block !important;
 }
 </style>
 
-  
-<meta charset="UTF-8">
+ <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>타인의 책장</title>
 
 <jsp:include page="../header.jsp"/>
@@ -54,7 +57,10 @@
 		
 		
 	});
+	
+	
 
+	
 </script>
 
 
@@ -207,7 +213,13 @@
 		    <tr class="notMember">
 		      <th>자동등록방지<br>보안문자</th>
 		      <td>
-		      	<img id="captcha" /> <%-- captcha 오픈소스를 가져와야겠다 --%>
+		      	<!-- captcha자리 -->
+				<img style="  " src="<%=ctxPath%>/simpleCaptcha.png"><br /> 
+				<form method="post" action="captchaSubmit.jsp">
+				    Answer: <input name="answer" /><input type="submit" />
+				</form>
+
+
 		      	<img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_captcha_refresh.png"/>
 		      	
 		      	<p class="gBlank5"> 

@@ -56,7 +56,7 @@
   
   <div class="table_all">
   <div class="table">
-	  <table class="table qna_table">
+	  <table class="table qna_table line_table">
 	    <thead>
 	      <tr class="tblHeader">
 	        <th width="9.5%">번호</th>

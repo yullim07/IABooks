@@ -93,7 +93,7 @@
   
   <div class="table_all">
   <div class="table">
-	  <table class="table">
+	  <table class="table line_table">
 	    <thead>
 	      <tr class="tblHeader">
 	        <th width="9.5%">번호</th>
@@ -175,9 +175,10 @@
 	        	<a href="">
 	        		만족
 	        	</a>
-	        	
+	        	<!-- 
 	        	<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif"  onmouseover="showImg()" onmouseout="hideImg()" />
 	        	<span id="mouseover_img" style="position:absolute;   "></span>
+	        	 -->
 	        	<span class="new_tag" >NEW</span>
 	         	
 	        </td>
