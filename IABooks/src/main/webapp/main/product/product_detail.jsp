@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product_detail.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
 
@@ -516,12 +516,13 @@
 			*/
 			
 		//	console.log(html_title);
-			document.querySelector("div#detail_text_title").innerHTML = html_title;
+		//	document.querySelector("div#detail_text_title").innerHTML = html_title;
 			// *** 2-1. 테이블 넣기 - 제품제목 끝 *** //
 			
 			
 			
 			// *** 2-2. 테이블 넣기 - 제품가격 시작 *** //
+			/*
 			let html_purchase = `<table id=`+"tbl_detail_purchase"+`>
 									<thead>`;
 			
@@ -547,11 +548,13 @@
 			});
 			
 			document.querySelector("div#detail_text_purchase").innerHTML = html_purchase;
+			*/
 			// *** 2-2. 테이블 넣기 - 제품가격 끝 *** //
 			
 			
 			
 			// *** 2-3. 테이블 넣기 - 총주문액 시작 *** //
+			/*
 			let html_total = `<table id='tbl_pro_total'>
 								<thead>
 									<tr>
@@ -581,6 +584,7 @@
 			});
 
 			document.querySelector("div#pro_detail_total").innerHTML = html_total;
+			*/
 			// *** 2-3. 테이블 넣기 - 총주문액 시작 *** //
 			
 			// ******************** 상세보기 상단 글영역 테이블 넣기 끝 **************************************** //
