@@ -18,8 +18,8 @@
 <title>상품 Q&A</title>
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
-<jsp:include page="../header.jsp"/>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
+<jsp:include page="/header.jsp"/>
 
 <script type="text/javascript">
 	
@@ -44,15 +44,15 @@
 <div class="contents">
   <p><br></p>
   <div class="title" >
-  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
   	<h2 >상품 Q&A</h2>
-  	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
+  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
   	<span >상품 Q&A입니다. 상품에 관해서 궁금하신 점을 질문해주세요.</span>
     
   </div>
   <p class="mb-3"></p>
   
-  <p class="board_top"><img  src="<%= ctxPath%>/jaehee_pages/semi_images/board_top.gif" /></p>
+  <p class="board_top"><img  src="<%= ctxPath%>/images/board/leejh_images/board_top.gif" /></p>
   
   <div class="table_all">
   <div class="table">
@@ -111,9 +111,9 @@
 	        </td>
 	        <td class="tbl_subject">
 	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_re.gif"/>
+	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
 	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/>
+	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
 	        </td>
 	        <td class="tbl_writer mycenter">인디펍</td>
 	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
@@ -148,9 +148,9 @@
 	        </td>
 	        <td class="tbl_subject">
 	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_re.gif"/>
+	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
 	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/>
+	        	<img class="lock" src="<%= ctxPath%>//images/board/leejh_images/ico_lock.gif"/>
 	        </td>
 	        <td class="tbl_writer mycenter">인디펍</td>
 	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
@@ -185,9 +185,9 @@
 	        </td>
 	        <td class="tbl_subject">
 	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_re.gif"/>
+	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
 	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/>
+	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
 	        </td>
 	        <td class="tbl_writer mycenter">인디펍</td>
 	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
@@ -222,9 +222,9 @@
 	        </td>
 	        <td class="tbl_subject">
 	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_re.gif"/>
+	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
 	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/>
+	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
 	        </td>
 	        <td class="tbl_writer mycenter">인디펍</td>
 	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
@@ -259,9 +259,9 @@
 	        </td>
 	        <td class="tbl_subject">
 	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_re.gif"/>
+	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
 	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/>
+	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
 	        </td>
 	        <td class="tbl_writer mycenter">인디펍</td>
 	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
@@ -284,20 +284,20 @@
   	
   	<div class="pagination2 justify-content-center" >
 	    <ul>
-		    <li><a href="#"><img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_page_first.gif" /></a></li>
+		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_first.gif" /></a></li>
 		    <li class="active"><a href="#">1</a></li>
 		    <li><a href="#">2</a></li>
 		    <li><a href="#">3</a></li>
 		    <li><a href="#">4</a></li>
 		    <li><a href="#">5</a></li>
 		   
-		    <li><a href="#"><img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_page_last.gif" /></a></li>
+		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_last.gif" /></a></li>
 	    </ul>
 	</div>
  	
  	<div class="search_outer" >
  		<div class="search_inner">
- 		<a><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_triangle3.gif" /></a>
+ 		<a><img src="<%= ctxPath%>/images/board/leejh_images/ico_triangle3.gif" /></a>
 	  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
 	  	
 	    <select id="searchDate" name="search">
@@ -325,5 +325,5 @@
 
 
 	
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

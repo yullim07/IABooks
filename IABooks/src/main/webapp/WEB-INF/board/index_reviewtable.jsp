@@ -22,9 +22,9 @@
 <title>배송도 빠르도 책도 잘 포장돼서 왔어요! 타인의 책장</title>
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
-<jsp:include page="../header.jsp"/>
+<jsp:include page="/header.jsp"/>
 
 <script type="text/javascript">
 	
@@ -43,9 +43,9 @@
 
 <div class="contents">
   <div class="title" >
-  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
   	<h2 >타인의 책장</h2>
-  	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
+  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
   	<span >후기를 작성하는 공간입니다.</span>
     
   </div>
@@ -79,7 +79,7 @@
 		      	<ul>
 		      		<li class="li_header">
 		      			<strong>평점</strong>
-		      			<img id="star" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_point5.gif"/>
+		      			<img id="star" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/>
 		      		</li>
 		      		<li class="li_header">
 		      			<strong>작성일</strong>
@@ -88,7 +88,7 @@
 		      	
 		      	</ul>
 		      	<div class="detail " >
-		      		<img style="max-width:100%; height:auto;"  src="<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg"/>
+		      		<img style="max-width:100%; height:auto;"  src="<%= ctxPath%>/images/board/leejh_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg"/>
 		      		<div>
 		      		<p>배송도 빠르도 책도 잘 포장돼서 왔어요!</p>
 		      		<br/>
@@ -106,7 +106,7 @@
 		      <th>첨부파일</th>
 		      <td>
 		      	<a href="#">
-			      	<img id="file_attach_2" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
+			      	<img id="file_attach_2" name="file_attach" src="<%=ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
 			      	<a class="file_attach" href="#">review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg</a>
 			    </a>
 		      </td>
@@ -137,11 +137,11 @@
 		<table class="prev_next line_table">
 			<tbody>
 				<tr>
-					<th><img style="max-width:100%; height:auto;" src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
+					<th><img style="max-width:100%; height:auto;" src="<%= ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
 					<td><a href="">만족</a></td>
 				</tr>
 				<tr>
-					<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
+					<th><img src="<%= ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
 					<td><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
 				</tr>
 			</tbody>
@@ -201,7 +201,7 @@
 			        <td class="tbl_bookname">
 						<span >직업이 술꾼입니다!</span>
 			        </td>
-			        <td class="tbl_subject"><a href="">직업이 술꾼이라니 너무 재밌는 책이라 구입했습니다. 먼저 일러스트로 알게 되었고, 그 다음<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
+			        <td class="tbl_subject"><a href="">직업이 술꾼이라니 너무 재밌는 책이라 구입했습니다. 먼저 일러스트로 알게 되었고, 그 다음<img id="file_attach" name="file_attach" src="<%=ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
 			        <td class="tbl_writer mycenter">네****</td>
 			        <td class="tbl_date mycenter">2022-01-24</td>
 			      </tr>
@@ -211,7 +211,7 @@
 			        <td class="tbl_bookname">
 						<span >직업이 술꾼입니다!</span>
 			        </td>
-			        <td class="tbl_subject"><a href="">배송이 빨라 좋았어요!<img id="file_attach" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
+			        <td class="tbl_subject"><a href="">배송이 빨라 좋았어요!<img id="file_attach" name="file_attach" src="<%=ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
 			        <td class="tbl_writer mycenter">네****</td>
 			        <td class="tbl_date mycenter">2022-01-04</td>
 			      </tr>
@@ -227,5 +227,5 @@
 
 
 	
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

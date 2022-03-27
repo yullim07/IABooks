@@ -20,10 +20,10 @@
 <meta charset="UTF-8">
 <title>타인의 책장</title>
 
-<jsp:include page="../header.jsp"/>
+<jsp:include page="/header.jsp"/>
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
 
 
@@ -66,9 +66,9 @@
 
 <div class="contents">
   <div class="title" >
-  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
   	<h2 >타인의 책장</h2>
-  	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
+  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
   	<span >후기를 작성하는 공간입니다.</span>
     
   </div>
@@ -152,7 +152,7 @@
 		      <th>첨부파일</th>
 		      <td>
 		      	<a href="#">
-			      	<img id="file_attach_2" name="file_attach" src="semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
+			      	<img id="file_attach_2" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
 			      	<a class="file_attach" href="#">review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg</a>
 			    </a>
 		      </td>
@@ -215,12 +215,12 @@
 			      <input type="submit" value="Submit">
 			    </form>
 			    <%-- 구글 리캡차 끝 --%>
-		      	<img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_captcha_refresh.png"/>
+		      	<img src="<%= ctxPath%>/images/board/leejh_images/btn_captcha_refresh.png"/>
 		      	
 		      	<p class="gBlank5"> 
 		      		
 		      		<%-- 느낌표 이미지를 span::before로 가져와보기 --%>
-		      		<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_info.gif"/>
+		      		<img src="<%= ctxPath%>/images/board/leejh_images/ico_info.gif"/>
 		      		<span class="ec-base-help txtInfo">영문, 숫자 조합을 공백없이 입력하세요(대소문자구분)</span> 
 		      	</p>
 		      </td>
@@ -271,5 +271,5 @@
 
 
 	
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

@@ -18,9 +18,9 @@
 <title>인디펍 :: 독립출판 온라인 서점</title>
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
-<jsp:include page="../header.jsp"/>
+<jsp:include page="/header.jsp"/>
 
 <script type="text/javascript">
 	
@@ -39,7 +39,7 @@
 
 <div class="contents">
   <div class="title" >
-  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
   	<h2 >이용안내</h2>
   	
     
@@ -331,5 +331,5 @@
 
 
 	
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  
