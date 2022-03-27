@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>사과 장바구니</title>
+<style type="text/css">
+table, th, td {
+	border: solid 1px gray;
+}
+
+table {
+	border-collapse: collapse;
+	width: 50%;
+}
+
+td {
+	text-align: center;
+}
+
+input {
+	margin-left: 20px;
+}
+</style>
+</head>
+<body>
+	<div>
+		<h2>계산서</h2>
+		<table id="tbl">
+			<thead>
+				<tr>
+					<th width="25%">제품명</th>
+					<th width="50%">단가 및 수량</th>
+					<th width="25%">금액</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>사과</td>
+					<td>1,000<input type="number" min="0" max="10" value="0" id="apple" /></td>
+					<td id="apple">0</td> <!-- id값을 주는 이유는 위의 코드에서 줄바꿈을 해서 undefined가 나오기 때문이다. -->
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="2">총액</td>
+					<td>0</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+	<div id="display_error">
+		<span style="color: red;">수량은 0개 이상 10개 이하만 입력하세요!</span>
+	</div>
+	
+	<script type="text/javascript">
+	
+		const display_error = document.querySelector("div#display_error");
+		display_error.style.display = "none"; // 처음에는 보이지 말라는 뜻이다.
+	
+		function func_calculate(target) {
+			
+			let price = target.parentNode.innerText;	// "1,000" "2,000" "3,000"
+			
+			price = price.split(",").join(""); // 콤마(,)를 제거한 것 "1000" "2000" "3000"
+			let su = target.value;
+			
+			// su가 음수이거나 10보다 큰 경우 제외하기
+			if(su < 0 || su > 10) {
+				// alert("수량은 0개 이상 10개 이하만 입력하세요!");
+				display_error.style.display = "block"; // 수량을 잘못 넣어주면 보여주라는 뜻이다.
+				su = 0;
+				target.value = 0;
+			}
+			else {
+				display_error.style.display = "none";
+			}
+			
+			price *= su; // price = price * su; 와 같은 것이다.
+			
+			const id = target.id;
+			const elemt = document.querySelector(`td#${id}`);
+			
+			elemt.innerHTML = price.toLocaleString('en');
+			
+			const elemt_list = document.querySelectorAll("table#tbl > tbody > tr > td:last-child");
+			
+			const elemt_arr = Array.from(elemt_list, item => item.innerText.split(",").join("") ); // (3) [td#apple, td#strawberry, td#melon]
+			
+			let sum = 0;
+			for(let item of elemt_arr) {
+				sum += Number(item);
+			}
+			
+			document.querySelector("table#tbl > tfoot > tr > td:last-child").innerHTML = sum.toLocaleString('en');
+		} // end of function func_calculate() --------------------
+	
+		/* 		
+		const apple = document.querySelector("input[id='apple']");
+		apple.addEventListener("click", function(e) {
+									alert("사과에 클릭하셨군요.");
+								});
+		 */
+
+		const tbl = document.querySelector("table#tbl");
+
+		tbl.addEventListener('change', function(e) { // 'change' tbl 테이블 내에서 값이 바뀌면 다음과 같이 수행하라. 
+								// e.target은 실제로 change 가 발생한 태그(노드, 엘리먼트)를 가리키는 것이다.
+								// alert(e.target.id);	// apple strawberry melon 
+								// alert(e.target.value);	// 0	1	2
+								
+								/*
+									노드.parentNode.parentNode - 부모노드 의 부모노드
+									노드.parentNode      - 부모노드
+									노드.childNodes      - 모든자식노드들
+									노드.firstChild      - 첫째자식노드
+									노드.lastChild       - 막내자식노드
+									노드.nextSibling     - 나의바로밑동생노드(형제노드)
+									노드.previousSibling - 나의바로위형노드(형제노드)
+									
+									!! 조심할 사항은 태그사이에 띄어쓰기를 하거나 태그를 줄 바꿈을 해버리면
+									   띄어쓰기나 줄바꿈을 텍스트 노드(text node)로 취급해버리므로 
+									   원하는 노드의 값을 가지고 오지 않고 undefined 가 나온다.  
+									   
+									이렇게 undefined 가 나오지 않도록 하기 위해서 우리는 노드에 id 값을 주어서 처리하도록 한다.    
+								*/
+								
+								let price = e.target.parentNode.innerText;	// "1,000" "2,000" "3,000"
+								
+								// console.log("1,000"*2);	//NaN(Not a Number) 은 숫자가 아니라는 뜻이다.
+								
+								/*
+								// === 콤마(,)를 제거하는 첫번째 방법 === 
+								let money = "12,345,6789";
+								money = money.replace(/,/g, "");
+								console.log(money);	// "123456789"
+								
+								// === 콤마(,)를 제거하는 첫번째 방법 ===
+								money = "12,345,6789";
+								console.log(money.split(","));	// ['12', '345', '6789']
+								console.log(money.split(",").join(""));	// "123456789"
+								*/
+								
+								price = price.split(",").join(""); // 콤마(,)를 제거한 것 "1000" "2000" "3000"
+								// alert(price);
+								
+								let su = e.target.value;
+								
+								price *= su; // price = price * su; 와 같은 것이다.
+								// alert(price);
+								
+								// alert(e.target.parentNode.nextSibling.innerText);
+								// L40 참조 <td>에서 줄바꿈을 했으므로 이렇게 쓰면 undefinede가 나오므로 두번째 td에 id값을 준다.
+								
+								const id = e.target.id;
+								const elemt = document.querySelector(`td#${id}`);
+								// alert(elemt.innerHTML);
+								
+								elemt.innerHTML = price.toLocaleString('en');
+								// 3자리마다 콤마 찍어주는 것은 숫자.toLocaleString('en'); 이다.
+								
+								const elemt_list = document.querySelectorAll("table#tbl > tbody > tr > td:last-child");
+								// console.log(elemt_list); // NodeList(3) [td#apple, td#strawberry, td#melon]
+								
+								const elemt_arr = Array.from(elemt_list, item => item.innerText.split(",").join("") ); // (3) [td#apple, td#strawberry, td#melon]
+								//console.log(elemt_arr);
+								/*
+									(3) ['1000', '0', '0']
+									(3) ['1000', '2000', '0']
+									(3) ['1000', '2000', '3000']
+								*/
+								
+								let sum = 0;
+								for(let item of elemt_arr) {
+									sum += Number(item);
+								}
+								document.querySelector("table#tbl > tfoot > tr > td:last-child").innerHTML = sum.toLocaleString('en');
+								
+		});
+		
+		tbl.addEventListener('keyup', function(e) { func_calculate(e.target); });
+		// tbl.addEventListener('change', function(e) { func_calculate(e.target); });
+		// 위의 tbl.addEventListener('change' ... 이 것을 지우고 위의 코드를 써주어도 된다.
+				
+		
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,275 @@
+@charset "UTF-8";
+/*--------------------------------------------------------------
+# index
+--------------------------------------------------------------*/
+
+@media (min-width: 992px) {
+	
+/*--------------------------------------------------------------
+# 도서 판매 리스트 사진, 명, 가격
+--------------------------------------------------------------*/
+
+  ul.booklist {
+	margin-bottom: 40px;
+  }
+	
+  ul.booklist .card {
+	display: inline-block;
+	width: 100%;
+	border-radius: 0;
+  }
+  
+  ul.booklist .card:hover {
+	opacity: 0.8;
+  }
+  
+  ul.booklist li {
+	width: 100%;
+	margin: 3px 0;
+	line-height: 20px;
+	word-break: break-all;
+	font-weight: bold;
+  }
+	
+  ul.booklist .line {
+	display: block;
+	height: 0px;
+	line-height: 0;
+	margin: 0;
+	border-top: 1px solid #eee;
+  }
+
+  ul.booklist span.name  {
+    font-size: 12px;
+    color: rgb(85, 85, 85);
+    font-weight: bold;
+    margin-left: 5px
+  }
+
+  ul.booklist span.price {
+    font-size: 13px;
+    color: #333333;
+    font-weight: bold;
+    margin-left: 5px
+  }	
+	
+/*--------------------------------------------------------------
+# index: 화제의 책, 이책어때요?
+--------------------------------------------------------------*/
+@media (min-width: 992px) {
+  li .nav-item {
+	text-align: center;
+  }
+	
+  h2.title {
+    display: block;
+    margin: 0 auto 40px;
+    text-align: center;
+    font-size: 20px;
+    color: #111;
+  }
+	
+  div .contents {
+    width: 100%;
+    margin-bottom: 80px;
+    overflow: hidden; 
+  }
+		
+}
+	
+/*--------------------------------------------------------------
+# index: carousel
+--------------------------------------------------------------*/	
+  div.carousel-inner img {
+	border-bottom: solid 1px white;
+  }
+	
+	
+	
+/*--------------------------------------------------------------
+# index: slick
+--------------------------------------------------------------*/	
+  .slider {
+	width:1130px;
+	height: 250px;
+	margin: 0px auto 80px auto;         
+  } 
+  
+  .slider .slick-slide {
+	margin: 10px;
+  }
+  
+  .slick-prev, .slick-arrow {
+	display: none !important;
+  }
+          
+  .slider .card {
+	border-radius: 0;
+  }
+
+  .slider p {
+ 	font-size: 13px;
+    color: #333333;
+    text-align: center;
+    line-height: 17px;
+    margin-top: 10px;
+  }
+
+  .slider p:last-child {
+    font-weight: bold;
+    margin-top: 4px;
+  }
+
+  h2.sliderheader {
+    position: relative;
+    height: 22px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    color: #111;
+    font-weight: 400;
+    color: #888;
+  }
+  
+  h2.sliderheader span{
+    margin: 0 5px 0 0;
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+  }
+	
+/*--------------------------------------------------------------
+# index: nav-tabs
+--------------------------------------------------------------*/
+  div.contents div.tab-pane table td:first-child {
+	width: 40%; 
+	height: 100%;
+  }
+
+  div.contents div.tab-pane table td:first-child div.bookrank {
+	margin: 15px
+  }
+
+  div.contents div.tab-pane table td:last-child {
+	width: 60%;
+	height: 100%
+  }
+
+  div.contents div.tab-pane table td:last-child > div {
+	margin: 0px;
+  }
+
+  div.contents div.tab-pane table td:last-child div.col-4 {
+	padding: 15 15;
+  }
+
+  div.contents div.tab-pane div.bookrank div.remainrank {
+ 	background: #000000;
+	opacity: 0; 
+  }
+
+  div.contents div.tab-pane div.bookrank div.remainrank p {
+	font-size: 11px
+  }
+
+  div.contents div.tab-pane div.bookrank div.remainrank .line {
+	margin: 10 0;
+	border-top :solid 1px #000000;
+  }
+ 
+  div.contents div.tab-pane div.bookrank div.remainrank p:first-child {
+	margin-top: -10px;
+	margin-left:-5px
+  }
+ 
+  div.contents div.tab-pane div.bookrank div.remainrank p:nth-child(2) {
+	padding-left: 1px; 
+	margin-top: 20px; 
+  }
+  div.contents div.tab-pane div.bookrank div.remainrank p:last-of-type {
+	padding-left: 1px; 
+  }
+
+  div.contents div.tab-pane div.bookrank .card:hover div.remainrank {
+	opacity: 0.5;
+	color: white;
+	border-radius: 0;
+	transition-duration: 0.5s;
+  }
+ 
+  div.contents div.tab-pane div.bookrank .card:hover div.remainrank p:nth-child(3) {
+	opacity: 0.5;
+	border-top :solid 1px white;
+	transition-duration: 0.5s;
+  }
+ 
+  div.contents > ul.nav-tabs > li.nav-item > a:focus, div.contents > ul.nav-tabs > li.nav-item > a:hover {
+	font-weight: bolder;
+  }
+
+  div.contents > ul.nav-tabs > li.nav-item > a.active {
+	font-weight: bolder;
+  }
+
+  div.contents > ul.nav-tabs {
+	text-align: center;
+	margin: 0;
+  }
+
+  div.contents > ul.nav-tabs > li.nav-item {
+	padding: 0;
+  }
+
+  div.contents div.tab-pane table {
+	width: 100%;
+  }
+
+  div.contents div.tab-pane div.bookrank div.firstrank {
+	background: #000000;
+	opacity: 0; 
+  }
+
+  div.contents div.tab-pane div.bookrank div.firstrank p {
+	font-size: 16px
+  }
+
+  div.contents div.tab-pane div.bookrank div.firstrank p:nth-child(2) {
+	padding-left: 2px; 
+	margin-top: 50px; 
+  }
+
+  div.contents div.tab-pane div.bookrank div.firstrank p:last-of-type {
+	padding-left: 2px; 
+  }
+
+  div.contents div.tab-pane div.bookrank div.firstrank .line {
+	margin: 10 0;
+	border-top: solid 1px #000000;
+  }
+
+  div.contents div.tab-pane div.bookrank .card:hover div.firstrank {
+	opacity: 0.5;
+	color: white;
+	border-radius: 0;
+	transition-duration: 0.5s;
+  }
+ 
+  div.contents div.tab-pane div.bookrank .card:hover div.firstrank p:nth-child(3) {
+	opacity: 0.5;
+	border-top :solid 1px white;
+	transition-duration: 0.5s;
+  }
+ 
+  div.tab-content div.tab-pane {
+	border-bottom: solid 1px #DEE2E6;
+	border-left: solid 1px #DEE2E6;
+	border-right: solid 1px #DEE2E6;
+  }
+
+  div.contents div.tab-pane div.bookrank .card {
+	display: inline-block;
+	width: 100%;
+	border-radius: 0;
+  }
+
+	
+}
