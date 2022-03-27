@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
@@ -28,7 +30,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	
 	<%-- 직접 만든 CSS --%>
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_header_footer.css" />
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 	
 	<%-- Optional JavaScript --%>
 
@@ -87,14 +89,14 @@
 <div class="container">    
 	<div class="d-none d-lg-block">
 		<a href="#" style="display: inline-block;">
-			<img src="<%= ctxPath%>/images/logo.png" alt="로고"/>
+			<img src="<%= ctxPath%>/images/product/logo.png" alt="로고"/>
     	</a>
        
 		<div class="search_section">
 			<form class="searchBarForm" name="" action="/product/search.html" method="get" target="_self" enctype="multipart/form-data" >
 				<fieldset>
 		      		<input type="text"  class="inputTypeText" name="keyword" onmousedown="" >
-		      		<input type="image" class="inputTypeImage" onclick="" src="<%= ctxPath%>/images/search_btn.png" alt="검색" >
+		      		<input type="image" class="inputTypeImage" onclick="" src="<%= ctxPath%>/images/product/search_btn.png" alt="검색" >
 				</fieldset>
 			</form>    
 		</div>

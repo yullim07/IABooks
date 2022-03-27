@@ -10,7 +10,7 @@
 %>
 
 	<!-- 내가만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />	
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 
 <script type="text/javascript">
 
@@ -22,12 +22,12 @@
 
 <title>관심상품</title>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 
 	
 <div class="container">
 
-<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;관심상품</strong>
+<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;관심상품</strong>
 <hr style="border: solid 2px #e8e8e8;">
 	
 	<!-- 나중에 숨김처리 해야함  -->
@@ -66,9 +66,9 @@
 					<td>18,000원</td>
 					<td>
 						<ul>
-							<li><img src="<%= ctxPath %>/images/btn_order.gif" style="cursor: pointer;"/></li>
-							<li><img src="<%= ctxPath %>/images/btn_basket.gif" style="cursor: pointer;"/></li>
-							<li><img src="<%= ctxPath %>/images/btn_delete.gif" style="cursor: pointer;"/></li>
+							<li><img src="<%= ctxPath %>/images/member/btn_order.gif" style="cursor: pointer;"/></li>
+							<li><img src="<%= ctxPath %>/images/member/btn_basket.gif" style="cursor: pointer;"/></li>
+							<li><img src="<%= ctxPath %>/images/member/btn_delete.gif" style="cursor: pointer;"/></li>
 						</ul>
 					</td>
 				</tr>
@@ -76,20 +76,20 @@
 		</table>
 		
 		<span class="interested_choice">
-			<strong>선택상품을</strong><img src="<%= ctxPath %>/images/btn_delete2.gif" style="cursor: pointer;" /><img src="<%= ctxPath %>/images/btn_basket2.gif"  style="cursor: pointer;"/>
+			<strong>선택상품을</strong><img src="<%= ctxPath %>/images/member/btn_delete2.gif" style="cursor: pointer;" /><img src="<%= ctxPath %>/images/member/btn_basket2.gif"  style="cursor: pointer;"/>
 		</span>
-		<span class="interested_order"><img src="<%= ctxPath %>/images/btn_order_empty.gif" style="cursor: pointer;" />&nbsp;&nbsp;<img src="<%= ctxPath %>/images/btn_order_all.gif" style="cursor: pointer;" /></span>
+		<span class="interested_order"><img src="<%= ctxPath %>/images/member/btn_order_empty.gif" style="cursor: pointer;" />&nbsp;&nbsp;<img src="<%= ctxPath %>/images/member/btn_order_all.gif" style="cursor: pointer;" /></span>
 		
 		<div class="pagination pagination-sm justify-content-center">
-		  <a href="#"><img src="<%= ctxPath %>/images/btn_page_first.gif" /></a>
-		  <a href="#"><img src="<%= ctxPath %>/images/btn_page_prev.gif" /></a>
+		  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a>
+		  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a>
 		  <a class="active" href="#">1</a>
-		  <a href="#"><img src="<%= ctxPath %>/images/btn_page_next.gif" /></a>
-		  <a href="#"><img src="<%= ctxPath %>/images/btn_page_last.gif" /></a>
+		  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a>
+		  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
 		</div>
 	</div>
 
 </div>
-	
-<jsp:include page="footer.jsp"/>
+
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

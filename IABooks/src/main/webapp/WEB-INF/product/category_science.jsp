@@ -10,7 +10,7 @@
 <%-- Bootstrap CSS --%>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_category_search.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
 
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
@@ -32,7 +32,7 @@ $(document).ready(function () {
 
 <title>in사과 : science</title>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="/header.jsp"/>
 <%-- main --%>		
 <div class="container d-none d-lg-block">
 
@@ -69,7 +69,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -89,7 +89,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -109,7 +109,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -129,7 +129,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -149,7 +149,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -169,7 +169,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -189,7 +189,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -209,7 +209,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -229,7 +229,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -249,7 +249,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -269,7 +269,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -289,7 +289,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -309,7 +309,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -329,7 +329,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -349,7 +349,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -369,7 +369,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -395,7 +395,7 @@ $(document).ready(function () {
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
@@ -462,5 +462,5 @@ $(document).ready(function () {
 <br>
 <br>
 <%-- footer --%>
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

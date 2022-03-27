@@ -10,7 +10,7 @@
 <%-- Bootstrap CSS --%>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 <%-- 직접 만든 CSS --%>
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_category_search.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
 
 <style type="text/css">
 
@@ -18,7 +18,7 @@
 
 <title>in사과 : Best 20</title>
 
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
+<jsp:include page="/header.jsp"/>
 <%-- main --%>		
 <div class="container d-none d-lg-block">
 
@@ -34,7 +34,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -54,7 +54,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -74,7 +74,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -94,7 +94,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -114,7 +114,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -134,7 +134,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -154,7 +154,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -174,7 +174,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -194,7 +194,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -214,7 +214,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -234,7 +234,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -254,7 +254,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -274,7 +274,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -294,7 +294,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -314,7 +314,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -334,7 +334,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -354,7 +354,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -374,7 +374,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -394,7 +394,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -414,7 +414,7 @@
 			<ul class="booklist">
 				<li>
 				<div class="card">
-			  		<img src="<%= ctxPath%>/images/12.jpg" class="card-img-top" >
+			  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
 					<a href="#" class="stretched-link"></a>
 				</div>	
 				</li>
@@ -437,5 +437,5 @@
 <br>
 <br>
 <%-- footer --%>
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

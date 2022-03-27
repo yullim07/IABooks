@@ -1,3 +1,4 @@
+
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
@@ -244,7 +245,7 @@ ul li {
   #navbar > ul > li.bulkhead {
     float: left;
     border-top: 1px solid #fff;
-    background: url('../images/bulkhead_3.gif') 0 17px no-repeat;
+    background: url('../../images/product/bulkhead_3.gif') 0 17px no-repeat;
   }
   
 }
@@ -368,7 +369,7 @@ ul li {
     width: 100%;
     height: 50px;
     border-bottom: 1px solid #333;
-    background: url('../images/header_bg.png') rgba(30,30,30,.93);
+    background: url('../../images/product/header_bg.png') rgba(30,30,30,.93);
     box-shadow: none;
     transition: box-shadow 1s ease;
     -webkit-transition: box-shadow 1s ease;
@@ -473,7 +474,7 @@ ul li {
     width: 100%;
     height: 50px;
     border-bottom: 1px solid #333; */
-    background: url('../images/header_bg.png') rgba(30,30,30,.93);
+    background: url('../../images/product/header_bg.png') rgba(30,30,30,.93);
 /*     box-shadow: none;
     transition: box-shadow 1s ease;
     -webkit-transition: box-shadow 1s ease;
@@ -520,7 +521,7 @@ ul li {
   #navbar2 > ul > li.bulkhead { 	
     position: relative;
     float: left;
-    background: url('../images/bulkhead_4.gif') no-repeat 0 50%;
+    background: url('../../images/product/bulkhead_4.gif') no-repeat 0 50%;
 	}
   
 }
@@ -642,7 +643,7 @@ ul li {
 	footer .section {
 	    min-height: 180px;
 	    margin: 0 0 10px;
-	    background: url('../images/section.gif') repeat-y 85% 0;
+	    background: url('../../images/product/section.gif') repeat-y 85% 0;
 	}
 	
 	footer h4 {
@@ -697,7 +698,7 @@ ul li {
 	footer .footer_delivery {
 	    float: left;
 	    width: 39%;
-	    background: url('../images/section.gif') repeat-y 93% 0;
+	    background: url('../../images/product/section.gif') repeat-y 93% 0;
 	    padding-top: 30px;
 	}
 	
@@ -761,7 +762,7 @@ ul li {
 	    display: block;
 	    clear: both;
 	    height: 45px;
-	    background: url('../images/footer_bg.png') #333;
+	    background: url('../../images/product/footer_bg.png') #333;
 	    font-size: 11px;
 	    text-align: center;
 	    line-height: 45px;

@@ -11,6 +11,10 @@
 %>
 <style type="text/css">
 
+	#faq_table_all > tbody > tr > td:nth-child(2), td:nth-child(4) {
+		text-align: center;
+	}
+	
 </style>
 
 
@@ -24,12 +28,12 @@
 	</script>
 
 
-<jsp:include page="../header.jsp"/>
+<jsp:include page="../../header.jsp"/>
 
 
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
     
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -41,9 +45,9 @@
 
 	    <div class="container">
 			    <div class="title" >
-				  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 				  	<h2>FAQ</h2>
-				  	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
+				  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 				  	<span >이용안내 FAQ입니다.</span>
 			    
 			   </div>
@@ -130,7 +134,7 @@
 			
 			<div class="search_outer" >
 		 		<div class="search_inner">
-		 		<a><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_triangle3.gif" /></a>
+		 		<a><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_triangle3.gif" /></a>
 			  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
 			  	
 			    <select id="searchDate" name="search">
@@ -157,4 +161,4 @@
 		</div> <!-- container 끝 -->
 		
 		
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="../../footer.jsp"/>

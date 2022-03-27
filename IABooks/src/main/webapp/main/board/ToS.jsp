@@ -19,11 +19,11 @@
 
 
 
-<jsp:include page="../header.jsp"/>
+<jsp:include page="../../header.jsp"/>
 
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
 
 <style type="text/css">
 
@@ -39,7 +39,7 @@
 
  <div class="container">
   	<div class="title" >
-	  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+	  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 	  	<h2>이용약관</h2>
    
   	</div>
@@ -67,4 +67,4 @@
 </div> <!-- container 끝 -->
 
 
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="../../footer.jsp"/>
