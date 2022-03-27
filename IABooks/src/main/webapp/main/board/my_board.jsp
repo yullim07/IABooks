@@ -26,12 +26,12 @@
 	</script>
 
 
-<jsp:include page="../header.jsp"/>
+<jsp:include page="../../header.jsp"/>
 
 
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
     
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -43,7 +43,7 @@
 
 	    <div class="container">
 			    <div class="title" >
-				  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 				  	<h2>게시물 관리</h2>
 			    
 			   </div>
@@ -78,7 +78,7 @@
 			        	<a href="">
 			        		배송관련 문의드립니다.
 			        	</a>
-			        	<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/>
+			        	<img class="lock" src="<%= ctxPath%>/images/board/jeonghm_images/ico_lock.gif"/>
 			        <td class="tbl_writer mycenter">네****</td>
 			        <td class="tbl_date mycenter">2022-03-17</td>
 			        <td class="tbl_readcount mycenter"><span >1</span></td>
@@ -112,4 +112,4 @@
 		</div> <!-- container 끝 -->
 		
 		
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="../../footer.jsp"/>

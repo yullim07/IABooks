@@ -18,7 +18,7 @@
 <title>상품 Q&A</title>
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
 
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -33,7 +33,7 @@
 </script>
 
 
-<jsp:include page="../header.jsp"/>
+<jsp:include page="../../header.jsp"/>
     
 
 
@@ -43,9 +43,9 @@
 	<div class="content">
 	    
 	<div class="title" >
-		  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+		  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 		  	<h2>FAQ</h2>
-		  	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
+		  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 		  	<span >이용안내 FAQ입니다.</span>
 	    
 	   </div>
@@ -102,11 +102,11 @@
 				<table class="prev_next">
 					<tbody>
 						<tr>
-							<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
+							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
 							<td id="td_left" class="board_prev"><a href="">만족</a></td>
 						</tr>
 						<tr>
-							<th><img src="<%=ctxPath%>/jaehee_pages/semi_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
+							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
 							<td id="td_left" class="board_next"><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
 						</tr>
 					</tbody>
@@ -121,9 +121,5 @@
 		
 		
 
-    <!-- Optional JavaScript -->
-    <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
-</body>
-</html>
+<jsp:include page="../../footer.jsp"/>
 
