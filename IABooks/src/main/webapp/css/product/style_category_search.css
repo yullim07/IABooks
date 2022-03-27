@@ -98,7 +98,7 @@ ul.booklist {
     margin-left: 5px;
     color: #333;
     font-size: 16px;
-    background: url('../images/ico_heading.gif') 0 50% no-repeat;
+    background: url('../../images/product/ico_heading.gif') 0 50% no-repeat;
   }
 
   div.itemslist > ul {
