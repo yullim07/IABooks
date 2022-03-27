@@ -76,7 +76,7 @@
 </style>
 <title>마이페이지</title>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 <div class="container">
 
 	<div class="titleArea">
@@ -203,5 +203,5 @@
 	</table>
 
 </div>	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

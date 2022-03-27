@@ -107,7 +107,7 @@
 	
 </style>
 <title>아이디 찾기</title>
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 <div class="container">
 	<div class="titleArea">
 		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;아이디 찾기</strong>
@@ -180,5 +180,5 @@
 	</div>
 		
 </div>	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

@@ -11,6 +11,7 @@
 
 <title>회원가입 완료</title>
 
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 
 <script type="text/javascript">
 
@@ -21,7 +22,7 @@
 	
 </style>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 
 	
 <div class="container">
@@ -66,5 +67,5 @@
 </div>	
 	
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  
