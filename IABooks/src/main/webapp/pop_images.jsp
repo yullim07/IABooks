@@ -36,7 +36,9 @@
 	<div class="img_area" class="col-lg-6">
 		<!-- 메인이미지 영역(img_display) 시작 -->
 		<div class="img_display">
-			<img class="big" src="<%=ctxPath%>/images/book.jpg" style="width: 400px;">
+			<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=800, toolbar=no, location=no, status=yes, scrollbars=yes, resizeable=no, left=200, top=200')">
+				<img class="big" src="<%=ctxPath%>/images/book.jpg" style="width: 400px;">
+			</a>
 		</div>
 		<!-- 메인이미지 영역(img_display) 끝 -->
 
