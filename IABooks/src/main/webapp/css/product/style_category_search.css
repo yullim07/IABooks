@@ -1,0 +1,241 @@
+@charset "UTF-8";
+
+/*--------------------------------------------------------------
+# 도서 판매 리스트 사진, 명, 가격
+--------------------------------------------------------------*/
+
+ul.booklist {
+	margin-bottom: 40px;
+  }
+	
+  ul.booklist .card {
+	display: inline-block;
+	width: 100%;
+	border-radius: 0;
+  }
+  
+  ul.booklist .card:hover {
+	opacity: 0.8;
+  }
+  
+  ul.booklist li {
+	width: 100%;
+	margin: 3px 0;
+	line-height: 20px;
+	word-break: break-all;
+	font-weight: bold;
+  }
+	
+  ul.booklist .line {
+	display: block;
+	height: 0px;
+	line-height: 0;
+	margin: 0;
+	border-top: 1px solid #eee;
+  }
+
+  ul.booklist span.name  {
+    font-size: 12px;
+    color: rgb(85, 85, 85);
+    font-weight: bold;
+    margin-left: 5px
+  }
+
+  ul.booklist span.price {
+    font-size: 13px;
+    color: #333333;
+    font-weight: bold;
+    margin-left: 5px
+  }
+
+
+/*--------------------------------------------------------------
+# kategorie_: best20, 신간, 재입고, 구간의 재발견
+--------------------------------------------------------------*/
+@media (min-width: 992px) {	
+  h2.listtile {
+    margin: 0 0 16px;
+    font-size: 20px;
+    color: #2e2e2e;
+    border-top: 1px solid #e8e8e8;
+    padding: 40px 0 0;
+    text-indent: 5px;
+    line-height: normal;
+    text-align: center;
+    font-weight: bolder;
+  }
+  
+  h3.listtile2 {
+    display: block;
+    font-size: 12px;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+	line-height: normal;
+	text-align: center;
+	border-bottom: 1px solid grey;
+	padding-bottom: 30px;
+	margin-bottom: 30px;  
+  }
+  
+}
+
+/*--------------------------------------------------------------
+# kategorie : 종합, 인문, 사회, 과학
+--------------------------------------------------------------*/
+@media (min-width: 992px) {	
+  div.title {
+    min-height: 30px;
+    padding: 0 0 10px;
+    border-bottom: 1px solid #ddd;
+    margin: 20px 0 30px;
+  }
+
+  div.title h2 {
+    padding: 0 0 0 12px;
+    margin-left: 5px;
+    color: #333;
+    font-size: 16px;
+    background: url('../images/ico_heading.gif') 0 50% no-repeat;
+  }
+
+  div.itemslist > ul {
+	text-align: center;
+	
+  }
+  
+  div.itemslist > ul > li {
+	width: 85px !important;
+	padding: 0;
+  }
+
+  div.itemslist > ul > li > a {
+  width: 85px !important;
+  font-size: 12px;
+  color: #333333;
+  }
+
+  div.itemslist > ul > li > a:focus, div.itemslist > ul > li > a:hover {
+	font-weight: bolder;
+  }
+  
+  div.itemslist > ul > li > a.active {
+	font-weight: bolder;
+  }
+ 
+  div.itemslist span.itemscount {
+	margin-left: 5px;
+	position: relative;
+	top: 30px; 
+	font-size: 16px;
+  }
+
+  ul.pagination li {
+	border: none;
+  }
+
+  ul.pagination li.pageicon {
+	position: relative;
+	top: 2.5px; 
+	margin: 0 -3px;
+  }
+
+  ul.pagination a {
+	color: #939393;
+	font-size: 12px;
+	border: none;
+	font-weight: bold;
+  }
+
+  ul.pagination li.pagenum a {
+	font-size: 13px;
+  }
+  
+  ul.pagination a:hover {
+	background-color: white;
+	color: #333333;
+  }
+
+  ul.pagination a:focus {
+	box-shadow: none;
+	color: #333333;
+  }
+  
+  ul.pagination a.active {
+	color: #333333;
+  }  
+  
+/*--------------------------------------------------------------
+# search
+--------------------------------------------------------------*/  
+  div.detailserch table {
+	margin: 0 auto;
+  }
+
+  div.detailserch {
+	text-align: center;
+	border: 1px solid #DEE2E6;
+	padding: 20 0;
+  }
+  
+  div.detailserch button {
+	border: solid 1px #DEE2E6;
+	background-color: white;
+	font-size: 14px;
+	color: #333333;
+	background-color: #fbfbfb;
+	width: 150px;
+	height: 30px;
+	font-weight: bold;
+	padding: 0;
+	margin: 20px 0 10px;
+  }
+
+  table.searchtbl strong.searchtitle {
+	font-size: 14px;
+	font-weight: 700;
+	line-height: 20px;
+	color: #333333;
+	text-align:right;
+  }
+
+  table.searchtbl th {
+	text-align:right;
+	padding: 10px;
+  }
+
+  table.searchtbl td select {
+	height: 24px;
+	border: 1px solid #DEE2E6;
+	vertical-align: middle;
+	font-size: 14px;
+  }
+
+  table.searchtbl td input {
+	height: 24px;
+	border: 1px solid #DEE2E6;
+	vertical-align: middle;
+	font-size: 14px;
+  }
+
+  table.searchtbl #product_type, table.searchtbl #search_exception, table.searchtbl #order_by {
+	width: 280px;
+  }
+ 
+  table.searchtbl #search_condition {
+ 	width: 109.5px;
+  }
+
+  table.searchtbl .price {
+	width: 129px;
+  }
+  
+  table.searchtbl .price2 {
+	width: 128.5px;
+  }
+  
+
+  
+}
