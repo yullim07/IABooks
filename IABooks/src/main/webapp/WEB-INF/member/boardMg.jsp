@@ -10,7 +10,7 @@
 %>
 
 <!-- 내가만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 
 <title>게시물 관리</title>
 
@@ -23,7 +23,7 @@
 
 </style>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 
 <div class="container">
 	<br>
@@ -72,5 +72,5 @@
 	
 </div>
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

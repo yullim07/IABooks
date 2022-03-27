@@ -90,7 +90,7 @@ div.pagination {
 
 </style>
 <title>주문조회</title>
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 <div class="container">
 	
 	<div class="titleArea">
@@ -210,5 +210,5 @@ div.pagination {
 
 </div>
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

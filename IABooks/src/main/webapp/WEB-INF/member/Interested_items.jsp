@@ -10,7 +10,7 @@
 %>
 
 	<!-- 내가만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />	
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 
 <script type="text/javascript">
 
@@ -22,7 +22,7 @@
 
 <title>관심상품</title>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 
 	
 <div class="container">
@@ -90,6 +90,6 @@
 	</div>
 
 </div>
-	
-<jsp:include page="footer.jsp"/>
+
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

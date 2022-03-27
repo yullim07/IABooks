@@ -55,7 +55,7 @@ div#top {
 
 </style>
 <title>로그인</title>
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 <script type="text/javascript">
  
  	$(document).ready(function(){
@@ -149,5 +149,5 @@ function goLogin() {
 		
 </div>
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

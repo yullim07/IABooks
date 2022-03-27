@@ -12,7 +12,7 @@
 <title>회원 정보 수정</title>
 
 	<!-- 내가만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />	
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 
 
 	<!-- Bootstrap CSS -->
@@ -80,7 +80,7 @@ function openDaumPOST() {
 
 </style>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 
 <div class="container">
 	<form name="registerFrm" action="updateMember.book">
@@ -201,5 +201,5 @@ function openDaumPOST() {
 	</form>
 </div>	
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  
