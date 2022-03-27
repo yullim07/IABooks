@@ -128,10 +128,10 @@
 
 <div class="container">
 	<br>
-	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  /> 주문서작성 </strong> &nbsp;
+	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  /> 주문서작성 </strong> &nbsp;
 	<hr style="border: solid 1px #e8e8e8;">
 	
-	<div style="text-align: center;"><img src="<%= ctxPath %>/images/img_order_step2.gif" style="margin: 10px 0;" /></div>
+	<div style="text-align: center;"><img src="<%= ctxPath %>/images/member/img_order_step2.gif" style="margin: 10px 0;" /></div>
 		
 	<form>
 		<table class="benefit_info">
@@ -216,7 +216,7 @@
 					<tr>
 						<td>
 							<strong>총 주문 금액</strong>
-							<a style="cursor: pointer;" onclick="detailOrder()"><img src="<%= ctxPath %>/images/btn_list.gif" style="cursor: pointer;"/></a>
+							<a style="cursor: pointer;" onclick="detailOrder()"><img src="<%= ctxPath %>/images/member/btn_list.gif" style="cursor: pointer;"/></a>
 						</td>
 						<td>
 							<strong>총 할인 + 부가결제 금액</strong>
@@ -248,7 +248,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<div class="btn_order"><img src="<%= ctxPath%>/images/btn_place_order.gif" onclick="#"  ></div>
+			<div class="btn_order"><img src="<%= ctxPath%>/images/member/btn_place_order.gif" onclick="#"  ></div>
 		
 	</form>
 	
