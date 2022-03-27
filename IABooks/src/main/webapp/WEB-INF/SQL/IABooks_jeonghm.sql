@@ -56,4 +56,64 @@ CREATE TABLE tbl_faq_board (
 	faq_contents     VARCHAR2(1000) NOT NULL  -- 게시글 내용
 );
 
+-------------------------------------------------------------------------------------------------------
+
+select *
+from tabs;
+
+
+
+rollback;
+
+SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
+
+DROP TABLE "TBL_LOGINHISTORY" CASCADE CONSTRAINTS;
+
+commit;
+
+--이메일, 암호, 
+-------------------------------------------------------------------------------------------------------------
+
+-- 제약조건 조회
+SELECT * FROM    ALL_CONSTRAINTS
+WHERE    TABLE_NAME = 'TBL_FAQ_CATEGORY';
+
+SELECT * FROM    ALL_CONSTRAINTS
+WHERE    TABLE_NAME = 'TBL_COMMENT';
+
+SELECT * FROM    ALL_CONSTRAINTS
+WHERE    TABLE_NAME = 'TBL_QNA_BOARD';
+
+SELECT * FROM    ALL_CONSTRAINTS
+WHERE    TABLE_NAME = 'TBL_REVIEW_BOARD';
+
+SELECT * FROM    ALL_CONSTRAINTS
+WHERE    TABLE_NAME = 'TBL_FAQ_BOARD';
+
+  select *
+  from user_constraints A JOIN user_cons_columns B
+  ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+  where A.table_name = 'TBL_FAQ_CATEGORY';
+  
+  select B.CONSTRAINT_NAME, a.constraint_type ,b.column_name, a.search_condition
+  from user_constraints A JOIN user_cons_columns B
+  ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+  where A.table_name = 'TBL_COMMENT';
+  
+  select B.CONSTRAINT_NAME, a.constraint_type ,b.column_name, a.search_condition
+  from user_constraints A JOIN user_cons_columns B
+  ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+  where A.table_name = 'TBL_QNA_BOARD';
+  
+  select B.CONSTRAINT_NAME, a.constraint_type ,b.column_name, a.search_condition
+  from user_constraints A JOIN user_cons_columns B
+  ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+  where A.table_name = 'TBL_REVIEW_BOARD';
+  
+    select B.CONSTRAINT_NAME, a.constraint_type ,b.column_name, a.search_condition
+  from user_constraints A JOIN user_cons_columns B
+  ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+  where A.table_name = 'TBL_FAQ_BOARD';
+  
+  commit;
 
