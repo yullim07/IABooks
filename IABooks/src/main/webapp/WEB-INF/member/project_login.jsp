@@ -133,7 +133,7 @@ function goLogin() {
 				<input type="password" id="loginPwd" class="LOGIN" size="30" placeholder="Password"><br><br>
 			</div>
 			<div id = "loginbutton">
-				<img src="<%=ctxPath%>/images/btn_login.gif" style= "cursor:pointer;" onclick="goLogin()">
+				<img src="<%=ctxPath%>/images/member/btn_login.gif" style= "cursor:pointer;" onclick="goLogin()">
 			</div>
 			<div id = "small">
 				<input type="checkbox" id="keep" class="input_keep" value="off">아이디 저장&nbsp;&nbsp;<img src="<%=ctxPath%>/images/dot_notice.gif"/>&nbsp;<span>보안접속</span>

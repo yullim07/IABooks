@@ -27,7 +27,7 @@
 
 <div class="container">
 	<br>
-	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  /> 게시물 관리 </strong> &nbsp;
+	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  /> 게시물 관리 </strong> &nbsp;
 	<hr style="border: solid 1px #e8e8e8;">
 	
 	<div class="boardMg_title">

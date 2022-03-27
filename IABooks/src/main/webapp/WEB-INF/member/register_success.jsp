@@ -27,7 +27,7 @@
 	
 <div class="container">
 	<br>
-	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  /> 회원가입 완료 </strong> &nbsp;
+	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  /> 회원가입 완료 </strong> &nbsp;
 	<hr style="border: solid 2px #e8e8e8;">
 	
 	<table class="register_success">
@@ -46,9 +46,9 @@
 			<tr>
 				<td>
 					<ul>
-						<li><img src="<%= ctxPath%>/images/arrow_menu.gif" />&nbsp;아이디</li>
-						<li><img src="<%= ctxPath%>/images/arrow_menu.gif" />&nbsp;이름</li>
-						<li><img src="<%= ctxPath%>/images/arrow_menu.gif" />&nbsp;이메일</li>
+						<li><img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;아이디</li>
+						<li><img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이름</li>
+						<li><img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이메일</li>
 					</ul>
 					<ul style="margin-left: 60px;">
 						<li><span>아이디데이터</span></li>

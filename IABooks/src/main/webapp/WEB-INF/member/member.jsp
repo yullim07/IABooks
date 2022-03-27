@@ -114,7 +114,7 @@
 
 	<form name="registerFrm" action="registermember.book">
 		<br>
-		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 가입</strong>
+		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 가입</strong>
 		<hr style="border: solid 2px #e8e8e8;">
 		<br><br>
 			<strong style="font-size: 16pt;">기본정보</strong>
@@ -498,9 +498,9 @@ o 로그 기록
 				    </tr>  
 				    <tr align="center">
 				        <td style="line-height: 90px;" class="text-center"  colspan="2">
-				           <img id="btnRegister" onClick="goRegister();" style="cursor: pointer;" src="<%= ctxPath%>/images/btn_member_join1.gif"/>
+				           <img id="btnRegister" onClick="goRegister();" style="cursor: pointer;" src="<%= ctxPath%>/images/member/btn_member_join1.gif"/>
 				           &nbsp;&nbsp;
-				           <img id="btnRegisterCancel" onClick="registerCancel()" style="cursor: pointer;" src="<%= ctxPath%>/images/btn_member_join_cancel.gif"/>
+				           <img id="btnRegisterCancel" onClick="registerCancel()" style="cursor: pointer;" src="<%= ctxPath%>/images/member/btn_member_join_cancel.gif"/>
 				        </td>
 				    </tr>    
 				
