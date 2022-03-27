@@ -16,8 +16,8 @@
 <title>상품상세페이지 상품후기 목록</title>
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
-<jsp:include page="../header.jsp"/>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
+<jsp:include page="../../header.jsp"/>
 
 <style type="text/css">
 	
@@ -66,7 +66,7 @@
 			  
 			  const $target = $(event.target);
 			  console.log($target.text()+"에 마우스가 올라갔군요");
-			  $("span#mouseover_img").html("<img style='height: 80px; vertical-align:middle; ' src='<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
+			  $("span#mouseover_img").html("<img style='height: 80px; vertical-align:middle; ' src='<%= ctxPath%>/images/board/jeonghm_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
 		 });
 		 
 		 $("img#file_attach").mouseout(function(){
@@ -80,12 +80,12 @@
 			    const $target = $(event.target);
 				console.log($target.text()+"에 마우스가 올라갔군요");
 					
-				$("div#mouseover_img").html("<img src='<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
+				$("div#mouseover_img").html("<img src='<%= ctxPath%>/images/board/jeonghm_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
 			    
 			    
 		  });
 		  $("img#file_attach").mouseout(function(){
-		    $("div#mouseover_img").html("<img src='<%= ctxPath%>/jaehee_pages/semi_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
+		    $("div#mouseover_img").html("<img src='<%= ctxPath%>/images/board/jeonghm_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
 		  }); --%>
 		
 		  
@@ -111,9 +111,9 @@
 <div class="container">
 <div class="contents">
   <div class="title" >
-  	<div class="title_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_heading.gif" /></div>
+  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
   	<h2 >타인의 책장</h2>
-  	<div class="bar_icon" ><img src="<%= ctxPath%>/jaehee_pages/semi_images/bar_eee.gif" /></div>
+  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
   	<span >후기를 작성하는 공간입니다.</span>
     
   </div>
@@ -141,7 +141,7 @@
 	        	<a href="">
 	        		배송도 빠르도 책도 잘 포장돼서 왔어요!
 	        	</a>
-	        	<img id="file_attach" name="file_attach" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif"  <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> />
+	        	<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/jeonghm_images/ico_attach2.gif"  <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> />
 	        	
 	        	<span id="mouseover_img" style="position:absolute;  "></span>
 	        	
@@ -149,7 +149,7 @@
 	        <td class="tbl_writer mycenter">네****</td>
 	        <td class="tbl_date mycenter">2022-03-17</td>
 	        <td class="tbl_readcount mycenter"><span >1</span></td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_point5.gif"/></td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/jeonghm_images/ico_point5.gif"/></td>
 	      </tr>
 	      
 	      <tr id="review_content">
@@ -160,7 +160,7 @@
 	        	<a href="">
 	        		우리팀 화이팅!
 	        	</a>
-	        	<img id="file_attach" name="file_attach" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif"  <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> />
+	        	<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/jeonghm_images/ico_attach2.gif"  <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> />
 	        	
 	        	<span id="mouseover_img" style="position:absolute;  "></span>
 	        	
@@ -168,7 +168,7 @@
 	        <td class="tbl_writer mycenter">쌍****</td>
 	        <td class="tbl_date mycenter">2022-03-24</td>
 	        <td class="tbl_readcount mycenter"><span >1</span></td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_point5.gif"/></td>
+	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/jeonghm_images/ico_point5.gif"/></td>
 	      </tr>
 	      
 	      <tr id="notExist">
@@ -218,7 +218,7 @@
 	        	<a href="">
 	        		배송관련 문의드립니다.
 	        	</a>
-	        	<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/>
+	        	<img class="lock" src="<%= ctxPath%>/images/board/jeonghm_images/ico_lock.gif"/>
 	        <td class="tbl_writer mycenter">네****</td>
 	        <td class="tbl_date mycenter">2022-03-17</td>
 	        <td class="tbl_readcount mycenter"><span >1</span></td>
@@ -230,7 +230,7 @@
 	        <td class="tbl_category mycenter"></td>
 	        <td class="tbl_subject" id="td_left">
 	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_re.gif"/>
+	        	<img src="<%= ctxPath%>/images/board/jeonghm_images/ico_re.gif"/>
 	        	<a href="">
 	        		배송관련 문의드립니다.
 	        	</a>
@@ -262,7 +262,7 @@
   	
   	<div class="pagination2 justify-content-center" >
 	    <ul>
-		    <li><a href="#"><img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_page_first.gif" /></a></li>
+		    <li><a href="#"><img src="<%= ctxPath%>/images/board/jeonghm_images/btn_page_first.gif" /></a></li>
 		    <li class="active"><a href="#">1</a></li>
 		    <li><a href="#">2</a></li>
 		    <li><a href="#">3</a></li>
@@ -273,13 +273,13 @@
 		    <li><a href="#">8</a></li>
 		    <li><a href="#">9</a></li>
 		    <li><a href="#">10</a></li>
-		    <li><a href="#"><img src="<%= ctxPath%>/jaehee_pages/semi_images/btn_page_last.gif" /></a></li>
+		    <li><a href="#"><img src="<%= ctxPath%>/images/board/jeonghm_images/btn_page_last.gif" /></a></li>
 	    </ul>
 	</div>
  	
  	<div class="search_outer" >
  		<div class="search_inner">
- 		<a><img src="<%= ctxPath%>/jaehee_pages/semi_images/ico_triangle3.gif" /></a>
+ 		<a><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_triangle3.gif" /></a>
 	  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
 	  	
 	    <select id="searchDate" name="search">
@@ -307,5 +307,5 @@
 
 
 	
-<jsp:include page="../footer.jsp"/>
+<jsp:include page="../../footer.jsp"/>
  

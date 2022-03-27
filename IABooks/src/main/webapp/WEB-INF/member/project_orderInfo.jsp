@@ -90,11 +90,11 @@ div.pagination {
 
 </style>
 <title>주문조회</title>
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 <div class="container">
 	
 	<div class="titleArea">
-		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;주문조회</strong>
+		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;주문조회</strong>
 		<hr style="border: solid 2px #e8e8e8; margin-bottom: 3%;">
     </div>
 	
@@ -152,11 +152,11 @@ div.pagination {
               	 <div style="text-align:center;">
 			        <span>
 				        <div class="pagination pagination-sm justify-content-center">
-						     <a href="#"><img src="<%= ctxPath %>/images/btn_page_first.gif" /></a>
-						     <a href="#"><img src="<%= ctxPath %>/images/btn_page_prev.gif" /></a>
+						     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a>
+						     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a>
 						     <a class="active" href="#">1</a>
-						     <a href="#"><img src="<%= ctxPath %>/images/btn_page_next.gif" /></a>
-						     <a href="#"><img src="<%= ctxPath %>/images/btn_page_last.gif" /></a>
+						     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a>
+						     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
    						</div>
 			        </span>
 	        	</div>
@@ -194,11 +194,11 @@ div.pagination {
               	<div style="text-align:center;">
 			        <span>
 				       <div class="pagination pagination-sm justify-content-center">
-					     <a href="#"><img src="<%= ctxPath %>/images/btn_page_first.gif" /></a>
-					     <a href="#"><img src="<%= ctxPath %>/images/btn_page_prev.gif" /></a>
+					     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a>
+					     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a>
 					     <a class="active" href="#">1</a>
-					     <a href="#"><img src="<%= ctxPath %>/images/btn_page_next.gif" /></a>
-					     <a href="#"><img src="<%= ctxPath %>/images/btn_page_last.gif" /></a>
+					     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a>
+					     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
    						</div>
 			        </span>
 	        	</div>
@@ -210,5 +210,5 @@ div.pagination {
 
 </div>
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

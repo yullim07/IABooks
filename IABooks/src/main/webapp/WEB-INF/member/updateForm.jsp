@@ -12,7 +12,7 @@
 <title>회원 정보 수정</title>
 
 	<!-- 내가만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />	
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 
 
 	<!-- Bootstrap CSS -->
@@ -80,12 +80,12 @@ function openDaumPOST() {
 
 </style>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 
 <div class="container">
 	<form name="registerFrm" action="updateMember.book">
 		<br>
-		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 정보 수정</strong>
+		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 정보 수정</strong>
 		<hr style="border: solid 2px #e8e8e8;">
 		
 		<br><br>
@@ -116,7 +116,7 @@ function openDaumPOST() {
 			      <td class="register">
 			         <input required type="text" id="postcode" size="5" placeholder="우편번호" values="addr" style="width: 100px;" />
 			         &nbsp;&nbsp;
-			         <img src="<%= ctxPath %>/images/btn_zipcode.gif" style="cursor: pointer;" onclick="openDaumPOST();"/>
+			         <img src="<%= ctxPath %>/images/member/btn_zipcode.gif" style="cursor: pointer;" onclick="openDaumPOST();"/>
 			      </td>
 			</tr>
 			<tr class="register">
@@ -191,9 +191,9 @@ function openDaumPOST() {
 		    
 		    <tr align="center">
 			        <td style="line-height: 90px;" class="text-center"  colspan="2">
-			           <img id="btnRegister" onClick="goUpdateInfo();" style="cursor: pointer;" src="<%= ctxPath%>/images/btn_modify_member.gif"/>
+			           <img id="btnRegister" onClick="goUpdateInfo();" style="cursor: pointer;" src="<%= ctxPath%>/images/member/btn_modify_member.gif"/>
 			           &nbsp;&nbsp;
-			           <img id="btnRegisterCancel" onClick="registerCancel()" style="cursor: pointer;" src="<%= ctxPath%>/images/btn_modify_cancel.gif"/>
+			           <img id="btnRegisterCancel" onClick="registerCancel()" style="cursor: pointer;" src="<%= ctxPath%>/images/member/btn_modify_cancel.gif"/>
 			           <p class="floatR" style="padding-top: 30px;"><img id="btnRegisterCancel" onClick="updateInfoCancel()" style="cursor: pointer;" src="<%= ctxPath%>/images/btn_modify_out.gif" /></p>
 			        </td>
 			</tr>    
@@ -201,5 +201,5 @@ function openDaumPOST() {
 	</form>
 </div>	
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

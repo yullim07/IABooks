@@ -107,10 +107,10 @@
 	
 </style>
 <title>아이디 찾기</title>
-<jsp:include page="header.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 <div class="container">
 	<div class="titleArea">
-		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;아이디 찾기</strong>
+		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;아이디 찾기</strong>
     </div>
     	<div id = "sm">
 	    	<ul>
@@ -145,7 +145,7 @@
 				<tbody>
 					<tr>
 						<th>
-							<img src="<%= ctxPath%>/images/arrow_menu.gif" />&nbsp;이름
+							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이름
 						</th>
 						<td colspan="2">
 							<input type="text" placeholder="홍길동">
@@ -153,7 +153,7 @@
 					</tr>
 					<tr id = "emailfound">				
 						<th>
-							<img src="<%= ctxPath%>/images/arrow_menu.gif" />&nbsp;이메일로찾기
+							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이메일로찾기
 						</th>
 						<td colspan="2">	
 							<input type="text" placeholder="hongkd@email.com">
@@ -161,7 +161,7 @@
 					</tr>
 					<tr id = "mobilefound">
 						<th>
-							<img src="<%= ctxPath%>/images/arrow_menu.gif" />&nbsp;휴대폰번호로찾기
+							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;휴대폰번호로찾기
 						</th>	
 						<td colspan="2">
 							<input type="text" class="phonenb" maxlength='3' value="010" readonly>&nbsp;-&nbsp;<input type="text" class="phonenb" maxlength='4'  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />&nbsp;-&nbsp;<input type="text" class="phonenb" maxlength='4'  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
@@ -180,5 +180,5 @@
 	</div>
 		
 </div>	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
  

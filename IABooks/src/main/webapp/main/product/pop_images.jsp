@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	
 	<!-- 직접 만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product_style.css" />
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_style.css" />
 	
 	<!-- Optional JavaScript -->
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
@@ -36,15 +36,15 @@
 	<div class="img_area" class="col-lg-6">
 		<!-- 메인이미지 영역(img_display) 시작 -->
 		<div class="img_display">
-			<img class="big" src="<%=ctxPath%>/images/book.jpg" style="width: 400px;">
+			<img class="big" src="<%=ctxPath%>/images/product/book.jpg" style="width: 400px;">
 		</div>
 		<!-- 메인이미지 영역(img_display) 끝 -->
 
 		<!-- 썸네일이미지 영역(img_thumbnail) 시작 -->
 		<div class="img_thumbnails">
-			<img class="small" src="<%=ctxPath%>/images/book.jpg">
-			<img class="small" src="<%=ctxPath%>/images/book2.jpg">
-			<img class="small" src="<%=ctxPath%>/images/book3.jpg">
+			<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
+			<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
+			<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
 		</div>
 		<!-- 썸네일이미지 영역(img_thumbnail) 끝 -->
 	</div>

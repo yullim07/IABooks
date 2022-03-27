@@ -24,4 +24,6 @@ public class MainController extends AbstractController {
 		super.setViewPage("index.book"); // /MyMVC/index.up 페이지(상대경로)로 이동한다는 뜻이다.
 		
 	}
+	
+	
 }

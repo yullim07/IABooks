@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+
+
 <%--footer : 전체적인 디테일 수정 --%>
 <div class="container">	
 	<div class="col-md-12" id="maininfo">
