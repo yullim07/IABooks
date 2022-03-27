@@ -23,7 +23,7 @@
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
 
@@ -42,17 +42,17 @@
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
 				<div class="detail_img_display">
 					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=800, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
-						<img class="big" src="<%=ctxPath%>/product/images/book.jpg">
+						<img class="big" src="<%=ctxPath%>/images/product/book.jpg">
 					</a>
 				</div>
 				<!-- 상세보기 메인이미지(detail_img_display) 끝 -->
 
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 시작 -->
 				<div class="detail_img_thumbnails">
-					<img class="small" src="<%=ctxPath%>/product/images/book.jpg">
-					<img class="small" src="<%=ctxPath%>/product/images/book2.jpg">
-					<img class="small" src="<%=ctxPath%>/product/images/book3.jpg">
-					<img class="small" src="<%=ctxPath%>/product/images/book.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
 				</div>
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
 			</div>
@@ -66,7 +66,8 @@
 				<div id="detail_text_title">
 					<table id='tbl_detail_title'>
 						<tr>
-							<th>하하하하${elt.productName}</th>
+							<%-- <th>하하하하${elt.productName}</th> --%>
+							<th>책제목</th>
 						<tr>
 					</table>				
 				</div>
