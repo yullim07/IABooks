@@ -46,4 +46,14 @@ CREATE TABLE tbl_review_board (
 	re_writer    VARCHAR2(10)   NOT NULL  -- 작성자
 );
 
+-- FAQ 게시판(관리자만 입력가능)
+CREATE TABLE tbl_faq_board (
+	pk_faq_board_num NUMBER         NOT NULL, -- 문의번호
+	fk_userid        VARCHAR2(20)   NOT NULL, -- 회원아이디
+	fk_faq_c_num     NUMBER         NOT NULL, -- FAQ 번호
+	faq_title        VARCHAR2(40)   NOT NULL, -- 제목
+	faq_writer       VARCHAR2(10)   NOT NULL, -- 작성자
+	faq_contents     VARCHAR2(1000) NOT NULL  -- 게시글 내용
+);
+
 
