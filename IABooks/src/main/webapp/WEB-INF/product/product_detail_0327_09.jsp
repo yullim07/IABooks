@@ -24,11 +24,11 @@
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product_style.css" />
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jaehee_pages/semicss/semi_style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
 
 	<title>제품 상세 보기 페이지</title>
-	<jsp:include page="header.jsp" />
+	<jsp:include page="/header.jsp" />
 
 	<!-- 컨테이너 시작 -->
 	<div class="container detail_container">
@@ -42,17 +42,17 @@
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
 				<div class="detail_img_display">
 					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=800, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
-						<img class="big" src="<%=ctxPath%>/images/book.jpg">
+						<img class="big" src="<%=ctxPath%>/product/images/book.jpg">
 					</a>
 				</div>
 				<!-- 상세보기 메인이미지(detail_img_display) 끝 -->
 
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 시작 -->
 				<div class="detail_img_thumbnails">
-					<img class="small" src="<%=ctxPath%>/images/book.jpg">
-					<img class="small" src="<%=ctxPath%>/images/book2.jpg">
-					<img class="small" src="<%=ctxPath%>/images/book3.jpg">
-					<img class="small" src="<%=ctxPath%>/images/book.jpg">
+					<img class="small" src="<%=ctxPath%>/product/images/book.jpg">
+					<img class="small" src="<%=ctxPath%>/product/images/book2.jpg">
+					<img class="small" src="<%=ctxPath%>/product/images/book3.jpg">
+					<img class="small" src="<%=ctxPath%>/product/images/book.jpg">
 				</div>
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
 			</div>
@@ -642,4 +642,4 @@
 		
 </script>
 
-<jsp:include page="footer.jsp" />
+<jsp:include page="/footer.jsp" />
