@@ -22,7 +22,7 @@
 	
 	<!-- 직접 만든 CSS -->
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
-	
+				
 	<!-- Optional JavaScript -->
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
