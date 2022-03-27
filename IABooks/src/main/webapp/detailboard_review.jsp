@@ -127,7 +127,6 @@
 						<tr id="review_content">
 							<td class="tbl_number mycenter">1</td>
 
-							</td>
 							<td class="tbl_subject" id="td_left"><a href=""> 배송도 빠르도 책도 잘 포장돼서 왔어요! </a> <img id="file_attach" name="file_attach" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif" <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> /> <span id="mouseover_img" style="position: absolute;"></span> <span class="new_tag">NEW</span>
 							<td class="tbl_writer mycenter">네****</td>
 							<td class="tbl_date mycenter">2022-03-17</td>

@@ -27,31 +27,37 @@
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
 	 
-	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-	<title>Insert title here</title>
+	<title>상품 미리보기</title>
 </head>
 <body>
 
-	<!-- 그림 영역(img_area) 시작 -->
-	<div class="img_area" class="col-lg-6">
-		<!-- 메인이미지 영역(img_display) 시작 -->
-		<div class="img_display">
-			<img class="big" src="<%=ctxPath%>/images/book.jpg" style="width: 400px;">
+	<!-- 상세보기 상단 그림영역(detail_top_img) 시작 -->
+	<div class="detail_top_img col-lg-6">
+	
+		<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
+		<div class="detail_img_display">
+			<!-- <a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=800, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')"> -->
+				<img class="big" src="<%=ctxPath%>/images/book.jpg">
+			<!-- </a> -->
 		</div>
-		<!-- 메인이미지 영역(img_display) 끝 -->
+		<!-- 상세보기 메인이미지(detail_img_display) 끝 -->
 
-		<!-- 썸네일이미지 영역(img_thumbnail) 시작 -->
-		<div class="img_thumbnails">
+		<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 시작 -->
+		<div class="detail_img_thumbnails">
 			<img class="small" src="<%=ctxPath%>/images/book.jpg">
 			<img class="small" src="<%=ctxPath%>/images/book2.jpg">
 			<img class="small" src="<%=ctxPath%>/images/book3.jpg">
+			<img class="small" src="<%=ctxPath%>/images/book.jpg">
 		</div>
-		<!-- 썸네일이미지 영역(img_thumbnail) 끝 -->
+		<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
 	</div>
-	<!-- 그림 영역(img_area) 끝 -->
+	<!-- 상세보기 상단 그림영역(detail_top_img) 끝 -->
 	
-	<button type="button" onclick="window.close()">닫기</button>
-	
+	<!-- 닫기 버튼 시작 -->
+	<div class="popupArea">
+		<button type="button" id="btn_closePop"onclick="window.close()" style="border: solid 1px ;">닫기</button>
+	</div>
+	<!-- 닫기 버튼 끝 -->
 
 
 <script type="text/javascript">

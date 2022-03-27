@@ -28,20 +28,18 @@
 	<jsp:include page="header.jsp" />
 
 	<!-- 컨테이너 시작 -->
-	<div class="container" id="detail_container">
-		
-		
+	<div class="container detail_container">
 		
 		<!-- 상세보기 상단 컨텐츠(detail_top) 시작 -->
-		<div id="detail_top" class="row">
+		<div class="detail_top row">
 			
 			<!-- 상세보기 상단 그림영역(detail_top_img) 시작 -->
-			<div id="detail_top_img" class="col-lg-6">
+			<div class="detail_top_img col-lg-6">
 			
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
-				<div id="detail_img_display">
-					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=800, toolbar=no, location=no, status=yes, scrollbars=yes, resizeable=no, left=200, top=200')">
-						<img class="big" src="<%=ctxPath%>/images/book.jpg" style="width: 400px;">
+				<div class="detail_img_display">
+					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=800, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
+						<img class="big" src="<%=ctxPath%>/images/book.jpg">
 					</a>
 				</div>
 				<!-- 상세보기 메인이미지(detail_img_display) 끝 -->
@@ -51,42 +49,45 @@
 					<img class="small" src="<%=ctxPath%>/images/book.jpg">
 					<img class="small" src="<%=ctxPath%>/images/book2.jpg">
 					<img class="small" src="<%=ctxPath%>/images/book3.jpg">
+					<img class="small" src="<%=ctxPath%>/images/book3.jpg">
+					<img class="small" src="<%=ctxPath%>/images/book3.jpg">
+					<img class="small" src="<%=ctxPath%>/images/book3.jpg">
 				</div>
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
 			</div>
-			<!-- 상세보기 상단 그림영역(detail_top_img) 시작 -->
+			<!-- 상세보기 상단 그림영역(detail_top_img) 끝 -->
 			
 			
 			<!-- 상세보기 상단 글영역(detail_top_text) 시작 -->
-			<div id="detail_top_text" class="col-lg-6" style="float: none; margin: 0 auto; max-width: 40%;">
+			<div class="detail_top_text col-lg-6">
 				
 				<!-- 상품보기 제품제목(detail_text_title) 시작 -->
-				<div id="detail_text_title"></div>
+				<div class="detail_text_title"></div>
 				<!-- 상품보기 제품제목(detail_text_title) 끝 -->
 				
 				<br>
 				
 				<!-- 상품보기 제품가격(detail_text_purchase) 시작 -->
-				<div id="detail_text_purchase"></div>
+				<div class="detail_text_purchase"></div>
 				<!-- 상품보기 제품가격(detail_text_purchase) 끝 -->
 				
 				<br>
 				
 				<!-- 상품보기 총주문액(detail_text_total) 시작 -->
-				<div id="detail_text_total"></div>
+				<div class="detail_text_total"></div>
 				<!-- 상품보기 총주문액(detail_text_total) 끝 -->
 				
 				<br>
 								
 				<!-- 상품보기 구매버튼(detail_text_button) 시작 -->
-				<div id="detail_text_button" class="row" style="margin: 20px 0 20px 0;">
-					<button type="button" id="btn_buy" style="width: 120px; height: 40px; margin-right: 10px;">구매하기</button>
-					<button type="button" id="btn_cart" style="width: 120px; height: 40px; margin-right: 10px;">장바구니</button>
-					<button type="button" id="btn_like" style="width: 120px; height: 40px;">관심상품</button>
+				<div class="detail_text_button row">
+					<button type="button" id="btn_buy">구매하기</button>
+					<button type="button" id="btn_cart">장바구니</button>
+					<button type="button" id="btn_like">관심상품</button>
 				</div>
-				<div id="btn_book_kakao" class="row">	
-					<button type="button" id="btn_kakao" style="width: 400px; heigth: 600px; background-color: #FEE500">
-						<span style="color: #000"><strong>카카오톡으로 공유하기</strong></span>
+				<div class="btn_book_kakao row">	
+					<button type="button" id="btn_kakao">
+						<span><strong>카카오톡으로 공유하기</strong></span>
 					</button>
 				</div>
 				<!-- 상품보기 구매버튼(detail_text_button) 끝 -->
@@ -99,10 +100,10 @@
 		
 		
 		<!-- 상세보기 하단 컨텐츠(detail_bottom) 시작 -->
-		<div id="detail_bottom" style="margin-bottom: 20px;">
+		<div class="detail_bottom">
 			
 			<!-- 버튼그룹 시작 -->
-			<div class="tab_btngroup">
+			<div class="tab_btngroup text-center">
 				<button type="button" class="btn_active" id="btn_detail" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
@@ -116,15 +117,15 @@
 				<br>
 				<p><span class="majorheading">품목정보</span></p>
 				<p class="subheading">
-					책제목 : 책제목<br>
-					저자 : 저자<br>
-					출간일 : 출간일<br>
-					분야 : 인문/사회/과학<br>
-					제본 : 제본방식선택<br>
-					쪽수 : 쪽수p<br>
-					크기 : 가로 × 세로 (mm)<br>
-					ISBN : ISBN<br>
-					정가 : 정가<br>
+					책제목 : <span><b>책제목</b></span><br>
+					저자 : <span><b>저자</b></span><br>
+					출간일 : <span><b>출간일</b></span><br>
+					분야 : <span><b>인문/사회/과학</b></span><br>
+					제본 : <span><b>제본방식선택</b></span><br>
+					쪽수 : <span><b>쪽수p</b></span><br>
+					크기 : <span><b>가로 × 세로 (mm)</b></span><br>
+					ISBN : <span><b>ISBN</b></span><br>
+					정가 : <span><b>정가</b></span><br>
 				</p>
 				
 				<br><br>
@@ -203,7 +204,7 @@
 			<br><br>
 			
 			<!-- 버튼그룹 시작 -->
-			<div class="tab_btngroup">
+			<div class="tab_btngroup text-center">
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" class="btn_active" id="btn_purchase" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
@@ -259,7 +260,7 @@
 			<br><br>
 			
 			<!-- 버튼그룹 시작 -->
-			<div class="tab_btngroup">
+			<div class="tab_btngroup text-center">
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" class="btn_active" id="btn_related" onclick="location.href='#btn_related'">관련상품</button>
@@ -270,7 +271,7 @@
 			<!-- 관련상품(detail_bottom_related) 시작 -->
 			<div class="detail_bottom_related">
 				<br>
-				<div class="detail_related_contents" style="text-align: center;">
+				<div class="detail_related_contents">
 					관련 상품이 없습니다.<br>
 				</div>
 				<br>
@@ -282,10 +283,10 @@
 		<br><br>
 		
 		<!-- 상세보기 게시판 영역(detail_board) 시작 -->
-		<div id="detail_board">
+		<div class="detail_board">
 		
 			<!-- 버튼그룹 시작 -->
-			<div class="tab_btngroup">
+			<div class="tab_btngroup text-center">
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
@@ -295,7 +296,7 @@
 			<!-- 버튼그룹 끝 -->
 			
 			<!-- 상세보기 게시판 상품후기(detail_board_review) 시작 -->
-			<div id="detail_board_review">
+			<div class="detail_board_review">
 				<jsp:include page="detailboard_review.jsp" />
 			</div>
 			<!-- 상세보기 게시판 상품후기(detail_board_review) 끝 -->
@@ -303,7 +304,7 @@
 			<br><br>
 			
 			<!-- 버튼그룹 시작 -->
-			<div class="tab_btngroup">
+			<div class="tab_btngroup text-center">
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
@@ -312,7 +313,7 @@
 			</div>
 			<!-- 버튼그룹 끝 -->
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
-			<div id="detail_board_qna">
+			<div class="detail_board_qna">
 				<jsp:include page="detailboard_qna.jsp" />
 			</div>
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
@@ -365,22 +366,29 @@
 				}
 			];
 			
+ 			arr_product.forEach(function(elt, i, array) {
+ 				console.log("내용 : " + arr_product[i]);
+ 			});
 			
 			
 			// *** 2-1. 테이블 넣기 - 제품제목 시작 *** //
-			let html_title = "<table id='tbl_detail_title'>";
+			let html_title = `<table id=`+'tbl_detail_title'+`>`;
 			
 			arr_product.forEach(function(elt, i, array) {
-				html_title += "<tr><th>${elt.productName}</th><tr></table>";
+				html_title += `<tr>
+									<th>${elt.productName}s</th>
+								<tr>
+							</table>`;
 			});
 			
+		//	console.log(html_title);
 			document.querySelector("div#detail_text_title").innerHTML = html_title;
 			// *** 2-1. 테이블 넣기 - 제품제목 끝 *** //
 			
 			
 			
 			// *** 2-2. 테이블 넣기 - 제품가격 시작 *** //
-			let html_purchase = `<table id='tbl_detail_purchase'>
+			let html_purchase = `<table id=`+"tbl_detail_purchase"+`>
 									<thead>`;
 			
 			arr_product.forEach(function(elt, i, array) {
