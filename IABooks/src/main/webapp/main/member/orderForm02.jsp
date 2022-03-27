@@ -15,7 +15,8 @@
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css">
 	
 	<!-- 내가만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 	
 	<!-- Optional JavaScript-->
 	<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -123,22 +124,22 @@
 </style>
 
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="/header.jsp"/>
 
 
 <div class="container">
 	<br>
-	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  /> 주문서작성 </strong> &nbsp;
+	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  /> 주문서작성 </strong> &nbsp;
 	<hr style="border: solid 1px #e8e8e8;">
 	
-	<div style="text-align: center;"><img src="<%= ctxPath %>/images/img_order_step2.gif" style="margin: 10px 0;" /></div>
+	<div style="text-align: center;"><img src="<%= ctxPath %>/images/member/img_order_step2.gif" style="margin: 10px 0;" /></div>
 		
 	<form>
 		<table class="benefit_info">
 			<tr>
 				<td>
 					<span style="padding-left: 30px;">혜택정보</span>
-					<img src="<%= ctxPath%>/images/bar_eee.gif" style="width: 2px; height: 20px;" />
+					<img src="<%= ctxPath%>/images/member/bar_eee.gif" style="width: 2px; height: 20px;" />
 					가용적립금 : <span name="point">테스트</span>
 					쿠폰 : <span name="coupon"></span>
 				</td>
@@ -170,7 +171,7 @@
 				      <td>
 				         <input required type="text" id="postcode" size="5" placeholder="우편번호" values="addr" style="width: 100px;" />
 				         &nbsp;&nbsp;
-				         <img src="<%= ctxPath %>/images/btn_zipcode.gif" style="cursor: pointer;" onclick="openDaumPOST();"/>
+				         <img src="<%= ctxPath %>/images/member/btn_zipcode.gif" style="cursor: pointer;" onclick="openDaumPOST();"/>
 				      </td>
 				</tr>
 				<tr>
@@ -216,7 +217,7 @@
 					<tr>
 						<td>
 							<strong>총 주문 금액</strong>
-							<a style="cursor: pointer;" onclick="detailOrder()"><img src="<%= ctxPath %>/images/btn_list.gif" style="cursor: pointer;"/></a>
+							<a style="cursor: pointer;" onclick="detailOrder()"><img src="<%= ctxPath %>/images/member/btn_list.gif" style="cursor: pointer;"/></a>
 						</td>
 						<td>
 							<strong>총 할인 + 부가결제 금액</strong>
@@ -248,7 +249,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<div class="btn_order"><img src="<%= ctxPath%>/images/btn_place_order.gif" onclick="#"  ></div>
+			<div class="btn_order"><img src="<%= ctxPath%>/images/member/btn_place_order.gif" onclick="#"  ></div>
 		
 	</form>
 	
@@ -265,5 +266,5 @@
 	
 </div>	
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

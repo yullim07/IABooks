@@ -10,7 +10,8 @@
 %>
 
 <!-- 내가만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 
 <title>게시물 관리</title>
 
@@ -23,11 +24,11 @@
 
 </style>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="/header.jsp"/>
 
 <div class="container">
 	<br>
-	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  /> 게시물 관리 </strong> &nbsp;
+	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  /> 게시물 관리 </strong> &nbsp;
 	<hr style="border: solid 1px #e8e8e8;">
 	
 	<div class="boardMg_title">
@@ -72,5 +73,5 @@
 	
 </div>
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

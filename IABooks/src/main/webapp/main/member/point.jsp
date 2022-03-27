@@ -12,7 +12,8 @@
 <title>적립금</title>
 
 	<!-- 내가만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />	
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />	
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css">
@@ -29,21 +30,21 @@
 
 </style>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="/header.jsp"/>
 
 <div class="container">
 	<br>
-	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  /> 적립금 </strong> &nbsp;
-	<img src="<%= ctxPath%>/images/bar_eee.gif" style="width: 2px; height: 20px;" /> &nbsp; 고객님의 사용가능한 적립금 입니다.
+	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  /> 적립금 </strong> &nbsp;
+	<img src="<%= ctxPath%>/images/member/bar_eee.gif" style="width: 2px; height: 20px;" /> &nbsp; 고객님의 사용가능한 적립금 입니다.
 	<hr style="border: solid 2px #e8e8e8;">
 	
 	<table class="pointTable">
 			<tr >
 				<td class="pointTable" width="35%;">
 					<ul class="pointTable" >
-						<li class="pointTable"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> 총 적립금</li>
-						<li class="pointTable"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> 사용된 적립금</li>
-						<li class="pointTable"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> 환불예정 적립금</li>
+						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 총 적립금</li>
+						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 사용된 적립금</li>
+						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 환불예정 적립금</li>
 					</ul>
 				</td>
 				<td class="pointTable" width="15%;">
@@ -56,8 +57,8 @@
 				
 				<td class="pointTable" style="border-left :solid 1px #e8e8e8;" width="35%;">
 					<ul class="pointTable">
-						<li class="pointTable"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> 사용가능 적립금</li>
-						<li class="pointTable"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> 미가용 적립금</li>
+						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 사용가능 적립금</li>
+						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 미가용 적립금</li>
 					</ul>
 				</td>
 				<td class="pointTable" width="15%;">
@@ -157,5 +158,5 @@
 
 </div>
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

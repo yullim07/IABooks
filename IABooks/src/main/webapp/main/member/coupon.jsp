@@ -13,7 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- 내가만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="<%= ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
@@ -28,10 +29,10 @@
 
 <title>쿠폰조회</title>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="/header.jsp"/>
 
 <div class="container">
-	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이쿠폰</strong>
+	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이쿠폰</strong>
 	<hr style="border: solid 2px #e8e8e8;">
 	
 	<strong>마이 쿠폰 목록</strong><p style="float: right;">사용가능 쿠폰 <span></span>장</p>
@@ -58,11 +59,11 @@
 	</table>
 	
 	<div class="pagination pagination-sm justify-content-center">
-	  <a href="#"><img src="<%= ctxPath %>/images/btn_page_first.gif" /></a>
-	  <a href="#"><img src="<%= ctxPath %>/images/btn_page_prev.gif" /></a>
+	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a>
+	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a>
 	  <a class="active" href="#">1</a>
-	  <a href="#"><img src="<%= ctxPath %>/images/btn_page_next.gif" /></a>
-	  <a href="#"><img src="<%= ctxPath %>/images/btn_page_last.gif" /></a>
+	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a>
+	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
 	</div>
 	
 	<br><br>
@@ -71,7 +72,7 @@
 		<tr>
 			<td>
 				<input type="text" style="height: 40px; width: 350px;"/>
-				<img src="<%= ctxPath %>/images/btn_coupon_serial.gif" />
+				<img src="<%= ctxPath %>/images/member/btn_coupon_serial.gif" />
 			</td>
 		</tr>
 		<tr>
@@ -103,5 +104,5 @@
 	
 	
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

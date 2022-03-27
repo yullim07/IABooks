@@ -15,7 +15,8 @@
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css">
 	
 	<!-- 내가만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style_member.css" />
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />	
 	
 	<!-- Optional JavaScript-->
 	<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -107,18 +108,18 @@
 
 <style type="text/css"></style>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="/header.jsp"/>
 
 
 <div class="container">
 
 	<form name="registerFrm" action="registermember.book">
 		<br>
-		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 가입</strong>
+		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 가입</strong>
 		<hr style="border: solid 2px #e8e8e8;">
 		<br><br>
 			<strong style="font-size: 16pt;">기본정보</strong>
-			<p><img src="<%= ctxPath%>/images/bar_eee.gif" style="width: 2px; height: 20px;" />&nbsp;&nbsp;<span id="star">*</span> 필수입력사항</p>
+			<p><img src="<%= ctxPath%>/images/member/bar_eee.gif" style="width: 2px; height: 20px;" />&nbsp;&nbsp;<span id="star">*</span> 필수입력사항</p>
 			<table class="register">
 				<tr>
 					<th><label class="title" for="userid">아이디&nbsp;<span id="star">*</span></label></th>
@@ -143,7 +144,7 @@
 				      <td>
 				         <input required type="text" id="postcode" size="5" placeholder="우편번호" values="addr" style="width: 100px;" />
 				         &nbsp;&nbsp;
-				         <img src="<%= ctxPath %>/images/btn_zipcode.gif" style="cursor: pointer;" onclick="openDaumPOST();"/>
+				         <img src="<%= ctxPath %>/images/member/btn_zipcode.gif" style="cursor: pointer;" onclick="openDaumPOST();"/>
 				      </td>
 				</tr>
 				<tr>
@@ -498,9 +499,9 @@ o 로그 기록
 				    </tr>  
 				    <tr align="center">
 				        <td style="line-height: 90px;" class="text-center"  colspan="2">
-				           <img id="btnRegister" onClick="goRegister();" style="cursor: pointer;" src="<%= ctxPath%>/images/btn_member_join1.gif"/>
+				           <img id="btnRegister" onClick="goRegister();" style="cursor: pointer;" src="<%= ctxPath%>/images/member/btn_member_join1.gif"/>
 				           &nbsp;&nbsp;
-				           <img id="btnRegisterCancel" onClick="registerCancel()" style="cursor: pointer;" src="<%= ctxPath%>/images/btn_member_join_cancel.gif"/>
+				           <img id="btnRegisterCancel" onClick="registerCancel()" style="cursor: pointer;" src="<%= ctxPath%>/images/member/btn_member_join_cancel.gif"/>
 				        </td>
 				    </tr>    
 				
@@ -510,5 +511,5 @@ o 로그 기록
 
 </div>
 	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  

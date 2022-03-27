@@ -9,6 +9,9 @@
 	String ctxPath = request.getContextPath();
 	
 %>
+
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
+
 <style type="text/css">
 
 
@@ -76,11 +79,11 @@
 </style>
 <title>마이페이지</title>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="/header.jsp"/>
 <div class="container">
 
 	<div class="titleArea">
-		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이 쇼핑</strong>
+		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이 쇼핑</strong>
 		<hr style="border: solid 2px #e8e8e8; margin-bottom: 3%;">
     </div>
     
@@ -88,9 +91,9 @@
          <tr >
             <td class="tbl_head_first" width="35%;">
                <ul class="tbl_head_first" >
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>가용적립금</strong></li>
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>사용립금</strong></li>
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>총주문</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>가용적립금</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>사용립금</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>총주문</strong></li>
                </ul>
             </td>
             <td class="tbl_head_first" width="15%;">
@@ -103,8 +106,8 @@
             
             <td class="tbl_head_first" style="border-left :solid 1px #e8e8e8;" width="35%;">
                <ul class="tbl_head_first">
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>총적립금</strong></li>
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>쿠폰</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>총적립금</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>쿠폰</strong></li>
                </ul>
             </td>
             <td class="tbl_head_first" width="15%;">
@@ -203,5 +206,5 @@
 	</table>
 
 </div>	
-<jsp:include page="footer.jsp"/>
+<jsp:include page="/footer.jsp"/>
  
