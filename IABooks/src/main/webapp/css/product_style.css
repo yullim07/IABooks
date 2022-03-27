@@ -7,31 +7,36 @@
   font-family: 'Noto Sans KR', sans-serif;
 }
 
-/* 상단컨테이너, 하단컨테이너 */
-/* div#container {
+/* 전체 컨테이너 */
+div.detail_container {
 	width: 100%;
 	padding: 1em;
-	border: solid 30px pink;
-} */
-
-div.img_area, div.text_area {
-	max-width: 70%;
 }
 
-/* 상단컨텐츠 - 메인이미지영역 크기 설정 */
-div.img_display {
-	display: inline-block;
-	max-width: 100%;
-	margin: 100px auto;
+/* 상단컨텐츠, 하단컨텐츠, 게시판영역 너비 설정 */
+div.detail_top, div.detail_bottom, div.detail_board {
+	width: 100%;
 }
 
-/* 상단컨텐츠 - 매인이미지의 최대 크기 지정 */
-img.big {
-	min-width: 400px;
+/* 상세보기 상단 그림영역, 상세보기 상단 글영역 */
+.detail_top_img, .detail_top_text {
+	float: none;
+	margin: 0 auto;
+}
+
+/* 상세보기 메인이미지 영역 지정 */
+div.detail_img_display, div.detail_img_thumbnail, div.detail_top_text {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+/* 상세보기 메인이미지의 최대 크기 지정 */
+div.detail_img_display > a > img.big {
+	height: 500px;
 }
 
 /* 상단컨텐츠 - 썸네일이미지 영역 설정 */
-div.img_thumbnails {
+div.detail_img_thumbnails {
 	width: 500px;
 	height: 100px;
 	text-align: center;
@@ -42,9 +47,11 @@ img.small {
 	width: 100px;
 	height: 100px;
 }
- 
-div.img_thumbnails {
-	text-align: center;
+
+/* 상품보기 제품제목(detail_text_title), 상품보기 제품가격(detail_text_purchase), 상품보기 총주문액(detail_text_total) */ /* ************************ */
+
+.detail_text_purchase {
+	font-size: 20px;
 }
 
 
@@ -53,35 +60,89 @@ div.img_thumbnails {
 
 
 
-/* 하단 컨텐츠 */
-div.book_info_area {
-	max-width: 80%;
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 상품보기 구매버튼(detail_text_button) */
+.detail_text_button {
+	 margin: 20px 0 20px 0;
 }
 
+/* 상품보기 구매버튼(detail_text_button) */
+.detail_text_button > button#btn_buy, button#btn_cart {
+	width: 120px;
+	height: 40px;
+	margin-right: 10px;
+}
 
-/* 하단 컨텐츠 - 버튼그룹 시작 */
-div.tab_btngroup {
+/* 상품보기 구매버튼(detail_text_button) */
+.detail_text_button > button#btn_like {
+	width: 120px;
+	height: 40px;
+}
+
+div.btn_book_kakao {
+	margin: 0 auto;
+}
+
+/* 상품보기 카카오버튼(detail_text_button) */
+.btn_book_kakao > button#btn_kakao {
+	width: 400px;
+	height: 40px;
+	color: #000;
+	background-color: #FEE500;
+	margin-top: 10px;
 	border: none;
-	background-color: white;
+}
+
+div.detail_bottom {
+	margin-bottom: 20px;
+}
+
+/* 상세보기 하단 버튼그룹 */
+/* div.tab_btngroup {
+	border: solid 1px #e8e8e8;
+} */
+
+div.tab_btngroup > button.btn_active {
+	height: 40px;
+	line-height: 40px;
+	border: solid 1px #e8e8e8;
+	border-bottom: none;
+	background-color: #fff;
+	font-size: 12pt;
 	text-align: center;
 	margin-top: 40px;
 }
 
-/* div.book_info_area > div {
-	border-bottom: solid 1px #e8e8e8;
-} */
-
-
-
-
-div#book_info_area > div.tab_btngroup > button {
+/* 상세보기 하단 버튼그룹 */
+div.tab_btngroup > button, button#btn_closePop {
 	display: inline-block;
 	min-width: 160px;
 	height: 35px;
 	line-height: 35px;
 	border: solid 1px #e8e8e8;
-	/* border-bottom: none; */
 	margin: 0 0 0 -3px;
 	font-size: 12pt;
 	color: #888;
@@ -89,15 +150,9 @@ div#book_info_area > div.tab_btngroup > button {
 	background-color: #F2F2F2;
 }
 
-div#book_info_area > div.tab_btngroup > button.btn_active {
-	height: 40px;
-	line-height: 40px;
-	border: solid 1px #e8e8e8;
-	border-bottom: none;
-	font-size: 12pt;
-	color: #333;
+/* 상세보기 게시판 관련상품 */
+div.detail_related_contents {
 	text-align: center;
-	background-color: #fff;
 }
 
 .majorheading {
@@ -117,16 +172,3 @@ div#book_info_area > div.tab_btngroup > button.btn_active {
 	font-size: 9pt;
 	line-height: 1.8;
 }
-
-#btn_review_write, #btn_review_selectAll, #btn_qna_write, #btn_qna_selectAll {
-	display: inline-block;
-	min-width: 100px;
-	height: 35px;
-	line-height: 35px;
-	border: solid 1px #333;
-	font-size: 12pt;
-	color: #fff;
-	text-align: center;
-	background-color: #333;
-}
-/* 하단 컨텐츠 - 버튼그룹 끝 */
