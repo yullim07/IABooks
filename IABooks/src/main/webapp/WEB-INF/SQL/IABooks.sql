@@ -15,3 +15,6 @@ show user;
 
 
 
+SELECT * FROM tabs;
+
+SELECT * FROM dba_tables;

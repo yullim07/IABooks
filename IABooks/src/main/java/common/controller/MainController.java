@@ -21,7 +21,7 @@ public class MainController extends AbstractController {
 			setRedirect(true);
 		 */
 	//	super.setRedirect(true);	// 생략가능, 실제로는 서블릿의 action.execute이 해준다.
-		super.setViewPage("index.jsp"); // /MyMVC/index.up 페이지(상대경로)로 이동한다는 뜻이다.
+		super.setViewPage("index.book"); // /MyMVC/index.up 페이지(상대경로)로 이동한다는 뜻이다.
 		
 	}
 }
