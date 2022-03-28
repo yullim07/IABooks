@@ -13,6 +13,8 @@ public class MemberRegisterAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		super.setViewPage("/WEB-INF/member/memberRegister.jsp");
+		
 		String method = request.getMethod();
 		
 		if("GET".equalsIgnoreCase(method)) {

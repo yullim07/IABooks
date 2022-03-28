@@ -107,7 +107,7 @@
 
 <style type="text/css"></style>
 
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 
 <div class="container">
@@ -510,5 +510,5 @@ o 로그 기록
 
 </div>
 	
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  
