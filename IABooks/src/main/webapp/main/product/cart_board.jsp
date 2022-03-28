@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
-
+<%-- <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
+ --%>
 <style type="text/css">
 .notosanskr * { 
 	font-family: 'Noto Sans KR', sans-serif;
@@ -22,6 +22,7 @@
 	border: solid 1px #e8e8e8;
 	width: 100%;
 	margin: 0 auto;
+	margin-bottom: 80px;
 }
 .card-header, .card-title {
 	font-size: 9pt;
@@ -58,8 +59,8 @@ li {
 			</ol>
 	</div>
 	
-	
 </div>
+
 
 </body>
 </html>
