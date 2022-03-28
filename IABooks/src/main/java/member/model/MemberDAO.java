@@ -30,7 +30,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 				Context initContext = new InitialContext();
 			    Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			    ds = (DataSource)envContext.lookup("jdbc/mymvc_oracle");
+			    ds = (DataSource)envContext.lookup("jdbc/semiorauser3");
 			    aes = new AES256(SecretMyKey.KEY);
 			    // SecretMyKey.KEY 은 우리가 만든 비밀키이다.
 		
