@@ -84,7 +84,13 @@ public class MemberDAO implements InterMemberDAO {
 		return isExist;
 	}
 */
-
+	public String loginCheckPwd(String id) throws SQLException{
+		String pw = "";
+		System.out.println(id);
+		
+		return pw;
+		
+	}
 	
 	// email 중복검사 (tbl_member 테이블에서 email 가 존재하면 true를 리턴해주고, email 가 존재하지 않으면 false를 리턴한다)
 /*	@Override

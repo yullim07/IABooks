@@ -47,6 +47,7 @@ public class MemberRegisterAction extends AbstractController {
 			MemberVO member = new MemberVO(userid, pwd, name, email, number, phone, postcode, address, detailaddress, extraaddress, gender, birthday);
 		
 			
+			
 		/*	
 			String message = "";
 			String loc = "";

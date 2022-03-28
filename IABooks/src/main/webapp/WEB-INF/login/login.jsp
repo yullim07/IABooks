@@ -58,7 +58,7 @@ div#top {
 <jsp:include page="/WEB-INF/header.jsp"/>
 <script type="text/javascript">
  
- 	$(document).ready(function(){
+	$(document).ready(function(){
  		/* var 변수명 = '1234';
  		선택자.attr('value',변수명); */
  		if(localStorage.getItem("keep") != null){
@@ -115,7 +115,7 @@ function goLogin() {
 	const frm = document.loginFrm;
 	frm.action = "<%=request.getContextPath()%>/login/login.book"
 	frm.method = "post"; 
-//	frm.submit();
+	frm.submit();
 	 
 } // end of function goLogin()------------------------
 
@@ -127,10 +127,11 @@ function goLogin() {
     <h1 style = "font-size: 40pt;">LOGIN</h1>
     <h6>WELCOME BACK</h6>
     </div>
+    	<form name="loginFrm">
 			<div id = "IdPasswd">
-				<input type="text" id="loginUserid" class="LOGIN" size="30" placeholder="ID" ><br><br>
+				<input type="text" id="loginUserid" name= "userid" class="LOGIN" size="30" placeholder="ID" ><br><br>
 			
-				<input type="password" id="loginPwd" class="LOGIN" size="30" placeholder="Password"><br><br>
+				<input type="password" id="loginPwd" name = "pwd" class="LOGIN" size="30" placeholder="Password"><br><br>
 			</div>
 			<div id = "loginbutton">
 				<img src="<%=ctxPath%>/images/member/btn_login.gif" style= "cursor:pointer;" onclick="goLogin()">
@@ -145,7 +146,7 @@ function goLogin() {
 			</div>
 			<hr style = "width:275px;"><br>
 			</div>
-		
+		</form>
 		
 </div>
 	
