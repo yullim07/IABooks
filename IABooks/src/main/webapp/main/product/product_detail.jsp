@@ -168,7 +168,7 @@
 					            <!-- Modal footer -->
 					            <div class="modal-footer" style="margin: 0 auto;">
 					                <button type="button" class="btn btn-danger" data-dismiss="modal">쇼핑 계속하기</button>
-					                <button type="button" class="btn btn-primary">장바구니 이동</button>
+					                <button type="button" class="btn btn-primary">장바구니 확인</button>
 					            </div>
 					        </div>
 					    </div>
@@ -201,7 +201,7 @@
 					            <!-- Modal footer -->
 					            <div class="modal-footer" style="margin: 0 auto;">
 					                <button type="button" class="btn btn-danger" data-dismiss="modal">쇼핑 계속하기</button>
-					                <button type="button" class="btn btn-primary">관심상품 이동하기</button>
+					                <button type="button" class="btn btn-primary">관심상품 확인</button>
 					            </div>
 					        </div>
 					    </div>
