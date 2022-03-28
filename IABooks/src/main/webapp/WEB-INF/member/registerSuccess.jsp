@@ -22,7 +22,7 @@
 	
 </style>
 
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 	
 <div class="container">
@@ -67,5 +67,5 @@
 </div>	
 	
 	
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  
