@@ -161,3 +161,45 @@ select *
   from user_constraints A JOIN user_cons_columns B
   ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
   where A.table_name = 'TBL_ORDERDETAIL';
+  
+  
+  
+  
+  ------------------------------------
+  --- 시퀀스 생성 ---
+
+create sequence seq_qna_board
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache; 
+--Sequence SEQ_QNA_BOARD이(가) 생성되었습니다.
+
+  
+create sequence seq_review_board
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+--Sequence SEQ_REVIEW_BOARD이(가) 생성되었습니다.
+
+
+create sequence seq_faq_board
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+--Sequence SEQ_FAQ_BOARD이(가) 생성되었습니다.
+
+
+SELECT * FROM USER_SEQUENCES
+
+select *
+from tbl_faq_category
+order by SEQ_FAQ_CATEGORY asc;
