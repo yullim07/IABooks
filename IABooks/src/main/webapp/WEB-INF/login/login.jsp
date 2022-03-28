@@ -7,9 +7,9 @@
 
 <%
 	String ctxPath = request.getContextPath();
-	
 %>
 
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 
 <style type="text/css">
 
@@ -55,7 +55,7 @@ div#top {
 
 </style>
 <title>로그인</title>
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 <script type="text/javascript">
  
  	$(document).ready(function(){
@@ -136,12 +136,12 @@ function goLogin() {
 				<img src="<%=ctxPath%>/images/member/btn_login.gif" style= "cursor:pointer;" onclick="goLogin()">
 			</div>
 			<div id = "small">
-				<input type="checkbox" id="keep" class="input_keep" value="off">아이디 저장&nbsp;&nbsp;<img src="<%=ctxPath%>/images/dot_notice.gif"/>&nbsp;<span>보안접속</span>
+				<input type="checkbox" id="keep" class="input_keep" value="off">아이디 저장&nbsp;&nbsp;<img src="<%=ctxPath%>/images/member/dot_notice.gif"/>&nbsp;<span>보안접속</span>
 			<hr style = "width:275px;">
 			<div id = "link">
-				<a href="http://localhost:9090/IABooks/project_idFind.jsp" >아이디 찾기</a>&nbsp;
-				<a href="http://localhost:9090/IABooks/project_pwdFind.jsp">비밀번호 찾기</a>&nbsp;
-				<a href=>회원가입</a><br>
+				<a href="<%= ctxPath %>/login/idFind.book" >아이디 찾기</a>&nbsp;
+				<a href="<%= ctxPath %>/login/pwdFind.book">비밀번호 찾기</a>&nbsp;
+				<a href="<%= ctxPath %>/member/memberRegister.book">회원가입</a><br>
 			</div>
 			<hr style = "width:275px;"><br>
 			</div>
@@ -149,5 +149,5 @@ function goLogin() {
 		
 </div>
 	
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  
