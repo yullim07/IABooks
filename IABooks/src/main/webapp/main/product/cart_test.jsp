@@ -8,9 +8,9 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<!-- 회원팀이 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
-
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/cart_test.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 
 <script type="text/javascript">
 
@@ -23,43 +23,9 @@
 
 <jsp:include page="/header.jsp" />
 
+<div class="container">
 
-<div class="cart_container" style="width: 100%;">
-	<%-- 장바구니 제목 시작 --%>
-	<div class="cart_title"></div>
-	<%-- 장바구니 제목 끝 --%>
-	
-	<%-- 장바구니 내용 시작 --%>
-	<div class="cart_contents">
-		
-		<%-- 장바구니 목록 시작 --%>
-		<div class="cart_list">
-		</div>
-		<%-- 장바구니 목록 끝 --%>
-		
-		<%-- 장바구니 가격 시작 --%>
-		<div class="cart_price">
-		</div>
-		<%-- 장바구니 가격 끝 --%>
-		
-		<%-- 장바구니 이용안내 시작 --%>
-		<div class="cart_board">
-			<jsp:include page="cart_board.jsp" />
-		</div>
-		<%-- 장바구니 이용안내 끝 --%>
-		
-	</div>
-	<%-- 장바구니 내용 끝 --%>
-	
-	
-</div>
-
-
-<div>
-	<br>&nbsp;
-	<strong style="font-size: 16pt;">
-		<img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;" />&nbsp;관심상품
-	</strong>
+	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;" />&nbsp;관심상품</strong>
 	<hr style="border: solid 2px #e8e8e8;">
 
 	<!-- 나중에 숨김처리 해야함  -->

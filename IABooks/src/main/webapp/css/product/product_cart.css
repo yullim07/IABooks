@@ -1,6 +1,15 @@
 @charset "UTF-8";
 
-* {box-sizing: border-box}
+.notosanskr * { 
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 전체 컨테이너 */
+div.container {
+	width: 100%;
+/* 	padding: 1em; */
+}
+
 
 /* Set height of body and the document to 100% */
 body, html {

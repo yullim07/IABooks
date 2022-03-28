@@ -1,23 +1,49 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <%
-String ctxPath = request.getContextPath();
+	String ctxPath = request.getContextPath();
 %>
 
 
 <meta charset="UTF-8">
-<title>도서 상세보기 페이지</title>
+<title>TAB 부트스트랩</title>
 
 <!-- css -->
 <link rel="stylesheet" href="<%=ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 <link rel="stylesheet" type="text/css" href="<%=ctxPath%>/css/product/product_cart.css" />
 
-
-<title>장바구니 페이지</title>
+<!-- 헤더 삽입 -->
 <jsp:include page="/header.jsp" />
+
+
+
+
+
+<%-- 국내배송 해외배송 --%>
+<div class="card text-center mb-5">
+	<div class="card-header">
+		<ul class="nav nav-tabs card-header-tabs">
+			<li class="nav-item">
+				<a class="nav-link active" href="#">Active</a>
+			</li>
+			
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+
+
 
 <button class="tablink" onclick="openPage('deliveryBook', this, 'red')">국내배송상품</button>
 <button class="tablink" onclick="openPage('News', this, 'green')" id="defaultOpen">해외배송상품</button>
