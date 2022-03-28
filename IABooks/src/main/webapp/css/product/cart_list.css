@@ -1,163 +1,10 @@
 @charset "UTF-8";
 
-/* memeber.jsp 회원가입페이지 CSS 시작 */
-
-table.register {
-	width: 100%;
-	margin-top: 20px;
-	margin-bottom: 100px;
-}
-
-table.register > tbody > tr > th {
-	width: 180px; 
-	padding-left: 20px;
-	background-color: #FBFAFA;
-}
-
-table.register tr:first-child  {
-	border-top: solid 2px #e8e8e8; 
-}
-
-table.register > tbody > tr:nth-child(11) {
-	border-bottom: solid 2px #e8e8e8; 
-}
-
-table.register > tbody > tr {
-	
-	border-top: solid 1px #e8e8e8;
-	border-bottom: solid 1px #e8e8e8;
-}
-
-table.register > tbody > tr > td {
-	padding-left: 20px; 
-	padding: 10px;
-}
-
-span#star {
-	color: red;
-}
-
-
-table.agree {
-	width: 100%;
-	margin-top: 20px;
-	margin-bottom: 100px;
-	border-top: solid 2px #e8e8e8;
-}
-
-textarea.agree {
-	width: 90%;
-	height: 200px;
-	
-}
-
-div#agreebox {
-	border: solid 2px #747474;
-}
-
-table.agree > tbody > tr > td {
-	padding: 10px;
-	border-left: solid 2px #e8e8e8;
-	border-right: solid 2px #e8e8e8;
-	padding-left: 20px;
-	background-color: #FBFAFA;
-}
-
-table.agree > tbody > tr:nth-child(2) > td, table.agree > tbody > tr:nth-child(5) > td, table.agree > tbody > tr:nth-child(8) > td, table.agree > tbody > tr:nth-child(12) > td  {
-	border-top: solid 2px #e8e8e8;
-}
-
-table.agree > tbody > tr > td > textarea {
-	margin: 30px 0;
-	padding: 20px;
-}
-
-table.agree > tbody > tr:last-child > td {
-	border-left: none;
-	border-right: none;
-	border-bottom: none;
-	background-color: white;
-}
-
-/* memeber.jsp 회원가입페이지 CSS 끝 */
-
-/* boardMg.jsp 게시물관리페이지 CSS 시작 */
-
-div.boardMg_title {
-		padding-left: 10px;
-		margin: 20px 0;
-	}
-
-	table.boardInfo {
-		border-top: solid 1px #e8e8e8;
-		border-bottom: solid 1px #e8e8e8;
-		width: 100%;
-		margin: 40px 0;
-	}
-	
-	table.boardInfo > thead > tr > td {
-		height: 50px;
-		text-align: center;
-		border-bottom: solid 1px #e8e8e8;
-		background-color: #FBFAFA;
-		
-	}
-	
-	table.boardInfo > tbody > tr > td {
-		text-align: center;
-		height: 200px;
-	}
-	
-	div.boardMg_foot {
-		text-align: center;
-		margin: 40px 0;
-	}
-	
-	div.boardMg_foot > button {
-		width: 60px; 
-		background-color: #404040;
-		color: white;
-		
-	}
-	
-	div.boardMg_foot > select {
-		border-color: #e8e8e8; 
-	}
-	
-/* boardMg.jsp 회원가입페이지 CSS 끝 */
-
-/* coupon.jsp 쿠폰관리 페이지 CSS 시작 */
-
-table.coupon , table.couponKey, table.couponInfo {
-	width: 100%;
-	margin: 20px 0;
-}
-
-
-table.coupon > tbody > tr:last-child {
-	border-bottom: solid 2px #e8e8e8;
-}
-table.coupon > tbody > tr{
-	height: 50px;
-}
-
-table.coupon > thead > tr {
-	border-top: solid 2px #e8e8e8;
-	border-bottom: solid 2px #e8e8e8;
-	
-}
-
-table.coupon > thead > tr > td {
-	background-color: #FBFAFA;
-	height: 50px;
-	text-align: center;
-}
 
 div.pagination {
   display: inline-block;
   width: 100%;
   text-align: center;
-  
 }
 
 div.pagination a {
@@ -184,242 +31,62 @@ div.pagination a:hover {
 	font-weight: bolder;
 	opacity: 0.3;
 }
-
-table.couponKey {
-	border: solid 2px #e8e8e8;
-	width: 100%;
-	height: 107px;
-	text-align: center;
-	background-color: #FBFAFA;
-}
-
-table.couponInfo {
-	border: solid 2px #e8e8e8;
-}
- 
-table.couponInfo > tbody > tr > td:first-child {
-	padding: 10px;
-	font-size: 12pt;
-	font-weight: bold;
-}
-
-table.couponInfo li {
-	padding: 10px;
-	font-size: 9pt;
-	/* list-style: none; */
-}
-
-/* coupon.jsp 쿠폰관리 페이지 CSS 끝 */
+/* ****************************** */
 
 
-/* order_form.jsp 주문서작성 페이지 CSS 시작 */
-
-table.benefit_info {
-	width: 100%;	
-	border: solid 5px #e8e8e8;
-	margin-top: 10px;
-	margin-bottom: 30px;
-}
-
-table.benefit_info td {
-	height: 50px;
-}
-
-table.benefit_info span {
-	font-weight: bold; 
-	padding-right: 30px;
-}
-
-table.benefit_info span[name='point'] , table.benefit_info span[name='coupon'] {
-	color: blue;
-}
-
-.floatR {
-	float: right;
-}
-
-table.shipping_info {
-	width: 100%;
-	border-bottom: solid 2px #e8e8e8;
-	margin-top: 10px;
-	margin-bottom: 50px;
-}
-
-table.shipping_info td {
-	padding: 15px;
-}
-
-table.shipping_info tr {
-	border-top: solid 2px #e8e8e8;
-	border-bottom: solid 2px #e8e8e8;
-}
-
-table.shipping_info th {
-	background-color: #FBFAFA;
-	width: 180px; 
-	padding-left: 20px;
-}
+/* ******************************* */
 
 
-table.shipping_info textarea {
-	width: 85%;
-	height: 60px;
-}
 
-table.paymentExpected {
-	width: 100%;
-	border-bottom: solid 1px #e8e8e8;
-	border-top: solid 1px #e8e8e8;
-	margin-top: 10px;
-	margin-bottom: 50px;
-}
+/* cart_items.jsp 관심상품 페이지 CSS 시작 */
 
-table.paymentExpected tr {
-	border-top: solid 1px #e8e8e8;
-}
-
-table.paymentExpected > thead > tr >  td {
-	padding: 20px 0;;
-	text-align: center;
-	width: 33%;
-}
-
-table.paymentExpected > thead > tr:first-child{
-	border-top: solid 1px black;
-}
-table.paymentExpected > thead > tr:last-child{
-	border-bottom: solid 1px black;
-}
-
-table.paymentExpected > thead > tr:nth-child(2) > td {
-	font-weight: bold;
-	font-size: 16pt;
-}
-
-table.paymentExpected > thead > tr:first-child > td {
-	background-color: #FBFAFA;
-}
-
-table.paymentExpected > tbody > tr > td {
-	background-color: #FBFAFA;
-	padding: 20px;
-	font-weight: bold;
-}
-
-div.btn_order {
-	cursor: pointer;
-	text-align: center;
-	margin: 30px 0;
-}
-
-/* order_form.jsp 주문서작성 페이지 CSS 끝 */
-
-
-/* point.jsp 적립금 페이지 CSS 시작 */
-li.nav-item {
-	background-color: #F2F2F2;
-}
-
-table.point_menu {
-	width: 100%;
-	border-bottom: 1px solid #e8e8e8;
-	margin-bottom: 50px;
-}
-
-table.pointTable{
-	width: 100%;
-	border: 5px solid #e8e8e8;
-	margin-top: 20px;
-	margin-bottom: 30px;
-	
-}
-
-tr.pointTable{
-	border: solid 1px red;
-}
-
-li.pointTable {
-	height: 70px;
-	padding-top: 20px;
-}
-
-ul.pointTable {
-	list-style-type: none;
-	
-}
-
-td.pointTable {
-	padding-left: 5px;
-}
-
-table.point_menu > thead > tr {
-	background-color: #FBFAFA;
-}
-
-table.point_menu > thead > tr > td {
-	border-top: solid 2px #e8e8e8;
-	border-bottom: solid 2px #e8e8e8;
-	padding-left: 20px;
-	height: 50px;
-}
-
-table.point_menu > tbody > tr > td {
-	height: 50px;
-}
-
-
-/* point.jsp 적립금 페이지 CSS 끝 */
-
-
-/* interested_items.jsp 관심상품 페이지 CSS 시작 */
-
-table.interested {
+table.cart {
 	width: 100%;
 	margin-top: 30px;
 	margin-bottom: 10px;
 	
 }
 
-table.interested td {
+table.cart td {
 	text-align: center;
 	padding-left: 10px;
 	height: 100px;
 }
 
-table.interested >  thead > tr > td {
+table.cart >  thead > tr > td {
 	height: 50px;
 	background-color: #FBFAFA;
 }
 
 
-table.interested  tr {
+table.cart  tr {
 	border-top: solid 2px #e8e8e8;
 }
 
-table.interested tr:last-child {
+table.cart tr:last-child {
 	border-bottom: solid 2px #e8e8e8;
 }
 
-span.interested_choice > img {
+span.cart_choice > img {
 	margin: 5px;
 }
 
-span.interested_order {
+span.cart_order {
 	float: right;
 }
 
-table.interested_none {
+table.cart_none {
 	width: 100%;
 	margin-top: 30px;
 	margin-bottom: 10px;
 }
 
-table.interested_none td {
+table.cart_none td {
 	text-align: center;
 	height: 100px;
 }
 
-table.interested_none tr {
+table.cart_none tr {
 	border-top: solid 2px #e8e8e8;
 	border-bottom: solid 2px #e8e8e8;
 }
@@ -457,91 +124,6 @@ table.interested_none tr {
 		font-weight: bolder;
 		opacity: 0.3;
 	}
-/* interested_items.jsp 관심상품 페이지 CSS 끝 */
+/* cart_items.jsp 관심상품 페이지 CSS 끝 */
 
 
-/* register_success.jsp 가입성공 페이지 CSS 시작 */
-
-	table.register_success {
-		width: 100%; 
-		border: 5px solid #e8e8e8;
-		margin-bottom: 30px;
-		height: 400px;
-	}
-	
-	table.register_success > thead > tr > td {
-		font-size: 18pt; 
-		font-weight:bolder; 
-		text-align: center;
-		height: 50px; 
-	}
-	
-	table.register_success > tbody.content > tr > td {
-		height: 50px;
-		text-align: center;
-	}
-	
-	table.register_success > tbody.content > tr > td > ul > li {
-		list-style-type: none;
-		height: 50px;
-		padding-top: 10px;
-	}
-	
-	table.register_success > tbody.content > tr > td > ul {
-		display: inline-block;
-	}
-	
-	div.memberInfo {
-		text-align: center;
-	}
-	
-	button#main {
-		width: 200px;
-		height: 40px;
-		margin: 20px 0 ;
-		text-align: center;
-		background-color: #404040;
-		color: white;
-		border: 0px;
-	}
-
-/* register_success.jsp 가입성공 페이지 CSS 끝 */
-
-
-
-/* updateForm.jsp 정보수정 페이지 CSS 시작 */
-
-table.register {
-	width: 100%;
-	margin-top: 20px;
-	margin-bottom: 100px;
-	
-}
-
-table.register > tbody > tr > th {
-	width: 180px; 
-	padding-left: 20px;
-	background-color: #FBFAFA;
-}
-
-table.register > tbody > tr:nth-child(1)  {
-	border-top: solid 2px #e8e8e8 !important; 
-}
-
-table.register > tbody > tr {
-	
-	border-top: solid 1px #e8e8e8;
-	border-bottom: solid 1px #e8e8e8;
-}
-
-table.register > tbody > tr > td {
-	padding-left: 20px; 
-	height: 50px;
-}
-
-table.register > tbody > tr:nth-child(14) {
- 	border-bottom: solid 2px #e8e8e8 !important; 
- }
-
-
-/* updateForm.jsp 정보수정 페이지 CSS 끝 */	

@@ -14,27 +14,35 @@
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- 직접 만든 CSS -->
-<%-- <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" /> --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/cart_list.css" />
 
+	<!-- 헤더 삽입 -->
+	<jsp:include page="/header.jsp" />
+
 	<!-- 컨테이너 시작 -->
-	<!-- <div class="container"> -->
+	<div class="container detail_container">
 	
-	
+
+
+
+	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;" />&nbsp;관심상품</strong>
+	<hr style="border: solid 2px #e8e8e8;">
+
 	<!-- 나중에 숨김처리 해야함  -->
-	<div class="cart_empty">
-		<table class="cart_none">
+	<div class="interestde_empty">
+		<table class="interested_none">
 			<tr>
 				<td>장바구니 내역이 없습니다.</td>
 			</tr>
 		</table>
 	</div>
 
-	<div class="cart_not_empty">
-		<table class="cart_list">
+	<div class="interestde_not_empty">
+		<table class="interested">
 			<thead>
 				<tr>
-					<td><input type="checkbox" name="cart_list_allcheck" /></td>
+					<td><input type="checkbox" name="interested_allcheck" /></td>
 					<td>이미지</td>
 					<td>상품정보</td>
 					<td>판매가</td>
@@ -47,7 +55,7 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td><input type="checkbox" id="cart_list_check" /></td>
+					<td><input type="checkbox" id="interested_check" /></td>
 					<td><img src="<%= ctxPath %>/images/member/e78bdc919df426ed106c57e265db6395.jpg" style="height: 80px; width: 80px;" /></td>
 					<td>30대 백수 남편이지만 잘 살고 있습니다.</td>
 					<td>15,000원</td>
@@ -67,11 +75,15 @@
 			</tbody>
 		</table>
 
-		<span class="cart_choice"> <strong>선택상품을</strong><img src="<%= ctxPath %>/images/member/btn_delete2.gif" style="cursor: pointer;" /><img src="<%= ctxPath %>/images/member/btn_basket2.gif" style="cursor: pointer;" />
-		</span> <span class="cart_order"><img src="<%= ctxPath %>/images/member/btn_order_empty.gif" style="cursor: pointer;" />&nbsp;&nbsp;<img src="<%= ctxPath %>/images/member/btn_order_all.gif" style="cursor: pointer;" /></span>
+		<span class="interested_choice"> <strong>선택상품을</strong><img src="<%= ctxPath %>/images/member/btn_delete2.gif" style="cursor: pointer;" /><img src="<%= ctxPath %>/images/member/btn_basket2.gif" style="cursor: pointer;" />
+		</span> <span class="interested_order"><img src="<%= ctxPath %>/images/member/btn_order_empty.gif" style="cursor: pointer;" />&nbsp;&nbsp;<img src="<%= ctxPath %>/images/member/btn_order_all.gif" style="cursor: pointer;" /></span>
 
-
+		<div class="pagination pagination-sm justify-content-center">
+			<a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a> <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a> <a class="active" href="#">1</a> <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a> <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
+		</div>
 	</div>
+	<jsp:include page="cart_board.jsp" />
 	
-<!-- </div> -->
+</div>
 
+<jsp:include page="/footer.jsp" />

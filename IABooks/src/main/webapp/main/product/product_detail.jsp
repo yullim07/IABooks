@@ -17,7 +17,7 @@
 
 
 <meta charset="UTF-8">
-<title>도서 상세보기 페이지</title>
+<title>in사과::도서 상세보기</title>
 
 <!-- css -->
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
@@ -25,9 +25,8 @@
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
-
-
-	<title>제품 상세 보기 페이지</title>
+	
+	<!-- 헤더 삽입 -->
 	<jsp:include page="/header.jsp" />
 
 	<!-- 컨테이너 시작 -->

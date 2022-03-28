@@ -11,8 +11,8 @@
 <link rel="stylesheet" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- 직접 만든 CSS -->
-<%-- <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
- --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
+
 <style type="text/css">
 .notosanskr * { 
 	font-family: 'Noto Sans KR', sans-serif;
