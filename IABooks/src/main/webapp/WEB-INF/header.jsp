@@ -58,7 +58,7 @@
 	<div class="container">
 		<nav id="navbar" class="navbar">
 			<ul class="justify-content-end ml-auto">     		
-          		<li class="bar"><a class="nav-link scrollto" href="/login/login.book">로그인</a></li>
+          		<li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/login.book">로그인</a></li>
           		<li class="bar bulkhead"><a class="nav-link scrollto" href="#">회원가입</a></li>
 				<li class="bar bulkhead"><a class="" href="#">장바구니</a></li>
            		<li class="dropdown bulkhead"><a href="#">마이페이지<i class="bi bi-chevron-down dropdown-indicator"></i></a>
