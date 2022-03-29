@@ -58,6 +58,12 @@ CREATE TABLE tbl_faq_board (
 
 -------------------------------------------------------------------------------------------------------
 
+alter table tbl_comment add isdelete VARCHAR2(10) NOT NULL;
+alter table tbl_qna_board add isdelete VARCHAR2(10) NOT NULL;
+alter table tbl_review_board add isdelete VARCHAR2(10) NOT NULL;
+alter table tbl_faq_board add isdelete VARCHAR2(10) NOT NULL;
+
+
 select *
 from tbl_qna_board;
 
@@ -120,4 +126,38 @@ WHERE    TABLE_NAME = 'TBL_FAQ_BOARD';
   commit;
 
 
+-- 상품Q&A 게시판
+CREATE TABLE tbl_qna_board (
+	pk_qna_num    NUMBER         NOT NULL, -- 문의번호
+	fk_userid     VARCHAR2(20)   NOT NULL, -- 회원아이디
+	fk_pnum       NUMBER         NOT NULL, -- 국제표준도서번호
+	qna_title     VARCHAR2(20)   NOT NULL, -- 제목
+	qna_isanswer  VARCHAR2(5)    NULL,     -- 답변유무
+	qna_readcount NUMBER         DEFAULT 0, -- 조회수
+	qna_date      DATE           DEFAULT sysdate, -- 작성일자
+	qna_contents  VARCHAR2(1000) NOT NULL, -- 게시글 내용
+	qna_passwd    VARCHAR2(20)   NOT NULL, -- 글비밀번호
+	qna_issecret  VARCHAR2(5)    NULL      -- 비밀유무
+);
 
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title, qna_isanswer, qna_contents, qna_passwd, qna_issecret)
+values(seq_qna_board.nextval, '111', '001','222', '1', '반갑습니다.', '1234', '1');
+-----------------------------------------
+create table test_board (
+userid VARCHAR2(20) NOT NULL
+, contents VARCHAR2(100) NOT NULL
+);
+
+insert into test_board(userid, contents)
+values('111', '222');
+
+String sql = "insert into test_board(userid, contents)\n"+
+"values('111', '222');";
+
+select *
+from test_board;
+
+String sql = "select *\n"+
+"from test_board;";
+
+commit;

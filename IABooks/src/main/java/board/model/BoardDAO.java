@@ -67,9 +67,9 @@ public class BoardDAO implements InterBoardDAO {
 	
 	// *** 글목록보기 메소드를 구현하기 *** //
 		@Override
-		public List<BoardVO> boardList() {  
+		public List<QnABoardVO> boardList() {  
 			
-			List<BoardVO> boardList = new ArrayList<>(); //BoardDTO 속에는 MemberDTO가 들어와야 한다.
+			List<QnABoardVO> boardList = new ArrayList<>(); //BoardDTO 속에는 MemberDTO가 들어와야 한다.
 			
 			try {
 				
@@ -94,7 +94,7 @@ public class BoardDAO implements InterBoardDAO {
 				rs = pstmt.executeQuery();
 				
 				while(rs.next()) {
-					BoardVO board = new BoardVO();
+					QnABoardVO board = new QnABoardVO();
 					
 					board.setPk_qna_num(rs.getInt(1));
 					board.setQna_title(rs.getString(2));
