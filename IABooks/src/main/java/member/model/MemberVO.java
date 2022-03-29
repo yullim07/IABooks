@@ -34,22 +34,24 @@ public class MemberVO {
 	// 기본생성자 
 	public MemberVO() {}
 	
-	public MemberVO(String userid, String pwd, String name, String email, String phone, String postcode,
-			String address, String detailaddress, String extraaddress, String gender, String birthday, String number) {
+	public MemberVO(String userid, String pwd, String name, String email, String postcode, 
+			String address, String detailaddress, String extraaddress, String gender, String birthday, String number, String phone) {
 		super();
 		this.userid = userid;
 		this.pwd = pwd;
 		this.name = name;
 		this.email = email;
-		this.number = number;
-		this.phone = phone;
 		this.postcode = postcode;
 		this.address = address;
 		this.detailaddress = detailaddress;
 		this.extraaddress = extraaddress;
 		this.gender = gender;
 		this.birthday = birthday;
+		this.number = number;
+		this.phone = phone;
 	}
+	
+
 
 	public String getUserid() {
 		return userid;

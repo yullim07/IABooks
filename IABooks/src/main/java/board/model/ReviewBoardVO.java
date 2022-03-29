@@ -1,6 +1,7 @@
 package board.model;
 
 import member.model.MemberVO;
+import product.model.ProductVO;
 
 public class ReviewBoardVO {
 	
@@ -21,6 +22,8 @@ public class ReviewBoardVO {
 //		-----------------------------------------	
 		
 		private MemberVO member;
+		
+		private ProductVO product;
 		
 		
 		public int getPk_rnum() {
@@ -109,6 +112,11 @@ public class ReviewBoardVO {
 		
 		public void setIsdelete(int isdelete) {
 			this.isdelete = isdelete;
+		}
+
+		public void setProduct(ProductVO product) {
+			// TODO Auto-generated method stub
+			this.product = product;
 		}
 		
 
