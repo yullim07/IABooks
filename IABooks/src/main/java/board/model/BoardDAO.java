@@ -71,50 +71,105 @@ public class BoardDAO implements InterBoardDAO {
    
    // *** QnA 글목록보기 메소드를 구현하기 *** //
       @Override
-      public List<QnABoardVO> boardList() {  
+      public List<QnABoardVO> qnaboardList() {  
          
-         List<QnABoardVO> boardList = new ArrayList<>(); //BoardDTO 속에는 MemberDTO가 들어와야 한다.
+         List<QnABoardVO> qnaboardList = new ArrayList<>(); //BoardDTO 속에는 MemberDTO가 들어와야 한다.
+         
+         QnABoardVO board = null;
+         
+         int pk_qna_num;
+         String pro_name = "";
+         String pro_imgfile_name = "";
+         String qna_title = "";
+         String mname = "";
          
          try {
             
             Class.forName("oracle.jdbc.driver.OracleDriver");
             
             conn = DriverManager.getConnection("jdbc:oracle:thin:@211.238.142.70:1521:xe", "semiorauser3", "cclass" );
+            /*
+            String sql = "select pk_qna_num,  fk_pnum, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date, qna_readcount , fk_userid , qna_issecret\n"+
+            		"from tbl_qna_board Q\n"+
+            		"JOIN tbl_member M \n"+
+            		"ON Q.fk_userid = M.pk_userid \n"+
+            		"where isdelete = 0\n"+
+            		"order by pk_qna_num desc";
+           */
             
-            /* 처음에 한거
-            String sql = " select boardno,  subject, name, to_char(writeday,'yyyy-mm-dd hh24:mi:ss'), viewcount\n"+
-                      " from jdbc_board B JOIN jdbc_member M\n"+
-                      " ON B.fk_userid = M.userid\n"+
-                      " order by boardno desc";
-            */
+            String sql = " select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret\n"+
+            			 " from tbl_member M\n"+
+            			 " JOIN tbl_qna_board Q  ON M.pk_userid = Q.fk_userid\n"+
+            			 " JOIN tbl_product P ON Q.fk_pnum = P.pk_pro_num\n"+
+            			 " where isdelete = 0\n"+
+            			 " order by pk_qna_num desc";
+
             
-            String sql = " select pk_qna_num,  qna_title, fk_userid, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount\n"+
-                      " from tbl_qna_board B JOIN tbl_member M\n"+
-                      " ON B.fk_userid = M.pk_userid\n"+
-                      " order by pk_qna_num desc" ;
+            
                //BoardDTO는 회원이 존재해야만 그 회원이 글을 쓴다. 회원이 없는데 어뜨캐 글을 쓰냐 회원테이블이 먼저 존재한다. 
             pstmt = conn.prepareStatement(sql);
             
             rs = pstmt.executeQuery();
             
             while(rs.next()) {
-               QnABoardVO board = new QnABoardVO();
-               
-               board.setPk_qna_num(rs.getInt(1));
-               board.setQna_title(rs.getString(2));
-               /* board.setFk_userid(rs.getString(3)); */
-               
-                     //**중요한 부분
-               MemberVO member = new MemberVO();
-               member.setName(rs.getString(3));
-               board.setMember(member); // 보드에 멤버를 넣어줌. 
-            
-               board.setQna_date(rs.getString(4));
-               board.setQna_readcount(rs.getInt(5));
-               
-               
-               boardList.add(board);
-            
+            	
+            	pk_qna_num = rs.getInt(1);
+            	pro_name = rs.getString(2);
+            	pro_imgfile_name = rs.getString(3);
+            	qna_title = rs.getString(4);
+            	
+            	
+            	mname = rs.getString(5);
+            	
+            	board = new QnABoardVO();
+            	
+                board.setPk_qna_num(pk_qna_num);
+                
+                ProductVO product = new ProductVO();
+                product.setPro_name(pro_name);
+                board.setProduct(product);
+                product = new ProductVO();
+                product.setfk_imgfileno(pro_imgfile_name);
+                board.setProduct(product);
+                
+                
+                MemberVO member = new MemberVO();
+                member.setName(mname);
+                board.setMember(member); // 보드에 멤버를 넣어줌. 
+                
+                board.setQna_date( rs.getString(5)); 
+                board.setQna_readcount(rs.getInt(6));
+				board.setFk_userid(rs.getString(7)); 
+				board.setQna_issecret(rs.getInt(8));
+            	
+            	/*
+            	board = new QnABoardVO();
+            	board.setPk_qna_num(rs.getInt(1)); ProductVO product = new ProductVO();
+            	
+            	product = new ProductVO();
+            	product.setPro_name(rs.getString(2));
+            	board.setProduct(product);
+            	
+            	product.setPro_imgfile_name(rs.getString(3));
+            	*/
+            	
+				/*
+				 * board = new QnABoardVO();
+				 * 
+				 * board.setPk_qna_num(rs.getInt(1)); ProductVO product = new ProductVO();
+				 * board.setFk_pnum(rs.getInt(2));
+				 * 
+				 * board.setQna_title(rs.getString(3));
+				 * 
+				 * MemberVO member = new MemberVO(); member.setName(rs.getString(4));
+				 * board.setMember(member);
+				 * 
+				 * board.setQna_date( rs.getString(5)); board.setQna_readcount(rs.getInt(6));
+				 * board.setFk_userid(rs.getString(7)); board.setQna_issecret(rs.getInt(8));
+				 * 
+				 * 
+				 * qnaboardList.add(board);
+				 */    
             }//end of while(rs.next()) ------------ 
             
          } catch (ClassNotFoundException e) {
@@ -126,7 +181,7 @@ public class BoardDAO implements InterBoardDAO {
          }
          
          
-         return boardList;
+         return qnaboardList;
       }//end of public List<BoardDTO> boardList() -----
 
       

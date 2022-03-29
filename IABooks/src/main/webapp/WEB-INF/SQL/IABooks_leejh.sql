@@ -290,9 +290,22 @@ select *
 from tbl_product;
 
 
-insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title, qna_contents, qna_passwd )
-values(SEQ_REVIEW_BOARD.nextval, '444', 'admin', '제목이 길게 써질까요!!?? 얼마나 길게 써질까요 우다다다다', 4,'오늘은 화요일 내일은 수요일 모레는 목요일입니다. 추천합니다','qwer1234$','박재희');
+insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title, qna_contents, qna_passwd ,isdelete)
+values(SEQ_QNA_BOARD.nextval, '111', 'admin', '리틀 어피치 상품 문의 드립니다','리틀어피치 재고는 언제 입고 될까요? 재고예정일 답변 부탁드립니다','qwer1234$', 0);
 
+insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title, qna_contents, qna_passwd ,isdelete)
+values(SEQ_QNA_BOARD.nextval, '22', 'admin', '라이언 상품 문의 드립니다','라이언 재고는 언제 입고 될까요? 재고예정일 답변 부탁드립니다','qwer1234$', 0);
+
+insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title, qna_contents, qna_passwd ,isdelete)
+values(SEQ_QNA_BOARD.nextval, '33', 'admin', '카카오프렌즈 대량구매 문의 드립니다','라이언, 리틀어피치 각 100개씩 대량구매 문의드립니다.  답변 부탁드립니다','qwer1234$', 0);
+
+insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title, qna_contents, qna_passwd ,isdelete)
+values(SEQ_QNA_BOARD.nextval, '9791197381010', 'admin', '책 재입고문의','나의 식사에는 감정이 있습니다 책 재입고 문의드립니다','qwer1234$', 0);
+
+commit;
+
+select *
+from tbl_qna_board;
 
 
 -- 이클립스 추가용
@@ -300,7 +313,7 @@ select pk_rnum,  fk_pnum, re_title, re_writer, to_char(re_date,'yyyy-mm-dd hh24:
 from tbl_review_board B 
 JOIN tbl_member M 
 ON B.fk_userid = M.pk_userid 
-where isdelete =
+where isdelete = 0
 order by pk_rnum desc
 
 
@@ -312,9 +325,21 @@ ON Q.fk_userid = M.pk_userid
 where isdelete = 0
 order by pk_qna_num desc
 
+select  pk_qna_num, P.pro_name, P.pro_imgfile_name, , qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
+from tbl_member M
+JOIN tbl_qna_board Q  ON M.pk_userid = Q.fk_userid
+JOIN tbl_product P ON Q.fk_pnum = P.pk_pro_num
+where isdelete = 0
+order by pk_qna_num desc;
+
 select *
 from tbl_qna_board;
 
 
 alter table tbl_qna_board modify qna_issecret default 0;
 --Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+select *
+from tbl_product;
+
+

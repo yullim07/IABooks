@@ -1,6 +1,7 @@
 package board.model;
 
 import member.model.MemberVO;
+import product.model.ProductVO;
 
 public class QnABoardVO {
 
@@ -25,7 +26,7 @@ public class QnABoardVO {
 	// private MemberDTO member; // @@@  부모  ,,   // 초기치 null
 	//오라클의 jdbc_board 테이블과 jdbc_member 테이블을 join하여 select 하는 용도
 	
-	//private ProductDTO product; // @@@  부모  ,,   // 초기치 null
+	private ProductVO product; // @@@  부모  ,,   // 초기치 null
 	//오라클의 jdbc_board 테이블과 jdbc_member 테이블을 join하여 select 하는 용도
 
 	// private int commentcnt;  //필드 추가. 
@@ -101,8 +102,14 @@ public class QnABoardVO {
 	public int getIsdelete() {
 		return isdelete;
 	}
+	
 	public void setIsdelete(int isdelete) {
 		this.isdelete = isdelete;
+	}
+	
+	public void setProduct(ProductVO product) {
+		// TODO Auto-generated method stub
+		this.product = product;
 	}
 
 	

@@ -201,7 +201,7 @@
 	    
 	  </table>
 	  <div class="write_btn_zone">
-      	 <a href="index_reviewWrite.jsp"  class="btn btn-dark" id="write_btn">글쓰기</a> 
+      	 <a href="<%= ctxPath%>/board/reviewWrite.book"  class="btn btn-dark" id="write_btn">글쓰기</a> 
   	  </div>
 	  
 	</div>
