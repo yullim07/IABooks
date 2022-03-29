@@ -1,4 +1,5 @@
-
+select *
+from TBL_MEMBER;
 -- 회원
 CREATE TABLE "TBL_MEMBER" (
 	"PK_USERID"         VARCHAR2(20)  NOT NULL, -- 회원아이디

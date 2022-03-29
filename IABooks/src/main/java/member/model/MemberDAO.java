@@ -30,7 +30,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 				Context initContext = new InitialContext();
 			    Context envContext  = (Context)initContext.lookup("java:/comp/env");
-			    ds = (DataSource)envContext.lookup("jdbc/mymvc_oracle");
+			    ds = (DataSource)envContext.lookup("jdbc/semiorauser3");
 			    aes = new AES256(SecretMyKey.KEY);
 			    // SecretMyKey.KEY 은 우리가 만든 비밀키이다.
 		
@@ -57,7 +57,7 @@ public class MemberDAO implements InterMemberDAO {
 	} // end of void close() 	
 	
 	// ID 중복검사( tbl_member 테이블에서 userid가 존재하면 true를 리턴해주고, userid가 존재하지 않으면 false를 리턴한다.)
-	@Override
+/*	@Override
 	public boolean idDupilcateCheck(String userid) throws SQLException {
 		
 		boolean isExist = false;
@@ -83,9 +83,11 @@ public class MemberDAO implements InterMemberDAO {
 		
 		return isExist;
 	}
+*/
 
+	
 	// email 중복검사 (tbl_member 테이블에서 email 가 존재하면 true를 리턴해주고, email 가 존재하지 않으면 false를 리턴한다)
-	@Override
+/*	@Override
 	public boolean emailDupilcateCheck(String email) throws SQLException {
 		boolean isExist = false;
 		
@@ -113,7 +115,8 @@ public class MemberDAO implements InterMemberDAO {
 		
 		return isExist;
 	}
-	
+*/	
+
 	// 회원가입을 해주는 메소드(tbl_member 테이블에 insert)
 	@Override
 	public int registerMember(MemberVO member) throws SQLException {
@@ -123,8 +126,8 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			conn =ds.getConnection();
 			
-			String sql = " insert into tbl_member(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday) "
-						+" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			String sql = " insert into tbl_member(PK_USERID, PWD, NAME, UQ_EMAIL, UQ_PHONE, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, CK_GENDER, BIRTHDAY, NUMBER) "
+						+" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -132,13 +135,14 @@ public class MemberDAO implements InterMemberDAO {
 			pstmt.setString(2, Sha256.encrypt( member.getPwd()) );		// 암호를 SHA256 알고리즘으로 단방향 암호화 시킨다.
 			pstmt.setString(3, member.getName());
 			pstmt.setString(4, aes.encrypt(member.getEmail()));		// 이메일을 AES256 알고리즘으로 양방향 암호화 시킨다.
-			pstmt.setString(5, aes.encrypt(member.getMobile()));		// 핸드폰번호를 AES256 알고리즘으로 양방향 암호화 시킨다.
+			pstmt.setString(5, aes.encrypt(member.getPhone()));		// 핸드폰번호를 AES256 알고리즘으로 양방향 암호화 시킨다.
 			pstmt.setString(6, member.getPostcode());
 			pstmt.setString(7, member.getAddress());
 			pstmt.setString(8, member.getDetailaddress());
 			pstmt.setString(9, member.getExtraaddress());
 			pstmt.setString(10, member.getGender());
 			pstmt.setString(11, member.getBirthday());
+			pstmt.setString(12, member.getNumber());
 			
 			
 			result = pstmt.executeUpdate();
@@ -153,6 +157,7 @@ public class MemberDAO implements InterMemberDAO {
 	}
 
 	
+/*
 	// 입력받은 paraMap을 가지고 한명의 회원정보를 리턴시켜주는 메소드(로그인 처리)
 	@Override
 	public MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException {
@@ -249,9 +254,10 @@ public class MemberDAO implements InterMemberDAO {
 		
 		return member;
 	}
+*/
 	
 	// 성명과 이메일을 입력 받아서 해당 사용자에 아이디를 알려주는 메소드(아이디 찾기) 
-	@Override
+/*	@Override
 	public String findUserid(Map<String, String> paraMap) throws SQLException {
 		String userid = null;
 		
@@ -310,9 +316,11 @@ public class MemberDAO implements InterMemberDAO {
 		
 		return isUserExist;
 	}
-
+*/
+	
+	
 	// 암호 변경하기 메소드
-	@Override
+/*	@Override
 	public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
 		int result = 0;
 		
@@ -335,5 +343,5 @@ public class MemberDAO implements InterMemberDAO {
 		
 		return result;
 	}
-
+*/
 }

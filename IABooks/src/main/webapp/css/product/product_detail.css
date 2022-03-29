@@ -38,7 +38,7 @@ div.detail_img_display > a > img.big {
 div.detail_img_thumbnails {
 	width: 500px;
 	height: 100px;
-	text-align: center;
+	/* text-align: center; */
 }
 
 /* 상단컨텐츠 - 썸네일이미지 너비 설정 */

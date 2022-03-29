@@ -127,11 +127,11 @@
 				</tr>
 				<tr>
 					<th><label class="title" for="passwd1">비밀번호&nbsp;<span id="star">*</span></label></th>
-					<td><input type="password" class="myinput" id="passwd1" size="20" maxlength="20" required />&nbsp;(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)</td>
+					<td><input type="password" class="myinput" id="pwd1" size="20" maxlength="20" required />&nbsp;(영문 대소문자/숫자/특수문자 중 2가지 이상 조합, 10자~16자)</td>
 				</tr>
 				<tr>
 					<th><label class="title" for="passwd2">비밀번호확인&nbsp;<span id="star">*</span></label></th>
-					<td><input type="password" class="myinput" id="passwd2" size="20" maxlength="20" required /></td>
+					<td><input type="password" class="myinput" id="pwd2" size="20" maxlength="20" required /></td>
 				</tr>
 				<tr>
 				<th>이름 &nbsp;<span id="star">*</span></th>
@@ -158,7 +158,7 @@
 				<tr>
 					<th>일반전화 <span id="star">*</span></th>
 						<td>
-							<select>
+							<select id="num1">
 								<option value="02">02</option>
 								<option value="031">031</option>
 								<option value="032">032</option>
@@ -180,8 +180,8 @@
 								<option value="010">010</option>
 								<option value="011">011</option>
 							</select>&nbsp;-&nbsp;
-							<input type="text" size="5" maxlength="4">&nbsp;-&nbsp; 
-							<input type="text" size="5" maxlength="4">
+							<input id="num2" type="text" size="5" maxlength="4">&nbsp;-&nbsp; 
+							<input id="num3" type="text" size="5" maxlength="4">
 						</td>
 				</tr >
 				<tr>

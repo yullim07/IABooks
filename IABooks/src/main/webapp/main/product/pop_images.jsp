@@ -21,12 +21,12 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	
 	<!-- 직접 만든 CSS -->
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_style.css" />
-	
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
+				
 	<!-- Optional JavaScript -->
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
-	 
+
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
 	<title>Insert title here</title>
 </head>

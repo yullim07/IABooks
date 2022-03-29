@@ -33,7 +33,6 @@
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 	
 	<%-- Optional JavaScript --%>
-
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
 	<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> 
@@ -58,7 +57,7 @@
 	<div class="container">
 		<nav id="navbar" class="navbar">
 			<ul class="justify-content-end ml-auto">     		
-          		<li class="bar"><a class="nav-link scrollto" href="#">로그인</a></li>
+          		<li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/login.book">로그인</a></li>
           		<li class="bar bulkhead"><a class="nav-link scrollto" href="#">회원가입</a></li>
 				<li class="bar bulkhead"><a class="" href="#">장바구니</a></li>
            		<li class="dropdown bulkhead"><a href="#">마이페이지<i class="bi bi-chevron-down dropdown-indicator"></i></a>

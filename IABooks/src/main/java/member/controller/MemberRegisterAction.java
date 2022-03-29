@@ -13,6 +13,8 @@ public class MemberRegisterAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		super.setViewPage("/WEB-INF/member/memberRegister.jsp");
+		
 		String method = request.getMethod();
 		
 		if("GET".equalsIgnoreCase(method)) {
@@ -23,6 +25,9 @@ public class MemberRegisterAction extends AbstractController {
 			String userid = request.getParameter("userid");
 			String pwd = request.getParameter("pwd");
 			String email = request.getParameter("email");
+			String num1 = request.getParameter("num1");
+			String num2 = request.getParameter("num2");
+			String num3 = request.getParameter("num3");
 			String hp1 = request.getParameter("hp1");
 			String hp2 = request.getParameter("hp2");
 			String hp3 = request.getParameter("hp3");
@@ -31,16 +36,14 @@ public class MemberRegisterAction extends AbstractController {
 			String detailaddress = request.getParameter("detailAddress");
 			String extraaddress = request.getParameter("extraAddress");
 			String gender = request.getParameter("gender");
-			String birthyyyy = request.getParameter("birthyyyy");
-			String birthmm = request.getParameter("birthmm");
-			String birthdd = request.getParameter("birthdd");
-
-			String mobile = hp1+hp2+hp3;
-			String birthday = birthyyyy+"-"+birthmm+"-"+birthdd;
+			String birthday = request.getParameter("birthday");
 			
-			MemberVO member = new MemberVO(userid, pwd, name, email, mobile, postcode, address, detailaddress, extraaddress, gender, birthday);
+			
+			String number = num1+num2+num3;
+			String phone = hp1+hp2+hp3;
+			
+			MemberVO member = new MemberVO(userid, pwd, name, email, number, phone, postcode, address, detailaddress, extraaddress, gender, birthday);
 		
-			
 		/*	
 			String message = "";
 			String loc = "";
@@ -50,8 +53,8 @@ public class MemberRegisterAction extends AbstractController {
 				
 				if(n==1) {
 					message = "회원가입 성공";
-					loc =  request.getContextPath()+"/index.up";// 시작페이지로 이동한다.
-									// /MyMVC
+					loc =  request.getContextPath()+"member/registerSuccess.book";// 시작페이지로 이동한다.
+									
 					
 				}
 			
@@ -67,10 +70,9 @@ public class MemberRegisterAction extends AbstractController {
 			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
-		*/	
 			
 			
-			
+		/*	
 			// ##### 회원가입이 성공되면 자동으로 로그인 되도록 하겠다. #####
 			
 			try {
@@ -100,7 +102,7 @@ public class MemberRegisterAction extends AbstractController {
             //  super.setRedirect(false);
 				super.setViewPage("/WEB-INF/msg.jsp");
 			}
-			
+		*/	
 			/////////////////////////////////////////////////////
 			
 			

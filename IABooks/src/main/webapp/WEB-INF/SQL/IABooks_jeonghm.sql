@@ -59,9 +59,11 @@ CREATE TABLE tbl_faq_board (
 -------------------------------------------------------------------------------------------------------
 
 select *
+from tbl_qna_board;
+
+
+select *
 from tabs;
-
-
 
 rollback;
 
@@ -116,4 +118,6 @@ WHERE    TABLE_NAME = 'TBL_FAQ_BOARD';
   where A.table_name = 'TBL_FAQ_BOARD';
   
   commit;
+
+
 

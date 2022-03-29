@@ -33,12 +33,12 @@
 </script>
 <style type="text/css">
 
-	table.idFind {
+	table.pwdFind {
 		
 		margin: 0 auto;
 	}
 	
-	table.idFind > thead > tr > td {
+	table.pwdFind > thead > tr > td {
 		height: 50px;
 		text-align: center;
 	}
@@ -48,18 +48,18 @@
 	  vertical-align: middle;
 	}
 	
-	table.idFind > tbody > tr > td {
+	table.pwdFind > tbody > tr > td {
 		height: 50px;
 		text-align: center;
 	}
 	
 	
-	table.idFind > tbody > tr > th {
+	table.pwdFind > tbody > tr > th {
 		padding-right: 30px;
 		height: 50px;
 	}
 	
-	table.idFind > tfoot > tr > td {
+	table.pwdFind > tfoot > tr > td {
 		width:200px;
 		height: 100px;
 	}
@@ -93,41 +93,26 @@
 	    font-size: 13pt;
 	    font-weight: bold;
 		}
-	div.titleArea > ul , li {
-		padding-left:20px;
-		margin-top:10px;
-	}
-	
-	div#sm {
-	 	font-size: 11pt;
-		padding-left: 18px;
-		padding-top: 6px;
-	}
+		
 
 	
 </style>
-<title>아이디 찾기</title>
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
+<title>비밀번호 찾기</title>
+<jsp:include page="/WEB-INF/header.jsp"/>
 <div class="container">
 	<div class="titleArea">
-		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;아이디 찾기</strong>
+		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;비밀번호 찾기</strong>
     </div>
-    	<div id = "sm">
-	    	<ul>
-		    	<li>가입하신 방법에 따라 아이디 찾기가 가능합니다.</li>
-		        <li>법인사업자 회원 또는 외국인 회원의 경우 법인명과 법인번호 또는 이름과 등록번호를 입력해 주세요.</li>
-		    </ul>
-	    </div>
 	<hr style="border: solid 2px #e8e8e8;">
     
    	<div id="found">
     	
     	<form>
-    		<table class="idFind" >
+    		<table class="pwdFind" >
 	    		<thead>
 	    			<tr>
 	    				<td colspan="3" style="text-align: center;">
-	    					<strong style="font-size: 16pt;">아이디 찾기</strong>
+	    					<strong style="font-size: 16pt;">비밀번호 찾기</strong>
 	    				</td>
 	    			</tr>
 		    		<tr>
@@ -143,6 +128,14 @@
 	    		</thead>	
 				
 				<tbody>
+					<tr>
+						<th>
+							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;아이디
+						</th>
+						<td colspan="2">	
+							<input  type="text" placeholder="ID">
+						</td>	
+					</tr>
 					<tr>
 						<th>
 							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이름
@@ -180,5 +173,5 @@
 	</div>
 		
 </div>	
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  
