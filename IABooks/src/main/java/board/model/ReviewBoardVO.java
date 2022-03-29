@@ -118,6 +118,11 @@ public class ReviewBoardVO {
 			// TODO Auto-generated method stub
 			this.product = product;
 		}
+
+		public void setMember(MemberVO member2) {
+			// TODO Auto-generated method stub
+			
+		}
 		
 
 		
