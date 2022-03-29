@@ -2,6 +2,7 @@ package board.model;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public interface InterBoardDAO {
 
@@ -11,5 +12,8 @@ public interface InterBoardDAO {
 	
 	// FAQ 글목록보기
 	List<FaqBoardVO> faqBoardList() throws SQLException;
+
+	// FAQ 게시판에 글 작성하기
+	int writeFaqBoard(Map<String, String> paraMap) throws SQLException;
 
 }
