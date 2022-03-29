@@ -34,7 +34,7 @@
 	<!-- 총주문액 시작 -->
 	
 	<div class="orderlist_area">
-		<table class="cart_totalPrice" style="width: 100%;">
+		<table class="cart_odrlist" style="width: 100%;">
 			<colgroup>
 				<col style="width:27px">
 				<col style="width:92px">
@@ -50,8 +50,7 @@
 			<thead style="font-size: 9pt; color: #333; height: 60px; border: solid 1px #e8e8e8; background-color: #F2F2F2;">
 				<tr>
 					<th scope="col">
-						<input type="checkbox" 
-						onclick="Basket.setCheckBasketList('basket_product_normal_type_normal', this);">
+						<input type="checkbox" onclick="Basket.setCheckBasketList('basket_product_normal_type_normal', this);">
 					</th>
 					<th scope="col" style="height: 20px;">이미지</th>
 					<th scope="col">상품정보</th>
@@ -68,17 +67,19 @@
 				<tr>
 					<td><input type="checkbox" id="basket_chk_id_0" name="basket_product"></td>
 					<td><img src="<%=ctxPath %>/images/product/book.jpg" class="thumbnail" /></td>
-					<td><strong>책제목</strong></td>
-					<td><strong>10,000원</strong></td>
+					<td><span name="pro_name"><strong>책제목</strong></span></td>
+					<td><span id="pro_price"><strong>10000</strong>원</span></td>
 					<td>
-						<input id="cart_qty_box" type="number" min="1" max="1000" value="1" step="1"
+						<input type="number" name="odr_qty" id="cart_qty_box" min="1" max="1000" value="1" step="1"
 							style="width:50px; height: 24px; line-height: 24px; border: solid 1px #e8e8e8; "> <br>
-						<img src="<%=ctxPath %>/images/product/btn_quantity_modify.gif" />
+						<img src="<%=ctxPath %>/images/product/btn_quantity_modify.gif" alt="장바구니 수량 변경하기" />
 					</td>
-					<td>적립금</td>
+					<td>-</td>
 					<td>배송구분</td>
-					<td>3000원<br>조건</td>
-					<td><strong>12,000원</strong></td>
+					<td>
+						3000원<br>조건 <%-- 나중에 바꾸기! 합이 5만원 이상인 경우 배송비 무료! --%>
+					</td>
+					<td><span id="total_price"><strong>&nbsp;</strong>원</span></td> <%-- 나중에 바꾸기! 합이 47000원 미만인 경우 합계에 3000원 더하기! --%>
 					<td class="button">
 						<a href="#" onclick="Basket.orderBasketItem(0);">
 						<img src="<%=ctxPath %>/images/product/btn_order.gif" alt="주문하기"></a>
@@ -131,24 +132,81 @@
 	<div style="margin-bottom: 120px;">
 		<img src="<%= ctxPath%>/images/product/btn_order_ing.gif" alt="쇼핑계속하기" style="float: right;"/>
 	</div>
-		
+	
+
 
 <script>
-	/* 탭메뉴 클릭 시 펼쳐주기 */
+	
+	
+	//******************** 탭메뉴 클릭 시 펼쳐주기 시작 **************************************** //
 	function openPage(pageName, elmnt, color) {
+		
 		var i, tabcontent, tablinks;
 		tabcontent = document.getElementsByClassName("tabcontent");
+		
 		for (i = 0; i < tabcontent.length; i++) {
 			tabcontent[i].style.display = "none";
 		}
+		
 		tablinks = document.getElementsByClassName("tablink");
 		for (i = 0; i < tablinks.length; i++) {
 			tablinks[i].style.backgroundColor = "";
 		}
+		
 		document.getElementById(pageName).style.display = "block";
 		elmnt.style.backgroundColor = color;
 	}
 
 	// Get the element with id="defaultOpen" and click on it
 	document.getElementById("defaultOpen").click();
+	//******************** 탭메뉴 클릭 시 펼쳐주기 끝 **************************************** //
+	
+	
+	
+	
+	
+	// ******************** 주문수량이 바뀌면 주문금액과 수량에 값을 넣어주기 시작 **************************************** //
+	const input_number_list = document.querySelectorAll("table#cart_odrlist input[type='number']");
+
+	// *** 1. 주문수량 이벤트 처리하기 *** //
+	input_number_list.forEach(function(elt) {
+	
+		elt.addEventListener('change', () => {
+				
+		// 주문수량에 대한 금액 알아오기
+		
+	//	console.log(document.querySelector("table#cart_odrlist span#"+elt.id).innerText); // "구매테이블에서 받아온 가격 정보" 예: 13000
+		
+		let odrqty = Number(elt.value);
+		let price = Number(document.querySelector("table#cart_odrlist > tbody > tr > td#pro_price").innerText.split(",").join(""));
+		let odr_price = odrqty*price;
+		
+	//	console.log("1. 수량(Number(elt.value) " + odrqty);
+	//	console.log("2. 가격(price) " + price);
+	//	console.log("3. 수량×가격(odr_price) " + odr_price);
+	//	console.log("4. odr_price.toLocaleString('en') => " + odr_price.toLocaleString('en'));
+		
+		document.querySelector("#cart_odrlist > tbody > tr > td:nth-child(6)").innerHTML = "<b>" + odr_price.toLocaleString('en') + "</b> 원";
+	//	document.querySelector("#cart_odrlist > tfoot > tr > td:nth-child(2)").innerHTML = "<b>" + odr_price.toLocaleString('en') + "</b> 원";
+	//	document.querySelector("#cart_odrlist > tfoot > tr > td:last-child").innerHTML = "("+ odrqty + "개)";
+		
+		});
+		
+	});		
+	// ******************** 주문수량이 바뀌면 주문금액과 수량에 값을 넣어주기 끝 **************************************** //
+	
+	
+	
+	
+				
+	// ******************** 주문수량 keyup 이벤트 처리하기 시작 **************************************** //
+	input_number_list.forEach(function(elt, i, array){
+		elt.addEventListener('keyup', ()=>{
+			alert("주문수량은 마우스로만 입력하세요.");
+			elt.value = 1;
+		});
+	});
+	// ******************** 주문수량 keyup 이벤트 처리하기 끝 **************************************** //
+	
+	
 </script>

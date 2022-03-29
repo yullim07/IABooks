@@ -55,8 +55,8 @@
 					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
 					<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
 					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
-					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
-					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book4.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book5.jpg">
 				</div>
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
 			</div>
@@ -80,11 +80,11 @@
 				
 				<!-- 상품보기 제품가격(detail_text_purchase) 시작 -->
 				<div id="detail_text_purchase">
-					<table id='tbl_detail_purchase'>
+					<table id="tbl_detail_purchase" style="border-bottom: solid 2px #F2F2F2; width: 100%;">
 						<thead>
-							<tr>
+							<tr style="border-bottom: solid 2px #F2F2F2; width: 100%; line-height: 32px;">
 								<th scope="row" width="40%">판매가</th>
-								<td scope="col" class="majorheading"><span>12,000</span>원</td>
+								<td scope="col" name="price" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;"><span><strong>12,000</strong></span>원</td>
 								<%-- <td scope="col"><span id=`${elt.productId}`>${elt.price.toLocaleString('en')}</span>원</td> --%>
 							<tr>
 						</thead>
@@ -107,23 +107,24 @@
 				
 				<br>
 				
-				<hr style="border: solid 1px #F2F2F2;">
+				<p style="text-align: left;">(최소주문수량 1개 이상)</p>
 				
 				<!-- 상품보기 총주문액(detail_text_total) 시작 -->
 				<div id="detail_text_total">
-					<table id='tbl_pro_total'>
+					<table id='tbl_pro_total' style="width: 100%;">
 						<thead>
-							<tr style="background-color: #F2F2F2; line-height: 40px;">
+							<tr style="background-color: #F2F2F2; line-height: 32px;">
 								<th scope="col" width="50%" style="padding-left: 10px;">상품명</th>
 								<th scope="col" width="20%">상품수</th>
 								<th scope="col" width="30%">가격</th>
 							<tr></tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td scope="row">${elt.productName}</td>
+							<tr style="line-height: 60px;">
+								<td scope="row" name="pro_name" style="padding-left: 10px;">${elt.productName}책제목</td>
 								<td scope="row">
-									<input type='number' min='1' max='1000' value='1' style="width: 80px; height: 24px; line-height: 24px;" id='${elt.productId}' />
+									<input type='number' name="odr_qty" min='1' max='1000' value='1'
+										style="width: 60px; height: 24px; line-height: 24px;" id='${elt.productId}' />
 								</td>
 								<td scope="row"><span id='${elt.productId}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
 							</tr>
@@ -131,9 +132,9 @@
 						<tfoot>
 							<tr style="line-height: 32px; border-top: solid 2px #F2F2F2;">
 								<td scope="row">
-									<span><b>총상품금액</b></span>&nbsp;(수량) :
+									<span style="text-align: right;"><strong>총상품금액</strong> &nbsp;(수량) :</span>
 								</td>
-								<td scope="row"><span><b>${elt.price.toLocaleString('en')}</b></span>원</td>
+								<td scope="row"><span"><b>${elt.price.toLocaleString('en')}</b></span>원</td>
 								<td scope="row"><span id="odr_qty"></span>(1개)</td>
 							</tr>
 						</tfoot>
@@ -142,14 +143,12 @@
 				<!-- 상품보기 총주문액(detail_text_total) 끝 -->
 				
 				<br>
-				
-				<hr style="border: solid 1px #F2F2F2;">
 								
 				<!-- 상품보기 구매버튼(detail_text_button) 시작 -->
 				<div class="detail_text_button row" style="margin: 80 0 0 0;">
 				
 					<!-- 구매하기 버튼 시작 -->
-					<button type="button" id="btn_buy" class="btn btn-dark">구매하기</button>
+					<button type="button" id="btn_buy" class="btn btn-dark" onclick="productPurchase()">구매하기</button>
 					<!-- 구매하기 버튼 끝 -->
 					
 					<!-- 장바구니 버튼 시작 -->
@@ -177,7 +176,7 @@
 					            <!-- Modal footer -->
 					            <div class="modal-footer" style="margin: 0 auto;">
 					                <button type="button" class="btn btn-danger" data-dismiss="modal">쇼핑 계속하기</button>
-					                <button type="button" class="btn btn-primary">장바구니 확인</button>
+					                <button type="button" class="btn btn-primary" onclick="goCart()">장바구니 확인</button>
 					            </div>
 					        </div>
 					    </div>
@@ -416,6 +415,7 @@
 			<!-- 관련상품(detail_bottom_related) 시작 -->
 			<div class="detail_bottom_related">
 				<br>
+				<hr style="border: solid 1px #e8e8e8;">
 				<div class="detail_related_contents">
 					관련 상품이 없습니다.<br>
 				</div>
@@ -443,6 +443,7 @@
 			<!-- 버튼그룹 끝 -->
 			
 			<!-- 상세보기 게시판 상품후기(detail_board_review) 시작 -->
+			<hr style="border: solid 1px #e8e8e8;">
 			<div class="detail_board_review">
 				<jsp:include page="detailboard_review.jsp" />
 			</div>
@@ -461,6 +462,7 @@
 			</div>
 			<!-- 버튼그룹 끝 -->
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
+			<hr style="border: solid 1px #e8e8e8;">
 			<div class="detail_board_qna">
 				<jsp:include page="detailboard_qna.jsp" />
 			</div>
