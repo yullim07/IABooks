@@ -35,7 +35,7 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			Context initContext = new InitialContext();
 		    Context envContext  = (Context)initContext.lookup("java:/comp/env");
-		    ds = (DataSource)envContext.lookup("jdbc/mymvc_oracle");
+		    ds = (DataSource)envContext.lookup("jdbc/semiorauser3");
 		    // ds에 있는 jdbc/mymvc_oracle은 web.xml에 있는 것이다.
 		    
 		    aes = new AES256(SecretMyKey.KEY);
