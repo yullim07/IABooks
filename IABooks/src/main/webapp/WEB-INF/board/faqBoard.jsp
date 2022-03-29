@@ -36,16 +36,6 @@
 
 </script>
 
-
-
-
-
-
-    
-</head>
-<body>
-
-
 	    <div class="container">
 			    <div class="title" >
 				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>

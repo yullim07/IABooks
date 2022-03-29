@@ -5,11 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class FaqBoardAction extends AbstractController {
+public class FaqAccordionAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		String method = request.getMethod(); // "GET" 또는 "POST"
 		System.out.println("method : " + method);
 		
@@ -17,8 +17,9 @@ public class FaqBoardAction extends AbstractController {
 			
 			// 페이지 이동을 시킨다.
 			// super.setRedirect(false);
-			super.setViewPage("/WEB-INF/board/faqBoard.jsp");
+			super.setViewPage("/WEB-INF/board/faqAccordion.jsp");
 		}
+		
 	}
 
 }
