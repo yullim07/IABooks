@@ -8,6 +8,7 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 <title>회원가입</title>
 
@@ -17,12 +18,11 @@
 	<!-- 내가만든 CSS -->
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />	
+	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css" >
 	
 	<!-- Optional JavaScript-->
 	
 	<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css" >
 	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.js" ></script> 
 	<script type="text/javascript" src="<%= ctxPath%>/js/datepicker.js" ></script> 
 	
@@ -35,7 +35,6 @@ $(document).ready(function() {
 	
 	let b_flagEmailDuplicateClick = false;
 	// 가입하기 버튼 클릭시 "이메일중복확인" 을 클릭했는지 클릭안했는지를 알아보기 위한 용도이다.
-	
 	
 	//$("span.error").hide();
 	$("input#userid").focus();
@@ -301,7 +300,7 @@ $(document).ready(function() {
 		
 		
 		const frm = document.registerFrm;
-		frm.action = "registerSuccess.book";
+		frm.action = "memberRegister.book";
 		frm.method = "post";
 		frm.submit();
 		
@@ -325,7 +324,7 @@ $(document).ready(function() {
 	}
 </style>
 
-<jsp:include page="/WEB-INF/header.jsp"/>
+
 
 
 <div class="container">
