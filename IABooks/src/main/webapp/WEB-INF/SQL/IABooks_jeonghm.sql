@@ -4,7 +4,8 @@ show user;
 -- FAQ 분류
 CREATE TABLE tbl_faq_category (
 	pk_faq_c_num NUMBER       NOT NULL, -- FAQ 번호
-	faq_c_name   VARCHAR2(20) NULL      -- FAQ 이름
+	faq_c_name   VARCHAR2(20) NULL,      -- FAQ 이름
+    faq_c_ename  VARCHAR2(20)
 );
 
 
@@ -201,8 +202,17 @@ pk_faq_c_num NUMBER       NOT NULL, -- FAQ 번호
 	faq_c_name
 
 
-select rownum AS rno, pk_faq_c_num, faq_c_name
+select *
 from tbl_faq_category;
+
+UPDATE tbl_faq_category SET faq_c_ename='all' WHERE pk_faq_c_num=1;
+UPDATE tbl_faq_category SET faq_c_ename='member' WHERE pk_faq_c_num=2;
+UPDATE tbl_faq_category SET faq_c_ename='product' WHERE pk_faq_c_num=3;
+UPDATE tbl_faq_category SET faq_c_ename='return' WHERE pk_faq_c_num=4;
+UPDATE tbl_faq_category SET faq_c_ename='order' WHERE pk_faq_c_num=5;
+UPDATE tbl_faq_category SET faq_c_ename='promotion' WHERE pk_faq_c_num=6;
+
+commit;
 
 select *
 from tbl_faq_board;
@@ -258,15 +268,33 @@ values(SEQ_FAQ_BOARD.nextval, 'indiepub', 3, '품절된 도서입니다. 재입�
     order by pk_faq_board_num desc;
 
 
-    select A.pk_faq_board_num, B.faq_c_name, A.faq_title, A.faq_writer
+    select pk_faq_board_num, faq_c_name, faq_title, faq_writer
     from tbl_faq_board A JOIN tbl_faq_category B
     ON A.fk_faq_c_num = B.pk_faq_c_num
     where isdelete = 0
     order by pk_faq_board_num desc;
 
 
-    String sql = "select rownum AS rno, A.pk_faq_board_num, B.faq_c_name, A.faq_title, A.faq_writer\n"+
-"    from tbl_faq_board A JOIN tbl_faq_category B\n"+
-"    ON A.fk_faq_c_num = B.pk_faq_c_num\n"+
-"    order by rno desc;";
 
+select A.pk_faq_board_num, A.fk_faq_c_num, A.faq_title, A.faq_writer  
+from tbl_faq_board A 
+JOIN tbl_faq_category B  
+ON A.fk_faq_c_num = B.pk_faq_c_num  
+where isdelete = 0 and b.faq_c_ename = 'product';
+
+COMMIT;
+
+
+insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents)
+values(SEQ_FAQ_BOARD.nextval, 'indiepub', ?, ?, ?, ?);
+
+String sql = "insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents)\n"+
+"values(SEQ_FAQ_BOARD.nextval, 'indiepub', ?, ?, ?, ?);";
+
+select *
+from tbl_faq_board;
+
+delete tbl_faq_board
+where pk_faq_board_num in ('12', '13'); 
+
+commit;

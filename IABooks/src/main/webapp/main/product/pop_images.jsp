@@ -28,31 +28,56 @@
 	<script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script>
 
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
-	<title>Insert title here</title>
+	<title>미리보기</title>
+	
+	<style type="text/css">
+	.small {
+		height: 500px;
+	}
+	</style>
 </head>
 <body>
+	<!-- 컨테이너 시작 -->
+	<div class="container detail_container">
+		
+		<!-- 상세보기 상단 컨텐츠(detail_top) 시작 -->
+		<div class="detail_top row">
+			
+			<!-- 상세보기 상단 그림영역(detail_top_img) 시작 -->
+			<div class="detail_top_img col-lg-6">
+			
+				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
+				<div class="detail_img_display">
+					<a href="">
+						<img class="big" src="<%=ctxPath%>/images/product/book.jpg">
+					</a>
+				</div>
+				<!-- 상세보기 메인이미지(detail_img_display) 끝 -->
 
-	<!-- 그림 영역(img_area) 시작 -->
-	<div class="img_area" class="col-lg-6">
-		<!-- 메인이미지 영역(img_display) 시작 -->
-		<div class="img_display">
-			<img class="big" src="<%=ctxPath%>/images/product/book.jpg" style="width: 400px;">
+				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 시작 -->
+				<div class="detail_img_thumbnails">
+					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
+				</div>
+				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
+				
+				
+				<!-- 닫기 버튼 -->
+				<div class="text-center" style="margin-top: 20px;">
+					<button type="button" onclick="window.close()" style="background-color: #c11e31; color: #fff; width: 120px;">닫기</button>
+				</div>
+				<!-- 닫기 버튼 끝 -->
+				
+			</div>
+			<!-- 상세보기 상단 그림영역(detail_top_img) 끝 -->
 		</div>
-		<!-- 메인이미지 영역(img_display) 끝 -->
-
-		<!-- 썸네일이미지 영역(img_thumbnail) 시작 -->
-		<div class="img_thumbnails">
-			<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
-			<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
-			<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
-		</div>
-		<!-- 썸네일이미지 영역(img_thumbnail) 끝 -->
 	</div>
-	<!-- 그림 영역(img_area) 끝 -->
+			
 	
-	<button type="button" onclick="window.close()">닫기</button>
-	
-
+			
 
 <script type="text/javascript">
 	

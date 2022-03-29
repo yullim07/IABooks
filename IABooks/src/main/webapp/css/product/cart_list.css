@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+/* cart_items.jsp 관심상품 페이지 CSS 시작 */
+
+/* table.cart_none > tr > td {
+	font-size: 9pt;
+	color: #888;	
+} */
+table.cart_none {
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 10px;
+}
+
+table.cart_none td {
+	text-align: center;
+	height: 100px;
+	font-size: 9pt;
+	color: #888;	
+}
+
+table.cart_none tr {
+	border-top: solid 2px #e8e8e8;
+	border-bottom: solid 2px #e8e8e8;
+}

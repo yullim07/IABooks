@@ -50,12 +50,12 @@
 			
 			  	
 			    <select id="" class="cateDropdown" name="search">
-			       <option value="all">전체</option>
-	               <option value="member">회원</option>
-	               <option value="product">상품</option>
-	               <option value="return">반품/교환</option>
-	               <option value="order">주문/배송</option>
-	               <option value="promotion">제휴</option>
+			       <option value="1">전체</option>
+	               <option value="2">회원</option>
+	               <option value="3">상품</option>
+	               <option value="4">반품/교환</option>
+	               <option value="5">주문/배송</option>
+	               <option value="6">제휴</option>
 			    </select>
 		    
 			
@@ -79,8 +79,10 @@
 			    <tr> 
 			    	<td><%= faqList.get(i).getPk_faq_board_num() %></td>
 			    	<td><%= faqList.get(i).getFk_faq_c_name() %></td>
-			    	<td><a href=""><%= faqList.get(i).getFaq_title() %></a></td>
-			    	<td><%= faqList.get(i).getFaq_writer()%></td>
+			    	<td><a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=<%= faqList.get(i).getPk_faq_board_num()%>">
+			    		<%= faqList.get(i).getFaq_title() %></a>
+			    	</td>
+			    	<td><%= faqList.get(i).getFaq_writer() %></td>
 			    </tr>
 			    <%
 			    	}
@@ -110,6 +112,9 @@
 			    </select>
 			    <input type="text" name="search" id="input_faq_search"></input>
 			    <button class="btn btn_faq_search" name="search" >찾기</button>
+			    
+			    <button class="btn btn_faq_write" style="float:right;" name="write" onclick="location.href='<%= ctxPath%>/board/faqWrite.book' ">글쓰기</button>
+			    
 			    </div>
 		    
 		  	</div>

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -19,6 +20,7 @@ import member.model.MemberVO;
 import product.model.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
+import util.security.Sha256;
 
 public class BoardDAO implements InterBoardDAO {
 
@@ -181,7 +183,7 @@ public class BoardDAO implements InterBoardDAO {
             
                faqBoardList.add(board);
                
-               System.out.println(" 넣어진 제목 : " + board.getFaq_title());
+               // System.out.println(" 넣어진 제목 : " + board.getFaq_title());
             
             }//end of while(rs.next()) ------------ 
             
@@ -259,6 +261,40 @@ public class BoardDAO implements InterBoardDAO {
          
          return reviewList;
       }//end of public List<BoardDTO> boardList() -----
+
+      
+      
+   // FAQ 게시판에 글 작성하기  
+	@Override
+	public int writeFaqBoard(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		int category = Integer.parseInt(paraMap.get("category"));
+		System.out.println("category : " + category);
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents) "
+					   + " values(SEQ_FAQ_BOARD.nextval, 'indiepub', ?, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt( 1, category);
+			pstmt.setString(2, paraMap.get("subject"));
+			pstmt.setString(3, paraMap.get("writer"));
+			pstmt.setString(4, paraMap.get("content"));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
       
    
 }

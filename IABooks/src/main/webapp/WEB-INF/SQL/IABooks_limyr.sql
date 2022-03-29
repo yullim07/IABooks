@@ -20,10 +20,7 @@ CREATE TABLE tbl_product (
 	pro_sales     NUMBER(20)   DEFAULT 0, -- 판매량
     pro_viewcnt   NUMBER(8)    DEFAULT 0 -- 조회수(화제의 책)
 );
-
-select * from tbl_product;
-
-drop table tbl_writer purge;
+-- Table TBL_PRODUCT이(가) 생성되었습니다.
 
 
 -- 제품
@@ -33,12 +30,7 @@ ALTER TABLE tbl_product
 		PRIMARY KEY (
 			pk_pro_num -- 국제표준도서번호
 		);
-
-
---SELECT * FROM    ALL_CONSTRAINTS
---WHERE    TABLE_NAME = 'tbl_product';
-
-
+-- Table TBL_PRODUCT이(가) 변경되었습니다.
 
 -- 저자
 CREATE TABLE tbl_writer (
@@ -46,6 +38,7 @@ CREATE TABLE tbl_writer (
 	wr_name    VARCHAR2(20)  NULL,     -- 저자명
 	wr_info    VARCHAR2(100) NULL      -- 저자소개
 );
+-- Table TBL_WRITER이(가) 생성되었습니다.
 
 -- 저자
 ALTER TABLE tbl_writer
@@ -54,6 +47,7 @@ ALTER TABLE tbl_writer
 		PRIMARY KEY (
 			pk_wr_code -- 저자코드
 		);
+-- Table TBL_WRITER이(가) 변경되었습니다.
 
 -- 도서스펙
 CREATE TABLE tbl_spec (
@@ -63,6 +57,7 @@ CREATE TABLE tbl_spec (
 	ck_bindtype VARCHAR2(20) NULL,     -- 제본형태
 	spec_pages  VARCHAR2(20) NULL      -- 쪽수
 );
+-- Table TBL_SPEC이(가) 생성되었습니다.
 
 -- 도서스펙
 ALTER TABLE tbl_spec
@@ -71,18 +66,21 @@ ALTER TABLE tbl_spec
 		PRIMARY KEY (
 			pk_spec_num -- 스펙번호
 		);
+-- Table TBL_SPEC이(가) 변경되었습니다.
 
 -- 도서스펙
 ALTER TABLE tbl_spec
 	ADD
 		CONSTRAINT CK_tbl_spec_bindtype -- 도서스펙제본형태체크
-		CHECK (ck_bindtype in ('양장제본', '반양장제본', '무선제본', '낱장제본'));
+		CHECK (ck_bindtype in ('양장제본', '반양장제본', '무선제본', '낱장제본', '기타'));
+-- Table TBL_SPEC이(가) 변경되었습니다.
 
 -- 도서 카테고리
 CREATE TABLE tbl_category (
 	pk_cate_num  NUMBER(1)   NOT NULL, -- 카테고리대분류번호
 	ck_cate_name VARCHAR2(10) NOT NULL  -- 카테고리명
 );
+-- Table TBL_CATEGORY이(가) 생성되었습니다.
 
 -- 도서 카테고리
 ALTER TABLE tbl_category
@@ -91,6 +89,7 @@ ALTER TABLE tbl_category
 		PRIMARY KEY (
 			pk_cate_num -- 카테고리대분류번호
 		);
+-- Table TBL_CATEGORY이(가) 변경되었습니다.
 
 ---- 도서 카테고리
 --ALTER TABLE tbl_category
@@ -104,6 +103,7 @@ ALTER TABLE tbl_category
 	ADD
 		CONSTRAINT CK_tbl_category_cate_name -- 도서카테고리명체크
 		CHECK (ck_cate_name in ('인문', '사회', '과학'));
+-- Table TBL_CATEGORY이(가) 변경되었습니다.
 
 -- 제품추가이미지
 CREATE TABLE tbl_product_imagefile (
@@ -111,6 +111,7 @@ CREATE TABLE tbl_product_imagefile (
 	fk_pro_num     NUMBER      NOT NULL, -- 국제표준도서번호
 	imgfilename VARCHAR2(50)         -- 이미지파일명
 );
+-- Table TBL_PRODUCT_IMAGEFILE이(가) 생성되었습니다.
 
 -- 제품추가이미지
 ALTER TABLE tbl_product_imagefile
@@ -119,6 +120,7 @@ ALTER TABLE tbl_product_imagefile
 		PRIMARY KEY (
 			pk_imgfileno -- 이미지번호
 		);
+-- Table TBL_PRODUCT_IMAGEFILE이(가) 변경되었습니다.
 
 -- 제품추가이미지
 --ALTER TABLE tbl_product_imagefile
@@ -131,13 +133,14 @@ ALTER TABLE tbl_product_imagefile
 -- 주문상세
 CREATE TABLE tbl_orderdetail (
 	pk_odr_seqnum    VARCHAR2(25) NOT NULL, -- 주문상세일련번호
-	fk_ord_code      VARCHAR2(25) NOT NULL, -- 주문코드
+	fk_odrcode      VARCHAR2(25) NOT NULL, -- 주문코드
 	pk_pro_num       NUMBER      NULL,     -- 국제표준도서번호
 	ck_odr_totalqty  NUMBER      NOT NULL, -- 총주문량
 	odr_price        NUMBER      NOT NULL, -- 주문가격
 	ck_deliverstatus VARCHAR2(25) NOT NULL, -- 배송상태
 	ck_deliverdate   DATE        NULL      -- 배송완료일자
 );
+-- Table TBL_ORDERDETAIL이(가) 생성되었습니다.
 
 -- 주문상세
 ALTER TABLE tbl_orderdetail
@@ -146,8 +149,7 @@ ALTER TABLE tbl_orderdetail
 		PRIMARY KEY (
 			pk_odr_seqnum -- 주문상세일련번호
 		);
-
- 
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
  
 
 -- 주문상세
@@ -155,25 +157,28 @@ ALTER TABLE tbl_orderdetail
 	ADD
 		CONSTRAINT UK_tbl_orderdetail -- 주문상세 유니크 제약
 		UNIQUE (
-			fk_ord_code -- 주문코드
+			fk_odrcode -- 주문코드
 		);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
 
 -- 주문상세
 ALTER TABLE tbl_orderdetail
 	ADD
 		CONSTRAINT CK_odrdetail_totalqty -- 주문상세 총주문량 체크
 		CHECK (ck_odr_totalqty > 0);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
 
 -- 주문상세
 ALTER TABLE tbl_orderdetail
 	ADD
 		CONSTRAINT CK_odrdetail_deliverstatus -- 주문상세 주문상태 체크
 		CHECK (ck_deliverstatus in('발송준비', '배송준비', '배송중', '배송완료', '배송실패'));
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
 
 -- 주문상세                                                                         ------------------------------- 나중에
 --ALTER TABLE tbl_orderdetail
 --	ADD
---		CONSTRAINT CK_odrdetail_deliverdate -- 주문상태 배송완료일자 체크
+--		CONSTRAINT CK_odrdetail_deliverdate -- 주문상태 배송완료일자 체크 필요없음
 --		CHECK (ck_deliverdate > sysdate);
 
 -- 주문
@@ -280,6 +285,7 @@ ALTER TABLE tbl_product
 		REFERENCES tbl_writer ( -- 저자
 			pk_wr_code -- 저자코드
 		);
+-- Table TBL_PRODUCT이(가) 변경되었습니다.
 
 -- 제품
 ALTER TABLE tbl_product
@@ -291,6 +297,7 @@ ALTER TABLE tbl_product
 		REFERENCES tbl_spec ( -- 도서스펙
 			pk_spec_num -- 스펙번호
 		);
+-- Table TBL_PRODUCT이(가) 변경되었습니다.
 
 -- 제품
 ALTER TABLE tbl_product
@@ -302,6 +309,7 @@ ALTER TABLE tbl_product
 		REFERENCES tbl_category ( -- 도서 카테고리
 			pk_cate_num -- 카테고리대분류번호
 		);
+-- Table TBL_PRODUCT이(가) 변경되었습니다.
 
 -- 제품
 ALTER TABLE tbl_product
@@ -313,6 +321,7 @@ ALTER TABLE tbl_product
 		REFERENCES tbl_product_imagefile ( -- 제품추가이미지
 			pk_imgfileno -- 이미지번호
 		);
+-- Table TBL_PRODUCT이(가) 변경되었습니다.
 
 -- 도서스펙
 ALTER TABLE tbl_spec
@@ -324,6 +333,7 @@ ALTER TABLE tbl_spec
 		REFERENCES tbl_category ( -- 도서 카테고리
 			pk_cate_num -- 카테고리대분류번호
 		);
+-- Table TBL_SPEC이(가) 변경되었습니다.
 
 -- 제품추가이미지
 ALTER TABLE tbl_product_imagefile
@@ -335,11 +345,11 @@ ALTER TABLE tbl_product_imagefile
 		REFERENCES tbl_product ( -- 제품
 			pk_pro_num -- 국제표준도서번호
 		);
+-- Table TBL_PRODUCT_IMAGEFILE이(가) 변경되었습니다.     
         
         
-        
-        
---
+select * from tbl_order;
+
 ---- 주문상세
 ALTER TABLE tbl_orderdetail
 	ADD
@@ -433,4 +443,7 @@ from user_constraints A JOIN user_cons_columns B
 ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
 where A.table_name = 'tbl_cart';
 
-commit
+commit;
+
+
+select * from tab;

@@ -17,17 +17,20 @@
 
 
 <meta charset="UTF-8">
-<title>도서 상세보기 페이지</title>
+<title>in사과::도서 상세보기</title>
 
-<!-- css -->
-<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
+<!-- Optional JavaScript -->
+   <script src="<%=ctxPath %>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+   <script src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.js" type="text/javascript"></script>
+   
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
-
-
-	<title>제품 상세 보기 페이지</title>
+		
+	<!-- 헤더 삽입 -->
 	<jsp:include page="/header.jsp" />
 
 	<!-- 컨테이너 시작 -->
@@ -41,7 +44,7 @@
 			
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
 				<div class="detail_img_display">
-					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=800, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
+					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=500, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
 						<img class="big" src="<%=ctxPath%>/images/product/book.jpg">
 					</a>
 				</div>
@@ -52,7 +55,8 @@
 					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
 					<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
 					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
-					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book4.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book5.jpg">
 				</div>
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
 			</div>
@@ -66,22 +70,21 @@
 				<div id="detail_text_title">
 					<table id='tbl_detail_title'>
 						<tr>
-							<%-- <th>하하하하${elt.productName}</th> --%>
-							<th>책제목</th>
+							<th style="font-size: 24pt;">책제목</th>
 						<tr>
 					</table>				
 				</div>
 				<!-- 상품보기 제품제목(detail_text_title) 끝 -->
 				
-				<br>
+				<hr style="border: solid 1px #F2F2F2;">
 				
 				<!-- 상품보기 제품가격(detail_text_purchase) 시작 -->
 				<div id="detail_text_purchase">
-					<table id='tbl_detail_purchase'>
+					<table id="tbl_detail_purchase" style="border-bottom: solid 2px #F2F2F2; width: 100%;">
 						<thead>
-							<tr>
+							<tr style="border-bottom: solid 2px #F2F2F2; width: 100%; line-height: 32px;">
 								<th scope="row" width="40%">판매가</th>
-								<td scope="col"><span>12,000</span>원</td>
+								<td scope="col" name="price" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;"><span><strong>12,000</strong></span>원</td>
 								<%-- <td scope="col"><span id=`${elt.productId}`>${elt.price.toLocaleString('en')}</span>원</td> --%>
 							<tr>
 						</thead>
@@ -104,29 +107,34 @@
 				
 				<br>
 				
+				<p style="text-align: left;">(최소주문수량 1개 이상)</p>
+				
 				<!-- 상품보기 총주문액(detail_text_total) 시작 -->
 				<div id="detail_text_total">
-					<table id='tbl_pro_total'>
+					<table id='tbl_pro_total' style="width: 100%;">
 						<thead>
-							<tr>
-								<th scope="col" width="50%">상품명</th>
+							<tr style="background-color: #F2F2F2; line-height: 32px;">
+								<th scope="col" width="50%" style="padding-left: 10px;">상품명</th>
 								<th scope="col" width="20%">상품수</th>
 								<th scope="col" width="30%">가격</th>
 							<tr></tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td scope="row">${elt.productName}</td>
-								<td scope="row"><input type='number' min='1' max='1000' value='1' id='${elt.productId}' /></td>
+							<tr style="line-height: 60px;">
+								<td scope="row" name="pro_name" style="padding-left: 10px;">${elt.productName}책제목</td>
+								<td scope="row">
+									<input type='number' name="odr_qty" min='1' max='1000' value='1'
+										style="width: 60px; height: 24px; line-height: 24px;" id='${elt.productId}' />
+								</td>
 								<td scope="row"><span id='${elt.productId}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
 							</tr>
 						</tbody>
 						<tfoot>
-							<tr>
+							<tr style="line-height: 32px; border-top: solid 2px #F2F2F2;">
 								<td scope="row">
-									<span><b>총상품금액</b></span>&nbsp;(수량) :
+									<span style="text-align: right;"><strong>총상품금액</strong> &nbsp;(수량) :</span>
 								</td>
-								<td scope="row"><span><b>${elt.price.toLocaleString('en')}</b></span>원</td>
+								<td scope="row"><span"><b>${elt.price.toLocaleString('en')}</b></span>원</td>
 								<td scope="row"><span id="odr_qty"></span>(1개)</td>
 							</tr>
 						</tfoot>
@@ -137,10 +145,10 @@
 				<br>
 								
 				<!-- 상품보기 구매버튼(detail_text_button) 시작 -->
-				<div class="detail_text_button row">
+				<div class="detail_text_button row" style="margin: 80 0 0 0;">
 				
 					<!-- 구매하기 버튼 시작 -->
-					<button type="button" id="btn_buy" class="btn btn-dark">구매하기</button>
+					<button type="button" id="btn_buy" class="btn btn-dark" onclick="productPurchase()">구매하기</button>
 					<!-- 구매하기 버튼 끝 -->
 					
 					<!-- 장바구니 버튼 시작 -->
@@ -168,7 +176,7 @@
 					            <!-- Modal footer -->
 					            <div class="modal-footer" style="margin: 0 auto;">
 					                <button type="button" class="btn btn-danger" data-dismiss="modal">쇼핑 계속하기</button>
-					                <button type="button" class="btn btn-primary">장바구니 확인</button>
+					                <button type="button" class="btn btn-primary" onclick="goCart()">장바구니 확인</button>
 					            </div>
 					        </div>
 					    </div>
@@ -215,12 +223,11 @@
 					
 				</div>
 				
-				<div class="btn_book_kakao row">
+				<!-- <div class="btn_book_kakao row">
 					<button type="button" id="btn_kakao">
-					<!-- <button type="button" class="btn-lg btn-danger" style="width: 360px; height: 40px;"> -->
-						<span><strong>카카오톡으로 공유하기</strong></span>
+						<span><strong>네이버밴드로 공유하기</strong></span>
 					</button>
-				</div>
+				</div> -->
 				<!-- 상품보기 구매버튼(detail_text_button) 끝 -->
 				
 			</div>
@@ -235,11 +242,13 @@
 			
 			<!-- 버튼그룹 시작 -->
 			<div class="tab_btngroup text-center">
+				 
 				<button type="button" class="btn_active" id="btn_detail" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" onclick="location.href='#btn_review'">상품후기&nbsp;&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			
@@ -336,11 +345,13 @@
 			
 			<!-- 버튼그룹 시작 -->
 			<div class="tab_btngroup text-center">
+				 
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" class="btn_active" id="btn_purchase" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			<!-- 상품구매안내(detail_bottom_purchase) 시작 -->
@@ -392,16 +403,19 @@
 			
 			<!-- 버튼그룹 시작 -->
 			<div class="tab_btngroup text-center">
+				 
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" class="btn_active" id="btn_related" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			<!-- 관련상품(detail_bottom_related) 시작 -->
 			<div class="detail_bottom_related">
 				<br>
+				<hr style="border: solid 1px #e8e8e8;">
 				<div class="detail_related_contents">
 					관련 상품이 없습니다.<br>
 				</div>
@@ -418,15 +432,18 @@
 		
 			<!-- 버튼그룹 시작 -->
 			<div class="tab_btngroup text-center">
+				 
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" class="btn_active" id="btn_review" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			
 			<!-- 상세보기 게시판 상품후기(detail_board_review) 시작 -->
+			<hr style="border: solid 1px #e8e8e8;">
 			<div class="detail_board_review">
 				<jsp:include page="detailboard_review.jsp" />
 			</div>
@@ -441,9 +458,11 @@
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" class="btn_active" id="btn_qna" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
+			<hr style="border: solid 1px #e8e8e8;">
 			<div class="detail_board_qna">
 				<jsp:include page="detailboard_qna.jsp" />
 			</div>
@@ -509,7 +528,7 @@
 			
 			arr_product.forEach(function(elt, i, array) {
 				html_title += `<tr>
-									<th>${elt.productName}s</th>
+									<th>${elt.productName}책제목</th>
 								<tr>
 							</table>`;
 			});
@@ -646,5 +665,6 @@
 		
 		
 </script>
+
 
 <jsp:include page="/footer.jsp" />
