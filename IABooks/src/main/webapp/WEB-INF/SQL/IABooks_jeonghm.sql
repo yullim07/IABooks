@@ -1,5 +1,6 @@
 show user;
 
+
 -- FAQ 분류
 CREATE TABLE tbl_faq_category (
 	pk_faq_c_num NUMBER       NOT NULL, -- FAQ 번호
@@ -72,7 +73,6 @@ commit;
 select *
 from tbl_qna_board;
 
-
 select *
 from tabs;
 
@@ -81,7 +81,7 @@ rollback;
 SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
 DROP TABLE "TBL_LOGINHISTORY" CASCADE CONSTRAINTS;
-
+DROP TABLE "TBL_MEMBER" CASCADE CONSTRAINTS;
 commit;
 
 --이메일, 암호, 
