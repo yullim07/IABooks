@@ -17,6 +17,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import member.model.MemberVO;
+import product.model.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -200,59 +201,57 @@ public class BoardDAO implements InterBoardDAO {
       
       // *** 리뷰글목록보기 메소드를 구현하기 *** //
       @Override
-      public List<ReviewBoardVO> reviewList() {  
+      public List<ReviewBoardVO> reviewList() throws SQLException {  
          
          List<ReviewBoardVO> reviewList = new ArrayList<>(); // ReviewBoardVO 속에는 MemberDTO가 들어와야 한다.
          
+         ReviewBoardVO board = null;
+         
+
+       
+         
+         conn = ds.getConnection();
          try {
             
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            
-            conn = DriverManager.getConnection("jdbc:oracle:thin:@211.238.142.70:1521:xe", "semiorauser3", "cclass" );
-            
-            /* 처음에 한거
-            String sql = " select boardno,  subject, name, to_char(writeday,'yyyy-mm-dd hh24:mi:ss'), viewcount\n"+
-                      " from jdbc_board B JOIN jdbc_member M\n"+
-                      " ON B.fk_userid = M.userid\n"+
-                      " order by boardno desc";
-            */
-            
-            String sql = " select pk_rnum,  fk_pnum, re_title, re_writer, re_readcount\n"+
-                      " from tbl_review_board B JOIN tbl_member M\n"+
-                      " ON B.fk_userid = M.pk_userid\n"+
-                      " order by pk_rnum desc" ;
-               //BoardDTO는 회원이 존재해야만 그 회원이 글을 쓴다. 회원이 없는데 어뜨캐 글을 쓰냐 회원테이블이 먼저 존재한다. 
+            String sql = "select pk_rnum,  fk_pnum, re_title, re_writer, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_grade , M.mname\n"+
+                      "from tbl_review_board B \n"+
+                      "JOIN tbl_member M \n"+
+                      "ON B.fk_userid = M.pk_userid \n"+
+                      "where isdelete = 0\n"+
+                      "order by pk_rnum desc ";
+               
             pstmt = conn.prepareStatement(sql);
             
             rs = pstmt.executeQuery();
             
             while(rs.next()) {
-               ReviewBoardVO board = new ReviewBoardVO();
+               board = new ReviewBoardVO();
                
                
                board.setPk_rnum(rs.getInt(1));
                
                ProductVO product = new ProductVO();
-               product.setPro_name(rs.getString(2));
-               board.setProduct(product);
+               board.setFk_pnum(rs.getInt(2));
+               board.setRe_title(rs.getString(3));
+               board.setRe_writer(rs.getString(4));
+               board.setRe_date( rs.getString(5));
+               board.setRe_grade(rs.getInt(6));
                
-               
-               
-                     //**중요한 부분
                MemberVO member = new MemberVO();
-               member.setName(rs.getString(3));
-               board.setMember(member); // 보드에 멤버를 넣어줌. 
-            
-               board.setQna_date(rs.getString(4));
-               board.setQna_readcount(rs.getInt(5));
-               
-               
-               boardList.add(board);
+               member.setName(rs.getString(7));
+               board.setMember(member); 
+            /*
+             * MemberVO member = new MemberVO(); member.set(fk_faq_c_name);
+             * 
+             * board.setMember(member); // 보드에 멤버를 넣어줌.
+             */               
+               System.out.println(" 넣어진 제목 : " + board.getRe_title());
+              
+               reviewList.add(board);
             
             }//end of while(rs.next()) ------------ 
             
-         } catch (ClassNotFoundException e) {
-            System.out.println(">> ojdbc6.jar 파일이 없습니다. <<");
+         
          }catch(SQLException e){  
             e.printStackTrace();
          }finally {
@@ -260,42 +259,42 @@ public class BoardDAO implements InterBoardDAO {
          }
          
          
-         return boardList;
+         return reviewList;
       }//end of public List<BoardDTO> boardList() -----
 
       
       
    // FAQ 게시판에 글 작성하기  
-	@Override
-	public int writeFaqBoard(Map<String, String> paraMap) throws SQLException {
-		
-		int result = 0;
-		int category = Integer.parseInt(paraMap.get("category"));
-		System.out.println("category : " + category);
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents) "
-					   + " values(SEQ_FAQ_BOARD.nextval, 'indiepub', ?, ?, ?, ?) ";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt( 1, category);
-			pstmt.setString(2, paraMap.get("subject"));
-			pstmt.setString(3, paraMap.get("writer"));
-			pstmt.setString(4, paraMap.get("content"));
-			
-			result = pstmt.executeUpdate();
-			
-		} catch (SQLException e) { 
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		
-		return result;
-	}
+   @Override
+   public int writeFaqBoard(Map<String, String> paraMap) throws SQLException {
+      
+      int result = 0;
+      int category = Integer.parseInt(paraMap.get("category"));
+      System.out.println("category : " + category);
+      
+      try {
+         conn = ds.getConnection();
+         
+         String sql = " insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents) "
+                  + " values(SEQ_FAQ_BOARD.nextval, 'indiepub', ?, ?, ?, ?) ";
+         
+         pstmt = conn.prepareStatement(sql);
+         
+         pstmt.setInt( 1, category);
+         pstmt.setString(2, paraMap.get("subject"));
+         pstmt.setString(3, paraMap.get("writer"));
+         pstmt.setString(4, paraMap.get("content"));
+         
+         result = pstmt.executeUpdate();
+         
+      } catch (SQLException e) { 
+         e.printStackTrace();
+      } finally {
+         close();
+      }
+      
+      return result;
+   }
       
    
 }
