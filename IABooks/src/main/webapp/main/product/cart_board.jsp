@@ -31,6 +31,7 @@
 li {
 	font-size: 9pt;
 	line-height: 12pt;
+	list-style-type: decimal;
 }
 
 </style>

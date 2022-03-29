@@ -21,57 +21,126 @@
 	<!-- <div class="container"> -->
 	
 	
-	<!-- 나중에 숨김처리 해야함  -->
-	<div class="cart_empty">
-		<table class="cart_none">
-			<tr>
-				<td>장바구니 내역이 없습니다.</td>
-			</tr>
-		</table>
-	</div>
-
-	<div class="cart_not_empty">
-		<table class="cart_list">
-			<thead>
+	<%-- <c:if test=""> --%>
+		<div class="cart_empty">
+			<table class="cart_none">
 				<tr>
-					<td><input type="checkbox" name="cart_list_allcheck" /></td>
-					<td>이미지</td>
-					<td>상품정보</td>
-					<td>판매가</td>
-					<td>적립금</td>
-					<td>배송구분</td>
-					<td>배송비</td>
-					<td>합계</td>
-					<td>선택</td>
+					<td>장바구니가 비어있습니다.</td>
+				</tr>
+			</table>
+		</div>
+	<%-- </c:if> --%>
+	
+	<!-- 총주문액 시작 -->
+	
+	<div class="orderlist_area">
+		<table class="cart_totalPrice" style="width: 100%;">
+			<colgroup>
+				<col style="width:27px">
+				<col style="width:92px">
+				<col style="width:auto">
+				<col style="width:98px">
+				<col style="width:75px">
+				<col style="width:98px">
+				<col style="width:98px">
+				<col style="width:85px">
+				<col style="width:98px">
+				<col style="width:110px">
+			</colgroup>
+			<thead style="font-size: 9pt; color: #333; height: 60px; border: solid 1px #e8e8e8; background-color: #F2F2F2;">
+				<tr>
+					<th scope="col">
+						<input type="checkbox" 
+						onclick="Basket.setCheckBasketList('basket_product_normal_type_normal', this);">
+					</th>
+					<th scope="col" style="height: 20px;">이미지</th>
+					<th scope="col">상품정보</th>
+					<th scope="col">판매가</th>
+					<th scope="col">수량</th>
+					<th scope="col" class="mileage">적립금</th>
+					<th scope="col">배송구분</th>
+					<th scope="col">배송비</th>
+					<th scope="col">합계</th>
+					<th scope="col">선택</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody style="height: 100px;">
 				<tr>
-					<td><input type="checkbox" id="cart_list_check" /></td>
-					<td><img src="<%= ctxPath %>/images/member/e78bdc919df426ed106c57e265db6395.jpg" style="height: 80px; width: 80px;" /></td>
-					<td>30대 백수 남편이지만 잘 살고 있습니다.</td>
-					<td>15,000원</td>
-					<td>-</td>
-					<td>기본배송</td>
-					<td>3,000원<br>조건
-					</td>
-					<td>18,000원</td>
+					<td><input type="checkbox" id="basket_chk_id_0" name="basket_product"></td>
+					<td><img src="<%=ctxPath %>/images/product/book.jpg" class="thumbnail" /></td>
+					<td><strong>책제목</strong></td>
+					<td><strong>10,000원</strong></td>
 					<td>
-						<ul>
-							<li><img src="<%= ctxPath %>/images/member/btn_order.gif" style="cursor: pointer;" /></li>
-							<li><img src="<%= ctxPath %>/images/member/btn_basket.gif" style="cursor: pointer;" /></li>
-							<li><img src="<%= ctxPath %>/images/member/btn_delete.gif" style="cursor: pointer;" /></li>
-						</ul>
+						<input id="cart_qty_box" type="number" min="1" max="1000" value="1" step="1"
+							style="width:50px; height: 24px; line-height: 24px; border: solid 1px #e8e8e8; "> <br>
+						<img src="<%=ctxPath %>/images/product/btn_quantity_modify.gif" />
 					</td>
+					<td>적립금</td>
+					<td>배송구분</td>
+					<td>3000원<br>조건</td>
+					<td><strong>12,000원</strong></td>
+					<td class="button">
+						<a href="#" onclick="Basket.orderBasketItem(0);">
+						<img src="<%=ctxPath %>/images/product/btn_order.gif" alt="주문하기"></a>
+						
+						<a href="#" onclick="BasketNew.moveWish(0);">
+						<img src="<%=ctxPath %>/images/product/btn_wish.gif" alt="관심상품등록"></a>
+						
+						<a href="#" onclick="Basket.deleteBasketItem(0);">
+						<img src="<%=ctxPath %>/images/product/btn_delete.gif" alt="삭제"></a>
+					</td>
+					
+					
 				</tr>
 			</tbody>
+			<tfoot style="font-size: 9pt; color: #333; height: 60px; border: solid 1px #e8e8e8; background-color: #F2F2F2;">
+				<tr>
+					<td colspan="2">
+						<span>[기본배송]</span>
+					</td>
+					<td colspan="4">
+						&nbsp;
+					</td>
+					<td colspan="4">
+						<span> 상품구매금액 <strong> 85000 </strong> + 배송비 0(무료) = 합계 : <strong>85000원</strong></span>
+					</td>
+				</tr>
+			</tfoot>
 		</table>
-
-		<span class="cart_choice"> <strong>선택상품을</strong><img src="<%= ctxPath %>/images/member/btn_delete2.gif" style="cursor: pointer;" /><img src="<%= ctxPath %>/images/member/btn_basket2.gif" style="cursor: pointer;" />
-		</span> <span class="cart_order"><img src="<%= ctxPath %>/images/member/btn_order_empty.gif" style="cursor: pointer;" />&nbsp;&nbsp;<img src="<%= ctxPath %>/images/member/btn_order_all.gif" style="cursor: pointer;" /></span>
-
-
 	</div>
+	<!-- 총주문액 끝 -->
 	
-<!-- </div> -->
+	<!-- 삭제 또는 이동 -->
+	<div>
+		<strong class="text" style="font-size: 9pt;">선택상품을</strong>
+		<a href="#"><img src="<%=ctxPath %>/images/product/btn_delete2.gif" alt="장바구니에서 삭제하기"></a>
+		<a href="#"><img src="<%=ctxPath %>/images/product/btn_clear.gif" alt="장바구니 비우기"></a>
+	</div>
+	<!--  -->
+	<hr style="border: solid 1px #e8e8e8;">
+	
+</div>
 
+
+
+
+
+<script>
+	/* 탭메뉴 클릭 시 펼쳐주기 */
+	function openPage(pageName, elmnt, color) {
+		var i, tabcontent, tablinks;
+		tabcontent = document.getElementsByClassName("tabcontent");
+		for (i = 0; i < tabcontent.length; i++) {
+			tabcontent[i].style.display = "none";
+		}
+		tablinks = document.getElementsByClassName("tablink");
+		for (i = 0; i < tablinks.length; i++) {
+			tablinks[i].style.backgroundColor = "";
+		}
+		document.getElementById(pageName).style.display = "block";
+		elmnt.style.backgroundColor = color;
+	}
+
+	// Get the element with id="defaultOpen" and click on it
+	document.getElementById("defaultOpen").click();
+</script>

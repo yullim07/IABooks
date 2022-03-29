@@ -90,11 +90,10 @@ div.container {
 			해외배송상품(숫자)
 		</button>
 		<p class="tabcart">장바구니에 담긴 상품은 30일 동안 보관됩니다.</p>
-		
-	
+
 		<div id="delivery_in" class="tabcontent">
 			<!-- 장바구니 목록 시작 -->
-			<jsp:include page="cart_list.jsp" />
+			<jsp:include page="cart_list.jsp" />			
 			<!-- 장바구니 목록 끝 -->
 		</div>
 	
@@ -103,85 +102,24 @@ div.container {
 			<jsp:include page="cart_list.jsp" />
 			<!-- 장바구니 목록 끝 -->
 		</div>
+		
+		<div id="delivery_in" class="tabcontent">
+			<!-- 장바구니 목록 시작 -->
+			<jsp:include page="cart_list.jsp" />			
+			<!-- 장바구니 목록 끝 -->
+		</div>
+		
 	</div>
 	<!-- 국내배송 해외배송 끝 -->
 	
-	<!-- 총주문액 시작 -->
-	<hr style="border: solid 1px #e8e8e8;">
-	
-	<div class="orderlist_area">
-		<table class="cart_totalPrice" style="border: solid 1px gold; width: 100%;">
-			<colgroup>
-				<col style="width:27px">
-				<col style="width:92px">
-				<col style="width:auto">
-				<col style="width:98px">
-				<col style="width:75px">
-				<col style="width:98px">
-				<col style="width:98px">
-				<col style="width:85px">
-				<col style="width:98px">
-				<col style="width:110px">
-			</colgroup>
-			<thead>
-				<tr>
-					<th scope="col">
-						<input type="checkbox" 
-						onclick="Basket.setCheckBasketList('basket_product_normal_type_normal', this);">
-					</th>
-					<th scope="col">이미지</th>
-					<th scope="col">상품정보</th>
-					<th scope="col">판매가</th>
-					<th scope="col">수량</th>
-					<th scope="col" class="mileage">적립금</th>
-					<th scope="col">배송구분</th>
-					<th scope="col">배송비</th>
-					<th scope="col">합계</th>
-					<th scope="col">선택</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td><input type="checkbox" id="basket_chk_id_0" name="basket_product"></td>
-					<td><img src="<%=ctxPath %>/images/product/book.jpg" class="thumbnail" /></td>
-					<td><strong>책제목</strong></td>
-					<td><strong>10,000원</strong></td>
-					<td>
-						수량박스<br>
-						<img src="<%=ctxPath %>/images/product/btn_quantity_modify.gif" />
-					</td>
-					
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="10">
-						<span class="gLeft">[기본배송]</span>
-						<span> 상품구매금액 <strong> 85000 </strong> + 배송비 0(무료) = 합계 : <strong>85000원</strong></span>
-					</td>
-				</tr>
-			</tfoot>
-			
-			<!-- tr style="border: solid 1px red; heigth: 80px;">
-				<th style="width: 30%"><strong>총 상품금액</strong></th>
-				<th style="width: 20%"><strong>총 배송비</strong></th>
-				<th style="width: 50%"><strong>결제예정 금액</strong></th>
-			</tr>
-			<tr>
-				<td><span>14,000원</span></td>
-				<td>+ <span>0원</span></td>
-				<td style="color: #c11e31;">= <span>14,000원</span></td>
-			</tr> -->
-		</table>
-	</div>
-	
-	<!-- 총주문액 끝 -->
-	
 	<!-- 장바구니 이용안내 시작 -->
-	<jsp:include page="cart_board.jsp" />
+	<div style="width: 100%; margin: 0 auto;">
+		<jsp:include page="cart_board.jsp"/>
+	</div>
 	<!-- 장바구니 이용안내 끝 -->
 	
 </div>
+<!-- 전체 컨테이너 끝 -->
 
 <jsp:include page="/footer.jsp" />
 
