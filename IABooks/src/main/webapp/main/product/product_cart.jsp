@@ -109,36 +109,7 @@ div.container {
 	</div>
 	<!-- 국내배송 해외배송 구분탭 끝 -->
 	
-	
-	
-	<!-- 상품보기 제품가격(detail_text_purchase) 시작 -->
-				<div id="detail_text_purchase">
-					<table id='tbl_detail_purchase'>
-						<thead>
-							<tr>
-								<th scope="row" width="40%">판매가</th>
-								<td scope="col"><span>12,000</span>원</td>
-								<%-- <td scope="col"><span id=`${elt.productId}`>${elt.price.toLocaleString('en')}</span>원</td> --%>
-							<tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th scope="row" width="30%">배송방법</th>
-								<td scope="col">택배</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr>
-								<th scope="row" width="30%">배송비</th>
-								<td scope="col"><span>3000</span>원&nbsp;(50,000원 이상 구매 시 무료)</td>
-								<%-- <td scope="col"><span id='${elt.productId}'>${elt.shippingfee.toLocaleString('en')}</span>원&nbsp;(50,000원 이상 구매 시 무료)</td> --%>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-				<!-- 상품보기 제품가격(detail_text_purchase) 끝 -->
-				
-	
+	<hr style="border: solid 1px #e8e8e8;">
 	
 	<!-- 장바구니 이용안내 시작 -->
 	<div style="width: 100%; margin: 0 auto;">

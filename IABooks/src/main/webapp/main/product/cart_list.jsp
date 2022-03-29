@@ -14,27 +14,20 @@
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- 직접 만든 CSS -->
-<%-- <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" /> --%>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/cart_list.css" />
 
 	<!-- 컨테이너 시작 -->
 	<!-- <div class="container"> -->
 	
 	
-	<%-- <c:if test=""> --%>
+	<%-- <c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid eq 'admin'}"> --%>
+	<%-- admin으로 로그인했으면 --%>
 		<div class="cart_empty">
 			<table class="cart_none">
 				<tr>
-					<td style="font-size: 9pt; color: #888;">장바구니가 비어있습니다.</td>
+					<td>장바구니가 비어있습니다.</td>
 				</tr>
-			</table>
-			<div class="text-center">
-				<img src="<%= ctxPath%>/images/product/btn_order_all.gif" alt="전체상품주문" />
-				<img src="<%= ctxPath%>/images/product/btn_order_select.gif" alt="선택상품주문" />
-			</div>
-			<div style="margin-bottom: 120px;">
-				<img src="<%= ctxPath%>/images/product/btn_order_ing.gif" alt="쇼핑계속하기" style="float: right;"/>
-			</div>			
+			</table>	
 		</div>
 	<%-- </c:if> --%>
 	
@@ -117,20 +110,28 @@
 	</div>
 	<!-- 총주문액 끝 -->
 	
+	<hr style="border: solid 1px #e8e8e8;">
+	
 	<!-- 삭제 또는 이동 -->
 	<div>
 		<strong class="text" style="font-size: 9pt;">선택상품을</strong>
 		<a href="#"><img src="<%=ctxPath %>/images/product/btn_delete2.gif" alt="장바구니에서 삭제하기"></a>
 		<a href="#"><img src="<%=ctxPath %>/images/product/btn_clear.gif" alt="장바구니 비우기"></a>
 	</div>
+	
 	<!--  -->
+	
 	<hr style="border: solid 1px #e8e8e8;">
 	
-</div>
-
-
-
-
+	
+	<div class="text-center">
+				<img src="<%= ctxPath%>/images/product/btn_order_all.gif" alt="전체상품주문" />
+				<img src="<%= ctxPath%>/images/product/btn_order_select.gif" alt="선택상품주문" />
+	</div>
+	<div style="margin-bottom: 120px;">
+		<img src="<%= ctxPath%>/images/product/btn_order_ing.gif" alt="쇼핑계속하기" style="float: right;"/>
+	</div>
+		
 
 <script>
 	/* 탭메뉴 클릭 시 펼쳐주기 */
