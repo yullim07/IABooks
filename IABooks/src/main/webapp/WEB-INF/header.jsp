@@ -113,7 +113,7 @@
 						<li><a href="#">인문</a></li>
 						<li><a href="#">사회</a></li>
 						<li><a href="#">과학</a></li>
-						<li><a href="#">리뷰</a></li>
+						<li><a href="<%= ctxPath%>/board/reviewBoard.book">리뷰</a></li>
             		</ul>
           		</li>		
 				

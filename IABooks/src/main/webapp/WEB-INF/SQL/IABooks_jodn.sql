@@ -1,29 +1,53 @@
 select *
-from TBL_MEMBER;
+from tbl_member;
+
 -- 회원
-CREATE TABLE "TBL_MEMBER" (
-	"PK_USERID"         VARCHAR2(20)  NOT NULL, -- 회원아이디
-	"PWD"               VARCHAR2(200) NOT NULL, -- 비밀번호
-	"NAME"              VARCHAR2(25)  NOT NULL, -- 이름
-	"ADDRESS"           VARCHAR2(100) NOT NULL, -- 기본주소
-	"DETAILADDRESS"     VARCHAR2(100) NOT NULL, -- 상세주소
-	"NUMBER"            VARCHAR2(20)  NULL,     -- 일반전화
-	"UQ_PHONE"          VARCHAR2(200) NOT NULL, -- 휴대전화
-	"UQ_EMAIL"          VARCHAR2(200) NOT NULL, -- 이메일
-	"POINT"             NUMBER(5)     DEFAULT 0,-- 적립금
-	"COUPON"            NUMBER(5)     NULL,     -- 쿠폰
-	"REGISTERDAY"       DATE          NULL,     -- 가입일자
-	"LASTPWDCHANGEDATE" DATE          NOT NULL, -- 마지막암호변경날짜시각
-	"POSTCODE"          VARCHAR2(20)  NOT NULL, -- 우편번호
-	"BIRTHDAY"          VARCHAR2(20)  NULL,     -- 생년월일
-	"CK_GENDER"         CHAR          NULL,     -- 성별
-	"CK_STATUS"         CHAR          DEFAULT 1, -- 회원탈퇴유무
-	"CK_U_STATUS"       CHAR          DEFAULT 0  -- 휴면상태
+create table tbl_member (
+    pk_userid         varchar2(20)  not null, -- 회원아이디
+	pwd               varchar2(200) not null, -- 비밀번호
+    mname              varchar2(25)  not null, -- 이름
+	address           varchar2(100) not null, -- 기본주소
+	detailaddress     varchar2(100) not null, -- 상세주소
+    
+	tel               varchar2(20)  null,     -- 일반전화
+	uq_phone          varchar2(200) not null, -- 휴대전화
+	uq_email          varchar2(200) not null, -- 이메일
+	mileage           number        default 0,-- 적립금
+	coupon            number        null,     -- 쿠폰
+	registerday       date          default sysdate,     -- 가입일자
+	lastpwdchangedate date          default sysdate, -- 마지막암호변경날짜시각
+	postcode          varchar2(20)  not null, -- 우편번호
+	birthday          varchar2(20)  null,     -- 생년월일
+	ck_gender         char          null,     -- 성별
+	ck_status         char          default 1, -- 회원탈퇴유무
+	ck_u_status       char          default 0  -- 휴면상태
 );
+
+ALTER TABLE tbl_member MODIFY tel INVISIBLE;
+ALTER TABLE tbl_member MODIFY uq_phone INVISIBLE;
+ALTER TABLE tbl_member MODIFY uq_email INVISIBLE;
+ALTER TABLE tbl_member MODIFY mileage INVISIBLE;
+ALTER TABLE tbl_member MODIFY registerday INVISIBLE;
+ALTER TABLE tbl_member MODIFY postcode INVISIBLE;
+ALTER TABLE tbl_member MODIFY birthday INVISIBLE;
+ALTER TABLE tbl_member MODIFY ck_gender INVISIBLE;
+ALTER TABLE tbl_member MODIFY ck_status INVISIBLE;
+ALTER TABLE tbl_member MODIFY ck_u_status INVISIBLE;
+
+
+alter table tbl_member add extraaddress varchar2(100) not null; 
+alter table tbl_member modify ck_gender varchar2(5);
+alter table tbl_member modify ck_status varchar2(5);
+alter table tbl_member modify ck_u_status varchar2(5);
+
+
+
+
+drop table TBL_MEMBER purge;
 
 commit;
 
-DROP TABLE tbl_member PURGE;
+-- DROP TABLE TBL_MEMBER PURGE;
 
 select *
 from tab;

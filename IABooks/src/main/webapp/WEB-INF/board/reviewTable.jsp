@@ -24,7 +24,7 @@
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 <script type="text/javascript">
 	
@@ -106,7 +106,7 @@
 		      <th>첨부파일</th>
 		      <td>
 		      	<a href="#">
-			      	<img id="file_attach_2" name="file_attach" src="<%=ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
+			      	<img id="file_attach_2" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
 			      	<a class="file_attach" href="#">review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg</a>
 			    </a>
 		      </td>
@@ -126,8 +126,8 @@
 	</div>
 	
 	<div class="buttons">
-		
-		<button class="btn btn_list" type="button">목록</button>
+		<a href="<%= ctxPath%>/board/reviewBoard.book"  class="btn btn_list btn-dark" id="reviewlist_btn">목록</a> 
+		<%-- <button class="btn btn_list" type="button">목록</button> --%>
 		<button class="btn btn_update" type="button">수정</button>
 		<button class="btn btn_delete" type="button">삭제</button>	
 		
@@ -201,7 +201,7 @@
 			        <td class="tbl_bookname">
 						<span >직업이 술꾼입니다!</span>
 			        </td>
-			        <td class="tbl_subject"><a href="">직업이 술꾼이라니 너무 재밌는 책이라 구입했습니다. 먼저 일러스트로 알게 되었고, 그 다음<img id="file_attach" name="file_attach" src="<%=ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
+			        <td class="tbl_subject"><a href="">직업이 술꾼이라니 너무 재밌는 책이라 구입했습니다. 먼저 일러스트로 알게 되었고, 그 다음<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
 			        <td class="tbl_writer mycenter">네****</td>
 			        <td class="tbl_date mycenter">2022-01-24</td>
 			      </tr>
@@ -211,7 +211,7 @@
 			        <td class="tbl_bookname">
 						<span >직업이 술꾼입니다!</span>
 			        </td>
-			        <td class="tbl_subject"><a href="">배송이 빨라 좋았어요!<img id="file_attach" name="file_attach" src="<%=ctxPath%>/jaehee_pages/semi_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
+			        <td class="tbl_subject"><a href="">배송이 빨라 좋았어요!<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
 			        <td class="tbl_writer mycenter">네****</td>
 			        <td class="tbl_date mycenter">2022-01-04</td>
 			      </tr>
@@ -227,5 +227,5 @@
 
 
 	
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

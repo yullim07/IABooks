@@ -19,7 +19,7 @@
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 
 <script type="text/javascript">
@@ -284,7 +284,7 @@
 	    </tbody>
 	  </table>
 	  <div class="write_btn_zone">
-      	<button type="button" class="btn btn-dark" id="write_btn">글쓰기</button>
+      	 <a href="index_reviewWrite.jsp"  class="btn btn-dark" id="write_btn">글쓰기</a> 
   	  </div>
 	  
 	</div>
@@ -339,5 +339,5 @@
 
 
 	
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

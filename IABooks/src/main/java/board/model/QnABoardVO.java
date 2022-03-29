@@ -1,20 +1,27 @@
 package board.model;
 
-public class BoardVO {
+import member.model.MemberVO;
 
-	private int pk_qna_num;
-	private String fk_userid;
-	private int fk_pnum;
-	private String qna_title;
-	private int qna_isanswer;
-	private int qna_readcount;
-	private String qna_date;
-	private String qna_contents;
-	private String qna_passwd;
-	private int qna_issecret;
+public class QnABoardVO {
+
+	private int pk_qna_num;			// 문의번호
+	private String fk_userid;		// 회원아이디
+	private int fk_pnum;			// 국제표준도서번호
+	private String qna_title;		// 제목
+	private int qna_isanswer;		// 답변유무
+	private int qna_readcount;		// 조회수
+	private String qna_date;		// 작성일자
+	private String qna_contents;	// 게시글 내용
+	private String qna_passwd;		// 글비밀번호
+	private int qna_issecret;		// 비밀유무(0:공개글 1:비밀글)
+	private int isdelete;			// 삭제유무(0:삭제안함, 1:삭제함)
+	
+	
+	
 	
 	// 1. 게시판마다 DAO, VO를 나눠야 하는지? 아니면 하나에 다 몰아넣어도 되는지?
 
+	private MemberVO member;
 	// private MemberDTO member; // @@@  부모  ,,   // 초기치 null
 	//오라클의 jdbc_board 테이블과 jdbc_member 테이블을 join하여 select 하는 용도
 	
@@ -86,6 +93,18 @@ public class BoardVO {
 	}
 	
 	
+	public void setMember(MemberVO member) {
+		this.member = member;
+		
+	}
+	
+	public int getIsdelete() {
+		return isdelete;
+	}
+	public void setIsdelete(int isdelete) {
+		this.isdelete = isdelete;
+	}
+
 	
 }
 

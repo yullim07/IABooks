@@ -1,14 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-
+<%@ page import="board.model.BoardDAO" %>
+<%@ page import="board.model.FaqBoardVO" %>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <%
 	String ctxPath = request.getContextPath();
-	
 %>
+
+
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
+
+<!-- Font Awesome 5 Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <style type="text/css">
 
 	#faq_table_all > tbody > tr > td:nth-child(2), td:nth-child(4) {
@@ -18,30 +28,15 @@
 </style>
 
 
+<jsp:include page="/WEB-INF/header.jsp"/>
 
-	<script type="text/javascript">
-		
-		$(document).ready(function(){
-			
-		});
+<script type="text/javascript">
 	
-	</script>
+	$(document).ready(function(){
+		
+	});
 
-
-<jsp:include page="../../header.jsp"/>
-
-
-
-<!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
-    
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    
-</head>
-<body>
-
+</script>
 
 	    <div class="container">
 			    <div class="title" >
@@ -75,60 +70,21 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <tr>
-			      <td>9</td>
-			      <td id="product">상품</td>
-			      <td><a href="">독립출판물이란 무엇인가요?</a></td>
-			      <td>인디펍</td>
+			    <%
+			    	BoardDAO bdao = new BoardDAO();
+			    	List<FaqBoardVO> faqList = bdao.faqBoardList();
+			    	
+			    	for(int i=0; i<faqList.size(); i++) {
+			    %>
+			    <tr> 
+			    	<td><%= faqList.get(i).getPk_faq_board_num() %></td>
+			    	<td><%= faqList.get(i).getFk_faq_c_name() %></td>
+			    	<td><a href=""><%= faqList.get(i).getFaq_title() %></a></td>
+			    	<td><%= faqList.get(i).getFaq_writer()%></td>
 			    </tr>
-			    <tr>
-			      <td>8</td>
-			      <td id="return">반품/교환</td>
-			      <td><a href="">반품은 어떻게 하나요?</a></td>
-			      <td>인디펍</td>
-			    </tr>
-			    <tr>
-			      <td>7</td>
-			      <td id="order">주문/배송</td>
-			      <td><a href="">주문한 상품은 언제 받을 수 있나요?</a></td>
-			      <td>인디펍</td>
-			    </tr>
-			    <tr>
-			      <td>6</td>
-			      <td id="order">주문/배송</td>
-			      <td><a href="">현금영수증 발행신청은 어디서 하나요?</a></td>
-			      <td>인디펍</td>
-			    </tr>
-			    <tr>
-			      <td>5</td>
-			      <td id="order">주문/배송</td>
-			      <td><a href="">배송비는 얼마인가요?</a></td>
-			      <td>인디펍</td>
-			    </tr>
-			    <tr>
-			      <td>4</td>
-			      <td id="order">주문/배송</td>
-			      <td><a href="">비회원 주문조회는 어떻게 하나요?</a></td>
-			      <td>인디펍</td>
-			    </tr>
-			    <tr>
-			      <td>3</td>
-			      <td id="order">주문/배송</td>
-			      <td><a href="">해외 배송이 가능한가요?</a></td>
-			      <td>인디펍</td>
-			    </tr>
-			    <tr>
-			      <td>2</td>
-			      <td id="return">반품/교환</td>
-			      <td><a href="">교환은 어떻게 하나요?</a></td>
-			      <td>인디펍</td>
-			    </tr>
-			    <tr>
-			      <td>1</td>
-			      <td id="product">상품</td>
-			      <td><a href="">품절된 도서입니다. 재입고는 언제 되나요?</a></td>
-			      <td>인디펍</td>
-			    </tr>
+			    <%
+			    	}
+			    %>
 			  </tbody>
 			</table>
 			
@@ -161,4 +117,4 @@
 		</div> <!-- container 끝 -->
 		
 		
-<jsp:include page="../../footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
