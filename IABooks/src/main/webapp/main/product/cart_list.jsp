@@ -21,7 +21,7 @@
 	
 	
 	<%-- <c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid eq 'admin'}"> --%>
-	<%-- admin으로 로그인했으면 --%>
+	<%-- 장바구니에  --%>
 		<div class="cart_empty">
 			<table class="cart_none">
 				<tr>
