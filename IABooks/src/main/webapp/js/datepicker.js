@@ -1,7 +1,7 @@
 
 // === jQuery UI 의 datepicker === //
 $(function(){
-$("input#datepicker").datepicker({
+$("input#datepicker ").datepicker({
 	                 dateFormat: 'yy-mm-dd'  //Input Display Format 변경
 	                ,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 	                ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시

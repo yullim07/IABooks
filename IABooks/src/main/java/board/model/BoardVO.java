@@ -1,5 +1,7 @@
 package board.model;
 
+import member.model.MemberVO;
+
 public class BoardVO {
 
 	private int pk_qna_num;
@@ -13,8 +15,12 @@ public class BoardVO {
 	private String qna_passwd;
 	private int qna_issecret;
 	
+	
+	
+	
 	// 1. 게시판마다 DAO, VO를 나눠야 하는지? 아니면 하나에 다 몰아넣어도 되는지?
-
+	
+	private MemberVO member;
 	// private MemberDTO member; // @@@  부모  ,,   // 초기치 null
 	//오라클의 jdbc_board 테이블과 jdbc_member 테이블을 join하여 select 하는 용도
 	
@@ -83,6 +89,12 @@ public class BoardVO {
 	}
 	public void setQna_issecret(int qna_issecret) {
 		this.qna_issecret = qna_issecret;
+	}
+	
+	
+	public void setMember(MemberVO member) {
+		this.member = member;
+		
 	}
 	
 	

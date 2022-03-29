@@ -75,13 +75,13 @@ public class FrontController extends HttpServlet {
 			while(en.hasMoreElements()) { // en이 key값을 가지고 있다. hasMore의 return type 은 boolean
 				
 				String key = (String) en.nextElement(); // 실제로 properties의 key값을 가져온다. 항상 string, string이므로 형변환해준다.
-				System.out.println("~~~ 확인용 key => " + key);
+	//			System.out.println("~~~ 확인용 key => " + key);
 				/*
 					~~~ 확인용 key => /main.up
 					~~~ 확인용 key => /index.up
 				 */
 				
-				System.out.println("~~~ 확인용 value => " + pr.getProperty(key));
+	//			System.out.println("~~~ 확인용 value => " + pr.getProperty(key));
 				/*
 					~~~ 확인용 value => common.controller.MainController
 					~~~ 확인용 value => common.controller.IndexController 

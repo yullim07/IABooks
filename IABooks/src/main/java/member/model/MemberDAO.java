@@ -126,7 +126,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			conn =ds.getConnection();
 			
-			String sql = " insert into tbl_member(userid, pwd, name, email, phone, postcode, address, detailaddress, extraaddress, gender, birthday, number) "
+			String sql = " insert into tbl_member(PK_USERID, PWD, NAME, UQ_EMAIL, UQ_PHONE, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, CK_GENDER, BIRTHDAY, NUMBER) "
 						+" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
