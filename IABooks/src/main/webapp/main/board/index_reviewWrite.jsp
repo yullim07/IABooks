@@ -75,6 +75,7 @@
   
   
 	<div class="table table-responsive">
+		<form method="post" action="reviewWriteAction.jsp" >
 		<table class=" write_review">
 		  	<tbody>
 		    <tr>
@@ -249,6 +250,7 @@
 		    </tbody>
 		  
 		</table>
+		</form>
 	</div>
 	
 	<div class="buttons">

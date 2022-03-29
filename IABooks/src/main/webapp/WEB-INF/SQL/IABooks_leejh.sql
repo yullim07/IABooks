@@ -203,3 +203,30 @@ SELECT * FROM USER_SEQUENCES
 select *
 from tbl_faq_category
 order by SEQ_FAQ_CATEGORY asc;
+
+select *
+from TBL_MEMBER;
+
+select B.boardno, B.subject, M.name, 
+        to_char(writeday,'yyyy-mm-dd hh24:mi:ss'), 
+        B.viewcount       ,
+        nvl(C.commentcnt,0)  
+from TBL_QNA_BOARD B 
+JOIN TBL_MEMBER M  
+ON B.fk_userid = M.pk_userid  
+LEFT JOIN
+    (select fk_boardno, count(*) as COMMENTCNT            
+    from jdbc_comment            
+    group by fk_boardno) C  
+ON B.boardno = C.fk_boardno  
+order by 1 desc 
+
+select *
+from TBL_qna_board;
+
+select pk_qna_num,  qna_title, fk_userid, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount
+from tbl_qna_board B JOIN tbl_member M
+ON B.fk_userid = M.pk_userid
+order by pk_qna_num desc;
+
+
