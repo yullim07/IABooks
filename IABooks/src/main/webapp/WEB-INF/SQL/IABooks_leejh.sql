@@ -325,12 +325,23 @@ ON Q.fk_userid = M.pk_userid
 where isdelete = 0
 order by pk_qna_num desc
 
-select  pk_qna_num, P.pro_name, P.pro_imgfile_name, , qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
+--qna 게시판 목록 보기
+select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
 from tbl_member M
 JOIN tbl_qna_board Q  ON M.pk_userid = Q.fk_userid
 JOIN tbl_product P ON Q.fk_pnum = P.pk_pro_num
 where isdelete = 0
 order by pk_qna_num desc;
+
+String sql = "\n"+
+"select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret\n"+
+"from tbl_member M\n"+
+"JOIN tbl_qna_board Q  ON M.pk_userid = Q.fk_userid\n"+
+"JOIN tbl_product P ON Q.fk_pnum = P.pk_pro_num\n"+
+"where isdelete = 0\n"+
+"order by pk_qna_num desc";
+
+
 
 select *
 from tbl_qna_board;
