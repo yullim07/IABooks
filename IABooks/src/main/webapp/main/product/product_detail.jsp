@@ -76,10 +76,7 @@
 				</div>
 				<!-- 상품보기 제품제목(detail_text_title) 끝 -->
 				
-				<br>
-				
 				<hr style="border: solid 1px #F2F2F2;">
-				
 				
 				<!-- 상품보기 제품가격(detail_text_purchase) 시작 -->
 				<div id="detail_text_purchase">
@@ -87,7 +84,7 @@
 						<thead>
 							<tr>
 								<th scope="row" width="40%">판매가</th>
-								<td scope="col"><span>12,000</span>원</td>
+								<td scope="col" class="majorheading"><span>12,000</span>원</td>
 								<%-- <td scope="col"><span id=`${elt.productId}`>${elt.price.toLocaleString('en')}</span>원</td> --%>
 							<tr>
 						</thead>
@@ -116,8 +113,8 @@
 				<div id="detail_text_total">
 					<table id='tbl_pro_total'>
 						<thead>
-							<tr>
-								<th scope="col" width="50%">상품명</th>
+							<tr style="background-color: #F2F2F2; line-height: 40px;">
+								<th scope="col" width="50%" style="padding-left: 10px;">상품명</th>
 								<th scope="col" width="20%">상품수</th>
 								<th scope="col" width="30%">가격</th>
 							<tr></tr>
@@ -132,7 +129,7 @@
 							</tr>
 						</tbody>
 						<tfoot>
-							<tr>
+							<tr style="line-height: 32px; border-top: solid 2px #F2F2F2;">
 								<td scope="row">
 									<span><b>총상품금액</b></span>&nbsp;(수량) :
 								</td>
@@ -529,7 +526,7 @@
 			
 			arr_product.forEach(function(elt, i, array) {
 				html_title += `<tr>
-									<th>${elt.productName}s</th>
+									<th>${elt.productName}책제목</th>
 								<tr>
 							</table>`;
 			});

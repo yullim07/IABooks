@@ -52,6 +52,13 @@ img.small {
 	height: 100px;
 }
 
+
+
+/* 상단 컨텐츠 */
+.tbl_detail_purchase th {
+	line-height: 20pt;
+}
+
 /* 상품보기 제품제목(detail_text_title), 상품보기 제품가격(detail_text_purchase), 상품보기 총주문액(detail_text_total) */ /* ************************ */
 
 
