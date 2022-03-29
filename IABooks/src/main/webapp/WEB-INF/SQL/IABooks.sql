@@ -28,3 +28,26 @@ drop table tbl_main_image purge;
 commit;
 -- 커밋 완료.
 >>>>>>> branch 'jodn' of https://github.com/yullim07/IABooks.git
+
+
+ALTER TABLE SEMIORAUSER3.TBL_PRODUCT MODIFY PRO_PAGES NUMBER(5);
+ALTER TABLE SEMIORAUSER3.TBL_PRODUCT MODIFY PK_PRO_NUM NUMBER(20);
+ALTER TABLE SEMIORAUSER3.TBL_WRITER MODIFY PK_WR_CODE NUMBER(5);
+ALTER TABLE SEMIORAUSER3.TBL_PRODUCT MODIFY FK_WR_CODE NUMBER(10);
+ALTER TABLE SEMIORAUSER3.TBL_PRODUCT_IMAGEFILE MODIFY FK_PRO_NUM NUMBER(20)
+ALTER TABLE SEMIORAUSER3.TBL_CATEGORY MODIFY PK_CATE_NUM NUMBER(5);
+ALTER TABLE SEMIORAUSER3.TBL_WRITER MODIFY PK_WR_CODE NUMBER(10);
+
+ALTER TABLE tbl_product
+	ADD
+		CONSTRAINT FK_tbl_writer_TO_tbl_product
+		FOREIGN KEY (
+			fk_wr_code
+		)
+		REFERENCES tbl_writer (
+			pk_wr_code
+		);
+commit
+------------------------------------------------------------------------------------------------
+
+
