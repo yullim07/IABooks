@@ -284,7 +284,7 @@
 	    </tbody>
 	  </table>
 	  <div class="write_btn_zone">
-      	<button type="button" class="btn btn-dark" id="write_btn">글쓰기</button>
+      	 <a href="index_reviewWrite.jsp"  class="btn btn-dark" id="write_btn">글쓰기</a> 
   	  </div>
 	  
 	</div>

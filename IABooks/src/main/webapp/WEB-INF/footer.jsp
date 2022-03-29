@@ -1,7 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%
+    String ctxPath = request.getContextPath();
+%>
 
 <%--footer : 전체적인 디테일 수정 --%>
 <div class="container">	
@@ -17,7 +21,7 @@
 				<nav id="navbar" class="navbar">
 					<ul class="justify-content-start">     		
 		          		<li class="bulkhead"><a class="" href="#">이용약관</a></li>
-		          		<li class=" bulkhead"><a class="" href="#">쇼핑몰 이용안내</a></li>
+		          		<li class=" bulkhead"><a class="" href="<%= ctxPath%>/board/siteinfo.book">쇼핑몰 이용안내</a></li>
 						<li class="bulkhead"><a class="" href="#">개인정보취급방침</a></li>
 		          		<li class="bulkhead"><a class="" href="#">고객센터</a></li>
 					</ul>
