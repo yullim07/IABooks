@@ -19,13 +19,17 @@
 <meta charset="UTF-8">
 <title>in사과::도서 상세보기</title>
 
-<!-- css -->
-<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
+<!-- Optional JavaScript -->
+   <script src="<%=ctxPath %>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+   <script src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.js" type="text/javascript"></script>
+   
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
-	
+		
 	<!-- 헤더 삽입 -->
 	<jsp:include page="/header.jsp" />
 
@@ -40,7 +44,7 @@
 			
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
 				<div class="detail_img_display">
-					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=800, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
+					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=500, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
 						<img class="big" src="<%=ctxPath%>/images/product/book.jpg">
 					</a>
 				</div>
@@ -52,6 +56,7 @@
 					<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
 					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
 					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
 				</div>
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
 			</div>
@@ -65,8 +70,7 @@
 				<div id="detail_text_title">
 					<table id='tbl_detail_title'>
 						<tr>
-							<%-- <th>하하하하${elt.productName}</th> --%>
-							<th>책제목</th>
+							<th style="font-size: 24pt;">책제목</th>
 						<tr>
 					</table>				
 				</div>
@@ -116,7 +120,9 @@
 						<tbody>
 							<tr>
 								<td scope="row">${elt.productName}</td>
-								<td scope="row"><input type='number' min='1' max='1000' value='1' id='${elt.productId}' /></td>
+								<td scope="row">
+									<input type='number' min='1' max='1000' value='1' style="width: 80px; height: 24px; line-height: 24px;" id='${elt.productId}' />
+								</td>
 								<td scope="row"><span id='${elt.productId}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
 							</tr>
 						</tbody>
@@ -136,7 +142,7 @@
 				<br>
 								
 				<!-- 상품보기 구매버튼(detail_text_button) 시작 -->
-				<div class="detail_text_button row">
+				<div class="detail_text_button row" style="margin: 80 0 0 0;">
 				
 					<!-- 구매하기 버튼 시작 -->
 					<button type="button" id="btn_buy" class="btn btn-dark">구매하기</button>
@@ -214,12 +220,11 @@
 					
 				</div>
 				
-				<div class="btn_book_kakao row">
+				<!-- <div class="btn_book_kakao row">
 					<button type="button" id="btn_kakao">
-					<!-- <button type="button" class="btn-lg btn-danger" style="width: 360px; height: 40px;"> -->
-						<span><strong>카카오톡으로 공유하기</strong></span>
+						<span><strong>네이버밴드로 공유하기</strong></span>
 					</button>
-				</div>
+				</div> -->
 				<!-- 상품보기 구매버튼(detail_text_button) 끝 -->
 				
 			</div>

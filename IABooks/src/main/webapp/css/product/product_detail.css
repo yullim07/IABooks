@@ -16,12 +16,16 @@ div.detail_top, div.detail_bottom, div.detail_board {
 .detail_top_img, .detail_top_text {
 	float: none;
 	margin: 0 auto; 
-	/* margin-bottom: 40px; */
+	margin-top: 40px;
 }
 
 /* 상세보기 메인이미지 영역 지정 */
 div.detail_img_display, div.detail_img_thumbnail, div.detail_top_text {
 	text-align: center;
+}
+
+div.detail_img_display {
+	margin-bottom: 40px;
 }
 
 /* 상세보기 메인이미지의 최대 크기 지정 */
@@ -52,31 +56,31 @@ img.small {
 
 
 /* 상품보기 구매버튼(detail_text_button) */
-.detail_text_button {
-	 margin: 20px 0 20px 0;
-}
+/* .detail_text_button {
+	 margin-top: 80px;
+} */
 
 /* 상품보기 구매버튼(detail_text_button) */
 .detail_text_button > button#btn_buy, button#btn_cart {
-	width: 120px;
+	width: 100px;
 	height: 40px;
 	margin-right: 10px;
 }
 
 /* 상품보기 구매버튼(detail_text_button) */
 .detail_text_button > button#btn_like {
-	width: 120px;
+	width: 100px;
 	height: 40px;
 }
 
 /* 상품보기 카카오버튼(detail_text_button) */
-.btn_book_kakao > button#btn_kakao {
-	width: 400px;
+/* .btn_book_kakao > button#btn_kakao {
+	width: 480px;
 	height: 40px;
 	color: #000;
 	background-color: #FEE500;
 	margin-top: 10px;
-}
+} */
 
 div.detail_bottom {
 	margin-bottom: 20px;
