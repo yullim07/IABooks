@@ -9,6 +9,14 @@
 	String ctxPath = request.getContextPath();
 	
 %>
+
+
+<!-- 직접 만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
+
+<!-- Font Awesome 5 Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <style type="text/css">
 
 	#faq_table_all > tbody > tr > td:nth-child(2), td:nth-child(4) {
@@ -18,30 +26,15 @@
 </style>
 
 
+<jsp:include page="/WEB-INF/header.jsp"/>
 
-	<script type="text/javascript">
-		
-		$(document).ready(function(){
-			
-		});
+<script type="text/javascript">
 	
-	</script>
+	$(document).ready(function(){
+		
+	});
 
-
-<jsp:include page="../../header.jsp"/>
-
-
-
-<!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
-    
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    
-</head>
-<body>
-
+</script>
 
 	    <div class="container">
 			    <div class="title" >
@@ -161,4 +154,4 @@
 		</div> <!-- container 끝 -->
 		
 		
-<jsp:include page="../../footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
