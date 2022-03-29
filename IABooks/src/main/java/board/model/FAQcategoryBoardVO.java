@@ -5,7 +5,7 @@ public class FAQcategoryBoardVO {
 	//테이블을 만들면 자동적으로 DTO도 만들어둬라 
 	
 //	-----------------------------------------
-//	오라클의 jdbc_board 테이블에 insert 및 select 하는 용도
+//	오라클의  tbl_faq_category 테이블에 insert 및 select 하는 용도
 	
 
 	private int pk_faq_c_num;       // FAQ 번호
