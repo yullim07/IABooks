@@ -1,6 +1,14 @@
 select *
 from tbl_member;
 
+delete from tbl_member where Pk_userid = 'deokno';
+commit;
+
+delete from tbl_loginhistory ;
+
+select *
+from tbl_loginhistory;
+
 -- 회원
 create table tbl_member (
     pk_userid         varchar2(20)  not null, -- 회원아이디

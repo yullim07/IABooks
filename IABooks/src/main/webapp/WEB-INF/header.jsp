@@ -57,8 +57,9 @@
 	<div class="container">
 		<nav id="navbar" class="navbar">
 			<ul class="justify-content-end ml-auto">     		
-          		<li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/login.book">로그인</a></li>
-          		<li class="bar bulkhead"><a class="nav-link scrollto" href="#">회원가입</a></li>
+          		<c:if test="${empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/login.book">로그인</a></li></c:if>
+          		<c:if test="${not empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/logout.book">로그아웃</a></li></c:if>
+          		<c:if test="${empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberRegister.book">회원가입</a></li></c:if>
 				<li class="bar bulkhead"><a class="" href="#">장바구니</a></li>
            		<li class="dropdown bulkhead"><a href="#">마이페이지<i class="bi bi-chevron-down dropdown-indicator"></i></a>
 					<ul>
@@ -87,7 +88,7 @@
 <%-- 로고 및 검색바 : 디자인수정--%>
 <div class="container">    
 	<div class="d-none d-lg-block">
-		<a href="#" style="display: inline-block;">
+		<a href="<%= ctxPath%>/index.book" style="display: inline-block;">
 			<img src="<%= ctxPath%>/images/product/logo.png" alt="로고"/>
     	</a>
        

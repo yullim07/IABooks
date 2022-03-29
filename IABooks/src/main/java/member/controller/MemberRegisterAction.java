@@ -40,11 +40,11 @@ public class MemberRegisterAction extends AbstractController {
 			String birthday = request.getParameter("birthday");
 			
 			
-			String number = num1+num2+num3;
+			String tel = num1+num2+num3;
 			String phone = hp1+hp2+hp3;
 			
-			MemberVO member = new MemberVO(userid, pwd, name, email, postcode, address, detailaddress, extraaddress, gender, birthday, number, phone);
-			
+			MemberVO member = new MemberVO(userid, pwd, name, email, postcode, address, detailaddress, extraaddress, gender, birthday, tel, phone);
+		/*	
 			String message = "";
 			String loc = "";
 			try {
@@ -53,7 +53,7 @@ public class MemberRegisterAction extends AbstractController {
 				
 				if(n==1) {
 					message = "회원가입 성공";
-					loc =  request.getContextPath()+"/member/registerSuccess.jsp";// 가입성공페이지로 이등
+					loc =  request.getContextPath()+"/member/registerSuccess.book";// 가입성공페이지로 이등
 				}
 			
 			} catch (SQLException e) {
@@ -68,7 +68,39 @@ public class MemberRegisterAction extends AbstractController {
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
 			
-		
+		*/
+			/////////////////////////////////////////////////////
+			
+			// ##### 회원가입이 성공되면 자동으로 로그인 되도록 하겠다. #####
+			
+			try {
+				InterMemberDAO mdao = new MemberDAO();
+				int n = mdao.registerMember(member);
+				
+				if(n==1) {
+					
+					request.setAttribute("userid", userid);
+					request.setAttribute("pwd", pwd);
+					request.setAttribute("name", name);
+					
+				//	super.setRedirect(false);
+					super.setViewPage("/WEB-INF/login/registerAfterAutoLogin.jsp");
+				}
+			
+			
+			} catch (SQLException e) {
+				e.printStackTrace();
+				
+				String message = "SQL구문 에러발생";
+				String loc = "javascript:history.back()"; // 자바스크립트를 이용한 이전페이지로 이동하는것.
+            
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+               
+            //  super.setRedirect(false);
+				super.setViewPage("/WEB-INF/msg.jsp");
+			}
+			
 			/////////////////////////////////////////////////////
 			
 			
