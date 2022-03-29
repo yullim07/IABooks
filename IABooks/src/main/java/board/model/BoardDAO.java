@@ -1,6 +1,7 @@
 package board.model;
 
 import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -65,7 +66,7 @@ public class BoardDAO implements InterBoardDAO {
 	
 	
 	
-	// *** 글목록보기 메소드를 구현하기 *** //
+	// *** QnA 글목록보기 메소드를 구현하기 *** //
 		@Override
 		public List<QnABoardVO> boardList() {  
 			
@@ -125,6 +126,76 @@ public class BoardDAO implements InterBoardDAO {
 			return boardList;
 		}//end of public List<BoardDTO> boardList() -----
 
-	
+		
+		
+		
+		
+		
+		
+
+		
+		// FAQ 글목록보기 메소드를 구현하기 //
+		@Override
+		public List<FaqBoardVO> faqBoardList() throws SQLException {
+			
+			List<FaqBoardVO> faqBoardList = new ArrayList<>(); // 글목록 불러올 리스트 객체화
+			
+			FaqBoardVO board = null;
+			
+			int faq_board_num;
+			String fk_faq_c_name = "";
+			String faq_title = "";
+			String faq_writer = "";
+			
+			conn = ds.getConnection();
+			
+			try {
+				
+				String sql = " select A.pk_faq_board_num, B.faq_c_name, A.faq_title, A.faq_writer "
+						   + " from tbl_faq_board A LEFT JOIN tbl_faq_category B "
+						   + " ON A.fk_faq_c_num = B.pk_faq_c_num "
+						   + " where isdelete = 0 "
+						   + " order by pk_faq_board_num desc ";
+				pstmt = conn.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+					
+					faq_board_num = rs.getInt(1);
+					fk_faq_c_name = rs.getString(2);
+					faq_title = rs.getString(3);
+					faq_writer = rs.getString(4);
+					
+					
+					board = new FaqBoardVO();
+					board.setPk_faq_board_num(faq_board_num);
+					board.setFk_faq_c_name(fk_faq_c_name);
+					board.setFaq_title(faq_title);
+					board.setFaq_writer(faq_writer);
+					
+					MemberVO member = new MemberVO();
+					member.setName(fk_faq_c_name);
+					board.setMember(member); // 보드에 멤버를 넣어줌. 
+				
+					faqBoardList.add(board);
+					
+					System.out.println(" 넣어진 제목 : " + board.getFaq_title());
+				
+				}//end of while(rs.next()) ------------ 
+				
+			} catch(SQLException e){  
+				e.printStackTrace();
+			}finally {
+				close();
+			}
+			
+			
+			return faqBoardList;
+			
+		}
+
+		
+		
 	
 }
