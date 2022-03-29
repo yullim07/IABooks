@@ -10,7 +10,7 @@ public class RegisterSuccessAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-String method = request.getMethod();
+		String method = request.getMethod();
 		
 		if("post".equalsIgnoreCase(method)) {
 			//super.setRedirect(false);

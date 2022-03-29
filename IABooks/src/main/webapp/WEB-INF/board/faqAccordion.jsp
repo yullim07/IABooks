@@ -33,7 +33,7 @@
 </script>
 
 
-<jsp:include page="../../header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 <div class="container">	
 
@@ -63,7 +63,7 @@
 		
 		<div class="faq">
 			<div id="faqTitle">
-			<i class="fas fa-ellipsis-v"></i><span id="faq">FAQ</span><a href=""><img src="<%= ctxPath%>/images/board/jeonghm_images/board_btn_more.gif" alt="more" class="more"/></a>
+			<i class="fas fa-ellipsis-v"></i><span id="faq">FAQ</span><a href="<%= ctxPath%>/board/faqBoard.book"><img src="<%= ctxPath%>/images/board/jeonghm_images/board_btn_more.gif" alt="more" class="more"/></a>
 			</div>
 			<div class="accordion" id="accordionFaq">
 				   <div class="card">
@@ -285,7 +285,7 @@
 				<!-- <button type="button" class="btn btn-secondary" id="btnmore">
 					<a href="/board/free/list.html?board_no=3">자주 묻는 질문 더보기</a>
 				</button> -->
-				<button class="btn" id="btnmore_faq" type="button">자주 묻는 질문 더보기</button>
+				<button class="btn" id="btnmore_faq" type="button"><a href="<%= ctxPath%>/board/faqBoard.book">자주 묻는 질문 더보기</a></button>
 			</div>
 		</div>
 		
@@ -293,4 +293,4 @@
 		
 </div>
 	
-<jsp:include page="../../footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>

@@ -6,7 +6,8 @@ public class FaqBoardVO {
 
 	private int pk_faq_board_num;	// 문의번호
 	private String fk_userid;		// 회원아이디
-	private String fk_faq_c_num;	// FAQ 번호
+	private int fk_faq_c_num;	// FAQ 번호
+	private String fk_faq_c_name;	// FAQ 제목
 	private String faq_title;		// 제목
 	private String faq_writer;		// 작성자
 	private String faq_contents;	// 게시글 내용
@@ -30,14 +31,22 @@ public class FaqBoardVO {
 		this.fk_userid = fk_userid;
 	}
 
-	public String getFk_faq_c_num() {
+	public int getFk_faq_c_num() {
 		return fk_faq_c_num;
 	}
 
-	public void setFk_faq_c_num(String fk_faq_c_num) {
+	public void setFk_faq_c_num(int fk_faq_c_num) {
 		this.fk_faq_c_num = fk_faq_c_num;
 	}
 
+	public String getFk_faq_c_name() {
+		return fk_faq_c_name;
+	}
+
+	public void setFk_faq_c_name(String fk_faq_c_name) {
+		this.fk_faq_c_name = fk_faq_c_name;
+	}
+	
 	public String getFaq_title() {
 		return faq_title;
 	}
