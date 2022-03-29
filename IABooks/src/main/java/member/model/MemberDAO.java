@@ -3,7 +3,6 @@ package member.model;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.*;
-import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -56,67 +55,6 @@ public class MemberDAO implements InterMemberDAO {
 		
 	} // end of void close() 	
 	
-	// ID 중복검사( tbl_member 테이블에서 userid가 존재하면 true를 리턴해주고, userid가 존재하지 않으면 false를 리턴한다.)
-/*	@Override
-	public boolean idDupilcateCheck(String userid) throws SQLException {
-		
-		boolean isExist = false;
-		
-		try {
-			conn =ds.getConnection();
-			
-			String sql = " select * "
-					   + " from tbl_member "
-					   + " where userid = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
-			
-			rs = pstmt.executeQuery();
-			
-			isExist = rs.next(); // 행이 있으면(중복된 userid) true,
-								 // 행이 없으면 (사용가능한 userid) false
-			
-		}  finally {
-			close();
-		}
-		
-		return isExist;
-	}
-*/
-
-	
-	// email 중복검사 (tbl_member 테이블에서 email 가 존재하면 true를 리턴해주고, email 가 존재하지 않으면 false를 리턴한다)
-/*	@Override
-	public boolean emailDupilcateCheck(String email) throws SQLException {
-		boolean isExist = false;
-		
-		try {
-			conn =ds.getConnection();
-			
-			String sql = " select * "
-					   + " from tbl_member "
-					   + " where email = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, aes.encrypt(email));
-			
-			
-			rs = pstmt.executeQuery();
-			
-			isExist = rs.next(); // 행이 있으면(중복된 email) true,
-					   			// 행이 없으면(사용가능한 email) false
-			
-		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		
-		return isExist;
-	}
-*/	
-
 	// 회원가입을 해주는 메소드(tbl_member 테이블에 insert)
 	@Override
 	public int registerMember(MemberVO member) throws SQLException {
@@ -126,7 +64,7 @@ public class MemberDAO implements InterMemberDAO {
 		try {
 			conn =ds.getConnection();
 			
-			String sql = " insert into tbl_member(PK_USERID, PWD, NAME, UQ_EMAIL, UQ_PHONE, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, CK_GENDER, BIRTHDAY, NUMBER) "
+			String sql = " insert into tbl_member(PK_USERID, PWD, MNAME, UQ_EMAIL, UQ_PHONE, POSTCODE, ADDRESS, DETAILADDRESS, EXTRAADDRESS, CK_GENDER, BIRTHDAY, tel) "
 						+" values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -149,6 +87,8 @@ public class MemberDAO implements InterMemberDAO {
 		
 		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
 			e.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace();	
 		} finally {
 			close();
 		}
