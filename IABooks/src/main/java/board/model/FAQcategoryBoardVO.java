@@ -1,6 +1,6 @@
 package board.model;
 
-public class FAQ_categoryBoardVO {
+public class FAQcategoryBoardVO {
 	
 	//테이블을 만들면 자동적으로 DTO도 만들어둬라 
 	
