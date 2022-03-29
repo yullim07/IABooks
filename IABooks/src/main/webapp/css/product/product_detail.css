@@ -30,9 +30,15 @@ div.detail_img_display > a > img.big {
 }
 
 /* 상단컨텐츠 - 썸네일이미지 영역 설정 */
+/* 링크 참조 - https://nscworld.net/2021/07/06/css-%EB%B0%95%EC%8A%A4%EC%95%88%EC%97%90-%EC%9D%B4%EB%AF%B8%EC%A7%80%EB%A5%BC-%EA%BC%AD-%EB%A7%9E%EC%B6%B0%EC%84%9C-%EB%84%A3%EB%8A%94-%EB%B0%A9%EB%B2%95/ */
 div.detail_img_thumbnails {
+	display: flex;
+	flex-wrap: wrap;
+	align-items:flex-start;
+	position: relative;
 	width: 400px;
 	height: 100px;
+	overflow: hidden;
 	/* text-align: center; */
 }
 
