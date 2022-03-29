@@ -230,3 +230,6 @@ ON B.fk_userid = M.pk_userid
 order by pk_qna_num desc;
 
 
+select *
+from tabs;
+

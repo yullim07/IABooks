@@ -4,6 +4,8 @@ import java.util.List;
 
 public interface InterBoardDAO {
 
-	List<QnABoardVO> boardList();// 글목록보기
+	List<QnABoardVO> boardList();// QnA 글목록보기
+
+	List<ReviewBoardVO> reviewList(); //리뷰글목록보기
 
 }
