@@ -25,9 +25,16 @@
 		<div class="cart_empty">
 			<table class="cart_none">
 				<tr>
-					<td>장바구니가 비어있습니다.</td>
+					<td style="font-size: 9pt; color: #888;">장바구니가 비어있습니다.</td>
 				</tr>
 			</table>
+			<div class="text-center">
+				<img src="<%= ctxPath%>/images/product/btn_order_all.gif" alt="전체상품주문" />
+				<img src="<%= ctxPath%>/images/product/btn_order_select.gif" alt="선택상품주문" />
+			</div>
+			<div style="margin-bottom: 120px;">
+				<img src="<%= ctxPath%>/images/product/btn_order_ing.gif" alt="쇼핑계속하기" style="float: right;"/>
+			</div>			
 		</div>
 	<%-- </c:if> --%>
 	

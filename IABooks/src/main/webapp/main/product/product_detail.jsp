@@ -78,6 +78,9 @@
 				
 				<br>
 				
+				<hr style="border: solid 1px #F2F2F2;">
+				
+				
 				<!-- 상품보기 제품가격(detail_text_purchase) 시작 -->
 				<div id="detail_text_purchase">
 					<table id='tbl_detail_purchase'>
@@ -106,6 +109,8 @@
 				<!-- 상품보기 제품가격(detail_text_purchase) 끝 -->
 				
 				<br>
+				
+				<hr style="border: solid 1px #F2F2F2;">
 				
 				<!-- 상품보기 총주문액(detail_text_total) 시작 -->
 				<div id="detail_text_total">
@@ -140,6 +145,8 @@
 				<!-- 상품보기 총주문액(detail_text_total) 끝 -->
 				
 				<br>
+				
+				<hr style="border: solid 1px #F2F2F2;">
 								
 				<!-- 상품보기 구매버튼(detail_text_button) 시작 -->
 				<div class="detail_text_button row" style="margin: 80 0 0 0;">
@@ -239,11 +246,13 @@
 			
 			<!-- 버튼그룹 시작 -->
 			<div class="tab_btngroup text-center">
+				 
 				<button type="button" class="btn_active" id="btn_detail" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" onclick="location.href='#btn_review'">상품후기&nbsp;&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			
@@ -340,11 +349,13 @@
 			
 			<!-- 버튼그룹 시작 -->
 			<div class="tab_btngroup text-center">
+				 
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" class="btn_active" id="btn_purchase" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			<!-- 상품구매안내(detail_bottom_purchase) 시작 -->
@@ -396,11 +407,13 @@
 			
 			<!-- 버튼그룹 시작 -->
 			<div class="tab_btngroup text-center">
+				 
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" class="btn_active" id="btn_related" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			<!-- 관련상품(detail_bottom_related) 시작 -->
@@ -422,11 +435,13 @@
 		
 			<!-- 버튼그룹 시작 -->
 			<div class="tab_btngroup text-center">
+				 
 				<button type="button" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" class="btn_active" id="btn_review" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			
@@ -445,6 +460,7 @@
 				<button type="button" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
 				<button type="button" class="btn_active" id="btn_qna" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+				 
 			</div>
 			<!-- 버튼그룹 끝 -->
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
