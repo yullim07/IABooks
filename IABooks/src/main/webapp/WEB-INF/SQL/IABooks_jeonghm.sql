@@ -15,7 +15,8 @@ CREATE TABLE tbl_comment (
 	cmt_name     VARCHAR2(10)  NOT NULL, -- 댓글이름
 	cmt_passwd   VARCHAR2(20)  NOT NULL, -- 댓글비밀번호
 	cmt_contents VARCHAR2(200) NOT NULL, -- 댓글내용
-	cmt_date     DATE default sysdate -- 작성일자
+	cmt_date     DATE default sysdate, -- 작성일자
+    isdelete     VARCHAR2(10)   NOT NULL  -- 삭제유무(0:삭제안함, 1:삭제함)
 );
 
 -- 상품Q&A 게시판
@@ -29,7 +30,8 @@ CREATE TABLE tbl_qna_board (
 	qna_date      DATE           DEFAULT sysdate, -- 작성일자
 	qna_contents  VARCHAR2(1000) NOT NULL, -- 게시글 내용
 	qna_passwd    VARCHAR2(20)   NOT NULL, -- 글비밀번호
-	qna_issecret  VARCHAR2(5)    NULL      -- 비밀유무
+	qna_issecret  VARCHAR2(5)    NULL,      -- 비밀유무
+    isdelete     VARCHAR2(10)    NOT NULL  -- 삭제유무(0:삭제안함, 1:삭제함)
 );
 
 -- 도서후기 게시판
@@ -43,7 +45,8 @@ CREATE TABLE tbl_review_board (
 	re_grade     NUMBER         NOT NULL, -- 평점
 	re_contents  VARCHAR2(1000) NOT NULL, -- 게시글 내용
 	re_passwd    VARCHAR2(20)   NOT NULL, -- 글비밀번호
-	re_writer    VARCHAR2(10)   NOT NULL  -- 작성자
+	re_writer    VARCHAR2(10)   NOT NULL,  -- 작성자
+    isdelete     VARCHAR2(10)   NOT NULL  -- 삭제유무(0:삭제안함, 1:삭제함)
 );
 
 -- FAQ 게시판(관리자만 입력가능)
@@ -53,7 +56,8 @@ CREATE TABLE tbl_faq_board (
 	fk_faq_c_num     NUMBER         NOT NULL, -- FAQ 번호
 	faq_title        VARCHAR2(40)   NOT NULL, -- 제목
 	faq_writer       VARCHAR2(10)   NOT NULL, -- 작성자
-	faq_contents     VARCHAR2(1000) NOT NULL  -- 게시글 내용
+	faq_contents     VARCHAR2(1000) NOT NULL,  -- 게시글 내용
+    isdelete         VARCHAR2(10)   NOT NULL  -- 삭제유무(0:삭제안함, 1:삭제함)
 );
 
 -------------------------------------------------------------------------------------------------------
@@ -63,6 +67,7 @@ alter table tbl_qna_board add isdelete VARCHAR2(10) NOT NULL;
 alter table tbl_review_board add isdelete VARCHAR2(10) NOT NULL;
 alter table tbl_faq_board add isdelete VARCHAR2(10) NOT NULL;
 
+commit;
 
 select *
 from tbl_qna_board;

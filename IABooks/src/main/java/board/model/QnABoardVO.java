@@ -4,17 +4,17 @@ import member.model.MemberVO;
 
 public class QnABoardVO {
 
-	private int pk_qna_num;
-	private String fk_userid;
-	private int fk_pnum;
-	private String qna_title;
-	private int qna_isanswer;
-	private int qna_readcount;
-	private String qna_date;
-	private String qna_contents;
-	private String qna_passwd;
-	private int qna_issecret;
-	private int isdelete;
+	private int pk_qna_num;			// 문의번호
+	private String fk_userid;		// 회원아이디
+	private int fk_pnum;			// 국제표준도서번호
+	private String qna_title;		// 제목
+	private int qna_isanswer;		// 답변유무
+	private int qna_readcount;		// 조회수
+	private String qna_date;		// 작성일자
+	private String qna_contents;	// 게시글 내용
+	private String qna_passwd;		// 글비밀번호
+	private int qna_issecret;		// 비밀유무(0:공개글 1:비밀글)
+	private int isdelete;			// 삭제유무(0:삭제안함, 1:삭제함)
 	
 	
 	
