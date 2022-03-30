@@ -295,6 +295,12 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return result;
 	}
+
+	@Override
+	public List<QnABoardVO> qnaboardList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
       
    
 }
