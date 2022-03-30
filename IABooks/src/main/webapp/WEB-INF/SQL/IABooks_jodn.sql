@@ -4,7 +4,7 @@ from tbl_member;
 delete from tbl_member where Pk_userid = 'deokno';
 commit;
 
-delete from tbl_loginhistory ;
+delete from tbl_loginhistory where userid='deokno';
 
 select *
 from tbl_loginhistory;

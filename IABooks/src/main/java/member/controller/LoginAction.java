@@ -23,7 +23,7 @@ public class LoginAction extends AbstractController {
       
       if("get".equalsIgnoreCase(method)) {
          //super.setRedirect(false);
-         super.setViewPage("/WEB-INF/login/login.jsp");
+         super.setViewPage(request.getContextPath()+"/login/login.jsp");
       }
       else { // post 방식
          
@@ -31,7 +31,7 @@ public class LoginAction extends AbstractController {
          String pwd = request.getParameter("pwd");
          String clientip = request.getRemoteAddr();
          String registerflag = request.getParameter("registerflag");
-         System.out.println(registerflag);
+         
          
          Map<String, String> paraMap = new HashMap<>();
          paraMap.put("userid", userid);
@@ -88,7 +88,7 @@ public class LoginAction extends AbstractController {
 					
 					 if("true".equalsIgnoreCase(registerflag)) {
 						 super.setViewPage(request.getContextPath()+"/login/registerSuccess.book");
-						 System.out.println(method);
+						
 						 return; 
 					 } 
                  	
