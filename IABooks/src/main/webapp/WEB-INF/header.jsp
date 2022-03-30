@@ -57,7 +57,7 @@
 	<div class="container">
 		<nav id="navbar" class="navbar">
 			<ul class="justify-content-end ml-auto">     		
-          		<c:if test="${empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/login.book">로그인</a></li></c:if>
+          		<c:if test="${empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/join.book">로그인</a></li></c:if>
           		<c:if test="${not empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/logout.book">로그아웃</a></li></c:if>
           		<c:if test="${empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberRegister.book">회원가입</a></li></c:if>
 				<li class="bar bulkhead"><a class="" href="#">장바구니</a></li>
@@ -110,7 +110,7 @@
 			<ul class="justify-content-start">     
 				<li class="dropdown"><a class="" href="#">카테고리 전체보기<i class="bi bi-chevron-down dropdown-indicator"></i></a>
 					<ul>
-						<li><a href="#">종합</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book">종합</a></li>
 						<li><a href="#">인문</a></li>
 						<li><a href="#">사회</a></li>
 						<li><a href="#">과학</a></li>
