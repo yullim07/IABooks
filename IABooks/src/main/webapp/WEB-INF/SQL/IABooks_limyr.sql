@@ -452,23 +452,22 @@ select * from tab;
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 select * from tab;
---TBL_CART
---TBL_CATEGORY
---TBL_COMMENT
---TBL_FAQ_BOARD
---TBL_FAQ_CATEGORY
---TBL_LOGINHISTORY
---TBL_MEMBER
---TBL_ORDER
---TBL_ORDERDETAIL
---TBL_PRODUCT
---TBL_PRODUCT_IMAGEFILE
---TBL_QNA_BOARD
---TBL_REVIEW_BOARD
---TBL_WRITER
-
-desc TBL_PRODUCT_IMAGEFILE;
+select * from TBL_CART;
+select * from TBL_CATEGORY;
+select * from TBL_COMMENT;
+select * from TBL_FAQ_BOARD;
+select * from TBL_FAQ_CATEGORY;
+select * from TBL_LOGINHISTORY;
+select * from TBL_MEMBER;
+select * from TBL_ORDER;
+select * from TBL_ORDERDETAIL;
+select * from TBL_PRODUCT;
+select * from TBL_PRODUCT_IMAGEFILE;
+select * from TBL_QNA_BOARD;
+select * from TBL_REVIEW_BOARD;
+select * from TBL_WRITER;
 
 
-
-
+select *
+from TBL_PRODUCT
+where fk_cate_num=101;
