@@ -321,14 +321,14 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			String sql = " insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents) "
-					   + " values(SEQ_FAQ_BOARD.nextval, 'indiepub', ?, ?, ?, ?) ";
+					   + " values(SEQ_FAQ_BOARD.nextval, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt( 1, category);
-			pstmt.setString(2, paraMap.get("subject"));
-			pstmt.setString(3, paraMap.get("writer"));
-			pstmt.setString(4, paraMap.get("content"));
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setInt( 2, category);
+			pstmt.setString(3, paraMap.get("title"));
+			pstmt.setString(4, paraMap.get("writer"));
+			pstmt.setString(5, paraMap.get("content"));
 			
 			result = pstmt.executeUpdate();
 			
@@ -467,6 +467,61 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return totalPage;
 	} // end of public int getTotalRevPage(Map<String, String> paraMap) throws SQLException----------------
+
+	
+	// FAQ 상세글 읽어오기 
+	@Override
+	public FaqBoardVO readContent(int pk_faq_board_num) throws SQLException {
+		
+		InterBoardDAO bdao = new BoardDAO();
+		
+		FaqBoardVO faqVO = bdao.selectContent(pk_faq_board_num);
+		
+		return faqVO;
+	} // end of public FaqBoardVO readContent(int pk_faq_board_num) throws SQLException----------------- 
+
+	
+	// 번호 하나를 받아 FAQ글 정보 받아오기 
+	@Override
+	public FaqBoardVO selectContent(int pk_faq_board_num) throws SQLException {
+		
+		FaqBoardVO faqVO = null;
+		
+		System.out.println("몇 번이니? " + pk_faq_board_num);
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pk_faq_board_num, faq_writer, faq_title, faq_contents, fk_userid, fk_faq_c_num,  isdelete "+
+						 " from tbl_faq_board "+
+						 " where pk_faq_board_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pk_faq_board_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				faqVO = new FaqBoardVO();
+				
+				faqVO.setPk_faq_board_num(rs.getInt(1));
+				faqVO.setFaq_writer(rs.getString(2));
+				faqVO.setFaq_title(rs.getString(3));
+				faqVO.setFaq_contents(rs.getString(4));
+				faqVO.setFk_userid(rs.getString(5));
+				faqVO.setFk_faq_c_num(rs.getInt(6));
+				
+				System.out.println("받아왔니? " + faqVO.getFaq_contents());
+			}
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return faqVO;
+	} // end of public FaqBoardVO selectContent(int pk_faq_board_num) throws SQLException----------
 
 	
 	

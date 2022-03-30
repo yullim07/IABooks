@@ -37,6 +37,12 @@ public interface InterBoardDAO {
 	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
 	int getTotalRevPage(Map<String, String> paraMap) throws SQLException;
 
+	// FAQ 상세글 읽어오기 
+	FaqBoardVO readContent(int pk_faq_board_num) throws SQLException;
+
+	// 번호 하나를 받아 FAQ글 정보 받아오기 
+	FaqBoardVO selectContent(int pk_faq_board_num) throws SQLException;
+
 	
 
 	

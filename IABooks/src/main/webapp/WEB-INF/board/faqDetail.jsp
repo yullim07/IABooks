@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="board.model.BoardDAO" %>
-<%@ page import="board.model.FaqBoardVO" %>
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -36,7 +32,7 @@
 </script>
 
 
-<jsp:include page="../../header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
     
 
 
@@ -52,36 +48,24 @@
 		  	<span >이용안내 FAQ입니다.</span>
 	    
 	   </div>
+	   			<c:set var="faqVO" value="${requestScope.faqVO}" />
 				<table class=" review_table table_content">
 				  	<tbody>
 				    <tr>
 				      <th class="col-2" >제목</th>
-				      <td class="col-10 subject" id="td_left" >배송도 빠르도 책도 잘 포장돼서 왔어요!</td>
+				      <td class="col-10 subject" id="td_left" >${faqVO.faq_title}</td>
 				    </tr>
 				  	
 				    <tr>
 				      <th>작성자</th>
-				      <td class="writer" id="td_left" >네****</td>
+				      <td class="writer" id="td_left" >${faqVO.faq_writer}</td>
 				    </tr>
 				    <tr>
 				      
 				      <td colspan="2" class="td_content">
 				      	<div class="detail detail_contents">
 				      		<div class="fr-view fr-view-article">
-								<p id="2px"></p>
-				         		<p id="2px"><b>단순 변심</b>에 의한 반품은 배송완료 후 7일 이내에 가능합니다.</p>
-								<p id="2px"><b>오배송/상품 하자</b>에 의한 반품은 <b>30일 이내</b>에만 접수가능합니다.</p>
-								<p id="2px">인디펍 지정 택배(CJ대한통운)로 회수 신청 시 택배 반송료 3,000원이 환불 금액에서 차감 후 환불 처리가 되며,</p>
-								<p id="2px">전체 반품 또는 실 구매한 상품이 무료 배송 대상이 아닐 경우 초도 배송비 3,000원이 추가 차감됩니다.</p>
-								<p id="2px">(오배송/상품 하자에 의한 반품 배송비는 무료입니다.)</p>
-								<p id="2px"><span style="color: red;">※택배 접수 시 '반품예약'으로 접수하셔야 하며 '일반예약', '타택배사' 접수 시 택배비가 추가 차감됩니다.</span></p>
-								<p id="2px">상품은 훼손되지 않도록 포장 부탁드리며, 주문자 성함과 연락처를 메모지에 적어서 동봉 부탁드립니다.</p>
-								<p id="2px"><b>1. 반품접수</b></p>
-								<p id="2px">마이페이지 - 주문조회 - 반품신청</p>
-								<p id="2px"><b>2. 택배접수</b></p>
-								<p id="2px">CJ대한통운 반품예약 (TEL: 1588-1255)</p>
-								<p id="2px"><b>3. 반품주소</b></p>
-								<p id="2px">(61180) 광주광역시 북구 용주로40번길 7 인디펍 물류센터 (용봉동)</p>
+								${faqVO.faq_contents}	
 							</div>
 				      	</div>
 				      
@@ -124,5 +108,5 @@
 		
 		
 
-<jsp:include page="../../footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
 

@@ -17,7 +17,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style type="text/css">
-
 	#faq_table_all > tbody > tr > td:nth-child(2), td:nth-child(4) {
 		text-align: center;
 	}
@@ -32,7 +31,6 @@
 	$(document).ready(function(){
 		
 	});
-
 </script>
 
 	    <div class="container">
@@ -71,7 +69,7 @@
 				    <tr> 
 				    	<td>${board.pk_faq_board_num}</td>
 				    	<td>${board.faqCate.faq_c_name}</td>
-				    	<td><a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=">
+				    	<td><a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${board.pk_faq_board_num}">
 				    		${board.faq_title}</a>
 				    	</td>
 				    	<td>${board.faq_writer}</td>

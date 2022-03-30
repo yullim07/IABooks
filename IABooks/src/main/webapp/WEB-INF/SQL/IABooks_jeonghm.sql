@@ -342,7 +342,7 @@ select pk_rnum, re_title, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount
 from tbl_review_board
 
 */
-
+update tbl_review_board set re_writer='인디펍';
 
 commit;
 
@@ -358,16 +358,19 @@ values(2, 'admin', 2, '에러가 하나 뜨면 너무 무섭습니다.', '작작
 --
 commit;
 
-
-
-
+select *
+from user_sequences;
 
 
 select *
-from tbl_faq_board;
+from tbl_product
+
+
+insert into tbl_review_board (pk_rnum, fk_pnum, fk_userid, re_writer, re_title, re_contents, re_passwd ,isdelete, re_grade)
+values(SEQ_REVIEW_BOARD.nextval, '9791190259088', 'admin', '안녕', '정말 재밌어요','나의 식사에는 감정이 있습니다 너무 재밌게 봤어요','qwer1234$', 0, 4);
 
 select *
-from TBL_FAQ_CATEGORY
+from tbl_review_board
 
 desc TBL_FAQ_CATEGORY;
 desc TBL_FAQ_BOARD;

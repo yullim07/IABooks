@@ -104,7 +104,7 @@
 				    	</td>
 				    	<td class="tbl_subject">
 				  			<a href="">${board.re_title}</a>
-		        			<span class="new_tag">NEW</span>
+		        			<%-- <span class="new_tag">NEW</span> --%>
 	        			</td>
 				    	<%-- <td class="tbl_writer mycenter">${board.member.name}</td> --%>
 				    	<td class="tbl_writer mycenter">${board.re_writer}</td>
