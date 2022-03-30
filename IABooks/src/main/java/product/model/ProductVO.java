@@ -1,5 +1,7 @@
 package product.model;
 
+
+
 public class ProductVO {
 	private String pk_pro_num; 			//국제표준도서번호
 	private int fk_cate_num;   			//카테고리대분류번호
@@ -23,6 +25,7 @@ public class ProductVO {
   
   
     public ProductVO(){};
+    
 	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String publish_date, String publisher,
 			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
 			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
