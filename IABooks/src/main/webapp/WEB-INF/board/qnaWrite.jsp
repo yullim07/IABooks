@@ -51,7 +51,7 @@
     <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
     <title>상품 Q&A</title>
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 	<script type="text/javascript">
 		
@@ -320,5 +320,5 @@
 </body>
 </html>
 
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

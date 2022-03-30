@@ -87,7 +87,7 @@
 							<span ><%= qnaboardList.get(i).getFk_pnum() %></span>
 						</a>
 			    	</td>
-			    	<td class="tbl_subject"><a href="">도매가 구입 방법<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
+			    	<td class="tbl_subject"><a href=""><%= qnaboardList.get(i).getQna_title() %><img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
 			    	<td class="tbl_writer mycenter"><%= qnaboardList.get(i).getFk_userid() %></td>
 			    	<td class="tbl_date mycenter"><%= qnaboardList.get(i).getQna_date()%></td>
 			    	<td class="tbl_viewcount mycenter"><%= qnaboardList.get(i).getQna_readcount()%></td>
@@ -181,6 +181,8 @@
   	
   	
   	<div class="pagination2 justify-content-center" >
+	    <ul class="pagination" style='margin:auto;'>${requestScope.pageBar }</ul>
+	    <%-- 
 	    <ul>
 		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_first.gif" /></a></li>
 		    <li class="active"><a href="#">1</a></li>
@@ -191,6 +193,7 @@
 		   
 		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_last.gif" /></a></li>
 	    </ul>
+	    --%>
 	</div>
  	
  	<div class="search_outer" >
