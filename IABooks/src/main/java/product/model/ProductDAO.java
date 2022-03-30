@@ -56,9 +56,49 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-		
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo") );//숫자타입으로 변환
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage") );
+			String category = paraMap.get("category");
 			
 			String sql =" select pro_name, pro_saleprice, pro_imgfile_name, cate_name "
+						+ " from "
+						+ " ( "
+							+ " select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name "
+							+ " from "
+							+ " ( "
+								+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales "
+								+ " from tbl_product "
+								+ " order by pro_name "
+							+ " )A "
+							+ " JOIN "
+							+ " TBL_CATEGORY B "
+							+ " on fk_cate_num = pk_cate_num ";
+							
+			if("total".equalsIgnoreCase(category)) {
+				sql += " )V "
+					+ " where rno between ? and  ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+				pstmt.setInt(2, (currentShowPageNo * sizePerPage) );
+			}else {
+				sql += " where cate_name = ? "
+					+ " )V "
+					+ " where rno between ? and  ? ";
+				
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, category);
+				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+				pstmt.setInt(3, (currentShowPageNo * sizePerPage) );
+			}
+							
+					
+					
+					
+					
+					/*" select pro_name, pro_saleprice, pro_imgfile_name, cate_name "
 					+ " from"
 					+ " ( "
 						+ " select rno, pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales "
@@ -76,49 +116,19 @@ public class ProductDAO implements InterProductDAO {
 					+ " )A "
 					+ " JOIN "
 					+ " TBL_CATEGORY B "
-					+ " on fk_cate_num = pk_cate_num ";
+					+ " on fk_cate_num = pk_cate_num ";*/
 					
 					
-					
-					
-			/*		" select pro_name, pro_saleprice, pro_imgfile_name, cate_name "
-						+ " from "
-						+ " ("
-						+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales "
-						+ " from tbl_product"
-						+ " ) A "
-						+ " JOIN "
-						+ " tbl_category B "
-						+ " on fk_cate_num = pk_cate_num "
-						+ " order by pro_inputdate desc ";*/
-					
-					
+
+
 					/*
-					
-					" select pro_name, pro_saleprice, pro_imgfile_name "
-						+ " from "
-						+ " ( "
-							+ " select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name "
-							+ " from "
-							+ " ( "
-								+ " select pro_name, pro_saleprice, pro_imgfile_name "
-								+ " from tbl_product "
-								+ " order by pro_name desc "
-								+ " )V "
-						+ " )T "
-						+ " where rno between ? and ? ";*/
-			
-			
-			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo") );//숫자타입으로 변환
-			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage") );
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setInt(1,1);
-			pstmt.setInt(2,10);
-			pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
-			pstmt.setInt(2, (currentShowPageNo * sizePerPage) );
-			
+					 * pstmt = conn.prepareStatement(sql);
+					 * 
+					 * pstmt.setInt(1,1); pstmt.setInt(2,10); pstmt.setInt(1, (currentShowPageNo *
+					 * sizePerPage) - (sizePerPage - 1) ); pstmt.setInt(2, (currentShowPageNo *
+					 * sizePerPage) );
+					 * 
+					 */
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {

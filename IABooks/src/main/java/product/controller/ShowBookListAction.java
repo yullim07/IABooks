@@ -19,7 +19,14 @@ public class ShowBookListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String category = request.getParameter("category");
 		//HttpSession session = request.getSession();
+		//System.out.println("확인용 category "+category);
+		
+		if(!("total".equals(category) || "humanities".equals(category) || "society".equals(category) || "science".equals(category) || "other".equals(category)) ) {
+			category = "total";
+		}
+		
 		
 		//페이징 처리가 되어진  모든 회원 또는 검색한 회원
 		InterProductDAO mdao = new ProductDAO();
@@ -56,9 +63,11 @@ public class ShowBookListAction extends AbstractController {
 
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		paraMap.put("sizePerPage", sizePerPage);
+		paraMap.put("category", category);
 
 		List<ProductVO> productList = mdao.selectPagingProduct(paraMap);
 		request.setAttribute("productList", productList);
+		request.setAttribute("category", category);
 		
 		//페이지 바 만들기 시작
 		/*

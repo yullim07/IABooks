@@ -72,7 +72,7 @@ from tbl_product A, TBL_CATEGORY B
 where A.fk_cate_num = B.pk_cate_num;
 
 
-
+--
 select pro_name, pro_saleprice, pro_imgfile_name, cate_name
 from
 (
@@ -86,13 +86,34 @@ select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pr
 from tbl_product
 order by pro_name
 )V
-
-)T
-where rno between 1 and 10
+ )A
+JOIN 
+TBL_CATEGORY B
+on fk_cate_num = pk_cate_num
+where cate_name = 'humanities'
+}
+rno between 1 and 10
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from tbl_product
+order by pro_name
 )A
 JOIN 
 TBL_CATEGORY B
 on fk_cate_num = pk_cate_num
+--where cate_name = 'humanities'
+where cate_name = *
+)V
+where rno between 3 and  10;
+
+
+
 
 
 order by  pro_name

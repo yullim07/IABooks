@@ -39,7 +39,7 @@ $(document).ready(function () {
 
 <title>in사과 : total</title>
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 <%-- main --%>		
 <div class="container d-none d-lg-block">
 
@@ -47,7 +47,25 @@ $(document).ready(function () {
 
 	<div class="title ">
 		<br>
-		<h2>종합</h2>
+		<h2>
+			<c:choose>
+				<c:when test="${requestScope.category eq 'total'}">
+					종합
+				</c:when>
+				<c:when test="${requestScope.category eq 'humanities'}">
+					인문
+				</c:when>
+				<c:when test="${requestScope.category eq 'society'}">
+					사회
+				</c:when>
+				<c:when test="${requestScope.category eq 'science'}">
+					과학
+				</c:when>
+				<c:when test="${requestScope.category eq 'other'}">
+					기타
+				</c:when>
+			</c:choose>
+		</h2>
 	</div>
 
 	<div class="divClear"></div>
@@ -176,6 +194,6 @@ $(document).ready(function () {
 <br>
 <br>
 <%-- footer --%>
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
 
 
