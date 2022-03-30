@@ -231,7 +231,7 @@ public class BoardDAO implements InterBoardDAO {
                board.setPk_rnum(rs.getInt(1));
                
                ProductVO product = new ProductVO();
-               board.setFk_pnum(rs.getInt(2));
+               board.setFk_pnum(rs.getString(2));
                board.setRe_title(rs.getString(3));
                board.setRe_writer(rs.getString(4));
                board.setRe_date( rs.getString(5));
@@ -297,6 +297,119 @@ public class BoardDAO implements InterBoardDAO {
 	}
 
 	
-      
+    
+	
+	@Override
+	public List<ReviewBoardVO> selectPagingRevBord(Map<String, String> paraMap) throws SQLException {
+
+		 List<ReviewBoardVO> reviewList = new ArrayList<>(); // ReviewBoardVO 속에는 MemberDTO가 들어와야 한다.
+         
+         ReviewBoardVO board = null;
+          
+         conn = ds.getConnection();
+         try {
+            
+        	 
+        	 String sql = " select pk_rnum, re_title, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount, re_grade "
+        			 	+ " from tbl_review_board ";
+        	 
+        	 pstmt = conn.prepareStatement(sql);
+             
+             rs = pstmt.executeQuery();
+             
+             while(rs.next()) {
+            	 
+            	 board = new ReviewBoardVO();
+            	 
+            	 board.setPk_rnum(rs.getInt(1));
+            	 board.setRe_title(rs.getString(2));
+            	 board.setRe_date( rs.getString(3));
+                 board.setRe_readcount(rs.getInt(4));
+                 board.setRe_grade(rs.getInt(5));
+                 
+                 reviewList.add(board);
+                 
+             }
+        	 /*
+        	 String sql = " select  pk_rnum, P.pro_name, P.pro_imgfile_name, re_title, M.mname, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount, fk_userid , re_grade "
+	        			+ " from tbl_member M "
+	        			+ " JOIN tbl_review_board R  ON M.pk_userid = R.fk_userid "
+	        			+ " JOIN tbl_product P ON R.fk_pnum = P.pk_pro_num "
+	        			+ " where isdelete = 0 "
+	        			+ " order by pk_rnum desc ";
+               
+            pstmt = conn.prepareStatement(sql);
+            
+            rs = pstmt.executeQuery();
+            
+            while(rs.next()) {
+               ProductVO product = new ProductVO();
+               MemberVO member = new MemberVO();
+               board = new ReviewBoardVO();
+               
+               board.setPk_rnum(rs.getInt(1));
+               product.setPro_name(rs.getString(2));;
+               product.setPro_imgfile_name(rs.getString(3));
+               board.setRe_title(rs.getString(4));
+               member.setName(rs.getString(5));;
+               board.setRe_date( rs.getString(6));
+               board.setRe_readcount(rs.getInt(7));
+               board.setFk_userid(rs.getString(8));
+               board.setRe_grade(rs.getInt(9));
+       
+               board.setMember(member); 
+               board.setProduct(product);
+				           
+               System.out.println(" 넣어진 제목 : " + board.getRe_title());
+               System.out.println(" 무슨 숫자가 오버플로우 getPk_rnum : " + board.getPk_rnum());
+               System.out.println(" 무슨 숫자가 오버플로우 getRe_readcount : " + board.getRe_readcount());
+               System.out.println(" 무슨 숫자가 오버플로우 getRe_grade : " + board.getRe_readcount());
+               
+               reviewList.add(board);
+            
+            }//end of while(rs.next()) ------------ 
+           */
+         
+         }catch(SQLException e){  
+            e.printStackTrace();
+         } finally {
+            close();
+         }
+         
+         
+         return reviewList;
+	}
+
+	
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
+	@Override
+	public int getTotalRevPage(Map<String, String> paraMap) throws SQLException {
+
+		int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ceil( count(*)/? ) "
+					   + " from tbl_review_board ";
+					  // + " where fk_userid != 'admin' ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("sizePerPage"));
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalPage = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+	}
+	
+	
    
 }

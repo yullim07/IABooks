@@ -81,10 +81,6 @@ rollback;
 
 SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
 
-DROP TABLE "TBL_LOGINHISTORY" CASCADE CONSTRAINTS;
-DROP TABLE "TBL_MEMBER" CASCADE CONSTRAINTS;
-commit;
-
 --이메일, 암호, 
 -------------------------------------------------------------------------------------------------------------
 
@@ -294,15 +290,62 @@ String sql = "insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_n
 select *
 from tbl_faq_board;
 
-delete tbl_faq_board
-where pk_faq_board_num in ('12', '13'); 
 
 commit;
 
---qna 게시판 목록 보기
-select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
+--Review 게시판 목록 보기
+select  pk_rnum, P.pro_name, P.pro_imgfile_name, re_title, M.mname, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount, fk_userid , re_grade
 from tbl_member M
-JOIN tbl_qna_board Q  ON M.pk_userid = Q.fk_userid
-JOIN tbl_product P ON Q.fk_pnum = P.pk_pro_num
+JOIN tbl_review_board R  ON M.pk_userid = R.fk_userid
+JOIN tbl_product P ON R.fk_pnum = P.pk_pro_num
 where isdelete = 0
-order by pk_qna_num desc;
+order by pk_rnum desc;
+
+CREATE TABLE tbl_review_board (
+	pk_rnum      NUMBER         NOT NULL, -- 후기번호
+	fk_pnum      NUMBER         NOT NULL, -- 국제표준도서번호
+	fk_userid    VARCHAR2(20)   NOT NULL, -- 회원아이디
+	re_title     VARCHAR2(20)   NOT NULL, -- 게시글 제목
+	re_date      DATE           DEFAULT sysdate, -- 작성일자
+	re_readcount NUMBER         DEFAULT 0, -- 조회수
+	re_grade     NUMBER         NOT NULL, -- 평점
+	re_contents  VARCHAR2(1000) NOT NULL, -- 게시글 내용
+	re_passwd    VARCHAR2(20)   NOT NULL, -- 글비밀번호
+	re_writer    VARCHAR2(10)   NOT NULL,  -- 작성자
+    isdelete     VARCHAR2(10)   NOT NULL  -- 삭제유무(0:삭제안함, 1:삭제함)
+);
+
+insert into tbl_review_board (pk_rnum, fk_pnum, fk_userid, re_writer, re_title, re_contents, re_passwd ,isdelete, re_grade)
+values(SEQ_REVIEW_BOARD.nextval, '9791197381010', 'admin', '관리자', '정말 재밌어요','나의 식사에는 감정이 있습니다 너무 재밌게 봤어요','qwer1234$', 0, 4);
+
+update tbl_review_board set fk_pnum='123';
+
+commit;
+
+select * from user_sequences
+
+
+select ceil( count(*)/10 )
+from tbl_review_board;
+
+commit;
+
+select pk_rnum, fk_pnum, fk_userid, re_writer, re_title, re_contents, re_passwd ,isdelete, re_grade
+from tbl_review_board
+
+select pk_rnum, re_title, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount, re_grade
+from tbl_review_board
+
+commit;
+
+select *
+from tbl_review_board
+
+update tbl_review_board set fk_pnum='9791197381010'
+where pk_rnum = 6;
+9791197381010
+
+desc tbl_product
+
+select *
+from tbl_product

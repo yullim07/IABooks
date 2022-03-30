@@ -24,6 +24,9 @@ public interface InterBoardDAO {
 	// 페이징 처리가 되어진 모든 리뷰 게시판 게시글 목록 보여주기
 	List<ReviewBoardVO> selectPagingRevBord(Map<String, String> paraMap) throws SQLException;
 
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
+	int getTotalRevPage(Map<String, String> paraMap) throws SQLException;
+
    
 
 }
