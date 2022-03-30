@@ -18,6 +18,12 @@ public interface InterBoardDAO {
 	// FAQ 게시판에 글 작성하기
 	int writeFaqBoard(Map<String, String> paraMap) throws SQLException;
 
+	
+	
+	
+	// 페이징 처리가 되어진 모든 리뷰 게시판 게시글 목록 보여주기
+	List<ReviewBoardVO> selectPagingRevBord(Map<String, String> paraMap) throws SQLException;
+
    
 
 }

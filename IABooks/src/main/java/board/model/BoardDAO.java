@@ -71,7 +71,7 @@ public class BoardDAO implements InterBoardDAO {
    
    // *** QnA 글목록보기 메소드를 구현하기 *** //
       @Override
-      public List<QnABoardVO> boardList() {  
+      public List<QnABoardVO> qnaboardList() {  
          
          List<QnABoardVO> boardList = new ArrayList<>(); //BoardDTO 속에는 MemberDTO가 들어와야 한다.
          
@@ -296,11 +296,7 @@ public class BoardDAO implements InterBoardDAO {
 		return result;
 	}
 
-	@Override
-	public List<QnABoardVO> qnaboardList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
       
    
 }
