@@ -110,7 +110,7 @@ public class ShowBookListAction extends AbstractController {
 	*/
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/produect/category_total.jsp");
+		super.setViewPage("/WEB-INF/produect/showBookList.jsp");
 		
 		
 	

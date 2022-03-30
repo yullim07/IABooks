@@ -64,11 +64,10 @@ public class ProductDAO implements InterProductDAO {
 							+ " ( "
 								+ " select pro_name, pro_saleprice, pro_imgfile_name "
 								+ " from tbl_product "
-								+ " where userid != 'admin' "
 								+ " order by pro_name desc "
 								+ " )V "
 						+ " )T "
-						+ " where rno between ? and ? ";
+						+ " where rno between 1 and 10 ";
 			
 			
 			pstmt = conn.prepareStatement(sql);
@@ -86,7 +85,7 @@ public class ProductDAO implements InterProductDAO {
 				pvo.setPro_name(rs.getString(1));
 				pvo.setPro_saleprice(rs.getInt(2));
 				pvo.setPro_imgfile_name(rs.getString(3));
-			
+
 				productList.add(pvo);
 			}
 			
