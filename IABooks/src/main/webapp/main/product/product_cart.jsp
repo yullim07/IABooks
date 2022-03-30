@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%-- 
 <%@page import="cn.techtutorial.connection.DbCon"%>
 <%@page import="cn.techtutorial.dao.ProductDao"%>
 <%@page import="cn.techtutorial.model.*"%>
@@ -8,11 +9,13 @@
 <%@page import="java.text.DecimalFormat"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-
+--%>
 
 
 <%
 	String ctxPath = request.getContextPath();
+%>
+<%--
 	DecimalFormat dcf = new DecimalFormat("#.##");
 	request.setAttribute("dcf", dcf);
 	User auth = (User) request.getSession().getAttribute("auth");
@@ -28,7 +31,7 @@
 		request.setAttribute("total", total);
 		request.setAttribute("cart_list", cart_list);
 	}
-%>
+--%>
 
 
 

@@ -7,7 +7,7 @@ import java.util.Map;
 public interface InterCartDAO {
 	
 	// 장바구니 목록 보여주기 메소드
-	List<CartVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException;
+	// List<CartVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException;
 	
 	// 장바구니에서 상품의 수량을 변경하는 메소드
 	

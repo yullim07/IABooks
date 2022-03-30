@@ -1,4 +1,4 @@
-<%@page import="cn.techtutorial.connection.DbCon"%>
+<%-- <%@page import="cn.techtutorial.connection.DbCon"%>
 <%@page import="cn.techtutorial.dao.ProductDao"%>
 <%@page import="cn.techtutorial.model.*"%>
 <%@page import="java.util.*"%>
@@ -60,4 +60,4 @@ if (cart_list != null) {
 
 	<%@include file="/includes/footer.jsp"%>
 </body>
-</html>
+</html> --%>
