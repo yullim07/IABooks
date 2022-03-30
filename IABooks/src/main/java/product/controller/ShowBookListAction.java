@@ -107,11 +107,12 @@ public class ShowBookListAction extends AbstractController {
 		
 		request.setAttribute("pageBar", pageBar);//memberList로넘겨주기
 		//페이지바 만들기 끝
-	
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/member/memberList.jsp");
+	*/
 		
-		*/
+		super.setRedirect(false);
+		super.setViewPage("/WEB-INF/produect/category_total.jsp");
+		
+		
 	
 		
 	}

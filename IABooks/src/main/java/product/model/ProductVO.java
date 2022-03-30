@@ -7,10 +7,10 @@ public class ProductVO {
 	private String publish_date;		//출간일
 	private String publisher; 			//출판사명
 	private int pro_price;   			//도서정가 디폴트 0
-	private int saleprice;   			//도서판매가 디폴트 0
+	private int pro_saleprice;   		//도서판매가 디폴트 0
 	private String pro_index; 			//목차(대용량)
 	private int point_rate;   			//포인트적립률 디폴트 0.01
-	private String pro_inputdate;     		//도서입고일자 디폴트 sysdate
+	private String pro_inputdate;     	//도서입고일자 디폴트 sysdate
 	private int pro_qty;   				//도서재고량 디폴트 100
 	private int pro_sales;  			//판매량 디폴트 0
 	private int  pro_viewcnt;    		//조회수(화제의 책) 디폴트 0
@@ -21,10 +21,10 @@ public class ProductVO {
     private int fk_wr_code;  			//저자코드
     private String pro_content;			//도서소개(대용량)
   
-    public ProductVO() {}
-	
+  
+    public ProductVO(){};
 	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String publish_date, String publisher,
-			int pro_price, int saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
+			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
 			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
 			String pro_imgfile_name, int fk_wr_code, String pro_content) {
 		super();
@@ -34,7 +34,7 @@ public class ProductVO {
 		this.publish_date = publish_date;
 		this.publisher = publisher;
 		this.pro_price = pro_price;
-		this.saleprice = saleprice;
+		this.pro_saleprice = pro_saleprice;
 		this.pro_index = pro_index;
 		this.point_rate = point_rate;
 		this.pro_inputdate = pro_inputdate;
@@ -97,12 +97,12 @@ public class ProductVO {
 		this.pro_price = pro_price;
 	}
 
-	public int getSaleprice() {
-		return saleprice;
+	public int getPro_saleprice() {
+		return pro_saleprice;
 	}
 
-	public void setSaleprice(int saleprice) {
-		this.saleprice = saleprice;
+	public void setPro_saleprice(int pro_saleprice) {
+		this.pro_saleprice = pro_saleprice;
 	}
 
 	public String getPro_index() {

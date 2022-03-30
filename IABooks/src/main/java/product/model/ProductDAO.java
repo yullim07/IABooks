@@ -1,10 +1,10 @@
 package product.model;
 
-import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +12,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
 
 public class ProductDAO implements InterProductDAO {
 	
@@ -50,8 +51,50 @@ public class ProductDAO implements InterProductDAO {
 	//카테고리(종합,인문,사회,과학) select 
 	@Override
 	public List<ProductVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException {
+		List<ProductVO> productList = new ArrayList<>();
 		
-		return null;
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pro_name, pro_saleprice, pro_imgfile_name "
+						+ " from "
+						+ " ( "
+							+ " select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name "
+							+ " from "
+							+ " ( "
+								+ " select pro_name, pro_saleprice, pro_imgfile_name "
+								+ " from tbl_product "
+								+ " where userid != 'admin' "
+								+ " order by pro_name desc "
+								+ " )V "
+						+ " )T "
+						+ " where rno between ? and ? ";
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo") );//숫자타입으로 변환
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage") );
+			
+			pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) );
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				ProductVO pvo = new ProductVO();
+				pvo.setPro_name(rs.getString(1));
+				pvo.setPro_saleprice(rs.getInt(2));
+				pvo.setPro_imgfile_name(rs.getString(3));
+			
+				productList.add(pvo);
+			}
+			
+		} finally  {
+			close();
+		}
+		
+		return productList;
 	}//end of public List<ProductVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException
 	
 
