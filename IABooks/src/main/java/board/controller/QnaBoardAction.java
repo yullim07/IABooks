@@ -24,7 +24,7 @@ public class QnaBoardAction extends AbstractController {
 		
 			
 		
-			
+		
 		//페이징처리
 			HttpSession session = request.getSession();
 			
@@ -75,7 +75,7 @@ public class QnaBoardAction extends AbstractController {
 		paraMap.put("sizePerPage", sizePerPage); 
 		
 		
-		List<QnABoardVO> qnaboardList = bdao.selectPagingqnaBoard(paraMap); //메소드를 만든다  // 리턴타입이 MemberVO 가 복수개
+		List<QnABoardVO> qnaboardList = bdao.selectPagingQnaBoard(paraMap); //메소드를 만든다  // 리턴타입이 MemberVO 가 복수개
 		
 		request.setAttribute("qnaboardList", qnaboardList);
 			

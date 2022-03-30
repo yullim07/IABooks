@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <%@ page import="board.model.BoardDAO" %>
 <%@ page import="board.model.QnABoardVO" %>
 <%@ page import="java.util.List"%>
@@ -74,6 +79,51 @@
 	    
 	    
 	    <tbody>
+	    		<c:forEach var="board" items="${requestScope.qnaboardList}">
+	        		<tr class="qnaboardInfo">
+	        			<%-- 
+	        			<td class="tbl_number mycenter">${board.pk_qna_num}</td>
+				    	<td class="tbl_bookname">
+				    		<a  href="#">
+		            			<img src="${board.pk_qna_num}" border="0" alt=""/>
+								<span ></span>
+							</a> 
+				    	</td>
+				    	<td class="tbl_subject"><a href=""><img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
+				    	<td class="tbl_writer mycenter"></td>
+				    	<td class="tbl_date mycenter"></td>
+				    	<td class="tbl_viewcount mycenter"></td>
+				    	--%>
+	        			
+		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
+				    	<td class="tbl_bookname">
+				    		<a  href="#">
+		            			<img src="${board.pro_name}" border="0" alt=""/>
+								<span ></span>
+							</a> 
+				    	</td>
+				    	<td class="tbl_subject"><a href="">${board.qna_title}<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
+				    	<td class="tbl_writer mycenter">${board.name}</td>
+				    	<td class="tbl_date mycenter">${board.qna_date}</td>
+				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
+	        			
+	        			
+	        			<%-- <td>${board.pk_qna_num}</td>
+	        			<td></td>
+	        			<td></td>
+	        			<td>
+	        				<c:choose>else의 기능 jstl choose파일 참고
+	        					<c:when test="${mvo.gender eq '1'}">
+	        						남
+	        					</c:when>
+	        					<c:otherwise>
+	        						여
+	        					</c:otherwise>
+	        				</c:choose>
+	        			</td> --%>
+	        		</tr>
+	        	</c:forEach>
+	    		<%-- 
 			    <%
 			    	BoardDAO bdao = new BoardDAO();
 			    	List<QnABoardVO> qnaboardList = bdao.qnaboardList();
@@ -95,6 +145,7 @@
 			    <%
 			    	}
 			    %>
+			    --%>
 		</tbody>
 	    
 	    

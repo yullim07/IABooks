@@ -1,0 +1,120 @@
+package board.model;
+
+import member.model.MemberVO;
+import product.model.ProductVO;
+
+public class QnABoardVO {
+
+	private int pk_qna_num;			// 문의번호
+	private String fk_userid;		// 회원아이디
+	private int fk_pnum;			// 국제표준도서번호
+	private String qna_title;		// 제목
+	private int qna_isanswer;		// 답변유무
+	private int qna_readcount;		// 조회수
+	private String qna_date;		// 작성일자
+	private String qna_contents;	// 게시글 내용
+	private String qna_passwd;		// 글비밀번호
+	private int qna_issecret;		// 비밀유무(0:공개글 1:비밀글)
+	private int isdelete;			// 삭제유무(0:삭제안함, 1:삭제함)
+	
+	
+	
+	
+	// 1. 게시판마다 DAO, VO를 나눠야 하는지? 아니면 하나에 다 몰아넣어도 되는지?
+
+	private MemberVO member;
+	// private MemberDTO member; // @@@  부모  ,,   // 초기치 null
+	//오라클의 jdbc_board 테이블과 jdbc_member 테이블을 join하여 select 하는 용도
+	
+	private ProductVO product; // @@@  부모  ,,   // 초기치 null
+	//오라클의 jdbc_board 테이블과 jdbc_member 테이블을 join하여 select 하는 용도
+
+	// private int commentcnt;  //필드 추가. 
+	//오라클의 jdbc_board 테이블과 jdbc_comment 테이블을 join하여 select 하는 용도
+	
+
+	
+	public int getPk_qna_num() {
+		return pk_qna_num;
+	}
+	public void setPk_qna_num(int pk_qna_num) {
+		this.pk_qna_num = pk_qna_num;
+	}
+	public String getFk_userid() {
+		return fk_userid;
+	}
+	public void setFk_userid(String fk_userid) {
+		this.fk_userid = fk_userid;
+	}
+	public int getFk_pnum() {
+		return fk_pnum;
+	}
+	public void setFk_pnum(int fk_pnum) {
+		this.fk_pnum = fk_pnum;
+	}
+	public String getQna_title() {
+		return qna_title;
+	}
+	public void setQna_title(String qna_title) {
+		this.qna_title = qna_title;
+	}
+	public int getQna_isanswer() {
+		return qna_isanswer;
+	}
+	public void setQna_isanswer(int qna_isanswer) {
+		this.qna_isanswer = qna_isanswer;
+	}
+	public int getQna_readcount() {
+		return qna_readcount;
+	}
+	public void setQna_readcount(int qna_readcount) {
+		this.qna_readcount = qna_readcount;
+	}
+	public String getQna_date() {
+		return qna_date;
+	}
+	public void setQna_date(String qna_date) {
+		this.qna_date = qna_date;
+	}
+	public String getQna_contents() {
+		return qna_contents;
+	}
+	public void setQna_contents(String qna_contents) {
+		this.qna_contents = qna_contents;
+	}
+	public String getQna_passwd() {
+		return qna_passwd;
+	}
+	public void setQna_passwd(String qna_passwd) {
+		this.qna_passwd = qna_passwd;
+	}
+	public int getQna_issecret() {
+		return qna_issecret;
+	}
+	public void setQna_issecret(int qna_issecret) {
+		this.qna_issecret = qna_issecret;
+	}
+	
+	
+	public void setMember(MemberVO member) {
+		this.member = member;
+		
+	}
+	
+	public int getIsdelete() {
+		return isdelete;
+	}
+	
+	public void setIsdelete(int isdelete) {
+		this.isdelete = isdelete;
+	}
+	
+	public void setProduct(ProductVO product) {
+		// TODO Auto-generated method stub
+		this.product = product;
+	}
+
+	
+}
+
+
