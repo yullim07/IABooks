@@ -14,28 +14,6 @@ import member.model.MemberVO;
 
 public class LoginAction extends AbstractController {
 
-<<<<<<< HEAD
-	@Override
-	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		String method = request.getMethod();
-		
-		System.out.println(method); // 방법 확인
-		
-		String userid = request.getParameter("userid");
-		String pwd = request.getParameter("pwd");
-		
-		System.out.println(userid);
-		System.out.println(pwd);
-		
-		
-		if("get".equalsIgnoreCase(method)) {
-			//super.setRedirect(false);
-			super.setViewPage("/WEB-INF/login/login.jsp");
-		}
-	
-	}
-=======
    @Override
    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
       
@@ -64,11 +42,7 @@ public class LoginAction extends AbstractController {
          InterMemberDAO mdao = new MemberDAO();
          
          MemberVO loginuser = mdao.selectOneMember(paraMap);
->>>>>>> refs/heads/sub_main
 
-<<<<<<< HEAD
-   }
-=======
          if(loginuser != null) {
             
                if(loginuser.getU_status() == 1) {
@@ -111,15 +85,15 @@ public class LoginAction extends AbstractController {
                    
                    
                    // 회원가입에서 자동 로그인이라면
-					
-					 if("true".equalsIgnoreCase(registerflag)) {
-						 super.setViewPage(request.getContextPath()+"/login/registerSuccess.book");
-						
-						 return; 
-					 } 
-                 	
-	                   // 로그인을 하면 시작페이지(index.up)로 가는 것이 아니라 로그인을 시도하려고 머물렀던 그 페이지로 가기 위한 것이다.
-	                   super.setViewPage(request.getContextPath()+"/index.book");
+               
+                if("true".equalsIgnoreCase(registerflag)) {
+                   super.setViewPage(request.getContextPath()+"/login/registerSuccess.book");
+                  
+                   return; 
+                } 
+                    
+                      // 로그인을 하면 시작페이지(index.up)로 가는 것이 아니라 로그인을 시도하려고 머물렀던 그 페이지로 가기 위한 것이다.
+                      super.setViewPage(request.getContextPath()+"/index.book");
                  }
                
             }
@@ -139,4 +113,3 @@ public class LoginAction extends AbstractController {
       }
 
    }
->>>>>>> refs/heads/sub_main
