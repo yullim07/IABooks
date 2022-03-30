@@ -329,7 +329,7 @@ $(document).ready(function() {
 
 <div class="container">
 
-	<form name="registerFrm" action="registerSuccesc.book">
+	<form name="registerFrm" action="registerSuccess.book">
 		<br>
 		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 가입</strong>
 		<hr style="border: solid 2px #e8e8e8;">
@@ -366,7 +366,7 @@ $(document).ready(function() {
 				<tr>
 					<th>주소 &nbsp;<span id="star">*</span></th>
 						<td>
-							<input class="my-1" required type="text" id="address" name="address"  size="50" placeholder="주소" /><br>
+							<input class="my-1" class="requiredInfo" required type="text" id="address" name="address"  size="50" placeholder="주소" /><br>
 							<input class="my-1" type="text" id="detailAddress" name="detailAddress" size="50" placeholder="상세주소" /><br>
 							<input class="my-1" type="text" id="extraAddress" name="extraAddress" size="50" placeholder="참고항목" />                
 						</td>
@@ -375,6 +375,7 @@ $(document).ready(function() {
 					<th>일반전화</th>
 						<td>
 							<select id="num1" name="num1">
+								<option value="">선택</option>
 								<option value="02">02</option>
 								<option value="031">031</option>
 								<option value="032">032</option>

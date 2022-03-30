@@ -214,11 +214,11 @@ public class BoardDAO implements InterBoardDAO {
          try {
             
             String sql = "select pk_rnum,  fk_pnum, re_title, re_writer, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_grade , M.mname\n"+
-                      "from tbl_review_board B \n"+
-                      "JOIN tbl_member M \n"+
-                      "ON B.fk_userid = M.pk_userid \n"+
-                      "where isdelete = 0\n"+
-                      "order by pk_rnum desc ";
+            			 "from tbl_review_board B \n"+
+            			 "JOIN tbl_member M \n"+
+            			 "ON B.fk_userid = M.pk_userid \n"+
+            			 "where isdelete = 0\n"+
+            			 "order by pk_rnum desc ";
                
             pstmt = conn.prepareStatement(sql);
             
@@ -240,11 +240,11 @@ public class BoardDAO implements InterBoardDAO {
                MemberVO member = new MemberVO();
                member.setName(rs.getString(7));
                board.setMember(member); 
-            /*
-             * MemberVO member = new MemberVO(); member.set(fk_faq_c_name);
-             * 
-             * board.setMember(member); // 보드에 멤버를 넣어줌.
-             */               
+				/*
+				 * MemberVO member = new MemberVO(); member.set(fk_faq_c_name);
+				 * 
+				 * board.setMember(member); // 보드에 멤버를 넣어줌.
+				 */               
                System.out.println(" 넣어진 제목 : " + board.getRe_title());
               
                reviewList.add(board);
@@ -265,36 +265,36 @@ public class BoardDAO implements InterBoardDAO {
       
       
    // FAQ 게시판에 글 작성하기  
-   @Override
-   public int writeFaqBoard(Map<String, String> paraMap) throws SQLException {
-      
-      int result = 0;
-      int category = Integer.parseInt(paraMap.get("category"));
-      System.out.println("category : " + category);
-      
-      try {
-         conn = ds.getConnection();
-         
-         String sql = " insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents) "
-                  + " values(SEQ_FAQ_BOARD.nextval, 'indiepub', ?, ?, ?, ?) ";
-         
-         pstmt = conn.prepareStatement(sql);
-         
-         pstmt.setInt( 1, category);
-         pstmt.setString(2, paraMap.get("subject"));
-         pstmt.setString(3, paraMap.get("writer"));
-         pstmt.setString(4, paraMap.get("content"));
-         
-         result = pstmt.executeUpdate();
-         
-      } catch (SQLException e) { 
-         e.printStackTrace();
-      } finally {
-         close();
-      }
-      
-      return result;
-   }
+	@Override
+	public int writeFaqBoard(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		int category = Integer.parseInt(paraMap.get("category"));
+		System.out.println("category : " + category);
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents) "
+					   + " values(SEQ_FAQ_BOARD.nextval, 'indiepub', ?, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt( 1, category);
+			pstmt.setString(2, paraMap.get("subject"));
+			pstmt.setString(3, paraMap.get("writer"));
+			pstmt.setString(4, paraMap.get("content"));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
       
    
 }

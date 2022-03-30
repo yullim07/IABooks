@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-
+<%@ page import="board.model.BoardDAO" %>
+<%@ page import="board.model.ReviewBoardVO" %>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -104,6 +107,36 @@
 	        <th width="10.5%">평점</th>
 	      </tr>
 	    </thead>
+	    
+	    <tbody>
+			    <%
+			    	BoardDAO bdao = new BoardDAO();
+			    	List<ReviewBoardVO> reviewList = bdao.reviewList();
+			    	for(int i=0; i<reviewList.size(); i++) {
+			    %>
+			    <tr> 
+			    	<td class="tbl_number mycenter"><%= reviewList.get(i).getPk_rnum() %></td>
+			    	<td class="tbl_bookname">
+			    		<a  href="#">
+	            			<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+							<span ><%= reviewList.get(i).getFk_pnum() %></span>
+						</a>
+			    	</td>
+			    	<td class="tbl_subject">
+			    		<a href=""><%= reviewList.get(i).getRe_title() %></a>
+	        			<span class="new_tag">NEW</span>
+	        			</td>
+			    	<td class="tbl_writer mycenter"><%= reviewList.get(i).getRe_writer()%></td>
+			    	<td class="tbl_date mycenter"><%= reviewList.get(i).getRe_date()%></td>
+			    	<td class="tbl_grade mycenter"><%= reviewList.get(i).getRe_grade()%></td>
+			    </tr>
+			    <%
+			    	}
+			    %>
+		</tbody>
+	    
+	    
+	   <%--  
 	    <tbody>
 	      <tr>
 	        <td class="tbl_number mycenter">98</td>
@@ -136,8 +169,8 @@
 	        	<a href="">
 	        		배송도 빠르도 책도 잘 포장돼서 왔어요!
 	        	</a>
-	        	<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif"  <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> />
-	        	
+	        	<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif"  <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> 
+	       <%--  	
 	        	<span id="mouseover_img" style="position:absolute;  "></span>
 	        	
 	        	<span class="new_tag">NEW</span>
@@ -161,130 +194,14 @@
 	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
 	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
 	      </tr>
+	     </tbody>  
+	      --%>
 	      
-	      <tr>
-	        <td class="tbl_number mycenter">95</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	<a href="">
-	        		만족
-	        	</a>
-	        	<!-- 
-	        	<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif"  onmouseover="showImg()" onmouseout="hideImg()" />
-	        	<span id="mouseover_img" style="position:absolute;   "></span>
-	        	 -->
-	        	<span class="new_tag" >NEW</span>
-	         	
-	        </td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">94</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">93</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">92</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">91</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">90</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">89</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	     
-	  
-	      
-	      
-	    </tbody>
+	    
+	    
 	  </table>
 	  <div class="write_btn_zone">
-      	 <a href="index_reviewWrite.jsp"  class="btn btn-dark" id="write_btn">글쓰기</a> 
+      	 <a href="<%= ctxPath%>/board/reviewWrite.book"  class="btn btn-dark" id="write_btn">글쓰기</a> 
   	  </div>
 	  
 	</div>

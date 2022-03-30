@@ -75,6 +75,7 @@
   
   
 	<div class="table table-responsive">
+		<form method="post" action="reviewWriteAction.jsp" >
 		<table class=" write_review">
 		  	<tbody>
 		    <tr>
@@ -249,11 +250,12 @@
 		    </tbody>
 		  
 		</table>
+		</form>
 	</div>
 	
 	<div class="buttons">
 		
-		<button class="btn btn_list" type="button">목록</button>
+		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/reviewBoard.book'">목록</button>
 		<button class="btn btn_cancel" type="button">취소</button>
 		<button class="btn btn_submit" type="button">등록</button>	
 		

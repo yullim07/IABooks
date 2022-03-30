@@ -46,7 +46,12 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <!-- 썸머노트 추가 끝 -->
+<!-- Optional JavaScript -->
+    <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
+    <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
+    <title>상품 Q&A</title>
+<jsp:include page="/header.jsp"/>
 
 	<script type="text/javascript">
 		
@@ -58,7 +63,6 @@
 	
 	</script>
 
-    <title>상품 Q&A</title>
 
     
 <style type="text/css">
@@ -312,9 +316,9 @@
 		
 		
 
-    <!-- Optional JavaScript -->
-    <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    
 </body>
 </html>
 
+<jsp:include page="/footer.jsp"/>
+ 

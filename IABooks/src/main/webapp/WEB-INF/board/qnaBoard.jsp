@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ page import="board.model.BoardDAO" %>
+<%@ page import="board.model.QnABoardVO" %>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -19,7 +23,7 @@
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 <script type="text/javascript">
 	
@@ -67,17 +71,47 @@
 	        <th width="10.5%">조회</th>
 	      </tr>
 	    </thead>
+	    
+	    
+	    <tbody>
+			    <%
+			    	BoardDAO bdao = new BoardDAO();
+			    	List<QnABoardVO> qnaboardList = bdao.qnaboardList();
+			    	for(int i=0; i<qnaboardList.size(); i++) {
+			    %>
+			    <tr> 
+			    	<td class="tbl_number mycenter"><%= qnaboardList.get(i).getPk_qna_num() %></td>
+			    	<td class="tbl_bookname">
+			    		<a  href="#">
+	            			<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
+							<span ><%= qnaboardList.get(i).getFk_pnum() %></span>
+						</a>
+			    	</td>
+			    	<td class="tbl_subject"><a href="">도매가 구입 방법<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
+			    	<td class="tbl_writer mycenter"><%= qnaboardList.get(i).getFk_userid() %></td>
+			    	<td class="tbl_date mycenter"><%= qnaboardList.get(i).getQna_date()%></td>
+			    	<td class="tbl_viewcount mycenter"><%= qnaboardList.get(i).getQna_readcount()%></td>
+			    </tr>
+			    <%
+			    	}
+			    %>
+		</tbody>
+	    
+	    
+	    
+	    
+	 <%--    
 	    <tbody>
 	      <tr>
 	        <td class="tbl_number mycenter">73</td>
 	        <td class="tbl_bookname">
-	        	<%-- <a  href="#">
+	        	<a  href="#">
 	            	<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
 					<span >지금, 사랑하는 나에게</span>
-				</a> --%>
+				</a>
 				
 	        </td>
-	        <td class="tbl_subject"><a href="">도매가 구입 방법<img class="lock" src="<%= ctxPath%>/jaehee_pages/semi_images/ico_lock.gif"/></a></td>
+	        <td class="tbl_subject"><a href="">도매가 구입 방법<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
 	        <td class="tbl_writer mycenter">홍****</td>
 	        <td class="tbl_date mycenter">2022-03-18 19:05:42</td>
 	        <td class="tbl_viewcount mycenter">1</td>
@@ -101,12 +135,12 @@
 	      <tr>
 	        <td class="tbl_number mycenter">71</td>
 	        <td class="tbl_bookname">
-	        	<%-- 
+	        	 
 	        	<a  href="#">
 	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
 					<span>추천곡</span>
 				</a> 
-				--%>
+				
 				
 	        </td>
 	        <td class="tbl_subject">
@@ -134,144 +168,8 @@
 	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
 	        <td class="tbl_viewcount mycenter">23</td>
 	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">69</td>
-	        <td class="tbl_bookname">
-	        	<%-- 
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a> 
-				--%>
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
-	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>//images/board/leejh_images/ico_lock.gif"/>
-	        </td>
-	        <td class="tbl_writer mycenter">인디펍</td>
-	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
-	        <td class="tbl_viewcount mycenter">3</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">68</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a></td>
-	        <td class="tbl_writer mycenter">이****</td>
-	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
-	        <td class="tbl_viewcount mycenter">23</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">67</td>
-	        <td class="tbl_bookname">
-	        	<%-- 
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a> 
-				--%>
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
-	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
-	        </td>
-	        <td class="tbl_writer mycenter">인디펍</td>
-	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
-	        <td class="tbl_viewcount mycenter">3</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">66</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a></td>
-	        <td class="tbl_writer mycenter">이****</td>
-	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
-	        <td class="tbl_viewcount mycenter">23</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">65</td>
-	        <td class="tbl_bookname">
-	        	<%-- 
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a> 
-				--%>
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
-	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
-	        </td>
-	        <td class="tbl_writer mycenter">인디펍</td>
-	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
-	        <td class="tbl_viewcount mycenter">3</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">64</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a></td>
-	        <td class="tbl_writer mycenter">이****</td>
-	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
-	        <td class="tbl_viewcount mycenter">23</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">63</td>
-	        <td class="tbl_bookname">
-	        	<%-- 
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a> 
-				--%>
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
-	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
-	        </td>
-	        <td class="tbl_writer mycenter">인디펍</td>
-	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
-	        <td class="tbl_viewcount mycenter">3</td>
-	      </tr>
-	     
-	  
-	      
-	      
 	    </tbody>
+	     --%>
 	  </table>
 	  <div class="write_btn_zone">
       	<button type="button" class="btn btn-dark">글쓰기</button>
@@ -325,5 +223,5 @@
 
 
 	
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  
