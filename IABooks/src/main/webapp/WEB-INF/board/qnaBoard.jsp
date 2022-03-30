@@ -41,14 +41,6 @@
 
 
 
-
-	
-	
-
-
-
-
-
 <div class="container">
 <div class="contents">
   <p><br></p>
@@ -81,19 +73,6 @@
 	    <tbody>
 	    		<c:forEach var="board" items="${requestScope.qnaboardList}">
 	        		<tr class="qnaboardInfo">
-	        			<%-- 
-	        			<td class="tbl_number mycenter">${board.pk_qna_num}</td>
-				    	<td class="tbl_bookname">
-				    		<a  href="#">
-		            			<img src="${board.pk_qna_num}" border="0" alt=""/>
-								<span ></span>
-							</a> 
-				    	</td>
-				    	<td class="tbl_subject"><a href=""><img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
-				    	<td class="tbl_writer mycenter"></td>
-				    	<td class="tbl_date mycenter"></td>
-				    	<td class="tbl_viewcount mycenter"></td>
-				    	--%>
 	        			
 		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
 				    	<td class="tbl_bookname">
@@ -103,25 +82,11 @@
 							</a>  
 							
 				    	</td>
-				    	<td class="tbl_subject"><a href="">${board.qna_title}<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
+				    	<td class="tbl_subject"><a href="QnaDetailAction?pk_qna_num=${board.pk_qna_num}">${board.qna_title}<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
 				    	<td class="tbl_writer mycenter">${board.member.name}</td>
 				    	<td class="tbl_date mycenter">${board.qna_date}</td>
 				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
 	        			
-	        			
-	        			<%-- <td>${board.pk_qna_num}</td>
-	        			<td></td>
-	        			<td></td>
-	        			<td>
-	        				<c:choose>else의 기능 jstl choose파일 참고
-	        					<c:when test="${mvo.gender eq '1'}">
-	        						남
-	        					</c:when>
-	        					<c:otherwise>
-	        						여
-	        					</c:otherwise>
-	        				</c:choose>
-	        			</td> --%>
 	        		</tr>
 	        	</c:forEach>
 	    		<%-- 
@@ -148,80 +113,7 @@
 			    %>
 			    --%>
 		</tbody>
-	    
-	    
-	    
-	    
-	 <%--    
-	    <tbody>
-	      <tr>
-	        <td class="tbl_number mycenter">73</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">도매가 구입 방법<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
-	        <td class="tbl_writer mycenter">홍****</td>
-	        <td class="tbl_date mycenter">2022-03-18 19:05:42</td>
-	        <td class="tbl_viewcount mycenter">1</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">72</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a></td>
-	        <td class="tbl_writer mycenter">이****</td>
-	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
-	        <td class="tbl_viewcount mycenter">23</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">71</td>
-	        <td class="tbl_bookname">
-	        	 
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a> 
-				
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
-	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
-	        </td>
-	        <td class="tbl_writer mycenter">인디펍</td>
-	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
-	        <td class="tbl_viewcount mycenter">3</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">70</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a></td>
-	        <td class="tbl_writer mycenter">이****</td>
-	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
-	        <td class="tbl_viewcount mycenter">23</td>
-	      </tr>
-	    </tbody>
-	     --%>
+	 
 	  </table>
 	  <div class="write_btn_zone">
       	<button type="button" class="btn btn-dark" onclick="location.href='<%= ctxPath %>/board/qnaWrite.book'">글쓰기</button>

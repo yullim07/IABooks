@@ -60,9 +60,10 @@
 		  // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
 		  
 		  const frm = document.qnaWriteFrm;
-		  frm.action = "qnaWrite.book";
-		  frm.method = "post";
+		  frm.action = "<%= ctxPath%>/board/qnaWrite.book";
+		  /* frm.method = "post"; */
 		  frm.submit();
+		  
 		  
 	  }// end of function goQnaWrite() {}------------------------------------
 	
@@ -87,19 +88,19 @@
   
   
 	<div class="table table-responsive">
-		<form method="post" action="reviewWriteAction.jsp" >
+		<form method="post" action="qnaWrite.book" >
 		<table class=" write_review">
 		  	<tbody>
 		    <tr>
 		      <th class="col-2" >제목</th>
-		      <td class="col-10" ><input type="text" id="subject" name="subject" /></td>
+		      <td class="col-10" ><input type="text" id="subject" name="qnaBoardSubject" /></td>
 		    </tr>
 		  	
 		    <tr class="notMember hidden">
 		      <th>작성자</th>
 		      <td> <%-- <input type="text" id="writer" name="writer" /></td> --%>
-		      	<input type="hidden" name="userid" value="${sessionScope.loginuser.userid }" />
-                <input type="text" name="name" id="name" value="${sessionScope.loginuser.name }" class="requiredInfo" required /> 
+		      	<input type="hidden" name="qnaBoarduserid" value="${sessionScope.loginuser.userid}" />
+                <input type="text" name="qnaBoardWriter" id="name" value="${sessionScope.loginuser.name}" class="requiredInfo" required /> 
 		    </tr>
 		    
 		    <tr class="hidden" >
@@ -131,7 +132,7 @@
 		      
 		      <td colspan="2">
 		      	
-		      		<textarea class="summernote" name="editordata"></textarea>
+		      		<textarea class="summernote" id="editordata" name="qnaBoardContent"></textarea>
                         <script>
                         $('.summernote').summernote({
                         	height: 300,                 // 에디터 높이
@@ -159,12 +160,12 @@
 		    <tr>
 		      <th>비밀번호</th>
 		      <td>
-		      	<input type="text" id="password" name="password" type="password"/>
+		      	<input type="text" id="password" name="qnaBoardPasswd" type="password"/>
 		      </td>
 		    </tr>
 		    <tr>
 				<th scope="row">비밀글설정</th>
-				<td><input type="radio" name="public" id="qnaPublic" value="0"/>공개글&nbsp;<input type="radio" name="public" id="qnaSecret" value="1" />비밀글</td>
+				<td><input type="radio" name="qnaBoardIssecret" id="qnaPublic" value="0"/>공개글&nbsp;<input type="radio" name="qnaBoardIssecret" id="qnaSecret" value="1" />비밀글</td>
 			</tr>
 		   
 					
@@ -180,8 +181,8 @@
 	<div class="buttons">
 		
 		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/qnaBoard.book'">목록</button>
-		<button class="btn btn_cancel" type="button">취소</button>
-		<button class="btn btn_submit" type="button" onclick="goQnaWrite()">등록</button>	
+		<button class="btn btn_cancel" type="reset">취소</button>
+		<button class="btn btn_submit" type="submit" onclick="goQnaWrite();">등록</button>	
 		
 	</div>
   

@@ -113,10 +113,10 @@
 		    <tbody>
 		    	<c:forEach var="revo" items="${requestScope.revBoardList}" >
 				   	 <tr>
-				    	<td class="tbl_number mycenter">${revo.re_readcount}</td>
+				    	<td class="tbl_number mycenter">${revo.pk_rnum}</td>
 				    	<td class="tbl_bookname">
 				    		<a  href="#">
-		            			<%-- ${revo.pro_name} --%>
+		            			${revo.product.pro_name}
 								<span ></span>
 							</a>
 				    	</td>
@@ -124,7 +124,7 @@
 				  			<a href="">${revo.re_title}</a>
 		        			<span class="new_tag">NEW</span>
 	        			</td>
-				    	<td class="tbl_writer mycenter">${revo.re_readcount}</td>
+				    	<td class="tbl_writer mycenter">${revo.re_writer}</td>
 				    	<td class="tbl_date mycenter">${revo.re_date}</td>
 				    	<td class="tbl_grade mycenter">${revo.re_grade}</td>
 				    </tr>

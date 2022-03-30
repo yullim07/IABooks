@@ -121,8 +121,8 @@ public class BoardDAO implements InterBoardDAO {
 	            board.setPk_qna_num(rs.getInt(1));
 	            
 	            ProductVO product = new ProductVO(); 
-	            product.setPro_name(rs.getString("2"));
-	            product.setPro_imgfile_name(rs.getString("3")); 
+	            product.setPro_name(rs.getString(2));
+	            product.setPro_imgfile_name(rs.getString(3)); 
 	            board.setProduct(product);
 	            
 	            board.setQna_title(rs.getString(4)); 
@@ -223,6 +223,102 @@ public class BoardDAO implements InterBoardDAO {
          
       }
 
+   // *** 글내용보기 메소드를 구현하기  ***//
+    /*
+  	@Override
+  	public BoardDTO viewContents(Map<String, String> paraMap) {
+  		
+  		BoardDTO board = null;
+  		
+  		try {
+  			
+  			conn = ds.getConnection();
+  			
+  			String sql = " select * "
+  					   + " from tbl_qna_board "
+  					   + " where pk_qna_num = ? ";
+  			
+  			pstmt = conn.prepareStatement(sql);
+  			pstmt.setString(1, paraMap.get("boardno"));//ㅈ지멋대로 돌렸어. 'ㅇㄴ대ㅑ아' 'sdf'이런것들 . if(e.getErrorCode() == 1722) {
+  			
+  			rs = pstmt.executeQuery();
+  			
+  			if(rs.next()) {
+  				// 입력한 글번호에 해당하는 글이 존재하는 경우
+  				
+  				// 로그인한 사용자가 쓴 글인지 (즉, 자신이 쓴 글을 자신이 보고자 하는 경우)
+  				// 로그인한 사용자가 쓴 글이 아닌 다른 사용자가 쓴 글인지
+  				
+  				sql = " select * "
+  					+ " from jdbc_board "
+  					+ " where boardno = ? and fk_userid = ? ";
+  				
+  				pstmt = conn.prepareStatement(sql);
+  				pstmt.setString(1, paraMap.get("boardno"));  
+  				pstmt.setString(2, paraMap.get("fk_userid"));
+  				
+  				rs = pstmt.executeQuery();
+  				
+  				//위에꺼가 결과물이 나오면 로그인한 사람이 쓴 글이라는 소리다.
+  				if(!rs.next()) {//결과물이 없어야지 남이 쓴글이라 조회수를 올리는 update를 해줘야한다.    <-> 내가 쓴글은 셀렉트 결과가 나옴.
+  					// 로그인한 사용자가 쓴 글이 아닌 다른 사용자가 쓴 글이라면  ex. boardno = 3234123 터무니 없는 숫자들.
+  					
+  					sql = " update jdbc_board set viewcount = viewcount +1 "
+  						+ " where boardno = ? ";
+  					pstmt = conn.prepareStatement(sql);
+  					pstmt.setString(1, paraMap.get("boardno"));
+  					
+  					pstmt.executeUpdate();
+  				}  //업데이트 하고나서 제대로 보여주는거야밑에가 
+  				
+  				
+  				sql = " select boardno,subject, contents,to_char(writeday , 'yyyy-mm-dd hh24:mi:ss'),viewcount , name "
+  					+ " from jdbc_board B JOIN jdbc_member M "
+  					+ " ON B.fk_userid = M.userid "
+  					+ " where boardno = ? ";  //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
+  				pstmt = conn.prepareStatement(sql);
+  				pstmt.setString(1, paraMap.get("boardno"));
+  				
+  				rs = pstmt.executeQuery();
+  				
+  				rs.next();
+  				
+  				board = new BoardDTO();  //리턴타입이BoardDTO니깐
+  				board.setBoardno(rs.getInt(1));
+  				board.setSubject(rs.getString(2));
+  				board.setContents(rs.getString(3));
+  				board.setWriteday(rs.getString(4));
+  				board.setViewcount(rs.getInt(5));
+  				
+  				MemberDTO member = new MemberDTO();
+  				member.setName(rs.getString(6));
+  				board.setMember(member);
+  				
+  				
+  				
+  			}
+  			else{//어차피 초기치가 null 이기 떄문에 null처리 안해줘도 된다. 
+  				// 입력한 글번호에 해당하는 글이 존재하지 않는 경우
+  				System.out.println(">> 조회하고자 하는 글번호 "+paraMap.get("boardno")+"에 해당하는 글은 없습니다.  <<\n");
+  			}
+  			
+  		} catch (ClassNotFoundException e) {
+  			System.out.println(">> ojdbc6.jar 파일이 없습니다. <<");
+  		}catch(SQLException e){  
+  			if(e.getErrorCode() == 1722) {
+  				System.out.println(">> 조회하고자 하는 글번호는 정수로만 입력하세요");
+  			}
+  			else {
+  				e.printStackTrace();
+  			}
+  		}finally {
+  			close();
+  		}
+  		
+  		
+  		return board;
+  	}//end of public BoardDTO viewContents(Map<String, String> paraMap)-----------
+  	*/
       
       // *** 리뷰글목록보기 메소드를 구현하기 *** //
       @Override
@@ -257,13 +353,14 @@ public class BoardDAO implements InterBoardDAO {
                
                ProductVO product = new ProductVO();
                board.setFk_pnum(rs.getString(2));
+               board.setProduct(product);
                board.setRe_title(rs.getString(3));
                board.setRe_writer(rs.getString(4));
                board.setRe_date( rs.getString(5));
                board.setRe_grade(rs.getInt(6));
                
                MemberVO member = new MemberVO();
-               member.setName(rs.getString(7));
+               member.setName(rs.getString("mname"));
                board.setMember(member); 
 				/*
 				 * MemberVO member = new MemberVO(); member.set(fk_faq_c_name);
@@ -436,6 +533,36 @@ public class BoardDAO implements InterBoardDAO {
 	}
 	
 	
+	
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
+	@Override
+	public int getTotalqnaPage(Map<String, String> paraMap) throws SQLException {
+		int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ceil( count(*)/? ) "
+					   + " from tbl_qna_board ";
+					  // + " where fk_userid != 'admin' ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("sizePerPage"));
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalPage = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+	}
+	
+
 	//Qna 게시판에 글 작성하기
 	@Override
 	public int writeQnaBoard(Map<String, String> paraMap) throws SQLException {
@@ -450,8 +577,6 @@ public class BoardDAO implements InterBoardDAO {
 					   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
-			
-			
 			
 			pstmt.setString( 1, paraMap.get("userid"));
 			pstmt.setString(2, paraMap.get("subject"));
@@ -469,9 +594,71 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return result;
 	}
+
 	
-	
-	
+	// 시퀀스를 가져온다.
+    public int getPk_qna_num()
+    {
+        int result = 1;
+        
+        try {
+            conn = ds.getConnection();
+            
+            // 시퀀스 값을 가져온다. (DUAL : 시퀀스 값을 가져오기위한 임시 테이블)
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT SEQ_QNA_BOARD.nextval FROM DUAL");
+            
+            pstmt = conn.prepareStatement(sql.toString());
+            // 쿼리 실행
+            rs = pstmt.executeQuery();
+            
+            if(rs.next())    
+            	result = rs.getInt(1);
+ 
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+        
+        close();
+        return result;    
+    } // end getSeq
+    
+    
+	/*
+	 * // 글 삽입 public boolean boardInsert(QnABoardVO board) { boolean result =
+	 * false;
+	 * 
+	 * try { conn = ds.getConnection();
+	 * 
+	 * // 자동 커밋을 false로 한다. conn.setAutoCommit(false);
+	 * 
+	 * StringBuffer sql = new StringBuffer();
+	 * sql.append("INSERT INTO MEMBER_BOARD");
+	 * sql.append("(BOARD_NUM, BOARD_ID, BOARD_SUBJECT, BOARD_CONTENT, BOARD_FILE");
+	 * sql.
+	 * append(", BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ, BOARD_COUNT, BOARD_DATE)"
+	 * ); sql.append(" VALUES(?,?,?,?,?,?,?,?,?,sysdate)");
+	 * 
+	 * // 시퀀스 값을 글번호와 그룹번호로 사용 int num = board.getBoard_num();
+	 * 
+	 * pstmt = conn.prepareStatement(sql.toString()); pstmt.setInt(1, num);
+	 * pstmt.setString(2, board.getBoard_id()); pstmt.setString(3,
+	 * board.getBoard_subject()); pstmt.setString(4, board.getBoard_content());
+	 * pstmt.setString(5, board.getBoard_file()); pstmt.setInt(6, num);
+	 * pstmt.setInt(7, 0); pstmt.setInt(8, 0); pstmt.setInt(9, 0);
+	 * 
+	 * int flag = pstmt.executeUpdate(); if(flag > 0){ result = true; // 완료시 커밋
+	 * conn.commit(); }
+	 * 
+	 * } catch (Exception e) { try { conn.rollback(); } catch (SQLException sqle) {
+	 * sqle.printStackTrace(); } throw new RuntimeException(e.getMessage()); }
+	 * 
+	 * close(); return result; } // end boardInsert();
+	 */
+    
+    
+
+
 	
 	
 	
