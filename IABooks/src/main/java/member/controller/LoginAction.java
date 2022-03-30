@@ -31,7 +31,8 @@ public class LoginAction extends AbstractController {
          String pwd = request.getParameter("pwd");
          String clientip = request.getRemoteAddr();
          String registerflag = request.getParameter("registerflag");
-         System.out.println(registerflag);
+         
+         
          
          Map<String, String> paraMap = new HashMap<>();
          paraMap.put("userid", userid);
@@ -42,6 +43,8 @@ public class LoginAction extends AbstractController {
          InterMemberDAO mdao = new MemberDAO();
          
          MemberVO loginuser = mdao.selectOneMember(paraMap);
+         
+         
 
          if(loginuser != null) {
             

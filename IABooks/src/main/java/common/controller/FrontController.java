@@ -75,13 +75,13 @@ public class FrontController extends HttpServlet {
 			while(en.hasMoreElements()) { // en이 key값을 가지고 있다. hasMore의 return type 은 boolean
 				
 				String key = (String) en.nextElement(); // 실제로 properties의 key값을 가져온다. 항상 string, string이므로 형변환해준다.
-				System.out.println("~~~ 확인용 key => " + key);
+	//			System.out.println("~~~ 확인용 key => " + key);
 				/*
 					~~~ 확인용 key => /main.up
 					~~~ 확인용 key => /index.up
 				 */
 				
-				System.out.println("~~~ 확인용 value => " + pr.getProperty(key));
+	//			System.out.println("~~~ 확인용 value => " + pr.getProperty(key));
 				/*
 					~~~ 확인용 value => common.controller.MainController
 					~~~ 확인용 value => common.controller.IndexController 
@@ -103,7 +103,7 @@ public class FrontController extends HttpServlet {
 					Object obj = constrt.newInstance(); // 기본생성자 만들기, 리턴타입은 Object
 					// 생성자로부터 실제 객체(인스턴스)를 생성해주는 것이다.
 					
-					System.out.println("[확인용] : " + obj.toString()); // 객체 생성 여부를 확인한다.
+	//				System.out.println("[확인용] : " + obj.toString()); // 객체 생성 여부를 확인한다.
 					/*
 					 	[확인용] : === 확인용 클래스 MainController 클래스의 인스턴스 메소드인 toString() 호출함 ===
 						[확인용] : === 확인용 클래스 IndexController 클래스의 인스턴스 메소드인 toString() 호출함 ===
@@ -143,23 +143,23 @@ public class FrontController extends HttpServlet {
 		// 즉, /member/idDuplicateCheck.up 만 추출해와야 한다.
 		
 		String url = request.getRequestURL().toString(); // StringBuffer
-		System.out.println("~~~ 확인용 url => " + url );
+//		System.out.println("~~~ 확인용 url => " + url );
 		// ~~~ 확인용 url => http://localhost:9090/MyMVC/member/idDuplicateCheck.up
 		
 		// 웹브라우저 주소 입력창에서
 		// http://localhost:9090/MyMVC/member/idDuplicateCheck.up?userid=leess 와 같이 입력되었더라면
 		
 		String uri = request.getRequestURI();
-		System.out.println("~~~ 확인용 uri => " + uri );
+//		System.out.println("~~~ 확인용 uri => " + uri );
 		// ~~~ 확인용 uri => /MyMVC/member/idDuplicateCheck.up
 		
-		System.out.println("~~~ 확인용 ctxPath => " + request.getContextPath());
+//		System.out.println("~~~ 확인용 ctxPath => " + request.getContextPath());
 		// ~~~ 확인용 ctxPath => /MyMVC
 		
 		String ctxPath = request.getContextPath();
 		
 		String key = uri.substring(ctxPath.length());
-		System.out.println("~~~ 확인용 key => " + key); // /member/idDuplicateCheck.up 만 잘라오는 것이 목표 > why? properties에 key값으로 올라갈 것이라서!
+//		System.out.println("~~~ 확인용 key => " + key); // /member/idDuplicateCheck.up 만 잘라오는 것이 목표 > why? properties에 key값으로 올라갈 것이라서!
 		// ~~~ 확인용 key => /member/idDuplicateCheck.up
 		// http://localhost:9090/MyMVC/index.up 입력 시 ~~~ 확인용 key => /index.up
 		// http://localhost:9090/MyMVC/main.up 입력 시 ~~~ 확인용 key => /main.up 
