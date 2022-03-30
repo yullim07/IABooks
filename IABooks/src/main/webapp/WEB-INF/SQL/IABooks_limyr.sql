@@ -112,7 +112,7 @@ CREATE TABLE tbl_product_imagefile (
 	imgfilename VARCHAR2(50)         -- 이미지파일명
 );
 -- Table TBL_PRODUCT_IMAGEFILE이(가) 생성되었습니다.
-
+desc tbl_product_imagefile;
 -- 제품추가이미지
 ALTER TABLE tbl_product_imagefile
 	ADD
@@ -423,6 +423,10 @@ select constraint_name, constraint_type, r_constraint_name
 from user_constraints
 where table_name = 'TBL_ORDER';
 
+select constraint_name, constraint_type, r_constraint_name
+from user_constraints
+where table_name = 'tbl_faq_board';
+
 -- tbl_cart  TBL_CATEGORY TBL_ORDER  TBL_ORDERDETAIL TBL_PRODUCT TBL_PRODUCT_IMAGEFILE
 -- TBL_SPEC TBL_WRITER
 
@@ -471,3 +475,126 @@ select * from TBL_WRITER;
 select *
 from TBL_PRODUCT
 where fk_cate_num=101;
+
+
+desc tbl_product;
+desc TBL_PRODUCT_IMAGEFILE;
+
+
+select *
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = 'tbl_product';
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- 제품팀 테이블
+
+select * from tab;
+select * from TBL_CART;
+select * from TBL_CATEGORY;
+select * from TBL_COMMENT;
+select * from TBL_FAQ_BOARD;
+select * from TBL_FAQ_CATEGORY;
+select * from TBL_LOGINHISTORY;
+select * from TBL_MEMBER;
+select * from TBL_ORDER;
+select * from TBL_ORDERDETAIL;
+select * from TBL_PRODUCT;
+select * from TBL_PRODUCT_IMAGEFILE;
+select * from TBL_QNA_BOARD;
+select * from TBL_REVIEW_BOARD;
+select * from TBL_WRITER;
+
+select *
+    from user_constraints
+    where table_name = 'tbl_orderdetail';
+    
+select *
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = 'tbl_orderdetail';
+
+
+
+---------- 제약조건 지우고 다시 만들기----------------------------------------------------------------------------------------------------------------
+
+-- 주문상세 테이블 제약조건 삭제 후 다시 만들기
+alter table tbl_orderdetail
+drop constraint PK_tbl_orderdetail;
+
+alter table tbl_orderdetail
+drop constraint UK_tbl_orderdetail;
+
+alter table tbl_orderdetail
+drop constraint CK_odrdetail_totalqty;
+
+alter table tbl_orderdetail
+drop constraint CK_odrdetail_deliverstatus;
+
+
+
+
+-- 주문상세
+ALTER TABLE tbl_orderdetail
+	ADD
+		CONSTRAINT PK_tbl_orderdetail -- 주문상세 기본키
+		PRIMARY KEY (
+			pk_odr_seqnum -- 주문상세일련번호
+		);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+ 
+
+-- 주문상세
+ALTER TABLE tbl_orderdetail
+	ADD
+		CONSTRAINT UK_tbl_orderdetail -- 주문상세 유니크 제약
+		UNIQUE (
+			fk_odrcode -- 주문코드
+		);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+
+-- 주문상세
+ALTER TABLE tbl_orderdetail
+ADD
+		CONSTRAINT CK_odrdetail_totalqty -- 주문상세 총주문량 체크
+		CHECK (ck_odr_totalqty > 0);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+
+-- 주문상세
+ALTER TABLE tbl_orderdetail
+	ADD
+		CONSTRAINT CK_odrdetail_deliverstatus -- 주문상세 주문상태 체크
+		CHECK (ck_deliverstatus in('발송준비', '배송준비', '배송중', '배송완료', '배송실패'));
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+
+
+
+desc tbl_cart;
+desc tbl_order;
+
+select * 
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = '테이블명';
+
+select * 
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = '테이블명';
+    

@@ -4,15 +4,6 @@
 
 <%
     String ctxPath = request.getContextPath();
-
-	/* const arr_product = [ 
-	                 {productId : "harrypotter",
-	                  productName : "해리포터와 마법사의 돌",
-	                  image : "harrypotter1.jpg",
-	                  price : 13000,
-					  shippingfee: 3000
-	                  }
-	               ]; */
 %>
 
 
@@ -45,7 +36,7 @@
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
 				<div class="detail_img_display">
 					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=500, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
-						<img class="big" src="<%=ctxPath%>/images/product/book.jpg">
+						<img class="big pro_" src="<%=ctxPath%>/images/product/book.jpg">
 					</a>
 				</div>
 				<!-- 상세보기 메인이미지(detail_img_display) 끝 -->
