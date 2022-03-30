@@ -98,12 +98,13 @@
 		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
 				    	<td class="tbl_bookname">
 				    		<a  href="#">
-		            			<img src="${board.pro_name}" border="0" alt=""/>
-								<span ></span>
-							</a> 
+		            			<img src="" border="0" alt=""/>
+								<span>${board.product.pro_name}</span>
+							</a>  
+							
 				    	</td>
 				    	<td class="tbl_subject"><a href="">${board.qna_title}<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
-				    	<td class="tbl_writer mycenter">${board.name}</td>
+				    	<td class="tbl_writer mycenter">${board.member.name}</td>
 				    	<td class="tbl_date mycenter">${board.qna_date}</td>
 				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
 	        			
@@ -223,7 +224,7 @@
 	     --%>
 	  </table>
 	  <div class="write_btn_zone">
-      	<button type="button" class="btn btn-dark">글쓰기</button>
+      	<button type="button" class="btn btn-dark" onclick="location.href='<%= ctxPath %>/board/qnaWrite.book'">글쓰기</button>
   	  </div>
 	  
 	</div>
@@ -232,7 +233,7 @@
   	
   	
   	<div class="pagination2 justify-content-center" >
-	    <ul class="pagination" style='margin:auto;'>${requestScope.pageBar }</ul>
+	    <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 	    <%-- 
 	    <ul>
 		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_first.gif" /></a></li>

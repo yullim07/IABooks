@@ -1,22 +1,142 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <%
     String ctxPath = request.getContextPath();
 %>
-<!doctype html>
-<html lang="ko">
-  <head>
+   
+<style type="text/css">
 
-<!-- Required meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+	.notosanskr * { 
+	  	font-family: 'Noto Sans KR', sans-serif;
+	}
+	/* 
+	html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, img {
+	    list-style: none;
+	    margin: 0;
+	    padding: 0;
+	}
+	*/
 
-<!-- Font Awesome 5 Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	a:link { color: black; text-decoration: none;}
+ 	a:visited { color: black; text-decoration: none;}
+ 	a:hover { color: black; text-decoration: underline;}
+ 	
+ 	div#container {
+    	margin: 0 auto;
+    }
+
+	div#container table {
+	    position: relative;
+	    margin: 10px 0 0;
+	    border: 1px solid #d7d5d5;
+	    border-right: 0;
+	    border-left: 0;
+	    border-top-color: #fff;
+	    line-height: 1.5;
+	    
+	    width: 100%;
+	    border: 0;
+	    border-spacing: 0;
+	    border-collapse: collapse;
+	}
+	
+	div#container td {
+		padding: 10px 10px 9px;
+	}
+	
+	#container > div.table-responsive > table > tbody > tr > th {
+		padding: 11px 0 10px 18px;
+	    border: solid 1px #dfdfdf;
+	    border-right: 0;
+	    border-bottom-width: 0;
+	    color: #333333;
+	    text-align: left;
+	    font-weight: normal;
+	    background-color: #fbfafa;
+	}
+	
+	div#container th:first-child {
+		border-left: 0;
+	}
+	
+	#container > div.table-responsive > table > tbody > tr > td {
+		padding: 11px 10px 10px;
+	    border-top: 1px solid #dfdfdf;
+	    color: #333333;
+	    vertical-align: middle;
+	}
+	
+	div#container div.detail {
+		padding: 30px 20px;
+	    border-top: 1px solid #eaeaea;
+	    margin: -9px 0 0;
+	    word-break: break-all;
+	    line-height: 20px;
+	}
+	
+	div#container p {
+		line-height: 1.5;
+	}
+	
+	div#container div.ec-base-button {
+   		margin: 10px 0 40px;
+   		padding: 10px 0;
+    	text-align: left;
+	}
+	
+	div#container button#btnList {
+		border: solid 1px gray;
+	}
+	
+	div#container strong {
+		width: 10%;
+	    padding-left: 15px;
+	    border-right: 1px solid #e9e9e9;
+	    font-weight: normal;
+	}
+	
+	div#container li {
+		overflow: hidden;
+	    padding: 0 20px;
+	    border-bottom: 1px solid #e9e9e9;
+	    line-height: 140%;
+	    color: #353535;
+	}
+	
+	div#container li > strong, li > a {
+		float: left;
+		padding: 10px;
+	}
+	
+	div#container span.gRight {
+		float: right;
+	}
+	
+	div#container tr.notMember {
+		 display: none;  /* 추후 수정 예정 비회원 모드일때 보이게*/
+	}
+	
+	div#container textarea {
+		padding: 10px;
+	} 
+    
+</style>
+ 
+<meta charset="UTF-8">
+<title>상품Q&A 작성</title>
+
+
+<jsp:include page="/WEB-INF/header.jsp"/>
+
+
+
+
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
@@ -25,9 +145,7 @@
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="<%= ctxPath%>/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js" ></script> 
 
-<!-- datepicker 삽입을 위한 link -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css" > 
-<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
+
 
 
  <!-- 서머노트를 위해 추가해야할 부분 시작 -->
@@ -46,12 +164,7 @@
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
 <!-- 썸머노트 추가 끝 -->
-<!-- Optional JavaScript -->
-    <script src="../js/jquery-3.6.0.min.js" type="text/javascript"></script>
-    <script src="../js/bootstrap.bundle.min.js" type="text/javascript"></script>
 
-    <title>상품 Q&A</title>
-<jsp:include page="/WEB-INF/header.jsp"/>
 
 	<script type="text/javascript">
 		
@@ -63,131 +176,10 @@
 	
 	</script>
 
+   
 
-    
-<style type="text/css">
+ 
 
-	@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
-
-	.notosanskr * { 
-	  	font-family: 'Noto Sans KR', sans-serif;
-	}
-	
-	html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, img {
-	    list-style: none;
-	    margin: 0;
-	    padding: 0;
-	}
-
-	a:link { color: black; text-decoration: none;}
- 	a:visited { color: black; text-decoration: none;}
- 	a:hover { color: black; text-decoration: underline;}
- 	
- 	div#container {
-    	margin: 0 auto;
-    }
-
-	table {
-	    position: relative;
-	    margin: 10px 0 0;
-	    border: 1px solid #d7d5d5;
-	    border-right: 0;
-	    border-left: 0;
-	    border-top-color: #fff;
-	    line-height: 1.5;
-	    
-	    width: 100%;
-	    border: 0;
-	    border-spacing: 0;
-	    border-collapse: collapse;
-	}
-	
-	td {
-		padding: 10px 10px 9px;
-	}
-	
-	#container > div.table-responsive > table > tbody > tr > th {
-		padding: 11px 0 10px 18px;
-	    border: solid 1px #dfdfdf;
-	    border-right: 0;
-	    border-bottom-width: 0;
-	    color: #333333;
-	    text-align: left;
-	    font-weight: normal;
-	    background-color: #fbfafa;
-	}
-	
-	th:first-child {
-		border-left: 0;
-	}
-	
-	#container > div.table-responsive > table > tbody > tr > td {
-		padding: 11px 10px 10px;
-	    border-top: 1px solid #dfdfdf;
-	    color: #333333;
-	    vertical-align: middle;
-	}
-	
-	div.detail {
-		padding: 30px 20px;
-	    border-top: 1px solid #eaeaea;
-	    margin: -9px 0 0;
-	    word-break: break-all;
-	    line-height: 20px;
-	}
-	
-	p {
-		line-height: 1.5;
-	}
-	
-	div.ec-base-button {
-   		margin: 10px 0 40px;
-   		padding: 10px 0;
-    	text-align: left;
-	}
-	
-	button#btnList {
-		border: solid 1px gray;
-	}
-	
-	strong {
-		width: 10%;
-	    padding-left: 15px;
-	    border-right: 1px solid #e9e9e9;
-	    font-weight: normal;
-	}
-	
-	li {
-		overflow: hidden;
-	    padding: 0 20px;
-	    border-bottom: 1px solid #e9e9e9;
-	    line-height: 140%;
-	    color: #353535;
-	}
-	
-	li > strong, li > a {
-		float: left;
-		padding: 10px;
-	}
-	
-	span.gRight {
-		float: right;
-	}
-	
-	tr.notMember {
-		 display: none;  /* 추후 수정 예정 비회원 모드일때 보이게*/
-	}
-	
-	textarea {
-		padding: 10px;
-	}
-    
-</style>
-    
-</head>
-<body>
-	<div class="row">
-	
 	    <div id="container" class="col-10">
 	    
 			<div id="title">
@@ -316,9 +308,5 @@
 		
 		
 
-    
-</body>
-</html>
 
 <jsp:include page="/WEB-INF/footer.jsp"/>
- 

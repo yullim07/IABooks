@@ -94,11 +94,6 @@ public class QnABoardVO {
 	}
 	
 	
-	public void setMember(MemberVO member) {
-		this.member = member;
-		
-	}
-	
 	public int getIsdelete() {
 		return isdelete;
 	}
@@ -107,10 +102,21 @@ public class QnABoardVO {
 		this.isdelete = isdelete;
 	}
 	
+	public MemberVO getMember() {
+		return member;
+	}
+	
+	public void setMember(MemberVO member) {
+		this.member = member;
+	}
+	
+	public ProductVO getProduct() {
+		return product;
+	}
+	
 	public void setProduct(ProductVO product) {
-		// TODO Auto-generated method stub
 		this.product = product;
 	}
-
+	
 	
 }

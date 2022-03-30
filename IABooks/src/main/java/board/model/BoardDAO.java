@@ -85,69 +85,74 @@ public class BoardDAO implements InterBoardDAO {
 			 * " order by boardno desc";
 			 */
 
-			String sql = "select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret\n"+
-					"from tbl_member M\n"+
-					"JOIN tbl_qna_board Q  ON M.pk_userid = Q.fk_userid\n"+
-					"JOIN tbl_product P ON Q.fk_pnum = P.pk_pro_num\n"+
-					"where isdelete = 0\n"+
-					"order by pk_qna_num desc";
+			 String sql = "select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret\n"+
+		               "from tbl_member M\n"+
+		               "JOIN tbl_qna_board Q  \n"+
+		               "ON M.pk_userid = Q.fk_userid\n"+
+		               "JOIN tbl_product P \n"+
+		               "ON Q.fk_pnum = P.pk_pro_num\n"+
+		               "where isdelete = 0\n"+
+		               "order by pk_qna_num desc";
+
 			/*
 			String sql = "\n"
 					+ " select pk_rnum, re_title, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount, re_grade\r\n"
 					+ " from tbl_review_board";
 			*/
 			
-			// BoardDTO는 회원이 존재해야만 그 회원이 글을 쓴다. 회원이 없는데 어뜨캐 글을 쓰냐 회원테이블이 먼저 존재한다.
-			pstmt = conn.prepareStatement(sql);
+			 // BoardDTO는 회원이 존재해야만 그 회원이 글을 쓴다. 회원이 없는데 어뜨캐 글을 쓰냐 회원테이블이 먼저 존재한다.
+	         pstmt = conn.prepareStatement(sql);
 
-			rs = pstmt.executeQuery();
+	         rs = pstmt.executeQuery();
 
-			while (rs.next()) {
-/*
-				board = new QnABoardVO();
-				
-				board.setPk_qna_num(rs.getInt(1));
-				
-				qnaboardList.add(board);
-				
-				System.out.println(" 넣어진 것 : " + board.getPk_qna_num());
-*/				
-				
-				board = new QnABoardVO();
-				
-				board.setPk_qna_num(rs.getInt(1));
-				
-				ProductVO product = new ProductVO(); 
-				product.setPro_name(rs.getString(2));
-				product.setPro_imgfile_name(rs.getString(3)); 
-				board.setProduct(product);
-				
-				board.setQna_title(rs.getString(4)); 
-				board.setFk_userid(rs.getString(3));
-				
-				// **중요한 부분 
-				MemberVO member = new MemberVO();
-				member.setName(rs.getString(5)); 
-				board.setMember(member); // 보드에 멤버를 넣어줌.
-				
-				board.setQna_date(rs.getString(4)); 
-				board.setQna_readcount(rs.getInt(5));
-				
-				qnaboardList.add(board);
-				
-				System.out.println(" 넣어진 제목 : " + board.getQna_title());
-				
-			} // end of while(rs.next()) ------------
+	         while (rs.next()) {
+	/*
+	            board = new QnABoardVO();
+	            
+	            board.setPk_qna_num(rs.getInt(1));
+	            
+	            qnaboardList.add(board);
+	            
+	            System.out.println(" 넣어진 것 : " + board.getPk_qna_num());
+	*/            
+	            
+	            board = new QnABoardVO();
+	            
+	            board.setPk_qna_num(rs.getInt(1));
+	            
+	            ProductVO product = new ProductVO(); 
+	            product.setPro_name(rs.getString("2"));
+	            product.setPro_imgfile_name(rs.getString("3")); 
+	            board.setProduct(product);
+	            
+	            board.setQna_title(rs.getString(4)); 
+	            
+	            
+	            // **중요한 부분 
+	            MemberVO member = new MemberVO();
+	            member.setName(rs.getString("mname")); 
+	            board.setMember(member); // 보드에 멤버를 넣어줌.
+	            
+	            board.setQna_date(rs.getString(6)); 
+	            board.setQna_readcount(rs.getInt(7));
+	            board.setFk_userid(rs.getString(8));
+	            board.setQna_issecret(rs.getInt(9));
+	            
+	            qnaboardList.add(board);
+	            
+	            System.out.println(" 넣어진 제목 : " + board.getQna_title());
+	            System.out.println(" 넣어진 제목 : " + product.getPro_name());
+	         } // end of while(rs.next()) ------------
 
-		
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
+	      
+	      } catch (SQLException e) {
+	         e.printStackTrace();
+	      } finally {
+	         close();
+	      }
 
-		return qnaboardList;
-	}// end of public List<BoardDTO> boardList() -----
+	      return qnaboardList;
+	   }// end of public List<BoardDTO> boardList() -----
 
       
       
@@ -429,6 +434,47 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return totalPage;
 	}
+	
+	
+	//Qna 게시판에 글 작성하기
+	@Override
+	public int writeQnaBoard(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_qna_board (pk_qna_num, fk_userid, qna_title,  qna_contents , qna_passwd, qna_issecret) "
+					   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			
+			pstmt.setString( 1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("subject"));
+			pstmt.setString(3, paraMap.get("content"));
+			pstmt.setString(4, paraMap.get("passwd"));
+			pstmt.setString(5, paraMap.get("issecret"));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+	
+	
+	
+	
+	
+	
 	
 	
 }

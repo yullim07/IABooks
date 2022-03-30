@@ -346,7 +346,14 @@ ON Q.fk_pnum = P.pk_pro_num
 where isdelete = 0
 order by pk_qna_num desc;
 
-
+String sql = "select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret\n"+
+"from tbl_member M\n"+
+"JOIN tbl_qna_board Q  \n"+
+"ON M.pk_userid = Q.fk_userid\n"+
+"JOIN tbl_product P \n"+
+"ON Q.fk_pnum = P.pk_pro_num\n"+
+"where isdelete = 0\n"+
+"order by pk_qna_num desc";
 
 
 
@@ -362,7 +369,7 @@ select pk_rnum, re_title, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount
 from tbl_review_board
 
 select *
-from tbl_qna_board;
+from tbl_review_board;
 
 select pk_qna_num
 from tbl_qna_board;
@@ -381,3 +388,43 @@ commit;
 
 DELETE FROM tbl_qna_board
 WHERE fk_userid = 'admin';
+
+
+select * 
+from ALL_TAB_COLUMNS
+where TABLE_NAME = 'tbl_product' ;
+
+
+SELECT *
+FROM all_tab_columns 
+where table_name = 'TBL_PRODUCT';
+--SEMIORAUSER3	TBL_QNA_BOARD	FK_PNUM	NUMBER	
+--SEMIORAUSER3	TBL_PRODUCT	PK_PRO_NUM	VARCHAR2		
+--SEMIORAUSER3	TBL_PRODUCT	PRO_IMGFILE_NAME	VARCHAR2			30
+
+
+alter table TBL_QNA_BOARD modify FK_PNUM VARCHAR2(30);
+--Table TBL_QNA_BOARD이(가) 변경되었습니다.
+alter table TBL_REVIEW_BOARD modify FK_PNUM VARCHAR2(30);
+--Table TBL_REVIEW_BOARD이(가) 변경되었습니다.
+
+
+DELETE FROM tbl_faq_board
+WHERE fk_userid = 'admin';
+
+commit;
+
+select *
+from tbl_product;
+
+desc TBL_MEMBER;
+
+desc TBL_QNA_BOARD
+
+
+select *
+from TBL_QNA_BOARD;
+
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , '커피한잔 문의', '상품문의입니다', '1234', '0', '0');
