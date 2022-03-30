@@ -447,3 +447,28 @@ commit;
 
 
 select * from tab;
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+select * from tab;
+--TBL_CART
+--TBL_CATEGORY
+--TBL_COMMENT
+--TBL_FAQ_BOARD
+--TBL_FAQ_CATEGORY
+--TBL_LOGINHISTORY
+--TBL_MEMBER
+--TBL_ORDER
+--TBL_ORDERDETAIL
+--TBL_PRODUCT
+--TBL_PRODUCT_IMAGEFILE
+--TBL_QNA_BOARD
+--TBL_REVIEW_BOARD
+--TBL_WRITER
+
+desc TBL_PRODUCT_IMAGEFILE;
+
+
+
+
