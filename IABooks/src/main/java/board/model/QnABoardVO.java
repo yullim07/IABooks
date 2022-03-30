@@ -7,7 +7,7 @@ public class QnABoardVO {
 
 	private int pk_qna_num;			// 문의번호
 	private String fk_userid;		// 회원아이디
-	private int fk_pnum;			// 국제표준도서번호
+	private String fk_pnum;			// 국제표준도서번호
 	private String qna_title;		// 제목
 	private int qna_isanswer;		// 답변유무
 	private int qna_readcount;		// 조회수
@@ -44,10 +44,10 @@ public class QnABoardVO {
 	public void setFk_userid(String fk_userid) {
 		this.fk_userid = fk_userid;
 	}
-	public int getFk_pnum() {
+	public String getFk_pnum() {
 		return fk_pnum;
 	}
-	public void setFk_pnum(int fk_pnum) {
+	public void setFk_pnum(String fk_pnum) {
 		this.fk_pnum = fk_pnum;
 	}
 	public String getQna_title() {

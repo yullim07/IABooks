@@ -6,12 +6,13 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
 	String ctxPath = request.getContextPath();
 	
 %>
+
 <style type="text/css">
 
 </style>
@@ -93,138 +94,55 @@
     
   </div>
   <p class="mb-3"></p>
+  <form name="revBoardFrm">
   
-  <div class="table_all">
-  <div class="table">
-	  <table class="table line_table">
-	    <thead>
-	      <tr class="tblHeader">
-	        <th width="9.5%">번호</th>
-	        <th width="18.5%">도서명</th>
-	        <th width="40%">제목</th>
-	        <th width="11%">작성자</th>
-	        <th width="10.5%">작성일</th>
-	        <th width="10.5%">평점</th>
-	      </tr>
-	    </thead>
-	    
-	    <tbody>
-			    <%
-			    	BoardDAO bdao = new BoardDAO();
-			    	List<ReviewBoardVO> reviewList = bdao.reviewList();
-			    	for(int i=0; i<reviewList.size(); i++) {
-			    %>
-			    <tr> 
-			    	<td class="tbl_number mycenter"><%= reviewList.get(i).getPk_rnum() %></td>
-			    	<td class="tbl_bookname">
-			    		<a  href="#">
-	            			<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-							<span ><%= reviewList.get(i).getFk_pnum() %></span>
-						</a>
-			    	</td>
-			    	<td class="tbl_subject">
-			    		<a href=""><%= reviewList.get(i).getRe_title() %></a>
-	        			<span class="new_tag">NEW</span>
+	  <div class="table_all">
+	  <div class="table">
+		  <table class="table line_table">
+		    <thead>
+		      <tr class="tblHeader">
+		        <th width="9.5%">번호</th>
+		        <th width="18.5%">도서명</th>
+		        <th width="40%">제목</th>
+		        <th width="11%">작성자</th>
+		        <th width="10.5%">작성일</th>
+		        <th width="10.5%">평점</th>
+		      </tr>
+		    </thead>
+		    
+		    <tbody>
+		    	<c:forEach var="revo" items="${requestScope.revBoardList}" >
+				   	 <tr>
+				    	<td class="tbl_number mycenter">${revo.re_readcount}</td>
+				    	<td class="tbl_bookname">
+				    		<a  href="#">
+		            			<%-- ${revo.pro_name} --%>
+								<span ></span>
+							</a>
+				    	</td>
+				    	<td class="tbl_subject">
+				  			<a href="">${revo.re_title}</a>
+		        			<span class="new_tag">NEW</span>
 	        			</td>
-			    	<td class="tbl_writer mycenter"><%= reviewList.get(i).getRe_writer()%></td>
-			    	<td class="tbl_date mycenter"><%= reviewList.get(i).getRe_date()%></td>
-			    	<td class="tbl_grade mycenter"><%= reviewList.get(i).getRe_grade()%></td>
-			    </tr>
-			    <%
-			    	}
-			    %>
-		</tbody>
-	    
-	    
-	   <%--  
-	    <tbody>
-	      <tr>
-	        <td class="tbl_number mycenter">98</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	<a href="">만족</a>
-	        	<span class="new_tag">NEW</span>
-	        </td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-10 04:06:33</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">97</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span >직업이 술꾼입니다!</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	<a href="">
-	        		배송도 빠르도 책도 잘 포장돼서 왔어요!
-	        	</a>
-	        	<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif"  <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> 
-	       <%--  	
-	        	<span id="mouseover_img" style="position:absolute;  "></span>
-	        	
-	        	<span class="new_tag">NEW</span>
-	        </td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">96</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img style=" width:46px; float:left;" src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">만족</a></td>
-	        <td class="tbl_writer mycenter">네****</td>
-	        <td class="tbl_date mycenter">2022-03-17 02:25:14</td>
-	        <td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif"/></td>
-	      </tr>
-	     </tbody>  
-	      --%>
-	      
-	    
-	    
-	  </table>
-	  <div class="write_btn_zone">
-      	 <a href="<%= ctxPath%>/board/reviewWrite.book"  class="btn btn-dark" id="write_btn">글쓰기</a> 
-  	  </div>
-	  
-	</div>
-  	
-  	</div>
-  	
-  	
-  	<div class="pagination2 justify-content-center" >
-	    <ul>
-		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_first.gif" /></a></li>
-		    <li class="active"><a href="#">1</a></li>
-		    <li><a href="#">2</a></li>
-		    <li><a href="#">3</a></li>
-		    <li><a href="#">4</a></li>
-		    <li><a href="#">5</a></li>
-		    <li><a href="#">6</a></li>
-		    <li><a href="#">7</a></li>
-		    <li><a href="#">8</a></li>
-		    <li><a href="#">9</a></li>
-		    <li><a href="#">10</a></li>
-		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_last.gif" /></a></li>
-	    </ul>
-	</div>
+				    	<td class="tbl_writer mycenter">${revo.re_readcount}</td>
+				    	<td class="tbl_date mycenter">${revo.re_date}</td>
+				    	<td class="tbl_grade mycenter">${revo.re_grade}</td>
+				    </tr>
+				 </c:forEach>   
+			</tbody>
+		   
+		  </table>
+		  <div class="write_btn_zone">
+	      	 <a href="<%= ctxPath%>/board/reviewWrite.book"  class="btn btn-dark" id="write_btn">글쓰기</a> 
+	  	  </div>
+		  
+		</div>
+	  	
+	  	</div>
+	  	
+ 	</form>
+
+	
  	
  	<div class="search_outer" >
  		<div class="search_inner">
