@@ -20,6 +20,10 @@ $(document).ready(function () {
 		/* $("li.pagenum > a.active").removeClass("active");  */
 	 	$(this).parent().siblings().children() .removeClass("active"); 
 	 	$target.addClass("active"); 
+	 	
+	 	
+	 	$("ul.booklist")
+	 	
 	}); 
 	 
 
@@ -68,325 +72,32 @@ $(document).ready(function () {
 	
 				<div class="row">
 				
-					<div class="col-3">
+				
+			<c:forEach var="pvo" items="${requestScope.productList}">
+			
+				<div class="col-3">
 						<ul class="booklist">
 							<li>
 							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
+						  		<img src="<%= ctxPath%>/images/product/${pvo.category.cate_name}/${pvo.pro_imgfile_name}" class="card-img-top">
 								<a href="#" class="stretched-link"></a>
 							</div>	
 							</li>
 							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
+								<a href="#"><span class="name">${pvo.pro_name}</span></a>
 							</li>
 							<li>
 								<div class="line"></div> 
 							</li>
 						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-					
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-					
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-					
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
+								<span class="price">${pvo.pro_saleprice}원</span>
 							</li>  
 						</ul>
 					</div>	
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-					
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-					
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-					
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>	
-					
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-					
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>		
+			
+			</c:forEach>	
+				
+			
 				</div>	
 						
 			</div>
@@ -466,4 +177,5 @@ $(document).ready(function () {
 <br>
 <%-- footer --%>
 <jsp:include page="/footer.jsp"/>
- 
+
+

@@ -23,9 +23,21 @@ public class ProductVO {
     private int fk_wr_code;  			//저자코드
     private String pro_content;			//도서소개(대용량)
   
-  
+    private CategoryVO category;
+    
     public ProductVO(){};
     
+    
+	public CategoryVO getCategory() {
+		return category;
+	}
+
+
+	public void setCategory(CategoryVO category) {
+		this.category = category;
+	}
+
+
 	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String publish_date, String publisher,
 			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
 			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,

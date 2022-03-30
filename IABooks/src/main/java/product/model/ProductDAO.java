@@ -25,9 +25,9 @@ public class ProductDAO implements InterProductDAO {
 	public ProductDAO() {
 		try {
 			//DB Connection Pool
-		    Context initContext = new InitialContext();
-		    Context envContext  = (Context)initContext.lookup("java:/comp/env");
-		    ds = (DataSource)envContext.lookup("jdbc/mymvc_oracle");
+	         Context initContext = new InitialContext();
+	         Context envContext  = (Context)initContext.lookup("java:/comp/env");
+	         ds = (DataSource)envContext.lookup("jdbc/semiorauser3");
 		    //lookup"jdbc/myoracle" 이름은 web.xml이름과 같아야한다.
 		   
 			//aes = new AES256(SecretMyKey.KEY); //SecretMyKey.KEY우리가만든 비밀키
@@ -56,15 +56,46 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo") );//숫자타입으로 변환
-			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage") );
+		
 			
-			String sql = " select *  "
-							+" from tbl_product ";
+			String sql =" select pro_name, pro_saleprice, pro_imgfile_name, cate_name "
+					+ " from"
+					+ " ( "
+						+ " select rno, pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales "
+						+ " from "
+						+ " ( "
+							+ " select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales "
+							+ " from "
+							+ " ( "
+								+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales "
+								+ " from tbl_product "
+								+ " order by pro_name "
+							+ " )V "
+						+ " )T "
+						+ " where rno between ? and ? "
+					+ " )A "
+					+ " JOIN "
+					+ " TBL_CATEGORY B "
+					+ " on fk_cate_num = pk_cate_num ";
+					
+					
+					
+					
+			/*		" select pro_name, pro_saleprice, pro_imgfile_name, cate_name "
+						+ " from "
+						+ " ("
+						+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales "
+						+ " from tbl_product"
+						+ " ) A "
+						+ " JOIN "
+						+ " tbl_category B "
+						+ " on fk_cate_num = pk_cate_num "
+						+ " order by pro_inputdate desc ";*/
+					
 					
 					/*
 					
-						" select pro_name, pro_saleprice, pro_imgfile_name "
+					" select pro_name, pro_saleprice, pro_imgfile_name "
 						+ " from "
 						+ " ( "
 							+ " select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name "
@@ -75,25 +106,33 @@ public class ProductDAO implements InterProductDAO {
 								+ " order by pro_name desc "
 								+ " )V "
 						+ " )T "
-						+ " where rno between ? and ? ";
+						+ " where rno between ? and ? ";*/
 			
-			*/
+			
+			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo") );//숫자타입으로 변환
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage") );
+			
 			pstmt = conn.prepareStatement(sql);
 			
-			//pstmt.setInt(1,1);
-			//pstmt.setInt(2,10);
-			//pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
-			//pstmt.setInt(2, (currentShowPageNo * sizePerPage) );
+			pstmt.setInt(1,1);
+			pstmt.setInt(2,10);
+			pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) );
 			
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				//ProductVO pvo = new ProductVO();
-				//pvo.setPro_name(rs.getString(1));
-				//pvo.setPro_saleprice(rs.getInt(2));
-				//pvo.setPro_imgfile_name(rs.getString(3));
+				ProductVO pvo = new ProductVO();
+				CategoryVO cvo = new CategoryVO();
+				
+				pvo.setPro_name(rs.getString(1));
+				pvo.setPro_saleprice(rs.getInt(2));
+				pvo.setPro_imgfile_name(rs.getString(3));
+				
+				cvo.setCate_name(rs.getString(4));
+				pvo.setCategory(cvo);
 
-				//productList.add(pvo);
+				productList.add(pvo);
 			}
 			
 		} finally  {
