@@ -43,7 +43,14 @@ public class MemberRegisterAction extends AbstractController {
 			String tel = num1+num2+num3;
 			String phone = hp1+hp2+hp3;
 			
+<<<<<<< HEAD
 			MemberVO member = new MemberVO(userid, pwd, name, email, postcode, address, detailaddress, extraaddress, gender, birthday, tel, phone);
+=======
+			MemberVO member = new MemberVO(userid, pwd, name, email, number, phone, postcode, address, detailaddress, extraaddress, gender, birthday);
+		
+			
+			
+>>>>>>> branch 'moonby' of https://github.com/yullim07/IABooks.git
 		/*	
 			String message = "";
 			String loc = "";

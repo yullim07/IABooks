@@ -41,6 +41,7 @@ public class MemberDAO implements InterMemberDAO {
          }
    }
 
+<<<<<<< HEAD
    // 자원반납 해주는 메소드
    private void close() {
       
@@ -195,5 +196,88 @@ public class MemberDAO implements InterMemberDAO {
    }
 
    
+=======
+	// 자원반납 해주는 메소드
+	private void close() {
+		
+		try {
+		
+		if(rs != null) { rs.close(); rs=null; }
+		if(pstmt != null) { pstmt.close(); pstmt=null; }
+		if(conn != null) { conn.close(); conn=null; }
+		
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	} // end of void close() 	
+	
+	// ID 중복검사( tbl_member 테이블에서 userid가 존재하면 true를 리턴해주고, userid가 존재하지 않으면 false를 리턴한다.)
+/*	@Override
+	public boolean idDupilcateCheck(String userid) throws SQLException {
+		
+		boolean isExist = false;
+		
+		try {
+			conn =ds.getConnection();
+			
+			String sql = " select * "
+					   + " from tbl_member "
+					   + " where userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			isExist = rs.next(); // 행이 있으면(중복된 userid) true,
+								 // 행이 없으면 (사용가능한 userid) false
+			
+		}  finally {
+			close();
+		}
+		
+		return isExist;
+	}
+*/
+	public String loginCheckPwd(String id) throws SQLException{
+		String pw = "";
+		System.out.println(id);
+		
+		return pw;
+		
+	}
+	
+	// email 중복검사 (tbl_member 테이블에서 email 가 존재하면 true를 리턴해주고, email 가 존재하지 않으면 false를 리턴한다)
+/*	@Override
+	public boolean emailDupilcateCheck(String email) throws SQLException {
+		boolean isExist = false;
+		
+		try {
+			conn =ds.getConnection();
+			
+			String sql = " select * "
+					   + " from tbl_member "
+					   + " where email = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, aes.encrypt(email));
+			
+			
+			rs = pstmt.executeQuery();
+			
+			isExist = rs.next(); // 행이 있으면(중복된 email) true,
+					   			// 행이 없으면(사용가능한 email) false
+			
+		} catch(GeneralSecurityException | UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return isExist;
+	}
+*/	
+>>>>>>> branch 'moonby' of https://github.com/yullim07/IABooks.git
 
 }
