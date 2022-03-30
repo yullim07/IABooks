@@ -110,7 +110,7 @@
 			<ul class="justify-content-start">     
 				<li class="dropdown"><a class="" href="#">카테고리 전체보기<i class="bi bi-chevron-down dropdown-indicator"></i></a>
 					<ul>
-						<li><a href="#">종합</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book">종합</a></li>
 						<li><a href="#">인문</a></li>
 						<li><a href="#">사회</a></li>
 						<li><a href="#">과학</a></li>
