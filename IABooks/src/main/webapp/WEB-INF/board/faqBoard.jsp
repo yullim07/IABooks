@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="board.model.BoardDAO" %>
-<%@ page import="board.model.FaqBoardVO" %>
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
 <%
@@ -70,25 +67,25 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			    <%
-			    	BoardDAO bdao = new BoardDAO();
-			    	List<FaqBoardVO> faqList = bdao.faqBoardList();
-			    	
-			    	for(int i=0; i<faqList.size(); i++) {
-			    %>
-			    <tr> 
-			    	<td><%= faqList.get(i).getPk_faq_board_num() %></td>
-			    	<td><%= faqList.get(i).getFk_faq_c_name() %></td>
-			    	<td><a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=<%= faqList.get(i).getPk_faq_board_num()%>">
-			    		<%= faqList.get(i).getFaq_title() %></a>
-			    	</td>
-			    	<td><%= faqList.get(i).getFaq_writer() %></td>
-			    </tr>
-			    <%
-			    	}
-			    %>
+			    <c:forEach var="board" items="${requestScope.faqBoardList}" >
+				    <tr> 
+				    	<td>${board.pk_faq_board_num}</td>
+				    	<td>${board.faqCate.faq_c_name}</td>
+				    	<td><a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=">
+				    		${board.faq_title}</a>
+				    	</td>
+				    	<td>${board.faq_writer}</td>
+				    </tr>
+			    </c:forEach>  
 			  </tbody>
+			
 			</table>
+			
+			<nav class="my-5">
+				<div style="display: flex; width: 100%;">
+					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
+				</div>	
+			</nav>
 			
 			<div class="search_outer" >
 		 		<div class="search_inner">

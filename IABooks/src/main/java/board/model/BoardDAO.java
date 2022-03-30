@@ -129,76 +129,7 @@ public class BoardDAO implements InterBoardDAO {
          return boardList;
       }//end of public List<BoardDTO> boardList() -----
 
-      
-      
-      
-      
-      
-      
-
-      
-      // FAQ 글목록보기 메소드를 구현하기 //
-      @Override
-      public List<FaqBoardVO> faqBoardList() throws SQLException {
-         
-         List<FaqBoardVO> faqBoardList = new ArrayList<>(); // 글목록 불러올 리스트 객체화
-         
-         FaqBoardVO board = null;
-         
-         int faq_board_num;
-         String fk_faq_c_name = "";
-         String faq_title = "";
-         String faq_writer = "";
-         
-         conn = ds.getConnection();
-         
-         try {
-            
-            String sql = " select A.pk_faq_board_num, B.faq_c_name, A.faq_title, A.faq_writer "
-                     + " from tbl_faq_board A LEFT JOIN tbl_faq_category B "
-                     + " ON A.fk_faq_c_num = B.pk_faq_c_num "
-                     + " where isdelete = 0 "
-                     + " order by pk_faq_board_num desc ";
-            pstmt = conn.prepareStatement(sql);
-            
-            rs = pstmt.executeQuery();
-            
-            while(rs.next()) {
-               
-               faq_board_num = rs.getInt(1);
-               fk_faq_c_name = rs.getString(2);
-               faq_title = rs.getString(3);
-               faq_writer = rs.getString(4);
-               
-               
-               board = new FaqBoardVO();
-               board.setPk_faq_board_num(faq_board_num);
-               board.setFk_faq_c_name(fk_faq_c_name);
-               board.setFaq_title(faq_title);
-               board.setFaq_writer(faq_writer);
-               
-               MemberVO member = new MemberVO();
-               member.setName(fk_faq_c_name);
-               board.setMember(member); // 보드에 멤버를 넣어줌. 
-            
-               faqBoardList.add(board);
-               
-               // System.out.println(" 넣어진 제목 : " + board.getFaq_title());
-            
-            }//end of while(rs.next()) ------------ 
-            
-         } catch(SQLException e){  
-            e.printStackTrace();
-         }finally {
-            close();
-         }
-         
-         
-         return faqBoardList;
-         
-      }
-
-      
+       
       // *** 리뷰글목록보기 메소드를 구현하기 *** //
       @Override
       public List<ReviewBoardVO> reviewList() throws SQLException {  
@@ -264,7 +195,121 @@ public class BoardDAO implements InterBoardDAO {
 
       
       
-   // FAQ 게시판에 글 작성하기  
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//////////////////////////////////////////////////////////////////////////////
+	//////////////////정환모 작업 (안겹치도록 방파제) //////////////////////////////////
+	
+	// FAQ 글목록보기 메소드를 구현하기 //
+	@Override
+	public List<FaqBoardVO> selectPagingFaqBord(Map<String, String> paraMap) throws SQLException {
+		
+		List<FaqBoardVO> faqBoardList = new ArrayList<>(); // 글목록 불러올 리스트 객체화
+	       
+	       FaqBoardVO board = null;
+	       
+	       conn = ds.getConnection();
+	       
+	       try {
+	          
+	    	   String sql = " select pk_faq_board_num, faq_c_name, faq_title, faq_writer "+
+							" from "+
+							" ( "+
+							"    select rownum AS rno, pk_faq_board_num, faq_c_name, faq_title, faq_writer "+
+							"    from "+
+	    			   		" 	( "+
+	    			   		" 		select pk_faq_board_num, b.faq_c_name AS faq_c_name, faq_title, faq_writer "+
+		   			   		" 		from tbl_faq_board a join tbl_faq_category b on a.fk_faq_c_num = b.pk_faq_c_num "+
+		   			   		" 		join tbl_member c on a.fk_userid = c.pk_userid "+
+		   			   		" 		where isdelete = 0 "+
+		   			   		" 		order by pk_faq_board_num desc " +
+		   			   		" 	) V " +
+		   			   		" ) T " +
+		   			   		" where rno between ? and ? ";
+	          pstmt = conn.prepareStatement(sql);
+	          
+	          int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			  int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+	          
+			  pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			  pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+			  
+	          rs = pstmt.executeQuery();
+	          
+	          while(rs.next()) {
+	           
+	             board = new FaqBoardVO();
+	             board.setPk_faq_board_num(rs.getInt(1));
+	             
+	             FAQcategoryBoardVO faqCate = new FAQcategoryBoardVO();
+	             faqCate.setFaq_c_name(rs.getString(2));
+	             board.setFaqCate(faqCate);
+	             
+	             board.setFaq_title(rs.getString(3));
+	             board.setFaq_writer(rs.getString(4));
+	             
+	             faqBoardList.add(board);
+	             
+	            //  System.out.println(" 넣어진 작성자 : " + board.getPk_faq_board_num());
+	          
+	             
+	          }//end of while(rs.next()) ------------ 
+	          
+	          
+	          
+	       } catch(SQLException e){  
+	          e.printStackTrace();
+	       }finally {
+	          close();
+	       }
+	       
+	       
+	       return faqBoardList;
+	}// end of public List<FaqBoardVO> selectPagingFaqBord(Map<String, String> paraMap) throws SQLException----------
+    
+	
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 FAQ게시판에 대한 페이지 알아오기
+	@Override
+	public int getTotalfaqPage(Map<String, String> paraMap) throws SQLException {
+		
+		int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ceil( count(*)/? ) "
+					   + " from tbl_faq_board ";
+					  // + " where fk_userid != 'admin' ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("sizePerPage"));
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalPage = rs.getInt(1);
+			
+		} finally {
+			close();
+		}
+		
+		return totalPage;
+	} // end of public int getTotalfaqPage(Map<String, String> paraMap) throws SQLException----------
+	
+	
+	
+    // FAQ 게시판에 글 작성하기  
 	@Override
 	public int writeFaqBoard(Map<String, String> paraMap) throws SQLException {
 		
@@ -294,81 +339,92 @@ public class BoardDAO implements InterBoardDAO {
 		}
 		
 		return result;
-	}
-
+	} // end of public int writeFaqBoard(Map<String, String> paraMap) throws SQLException-------------
+	
 	
     
-	
+	// 리뷰게시판 글 목록보기 구현
 	@Override
 	public List<ReviewBoardVO> selectPagingRevBord(Map<String, String> paraMap) throws SQLException {
 
 		 List<ReviewBoardVO> reviewList = new ArrayList<>(); // ReviewBoardVO 속에는 MemberDTO가 들어와야 한다.
          
          ReviewBoardVO board = null;
-          
-         conn = ds.getConnection();
+         
+         
+         
          try {
-            
         	 
-        	 String sql = " select pk_rnum, re_title, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount, re_grade "
-        			 	+ " from tbl_review_board ";
+        	 conn = ds.getConnection();
         	 
-        	 pstmt = conn.prepareStatement(sql);
-             
-             rs = pstmt.executeQuery();
-             
-             while(rs.next()) {
-            	 
-            	 board = new ReviewBoardVO();
-            	 
-            	 board.setPk_rnum(rs.getInt(1));
-            	 board.setRe_title(rs.getString(2));
-            	 board.setRe_date( rs.getString(3));
-                 board.setRe_readcount(rs.getInt(4));
-                 board.setRe_grade(rs.getInt(5));
-                 
-                 reviewList.add(board);
-                 
-             }
-        	 /*
-        	 String sql = " select  pk_rnum, P.pro_name, P.pro_imgfile_name, re_title, M.mname, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount, fk_userid , re_grade "
-	        			+ " from tbl_member M "
-	        			+ " JOIN tbl_review_board R  ON M.pk_userid = R.fk_userid "
-	        			+ " JOIN tbl_product P ON R.fk_pnum = P.pk_pro_num "
-	        			+ " where isdelete = 0 "
-	        			+ " order by pk_rnum desc ";
+        	 String sql = " select pk_rnum, pro_name, pro_imgfile_name, re_title "+
+					  	  "		   , mname, re_date, re_readcount, fk_userid, re_grade "+
+ 						  " from "+
+ 						  " ( "+
+ 						  "    select pk_rnum, pro_name, pro_imgfile_name, re_title "+
+ 						  "	   		  , mname, re_date, re_readcount, fk_userid, re_grade, rownum AS rno "+
+ 						  "    from "+
+ 						  "    ( "+
+        			 	  " 		select  pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS pro_imgfile_name, re_title "+
+        			 	  " 		, M.mname AS mname, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, re_readcount, fk_userid , re_grade "+
+        			      " 		from tbl_member M "+
+        			      " 		JOIN tbl_review_board R  ON M.pk_userid = R.fk_userid "+
+        			      " 		JOIN tbl_product P " +
+        			      " 		ON P.pk_pro_num = R.fk_pnum "+
+        			      " 		where isdelete = 0 "+
+        			      " 		order by pk_rnum desc "+ 
+        			      "    ) V "+ 
+      					  " ) T "+ 
+      					  " where rno between ? and ? ";
                
             pstmt = conn.prepareStatement(sql);
+            
+            int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+		 	int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+		 	
+		 	pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage));
             
             rs = pstmt.executeQuery();
             
             while(rs.next()) {
-               ProductVO product = new ProductVO();
-               MemberVO member = new MemberVO();
-               board = new ReviewBoardVO();
                
+               board = new ReviewBoardVO();
                board.setPk_rnum(rs.getInt(1));
+               
+               ProductVO product = new ProductVO();
                product.setPro_name(rs.getString(2));;
                product.setPro_imgfile_name(rs.getString(3));
+               board.setProduct(product);
+               
                board.setRe_title(rs.getString(4));
-               member.setName(rs.getString(5));;
+               
+               MemberVO member = new MemberVO();
+               member.setName(rs.getString("mname")); 
+               board.setMember(member); // 보드에 멤버를 넣어줌.
+               
                board.setRe_date( rs.getString(6));
                board.setRe_readcount(rs.getInt(7));
                board.setFk_userid(rs.getString(8));
                board.setRe_grade(rs.getInt(9));
        
-               board.setMember(member); 
-               board.setProduct(product);
-				           
-               System.out.println(" 넣어진 제목 : " + board.getRe_title());
-               System.out.println(" 무슨 숫자가 오버플로우 getPk_rnum : " + board.getPk_rnum());
-               System.out.println(" 무슨 숫자가 오버플로우 getRe_readcount : " + board.getRe_readcount());
-               System.out.println(" 무슨 숫자가 오버플로우 getRe_grade : " + board.getRe_readcount());
                
+               
+               
+               // System.out.println("~~확인용 member.getName() : " + member.getName());
+         
+               
+               /*
+               System.out.println(" 넣어진 제목 : " + board.getRe_title());
+               System.out.println("~~확인용   : " + product.getPro_name());
+               System.out.println("~~확인용   : " + product.getPro_imgfile_name());
+               System.out.println("~~확인용   : " + board.getRe_title());
+               */
                reviewList.add(board);
+               
             
             }//end of while(rs.next()) ------------ 
-           */
+           
          
          }catch(SQLException e){  
             e.printStackTrace();
@@ -378,7 +434,9 @@ public class BoardDAO implements InterBoardDAO {
          
          
          return reviewList;
-	}
+         
+         
+	} // end of public List<ReviewBoardVO> selectPagingRevBord(Map<String, String> paraMap) throws SQLException----------------
 
 	
 	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
@@ -408,7 +466,14 @@ public class BoardDAO implements InterBoardDAO {
 		}
 		
 		return totalPage;
-	}
+	} // end of public int getTotalRevPage(Map<String, String> paraMap) throws SQLException----------------
+
+	
+	
+
+	
+	
+	
 	
 	
    

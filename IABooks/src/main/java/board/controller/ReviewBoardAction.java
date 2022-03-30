@@ -59,7 +59,7 @@ public class ReviewBoardAction extends AbstractController {
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		paraMap.put("sizePerPage", sizePerPage);
 		
-		List<ReviewBoardVO> revBoardList = bdao.selectPagingRevBord(paraMap);
+		List<ReviewBoardVO> revBoardList = bdao.selectPagingRevBord(paraMap); 
 		
 		request.setAttribute("revBoardList", revBoardList);
 		
@@ -144,12 +144,12 @@ public class ReviewBoardAction extends AbstractController {
 		// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 토탈페이지수 보다 큰 값을 입력하여
         //     장난친 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== //
 		
-		/*
+		// 바꿔야됨!!!!!!!!1
 		if( Integer.parseInt(currentShowPageNo) > totalPage ) {
 			currentShowPageNo = "1";
 			pageNo = 1;
 		}
-		*/
+		// 바꿔야됨!!!!!!!!1
 		
 		// **** [맨처음][이전] 만들기 **** //
 		if(pageNo != 1) {
