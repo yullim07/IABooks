@@ -1,7 +1,7 @@
 package product.model;
 
 public class ProductVO {
-	private int pk_pro_num; 			//국제표준도서번호
+	private String pk_pro_num; 			//국제표준도서번호
 	private int fk_cate_num;   			//카테고리대분류번호
 	private String  pro_name;  			//도서명
 	private String publish_date;		//출간일
@@ -23,7 +23,7 @@ public class ProductVO {
   
     public ProductVO() {}
 	
-	public ProductVO(int pk_pro_num, int fk_cate_num, String pro_name, String publish_date, String publisher,
+	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String publish_date, String publisher,
 			int pro_price, int saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
 			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
 			String pro_imgfile_name, int fk_wr_code, String pro_content) {
@@ -49,11 +49,11 @@ public class ProductVO {
 		this.pro_content = pro_content;
 	}
 
-	public int getPk_pro_num() {
+	public String getPk_pro_num() {
 		return pk_pro_num;
 	}
 
-	public void setPk_pro_num(int pk_pro_num) {
+	public void setPk_pro_num(String pk_pro_num) {
 		this.pk_pro_num = pk_pro_num;
 	}
 

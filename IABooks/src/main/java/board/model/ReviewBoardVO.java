@@ -7,7 +7,7 @@ public class ReviewBoardVO {
 	
 //	-----------------------------------------	
 		private int pk_rnum;		 // 후기번호
-		private int fk_pnum;		 // 국제표준도서번호
+		private String fk_pnum;		 // 국제표준도서번호
 		private String fk_userid;	 // 회원아이디
 		private String re_title;	 // 게시글 제목
 		private String re_date; 	 //작성일자
@@ -34,11 +34,11 @@ public class ReviewBoardVO {
 			this.pk_rnum = pk_rnum;
 		}
 		
-		public int getFk_pnum() {
+		public String getFk_pnum() {
 			return fk_pnum;
 		}
 		
-		public void setFk_pnum(int fk_pnum) {
+		public void setFk_pnum(String fk_pnum) {
 			this.fk_pnum = fk_pnum;
 		}
 		
