@@ -60,7 +60,12 @@ public class ProductDAO implements InterProductDAO {
 			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage") );
 			
 			System.out.println("확인용 : "+currentShowPageNo+" "+sizePerPage);
-			String sql = " select pro_name, pro_saleprice, pro_imgfile_name "
+			String sql = " select * "
+							+" from tbl_member ";
+					
+					/*
+					
+						" select pro_name, pro_saleprice, pro_imgfile_name "
 						+ " from "
 						+ " ( "
 							+ " select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name "
@@ -73,11 +78,11 @@ public class ProductDAO implements InterProductDAO {
 						+ " )T "
 						+ " where rno between ? and ? ";
 			
-			
+			*/
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1,1);
-			pstmt.setInt(2,10);
+			//pstmt.setInt(1,1);
+			//pstmt.setInt(2,10);
 			//pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1) );
 			//pstmt.setInt(2, (currentShowPageNo * sizePerPage) );
 			
