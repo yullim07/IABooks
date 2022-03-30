@@ -19,7 +19,14 @@ public class ShowBookListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		String category = request.getParameter("category");
 		//HttpSession session = request.getSession();
+		//System.out.println("확인용 category "+category);
+		
+		if(!("total".equals(category) || "humanities".equals(category) || "society".equals(category) || "science".equals(category) || "other".equals(category)) ) {
+			category = "total";
+		}
+		
 		
 		//페이징 처리가 되어진  모든 회원 또는 검색한 회원
 		InterProductDAO mdao = new ProductDAO();
@@ -37,8 +44,8 @@ public class ShowBookListAction extends AbstractController {
 		if(currentShowPageNo == null) {
 			currentShowPageNo ="1";
 		}
-		if(sizePerPage == null || !("3".equals(sizePerPage) || "5".equals(sizePerPage) || "10".equals(sizePerPage)) )  {
-			sizePerPage = "10";
+		if(sizePerPage == null)  {
+			sizePerPage = "12";
 		}
 		// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 숫자가 아닌 문자를 입력한 경우 또는 
         //     int 범위를 초과한 숫자를 입력한 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== //
@@ -47,16 +54,22 @@ public class ShowBookListAction extends AbstractController {
 		} catch (NumberFormatException e) {
 			currentShowPageNo = "1";
 		}
+		
+		try {
+			Integer.parseInt(sizePerPage);
+		} catch (NumberFormatException e) {
+			sizePerPage = "12";
+		}
 
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		paraMap.put("sizePerPage", sizePerPage);
+		paraMap.put("category", category);
 
 		List<ProductVO> productList = mdao.selectPagingProduct(paraMap);
 		request.setAttribute("productList", productList);
-		//페이지 바 만들기 시작
+		request.setAttribute("category", category);
 		
-	
-
+		//페이지 바 만들기 시작
 		/*
 		String pageBar = "";
 		int blockSize = 10;
@@ -107,11 +120,12 @@ public class ShowBookListAction extends AbstractController {
 		
 		request.setAttribute("pageBar", pageBar);//memberList로넘겨주기
 		//페이지바 만들기 끝
-	
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/member/memberList.jsp");
+	*/
 		
-		*/
+		super.setRedirect(false);
+		super.setViewPage("/WEB-INF/product/showBookList.jsp");
+		
+		
 	
 		
 	}

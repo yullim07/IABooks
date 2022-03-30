@@ -1,4 +1,4 @@
-
+select * from tbl_member
 --
 show user;
 -- USER이(가) "SEMIORAUSER3"입니다.
@@ -51,3 +51,23 @@ commit
 ------------------------------------------------------------------------------------------------
 
 
+select pro_name, pro_saleprice, pro_imgfile_name 
+from 
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name 
+from tbl_product
+order by pro_name desc
+)V
+)T
+where rno between 10 and 20;
+
+
+
+-- 새 컬럼을 생성 (기존 데이터를 옮겨담을 컬럼)
+ALTER TABLE TBL_PRODUCT ADD PK_PRO_NUM_COPY VARCHAR2(20);
+
+UPDATE TBL_PRODUCT SET PK_PRO_NUM_COPY = PK_PRO_NUM;
+commit;
