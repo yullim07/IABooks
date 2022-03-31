@@ -19,7 +19,7 @@
 
 
 
-<jsp:include page="../../header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 
 <!-- 직접 만든 CSS -->
@@ -189,4 +189,4 @@ button.btn_pro_search {
 </div> <!-- container 끝 -->
 
 
-<jsp:include page="../../footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>

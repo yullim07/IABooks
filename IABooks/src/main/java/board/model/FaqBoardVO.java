@@ -14,9 +14,19 @@ public class FaqBoardVO {
 	private int isdelete; 			// 삭제유무(0:삭제안함, 1:삭제함)
 	
 	private MemberVO member;
+	
+	private FAQcategoryBoardVO faqCate;
 
 	public int getPk_faq_board_num() {
 		return pk_faq_board_num;
+	}
+
+	public FAQcategoryBoardVO getFaqCate() {
+		return faqCate;
+	}
+
+	public void setFaqCate(FAQcategoryBoardVO faqCate) {
+		this.faqCate = faqCate;
 	}
 
 	public void setPk_faq_board_num(int pk_faq_board_num) {

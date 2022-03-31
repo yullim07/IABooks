@@ -14,7 +14,7 @@ public class faqWriteSuccessAction extends AbstractController {
 		
 		if("post".equalsIgnoreCase(method)) {
 			//super.setRedirect(false);
-			super.setViewPage("/WEB-INF/board/faqWriteSuccess.jsp");
+			super.setViewPage("/WEB-INF/board/faqBoard.jsp");
 		}
 		
 	}

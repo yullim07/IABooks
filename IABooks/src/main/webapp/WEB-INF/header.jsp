@@ -56,7 +56,7 @@
 
 	<div class="container">
 		<nav id="navbar" class="navbar">
-			<ul class="justify-content-end ml-auto">     		
+			<ul class="justify-content-end ml-auto"> 
           		<c:if test="${empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/join.book">로그인</a></li></c:if>
           		<c:if test="${not empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/logout.book">로그아웃</a></li></c:if>
           		<c:if test="${empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberRegister.book">회원가입</a></li></c:if>
@@ -73,7 +73,7 @@
 				<li class="dropdown bulkhead"><a href="#">고객센터<i class="bi bi-chevron-down dropdown-indicator"></i></a>
             		<ul>
               			<li><a href="#">자주 묻는 질문</a></li>
-						<li><a href="#">1:1문의</a></li>
+						<li><a href="<%= ctxPath%>/board/qnaBoard.book">1:1문의</a></li>
 					</ul>
 				</li>
 				
@@ -110,10 +110,11 @@
 			<ul class="justify-content-start">     
 				<li class="dropdown"><a class="" href="#">카테고리 전체보기<i class="bi bi-chevron-down dropdown-indicator"></i></a>
 					<ul>
-						<li><a href="#">종합</a></li>
-						<li><a href="#">인문</a></li>
-						<li><a href="#">사회</a></li>
-						<li><a href="#">과학</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=total">종합</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=humanities">인문</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=society">사회</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=science">과학</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=other">기타</a></li>
 						<li><a href="<%= ctxPath%>/board/reviewBoard.book">리뷰</a></li>
             		</ul>
           		</li>		

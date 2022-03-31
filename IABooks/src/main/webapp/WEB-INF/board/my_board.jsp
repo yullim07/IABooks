@@ -26,7 +26,7 @@
 	</script>
 
 
-<jsp:include page="../../header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 
 
@@ -112,4 +112,4 @@
 		</div> <!-- container 끝 -->
 		
 		
-<jsp:include page="../../footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>

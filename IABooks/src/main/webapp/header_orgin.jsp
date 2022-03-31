@@ -126,3 +126,9 @@
 		</nav>
 	</div>
 </div>
+
+<form name="verifyCertificationFrm">
+	<input type="hidden" name="userCertificationCode">
+	<input type="hidden" name="userid">
+	<input type="hidden" name="userid">
+</form>

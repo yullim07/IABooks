@@ -23,7 +23,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>타인의 책장</title>
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
@@ -276,5 +276,5 @@
 
 
 	
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

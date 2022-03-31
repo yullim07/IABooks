@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
 <%@ page import="board.model.BoardDAO" %>
 <%@ page import="board.model.QnABoardVO" %>
 <%@ page import="java.util.List"%>
@@ -36,14 +41,6 @@
 
 
 
-
-	
-	
-
-
-
-
-
 <div class="container">
 <div class="contents">
   <p><br></p>
@@ -74,6 +71,25 @@
 	    
 	    
 	    <tbody>
+	    		<c:forEach var="board" items="${requestScope.qnaboardList}">
+	        		<tr class="qnaboardInfo">
+	        			
+		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
+				    	<td class="tbl_bookname">
+				    		<a  href="#">
+		            			<img src="" border="0" alt=""/>
+								<span>${board.product.pro_name}</span>
+							</a>  
+							
+				    	</td>
+				    	<td class="tbl_subject"><a href="QnaDetailAction?pk_qna_num=${board.pk_qna_num}">${board.qna_title}<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
+				    	<td class="tbl_writer mycenter">${board.member.name}</td>
+				    	<td class="tbl_date mycenter">${board.qna_date}</td>
+				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
+	        			
+	        		</tr>
+	        	</c:forEach>
+	    		<%-- 
 			    <%
 			    	BoardDAO bdao = new BoardDAO();
 			    	List<QnABoardVO> qnaboardList = bdao.qnaboardList();
@@ -87,7 +103,7 @@
 							<span ><%= qnaboardList.get(i).getFk_pnum() %></span>
 						</a>
 			    	</td>
-			    	<td class="tbl_subject"><a href="">도매가 구입 방법<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
+			    	<td class="tbl_subject"><a href=""><%= qnaboardList.get(i).getQna_title() %><img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
 			    	<td class="tbl_writer mycenter"><%= qnaboardList.get(i).getFk_userid() %></td>
 			    	<td class="tbl_date mycenter"><%= qnaboardList.get(i).getQna_date()%></td>
 			    	<td class="tbl_viewcount mycenter"><%= qnaboardList.get(i).getQna_readcount()%></td>
@@ -95,84 +111,12 @@
 			    <%
 			    	}
 			    %>
+			    --%>
 		</tbody>
-	    
-	    
-	    
-	    
-	 <%--    
-	    <tbody>
-	      <tr>
-	        <td class="tbl_number mycenter">73</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img  src="//indiepub.kr/web/product/tiny/202202/eb7c31609e59e7436d9445a4c5043207.jpg" border="0" alt=""/>
-					<span >지금, 사랑하는 나에게</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">도매가 구입 방법<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
-	        <td class="tbl_writer mycenter">홍****</td>
-	        <td class="tbl_date mycenter">2022-03-18 19:05:42</td>
-	        <td class="tbl_viewcount mycenter">1</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">72</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a></td>
-	        <td class="tbl_writer mycenter">이****</td>
-	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
-	        <td class="tbl_viewcount mycenter">23</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">71</td>
-	        <td class="tbl_bookname">
-	        	 
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a> 
-				
-				
-	        </td>
-	        <td class="tbl_subject">
-	        	&nbsp;&nbsp;&nbsp;
-	        	<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif"/>
-	        	<a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a>
-	        	<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
-	        </td>
-	        <td class="tbl_writer mycenter">인디펍</td>
-	        <td class="tbl_date mycenter">2022-02-09 23:15:28</td>
-	        <td class="tbl_viewcount mycenter">3</td>
-	      </tr>
-	      
-	      <tr>
-	        <td class="tbl_number mycenter">70</td>
-	        <td class="tbl_bookname">
-	        	<a  href="#">
-	            	<img src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg" border="0" alt="">
-					<span>추천곡</span>
-				</a>
-				
-	        </td>
-	        <td class="tbl_subject"><a href="">안녕하세요. 혹시 작가님 메일 주소를 알 수 있을까요?</a></td>
-	        <td class="tbl_writer mycenter">이****</td>
-	        <td class="tbl_date mycenter">2022-02-02 10:52:10</td>
-	        <td class="tbl_viewcount mycenter">23</td>
-	      </tr>
-	    </tbody>
-	     --%>
+	 
 	  </table>
 	  <div class="write_btn_zone">
-      	<button type="button" class="btn btn-dark">글쓰기</button>
+      	<button type="button" class="btn btn-dark" onclick="location.href='<%= ctxPath %>/board/qnaWrite.book'">글쓰기</button>
   	  </div>
 	  
 	</div>
@@ -181,6 +125,8 @@
   	
   	
   	<div class="pagination2 justify-content-center" >
+	    <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
+	    <%-- 
 	    <ul>
 		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_first.gif" /></a></li>
 		    <li class="active"><a href="#">1</a></li>
@@ -191,6 +137,7 @@
 		   
 		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_last.gif" /></a></li>
 	    </ul>
+	    --%>
 	</div>
  	
  	<div class="search_outer" >
