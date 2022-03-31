@@ -8,9 +8,11 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-<jsp:include page="/WEB-INF/header.jsp"/>
 
 <title>회원가입</title>
+
+<jsp:include page="/WEB-INF/header.jsp"/>
+
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css">
@@ -44,7 +46,7 @@ $(document).ready(function() {
 		const $target = $(event.target);
 		
 		const name = $target.val().trim();
-		if(name == ""){
+		if(name == "" && flagError==false){
 			
 		//	$target.next().show();
 		// 	또는
@@ -116,7 +118,7 @@ $(document).ready(function() {
 			
 		//	$target.next().show();
 		// 	또는
-			$target.parent().find(".error").show();
+		//	$target.parent().find(".error").show();
 			
 			
 		} else {
@@ -146,12 +148,12 @@ $(document).ready(function() {
 			
 		} else {
 			// bool == true 이메일이 정규표현식에 맞는 경우
-			$("table#tblMemberRegister :input").prop("disabled",false);
 			//	$target.next().hide();
 			// 	또는
 			$target.parent().find(".error").hide();
 		}
 	}); 
+	
 	
 	// 아이디가 hp2인 것은 포커스를 잃어버렸을 경우(blur) 이벤트를 처리해주는 것이다.
 	
@@ -228,11 +230,113 @@ $(document).ready(function() {
 	});
 	
 	
+	// 아이디값이 변경되면 가입하기 버튼 클릭시 "아이디중복확인" 을 클릭했는지 클릭안했는지를 알아보기 위한 용도를 초기화 시키기
+ 	$("input#userid").bind("change",()=>{
+  	 	b_flagIdDuplicateClick = false;
+ 	});
+	
+	
+
+	
+	// 이메일값이 변경되면 가입하기 버튼 클릭시 "이메일중복확인" 을 클릭했는지 클릭안했는지를 알아보기 위한 용도를 초기화 시키기
+ 	$("input#email").bind("change",()=>{
+ 		b_flagEmailDuplicateClick = false;
+ 	});
+
+	
 	
 });// end of $(document).ready(function() 
 	
+	function isExistIdCheck() {
 	
+		b_flagIdDuplicateClick = true;
+		// ==== jQuery 를 이용한 Ajax (Asynchronous JavaScript and XML)처리하기 ====
+ 		$.ajax({
+	 			url:"<%= ctxPath%>/member/idDuplicateCheck.book",
+	 			data:{"userid":$("input#userid").val()}, // data 는 MyMVC/member/idDuplicateCheck.up로 전송해야할 데이터를 말한다.
+	 			type: "post" , // type 은 생략하면 "get" 이다.
+	 		//	async:false,   // 동기처리(지도는 동기처리로 해야한다.)
+	 		//	async:true,	   // 비동기처리(기본값)	
+	 			
+	 			success: function(text){
+	 				//console.log("확인용 : text => "+ text);
+	 				// 확인용 : text => {"isExist":false}    
+	 				//console.log("확인용 타입 typeof(text) : "+typeof(text))
+	 				// 확인용 타입 typeof(text) : string
+	 				
+	 				const json = JSON.parse(text);
+	 		
+	 				if(json.isExist) {	// 입력한 $("input#userid").val() 값이 이미 사용중이라면
+	 					$("span#idcheckResult").html($("input#userid").val()+"은 중복된 ID 이므로 사용 불가합니다.").css("color","red");
+	  	 				$("input#userid").val("");
+	 				} else if($("input#userid").val().length < 5 ) {
+	 					$("span#idcheckResult").html("아이디는 4글자 이상 16글자 이하로 작성하세요!").css("color","red");
+	 				} else {	// 입력한 $("input#userid").val() 값이 DB테이블(tbl_member)에 존재하지 않는 경우라면
+	 					$("span#idcheckResult").html($("input#userid").val()+"은 사용 가능합니다.").css("color","green");
+	 				}
+		 		}, 
+		 		error: function (request, status, error) {
+	 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 			}
+	 		})	
+	 		
+ 		};
 	
+ 	// 이메일 중복여부 검사하기
+ 		function isExistEmailCheck(){
+ 			b_flagEmailDuplicateClick = true;
+ 		 	// 가입하기 버튼 클릭시 "아이디중복확인" 을 클릭했는지 클릭안했는지를 알아보기 위한 용도이다.
+ 		 	
+ 		 	
+ 		 	// 입력하고자 하는 이메일이 데이터베이스 테이블에 존재하는지 존재하지 않는지 알아와야한다.
+ 		 	/*
+ 	     	    Ajax (Asynchronous JavaScript and XML)란?
+ 	       		==> 이름만 보면 알 수 있듯이 '비동기 방식의 자바스크립트와 XML' 로서
+ 	       	    Asynchronous JavaScript + XML 인 것이다.
+ 	       	    한마디로 말하면, Ajax 란? Client 와 Server 간에 XML 데이터를 JavaScript 를 사용하여 비동기 통신으로 주고 받는 기술이다.
+ 	       	    하지만 요즘에는 데이터 전송을 위한 데이터 포맷방법으로 XML 을 사용하기 보다는 JSON 을 더 많이 사용한다.
+ 	       	    참고로 HTML은 데이터 표현을 위한 포맷방법이다.
+ 	       	    그리고, 비동기식이란 어떤 하나의 웹페이지에서 여러가지 서로 다른 다양한 일처리가 개별적으로 발생한다는 뜻으로서, 
+ 	       	    어떤 하나의 웹페이지에서 서버와 통신하는 그 일처리가 발생하는 동안 일처리가 마무리 되기전에 또 다른 작업을 할 수 있다는 의미이다.
+ 	        */
+ 			// ==== jQuery 를 이용한 Ajax (Asynchronous JavaScript and XML)처리하기 ====
+ 		 		$.ajax({
+ 		 			url:"<%= ctxPath%>/member/emailDuplicateCheck.book",
+ 		 			data:{"email":$("input#email").val()}, // data 는 MyMVC/member/emailDuplicateCheck.up로 전송해야할 데이터를 말한다.
+ 		 			type: "post" , // type 은 생략하면 "get" 이다.
+ 					dataType: "json",
+ 				//	async:false,   // 동기처리(지도는 동기처리로 해야한다.)
+ 	       	 	//	async:true,	   // 비동기처리(기본값)	
+ 					success: function(json){
+ 		 			//	console.log("확인용 json =>"+ json);
+ 		 				//확인용 json =>[object Object]
+ 		 			//	console.log("확인용 typeof(json) =>"+ typeof(json));
+ 		 				// 확인용 typeof(json) =>object
+ 		 			
+ 		 			const regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i); 
+ 		 			const bool = regExp.test($("input#email").val());  	
+ 		 			
+ 		 				if(json.isExist) {	// 입력한 $("input#email").val() 값이 이미 사용중이라면
+ 		 					$("span#emailCheckResult").html($("input#email").val()+"은 중복된 ID 이므로 사용 불가합니다.").css("color","red");
+ 		 					$("input#email").val("");
+ 		 				} else if( !bool ) {
+ 		 					
+ 		 				} else {	// 입력한 $("input#email").val() 값이 DB테이블(tbl_member)에 존재하지 않는 경우라면
+ 		 					$("span#emailCheckResult").html($("input#email").val()+"은 사용 가능합니다.").css("color","green");
+ 		 				}
+ 	                   
+ 		 			}, 
+ 		 			error: function(request, status, error){
+ 		 				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+ 		 			}
+ 		 			
+ 		 		});
+ 		 	
+ 		}
+	
+ 		
+ 		
+		
 	// 동의 모두선택 / 해제
 	function selectAll(selectAll)  {
 	  const agree_checkbox = document.getElementsByName('agree');
@@ -291,14 +395,28 @@ $(document).ready(function() {
 		}
 		
 		// *** 이용약관에 동의 했는지 검사한다. *** //
-		const agreeCheckedLengthMust = $("input:checkbox[id='agree_must']:checked").length;
+		const agreeCheckedLengthMust = $("input:checkbox[class='agree_must']:checked").length;
 		
 		if(agreeCheckedLengthMust != 2){
 			alert("필수이용약관에 동의하셔야 합니다.");
 			return; // 종료
 		} 
+	/*	
+		// *** 아이디 중복확인을 클릭 했는지 검사한다. *** //
+		
+		if(!b_flagIdDuplicateClick){ // 아이디 중복검사를 클릭하지 않았다면
+			alert("아이디중복확인 클릭하여 아이디중복검사를 하세요.");
+			return; // 종료
+		}
 		
 		
+		// *** 이메일 중복확인을 클릭 했는지 검사한다. *** //
+		
+		if(!b_flagEmailDuplicateClick){ // 이메일 중복검사를 클릭하지 않았다면
+			alert("이메일중복확인 클릭하여 이메일중복검사를 하세요.");
+			return; // 종료
+		}
+	*/	
 		const frm = document.registerFrm;
 		frm.action = "memberRegister.book";
 		frm.method = "post";
@@ -307,21 +425,37 @@ $(document).ready(function() {
 		
 	}// end of 	function goRegister()
 	
-	
+	// 가입하기 취소 버튼 클릭 시 
 	function registerCancel() {
 		
 		location.href = "<%=ctxPath%>/index.book";
 		
 	}
 	
-</script>
+</script>	
+	
+	
 
 <style type="text/css">
 	span.error {
-		margin-left: 20px; 
 		color: red;
 		display: none;
 	}
+	
+	span.duplicateCheck {
+		display: inline-block;
+		font-size: 9pt;
+		border: solid 1px #999;
+		height: 25px;
+		background-color: white;
+		margin-left: 10px;
+		width: 120px;
+		cursor: pointer;
+		text-align: center;
+		padding-top: 2px;
+		border-radius: 5%;
+	}
+	
 </style>
 
 
@@ -339,7 +473,13 @@ $(document).ready(function() {
 			<table class="register">
 				<tr>
 					<th><label for="userid">아이디&nbsp;<span id="star">*</span></label></th>
-					<td><input type="text" class="requiredInfo" id="userid" name="userid" size="20" maxlength="20" autofocus required autocomplete="off"  /><span class="error">아이디는 필수입력 사항입니다.</span> </td>    
+					<td>
+						<input type="text" class="requiredInfo" id="userid" name="userid" size="20"  maxlength='16' autofocus required autocomplete="off"  />
+						<span id="isExistIdCheck" class="duplicateCheck" onclick="isExistIdCheck();">아이디중복확인&nbsp;&nbsp;<i class="fas fa-angle-right"></i></span>
+						<br>
+						<span class="error">아이디를 입력해주세요.</span> 
+						<span id="idcheckResult"></span>
+					</td>    
 				</tr>
 				<tr>
 					<th><label for="pwd">비밀번호&nbsp;<span id="star">*</span></label></th>
@@ -350,13 +490,13 @@ $(document).ready(function() {
 					<td><input type="password" class="requiredInfo" id="pwdCheck" size="20" maxlength="20" required /><span class="error">암호가 일치하지 않습니다.</span></td>
 				</tr>
 				<tr>
-				<th>이름 &nbsp;<span id="star">*</span></th>
+				<th>성명 &nbsp;<span id="star">*</span></th>
 				    <td>
 				        <input required type="text" class="requiredInfo" id="name" name="name" maxlength="20"><span class="error">성명은 필수입력 사항입니다.</span>
 				    </td>
 				</tr>
 				<tr>
-					<th>우편번호</th>
+					<th>우편번호 &nbsp;<span id="star">*</span></th>
 				      <td>
 				         <input required type="text" class="requiredInfo" id="postcode" name="postcode" size="5" placeholder="우편번호" values="addr" style="width: 100px;" />
 				         &nbsp;&nbsp;
@@ -417,12 +557,15 @@ $(document).ready(function() {
 					<th>이메일 &nbsp;<span id="star">*</span></th>
 						<td>
 							<input type="email" class="requiredInfo" id="email" name="email" size="20" maxlength="20" required placeholder="example@gmail.com" />
+							<span id="isExistIdCheck" class="duplicateCheck" onclick="isExistEmailCheck();">이메일중복확인&nbsp;&nbsp;<i class="fas fa-angle-right"></i></span>
+							<br>
 							<span class="error">올바른 이메일 양식이 아닙니다.</span>
+							<span id="emailCheckResult"></span>
 						</td>
 				</tr>
 				            
 				 <tr>
-			         <th>생년월일&nbsp;<span id="star">*</span></th> <%-- datepicker 에러 --%>
+			         <th>생년월일&nbsp;<span id="star">*</span></th> 
 			         <td>
 			            <input class="requiredInfo" type="text" id="datepicker" name="birthday">
 			         </td>
@@ -619,7 +762,7 @@ $(document).ready(function() {
 					<tr>
 				      <td>
 				      	<div class="checkbox_group">
-				          <span>[필수] 개인정보 수집 및 이용 동의</span>&nbsp;&nbsp;<input type="checkbox" id="agree_must" name="agree" onclick='checkSelect()'/><label for="agree_privacy" >동의함</label>
+				          <span>[필수] 개인정보 수집 및 이용 동의</span>&nbsp;&nbsp;<input type="checkbox" id="agree_privacy" name="agree" class="agree_must" onclick='checkSelect()'/><label for="agree_privacy" >동의함</label>
 				        </div>  
 				      </td>
 				    </tr>
@@ -682,7 +825,7 @@ o 로그 기록
 				    <tr>
 				      <td>
 				      	<div class="checkbox_group">
-				          <span>개인정보 수집 및 이용에 동의하십니까?</span>&nbsp;&nbsp;<input type="checkbox" id="agree_must" name="agree" onclick='checkSelect()'/><label for="agree_information">동의함</label>
+				          <span>개인정보 수집 및 이용에 동의하십니까?</span>&nbsp;&nbsp;<input type="checkbox" id="agree_information" name="agree" class="agree_must" onclick='checkSelect()'/><label for="agree_information">동의함</label>
 				        </div>  
 				      </td>
 				    </tr>

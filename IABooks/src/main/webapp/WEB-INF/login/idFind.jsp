@@ -14,21 +14,69 @@
 
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-	$(function(){
-		//페이지 로드후 적용되는 스크립트
-		show()
-	});
 	
-	function show() {
-		if($('input:radio[id=emailcheck]').is(':checked')){
-			$('#mobilefound').hide()
-			$('#emailfound').show()
+$(document).ready(function(){
+	
+		const method = "${requestScope.method}";
+		console.log("method =>" + method);
+		
+		if(method == "GET") {
+			$("div#div_findResult").hide();
 		}
-		else if($('input:radio[id=phonecheck]').is(':checked')){
-			$('#mobilefound').show()
-			$('#emailfound').hide()
-		}
+		else if( method == "POST") {
+			$("input#name").val("${requestScope.name}");
+			$("input#email").val("${requestScope.email}");
+			$("div#div_findResult").show();
+		} 
+		
+		
+		$("input#email").bind("keyup", function(event){
+			if(event.keyCode == 13) { 
+				 goFind();
+			}
+		});
+		
+		$("button#btnFind").click(function() {
+			 goFind();
+		});
+	
+		
+		$(function(){
+			//페이지 로드후 적용되는 스크립트
+			show()
+		
+		});
+	
+
+	
+});	// end of $(document).ready(function()
+
+function show() {
+	
+	if($('input:radio[id=emailcheck]').is(':checked')){
+		$('#mobilefound').hide()
+		$('#emailfound').show()
 	}
+	else if($('input:radio[id=phonecheck]').is(':checked')){
+		$('#mobilefound').show()
+		$('#emailfound').hide()
+	}
+
+}
+
+
+function goFind() {
+	// 성명 및 email에 대한 유효성 검사(정규표현식)는 생략하겠습니다.
+	
+	const frm = document.idFindFrm;
+	frm.action = "<%= ctxPath%>/login/idFind.book";
+	frm.method = "post";
+	frm.submit();
+
+}
+
+	
+	
 
 </script>
 <style type="text/css">
@@ -81,10 +129,10 @@
 	}
 	
 	input.phonenb {
-		width: 50px;
+		width: 60px;
 	}
 
- 	#commit {
+ 	button#btnFind {
 	    color: white;
 	    background-color: #00334d;
 	    border-radius: 5px;
@@ -115,18 +163,17 @@
     	<div id = "sm">
 	    	<ul>
 		    	<li>가입하신 방법에 따라 아이디 찾기가 가능합니다.</li>
-		        <li>법인사업자 회원 또는 외국인 회원의 경우 법인명과 법인번호 또는 이름과 등록번호를 입력해 주세요.</li>
 		    </ul>
 	    </div>
 	<hr style="border: solid 2px #e8e8e8;">
     
    	<div id="found">
     	
-    	<form>
+    	<form name="idFindFrm">
     		<table class="idFind" >
 	    		<thead>
 	    			<tr>
-	    				<td colspan="3" style="text-align: center;">
+	    				<td colspan="3" style="text-align: center; padding-top: 50px;">
 	    					<strong style="font-size: 16pt;">아이디 찾기</strong>
 	    				</td>
 	    			</tr>
@@ -145,25 +192,29 @@
 				<tbody>
 					<tr>
 						<th>
-							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이름
+							<label for="name" style="display: inline-block; width: 90px">
+								<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이름
+							</label>
 						</th>
 						<td colspan="2">
-							<input type="text" placeholder="홍길동">
+							<input type="text" name="name" id="name" size="25" placeholder="홍길동" autocomplete="off" >
 						</td>	
 					</tr>
 					<tr id = "emailfound">				
 						<th>
-							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이메일로찾기
+							<label for="email" >
+								<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이메일로찾기
+							</label>
 						</th>
 						<td colspan="2">	
-							<input type="text" placeholder="hongkd@email.com">
+							<input type="text" placeholder="hongkd@email.com" name="email" id="email" size="25" autocomplete="off">
 						</td>	
 					</tr>
 					<tr id = "mobilefound">
 						<th>
 							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;휴대폰번호로찾기
 						</th>	
-						<td colspan="2">
+						<td colspan="2" style=" text-align: left; ">
 							<input type="text" class="phonenb" maxlength='3' value="010" readonly>&nbsp;-&nbsp;<input type="text" class="phonenb" maxlength='4'  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />&nbsp;-&nbsp;<input type="text" class="phonenb" maxlength='4'  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 						</td>
 					</tr>
@@ -171,11 +222,18 @@
 				<tfoot>
 					<tr>
 						<td colspan="3" style="text-align: center;" >
-							<input type="button" id="commit" value = "확인">
+							<button type="button" class="btn btn-success" id="btnFind" onclick="goFind();">검색</button>
 						</td>	
 					</tr>
 				</tfoot>
 			</table>
+			
+			   <div class="my-3" id="div_findResult" >
+			      <p class="text-center" style="margin-bottom: 50px;">
+			           ID : <span style="color: red; font-size: 16pt; font-weight: bold;">${requestScope.userid}</span> 
+			      </p>
+			   </div>
+			
 		</form>	
 	</div>
 		

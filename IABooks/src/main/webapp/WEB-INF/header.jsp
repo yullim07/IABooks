@@ -56,7 +56,7 @@
 
 	<div class="container">
 		<nav id="navbar" class="navbar">
-			<ul class="justify-content-end ml-auto">     		
+			<ul class="justify-content-end ml-auto"> 
           		<c:if test="${empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/join.book">로그인</a></li></c:if>
           		<c:if test="${not empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/logout.book">로그아웃</a></li></c:if>
           		<c:if test="${empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberRegister.book">회원가입</a></li></c:if>
