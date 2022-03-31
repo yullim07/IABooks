@@ -36,7 +36,9 @@
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
 				<div class="detail_img_display">
 					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=500, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
-						<img class="big pro_" src="<%=ctxPath%>/images/product/"+${pvo.pk_pro_num}+".jpg">
+						<%-- <img class="big pro_imgfile_name" src="<%=ctxPath%>/images/product/"+${pvo.pk_pro_num}+".jpg"> --%>
+						<%-- <img class="big pro_imgfile_name" src="<%=ctxPath%>/images/product/${pvo.pk_pro_num}.jpg"> --%>
+						<img class="big pro_imgfile_name" src="<%=ctxPath%>/images/product/book.jpg">
 					</a>
 				</div>
 				<!-- 상세보기 메인이미지(detail_img_display) 끝 -->
@@ -61,7 +63,8 @@
 				<div id="detail_text_title">
 					<table id='tbl_detail_title'>
 						<tr>
-							<th id="pro_name" name="pro_name" style="font-size: 24pt;">${pvo.pro_name}</th>
+							<th id="pro_name" name="pro_name" style="font-size: 24pt;">책제목</th>						
+							<%-- <th id="pro_name" name="pro_name" style="font-size: 24pt;">${pvo.pro_name}</th> --%> <%-- 책제목 --%>
 						<tr>
 					</table>				
 				</div>
@@ -75,8 +78,11 @@
 						<thead>
 							<tr style="border-bottom: solid 2px #F2F2F2; width: 100%; line-height: 32px;">
 								<th scope="row" width="40%">판매가</th>
-								<td scope="col" name="price" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;"><span><strong>12,000</strong></span>원</td>
-								<%-- <td scope="col"><span id=`${elt.productId}`>${elt.price.toLocaleString('en')}</span>원</td> --%>
+								<td scope="col" id="pro_price" name="pro_price" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;">
+									<span><strong>12----</strong></span>원
+									<%-- <span><strong>${pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
+									<%-- <span id=`${pvo.pk_pro_num}`><strong>${pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
+								</td>
 							<tr>
 						</thead>
 						<tbody>
@@ -89,7 +95,6 @@
 							<tr>
 								<th scope="row" width="30%">배송비</th>
 								<td scope="col"><span>3000</span>원&nbsp;(50,000원 이상 구매 시 무료)</td>
-								<%-- <td scope="col"><span id='${elt.productId}'>${elt.shippingfee.toLocaleString('en')}</span>원&nbsp;(50,000원 이상 구매 시 무료)</td> --%>
 							</tr>
 						</tfoot>
 					</table>
@@ -112,12 +117,15 @@
 						</thead>
 						<tbody>
 							<tr style="line-height: 60px;">
-								<td scope="row" name="pro_name" style="padding-left: 10px;">${elt.productName}책제목</td>
+								<td scope="row" name="pro_name" style="padding-left: 10px;">책제목</td>
+								<%-- <td scope="row" name="pro_name" style="padding-left: 10px;">${pvo.pro_name}</td> --%> <%-- 책제목 --%>
 								<td scope="row">
 									<input type='number' name="odr_qty" min='1' max='1000' value='1'
-										style="width: 60px; height: 24px; line-height: 24px;" id='${elt.productId}' />
+										style="width: 60px; height: 24px; line-height: 24px;" /> <%-- id='${pvo.pk_pro_num}' /> --%>
 								</td>
-								<td scope="row"><span id='${elt.productId}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
+								<td scope="row">
+									<span><b>99999999</b></span>원</td>
+									<%-- <span id='${pvo.pk_pro_num}'><b>${pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -125,8 +133,12 @@
 								<td scope="row">
 									<span style="text-align: right;"><strong>총상품금액</strong> &nbsp;(수량) :</span>
 								</td>
-								<td scope="row"><span"><b>${elt.price.toLocaleString('en')}</b></span>원</td>
-								<td scope="row"><span id="odr_qty"></span>(1개)</td>
+								<td scope="row"><span><b>33333333</b></span>원</td>
+								<%-- <td scope="row"><span><b>${pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%> <%-- 총상품금액 --%>
+								
+								<%-- 오류 곱해진 수량을 보여줘야/span에 id값 추가/cartVO도 cvo 만들어줘야? --%>
+								
+								<td scope="row"><span id="odr_qty"></span>(1개)</td>	<%-- 수량 --%>
 							</tr>
 						</tfoot>
 					</table>
@@ -539,7 +551,7 @@
 			arr_product.forEach(function(elt, i, array) {
 				html_purchase += 		`<tr>
 											<th scope="row" width="40%">판매가</th>
-											<td scope="col"><span id='${elt.productId}'>${elt.price.toLocaleString('en')}</span>원</td>
+											<td scope="col"><span id='${pvo.pk_pro_num}'>${elt.price.toLocaleString('en')}</span>원</td>
 										</tr>
 									</thead>
 									<tbody>
@@ -551,7 +563,7 @@
 									<tfoot>
 										<tr>
 											<th scope="row" width="30%">배송비</th>
-											<td scope="col"><span id='${elt.productId}'>${elt.shippingfee.toLocaleString('en')}</span>원&nbsp;(50,000원 이상 구매 시 무료)</td>
+											<td scope="col"><span id='${pvo.pk_pro_num}'>${elt.shippingfee.toLocaleString('en')}</span>원&nbsp;(50,000원 이상 구매 시 무료)</td>
 										</tr>
 									</tfoot>
 								</table>`;
@@ -579,8 +591,8 @@
 				
 					html_total += `<tr>
 										<td scope="row">${elt.productName}</td>
-										<td scope="row"><input type='number' min='1' max='1000' value='1' id='${elt.productId}' /></td>
-										<td scope="row"><span id='${elt.productId}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
+										<td scope="row"><input type='number' min='1' max='1000' value='1' id='${pvo.pk_pro_num}' /></td>
+										<td scope="row"><span id='${pvo.pk_pro_num}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
 									</tr>
 								</tbody>
 								<tfoot>

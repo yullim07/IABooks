@@ -34,6 +34,7 @@ public class ShowBookDetailAction extends AbstractController {
 			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/product/product_detail.jsp");
+		//	super.setViewPage("/main/product/product_detail.jsp");
 			
 		}
 
