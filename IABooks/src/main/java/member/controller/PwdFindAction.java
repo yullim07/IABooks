@@ -5,17 +5,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class RegisterSuccessAction extends AbstractController {
+public class PwdFindAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String method = request.getMethod();
-		if("get".equalsIgnoreCase(method)) {
-			//super.setRedirect(false);
-			super.setViewPage("/WEB-INF/login/registerSuccess.jsp");
-		}
-		
+		super.setViewPage("/WEB-INF/login/pwdFind.jsp");
+
 	}
 
 }
