@@ -44,12 +44,14 @@ public interface InterBoardDAO {
 	// 번호 하나를 받아 FAQ글 정보 받아오기 
 	FaqBoardVO selectContent(int pk_faq_board_num) throws SQLException;
 
-	// 수정하기 위해 정보 받아오기
+	// FAQ 게시판 값을 수정이나 삭제하기 위해 정보 받아오기
 	FaqBoardVO getContent(int pk_faq_board_num) throws SQLException;
 
-	// 받아온 값을 다시 수정해주기
+	// FAQ 게시판 값을 수정해주기
 	int UpdateFaqBoard(Map<String, String> paraMap) throws SQLException;
-
+	
+	// FAQ 게시판 값을 삭제하기
+	int deleteFaqBoard(FaqBoardVO faqVO) throws SQLException;
 	
 
 	

@@ -678,7 +678,7 @@ public class BoardDAO implements InterBoardDAO {
 
 	
 	
-	// 수정하기 위해 정보 받아오기
+	// FAQ 게시판 값을 수정이나 삭제하기 위해 정보 받아오기
 	@Override
 	public FaqBoardVO getContent(int pk_faq_board_num) throws SQLException {
 		
@@ -689,6 +689,7 @@ public class BoardDAO implements InterBoardDAO {
 		return faqVO;
 	}
 
+	// FAQ 게시판 값을 수정해주기
 	@Override
 	public int UpdateFaqBoard(Map<String, String> paraMap) throws SQLException {
 
@@ -717,6 +718,41 @@ public class BoardDAO implements InterBoardDAO {
 			
 			if(n==1) {
 				System.out.println("업데이트 성공!");
+			}
+			
+			result = n;
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		
+		
+		return result;
+	}
+
+	
+	// FAQ 게시판 값을 삭제하기
+	@Override
+	public int deleteFaqBoard(FaqBoardVO faqVO) throws SQLException {
+
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_faq_board " 
+					   + " where pk_faq_board_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, faqVO.getPk_faq_board_num());
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				System.out.println("삭제 성공!");
 			}
 			
 			result = n;

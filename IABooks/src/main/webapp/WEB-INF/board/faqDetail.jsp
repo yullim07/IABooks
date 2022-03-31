@@ -22,17 +22,32 @@
 <!-- Font Awesome 5 Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+<jsp:include page="/WEB-INF/header.jsp"/>
+
 <script type="text/javascript">
 	
 	$(document).ready(function(){
 		
+		$("button.btn_delete").click( ()=> {
+			
+			if( confirm("글을 삭제하시겠습니까?") == true ) {
+				location.href="<%= ctxPath%>/board/faqDelete.book?pk_faq_board_num="+${faqVO.pk_faq_board_num};
+			}
+		});
 	
 	});
 
+	//////////////////////////////////////
+	
+	// 함수 선언
+	
+	
+	
+	
 </script>
 
 
-<jsp:include page="/WEB-INF/header.jsp"/>
+
     
 
 
@@ -81,7 +96,8 @@
 				
 				<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/faqBoard.book'">목록</button>
 				<button class="btn btn_update" type="button" onclick="location.href='<%= ctxPath%>/board/faqUpdate.book?pk_faq_board_num=${faqVO.pk_faq_board_num}'">수정</button>
-				<button class="btn btn_delete" type="button" onclick="location.href='<%= ctxPath%>/board/faqDelete.book'">삭제</button>	
+				<button class="btn btn_delete" type="button" >삭제</button>
+				<%-- <button class="btn btn_delete" type="button" onclick="location.href='<%= ctxPath%>/board/faqDelete.book?pk_faq_board_num=${faqVO.pk_faq_board_num}'">삭제</button> --%>	
 				
 			</div>
 			
