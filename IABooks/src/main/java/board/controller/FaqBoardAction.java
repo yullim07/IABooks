@@ -24,7 +24,7 @@ public class FaqBoardAction extends AbstractController {
 		// 페이징 처리가 되어진 모든 FAQ 목록 보여주기
 		
 		InterBoardDAO bdao = new BoardDAO();
-		
+		// 기능을 수행할 DAO 객체화
 		Map<String, String> paraMap = new HashMap<>();
 		
 		String currentShowPageNo = request.getParameter("currentShowPageNo");

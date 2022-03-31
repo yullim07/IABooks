@@ -18,7 +18,7 @@ public class FaqSubmitAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		
-		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 해야 한다. == //
+		// == 관리자(admin)로 로그인 했을 때만 접근이 가능하도록 해야 한다. == //
 		HttpSession session  = request.getSession();
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");

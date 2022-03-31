@@ -24,12 +24,12 @@ public class FaqUpdateAction extends AbstractController {
 		InterBoardDAO bdao = new BoardDAO();
 		FaqBoardVO faqVO = new FaqBoardVO();
 		
-		int pk_faq_board_num = Integer.parseInt(request.getParameter("pk_faq_board_num"));
+		int pk_faq_board_num = Integer.parseInt(request.getParameter("pk_faq_board_num")); // 프라이머리키를 JSP에서 가져온다.
 		System.out.println(" FaqUpdateAction 에서 받아온 번호 : " + pk_faq_board_num);
-		faqVO.setPk_faq_board_num(pk_faq_board_num);
+		faqVO.setPk_faq_board_num(pk_faq_board_num); // VO에 PK 값을 넣는다.
 		
 		
-		faqVO = bdao.getContent(pk_faq_board_num);
+		faqVO = bdao.getContent(pk_faq_board_num); // 프라이머리 키를 통해 내용을 싹 가져온다.
 		
 		if( loginuser != null && ( "admin".equals(loginuser.getUserid()) || faqVO.getFk_userid().equals(loginuser.getUserid()) )  ) {
 			

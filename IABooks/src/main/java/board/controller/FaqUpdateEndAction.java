@@ -64,7 +64,7 @@ public class FaqUpdateEndAction extends AbstractController {
 					faqVO.setFaq_contents(content);
 					faqVO.setFaq_writer(writer);
 					
-					message = "글쓰기 성공!!!";
+					message = "글 수정하기 성공!!!";
 					loc = request.getContextPath()+"/board/faqBoard.book";// faq목록페이지로 이등
 				}
 				
