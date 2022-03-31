@@ -26,6 +26,14 @@ public class ReviewBoardVO {
 		private ProductVO product;
 		
 		
+		public MemberVO getMember() {
+			return member;
+		}
+
+		public ProductVO getProduct() {
+			return product;
+		}
+
 		public int getPk_rnum() {
 			return pk_rnum;
 		}
@@ -119,9 +127,17 @@ public class ReviewBoardVO {
 			this.product = product;
 		}
 
-		public void setMember(MemberVO member2) {
+		public void setMember(MemberVO member) {
 			// TODO Auto-generated method stub
 			
+		}
+
+		public MemberVO getMember() {
+			return member;
+		}
+
+		public ProductVO getProduct() {
+			return product;
 		}
 		
 

@@ -194,6 +194,95 @@ public class MemberDAO implements InterMemberDAO {
       return member;
    }
 
-   
+   // ID 중복검사 (tbl_member 테이블에서 userid 가 존재하면 true를 리턴해주고, userid 가 존재하지 않으면 false를 리턴한다)
+	@Override
+	public boolean idDuplicateCheck(String userid) throws SQLException {
+		
+		boolean isExist = false;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select * "
+					   + " from tbl_member"
+					   + " where pk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery();
+			
+			isExist = rs.next();  // 행이 있으면(중복된 userid)     true,
+			                      // 행이 없으면(사용가능한 userid)  false
+			
+		} finally {
+			close();
+		}
+		
+		return isExist;
+	}
+	
+	// email 중복검사 (tbl_member 테이블에서 email 이 존재하면 true를 리턴해주고, email 이 존재하지 않으면 false를 리턴한다) 
+		@Override
+		public boolean emailDuplicateCheck(String email) throws SQLException {
+
+			boolean isExist = false;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select * "
+						   + " from tbl_member"
+						   + " where uq_email = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, aes.encrypt(email));
+				
+				rs = pstmt.executeQuery();
+				
+				isExist = rs.next();  // 행이 있으면(중복된 userid)     true,
+				                      // 행이 없으면(사용가능한 userid)  false
+				
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) { 
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			return isExist;		
+		}
+
+		// 아이디 찾기(성명, 이메일을 입력받아서 해당 사용자의 아이디를 알려준다)
+		@Override
+		public String findUserid(Map<String, String> paraMap) throws SQLException {
+			
+			String userid = null;
+			
+			try {
+				 conn = ds.getConnection();
+				 
+				 String sql = " select pk_userid "
+				 		    + " from tbl_member"
+				 		    + " where ck_status = 1 and mname = ? and uq_email = ? ";
+				 
+				 pstmt = conn.prepareStatement(sql);
+				 pstmt.setString(1, paraMap.get("name"));
+				 pstmt.setString(2, aes.encrypt(paraMap.get("email")));
+				 
+				 rs = pstmt.executeQuery();
+				 
+				 if(rs.next()) {
+					 userid = rs.getString(1);
+				 }
+			
+			} catch(GeneralSecurityException | UnsupportedEncodingException e) { 
+			    e.printStackTrace();	 
+			} finally {
+				close();
+			}
+			
+			return userid;
+		}
+	
 
 }

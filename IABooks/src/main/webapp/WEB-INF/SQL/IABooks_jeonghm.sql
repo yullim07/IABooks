@@ -1,6 +1,5 @@
 show user;
-
-
+/*
 -- FAQ 분류
 CREATE TABLE tbl_faq_category (
 	pk_faq_c_num NUMBER       NOT NULL, -- FAQ 번호
@@ -20,6 +19,7 @@ CREATE TABLE tbl_comment (
 	cmt_date     DATE default sysdate, -- 작성일자
     isdelete     VARCHAR2(10)   NOT NULL  -- 삭제유무(0:삭제안함, 1:삭제함)
 );
+
 
 -- 상품Q&A 게시판
 CREATE TABLE tbl_qna_board (
@@ -178,10 +178,7 @@ commit;
 
 select * from user_sequences;
 
-ALTER TABLE tbl_comment modify (isdelete VARCHAR2(10) DEFAULT '0');
-ALTER TABLE tbl_faq_board modify (isdelete VARCHAR2(10) DEFAULT '0');
-ALTER TABLE tbl_review_board modify (isdelete VARCHAR2(10) DEFAULT '0');
-ALTER TABLE tbl_faq_board modify (isdelete VARCHAR2(10) DEFAULT '0');
+-- TABLE tbl_comment modify (isdelete VARCHAR2(10) DEFAULT '0');
 
 
 CREATE TABLE tbl_faq_board (
@@ -316,7 +313,15 @@ CREATE TABLE tbl_review_board (
 );
 
 insert into tbl_review_board (pk_rnum, fk_pnum, fk_userid, re_writer, re_title, re_contents, re_passwd ,isdelete, re_grade)
-values(SEQ_REVIEW_BOARD.nextval, '9791197381010', 'admin', '관리자', '정말 재밌어요','나의 식사에는 감정이 있습니다 너무 재밌게 봤어요','qwer1234$', 0, 4);
+values(1, '9791197381010', 'admin', '관리자', '정말 재밌어요','나의 식사에는 감정이 있습니다 너무 재밌게 봤어요','qwer1234$', 0, 4);
+
+insert into tbl_review_board (pk_rnum, fk_pnum, fk_userid, re_writer, re_title, re_contents, re_passwd ,isdelete, re_grade)
+values(2, '9791197381010', 'admin', '관리자', '정말 재밌어요','나의 식사에는 감정이 있습니다 너무 재밌게 봤어요','qwer1234$', 0, 4);
+
+insert into tbl_review_board (pk_rnum, fk_pnum, fk_userid, re_writer, re_title, re_contents, re_passwd ,isdelete, re_grade)
+values(3, '9791197381010', 'admin', '관리자', '정말 재밌어요','나의 식사에는 감정이 있습니다 너무 재밌게 봤어요','qwer1234$', 0, 4);
+
+commit;
 
 update tbl_review_board set fk_pnum='123';
 
@@ -336,16 +341,52 @@ from tbl_review_board
 select pk_rnum, re_title, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount, re_grade
 from tbl_review_board
 
+*/
+update tbl_review_board set re_writer='인디펍';
+
+commit;
+
+SELECT * FROM    ALL_CONSTRAINTS
+WHERE    TABLE_NAME = 'TBL_member';
+
+insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents )
+values(1, 'admin', 3, '반갑습니다!', '작작', '제발 글이 잘써졌으면 좋겠어요.');
+
+insert into tbl_faq_board (pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents )
+values(2, 'admin', 2, '에러가 하나 뜨면 너무 무섭습니다.', '작작', '해결이 안되면 그것만 잡고 있거든요.');
+
+--
 commit;
 
 select *
-from tbl_review_board
+from user_sequences;
 
-update tbl_review_board set fk_pnum='9791197381010'
-where pk_rnum = 6;
-9791197381010
-
-desc tbl_product
 
 select *
 from tbl_product
+
+commit;
+ 
+select *
+from tbl_review_board
+
+desc TBL_FAQ_CATEGORY;
+desc TBL_FAQ_BOARD;
+desc TBL_MEMBER;
+
+select a.fk_faq_c_num, b.faq_c_name, a.faq_title, a.faq_writer
+from TBL_FAQ_BOARD A JOIN TBL_FAQ_CATEGORY B
+ON A.FK_FAQ_C_NUM = B.PK_FAQ_C_NUM
+JOIN TBL_MEMBER C 
+ON A.FK_USERID = C.PK_USERID
+where isdelete = 0
+order by pk_faq_board_num desc;
+
+
+commit;
+
+select pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents, isdelete
+from tbl_faq_board
+where pk_faq_board_num = 20;
+
+desc tbl_faq_board;
