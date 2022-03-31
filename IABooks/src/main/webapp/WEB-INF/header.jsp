@@ -73,7 +73,7 @@
 				<li class="dropdown bulkhead"><a href="#">고객센터<i class="bi bi-chevron-down dropdown-indicator"></i></a>
             		<ul>
               			<li><a href="#">자주 묻는 질문</a></li>
-						<li><a href="#">1:1문의</a></li>
+						<li><a href="<%= ctxPath%>/board/qnaBoard.book">1:1문의</a></li>
 					</ul>
 				</li>
 				

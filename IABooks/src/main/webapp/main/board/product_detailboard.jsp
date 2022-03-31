@@ -17,7 +17,8 @@
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
-<jsp:include page="../../header.jsp"/>
+
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 <style type="text/css">
 	
@@ -307,5 +308,5 @@
 
 
 	
-<jsp:include page="../../footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  
