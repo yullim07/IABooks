@@ -20,16 +20,30 @@ public class AddToCartAction extends AbstractController {
 		
 		String method = request.getMethod();
 		
-		if("GET".equalsIgnoreCase(method)) { // 장바구니는 GET 방식으로 보여줘도 상관없지 않나? 아무튼 비회원구매기능이 없으니 막아준다.
+		if(!"POST".equalsIgnoreCase(method)) { // 비회원구매기능이 없으니 GET 으로 들어오는 것을 막아준다.
 
+			String message = "도서를 구매하기 위해서는 로그인을 해주세요!";
+			String loc = "javascript:history.back()"; // 뒤로가기
+			
+			request.setAttribute("message", message); // requset 영역에 넣어주기 
+			request.setAttribute("loc", loc);
+			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/product/product_detail.jsp");
 		}
 		
-		else {
-			
-			// 장바구니에 등록하기 버튼을 누른 경우
+		else { // 장바구니에 등록하기 버튼을 누른 경우
 	
+			String userid = request.getParameter("userid");
+			String pk_pro_num = request.getParameter("pk_pro_num");
+			
+			// Map 에 넣어주기
+			Map<String, String> paraMap = new HashMap<>();
+			
+			paraMap.put("userid", userid);
+			paraMap.put("pk_pro_num", pk_pro_num);
+			
+			/*
 			ArrayList<CartVO> cartList = new ArrayList<>();
 			
 			String pk_odrcode = request.getParameter("pk_odrcode");
@@ -63,7 +77,7 @@ public class AddToCartAction extends AbstractController {
                     if (c.getPk_pro_num() == id) {
                         exist = true;
                         /*("<h3 style='color:crimson; text-align: center'>Item Already in Cart. <a href='cart.jsp'>GO to Cart Page</a></h3>");*/
-                    }
+          /*          }
                 }
 
                 if (!exist) {
@@ -71,6 +85,7 @@ public class AddToCartAction extends AbstractController {
                     response.sendRedirect("index.jsp");
                 }
             }
+		*/
         }
 
 }
