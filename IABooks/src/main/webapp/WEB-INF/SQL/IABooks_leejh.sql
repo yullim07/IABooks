@@ -428,3 +428,10 @@ from TBL_QNA_BOARD;
 
 insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
 values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , '커피한잔 문의', '상품문의입니다', '1234', '0', '0');
+
+
+
+insert into tbl_review_board(pk_rnum, fk_pnum, fk_userid, re_title, re_grade, re_contents, re_passwd, re_writer)
+values(SEQ_REVIEW_BOARD.nextval ,  '9791196045999' , 'admin','커피한잔 문의', 3, '상품문의입니다안녕하세요 우와 좋다 뭐가/ 몰라', '1234', '작성이');
+
+commit;
