@@ -50,17 +50,17 @@ public class ProductDAO implements InterProductDAO {
 
 	//카테고리(종합,인문,사회,과학) select 
 	@Override
-<<<<<<< HEAD
+
 	public List<ProductVO> selectPagingProduct(Map<String, String> paraMap) thpdaos SQLException {
-=======
+
 	public List<ProductVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException {
 		List<ProductVO> productList = new ArrayList<>();
->>>>>>> refs/remotes/origin/sub_main
+
 		
-<<<<<<< HEAD
+
 		return null;
 	}//end of public List<ProductVO> selectPagingProduct(Map<String, String> paraMap) thpdaos SQLException
-=======
+
 		try {
 			conn = ds.getConnection();
 			
@@ -159,7 +159,6 @@ public class ProductDAO implements InterProductDAO {
 		
 		return productList;
 	}//end of public List<ProductVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException
->>>>>>> refs/remotes/origin/sub_main
 	
 
 	
@@ -199,131 +198,5 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	/////////////////////////////////////////////////////////////////////
-	
-	
-	public List<ProductDAO> getAllProducts() {
-		
-		List<ProductDAO> prolist = new ArrayList<>();
-        
-		try {
-			String sql = " select * from tbl_product ";
-            pstmt = conn.prepareStatement(sql);
-            
-            rs = pstmt.executeQuery();
-            
-            while (rs.next()) {
-            	ProductDAO pdao = new ProductDAO();
-            	pdao.setId(rs.getInt("PK_PRO_NUM"));
-                pdao.setName(rs.getString("name"));
-                pdao.setCategory(rs.getString("category"));
-                pdao.setPrice(rs.getDouble("price"));
-                pdao.setImage(rs.getString("image"));
-
-                prolist.add(pdao);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-        return prolist;
-    }
-	
-	
-	
-	public ProductDAO getDetailProduct(int pk_pro_num) {
-		ProductDAO pdao = null;
-	        try {
-	            String sql = " select * from tbl_product where id=? ";
-
-	            pstmt = conn.prepareStatement(sql);
-	            pstmt.setInt(1, id);
-	            ResultSet rs = pstmt.executesql();
-
-	            while (rs.next()) {
-	            	pdao = new ProductDAO();
-	                pdao.setId(rs.getInt("id"));
-	                pdao.setName(rs.getString("name"));
-	                pdao.setCategory(rs.getString("category"));
-	                pdao.setPrice(rs.getDouble("price"));
-	                pdao.setImage(rs.getString("image"));
-	            }
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            System.out.println(e.getMessage());
-	        }
-
-	        return pdao;
-	    }
-	
-	public double getTotalCartPrice(ArrayList<Cart> cartList) {
-        double sum = 0;
-        try {
-            if (cartList.size() > 0) {
-                for (Cart item : cartList) {
-                    String sql = "select price from tbl_product where id=?";
-                    pstmt = this.conn.prepareStatement(sql);
-                    pstmt.setInt(1, item.getId());
-                    rs = pstmt.executeQuery();
-                    while (rs.next()) {
-                        sum+=rs.getDouble("price")*item.getQuantity();
-                    }
-
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-        return sum;
-    }
-
     
-    public List<Cart> getCartProducts(ArrayList<Cart> cartList) {
-        List<Cart> book = new ArrayList<>();
-        try {
-            if (cartList.size() > 0) {
-                for (Cart item : cartList) {
-                    String sql = "select * from tbl_product where id=?";
-                    pstmt = this.conn.prepareStatement(sql);
-                    pstmt.setInt(1, item.getId());
-                    
-                    rs = pstmt.executeQuery();
-                    
-                    while (rs.next()) {
-                        Cart pdao = new Cart();
-                        pdao.setId(rs.getInt("id"));
-                        pdao.setName(rs.getString("name"));
-                        pdao.setCategory(rs.getString("category"));
-                        pdao.setPrice(rs.getDouble("price")*item.getQuantity());
-                        pdao.setQuantity(item.getQuantity());
-                        book.add(pdao);
-                    }
-
-                }
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
-        return book;
-    }
 }
