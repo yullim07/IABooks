@@ -27,7 +27,6 @@ $( document ).ready( function() {
       autoplaySpeed: 1000,
       slidesToShow: 5,
       slidesToScroll: 1,
-    
     });
   });
 </script>

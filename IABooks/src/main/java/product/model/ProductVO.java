@@ -6,7 +6,7 @@ public class ProductVO {
 	private String pk_pro_num; 			//국제표준도서번호
 	private int fk_cate_num;   			//카테고리대분류번호
 	private String  pro_name;  			//도서명
-	private String publish_date;		//출간일
+	private String pro_publish_date;		//출간일
 	private String publisher; 			//출판사명
 	private int pro_price;   			//도서정가 디폴트 0
 	private int pro_saleprice;   		//도서판매가 디폴트 0
@@ -38,7 +38,7 @@ public class ProductVO {
 	}
 
 
-	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String publish_date, String publisher,
+	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String pro_publish_date, String publisher,
 			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
 			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
 			String pro_imgfile_name, int fk_wr_code, String pro_content) {
@@ -46,7 +46,7 @@ public class ProductVO {
 		this.pk_pro_num = pk_pro_num;
 		this.fk_cate_num = fk_cate_num;
 		this.pro_name = pro_name;
-		this.publish_date = publish_date;
+		this.pro_publish_date = pro_publish_date;
 		this.publisher = publisher;
 		this.pro_price = pro_price;
 		this.pro_saleprice = pro_saleprice;
@@ -88,13 +88,15 @@ public class ProductVO {
 		this.pro_name = pro_name;
 	}
 
-	public String getPublish_date() {
-		return publish_date;
+	public String getPro_publish_date() {
+		return pro_publish_date;
 	}
 
-	public void setPublish_date(String publish_date) {
-		this.publish_date = publish_date;
+
+	public void setPro_publish_date(String pro_publish_date) {
+		this.pro_publish_date = pro_publish_date;
 	}
+
 
 	public String getPublisher() {
 		return publisher;
