@@ -20,30 +20,11 @@
 <meta charset="UTF-8">
 <title>타인의 책장</title>
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
-
-
-
-<!-- 서머노트를 위해 추가해야할 부분 시작 -->
-  <script src="<%= ctxPath%>/summernote/summernote-lite.js"></script>
-  <script src="<%= ctxPath%>/summernote//summernote-ko-KR.js"></script>
-  <link rel="stylesheet" href="<%= ctxPath%>/summernote/summernote-lite.css">
-  <!--  -->
-  
- <!-- include libraries(jQuery, bootstrap) -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
-
-<!-- include summernote css/js -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-
-<!-- 썸머노트 추가 끝 -->
 
  
 
@@ -55,12 +36,12 @@
 		
 	});
 
-	function goFaqWrite() {
+	function goFaqSubmit() {
 		  
 		  // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
 		  
-		  const frm = document.faqWriteFrm;
-		  frm.action = "faqWrite.book";
+		  const frm = document.faqSubmitFrm;
+		  frm.action = "faqSubmit.book";
 		  frm.method = "post";
 		  frm.submit();
 		  
@@ -85,13 +66,13 @@
   </div>
   <p class="mb-3"></p>
   
-  <form name="faqWriteFrm">
+  <form name="faqSubmitFrm">
 	<div class="table table-responsive">
 		<table class=" write_review">
 		  	<tbody>
 		    <tr>
 		      <th class="col-2" >제목</th>
-		      <td class="col-10" ><input type="text" id="faqBoardSubject" name="faqBoardSubject" /></td>
+		      <td class="col-10" ><input type="text" id="faqBoardTitle" name="faqBoardTitle" /></td>
 		    </tr>
 		  	
 		    <tr class="notMember">
@@ -153,7 +134,7 @@
 		
 		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/faqBoard.book'">목록</button>
 		<button class="btn btn_cancel" type="button">취소</button>
-		<button class="btn btn_submit" type="submit" onclick="goFaqWrite()">등록</button>	
+		<button class="btn btn_submit" type="submit" onclick="goFaqSubmit()">등록</button>	
 		
 	</div>
   
@@ -162,5 +143,5 @@
 
 
 	
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

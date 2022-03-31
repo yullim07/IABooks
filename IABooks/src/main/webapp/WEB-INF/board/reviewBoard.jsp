@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ page import="board.model.BoardDAO" %>
-<%@ page import="board.model.ReviewBoardVO" %>
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -53,21 +49,7 @@
 			 const $target = $(event.target);   
 			 $("span#mouseover_img").html("");
 		 });
-		<%-- let html = "";
-		 $("img#file_attach").mouseover(function(){
-			    $("div#mouseover_img").css("background-color", "yellow");
-			    
-			    const $target = $(event.target);
-				console.log($target.text()+"에 마우스가 올라갔군요");
-					
-				$("div#mouseover_img").html("<img src='<%= ctxPath%>/images/board/leejh_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
-			    
-			    
-		  });
-		  $("img#file_attach").mouseout(function(){
-		    $("div#mouseover_img").html("<img src='<%= ctxPath%>/images/board/leejh_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
-		  }); --%>
-		
+
 	
 	});
 	
@@ -111,22 +93,23 @@
 		    </thead>
 		    
 		    <tbody>
-		    	<c:forEach var="revo" items="${requestScope.revBoardList}" >
+		    	<c:forEach var="board" items="${requestScope.revBoardList}" >
 				   	 <tr>
-				    	<td class="tbl_number mycenter">${revo.re_readcount}</td>
+				    	<td class="tbl_number mycenter">${board.pk_rnum}</td>
 				    	<td class="tbl_bookname">
 				    		<a  href="#">
-		            			<%-- ${revo.pro_name} --%>
+		            			${board.product.pro_name}
 								<span ></span>
 							</a>
 				    	</td>
 				    	<td class="tbl_subject">
-				  			<a href="">${revo.re_title}</a>
-		        			<span class="new_tag">NEW</span>
+				  			<a href="">${board.re_title}</a>
+		        			<%-- <span class="new_tag">NEW</span> --%>
 	        			</td>
-				    	<td class="tbl_writer mycenter">${revo.re_readcount}</td>
-				    	<td class="tbl_date mycenter">${revo.re_date}</td>
-				    	<td class="tbl_grade mycenter">${revo.re_grade}</td>
+				    	<%-- <td class="tbl_writer mycenter">${board.member.name}</td> --%>
+				    	<td class="tbl_writer mycenter">${board.re_writer}</td>
+				    	<td class="tbl_date mycenter">${board.re_date}</td>
+				    	<td class="tbl_grade mycenter">${board.re_grade}</td>
 				    </tr>
 				 </c:forEach>   
 			</tbody>
@@ -141,6 +124,12 @@
 	  	</div>
 	  	
  	</form>
+
+	<nav class="my-5">
+		<div style="display: flex; width: 100%;">
+			<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
+		</div>	
+	</nav>
 
 	
  	
