@@ -51,15 +51,15 @@
 						<li><img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;이름</li>
 					</ul>
 					<ul style="margin-left: 60px;">
-						<li><span>${requestScope.userid}</span></li>
-						<li><span>${requestScope.name }</span></li>
+						<li><span>${loginuser.userid}</span></li>
+						<li><span>${loginuser.name}</span></li>
 					</ul>
 				</td>
 			</tr>
 		</tbody>	
 	</table>
 	
-	<div class="memberInfo"><span id="name">${requestScope.name }</span>님은 [<span id="admin">일반</span>] 회원이십니다. </div>
+	<div class="memberInfo"><span id="name">${loginuser.name }</span>님은 [<span id="admin">일반</span>] 회원이십니다. </div>
 	<div class="memberInfo"><button type="button" onclick="location.href='<%= ctxPath %>/index.book'" id="main">메인으로 이동</button></div>
 	
 

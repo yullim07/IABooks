@@ -87,6 +87,9 @@ public class LoginAction extends AbstractController {
                    // 회원가입에서 자동 로그인이라면
 					
 					 if("true".equalsIgnoreCase(registerflag)) {
+						
+						 request.setAttribute("method", method);
+						 
 						 super.setViewPage(request.getContextPath()+"/login/registerSuccess.book");
 						
 						 return; 

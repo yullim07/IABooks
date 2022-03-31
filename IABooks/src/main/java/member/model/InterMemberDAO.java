@@ -8,10 +8,10 @@ public interface InterMemberDAO {
    
 
    // ID 중복검사 (tbl_member 테이블에서 userid 가 존재하면 true를 리턴해주고, userid 가 존재하지 않으면 false를 리턴한다)
-//   boolean idDupilcateCheck(String userid) throws SQLException;
+   boolean idDuplicateCheck(String userid) throws SQLException;
    
-   // ID 중복검사 (tbl_member 테이블에서 email 가 존재하면 true를 리턴해주고, email 가 존재하지 않으면 false를 리턴한다)
-//   boolean emailDupilcateCheck(String email) throws SQLException;
+   // email 중복검사 (tbl_member 테이블에서 email 가 존재하면 true를 리턴해주고, email 가 존재하지 않으면 false를 리턴한다)
+   boolean emailDuplicateCheck(String email) throws SQLException;
    
    // 회원가입을 해주는 메소드(tbl_member 테이블에 insert)
    int registerMember(MemberVO member) throws SQLException;
@@ -20,7 +20,7 @@ public interface InterMemberDAO {
    MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException;
 
    // 성명과 이메일을 입력 받아서 해당 사용자에 아이디를 알려주는 메소드(아이디 찾기) 
-//   String findUserid(Map<String, String> paraMap) throws SQLException;
+   String findUserid(Map<String, String> paraMap) throws SQLException;
 
    // 아이디와 이메일을 입력받아서 해당 사용자가 존재하는지 유무를 알려주는 메소드(비밀번호 찾기)
 //   boolean isUserExist(Map<String, String> paraMap) throws SQLException;
