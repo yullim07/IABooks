@@ -487,7 +487,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		FaqBoardVO faqVO = null;
 		
-		System.out.println("몇 번이니? " + pk_faq_board_num);
+		// System.out.println("몇 번이니? " + pk_faq_board_num);
 		
 		try {
 			conn = ds.getConnection();
@@ -511,7 +511,7 @@ public class BoardDAO implements InterBoardDAO {
 				faqVO.setFk_userid(rs.getString(5));
 				faqVO.setFk_faq_c_num(rs.getInt(6));
 				
-				System.out.println("받아왔니? " + faqVO.getFaq_contents());
+				// System.out.println("받아왔니? " + faqVO.getFaq_contents());
 			}
 			
 		} catch(SQLException e) { 

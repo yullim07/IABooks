@@ -365,10 +365,8 @@ from user_sequences;
 select *
 from tbl_product
 
-
-insert into tbl_review_board (pk_rnum, fk_pnum, fk_userid, re_writer, re_title, re_contents, re_passwd ,isdelete, re_grade)
-values(SEQ_REVIEW_BOARD.nextval, '9791190259088', 'admin', '안녕', '정말 재밌어요','나의 식사에는 감정이 있습니다 너무 재밌게 봤어요','qwer1234$', 0, 4);
-
+commit;
+ 
 select *
 from tbl_review_board
 
@@ -386,3 +384,9 @@ order by pk_faq_board_num desc;
 
 
 commit;
+
+select pk_faq_board_num, fk_userid, fk_faq_c_num, faq_title, faq_writer, faq_contents, isdelete
+from tbl_faq_board
+where pk_faq_board_num = 20;
+
+desc tbl_faq_board;

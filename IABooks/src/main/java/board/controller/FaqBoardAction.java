@@ -48,8 +48,21 @@ public class FaqBoardAction extends AbstractController {
 			currentShowPageNo = "1";
 		}
 		
-		paraMap.put("currentShowPageNo", currentShowPageNo);
 		paraMap.put("sizePerPage", sizePerPage);
+		
+		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
+		int totalPage = bdao.getTotalfaqPage(paraMap);
+		// System.out.println("~~~ 확인용 totalPage => " + totalPage);
+		
+		// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 토탈페이지수 보다 큰 값을 입력하여
+        //     장난친 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== //
+		
+		if( Integer.parseInt(currentShowPageNo) > totalPage ) {
+			currentShowPageNo = "1";
+			
+		}
+		
+		paraMap.put("currentShowPageNo", currentShowPageNo);
 		
 		List<FaqBoardVO> faqBoardList = bdao.selectPagingFaqBord(paraMap); 
 		
@@ -66,19 +79,7 @@ public class FaqBoardAction extends AbstractController {
 		int pageNo = ( ( Integer.parseInt(currentShowPageNo) - 1 )/blockSize ) * blockSize + 1;
 		// pageNo 는 페이지바에서 보여지는 첫번째 번호이다.
 		
-		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
-		int totalPage = bdao.getTotalfaqPage(paraMap);
-		// System.out.println("~~~ 확인용 totalPage => " + totalPage);
 		
-		// === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 토탈페이지수 보다 큰 값을 입력하여
-        //     장난친 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== //
-		
-		// 바꿔야됨!!!!!!!!1
-		if( Integer.parseInt(currentShowPageNo) > totalPage ) {
-			currentShowPageNo = "1";
-			
-		}
-		// 바꿔야됨!!!!!!!!1
 		
 		// **** [맨처음][이전] 만들기 **** //
 		if(pageNo != 1) {

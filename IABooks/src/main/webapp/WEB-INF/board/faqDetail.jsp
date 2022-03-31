@@ -79,9 +79,9 @@
 			
 			<div class="buttons">
 				
-				<button class="btn btn_list" type="button">목록</button>
-				<button class="btn btn_update" type="button">수정</button>
-				<button class="btn btn_delete" type="button">삭제</button>	
+				<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/faqBoard.book'">목록</button>
+				<button class="btn btn_update" type="button" onclick="location.href='<%= ctxPath%>/board/faqUpdate.book'">수정</button>
+				<button class="btn btn_delete" type="button" onclick="location.href='<%= ctxPath%>/board/faqDelete.book'">삭제</button>	
 				
 			</div>
 			
@@ -89,12 +89,14 @@
 				<table class="prev_next">
 					<tbody>
 						<tr>
-							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
-							<td id="td_left" class="board_prev"><a href="">만족</a></td>
+							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_prev.gif" id="img_prev" />
+							<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${(board.pk_faq_board_num)-1}">이전글</a></th>
+							<td id="td_left" class="board_prev"><a href=""></a></td>
 						</tr>
 						<tr>
-							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
-							<td id="td_left" class="board_next"><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
+							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_next.gif" id="img_next" />
+							<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${(board.pk_faq_board_num)+1}">다음글</a></th>
+							<td id="td_left" class="board_next"><a href=""></a></td>
 						</tr>
 					</tbody>
 					
