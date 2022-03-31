@@ -597,4 +597,23 @@ select *
 from user_constraints A JOIN user_cons_columns B
 ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
 where A.table_name = '테이블명';
-    
+
+
+
+select * from TBL_CART;
+select * from TBL_PRODUCT;
+select * from TBL_PRODUCT_IMAGEFILE;
+
+desc tbl_cart;
+
+insert into tbl_cart
+values(2203311221, 'admin', 9791197381010, 2, sysdate);
+
+select * from tbl_cart;
+
+desc tbl_product;
+select * from tbl_product where pk_pro_num = '9791197381010';
+
+select * from 
+
+commit;

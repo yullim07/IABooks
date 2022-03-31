@@ -20,13 +20,16 @@ public class AddToCartAction extends AbstractController {
 		
 		String method = request.getMethod();
 		
-		if("GET".equalsIgnoreCase(method)) {
+		if("GET".equalsIgnoreCase(method)) { // 장바구니는 GET 방식으로 보여줘도 상관없지 않나? 아무튼 비회원구매기능이 없으니 막아준다.
+
 		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/product/addtocart.jsp");
+			super.setViewPage("/WEB-INF/product/product_detail.jsp");
 		}
 		
-		else { // 장바구니에 등록하기 버튼을 누른 경우
+		else {
 			
+			// 장바구니에 등록하기 버튼을 누른 경우
+	
 			ArrayList<CartVO> cartList = new ArrayList<>();
 			
 			String pk_odrcode = request.getParameter("pk_odrcode");
@@ -36,7 +39,7 @@ public class AddToCartAction extends AbstractController {
 			String fk_userid = request.getParameter("fk_userid");
 			int odr_totalprice = Integer.parseInt(request.getParameter("odr_totalprice"));
 			int odr_totalpoint = Integer.parseInt(request.getParameter("odr_totalpoint"));
-			Date odr_date = sysdate;
+			// Date odr_date = sysdate;
 			String rv_name = request.getParameter("rv_name");
 			String rv_zipcode = request.getParameter("rv_zipcode");
 			String rv_addr1 = request.getParameter("rv_addr1");

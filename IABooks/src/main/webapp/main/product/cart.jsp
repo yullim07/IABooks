@@ -1,63 +1,107 @@
-<%-- <%@page import="cn.techtutorial.connection.DbCon"%>
-<%@page import="cn.techtutorial.dao.ProductDao"%>
-<%@page import="cn.techtutorial.model.*"%>
-<%@page import="java.util.*"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%
-User auth = (User) request.getSession().getAttribute("auth");
-if (auth != null) {
-    request.setAttribute("person", auth);
-}
-ProductDao pd = new ProductDao(DbCon.getConnection());
-List<Product> products = pd.getAllProducts();
-ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
-if (cart_list != null) {
-	request.setAttribute("cart_list", cart_list);
-}
+	String ctxPath = request.getContextPath();
 %>
 <!DOCTYPE html>
 <html>
 <head>
-<%@include file="/includes/head.jsp"%>
-<title>E-Commerce Cart</title>
+<meta charset="UTF-8">
+<title>장바구니</title>
+
+<style type="text/css">
+
+</style>
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		$(".calc thead input:checkbox[id-check]").click(function() {
+			var bool = $(this).prop("checked");
+			#(".calc tbody input:checkbox[name=checkbox]").prop("checked", bool);
+		});
+		
+		$(".calc tbody input:checkbox[id=check]").click(function() {
+			var flag = false;
+			$(".calc tbody input:checkbox[name=checkbox]").each(function() {
+				var bool = $(this).prop("checked");
+				
+				if(!bool) {
+					$(".calc thead input:checkbox[id=check]").prop("checked", false);
+					flag = true;
+					return false;
+				}
+			});
+			
+			if(!flag) {
+				$(".calc thead input:checkbox[id=check]").prop("checked", true);
+			}
+		});
+	}); // end of $(document).ready() --------------------
+	
+</script>
+
+
 </head>
 <body>
-	<%@include file="/includes/navbar.jsp"%>
-
 	<div class="container">
-		<div class="card-header my-3">All Products</div>
-		<div class="row">
-			<%
-			if (!products.isEmpty()) {
-				for (Product p : products) {
-			%>
-			<div class="col-md-3 my-3">
-				<div class="card w-100">
-					<img class="card-img-top" src="product-image/<%=p.getImage() %>"
-						alt="Card image cap">
-					<div class="card-body">
-						<h5 class="card-title"><%=p.getName() %></h5>
-						<h6 class="price">Price: $<%=p.getPrice() %></h6>
-						<h6 class="category">Category: <%=p.getCategory() %></h6>
-						<div class="mt-3 d-flex justify-content-between">
-							<a class="btn btn-dark" href="add-to-cart?id=<%=p.getId()%>">Add to Cart</a> <a
-								class="btn btn-primary" href="order-now?quantity=1&id=<%=p.getId()%>">Buy Now</a>
-						</div>
-					</div>
+		<div id="frame">
+			<form>
+				<div id="frame2">
+					<span>장바구니</span>
+					<span class="home">홈 > 장바구니</span>
+					<span></span>
 				</div>
-			</div>
-			<%
-			}
-			} else {
-			out.println("There is no proucts");
-			}
-			%>
-
+				
+				<hr>
+				
+				<div>
+					<table>
+						<tr>
+							<th class="aa">구매상품</th>
+							<th class="aa">해외상품</th>
+							<th></th>
+						</tr>
+					</table>
+				</div>
+				
+				<hr>
+				
+				<div>
+					<table class="calc">
+						<thead>
+							<tr>
+								<th colspan="10">일반상품(1)</th>
+							</tr>
+							<tr>
+								<th><input type="checkbox" name="checkbox" id="check"></th>
+								<th><span>이미지</span></th>
+								<th><span>상품정보</span></th>
+								<th>판매가</th>
+								<th>수량</th>
+								<th>적립금</th>
+								<th>배송구분</th>
+								<th>배송비</th>
+								<th>합계</th>
+								<th>선택</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>
+									<input type="checkbox" name="checkbox" id="check">
+								</td>
+								<td>
+									<img src=어쩌고 />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					
+				</div>
+				
+			</form>
 		</div>
 	</div>
-
-	<%@include file="/includes/footer.jsp"%>
 </body>
-</html> --%>
+</html>

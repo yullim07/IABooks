@@ -3,7 +3,15 @@ package product.model;
 import java.util.Date;
 
 public class CartVO extends ProductVO {
-	private String pk_odrcode; 		// 주문코드
+	
+	private int pk_pro_num; 			//국제표준도서번호
+	private int pro_price;   			//도서정가 디폴트 0
+	private int saleprice;   			//도서판매가 디폴트 0
+	private int point_rate;   			//포인트적립률 디폴트 0.01
+	private int pro_qty;   				//도서재고량 디폴트 100
+	private String pro_imgfile_name;	//이미지파일명	
+	
+	private String pk_cartno; 		// 주문코드
 	private String fk_userid; 		// 회원아이디
 	private int odr_totalprice; 	// 주문총액
 	private int odr_totalpoint;		// 주문총포인트
