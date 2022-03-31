@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package board.model;
 
 import java.sql.SQLException;
@@ -95,4 +94,4 @@ public interface InterBoardDAO {
    
 
 }
->>>>>>> refs/remotes/origin/leejh
+
