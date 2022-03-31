@@ -36,7 +36,7 @@
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
 				<div class="detail_img_display">
 					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=500, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
-						<img class="big pro_" src="<%=ctxPath%>/images/product/book.jpg">
+						<img class="big pro_" src="<%=ctxPath%>/images/product/"+${pvo.pk_pro_num}+".jpg">
 					</a>
 				</div>
 				<!-- 상세보기 메인이미지(detail_img_display) 끝 -->
@@ -61,7 +61,7 @@
 				<div id="detail_text_title">
 					<table id='tbl_detail_title'>
 						<tr>
-							<th style="font-size: 24pt;">책제목</th>
+							<th id="pro_name" name="pro_name" style="font-size: 24pt;">${pvo.pro_name}</th>
 						<tr>
 					</table>				
 				</div>
@@ -658,4 +658,4 @@
 </script>
 
 
-<jsp:include page="/footer.jsp" />
+<jsp:include page="<%=ctxPath %>/footer.jsp" />
