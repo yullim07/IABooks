@@ -51,73 +51,75 @@
   </div>
   <p class="mb-3"></p>
   
-  <div class="pdt_img_info" >
-  	<p><img  onclick="#" src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg"/></p>
-  	<div class="pdt_info" >
-  		<h3><a href="#">직업이 술꾼입니다!</a></h3>
-  		<p class="p_price">16,000원</p>
-  		<p class="button"><button class="btn btn_detail" type="button"><a href="#">상품 상세보기 ></a></button></p>
-  	</div>
-  </div>
-	
+  
+	  <div class="pdt_img_info" >
+	  	<p><img  onclick="#" src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg"/></p>
+	  	<div class="pdt_info" >
+	  		<h3><a href="#">직업이 술꾼입니다!</a></h3>
+	  		<p class="p_price">16,000원</p>
+	  		<p class="button"><button class="btn btn_detail" type="button"><a href="#">상품 상세보기 ></a></button></p>
+	  	</div>
+	  </div>
+  
 	
 	<div class="table ">
-		<table class=" review_table ">
-		  	<tbody>
-		    <tr>
-		      <th class="col-2" >제목</th>
-		      <td class="col-10" >배송도 빠르도 책도 잘 포장돼서 왔어요!</td>
-		    </tr>
-		  	
-		    <tr>
-		      <th>작성자</th>
-		      <td>네****</td>
-		    </tr>
-		    <tr>
-		      
-		      <td colspan="2">
-		      	<ul>
-		      		
-		      		<li class="li_header">
-		      			<strong>작성일</strong>
-		      			<span style="font-size: 11px; color: gray; ">2022-03-10 04:06:33</span>
-		      		</li>
-		      		<li class="li_header">
-		      			<strong>조회수</strong>
-		      			<span style="font-size: 11px; color: gray; ">33</span>
-		      		</li>
-		      	
-		      	</ul>
-		      	<div class="detail " >
-		      		
-		      		<div>
-		      		<p>배송도 빠르도 책도 잘 포장돼서 왔어요!</p>
-		      		</div>
-		      	</div>
-		      
-		      </td>
-		    
-		    
-		    </tr>
-		    
-		    <tr>
-		      <th>비밀번호</th>
-		      <td class="password">
-		      	<input type="text" id="password" name="password"/>
-		      	<div class="exclam_mark"><p id="wow">!</p></div>
-		      	<span>삭제하려면 비밀번호를 입력하세요.</span>
-		      </td>
-		    </tr>
-		    </tbody>
-		  
-		</table>
+		<c:set var="qnaVO" value="${requestScope.qnaVO}" />
+			<table class=" review_table ">
+			  	<tbody>
+			    <tr>
+			      <th class="col-2" >제목</th>
+			      <td class="col-10" >${qnaVO.qna_title}</td>
+			    </tr>
+			  	
+			    <tr>
+			      <th>작성자</th>
+			      <td>${qnaVO.member.name}</td>
+			    </tr>
+			    <tr>
+			      
+			      <td colspan="2">
+			      	<ul>
+			      		
+			      		<li class="li_header">
+			      			<strong>작성일</strong>
+			      			<span style="font-size: 11px; color: gray; ">${qnaVO.qna_date}</span>
+			      		</li>
+			      		<li class="li_header">
+			      			<strong>조회수</strong>
+			      			<span style="font-size: 11px; color: gray; ">${qnaVO.qna_readcount}</span>
+			      		</li>
+			      	
+			      	</ul>
+			      	<div class="detail " >
+			      		
+			      		<div>
+			      		<p>${qnaVO.qna_contents}</p>
+			      		</div>
+			      	</div>
+			      
+			      </td>
+			    
+			    
+			    </tr>
+			    
+			    <tr>
+			      <th>비밀번호</th>
+			      <td class="password">
+			      	<input type="text" id="password" name="password"/>
+			      	<div class="exclam_mark"><p id="wow">!</p></div>
+			      	<span>삭제하려면 비밀번호를 입력하세요.</span>
+			      </td>
+			    </tr>
+			    </tbody>
+			  
+			</table>
 	</div>
 	
 	<div class="buttons">
 		
-		<button class="btn btn_list" type="button">목록</button>
-		<button class="btn btn_update" type="button">수정</button>
-		<button class="btn btn_delete" type="button">삭제</button>	
+		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/qnaBoard.book'">목록</button>
+		<button class="btn btn_update" type="button" onclick="location.href='<%= ctxPath%>/board/qnaUpdate.book'">수정</button>
+		<button class="btn btn_delete" type="button" onclick="location.href='<%= ctxPath%>/board/faqDelete.book'">삭제</button>	
 		
 	</div>
 	
@@ -135,11 +137,17 @@
 		<table class="prev_next line_table">
 			<tbody>
 				<tr>
-					<th><img style="max-width:100%; height:auto;" src="<%= ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
+					<th>
+						<img style="max-width:100%; height:auto;" src="<%= ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
+						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=(${board.pk_qna_num}-1)">이전글</a>
+					</th>
 					<td><a href="">만족</a></td>
 				</tr>
 				<tr>
-					<th><img src="<%= ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
+					<th>
+						<img src="<%= ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
+						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num= ${board.pk_qna_num}+1 ">다음글</a>
+					</th>
 					<td><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
 				</tr>
 			</tbody>

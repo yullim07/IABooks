@@ -82,7 +82,12 @@
 							</a>  
 							
 				    	</td>
-				    	<td class="tbl_subject"><a href="QnaDetailAction?pk_qna_num=${board.pk_qna_num}">${board.qna_title}<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/></a></td>
+				    	<td class="tbl_subject">
+				    		<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
+				    		${board.qna_title}
+				    		<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
+				    		</a>
+				    	</td>
 				    	<td class="tbl_writer mycenter">${board.member.name}</td>
 				    	<td class="tbl_date mycenter">${board.qna_date}</td>
 				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
