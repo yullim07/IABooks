@@ -131,14 +131,6 @@ public class ReviewBoardVO {
 			// TODO Auto-generated method stub
 			
 		}
-
-		public MemberVO getMember() {
-			return member;
-		}
-
-		public ProductVO getProduct() {
-			return product;
-		}
 		
 
 		
