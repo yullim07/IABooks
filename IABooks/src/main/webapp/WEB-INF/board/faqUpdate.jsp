@@ -18,7 +18,7 @@
 
   
 <meta charset="UTF-8">
-<title>FAQ 글 작성하기</title>
+<title>FAQ 글 수정하기</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -31,22 +31,27 @@
 
 <script type="text/javascript">
 	
-	$(document).ready(function(){
-		
-		
-	});
 
-	function goFaqSubmit() {
+	function goEdit() {
 		  
 		  // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
 		  
-		  const frm = document.faqSubmitFrm;
-		  frm.action = "faqSubmit.book";
-		  frm.method = "post";
-		  frm.submit();
+		const frm = document.editFrm;
+	      frm.method = "POST";
+	      frm.action = "<%= ctxPath%>/board/faqUpdateEnd.book";
+	      frm.submit();
 		  
-	  }// end of function goFaqWrite() {}------------------------------------
+	  }// end of function goEdit()-----------------------------
 	
+	function cancelUpdate() {
+		  
+		if( confirm("수정을 취소하시겠습니까?") == true ) {
+			window.history.back();	
+		}
+		else{
+			
+		}
+	  }
 	
 </script>
 
@@ -66,18 +71,19 @@
   </div>
   <p class="mb-3"></p>
   
-  <form name="faqSubmitFrm">
+  <c:set var="faqVO" value="${faqVO}" />
+  <form name="editFrm">
 	<div class="table table-responsive">
 		<table class=" write_review">
 		  	<tbody>
 		    <tr>
 		      <th class="col-2" >제목</th>
-		      <td class="col-10" ><input type="text" id="faqBoardTitle" name="faqBoardTitle" /></td>
+		      <td class="col-10" ><input type="text" id="faqBoardTitle" name="faqBoardTitle" value="${(requestScope.faqVO).faq_title}"/></td>
 		    </tr>
-		  	
+		  	</tr>
 		    <tr class="notMember">
 		      <th>작성자</th>
-		      <td><input type="text" id="faqBoardWriter" name="faqBoardWriter" placeholder="관리자전용" /></td>
+		      <td><input type="text" id="faqBoardWriter" name="faqBoardWriter" value="${(requestScope.faqVO).faq_writer}" /></td>
 		    </tr>
 		    
 		    <tr class="notMember">
@@ -98,7 +104,7 @@
 		      
 		      <td colspan="2">
 		      	
-		      		<textarea class="form-control" placeholder="글 내용" maxlength="3000" style="height:350px;" id="faqBoardContent" name="faqBoardContent"></textarea>
+		      		<textarea class="form-control" maxlength="3000" style="height:350px;" id="faqBoardContent" name="faqBoardContent">${(requestScope.faqVO).faq_contents}</textarea>
 		      		
 		      		<!-- <textarea class="summernote" id="faqBoardContent" name="faqBoardContent"></textarea>
                         <script>
@@ -127,14 +133,14 @@
 		    </tbody>
 		  
 		</table>
+		<input type="hidden" name="pk_faq_board_num" id="pk_faq_board_num" value="${(requestScope.faqVO).pk_faq_board_num}">
+		<span style="display:none;">${(requestScope.faqVO).pk_faq_board_num}</span>	
 	  </div>
 	</form>
 	
 	<div class="buttons">
-		
-		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/faqBoard.book'">목록</button>
-		<button class="btn btn_cancel" type="button">취소</button>
-		<button class="btn btn_submit" type="submit" onclick="goFaqSubmit()">등록</button>	
+		<button class="btn btn_update" type="button" onclick="goEdit();">수정하기</button>
+		<button class="btn btn_delete" type="button" onclick="cancelUpdate();">취소</button>	
 		
 	</div>
   
@@ -144,4 +150,4 @@
 
 	
 <jsp:include page="/WEB-INF/footer.jsp"/>
- 
+

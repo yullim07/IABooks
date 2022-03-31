@@ -677,6 +677,64 @@ public class BoardDAO implements InterBoardDAO {
 	} // end of public FaqBoardVO selectContent(int pk_faq_board_num) throws SQLException----------
 
 	
+	
+	// 수정하기 위해 정보 받아오기
+	@Override
+	public FaqBoardVO getContent(int pk_faq_board_num) throws SQLException {
+		
+		InterBoardDAO bdao = new BoardDAO();
+		
+		FaqBoardVO faqVO = bdao.selectContent(pk_faq_board_num);
+		
+		return faqVO;
+	}
+
+	@Override
+	public int UpdateFaqBoard(Map<String, String> paraMap) throws SQLException {
+
+		int result = 0;
+		
+		int pk_faq_board_num = Integer.parseInt(paraMap.get("pk_faq_board_num"));
+		int category = Integer.parseInt(paraMap.get("category"));
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_faq_board set faq_title = ?, faq_contents= ?, fk_faq_c_num = ?  "+
+						 " where pk_faq_board_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("title"));
+			pstmt.setString(2, paraMap.get("content"));
+			pstmt.setInt(3, category);
+			pstmt.setInt(4, pk_faq_board_num);
+			
+			System.out.println("들어왔니 번호야? : " + pk_faq_board_num);
+			System.out.println("들어왔니 카테고리야? : " + category);
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				System.out.println("업데이트 성공!");
+			}
+			
+			result = n;
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		
+		
+		return result;
+	}
+	
+	
+
+	
 
 	
 	

@@ -14,7 +14,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>상품 Q&A</title>
+<title>FAQ 상세보기</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
@@ -80,7 +80,7 @@
 			<div class="buttons">
 				
 				<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/faqBoard.book'">목록</button>
-				<button class="btn btn_update" type="button" onclick="location.href='<%= ctxPath%>/board/faqUpdate.book'">수정</button>
+				<button class="btn btn_update" type="button" onclick="location.href='<%= ctxPath%>/board/faqUpdate.book?pk_faq_board_num=${faqVO.pk_faq_board_num}'">수정</button>
 				<button class="btn btn_delete" type="button" onclick="location.href='<%= ctxPath%>/board/faqDelete.book'">삭제</button>	
 				
 			</div>
@@ -102,7 +102,7 @@
 					
 				</table>
 			</div>
-		
+		<input type="hidden" class="pk_faq_board_num" name="pk_faq_board_num" id="pk_faq_board_num" value="${(board.pk_faq_board_num)}"/>
 	</div>	
 			
 </div> <!-- container 끝 -->
