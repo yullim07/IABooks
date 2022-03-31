@@ -4,31 +4,37 @@ from tbl_member;
 delete from tbl_member where Pk_userid = 'deokno';
 commit;
 
-delete from tbl_loginhistory where userid='deokno';
+delete from tbl_loginhistory where fk_userid='deokno';
+delete from tbl_member where Pk_userid = 'deokno';
+commit;
+
+delete from tbl_loginhistory where fk_userid='admin';
+delete from tbl_member where Pk_userid = 'admin';
+commit;
 
 select *
 from tbl_loginhistory;
 
 -- 회원
 create table tbl_member (
-    pk_userid         varchar2(20)  not null, -- 회원아이디
-	pwd               varchar2(200) not null, -- 비밀번호
-    mname              varchar2(25)  not null, -- 이름
-	address           varchar2(100) not null, -- 기본주소
-	detailaddress     varchar2(100) not null, -- 상세주소
-    
-	tel               varchar2(20)  null,     -- 일반전화
-	uq_phone          varchar2(200) not null, -- 휴대전화
-	uq_email          varchar2(200) not null, -- 이메일
-	mileage           number        default 0,-- 적립금
-	coupon            number        null,     -- 쿠폰
+    pk_userid         varchar2(20)  not null,       -- 회원아이디
+	pwd               varchar2(200) not null,       -- 비밀번호
+    mname             varchar2(25)  not null,       -- 이름
+	address           varchar2(100) not null,       -- 기본주소
+	detailaddress     varchar2(100) null,           -- 상세주소
+    extraaddress      varchar2(100) null,
+	tel               varchar2(20)  null,           -- 일반전화
+	uq_phone          varchar2(200) not null,       -- 휴대전화
+	uq_email          varchar2(200) not null,       -- 이메일
+	mileage           number        default 0,      -- 적립금
+	coupon            number        null,           -- 쿠폰
 	registerday       date          default sysdate,     -- 가입일자
-	lastpwdchangedate date          default sysdate, -- 마지막암호변경날짜시각
-	postcode          varchar2(20)  not null, -- 우편번호
-	birthday          varchar2(20)  null,     -- 생년월일
-	ck_gender         char          null,     -- 성별
-	ck_status         char          default 1, -- 회원탈퇴유무
-	ck_u_status       char          default 0  -- 휴면상태
+	lastpwdchangedate date          default sysdate,        -- 마지막암호변경날짜시각
+	postcode          varchar2(20)  not null,           -- 우편번호
+	birthday          varchar2(20)  null,                -- 생년월일
+	ck_gender         varchar2(20)  null,               -- 성별
+	ck_status         varchar2(20)  default 1,          -- 회원탈퇴유무
+	ck_u_status       varchar2(20)  default 0            -- 휴면상태
 );
 
 ALTER TABLE tbl_member MODIFY tel INVISIBLE;
@@ -141,4 +147,12 @@ select B.CONSTRAINT_NAME, a.constraint_type ,b.column_name, a.search_condition
 from user_constraints A JOIN user_cons_columns B
 ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
 where A.table_name = 'TBL_ORDER';
+
+
+
+CREATE TABLE TBL_LOGINHISTORY (
+	fk_userid VARCHAR2(20) NOT NULL, -- 회원아이디
+	logindate DATE         DEFAULT sysdate, -- 로그인날짜시각
+	clientip  VARCHAR2(15) NOT NULL  -- 접속IP주소
+);
         
