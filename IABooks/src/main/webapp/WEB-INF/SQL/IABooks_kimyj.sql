@@ -39,6 +39,103 @@ values(1001,'프레데리케 파브리티우스, 한스 하게만│옮긴이 �
 -- TBL_WRITER insert end --    
 
 
+select pro_name, pro_saleprice, pro_imgfile_name
+from
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name
+from tbl_product
+order by pro_name desc
+)V
+)T
+where rno between 1 and 10;
+			
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, cate_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num
+from tbl_product
+group by fk_cate_num
+)V1
+
+join
+(
+select pk_cate_num, cate_name
+from TBL_CATEGORY;
+)V2
+on fk_cate_num = pk_cate_num;
+
+select A.pro_name, A.pro_saleprice, A.pro_imgfile_name, A.fk_cate_num, B.cate_name
+from tbl_product A, TBL_CATEGORY B
+where A.fk_cate_num = B.pk_cate_num;
+
+
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rno, pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from tbl_product
+order by pro_name
+)V
+ )A
+JOIN 
+TBL_CATEGORY B
+on fk_cate_num = pk_cate_num
+where cate_name = 'humanities'
+}
+rno between 1 and 10
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from tbl_product
+order by pro_name
+)A
+JOIN 
+TBL_CATEGORY B
+on fk_cate_num = pk_cate_num
+--where cate_name = 'humanities'
+where cate_name = *
+)V
+where rno between 3 and  10;
+
+
+
+
+
+order by  pro_name
+
+
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from tbl_product
+
+) A
+JOIN 
+TBL_CATEGORY B
+on fk_cate_num = pk_cate_num
+where rno between ? and ? ";
+order by  pro_name
+
+
+
+
+
 
 
 ----------------------------------------------------------------------------------------------------------------       

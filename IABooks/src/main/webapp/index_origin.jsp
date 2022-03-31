@@ -39,7 +39,7 @@ $( document ).ready( function() {
 
 <title>in사과 : main</title>
 
-<jsp:include page="header.jsp"/>
+<jsp:include page="header_orgin.jsp"/>
 <%-- main --%>	
 	<div class="container d-none d-lg-block">
 		
@@ -943,5 +943,5 @@ $( document ).ready( function() {
 	</div><%-- <div class="container d-none d-lg-block">끝 --%>	
 	
 <%-- footer --%>
-<jsp:include page="footer.jsp" />
+<jsp:include page="footer_orgin.jsp" />
  

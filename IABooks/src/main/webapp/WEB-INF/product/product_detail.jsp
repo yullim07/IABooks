@@ -28,7 +28,7 @@
 
 
 	<title>제품 상세 보기 페이지</title>
-	<jsp:include page="/header.jsp" />
+	<jsp:include page="/WEB-INF/header.jsp" />
 
 	<!-- 컨테이너 시작 -->
 	<div class="container detail_container">
@@ -647,4 +647,4 @@
 		
 </script>
 
-<jsp:include page="/footer.jsp" />
+<jsp:include page="/WEB-INF/footer.jsp" />

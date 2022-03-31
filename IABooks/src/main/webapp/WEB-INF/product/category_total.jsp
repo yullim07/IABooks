@@ -35,7 +35,7 @@ $(document).ready(function () {
 
 <title>in사과 : total</title>
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/WEB-INF/header.jsp"/>
 <%-- main --%>		
 <div class="container d-none d-lg-block">
 
@@ -465,5 +465,5 @@ $(document).ready(function () {
 <br>
 <br>
 <%-- footer --%>
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  
