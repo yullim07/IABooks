@@ -1,5 +1,7 @@
 package product.model;
 
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +12,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import member.model.MemberVO;
 
 
 public class ProductDAO_lyr implements InterProductDAO {
@@ -44,349 +48,130 @@ public class ProductDAO_lyr implements InterProductDAO {
 		
 	} // end of private void close()-------------------------------------
 
-	
+	// 페이지 ~~
 	@Override
 	public List<ProductVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return null;
+		
 	}
 
-	
-	// pk_pro_num값을 받아서 상품 상세정보를 보여주는 상품 상세보기 메소드 구현하기
-	// 여러 개의 테이블을 조인해야 하므로 VO를 각각 만들어주거나, Map을 사용해주는 것이다!
-	/*
+	// 제품번호를 입력받아서 제품의 상세정보를 출력해주는 메소드 구현하기
 	@Override
-	public ProductVO showProductDetail(String pk_pro_num) throws SQLException {
+	public ProductVO showBookDetail(String pk_pro_num) throws SQLException {
 		
 		ProductVO pvo = null;
+		CategoryVO cvo = null;	// new CategoryVO();
+		WriterVO wvo = null;	// new WriterVO();
 		
 		try {
-			conn = ds.getConnection();
-			
-			String sql =  " SELECT "
-						+ " A.pro_name, A.pro_imgfile_name, A.pro_price, "
+			conn = ds.getConnection();			
+					
+			String sql =  " SELECT "					
+						+ " A.pro_name, A.pro_imgfile_name, A.pro_saleprice "
 						+ " A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date, "
-						+ " A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice, "
-						+ " A.pro_index, A.pro_content, B.wr_info, "
-						+ " A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
-						+ " FROM tbl_product A "
-						+ " LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
+						+ " A.fk_cate_num, C.cate_name, A.pro_bindtype, A.pro_pages, A.pro_size,  "
+						+ "	A.pk_pro_num, A.pro_price, "
+						+ "	A.pro_index, A.pro_content, B.wr_info, "
+						+ "	A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
+						+ "	FROM "
+						+ " tbl_product A "
+						+ "	LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
 						+ " LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
-						+ " WHERE pk_pro_num = ? ";
-			
+						+ " WHERE "
+						+ " pk_pro_num = ? ";
+			/*
+			 * 도서정보 (도서명, 판매가, 이미지파일명)
+			 * 품목정보 (도서명, 저자명, 출판사, 출간일, 카테고리명, 제본, 쪽수, 크기, 상품코드, 정가)
+			 * 책소개 / 저자소개 / 목차
+			 */
+			// LEFT OUTER JOIN을 사용했다.
+
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, pk_pro_num);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery(); // 결과값은 1개의 행이 나온다!
 			
-			if(rs.next()) { // 1개의 행만 나오니까 if문 사용
-
+			if(rs.next()) { // 결과값이 1개만 나오기 때문에 while문을 사용할 필요가 없다!
+				
 				pvo = new ProductVO();
+				cvo = new CategoryVO();
+				wvo = new WriterVO();
 				
-				// 이거 다시!
-				pvo.setPro_name(rs.getString(1));
-				pvo.setPro_imgfile_name(rs.getString(1));
-				pvo.setPro_price(rs.getInt(6));
-				pvo.setFk_wr_code(rs.getInt(19));
-				pvo.setFk_wr_code(0);
-				
-				pvo.setFk_wr_code(0);
-				
-				A.publisher, A.pro_publish_date, "
-						+ " A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice, "
-						+ " A.pro_index, A.pro_content, B.wr_info, "
-						+ " A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
-						
-				
-				pvo.
-				
-				
-				
-				pvo.setFk_cate_num(rs.getInt(2));
-				pvo.setPro_name(rs.getString(3));
-				pvo.setPro_publish_date(rs.getString(4));
-				pvo.setPublisher(rs.getString(5));
-				pvo.setPro_price(rs.getInt(6));
-				pvo.setPro_saleprice(rs.getInt(8));
-				pvo.setPro_index(rs.getString(9));
-				pvo.setPoint_rate(rs.getInt(10));
-				pvo.setPro_inputdate(rs.getString(11));
-				pvo.setPro_qty(rs.getInt(12));
-				pvo.setPro_sales(rs.getInt(13));
-				pvo.setPro_viewcnt(rs.getInt(14));
-				pvo.setPro_size(rs.getString(15));
-				pvo.setPro_bindtype(rs.getString(16));
-				pvo.setPro_pages(rs.getInt(17));
-				pvo.setPro_imgfile_name(rs.getString(18));
-				
-				pvo.setPro_content(rs.getString(20));
-				
-				
-				//	if(rs.getInt(12) == rs.getInt(13)) { // 판매량과 재고량이 같아지면 품절 
-				//	}
-				
-			}
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		return pvo;		
-	}
-
-	*/
-	
-	// 상품의 상세정보를 출력해주는 메소드 구현하기
-	
-/*	@Override
-	// public List<ProductVO> showProductDetail(Map<String, String> paraMap) throws SQLException {
-	
-	public List<ProductVO> showProductDetail(String pk_) throws SQLException {
-		
-		// JOIN을 사용하면 단일 VO 클래스가 아니기 때문에 vo를 만들거나 map을 사용해야 한다.
-		List<ProductVO> p_list = new ArrayList<>(); 
-		
-	//	ProductVO pvo = null;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql =  " SELECT "
-						+ " A.pro_name, A.pro_imgfile_name, A.pro_price, "
-						+ " A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date, "
-						+ " A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice, "
-						+ " A.pro_index, A.pro_content, B.wr_info, "
-						+ " A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
-						+ " FROM tbl_product A "
-						+ " LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
-						+ " LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
-						+ " WHERE pk_pro_num = ? ";
-			
-		//	String pk_pro_num = paraMap.get("pk_pro_num");
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			  */ 
-			
-	
-			
-			/*
-				pstmt.setString(1, pk_pro_num);
-				pstmt.setString(1, paraMap.get("pro_name"));
-				pstmt.setString(2, paraMap.get("pro_imgfile_name"));
-				pstmt.setString(3, paraMap.get("pro_price"));
-				pstmt.setString(4, paraMap.get("fk_wr_code"));
-				pstmt.setString(5, paraMap.get("wr_name"));
-				pstmt.setString(6, paraMap.get("publisher"));
-				pstmt.setString(7, paraMap.get("pro_publish_date"));
-				pstmt.setString(8, paraMap.get("fk_cate_num"));
-				pstmt.setString(9, paraMap.get("cate_name"));
-				pstmt.setString(10, paraMap.get("pk_pro_num"));
-				pstmt.setString(11, paraMap.get("pro_saleprice"));
-				pstmt.setString(12, paraMap.get("pro_index"));
-				pstmt.setString(13, paraMap.get("pro_content"));
-				pstmt.setString(14, paraMap.get("wr_info"));
-				pstmt.setString(15, paraMap.get("pro_inputdate"));
-				pstmt.setString(16, paraMap.get("pro_qty"));
-				pstmt.setString(17, paraMap.get("pro_sales"));
-				pstmt.setString(18, paraMap.get("pro_viewcnt"));
-			
-			
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) { // 1개의 행만 나오니까 if문 사용
-
-				pvo = new ProductVO();
-				
-				
-				//pstmt.setString(1, paraMap.get("pro_name"));
-				//pstmt.setString(2, paraMap.get("pro_imgfile_name"));
-				//pstmt.setString(3, paraMap.get("pro_price"));
-				//pstmt.setString(4, paraMap.get("fk_wr_code"));
-				pstmt.setString(5, paraMap.get("wr_name"));
-				pstmt.setString(6, paraMap.get("publisher"));
-				pstmt.setString(7, paraMap.get("pro_publish_date"));
-				pstmt.setString(8, paraMap.get("fk_cate_num"));
-				pstmt.setString(9, paraMap.get("cate_name"));
-				pstmt.setString(10, paraMap.get("pk_pro_num"));
-				pstmt.setString(11, paraMap.get("pro_saleprice"));
-				pstmt.setString(12, paraMap.get("pro_index"));
-				pstmt.setString(13, paraMap.get("pro_content"));
-				pstmt.setString(14, paraMap.get("wr_info"));
-				pstmt.setString(15, paraMap.get("pro_inputdate"));
-				pstmt.setString(16, paraMap.get("pro_qty"));
-				pstmt.setString(17, paraMap.get("pro_sales"));
-				pstmt.setString(18, paraMap.get("pro_viewcnt"));
-				
-				List<ProductVO>
-				
+				/*
+					pro_name
+					pro_imgfile_name
+					pro_saleprice			int
+					fk_wr_code				int
+					wr_name
+					publisher
+					pro_publish_date
+					fk_cate_num				int
+					cate_name
+					pro_bindtype
+					pro_pages				int
+					pro_size
+					pk_pro_num
+					pro_price				int
+					pro_index
+					pro_content
+					wr_info
+					pro_inputdate
+					pro_qty					int
+					pro_sales				int
+					pro_viewcnt				int
+				*/
 				
 				pvo.setPro_name(rs.getString(1));
-				pvo.setPro_imgfile_name(rs.getString(1));
-				pvo.setPro_price(rs.getInt(6));
-				pvo.setFk_wr_code(rs.getInt(19));
-				// 작가이름
-				pvo.setPublisher(rs.getString(5));
-				pvo.setPro_publish_date(rs.getString(4));
-				pvo.setFk_cate_num(rs.getInt(2));
-				pvo.setPro_content(rs.getString(20));
-				pvo.setPro_inputdate(rs.getString(11));
-				pvo.setPro_qty(rs.getInt(12));
-				pvo.setPro_sales(rs.getInt(13));
-				pvo.setPro_viewcnt(rs.getInt(14));
+				pvo.setPro_imgfile_name(rs.getString(2));
+				pvo.setPro_saleprice(Integer.parseInt(rs.getString(3)));	
+				pvo.setFk_wr_code(Integer.parseInt(rs.getString(4)));				
+				wvo.setWr_name(rs.getString(5));			// 작가이름
+				pvo.setPublisher(rs.getString(6));
+				pvo.setPro_publish_date(rs.getString(7));
+				pvo.setFk_cate_num(Integer.parseInt(rs.getString(8)));
+				cvo.setCate_name(rs.getString(9));
+				pvo.setPro_bindtype(rs.getString(10));
+				pvo.setPro_pages(Integer.parseInt(rs.getString(11)));		
+				pvo.setPro_size(rs.getString(12));
+				pvo.setPk_pro_num(rs.getString(13));
+				pvo.setPro_price(Integer.parseInt(rs.getString(14)));			
+				pvo.setPro_index(rs.getString(15));
+				pvo.setPro_content(rs.getString(16));
 				
-				pvo.setFk_wr_code(0);
-				pvo.setFk_wr_code(0);
-				pvo.setFk_cate_num(rs.getInt(2));
-				pvo.setPro_name(rs.getString(3));
+				pvo.setPro_inputdate(rs.getString(17));
+				pvo.setPro_qty(Integer.parseInt(rs.getString(18)));	
+				pvo.setPro_sales(Integer.parseInt(rs.getString(19)));			
+				pvo.setPro_viewcnt(Integer.parseInt(rs.getString(20)));
 				
-				
-				pvo.setPro_price(rs.getInt(6));
-				pvo.setPro_saleprice(rs.getInt(8));
-				pvo.setPro_index(rs.getString(9));
-				pvo.setPoint_rate(rs.getInt(10));
-				
-				
-				pvo.setPro_size(rs.getString(15));
-				pvo.setPro_bindtype(rs.getString(16));
-				pvo.setPro_pages(rs.getInt(17));
-				pvo.setPro_imgfile_name(rs.getString(18));
-				
-				
-				
-				
-				//	if(rs.getInt(12) == rs.getInt(13)) { // 판매량과 재고량이 같아지면 품절 
-				//	}
-				
+				/*
+				wvo.setWr_info(rs.getString(17));						// CLOB 선언 방법을 모르겠음
+				pvo.setPro_inputdate(rs.getString(18));
+				pvo.setPro_qty(Integer.parseInt(rs.getString(19)));	
+				pvo.setPro_sales(Integer.parseInt(rs.getString(20)));			
+				pvo.setPro_viewcnt(Integer.parseInt(rs.getString(21)));
+				*/
 			}
 			
-		} catch (Exception e) {
-			e.printStackTrace();
 		} finally {
 			close();
 		}
 		return pvo;
 	}
-	*/
 	
 	
 	
 	
-	// ============================================================================================================
-	// ============================================================================================================
-	// ============================================================================================================
-	
-	@Override
-	public List<ProductVO> showProductDetail(String pk_pro_num) throws SQLException {
-		
-		// List<ProductVO> list = new ArrayList<>();
-		
-		List<ProductVO> list = null;
-		ProductVO pvo = null;
-		
-		try {
-			
-			conn = ds.getConnection();
-			
-			String sql =  " SELECT "
-						+ " A.pro_name, A.pro_imgfile_name, A.pro_price, "
-						+ " A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date, "
-						+ " A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice, "
-						+ " A.pro_index, A.pro_content, B.wr_info, "
-						+ " A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
-						+ " FROM tbl_product A "
-						+ " LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
-						+ " LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
-						+ " WHERE pk_pro_num = ? ";
-			
-		//	String pk_pro_num = paraMap.get("pk_pro_num");
-			
-			pstmt = conn.prepareStatement(sql);
-			rs= pstmt.executeQuery();
-			
-			if(rs.next()) { // 쿼리를 실행하면 1개의 행만이 출력된다! 
-				
-				pvo = new ProductVO();
-				pvo.setPro_name(rs.getString(1));
-				pvo.setPro_name(rs.getString(1));
-				pvo.setPro_imgfile_name(rs.getString(1));
-				pvo.setPro_price(rs.getInt(6));
-				pvo.setFk_wr_code(rs.getInt(19));
-				// 작가이름
-				pvo.setPublisher(rs.getString(5));
-				pvo.setPro_publish_date(rs.getString(4));
-				pvo.setFk_cate_num(rs.getInt(2));
-				pvo.setPro_content(rs.getString(20));
-				pvo.setPro_inputdate(rs.getString(11));
-				pvo.setPro_qty(rs.getInt(12));
-				pvo.setPro_sales(rs.getInt(13));
-				pvo.setPro_viewcnt(rs.getInt(14));
-				
-				pvo.setFk_wr_code(0);
-				pvo.setFk_wr_code(0);
-				pvo.setFk_cate_num(rs.getInt(2));
-				pvo.setPro_name(rs.getString(3));
-				
-				
-				pvo.setPro_price(rs.getInt(6));
-				pvo.setPro_saleprice(rs.getInt(8));
-				pvo.setPro_index(rs.getString(9));
-				pvo.setPoint_rate(rs.getInt(10));
-				
-				
-				pvo.setPro_size(rs.getString(15));
-				pvo.setPro_bindtype(rs.getString(16));
-				pvo.setPro_pages(rs.getInt(17));
-				pvo.setPro_imgfile_name(rs.getString(18));
-				
-				list.add(pvo);
-				
-			}
-			return list;
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-	}
-	
-	
-	
-	
-	
-	// 상품 조회수 증가시키기 제품번호를 받아서 상세보기 한 번 클릭할 때마다 조회수 증가시키기 메소드
 	@Override
 	public int plusViewCnt(Map<String, String> paraMap) throws SQLException {
 		
-		int result = 0;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " update tbl_product set pro_viewcnt = pro_viewcnt + 1 "
-					   + " where pk_pro_num = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			pstmt.setString(1, paraMap.get("pk_pro_num"));
-			
-			result = pstmt.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		
-		return result;
+		return 0;
 	}
 
 	
 
-
-
+	
+	
 	
 
 
