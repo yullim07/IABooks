@@ -29,7 +29,12 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-		
+		$("button.btn_delete").click(function(){
+			
+			if( confirm("글을 삭제하시겠습니까?") == true ) {
+				location.href="<%= ctxPath%>/board/qnaDelete.book?pk_qna_num="+${qnaVO.pk_qna_num};
+			}
+		});
 	
 	});
 
@@ -68,12 +73,12 @@
 			  	<tbody>
 			    <tr>
 			      <th class="col-2" >제목</th>
-			      <td class="col-10" >${qnaVO.qna_title}</td>
+			      <td class="col-10 subject" >${qnaVO.qna_title}</td>
 			    </tr>
 			  	
 			    <tr>
 			      <th>작성자</th>
-			      <td>${qnaVO.member.name}</td>
+			      <td class="writer">${qnaVO.member.name}</td>
 			    </tr>
 			    <tr>
 			      
@@ -82,18 +87,19 @@
 			      		
 			      		<li class="li_header">
 			      			<strong>작성일</strong>
-			      			<span style="font-size: 11px; color: gray; ">${qnaVO.qna_date}</span>
+			      			<span class="writedate" style="font-size: 11px; color: gray; ">${qnaVO.qna_date}</span>
+			      			
 			      		</li>
 			      		<li class="li_header">
 			      			<strong>조회수</strong>
-			      			<span style="font-size: 11px; color: gray; ">${qnaVO.qna_readcount}</span>
+			      			<span class="readcount" style="font-size: 11px; color: gray; ">${qnaVO.qna_readcount}</span>
 			      		</li>
 			      	
 			      	</ul>
 			      	<div class="detail " >
 			      		
-			      		<div>
-			      		<p>${qnaVO.qna_contents}</p>
+			      		<div class="content">
+			      		${qnaVO.qna_contents}
 			      		</div>
 			      	</div>
 			      
@@ -110,16 +116,20 @@
 			      	<span>삭제하려면 비밀번호를 입력하세요.</span>
 			      </td>
 			    </tr>
+			     
 			    </tbody>
 			  
 			</table>
+			<input type="hidden" class="pk_qna_num" name="pk_qna_num" id="pk_qna_num" value="${board.pk_qna_num}"/>
 	</div>
+	
 	
 	<div class="buttons">
 		
 		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/qnaBoard.book'">목록</button>
-		<button class="btn btn_update" type="button" onclick="location.href='<%= ctxPath%>/board/qnaUpdate.book'">수정</button>
-		<button class="btn btn_delete" type="button" onclick="location.href='<%= ctxPath%>/board/faqDelete.book'">삭제</button>	
+		<button class="btn btn_update" type="button" onclick="location.href='<%= ctxPath%>/board/qnaUpdate.book?pk_qna_num=${qnaVO.pk_qna_num}'">수정</button>
+		<button class="btn btn_delete" type="button">삭제</button>
+		<%-- <button class="btn btn_delete" type="button" onclick="location.href='<%= ctxPath%>/board/qnaDelete.book?pk_qna_num=${qnaVO.pk_qna_num}'">삭제</button> --%>	
 		
 	</div>
 	
@@ -139,20 +149,23 @@
 				<tr>
 					<th>
 						<img style="max-width:100%; height:auto;" src="<%= ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
-						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=(${board.pk_qna_num}-1)">이전글</a>
+						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=(${board.pk_qna_num-1})">이전글</a>
 					</th>
 					<td><a href="">만족</a></td>
 				</tr>
 				<tr>
 					<th>
 						<img src="<%= ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
-						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num= ${board.pk_qna_num}+1 ">다음글</a>
+						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num= ${board.pk_qna_num+1}">다음글</a>
 					</th>
 					<td><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
 				</tr>
 			</tbody>
 			
 		</table>
+		
+		
+		
 	</div>
 	
 	
@@ -225,6 +238,7 @@
 			</table>
 			
 		</div>
+		
 		
 	</div>
   

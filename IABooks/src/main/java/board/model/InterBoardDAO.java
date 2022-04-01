@@ -62,6 +62,9 @@ public interface InterBoardDAO {
 	
 	//Qna 게시판 값을 수정이나 삭제하기 위해 정보 받아오기
 	QnABoardVO getqnaContent(int pk_qna_num) throws SQLException;
+
+	//Qna 게시글 수정하기
+	int UpdateQnaBoard(Map<String, String> paraMap) throws SQLException;
 	
 	
 	

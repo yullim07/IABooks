@@ -62,7 +62,7 @@
 		
 	});
 	
-	function goEdit() {
+	function goQnaEdit() {
 		  
 		  // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
 		  

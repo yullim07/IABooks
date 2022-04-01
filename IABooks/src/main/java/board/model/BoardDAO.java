@@ -75,10 +75,8 @@ public class BoardDAO implements InterBoardDAO {
 	
 	      List<QnABoardVO> qnaboardList = new ArrayList<>(); // BoardDTO 속에는 MemberDTO가 들어와야 한다.
 	      QnABoardVO board = null;
-	      conn = ds.getConnection();
 	      try {
-	
-	         
+	    	  conn = ds.getConnection();
 	         
 	         /*
 	           select rno, userid, name, email, gender        
@@ -104,18 +102,18 @@ public class BoardDAO implements InterBoardDAO {
 	         			+ "order by pk_qna_num desc";
 	         */
 	         String sql =   " select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
-	         		+ "							from \r\n"
-	         		+ "							( \r\n"
-	         		+ "							 select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
-	         		+ "							    from \r\n"
-	         		+ "	 			   			 	( \r\n"
-	         		+ "	 			   			 		select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
-	         		+ "		   			   		 		from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  \r\n"
-	         		+ "		   			   		 		where isdelete = 0\r\n"
-	         		+ "		   			   		 		order by pk_qna_num desc\r\n"
-	         		+ "		   			   		 	) V\r\n"
-	         		+ "		   			   		 ) T \r\n"
-	         		+ "		   			   		 where rno between ? and ? ";
+	         		+ "						from \r\n"
+	         		+ "						( \r\n"
+	         		+ "							select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
+	         		+ "							  from \r\n"
+	         		+ "	 			   			 ( \r\n"
+	         		+ "	 			   			 	select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
+	         		+ "		   			   		 	from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  \r\n"
+	         		+ "		   			   		 	where isdelete = 0\r\n"
+	         		+ "		   			   		 	order by pk_qna_num desc\r\n"
+	         		+ "		   			   		 ) V\r\n"
+	         		+ "		   			   	) T \r\n"
+	         		+ "		   			   	where rno between ? and ? ";
 	       
             pstmt = conn.prepareStatement(sql);
 
@@ -620,7 +618,7 @@ public class BoardDAO implements InterBoardDAO {
 		QnABoardVO qnaVO = bdao.selectqnaContent(pk_qna_num);
 		
 		return qnaVO;
-	}
+	}//end of public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {})
 	
 	
 	// 번호 하나를 받아 Qna글 정보 받아오기 
@@ -682,6 +680,50 @@ public class BoardDAO implements InterBoardDAO {
 		return qnaVO; 
 		
 	}
+	
+	//Qna 게시글 수정하기
+	@Override
+	public int UpdateQnaBoard(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		
+		int pk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
+		System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
+
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_qna_board set qna_title = ?, qna_contents= ?, qna_issecret = ? "+
+						 " where pk_qna_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("title"));
+			pstmt.setString(2, paraMap.get("content"));
+			pstmt.setString(3, paraMap.get("issecret"));
+			pstmt.setInt(4, pk_qna_num);
+			
+			System.out.println("들어왔니 번호야? : " + pk_qna_num);
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				System.out.println("업데이트 성공!");
+			}
+			
+			result = n;
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		
+		
+		return result;
+	}
+	
+	
 
 	
 
