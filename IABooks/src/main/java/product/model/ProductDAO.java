@@ -151,6 +151,14 @@ public class ProductDAO implements InterProductDAO {
 		
 		return productList;
 	}//end of public List<ProductVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException
+
+
+
+	@Override
+	public int plusViewCnt(Map<String, String> paraMap) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }
