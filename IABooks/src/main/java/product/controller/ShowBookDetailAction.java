@@ -29,7 +29,7 @@ public class ShowBookDetailAction extends AbstractController {
 			request.setAttribute("loc", loc);
 			
 			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/product/showBookDetail.jsp");
+			super.setViewPage("/WEB-INF/product/showBookList.jsp");
 		}
 		
 		else {

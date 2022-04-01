@@ -2,7 +2,7 @@ package product.model;
 
 import java.util.Date;
 
-public class CartVO extends ProductVO {
+public class CartVO {
 	
 	private int pk_pro_num; 			//국제표준도서번호
 	private int pro_price;   			//도서정가 디폴트 0
