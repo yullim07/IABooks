@@ -60,6 +60,9 @@ public interface InterBoardDAO {
 	// 번호 하나를 받아 Qna글 정보 받아오기 
 	QnABoardVO selectqnaContent(int pk_qna_num) throws SQLException;
 	
+	//Qna 게시판 값을 수정이나 삭제하기 위해 정보 받아오기
+	QnABoardVO getqnaContent(int pk_qna_num) throws SQLException;
+	
 	
 	
 	

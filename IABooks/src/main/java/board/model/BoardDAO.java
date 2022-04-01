@@ -75,37 +75,56 @@ public class BoardDAO implements InterBoardDAO {
 	
 	      List<QnABoardVO> qnaboardList = new ArrayList<>(); // BoardDTO 속에는 MemberDTO가 들어와야 한다.
 	      QnABoardVO board = null;
+	      conn = ds.getConnection();
 	      try {
 	
-	         conn = ds.getConnection();
-	         /*
-	          * 처음에 한거 String sql =
-	          * " select boardno,  subject, name, to_char(writeday,'yyyy-mm-dd hh24:mi:ss'), viewcount\n"
-	          * + " from jdbc_board B JOIN jdbc_member M\n"+ " ON B.fk_userid = M.userid\n"+
-	          * " order by boardno desc";
-	          */
-	         /*
-	          String sql = " select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret , nvl(pk_pnum,-9999)\n"+
-	                       " from tbl_member M\n"+
-	                       " JOIN tbl_qna_board Q  \n"+
-	                       " ON M.pk_userid = Q.fk_userid\n"+
-	                       " JOIN tbl_product P \n"+
-	                       " ON Q.fk_pnum = P.pk_pro_num\n"+
-	                       " where isdelete = 0\n"+
-	                       " order by pk_qna_num desc";
-				*/
 	         
+	         
+	         /*
+	           select rno, userid, name, email, gender        
+				from
+				(
+				select rownum AS rno, userid, name, email, gender        
+				from
+				    (
+				    select userid, name, email, gender        
+				    from tbl_member
+				    where userid !='admin'
+				    order by registerday desc
+				    ) V
+				) T
+				where rno between 1 and 10;
+				*/
+	         /*
 	         String sql = "select  fk_pnum, pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret\r\n"
 	         			+ "from tbl_member M\r\n"
 	         			+ "JOIN tbl_qna_board Q  \r\n"
 	         			+ "ON M.pk_userid = Q.fk_userid "
+	         			+ "where isdelete = 0"
 	         			+ "order by pk_qna_num desc";
-	
-	       //   String fk_pnum = paraMap.get("fk_pnum");
-	       //   System.out.println("fk_pnum"+fk_pnum);
-          // BoardDTO는 회원이 존재해야만 그 회원이 글을 쓴다. 회원이 없는데 어뜨캐 글을 쓰냐 회원테이블이 먼저 존재한다.
+	         */
+	         String sql =   " select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
+	         		+ "							from \r\n"
+	         		+ "							( \r\n"
+	         		+ "							 select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
+	         		+ "							    from \r\n"
+	         		+ "	 			   			 	( \r\n"
+	         		+ "	 			   			 		select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
+	         		+ "		   			   		 		from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  \r\n"
+	         		+ "		   			   		 		where isdelete = 0\r\n"
+	         		+ "		   			   		 		order by pk_qna_num desc\r\n"
+	         		+ "		   			   		 	) V\r\n"
+	         		+ "		   			   		 ) T \r\n"
+	         		+ "		   			   		 where rno between ? and ? ";
+	       
             pstmt = conn.prepareStatement(sql);
 
+            int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			  int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+			
+			pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+            
             rs = pstmt.executeQuery();
        
             while (rs.next()) {
@@ -189,8 +208,7 @@ public class BoardDAO implements InterBoardDAO {
                
                
             } // end of while(rs.next()) ------------
-            System.out.println(" 넣어진 제목 22: " + board.getFk_pnum());
-            
+           
             //sql = 새로운 쿼리
          
          } catch (SQLException e) {
@@ -241,8 +259,29 @@ public class BoardDAO implements InterBoardDAO {
 
 	    @Override
 		public int getTotalqnaPage(Map<String, String> paraMap) throws SQLException {
-			// TODO Auto-generated method stub
-			return 0;
+	    	int totalPage = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select ceil( count(*)/? ) "
+						   + " from tbl_qna_board ";
+						  // + " where fk_userid != 'admin' ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("sizePerPage"));
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				totalPage = rs.getInt(1);
+				
+			} finally {
+				close();
+			}
+			
+			return totalPage;
 		}
 	
 	
@@ -619,7 +658,7 @@ public class BoardDAO implements InterBoardDAO {
 				qnaVO.setFk_userid(rs.getString(5));
 				qnaVO.setQna_date(rs.getString(6));
 				
-				// System.out.println("받아왔니? " + faqVO.getFaq_contents());
+				// System.out.println("받아왔니? " + qnaVO.getFaq_contents());
 			}
 			
 		} catch(SQLException e) { 
@@ -629,6 +668,18 @@ public class BoardDAO implements InterBoardDAO {
 		}
 		
 		return qnaVO;
+		
+	}
+	
+	//Qna 게시판 값을 수정이나 삭제하기 위해 정보 받아오기
+	@Override
+	public QnABoardVO getqnaContent(int pk_qna_num) throws SQLException {
+
+		InterBoardDAO bdao = new BoardDAO();
+		
+		QnABoardVO qnaVO = bdao.selectqnaContent(pk_qna_num);
+		
+		return qnaVO; 
 		
 	}
 

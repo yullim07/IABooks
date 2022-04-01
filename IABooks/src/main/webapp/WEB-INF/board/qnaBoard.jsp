@@ -34,8 +34,36 @@
 	
 	$(document).ready(function(){
 		
+		
+		
+		/* $("input#searchContent").bind("keyup",function(event){
+			if(event.keyCode ==13){
+				//검색어에서 엔터를 치면 검색하러 가도록 한다.
+				goSearch();
+			}
+			
+		}); */
+		
+		
 	
 	});
+	
+	//Fucntion Declaration
+	function goSearch(){
+		
+		
+	/* 
+		if( $("input#searchContent").val().trim() == "" ){ //input 값 또한 텅 비었다면, 공백
+			alert("검색어는 공백만으로는 되지 않습니다. \n검색어를 올바르게 입력하세요!!");
+			return; // return; 는 goSearch() 함수 종료이다.
+		}
+		
+		const frm = document.qnaSearchFrm; 
+		frm.action = "qnaBoard.book";
+		frm.method ="get"; //안쓰면 생략 가능
+		frm.submit(); */
+		
+	}
 
 </script>
 
@@ -71,6 +99,7 @@
 	    
 	    
 	    <tbody>
+	    	<c:if test="${not empty requestScope.qnaboardList}">
 	    		<c:forEach var="board" items="${requestScope.qnaboardList}">
 	        		<tr class="qnaboardInfo">
 	        			
@@ -93,7 +122,15 @@
 				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
 	        			
 	        		</tr>
+	        		
 	        	</c:forEach>
+	        </c:if>
+	        
+	        <c:if test="${empty requestScope.qnaboardList}">
+        		<tr>
+        			<td colspan="6" style="text-align: center; ">검색된 데이터가 존재하지 않습니다.</td>
+        		</tr>
+        	</c:if>
 	    		<%-- 
 			    <%
 			    	BoardDAO bdao = new BoardDAO();
@@ -129,7 +166,7 @@
   	</div>
   	
   	
-  	<div class="pagination2 justify-content-center" >
+  	<div class="pagination2 justify-content-center" style="display:flex; width: 80%;">
 	    <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 	    <%-- 
 	    <ul>
@@ -145,31 +182,38 @@
 	    --%>
 	</div>
  	
- 	<div class="search_outer" >
- 		<div class="search_inner">
- 		<a><img src="<%= ctxPath%>/images/board/leejh_images/ico_triangle3.gif" /></a>
-	  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
-	  	
-	    <select id="searchDate" name="search">
-	    	<option value="week">일주일</option>
-	        <option value="month">한달</option>
-	        <option value="3months">세달</option>
-	        <option value="all">전체</option>
-	    </select>
-	    <select id="searchContent" name="search">
-	    	<option value="subject">제목</option>
-	        <option value="content">내용</option>
-	        <option value="writername">글쓴이</option>
-	        <option value="userid">아이디</option>
-	        <option value="nickname">별명</option>
-	        <option value="product">상품정보</option>
-	
-	    </select>
-	    <input type="text" name="search"></input>
-	    <button class="btn" name="search" >찾기</button>
-	    </div>
-    
-  	</div>
+ <%-- 	<form name="qnaSearchFrm" action="qnaBoard.book" method="get" ></form>--%>
+	 	<div class="search_outer" >
+	 		<div class="search_inner">
+	 		<a><img src="<%= ctxPath%>/images/board/leejh_images/ico_triangle3.gif" /></a>
+		  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
+		  	
+		    <select id="searchDate" name="search">
+		    	<option value="week" selected="selected">일주일</option>
+		        <option value="month">한달</option>
+		        <option value="3months">세달</option>
+		        <option value="all">전체</option>
+		    </select>
+		    
+		    <select id="searchContent" name="search">
+		    	<option value="subject" selected="selected">제목</option>
+		        <option value="content">내용</option>
+		        <option value="writername">글쓴이</option>
+		        <option value="userid">아이디</option>
+		        <option value="nickname">별명</option>
+		        <option value="product">상품정보</option>
+		
+		    </select>
+		    
+		    <input type="text" id="searchWord" name="search"></input>
+		    
+		    
+		    <button type="submit" onclick="goSearch()" class="btn" name="search" >찾기</button>
+		   <%--  <input type="submit" value="검색" style="margin-right: 30px;" /> --%>
+		    </div>
+	    
+	  	</div>
+  	
 </div>
 </div>
 

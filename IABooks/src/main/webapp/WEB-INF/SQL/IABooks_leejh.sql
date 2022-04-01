@@ -337,21 +337,41 @@ JOIN tbl_product P
 ON Q.fk_pnum = P.pk_pro_num
 where isdelete = 0
 order by pk_qna_num desc;
+
+
+select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
+from tbl_member M
+JOIN tbl_qna_board Q  
+ON M.pk_userid = Q.fk_userid
+JOIN tbl_product P 
+ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999)
+where isdelete = 0
+order by pk_qna_num desc;
+
+
+select  fk_pnum, pk_qna_num, qna_title, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret ,isdelete 
+from tbl_qna_board
+
+-- fk_pnum 이 null이 아니라면
     
+select  fk_pnum, pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
+from tbl_member M
+JOIN tbl_qna_board Q  
+ON M.pk_userid = Q.fk_userid    
     
-select pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret, P.pro_name, P.pro_imgfile_name
+select pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret, isdelete 
     from
     (
-        select  pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret ,isdelete 
-        from tbl_member M
-        JOIN tbl_qna_board Q  
-        ON M.pk_userid = Q.fk_userid
+        select  fk_pnum, pk_qna_num, qna_title, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret ,isdelete 
+        from tbl_qna_board
+        
     )v1
-    JOIN
+    JOIN tbl_qna_board Q  
+    ON M.pk_userid = Q.fk_userid
     (   
-        select P.pro_name, P.pro_imgfile_name
-        from tbl_qna_board Q
-        JOIN tbl_product P 
+        select *
+        from tbl_product P 
+        JOIN 
         ON Q.fk_pnum = P.pk_pro_num
     )v2
     on isdelete = 0
@@ -394,6 +414,11 @@ String sql = "select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.m
 "where isdelete = 0\n"+
 "order by pk_qna_num desc";
 
+select pk_qna_num, mname, qna_title, qna_contents, fk_userid
+from tbl_qna_board  Q
+join  tbl_member M
+ON Q.fk_userid = M.pk_userid 
+where pk_qna_num = 24
 
 
 String sql = "\n"+
@@ -483,3 +508,93 @@ alter table TBL_QNA_BOARD modify (fk_pnum NULL);
 
 alter table TBL_QNA_BOARD modify isdelete default '0';
 --Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+
+
+
+
+
+
+
+
+select pk_rnum, pro_name, pro_imgfile_name, re_title 
+					  	  , mname, re_date, re_readcount, fk_userid, re_grade 
+ 						  from 
+ 						  ( 
+ 						  select pk_rnum, pro_name, pro_imgfile_name, re_title 
+ 						   		  , mname, re_date, re_readcount, fk_userid, re_grade, rownum AS rno 
+ 						      from 
+ 						      ( 
+        			 	   		select  pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS pro_imgfile_name, re_title
+        			 	   		, M.mname AS mname, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, re_readcount, fk_userid , re_grade
+        			       		from tbl_member M 
+        			       		JOIN tbl_review_board R  ON M.pk_userid = R.fk_userid 
+        			       		JOIN tbl_product P 
+        			       		ON P.pk_pro_num = R.fk_pnum 
+        			       		where isdelete = 0 
+        			       		order by pk_rnum desc 
+        			          ) V 
+      					   ) T 
+      					   where rno between 1 and 10;
+
+
+select pk_qna_num, pro_name, pro_imgfile_name, qna_title 
+					  	  , mname, qna_date, qna_readcount, fk_userid, qna_issecret
+ 						  from 
+ 						  ( 
+ 						  select pk_qna_num, pro_name, pro_imgfile_name, qna_title 
+ 						   		  , mname, qna_date, qna_readcount, fk_userid, qna_issecret, rownum AS qno 
+ 						      from 
+ 						      ( 
+        			 	   		select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date, qna_readcount , fk_userid , qna_issecret
+                                from tbl_member M
+                                JOIN tbl_qna_board Q  
+                                ON M.pk_userid = Q.fk_userid
+                                JOIN tbl_product P 
+                                ON nvl(Q.fk_pnum,-9999) = P.pk_pro_num
+                                where isdelete = 0
+                                order by pk_qna_num desc
+        			          ) V 
+      					   ) T 
+      					   where qno between 1 and 10;
+
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , '커피', '상품문의입니다22', '1234', '0', '0');
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , 'dd', '상품문의입니다dd', '1234', '0', '0');
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , '문의', '상품문의입니다', '1234', '0', '0');
+
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_
+issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , '커dfefwf피한잔 문의', '상품문의ddd입니다', '1234', '0', '0');
+
+commit;
+
+
+
+
+
+
+
+
+
+
+select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret 
+							from 
+							( 
+							 select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret 
+							    from 
+	 			   			 	( 
+	 			   			 		select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret 
+		   			   		 		from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  
+		   			   		 		where isdelete = 0
+		   			   		 		order by pk_qna_num desc
+		   			   		 	) V
+		   			   		 ) T 
+		   			   		 where rno between ? and ? 
+
