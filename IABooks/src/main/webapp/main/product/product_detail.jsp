@@ -22,7 +22,7 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 		
 	<!-- 헤더 삽입 -->
-	<jsp:include page="<%=ctxPath %>/header.jsp" />
+	<%-- <jsp:include page="<%=ctxPath %>/header.jsp" /> --%>
 
 	<!-- 컨테이너 시작 -->
 	<div class="container detail_container">
@@ -668,4 +668,4 @@
 </script>
 
 
-<jsp:include page="<%=ctxPath %>/footer.jsp" />
+<%-- <jsp:include page="<%=ctxPath %>/footer.jsp" /> --%>
