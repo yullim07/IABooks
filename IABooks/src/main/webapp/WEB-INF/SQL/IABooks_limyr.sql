@@ -698,3 +698,14 @@ desc tbl_writer;
 select * from tbl_writer;
 
 
+SELECT
+A.pro_name, A.pro_imgfile_name, A.pro_saleprice,
+A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date, "
+A.fk_cate_num, C.cate_name, A.pro_bindtype, A.pro_pages, A.pro_size,  "
+A.pk_pro_num, A.pro_price, "
+A.pro_index, A.pro_content, B.wr_info, "
+A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
+FROM tbl_product A
+LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
+LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
+WHERE pk_pro_num = ;

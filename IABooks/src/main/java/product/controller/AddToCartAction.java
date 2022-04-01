@@ -29,7 +29,7 @@ public class AddToCartAction extends AbstractController {
 			request.setAttribute("loc", loc);
 			
 		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/product/product_detail.jsp");
+			super.setViewPage("/WEB-INF/product/showBookDetail.jsp");
 		}
 		
 		else { // 장바구니에 등록하기 버튼을 누른 경우
