@@ -617,3 +617,84 @@ select * from tbl_product where pk_pro_num = '9791197381010';
 select * from 
 
 commit;
+
+select * from tbl_product_imagefile;
+
+
+
+select * from tabs;
+select * from tbl_writer;
+select * from tbl_product;
+select * from tbl_spec;
+select * from tbl_category;
+select * from tbl_product_imagefile;
+
+desc tbl_product;           
+-- fk_cate_num, pk_pro_num, pro_name, pro_imgfile_name, pro_price, pro_saleprice, point_rate, 
+-- publisher, pro_publish_date, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, 
+-- fk_wr_code, pro_index, pro_content, pro_size, pro_bindtype, pro_pages
+desc tbl_spec;              -- pk_spec_num, fk_cate_num, spec_size, ck_bindtype, spec_pages;
+desc TBL_PRODUCT_IMAGEFILE; -- fk_pro_num, pro_imgfile_name2
+desc tbl_writer;            -- PK_WR_CODE, WR_NAME, WR_INFO
+desc tbl_category;          -- pk_cate_num, cate_name
+--------------------------------------------------------------------------------
+-- 기본정보  상품명 이미지파일 판매가 
+-- 품목정보  상품명 저자명(저자코드) 출판사 출간일
+--          카테고리명(카테고리 코드) 상품코드 정가
+--          목차 책소개 저자소개
+-- 기타     입고일(New) 재고량,판매량(품절 표시) 조회수(Best 20)
+--------------------------------------------------------------------------------
+-- 우선 추가이미지/스펙 테이블 빼고
+SELECT  A.pro_name, A.pro_imgfile_name, A.pro_price,
+        A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date,
+        A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice,
+        A.pro_index, A.pro_content, B.wr_info,
+        A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt        
+FROM tbl_product A
+LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code
+LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num
+WHERE pk_pro_num = '9791196045999';
+
+--
+String sql = "SELECT  A.pro_name, A.pro_imgfile_name, A.pro_price,\n"+
+"        A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date,\n"+
+"        A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice,\n"+
+"        A.pro_index, A.pro_content, B.wr_info,\n"+
+"        A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt        \n"+
+"FROM tbl_product A\n"+
+"LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code\n"+
+"LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num\n"+
+"WHERE pk_pro_num = '9791196045999'";
+
+desc tbl_order;
+desc tbl_member;
+select * from tabs;
+
+select * from TBL_PRODUCT_IMAGEFILE;
+
+desc tbl_spec;
+
+drop table tbl_spec purge;
+-- Table TBL_SPEC이(가) 삭제되었습니다.
+
+commit;
+
+desc tbl_product;
+
+--------------------------------------------------------
+
+SELECT  A.pro_name, A.pro_imgfile_name, A.pro_price,
+        A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date,
+        A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice,
+        A.pro_index, A.pro_content, B.wr_info,
+        A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt        
+FROM tbl_product A
+LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code
+LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num
+WHERE pk_pro_num = '9791196045999';
+
+
+desc tbl_writer;
+select * from tbl_writer;
+
+

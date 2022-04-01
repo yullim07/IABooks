@@ -36,8 +36,7 @@
 				<!-- 상세보기 메인이미지(detail_img_display) 시작 -->
 				<div class="detail_img_display">
 					<a href="" onClick="window.open('pop_images.jsp', '미리보기', 'width=500, height=500, toolbar=no, location=no, status=no, scrollbars=no, resizeable=no, left=200, top=200')">
-						<%-- <img class="big pro_imgfile_name" src="<%=ctxPath%>/images/product/"+${pvo.pk_pro_num}+".jpg"> --%>
-						<%-- <img class="big pro_imgfile_name" src="<%=ctxPath%>/images/product/${pvo.pk_pro_num}.jpg"> --%>
+						<%-- <img class="big pro_imgfile_name" src="<%=ctxPath%>/images/product/${requestScope.pvo.pk_pro_num}.jpg"> --%>
 						<img class="big pro_imgfile_name" src="<%=ctxPath%>/images/product/book.jpg">
 					</a>
 				</div>
@@ -63,8 +62,7 @@
 				<div id="detail_text_title">
 					<table id='tbl_detail_title'>
 						<tr>
-							<th id="pro_name" name="pro_name" style="font-size: 24pt;">책제목</th>						
-							<%-- <th id="pro_name" name="pro_name" style="font-size: 24pt;">${pvo.pro_name}</th> --%> <%-- 책제목 --%>
+							<th id="pro_name" name="pro_name" style="font-size: 24pt;">${requestScope.pvo.pro_name}</th> <%-- 책제목 --%>
 						<tr>
 					</table>				
 				</div>
@@ -80,8 +78,8 @@
 								<th scope="row" width="40%">판매가</th>
 								<td scope="col" id="pro_price" name="pro_price" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;">
 									<span><strong>12----</strong></span>원
-									<%-- <span><strong>${pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
-									<%-- <span id=`${pvo.pk_pro_num}`><strong>${pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
+									<%-- <span><strong>${requestScope.pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
+									<%-- <span id=`${requestScope.pvo.pk_pro_num}`><strong>${requestScope.pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
 								</td>
 							<tr>
 						</thead>
@@ -118,14 +116,14 @@
 						<tbody>
 							<tr style="line-height: 60px;">
 								<td scope="row" name="pro_name" style="padding-left: 10px;">책제목</td>
-								<%-- <td scope="row" name="pro_name" style="padding-left: 10px;">${pvo.pro_name}</td> --%> <%-- 책제목 --%>
+								<%-- <td scope="row" name="pro_name" style="padding-left: 10px;">${requestScope.pvo.pro_name}</td> --%> <%-- 책제목 --%>
 								<td scope="row">
 									<input type='number' name="odr_qty" min='1' max='1000' value='1'
-										style="width: 60px; height: 24px; line-height: 24px;" /> <%-- id='${pvo.pk_pro_num}' /> --%>
+										style="width: 60px; height: 24px; line-height: 24px;" /> <%-- id='${requestScope.pvo.pk_pro_num}' /> --%>
 								</td>
 								<td scope="row">
 									<span><b>99999999</b></span>원</td>
-									<%-- <span id='${pvo.pk_pro_num}'><b>${pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%>
+									<%-- <span id='${requestScope.pvo.pk_pro_num}'><b>${requestScope.pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%>
 							</tr>
 						</tbody>
 						<tfoot>
@@ -134,7 +132,7 @@
 									<span style="text-align: right;"><strong>총상품금액</strong> &nbsp;(수량) :</span>
 								</td>
 								<td scope="row"><span><b>33333333</b></span>원</td>
-								<%-- <td scope="row"><span><b>${pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%> <%-- 총상품금액 --%>
+								<%-- <td scope="row"><span><b>${requestScope.pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%> <%-- 총상품금액 --%>
 								
 								<%-- 오류 곱해진 수량을 보여줘야/span에 id값 추가/cartVO도 cvo 만들어줘야? --%>
 								
@@ -551,7 +549,7 @@
 			arr_product.forEach(function(elt, i, array) {
 				html_purchase += 		`<tr>
 											<th scope="row" width="40%">판매가</th>
-											<td scope="col"><span id='${pvo.pk_pro_num}'>${elt.price.toLocaleString('en')}</span>원</td>
+											<td scope="col"><span id='${requestScope.pvo.pk_pro_num}'>${elt.price.toLocaleString('en')}</span>원</td>
 										</tr>
 									</thead>
 									<tbody>
@@ -563,7 +561,7 @@
 									<tfoot>
 										<tr>
 											<th scope="row" width="30%">배송비</th>
-											<td scope="col"><span id='${pvo.pk_pro_num}'>${elt.shippingfee.toLocaleString('en')}</span>원&nbsp;(50,000원 이상 구매 시 무료)</td>
+											<td scope="col"><span id='${requestScope.pvo.pk_pro_num}'>${elt.shippingfee.toLocaleString('en')}</span>원&nbsp;(50,000원 이상 구매 시 무료)</td>
 										</tr>
 									</tfoot>
 								</table>`;
@@ -591,8 +589,8 @@
 				
 					html_total += `<tr>
 										<td scope="row">${elt.productName}</td>
-										<td scope="row"><input type='number' min='1' max='1000' value='1' id='${pvo.pk_pro_num}' /></td>
-										<td scope="row"><span id='${pvo.pk_pro_num}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
+										<td scope="row"><input type='number' min='1' max='1000' value='1' id='${requestScope.pvo.pk_pro_num}' /></td>
+										<td scope="row"><span id='${requestScope.pvo.pk_pro_num}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
 									</tr>
 								</tbody>
 								<tfoot>

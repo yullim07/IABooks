@@ -6,7 +6,7 @@ public class ProductVO {
 	private String pk_pro_num; 			//국제표준도서번호
 	private int fk_cate_num;   			//카테고리대분류번호
 	private String  pro_name;  			//도서명
-	private String pro_publish_date;		//출간일
+	private String pro_publish_date;	//출간일
 	private String publisher; 			//출판사명
 	private int pro_price;   			//도서정가 디폴트 0
 	private int pro_saleprice;   		//도서판매가 디폴트 0
@@ -24,20 +24,52 @@ public class ProductVO {
     private String pro_content;			//도서소개(대용량)
   
     private CategoryVO category;
+    private WriterVO writer;
+ // private ImagefileVO imagefile;  
     
-    public ProductVO(){};
+    // ================================================================================= //
+    
+    
+    public ProductVO(){}
     
     
 	public CategoryVO getCategory() {
 		return category;
 	}
 
-
+	
 	public void setCategory(CategoryVO category) {
 		this.category = category;
 	}
 
+	
+	public WriterVO getWriter() {
+		return writer;
+	}
 
+
+	public void setWriter(WriterVO writer) {
+		this.writer = writer;
+	}
+
+	
+/*	이미지파일 getter 만들어야되는 곳
+	public WriterVO getWriter() {
+		return writer;
+	}
+
+
+	public void setWriter(WriterVO writer) {
+		this.writer = writer;
+	}
+*/
+	
+	
+	
+	// ================================================================================= //
+	
+	
+	
 	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String pro_publish_date, String publisher,
 			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
 			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
@@ -64,9 +96,53 @@ public class ProductVO {
 		this.pro_content = pro_content;
 	}
 
+	
+	
+	// 상품 상세정보를 가져올 때 필요한 VO(나중에 추가이미지도 추가해야 함)
+	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String pro_publish_date, String publisher,
+			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
+			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
+			String pro_imgfile_name, int fk_wr_code, String pro_content, CategoryVO category, WriterVO writer) {
+		super();
+		this.pk_pro_num = pk_pro_num;
+		this.fk_cate_num = fk_cate_num;
+		this.pro_name = pro_name;
+		this.pro_publish_date = pro_publish_date;
+		this.publisher = publisher;
+		this.pro_price = pro_price;
+		this.pro_saleprice = pro_saleprice;
+		this.pro_index = pro_index;
+		this.point_rate = point_rate;
+		this.pro_inputdate = pro_inputdate;
+		this.pro_qty = pro_qty;
+		this.pro_sales = pro_sales;
+		this.pro_viewcnt = pro_viewcnt;
+		this.pro_size = pro_size;
+		this.pro_bindtype = pro_bindtype;
+		this.pro_pages = pro_pages;
+		this.pro_imgfile_name = pro_imgfile_name;
+		this.fk_wr_code = fk_wr_code;
+		this.pro_content = pro_content;
+		this.category = category;
+		this.writer = writer;
+	}
+	
+	
+	
+	
+	// ================================================================================= //
+	
+	
+	
+	
+	
+	
 	public String getPk_pro_num() {
 		return pk_pro_num;
 	}
+
+
+
 
 	public void setPk_pro_num(String pk_pro_num) {
 		this.pk_pro_num = pk_pro_num;

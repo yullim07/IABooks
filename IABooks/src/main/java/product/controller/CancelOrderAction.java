@@ -10,7 +10,10 @@ public class CancelOrderAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-
+		
+		// 로그인한 유저가 아닌 경우
+		// 로그인한 유저의 경우
+		
 	}
 
 }

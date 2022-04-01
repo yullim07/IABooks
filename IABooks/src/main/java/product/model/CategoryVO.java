@@ -6,7 +6,7 @@ public class CategoryVO {
 	private String cate_name;
 	
 	
-	public CategoryVO() {};
+	public CategoryVO() {}
 	
 	public CategoryVO(int pk_cate_num, String cate_name) {
 		super();

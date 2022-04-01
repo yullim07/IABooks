@@ -87,5 +87,5 @@ public class AddToCartAction extends AbstractController {
             }
 		*/
         }
-
+	}
 }

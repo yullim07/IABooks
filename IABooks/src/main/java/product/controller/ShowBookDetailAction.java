@@ -22,20 +22,20 @@ public class ShowBookDetailAction extends AbstractController {
 		
 		if("GET".equalsIgnoreCase(method)) {
 			
-			/*
-			 * String pk_pro_num = request.getParameter("pk_pro_num");
-			 * 
-			 * ProductDAO_lyr pdao = new ProductDAO_lyr(); ProductVO p = new ProductVO();
-			 * p.setPk_pro_num(pk_pro_num);
-			 * 
-			 * Map<String, String> paraMap = new HashMap<>();
-			 */
-			
+			String pk_pro_num = request.getParameter("pk_pro_num");
+			InterProductDAO pdao = new ProductDAO_lyr();
+			ProductVO pvo = pdao.showProductDetail(pk_pro_num);
+		
 			
 		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/product/product_detail.jsp");
-		//	super.setViewPage("/main/product/product_detail.jsp");
+		//	super.setViewPage("/WEB-INF/product/product_detail.jsp");
+			super.setViewPage("/main/product/product_detail.jsp");
 			
+		}
+		else {
+//			super.setRedirect(false);
+		//	super.setViewPage("/WEB-INF/product/product_detail.jsp");
+			super.setViewPage("/main/product/product_detail.jsp");
 		}
 
 	}
