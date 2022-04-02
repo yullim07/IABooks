@@ -375,27 +375,86 @@ public class BoardDAO implements InterBoardDAO {
 	       
 	       try {
 	          
-	    	   String sql = " select pk_faq_board_num, faq_c_name, faq_title, faq_writer "+
+	    	   String sql = " select pk_faq_board_num, faq_c_name, faq_title, faq_writer, isdelete, faq_c_ename "+
 							" from "+
 							" ( "+
-							"    select rownum AS rno, pk_faq_board_num, faq_c_name, faq_title, faq_writer "+
+							"    select rownum AS rno, pk_faq_board_num, faq_c_name, faq_title, faq_writer, isdelete, faq_c_ename "+
 							"    from "+
 	    			   		" 	( "+
-	    			   		" 		select pk_faq_board_num, b.faq_c_name AS faq_c_name, faq_title, faq_writer "+
+	    			   		" 		select pk_faq_board_num, b.faq_c_name AS faq_c_name, faq_title, faq_writer, isdelete, B.faq_c_ename AS faq_c_ename  "+
 		   			   		" 		from tbl_faq_board a join tbl_faq_category b on a.fk_faq_c_num = b.pk_faq_c_num "+
 		   			   		" 		join tbl_member c on a.fk_userid = c.pk_userid "+
-		   			   		" 		where isdelete = 0 "+
-		   			   		" 		order by pk_faq_board_num desc " +
-		   			   		" 	) V " +
-		   			   		" ) T " +
-		   			   		" where rno between ? and ? ";
+		   			   		" 		where isdelete = 0 ";
+		   			   		
+		   			   		
+	    	   
+	    	  String colname = paraMap.get("searchType");
+			  String searchWord = paraMap.get("searchWord");	
+			  String searchCate = paraMap.get("searchCate"); 
+	    	   
+			  if( !"all".equalsIgnoreCase(searchCate) ) {
+					// 카테고리 값이 1(전체)이 아니고 검색종류 및 검색어가 있을 때
+					sql += " and B.FAQ_C_ENAME = ? ";
+					
+					if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+						sql += " and " + colname + " like '%'|| ? ||'%' ";
+						// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+						// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+					}
+			   }
+			   else {
+					
+					if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+						// 카테고리 값이 없거나 1이고 검색종류 및 검색어가 있을 때
+						sql += " and " + colname + " like '%'|| ? ||'%' ";
+						// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+						// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+					}
+			  }		   		
+			  
+			  sql +=  " 		order by pk_faq_board_num desc " +
+					  " 	) V " +
+	   			   	  " ) T " +
+					  " where rno between ? and ? ";
+			  
 	          pstmt = conn.prepareStatement(sql);
 	          
 	          int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			  int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 	          
-			  pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-			  pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+			  if( !"all".equalsIgnoreCase(searchCate) ) {
+					// 카테고리 값이 있으면
+					pstmt.setString(1, searchCate);
+					
+					if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+						// 검색종류와 검색어가 있으면	
+						pstmt.setString(2, searchWord);
+						pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+						pstmt.setInt(4, (currentShowPageNo * sizePerPage));
+						System.out.println("카테고리 있고 검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
+						  
+					}
+					else {
+						pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+						pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+						System.out.println("카테고리 있고 검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+						  
+					}
+				
+			  }
+			  else if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					pstmt.setString(1, searchWord);
+					pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+					System.out.println("카테고리 없고 검색조건 있을 때 : " + currentShowPageNo + "," + sizePerPage);
+					  
+			  }
+			  else {// 검색조건이 없을 때
+			 		pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+					System.out.println("검색조건 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+				  
+			  }
 			  
 	          rs = pstmt.executeQuery();
 	          
@@ -440,13 +499,61 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select ceil( count(*)/? ) "
-					   + " from tbl_faq_board ";
+			String sql = " select ceil( count(*)/? ) "+
+					     " from tbl_faq_board A JOIN tbl_faq_category B "+
+					     " ON A.FK_FAQ_C_NUM = B.PK_FAQ_C_NUM ";
 					  // + " where fk_userid != 'admin' ";
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");	
+			String searchCate = paraMap.get("searchCate");	
+			System.out.println(" 확인용 colname : " + colname);
+			System.out.println(" 확인용 searchWord : " + searchWord);
+			System.out.println(" 확인용 searchCate : " + searchCate);
+			
+			if( !"all".equalsIgnoreCase(searchCate) ) {
+				// 카테고리 값이 1(전체)이 아니고 검색종류 및 검색어가 있을 때
+				sql += " where B.FAQ_C_ENAME = ? ";
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					sql += " and " + colname + " like '%'|| ? ||'%' ";
+					// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+					// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+				}
+			
+			}
+			else {
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					// 카테고리 값이 없거나 1이고 검색종류 및 검색어가 있을 때
+					sql += " where " + colname + " like '%'|| ? ||'%' ";
+					// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+					// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+				}
+			}
+			
+			
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("sizePerPage"));
 			
+			if( !"all".equalsIgnoreCase(searchCate) ) {
+				// 카테고리 값이 있으면
+				pstmt.setString(2, searchCate);
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					// 검색종류와 검색어가 있으면	
+					pstmt.setString(3, searchWord);
+				}
+			
+			}
+			else {
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					pstmt.setString(2, searchWord);
+				}
+			}
+				
 			rs = pstmt.executeQuery();
 			
 			rs.next();

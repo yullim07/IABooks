@@ -342,6 +342,8 @@ select pk_rnum, re_title, to_char(re_date,'yyyy-mm-dd hh24:mi:ss'), re_readcount
 from tbl_review_board
 
 */
+/*
+
 update tbl_review_board set re_writer='인디펍';
 
 commit;
@@ -390,3 +392,13 @@ from tbl_faq_board
 where pk_faq_board_num = 20;
 
 desc tbl_faq_board;
+
+*/
+
+select *
+from tbl_product;
+
+update tbl_faq_board set faq_title = ?, faq_contents= ?, fk_faq_c_num = ?
+where pk_faq_board_num = 6
+String sql = "update tbl_faq_board set faq_title = ?, faq_contents= ?, fk_faq_c_num = ?\n"+
+"where pk_faq_board_num = 6";
