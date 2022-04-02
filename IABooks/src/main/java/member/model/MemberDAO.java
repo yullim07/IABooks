@@ -108,12 +108,12 @@ public class MemberDAO implements InterMemberDAO {
           conn = ds.getConnection();
           
           String sql = "SELECT pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, "+
-                "       birthday, mileage, registerday, pwdchangegap, "+
+                "       birthday, mileage, registerday, pwdchangegap, tel, "+
                 "       nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap "+
                 " FROM "+
                 " ( "+
                 " select pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender "+
-                "     , birthday , mileage , to_char(registerday, 'yyyy-mm-dd') AS registerday "+
+                "     , birthday , mileage , tel, to_char(registerday, 'yyyy-mm-dd') AS registerday "+
                 "     , trunc( months_between(sysdate, lastpwdchangedate) ) AS pwdchangegap "+
                 " from tbl_member "+
                 " where ck_status = 1 and pk_userid = ? and pwd = ? "+
@@ -149,6 +149,7 @@ public class MemberDAO implements InterMemberDAO {
              member.setBirthday(rs.getString(10));
              member.setMileage(rs.getInt(11));
              member.setRegisterday(rs.getString(12));
+             member.setTel(rs.getString(14));
              
              if(rs.getInt(13) >= 3) {
                 // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
@@ -157,7 +158,7 @@ public class MemberDAO implements InterMemberDAO {
                member.setRequirePwdChange(true); // 로그인시 암호를 변경해라는 alert 를 띄우도록 할때 사용한다. 
              }
              
-             if(rs.getInt(14) >= 12) {
+             if(rs.getInt(15) >= 12) {
                 // 마지막으로 로그인 한 날짜시간이 현재시각으로 부터 1년이 지났으면 휴면으로 지정 
                 member.setU_status(1);
                 
@@ -195,94 +196,244 @@ public class MemberDAO implements InterMemberDAO {
    }
 
    // ID 중복검사 (tbl_member 테이블에서 userid 가 존재하면 true를 리턴해주고, userid 가 존재하지 않으면 false를 리턴한다)
-	@Override
-	public boolean idDuplicateCheck(String userid) throws SQLException {
-		
-		boolean isExist = false;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql = " select * "
-					   + " from tbl_member"
-					   + " where pk_userid = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);
-			
-			rs = pstmt.executeQuery();
-			
-			isExist = rs.next();  // 행이 있으면(중복된 userid)     true,
-			                      // 행이 없으면(사용가능한 userid)  false
-			
-		} finally {
-			close();
-		}
-		
-		return isExist;
-	}
-	
-	// email 중복검사 (tbl_member 테이블에서 email 이 존재하면 true를 리턴해주고, email 이 존재하지 않으면 false를 리턴한다) 
-		@Override
-		public boolean emailDuplicateCheck(String email) throws SQLException {
+   @Override
+   public boolean idDuplicateCheck(String userid) throws SQLException {
+      
+      boolean isExist = false;
+      
+      try {
+         conn = ds.getConnection();
+         
+         String sql = " select * "
+                  + " from tbl_member"
+                  + " where pk_userid = ? ";
+         
+         pstmt = conn.prepareStatement(sql);
+         pstmt.setString(1, userid);
+         
+         rs = pstmt.executeQuery();
+         
+         isExist = rs.next();  // 행이 있으면(중복된 userid)     true,
+                               // 행이 없으면(사용가능한 userid)  false
+         
+      } finally {
+         close();
+      }
+      
+      return isExist;
+   }
+   
+   // email 중복검사 (tbl_member 테이블에서 email 이 존재하면 true를 리턴해주고, email 이 존재하지 않으면 false를 리턴한다) 
+      @Override
+      public boolean emailDuplicateCheck(String email) throws SQLException {
 
-			boolean isExist = false;
-			
-			try {
-				conn = ds.getConnection();
-				
-				String sql = " select * "
-						   + " from tbl_member"
-						   + " where uq_email = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, aes.encrypt(email));
-				
-				rs = pstmt.executeQuery();
-				
-				isExist = rs.next();  // 행이 있으면(중복된 userid)     true,
-				                      // 행이 없으면(사용가능한 userid)  false
-				
-			} catch(GeneralSecurityException | UnsupportedEncodingException e) { 
-				e.printStackTrace();
-			} finally {
-				close();
-			}
-			
-			return isExist;		
-		}
+         boolean isExist = false;
+         
+         try {
+            conn = ds.getConnection();
+            
+            String sql = " select * "
+                     + " from tbl_member"
+                     + " where uq_email = ? ";
+            
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, aes.encrypt(email));
+            
+            rs = pstmt.executeQuery();
+            
+            isExist = rs.next();  // 행이 있으면(중복된 userid)     true,
+                                  // 행이 없으면(사용가능한 userid)  false
+            
+         } catch(GeneralSecurityException | UnsupportedEncodingException e) { 
+            e.printStackTrace();
+         } finally {
+            close();
+         }
+         
+         return isExist;      
+      }
 
-		// 아이디 찾기(성명, 이메일을 입력받아서 해당 사용자의 아이디를 알려준다)
-		@Override
-		public String findUserid(Map<String, String> paraMap) throws SQLException {
-			
-			String userid = null;
-			
-			try {
-				 conn = ds.getConnection();
-				 
-				 String sql = " select pk_userid "
-				 		    + " from tbl_member"
-				 		    + " where ck_status = 1 and mname = ? and uq_email = ? ";
-				 
-				 pstmt = conn.prepareStatement(sql);
-				 pstmt.setString(1, paraMap.get("name"));
-				 pstmt.setString(2, aes.encrypt(paraMap.get("email")));
-				 
-				 rs = pstmt.executeQuery();
-				 
-				 if(rs.next()) {
-					 userid = rs.getString(1);
-				 }
-			
-			} catch(GeneralSecurityException | UnsupportedEncodingException e) { 
-			    e.printStackTrace();	 
-			} finally {
-				close();
-			}
-			
-			return userid;
-		}
-	
+      // 아이디 찾기(성명, 이메일을 입력받아서 해당 사용자의 아이디를 알려준다)
+         @Override
+         public String findUserid(Map<String, String> paraMap, int select) throws SQLException {
+            
+            String userid = null;
+            
+            try {
+                conn = ds.getConnection();
+                
+                String sql = " select pk_userid "
+                          + " from tbl_member"
+                          + " where ck_status = 1 and mname = ? and ";
+                
+                if(select == 0) {
+                   sql += "uq_email = ?";
+                }else if (select == 1) {
+                   sql += "uq_phone = ? ";
+                }
+                
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, paraMap.get("name"));
+                if(select == 0) {
+                   pstmt.setString(2, aes.encrypt(paraMap.get("email")));
+                }else if (select == 1) {
+                   pstmt.setString(2, aes.encrypt(paraMap.get("phone")));
+                }
+                
+                rs = pstmt.executeQuery();
+                
+                if(rs.next()) {
+                   userid = rs.getString(1);
+                }
+            
+            } catch(GeneralSecurityException | UnsupportedEncodingException e) { 
+                e.printStackTrace();    
+            } finally {
+               close();
+            }
+            
+            return userid;
+         }
+
+      // 회원정보 수정하기
+      @Override
+      public int updateMember(MemberVO member) throws SQLException {
+         
+         int result = 0;
+         
+         try {
+            conn = ds.getConnection();
+            String sql = " update tbl_member set  mname =? "
+                     + "                   , pwd=? "
+                     + "                   , uq_email=? "
+                     + "                   , tel=? "
+                     + "                   , UQ_phone=? "
+                     + "                   , postcode=? "
+                     + "                   , address=? "
+                     + "                   , detailaddress=? "
+                     + "                   , extraaddress=? "
+                     + "                   , lastpwdchangedate= sysdate "
+                     + " where pk_userid = ? ";
+            
+            pstmt = conn.prepareStatement(sql);
+            
+            pstmt.setString(1,  member.getName());
+            pstmt.setString(2,  Sha256.encrypt(member.getPwd()));  // 암호를 SHA256 알고리즘으로 단방향 암호화 시킨다.   
+            pstmt.setString(3,  aes.encrypt(member.getEmail()));   // 이메일을 AES256 알고리즘으로 양방향 암호화 시킨다.   
+            pstmt.setString(4,  member.getTel());   
+            pstmt.setString(5,  aes.encrypt(member.getPhone()));  // 휴대폰번호를 AES256 알고리즘으로 양방향 암호화 시킨다.  
+            pstmt.setString(6,  member.getPostcode());
+            pstmt.setString(7,  member.getAddress());
+            pstmt.setString(8,  member.getDetailaddress());
+            pstmt.setString(9,  member.getExtraaddress());
+            pstmt.setString(10, member.getUserid());
+            
+            result = pstmt.executeUpdate();
+            
+         } catch (Exception e) {
+            e.printStackTrace();
+         } finally {
+            close();
+         }
+         
+         return result;
+         
+      }
+      
+      // 회원탈퇴하기 
+      @Override
+      public int memberDelete(Map<String, String> paraMap) throws SQLException {
+         
+         int result = 0;
+         
+         try {
+            conn = ds.getConnection();
+            String sql = " update tbl_member set ck_status = '0' "
+                     + "                   , deleteday = sysdate "
+                     + " where pk_userid = ? ";
+            
+            pstmt = conn.prepareStatement(sql);
+            
+            
+            pstmt.setString(1, paraMap.get("userid"));
+            
+            result = pstmt.executeUpdate();
+            
+         } catch (Exception e) {
+            e.printStackTrace();
+         } finally {
+            close();
+         }
+         
+         return result;
+      }
+   
+      // 비밀번호 찾기(아이디, 이메일을 입력받아서 해당 사용자가 존재하는지 유무를 알려준다)
+         @Override
+         public boolean isUserExist(Map<String, String> paraMap , int select) throws SQLException {
+            
+            boolean isUserExist = false;
+            
+            try {
+                conn = ds.getConnection();
+                
+                String sql = " select pk_userid "
+                          + " from tbl_member"
+                          + " where ck_status = 1 and pk_userid = ? and mname = ? and ";
+                
+                if(select == 0) {
+                   sql += "uq_email = ?";
+                }else if (select == 1) {
+                   sql += "uq_phone = ? ";
+                }
+                
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setString(1, paraMap.get("userid"));
+                pstmt.setString(2, paraMap.get("name"));
+                if(select == 0) {
+                   pstmt.setString(3, aes.encrypt(paraMap.get("email")));
+                }else if (select == 1) {
+                   pstmt.setString(3, aes.encrypt(paraMap.get("phone")));
+                }
+            
+                isUserExist = pstmt.execute();
+                
+            } catch(GeneralSecurityException | UnsupportedEncodingException e) { 
+                e.printStackTrace();    
+            } finally {
+               close();
+            }
+            
+            return isUserExist;
+         }
+      
+         
+      // 암호 변경하기
+         @Override
+         public int pwdUpdate(Map<String, String> paraMap) throws SQLException {
+
+            int result = 0;
+            
+            try {
+                conn = ds.getConnection();
+                
+                String sql = " update tbl_member set pwd = ? "
+                          + "                     , lastpwdchangedate = sysdate "
+                          + " where pk_userid = ? ";
+                
+                pstmt = conn.prepareStatement(sql);
+                
+                pstmt.setString(1, Sha256.encrypt(paraMap.get("pwd")) ); // 암호를 SHA256 알고리즘으로 단방향 암호화 시킨다.
+                pstmt.setString(2, paraMap.get("userid") );
+                
+                result = pstmt.executeUpdate();
+                
+            } finally {
+               close();
+            }
+            
+            return result;
+         }
+      
 
 }
