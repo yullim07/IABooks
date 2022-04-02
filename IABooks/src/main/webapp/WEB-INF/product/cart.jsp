@@ -136,8 +136,10 @@
 
 	$(document).ready(function() {
 		
+		$("#notproduct").hide();	// 선택된 등록상품이 없습니다.
+	
 		/* 체크박스 */
-		$(".calc1 thead input:checkbox[id=check]").click(function() {
+		$(".calc1 thead th input:checkbox[id=check]").click(function() {
 			var bool = $(this).prop("checked");
 			#(".calc1 tbody input:checkbox[name=checkbox]").prop("checked", bool);
 		});
@@ -166,6 +168,47 @@
 			frm.method = "POST";
 			frm.action = "<%=ctxPath %>/product/order.book";
 			frm.submit();
+		});
+		
+		/* 하나의 tr에서 삭제버튼을 누르면 현재 라인을 지워주기 */
+		$(".btndelete").click(function() {
+		//	$(this).parent().parent().css('background-color', 'red');
+			$(this).parent().parent().remove();
+			
+			var tr = $("#calc1_tbody tr").val();
+			if(tr == null) {
+				$("#notproduct").show();
+			}
+		});
+		
+		/* 삭제 버튼 눌렀을 때 제품 삭제하기 */
+		$("#choiceProductDelete").click(function() {
+			
+			var bool = $(".calc1 tbody input:checkbox[name=checkbox]").is(":checked");
+			
+			if(!bool) {
+				alert("선택된 상품이 없습니다.");
+			}
+			
+			else {
+				if(bool == $(".calc1 tbody input:checkbox[id=cbtr1]").is(":checked")) {
+					$(".calc1_tbody_tr1").remove();
+					alert("AAAAA");
+				}
+				else if(bool == $(".calc1 tbody input:checkbox[id=cbtr2]").is(":checked")) {
+					$(".calc1_tbody_tr2").remove();
+					alert("BBBBB");
+				}
+			}
+			
+			/* checkbox 전체선택시 삭제하기 */
+			bool = $(".calc1 thead input:checkbox[id=check]").is(":checked");
+			
+			if(bool) {
+				$(".calc1 > tbody").empty();
+				$(".calc1 thead input:checkbox[name=checkbox]").prop("checked", false);
+				alert("CCCCC");
+			}
 		});
 		
 		
@@ -223,12 +266,21 @@
 							</tr>
 						</thead>
 						
-						<tbody id="calc1_tbody">
-							<tr class="clac1_tbody_tr1" style="height: 90px; background-color: #fff;">
+						<tbody id="notproduct">
+							<tr style="height: 90px; background-color: #fff;">
+								<td colspan="10" style="text-align: left; text-align: center; border-right: none;">
+									상품이 존재하지 않습니다.
+								</td>
+							</tr>
+						</tbody>
+						
+						<tbody id="calc1tbody">
+						
+							<tr class="calc1_tbody_tr1" style="height: 90px; background-color: #fff;">
 								<td style="text-align: left; text-align: center; border-right: none;">
 									<input type="checkbox" id="cbtr1" name="checkbox" />
 								</td>
-								<td style="text-align: left; padding-left: 10px; border-left: none;">
+								<td style="border-left: none; border-right: none;">
 									<img src="<%=ctxPath%>/images/product/book.jpg" width="100px;">
 								</td>
 								<td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
@@ -248,12 +300,45 @@
 								<td><span>0</span>원</td>
 								
 								<td>
-									<button type="button" class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">주문하기</button>
+									<button type="button" class="btn default orderGobtn" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">주문하기</button>
 									<button type="button" class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">관심상품등록</button>
-									<button type="button" class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
+									<button type="button" class="btn default btndelete" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
+								</td>
+							</tr>
+							
+							
+							
+							<tr class="clac1_tbody_tr2" style="height: 90px; background-color: #fff;">
+								<td style="text-align: left; text-align: center; border-right: none;">
+									<input type="checkbox" id="cbtr2" name="checkbox" />
+								</td>
+								<td style="border-left: none; border-right: none;">
+									<img src="<%=ctxPath%>/images/product/book.jpg" width="100px;">
+								</td>
+								<td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
+									책제목쓸곳
+								</td>
+								<td>
+									<span style="padding-left: 10px;">0</span>원
+								</td>
+								<td style="width: 80px;">
+									<input type="number" style="text-align: right; width: 43px;" min="1" max="99" step="1" value="1">
+									<button type="button" class="btn default" style="border-radius: 3px; size: 10px;">변경</button>							
+								</td>
+								
+								<td>-</td> <%-- 적립금 --%>
+								<td>기본배송</td>
+								<td>3000원(5만원 이상 주문 시 배송비무료)</td>
+								<td><span>0</span>원</td>
+								
+								<td>
+									<button type="button" class="btn default orderGobtn" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">주문하기</button>
+									<button type="button" class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">관심상품등록</button>
+									<button type="button" class="btn default btndelete" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
 								</td>
 							</tr>
 						</tbody>
+						
 						<tfoot>
 							<tr style="height: 60px;">
 								<td colspan="5" style="border-right: none; text-align: left; padding-left: 10px;">
@@ -264,11 +349,12 @@
 								</td>
 							</tr>
 						</tfoot>
+						
 					</table>
 					
 					<div style="margin: 10px 0;">
 						<span style="margin: 0 10px;" class="btnfloat">선택상품을</span>
-						<button class="btn default btnfloat" style="background-color: grey; color: #fff">삭제하기</button>
+						<button class="btn default btnfloat" id="choiceProductDelete" style="background-color: grey; color: #fff">삭제하기</button>
 						<button class="btn default backBtn btnfloat">해외배송 장바구니로 이동</button>
 						
 						<button class="btn default backBtn btnfloat2 productClear">장바구니 비우기</button>
