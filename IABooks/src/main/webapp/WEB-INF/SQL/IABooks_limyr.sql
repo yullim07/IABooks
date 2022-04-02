@@ -709,3 +709,5 @@ FROM tbl_product A
 LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
 LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
 WHERE pk_pro_num = ;
+
+select * from tbl_cart;
