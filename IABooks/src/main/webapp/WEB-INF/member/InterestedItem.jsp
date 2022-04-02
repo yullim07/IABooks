@@ -8,6 +8,7 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 	<!-- 내가만든 CSS -->
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
@@ -21,8 +22,6 @@
 </style>
 
 <title>관심상품</title>
-
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 
 	
 <div class="container">
@@ -57,7 +56,7 @@
 			<tbody>
 				<tr>
 					<td><input type="checkbox" id="interested_check" /></td>
-					<td><img src="<%= ctxPath %>/images/e78bdc919df426ed106c57e265db6395.jpg" style="height: 80px; width: 80px;"/></td>
+					<td><img src="<%= ctxPath %>/images/member/e78bdc919df426ed106c57e265db6395.jpg" style="height: 80px; width: 80px;"/></td>
 					<td>30대 백수 남편이지만 잘 살고 있습니다.</td>
 					<td>15,000원</td>
 					<td>-</td>
@@ -91,5 +90,5 @@
 
 </div>
 
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

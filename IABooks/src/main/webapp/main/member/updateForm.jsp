@@ -24,7 +24,8 @@
 	<!-- Optional JavaScript-->
 	<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
- 	
+
+<jsp:include page="/header_orgin.jsp"/>	
 <script type="text/javascript">
 	
 function openDaumPOST() {
@@ -83,7 +84,7 @@ function openDaumPOST() {
 
 </style>
 
-<jsp:include page="/header.jsp"/>
+
 
 <div class="container">
 	<form name="registerFrm" action="updateMember.book">
@@ -204,5 +205,5 @@ function openDaumPOST() {
 	</form>
 </div>	
 	
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/footer_orgin.jsp"/>
  

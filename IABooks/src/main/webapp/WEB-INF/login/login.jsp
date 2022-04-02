@@ -10,7 +10,6 @@
    
 %>
 
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
 
 <style type="text/css">
 

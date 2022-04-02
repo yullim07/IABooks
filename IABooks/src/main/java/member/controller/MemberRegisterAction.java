@@ -39,9 +39,13 @@ public class MemberRegisterAction extends AbstractController {
 			String gender = request.getParameter("gender");
 			String birthday = request.getParameter("birthday");
 			
-			
-			String tel = num1+num2+num3;
-			String phone = hp1+hp2+hp3;
+			String tel = "";
+			if( num2 == "" && num3 == "") {
+				tel = "";
+			}else {
+				tel = num1+"-"+num2+"-"+num3;
+			}
+			String phone = hp1+"-"+hp2+"-"+hp3;
 			
 			MemberVO member = new MemberVO(userid, pwd, name, email, postcode, address, detailaddress, extraaddress, gender, birthday, tel, phone);
 		/*	

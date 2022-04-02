@@ -92,7 +92,7 @@ div.pagination {
 
 </style>
 <title>주문조회</title>
-<jsp:include page="/header.jsp"/>
+<jsp:include page="/header_orgin.jsp"/>
 <div class="container">
 	
 	<div class="titleArea">
@@ -212,5 +212,5 @@ div.pagination {
 
 </div>
 	
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="/footer_orgin.jsp"/>
  
