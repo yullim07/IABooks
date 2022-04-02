@@ -35,27 +35,65 @@
 	$(document).ready(function(){
 		
 		
-		$()
+		/* $("select#searchContent").bind("change", function(){
+					
+					const frm = document.qnaSearchFrm;
+					frm.action = "qnaBoard.book";
+					frm.method = "get";
+					frm.submit();
+					
+		});
+		 */
 		
-		
-		/* $("input#searchContent").bind("keyup",function(event){
-			if(event.keyCode ==13){
-				//검색어에서 엔터를 치면 검색하러 가도록 한다.
-				goSearch();
+		$("button#btn_search").click(function(){
+			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
+			
+			if($("select.searchContent").val() == "" ) {
+				alert("검색대상을 올바르게 선택하세요!!");
+				return false; // submit을 하지 않고 종료
 			}
 			
-		}); */
+			if($("input#searchWord").val().trim() == "") {
+				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
+				return false;
+			}
+			
+			$("input#searchWord").bind("keyup",function(event){
+				if(event.keyCode ==13){
+					//검색어에서 엔터를 치면 검색하러 가도록 한다.
+					goSearch();
+				}
+				
+			});
+			
+		}); // end of $("button#btn_search").click(function(){})----------------
 		
 		
+		
+		
+		// 검색조건을 넣은 후, action단에서 페이지바를 보여주고 다른 페이징 처리를 할 때 검색조건을 넣어준다
+		// alert("~~ 확인용 : ${requestScope.searchType} ");
+		// "~~ 확인용 : "
+		// 회원명 조건하고 했더니 "~~ 확인용 : name" 뜸
+		if( "${requestScope.searchContent}" != "" ) { // 반드시 if에 넣을때 쌍따옴표 꼭 붙여라!!(자바스크립트임)
+			$("select#searchContent").val("${requestScope.searchContent}");
+			$("input#searchWord").val("${requestScope.searchWord}");
+		}
 	
-	});
+	}); // end of $(document).ready(function(){})-----------
 	
+	
+	
+
 	//Fucntion Declaration
 	function goSearch(){
 		
-		
-	/* 
-		if( $("input#searchContent").val().trim() == "" ){ //input 값 또한 텅 비었다면, 공백
+		if($("select.searchContent").val() == "" ) {
+			alert("검색대상을 올바르게 선택하세요!!");
+			return; // goSearch() 함수 종료.
+		}
+	
+		if( $("input#searchWord").val().trim() == "" ){ //input 값 또한 텅 비었다면, 공백
 			alert("검색어는 공백만으로는 되지 않습니다. \n검색어를 올바르게 입력하세요!!");
 			return; // return; 는 goSearch() 함수 종료이다.
 		}
@@ -63,7 +101,7 @@
 		const frm = document.qnaSearchFrm; 
 		frm.action = "qnaBoard.book";
 		frm.method ="get"; //안쓰면 생략 가능
-		frm.submit(); */
+		frm.submit(); 
 		
 	}
 
@@ -114,12 +152,14 @@
 							
 				    	</td>
 				    	<td class="tbl_subject">
+				    		<%-- 비밀글일때 아이콘 표시 --%>
 				    		<c:if test="${board.qna_issecret eq '1'}" >
 					    		<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
 					    				${board.qna_title}
 					    		</a>
 					    		<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
 				    		</c:if>
+				    		<%-- 공개글 아이콘 없음 --%>
 				    		<c:if test="${board.qna_issecret eq '0'}">
 				    			<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
 					    				${board.qna_title}
@@ -131,7 +171,7 @@
 				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
 	        			
 	        		</tr>
-	        		
+	        		 <input type="hidden" class="qna_passwd" name="qna_passwd" id="qna_passwd" value="${board.qna_passwd}"/>
 	        	</c:forEach>
 	        </c:if>
 	        
@@ -166,6 +206,7 @@
 		</tbody>
 	 
 	  </table>
+	 
 	  <div class="write_btn_zone">
       	<button type="button" class="btn btn-dark" onclick="location.href='<%= ctxPath %>/board/qnaWrite.book'">글쓰기</button>
   	  </div>
@@ -175,7 +216,7 @@
   	</div>
   	
   	
-  	<div class="pagination2 justify-content-center" style="display:flex; width: 80%;">
+  	<div class="pagination2 justify-content-center" style="display:flex; width: 100%;">
 	    <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 	    <%-- 
 	    <ul>
@@ -191,30 +232,29 @@
 	    --%>
 	</div>
  	
- <%-- 	<form name="qnaSearchFrm" action="qnaBoard.book" method="get" ></form>--%>
+	<form name="qnaSearchFrm" action="qnaBoard.book" method="get" >
 	 	<div class="search_outer" >
 	 		<div class="search_inner">
 	 		<a><img src="<%= ctxPath%>/images/board/leejh_images/ico_triangle3.gif" /></a>
 		  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
-		  	
+		  	<%-- 
 		    <select id="searchDate" name="search">
 		    	<option value="week" selected="selected">일주일</option>
 		        <option value="month">한달</option>
 		        <option value="3months">세달</option>
 		        <option value="all">전체</option>
 		    </select>
-		    
-		    <select id="searchContent" name="search">
-		    	<option value="subject" selected="selected">제목</option>
-		        <option value="content">내용</option>
-		        <option value="writername">글쓴이</option>
-		        <option value="userid">아이디</option>
-		        <option value="nickname">별명</option>
-		        <option value="product">상품정보</option>
+		    --%>
+		    <select id="searchContent" name="searchContent">
+		    	<option value="qna_title" selected="selected">제목</option>
+		        <option value="qna_contents">글내용</option>
+		        <option value="mname">글쓴이</option>
+		        <option value="fk_userid">아이디</option>
+		       
 		
 		    </select>
 		    
-		    <input type="text" id="searchWord" name="search"></input>
+		    <input type="text" id="searchWord" name="searchWord"></input>
 		    
 		    
 		    <button type="submit" onclick="goSearch()" class="btn" name="search" >찾기</button>
@@ -222,7 +262,7 @@
 		    </div>
 	    
 	  	</div>
-  	
+  	</form>
 </div>
 </div>
 

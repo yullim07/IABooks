@@ -77,52 +77,62 @@ public class BoardDAO implements InterBoardDAO {
 	      QnABoardVO board = null;
 	      try {
 	    	  conn = ds.getConnection();
-	         
-	         /*
-	           select rno, userid, name, email, gender        
-				from
-				(
-				select rownum AS rno, userid, name, email, gender        
-				from
-				    (
-				    select userid, name, email, gender        
-				    from tbl_member
-				    where userid !='admin'
-				    order by registerday desc
-				    ) V
-				) T
-				where rno between 1 and 10;
-				*/
-	         /*
-	         String sql = "select  fk_pnum, pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret\r\n"
-	         			+ "from tbl_member M\r\n"
-	         			+ "JOIN tbl_qna_board Q  \r\n"
-	         			+ "ON M.pk_userid = Q.fk_userid "
-	         			+ "where isdelete = 0"
-	         			+ "order by pk_qna_num desc";
-	         */
-	         String sql =   " select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
+	      
+	       
+	         String sql =   " select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
 	         		+ "						from \r\n"
 	         		+ "						( \r\n"
-	         		+ "							select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
+	         		+ "							select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
 	         		+ "							  from \r\n"
 	         		+ "	 			   			 ( \r\n"
-	         		+ "	 			   			 	select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret \r\n"
+	         		+ "	 			   			 	select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
 	         		+ "		   			   		 	from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  \r\n"
-	         		+ "		   			   		 	where isdelete = 0\r\n"
-	         		+ "		   			   		 	order by pk_qna_num desc\r\n"
-	         		+ "		   			   		 ) V\r\n"
-	         		+ "		   			   	) T \r\n"
-	         		+ "		   			   	where rno between ? and ? ";
+	         		+ "		   			   		 	where isdelete = 0\r\n";
 	       
+	         
+	         
+	         
+	          String colname = paraMap.get("searchContent");
+	          System.out.println("searchCOnte"+colname);
+	          
+			  String searchWord = paraMap.get("searchWord");	
+	    	   
+			  if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+						sql += " and " + colname + " like '%'|| ? ||'%' ";
+						// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+						// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+					
+			  } 		
+			  
+			  sql +=  " 		order by pk_qna_num desc " +
+					  " 	) V " +
+	   			   	  " ) T " +
+					  " where rno between ? and ? ";
+	         
+	         
+	         
             pstmt = conn.prepareStatement(sql);
 
             int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			  int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
-			pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-			pstmt.setInt(2, (currentShowPageNo * sizePerPage));
-            
+	
+			
+			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+				// 검색종류와 검색어가 있으면	
+				pstmt.setString(1, searchWord);
+				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+				pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+				System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
+				  
+			}
+			else {
+				pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+				pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+				System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+				  
+			}
+			
             rs = pstmt.executeQuery();
        
             while (rs.next()) {
@@ -263,11 +273,30 @@ public class BoardDAO implements InterBoardDAO {
 				conn = ds.getConnection();
 				
 				String sql = " select ceil( count(*)/? ) "
-						   + " from tbl_qna_board ";
+						   + " from tbl_qna_board Q"
+						   + " join tbl_member M"
+						   + " on Q.fk_userid = M.pk_userid";
 						  // + " where fk_userid != 'admin' ";
+				
+				String colname = paraMap.get("searchContent");
+				String searchWord = paraMap.get("searchWord");	
+				System.out.println(" 확인용 colname : " + colname);
+				System.out.println(" 확인용 searchWord : " + searchWord);
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					sql += " where " + colname + " like '%'|| ? ||'%' ";
+					// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+					// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+				}
+				
 				
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setString(1, paraMap.get("sizePerPage"));
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					// 검색종류와 검색어가 있으면	
+					pstmt.setString(2, searchWord);
+				}
 				
 				rs = pstmt.executeQuery();
 				
@@ -606,8 +635,12 @@ public class BoardDAO implements InterBoardDAO {
 		return faqVO;
 	} // end of public FaqBoardVO selectContent(int pk_faq_board_num) throws SQLException----------
 
+	//
 	
 	
+	
+	
+	///////////////////////////////////////////////////////
 	
 	
 	// Qna 상세글 읽어오기
@@ -633,7 +666,7 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,qna_date\r\n"
+			String sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,qna_date, qna_passwd\r\n"
 						+ " from tbl_qna_board  Q\r\n"
 						+ " join  tbl_member M\r\n"
 						+ " ON Q.fk_userid = M.pk_userid \r\n"
@@ -655,8 +688,8 @@ public class BoardDAO implements InterBoardDAO {
 				qnaVO.setQna_contents(rs.getString(4));
 				qnaVO.setFk_userid(rs.getString(5));
 				qnaVO.setQna_date(rs.getString(6));
-				
-				// System.out.println("받아왔니? " + qnaVO.getFaq_contents());
+				qnaVO.setQna_passwd(rs.getString(7));
+				 System.out.println("받아왔니? " + qnaVO.getQna_passwd());
 			}
 			
 		} catch(SQLException e) { 
@@ -688,7 +721,7 @@ public class BoardDAO implements InterBoardDAO {
 		int result = 0;
 		
 		int pk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
-		System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
+	//	System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
 
 		try {
 			conn = ds.getConnection();
@@ -760,6 +793,52 @@ public class BoardDAO implements InterBoardDAO {
 		return result;
 	}
 	
+	
+	
+	//Qna 게시글에 댓글 작성하기
+	@Override
+	public int writeCmtBoard(Map<String, String> paraMap) throws SQLException{
+		
+		System.out.println("하잉");
+		int result = 0;
+		int pk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
+		System.out.println("바잉");
+		System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_comment(pk_cmt_num, fk_userid, fk_qna_num, cmt_passwd, cmt_contents) \r\n"
+					+ "values(SEQ_COMMENT.nextval, ?, ?, ?, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setInt( 2, pk_qna_num);
+			pstmt.setString(3, paraMap.get("cmtPasswd"));
+			pstmt.setString(4, paraMap.get("cmtContent"));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+	
+	
+	//Qna 게시글 댓글 읽어오기
+	@Override
+	public QnABoardVO readCmtContent(int pk_qna_num) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+
 	
 
 	

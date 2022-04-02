@@ -1,5 +1,8 @@
 package board.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,17 +28,24 @@ public class QnaDeleteAction extends AbstractController {
 		QnABoardVO qnaVO = new QnABoardVO();
 		String message = "";
 		String loc = "";
-		
+		String password = request.getParameter("password");
 		int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num"));
 		System.out.println(" 삭제하기 위해 QnaDeleteAction 에서 받아온 번호 : " + pk_qna_num);
 		qnaVO.setPk_qna_num(pk_qna_num);
-
+		qnaVO.setQna_passwd(password);
+		
 		qnaVO = bdao.getqnaContent(pk_qna_num);
 		
+		
+	
 		if( loginuser != null && ( "admin".equals(loginuser.getUserid()) || qnaVO.getFk_userid().equals(loginuser.getUserid()) )  ) {
 			//로그인한 관리자이거나 , 로그인한 해당글의 작성자이거나 
 			
+			
+			
 			request.setAttribute("qnaVO", qnaVO);
+			
+
 			
 			int n = bdao.deleteQnaBoard(qnaVO);
 			

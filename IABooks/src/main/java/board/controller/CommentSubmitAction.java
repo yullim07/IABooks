@@ -10,69 +10,46 @@ import javax.servlet.http.HttpSession;
 
 import board.model.BoardDAO;
 import board.model.InterBoardDAO;
+import board.model.QnABoardVO;
 import common.controller.AbstractController;
 import member.model.MemberVO;
 
-public class QnaSubmitAction extends AbstractController {
+public class CommentSubmitAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
-		System.out.println("되나?");
-		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 해야 한다. == //
 		HttpSession session  = request.getSession();
-				
+		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-				
-		if( loginuser == null   ) {
-		
-			String message = "로그인한 회원만 가능합니다.";
-			String loc = "javascript:history.back()";
-			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
-			
-		}
-	//	String userid = request.getParameter("userid");
-		
-	//	HttpSession session = request.getSession();
-		
-		else {
-			
-		
-			// 글쓰기 버튼을 클릭했을 경우
+		System.out.println("ㅇㄴㅇㄹ?");
+		// 확인 버튼을 클릭했을 경우
 			String userid = loginuser.getUserid();
-			String subject = request.getParameter("qnaSubject");
-			String content = request.getParameter("qnaContent");
-			String passwd = request.getParameter("qnaPasswd");
-			String issecret = request.getParameter("qnaIssecret");
+			String cmtContent = request.getParameter("commnet_content");
+			String cmtPasswd = request.getParameter("comment_pwd");
+			String cmtWriter = request.getParameter("cmtWriter");
+			String pk_qna_num = (String) request.getParameter("pk_qna_num");
 			
-			
-			
+			System.out.println("와이?");
 			
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("userid", userid);
-			paraMap.put("subject",subject);
 			
-			paraMap.put("content", content);
-			paraMap.put("passwd", passwd);
-			paraMap.put("issecret", issecret);
-			
+			paraMap.put("cmtContent", cmtContent);
+			paraMap.put("cmtPasswd", cmtPasswd);
+			paraMap.put("cmtWriter", cmtWriter);
+			paraMap.put("pk_qna_num", pk_qna_num);
 			
 			String message = "";
 			String loc = "";
 			
 			try {
 				InterBoardDAO bdao = new BoardDAO();
-				int n = bdao.writeQnaBoard(paraMap);
+				int n = bdao.writeCmtBoard(paraMap);
 				
 				
 				if(n==1) {
 					message = "글쓰기 성공!!!";
-					loc =  request.getContextPath()+"/board/qnaBoard.book";// qna목록페이지로 이동
+					loc =  request.getContextPath()+"/board/qnaDetail.book"; // c페이지로 이동
 				}
 				
 			} catch(SQLException e) {
@@ -87,12 +64,6 @@ public class QnaSubmitAction extends AbstractController {
            
             // super.setRedirect(false);  
             super.setViewPage("/WEB-INF/msg.jsp");
-			
-			
-		 } // end of if~-----------------
-		
-			
-			
 		
 	}
 

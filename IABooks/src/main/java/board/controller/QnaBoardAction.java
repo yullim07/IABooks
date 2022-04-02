@@ -23,13 +23,15 @@ public class QnaBoardAction extends AbstractController {
       HttpSession session = request.getSession();
       
       MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-      /*
+      
       //검색이 있을 경우 시작 //
-		String searchDate = request.getParameter("searchDate");
+      // 검색조건이 있을 경우 시작
+   		
+  
 		String searchContent = request.getParameter("searchContent"); 
 		String searchWord = request.getParameter("searchWord");
 		//검색이 있을 경우 끝 //
-      */
+      
       InterBoardDAO bdao = new BoardDAO();
       
       
@@ -64,12 +66,13 @@ public class QnaBoardAction extends AbstractController {
          System.out.println("오류");
       }
       
-      /*
+      
       //== 검색이 있을 경우 시작 == //
       
-      if( 	  searchDate != null && !"".equals(searchDate) && !"week".equals(searchDate) && !"month".equals(searchDate) && !"3months".equals(searchDate) && !"all".equals(searchDate)
-    	  && searchContent != null && !"".equals(searchContent) && !"subject".equals(searchContent) && !"content".equals(searchContent) && !"writername".equals(searchContent) 
-    	  && !"userid".equals(searchContent) && !"nickname".equals(searchContent)  && !"product".equals(searchContent)
+      if( searchContent != null && !"".equals(searchContent) && !"qna_title".equals(searchContent) 
+          && !"qna_contents".equals(searchContent)
+    	  && !"mname".equals(searchContent) 
+    	  && !"fk_userid".equals(searchContent)
     		  ) { //select 의 value
 			
     	  // 사용자가 웹브라우저 주소입력란에서 장난친 경우
@@ -90,11 +93,11 @@ public class QnaBoardAction extends AbstractController {
       
       
       
-      paraMap.put("searchDate", searchDate);
+     
       paraMap.put("searchContent", searchContent);
       paraMap.put("searchWord", searchWord);
       //== 검색이 있을 경우 끝 == //
-      */
+      
       
       paraMap.put("sizePerPage", sizePerPage);
       
@@ -141,18 +144,19 @@ public class QnaBoardAction extends AbstractController {
    // **** [맨처음][이전] 만들기 **** //
    		if(pageNo != 1) {
    		// if(Integer.parseInt(currentShowPageNo) >= 2) {
-   			pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"'>[맨처음]</a></li>";
-   			pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"'>[이전]</a></li>";
+   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>&lt;&lt;</a></li>";
+   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>&lt;</a></li>";
    		}
    		
    		while( !(loop > blockSize || pageNo > totalPage) ) {
    			// 루프가 블락사이즈(3,5,10)을 넘어가거나 || 페이지번호가 총 페이지수를 넘어가기 전까지 반복
    			if( pageNo == Integer.parseInt(currentShowPageNo) ) {
-   				pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
+   				//내가 보고자하는 페이지
+   				pageBar += "<li class='page-item active'><a class='page-link' href='#"+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a></li>";
    				// 현재페이지 링크 제거
    			}
    			else {
-   				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a></li>";
+   				pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
    			}
    			loop++;
    			pageNo++;
@@ -162,14 +166,22 @@ public class QnaBoardAction extends AbstractController {
    		// pageNo ==> 11
    		if(pageNo <= totalPage) {
    			// 마지막 페이지랑 같으면 다음 마지막이 없어져야 됨
-   			pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>[다음]</a></li>";
-   			pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"'>[마지막]</a></li>";
+   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>&gt;</a></li>";
+   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>&gt;&gt;</a></li>";
    		}
    		
    		request.setAttribute("pageBar", pageBar);
    		
    		// **** ============ 페이지바 만들기 끝 ============ //
       	
+   		// 검색결과를 유지하려고 한다(안할시 검색결과 후 페이지 넘기면 검색조건 없는 페이지로 넘어감)
+		// if 안쓰는이유 : 위에서 null이면 ""로 바꿔줘서
+		request.setAttribute("searchContent", searchContent);
+		request.setAttribute("searchWord", searchWord);
+		
+   		
+   		
+   		
       //   super.setRedirect(false);
          super.setViewPage("/WEB-INF/board/qnaBoard.jsp");
       

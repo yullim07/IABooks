@@ -70,6 +70,13 @@ public interface InterBoardDAO {
 	int deleteQnaBoard(QnABoardVO qnaVO) throws SQLException;
 	
 	
+	//Qna 게시글에 댓글 작성하기
+	int writeCmtBoard(Map<String, String> paraMap) throws SQLException;
+	
+	//Qna 게시글 댓글 읽어오기
+	QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
+	
+	
 	
 	
 	

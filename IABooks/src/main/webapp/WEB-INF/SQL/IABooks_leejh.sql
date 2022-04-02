@@ -200,6 +200,16 @@ nocycle
 nocache;
 --Sequence SEQ_FAQ_BOARD이(가) 생성되었습니다.
 
+create sequence seq_comment
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+--Sequence SEQ_COMMENT이(가) 생성되었습니다.
+
+
 
 SELECT * FROM USER_SEQUENCES
 
@@ -609,3 +619,20 @@ from tbl_qna_board
 update tbl_qna_board set qna_title = '도넛', qna_contents= '은 맛있어', qna_issecret = 1
 where pk_qna_num = '3081';  
 commit;
+
+select *
+from tbl_comment;
+
+desc tbl_comment;
+
+
+
+insert into tbl_comment(pk_cmt_num, fk_userid, fk_qna_num, cmt_passwd, cmt_contents) 
+values(SEQ_COMMENT.nextval, 'admin', 3093, '1111', '안녕하세요');
+--1 행 이(가) 삽입되었습니다.
+commit;
+
+-- 댓글작성자 cmt_name 컬럼 삭제하고 fk_userid를 통해서 사용자이름 끌어오기
+alter table tbl_comment drop column cmt_name;
+--Table TBL_COMMENT이(가) 변경되었습니다.
+
