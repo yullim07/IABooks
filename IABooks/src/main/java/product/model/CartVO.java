@@ -47,4 +47,5 @@ public class CartVO {
 	// 기본생성자
 	public CartVO() {}
 	
+}
 	
