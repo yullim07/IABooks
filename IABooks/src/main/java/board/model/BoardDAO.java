@@ -17,6 +17,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import member.model.MemberVO;
+import product.model.CategoryVO;
 import product.model.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
@@ -605,42 +606,46 @@ public class BoardDAO implements InterBoardDAO {
     
 	// 리뷰게시판 글 목록보기 구현
 	@Override
-	public List<ReviewBoardVO> selectPagingRevBord(Map<String, String> paraMap) throws SQLException {
+	public List<ReviewBoardVO> selectPagingRevBoard(Map<String, String> paraMap) throws SQLException {
 
 		 List<ReviewBoardVO> reviewList = new ArrayList<>(); // ReviewBoardVO 속에는 MemberDTO가 들어와야 한다.
          
          ReviewBoardVO board = null;
-         
+         String mname = "";
          
          
          try {
         	 
+        	int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+ 		 	int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+ 		 	
+ 		 	System.out.println("currentShowPageNo : " + currentShowPageNo);
+ 		 	System.out.println("sizePerPage : " + sizePerPage);
+        	 
         	 conn = ds.getConnection();
         	 
-        	 String sql = " select pk_rnum, pro_name, pro_imgfile_name, re_title "+
-					  	  "		   , mname, re_date, re_readcount, fk_userid, re_grade "+
- 						  " from "+
- 						  " ( "+
- 						  "    select pk_rnum, pro_name, pro_imgfile_name, re_title "+
- 						  "	   		  , mname, re_date, re_readcount, fk_userid, re_grade, rownum AS rno "+
- 						  "    from "+
- 						  "    ( "+
-        			 	  " 		select  pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS pro_imgfile_name, re_title "+
-        			 	  " 		, M.mname AS mname, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, re_readcount, fk_userid , re_grade "+
-        			      " 		from tbl_member M "+
-        			      " 		JOIN tbl_review_board R  ON M.pk_userid = R.fk_userid "+
-        			      " 		JOIN tbl_product P " +
-        			      " 		ON P.pk_pro_num = R.fk_pnum "+
-        			      " 		where isdelete = 0 "+
-        			      " 		order by pk_rnum desc "+ 
-        			      "    ) V "+ 
-      					  " ) T "+ 
-      					  " where rno between ? and ? ";
+        	 String sql = " SELECT pk_rnum, pro_name, pro_imgfile_name, re_title, mname, re_date, fk_userid, re_grade, cate_name"+
+	        	 		  " FROM   \n"+
+	        	 		  " (   \n"+
+	        			  "    SELECT rownum as rno, pk_rnum, pro_name, pro_imgfile_name, re_title, mname, re_date, fk_userid, re_grade, cate_name "+
+	        			  "    FROM\n"+
+	        			  "    (    \n"+
+	        			  "        select R.pk_rnum AS pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS pro_imgfile_name, R.re_title AS re_title, M.mname AS mname "+
+	        		 	  "               , to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, R.fk_userid AS fk_userid , R.re_grade AS re_grade, C.cate_name AS cate_name "+
+	        			  "        from tbl_member M\n"+
+	        			  "        JOIN tbl_review_board R\n"+
+	        			  "        ON  M.PK_USERID = R.FK_USERID "+
+	        			  "        JOIN tbl_product P\n"+
+	        			  "        ON R.fk_pnum = P.pk_pro_num "+
+	        			  "        JOIN TBL_CATEGORY C " +
+	        			  "        ON P.fk_cate_num = C.pk_cate_num " +
+	        			  "        WHERE isdelete = 0 " +
+	        			  "    ) V "+
+	        			  " ) T "+
+	        			  " where rno between ? and ?";
                
             pstmt = conn.prepareStatement(sql);
             
-            int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-		 	int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 		 	
 		 	pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
 			pstmt.setInt(2, (currentShowPageNo * sizePerPage));
@@ -648,7 +653,7 @@ public class BoardDAO implements InterBoardDAO {
             rs = pstmt.executeQuery();
             
             while(rs.next()) {
-               
+            
                board = new ReviewBoardVO();
                board.setPk_rnum(rs.getInt(1));
                
@@ -656,20 +661,22 @@ public class BoardDAO implements InterBoardDAO {
                product.setPro_name(rs.getString(2));;
                product.setPro_imgfile_name(rs.getString(3));
                board.setProduct(product);
-               
                board.setRe_title(rs.getString(4));
                
+            
                MemberVO member = new MemberVO();
-               member.setName(rs.getString("mname")); 
+               mname = rs.getString(5);
+               member.setName(mname); 
                board.setMember(member); // 보드에 멤버를 넣어줌.
                
+               
                board.setRe_date( rs.getString(6));
-               board.setRe_readcount(rs.getInt(7));
-               board.setFk_userid(rs.getString(8));
-               board.setRe_grade(rs.getInt(9));
-       
-               
-               
+               board.setFk_userid(rs.getString(7));
+               board.setRe_grade(rs.getInt(8));
+       		
+               CategoryVO category = new CategoryVO();
+               category.setCate_name(rs.getString(9));
+               board.setCategory(category);
                
                // System.out.println("~~확인용 member.getName() : " + member.getName());
          
@@ -708,12 +715,31 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select ceil( count(*)/? ) "
-					   + " from tbl_review_board ";
+			String sql = " select ceil( count(*)/? ) " +
+					     " from tbl_review_board A JOIN tbl_product B " +
+					     " ON A.FK_PNUM = B.PK_PRO_NUM " +
+					     " JOIN tbl_member C ON A.FK_USERID = C.PK_USERID ";
 					  // + " where fk_userid != 'admin' ";
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
+			
+			System.out.println(" 확인용 colname : " + colname);
+			System.out.println(" 확인용 searchWord : " + searchWord);
+			
+			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+				// 카테고리 값이 없거나 1이고 검색종류 및 검색어가 있을 때
+				sql += " where " + colname + " like '%'|| ? ||'%' ";
+				// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+				// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+			}
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("sizePerPage"));
+			
+			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+				pstmt.setString(2, searchWord);
+			}
 			
 			rs = pstmt.executeQuery();
 			
@@ -887,18 +913,20 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 		
 		
-			String sql = "select currentnum, currenttitle, prev_num, prev_title, next_num, next_title "+
+			String sql = "select currentnum, currenttitle, prev_num, prev_title, next_num, next_title, rno "+
 					" from "+
 					" ( "+
-					" select   pk_faq_board_num as currentnum "+
+					" select   to_number(pk_faq_board_num) as currentnum "+
 					"         , faq_title as currenttitle "+
-					"         , lead(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as next_num "+
-					"         , lead(faq_title, 1, '다음글이 없습니다') over(order by faq_title desc) as next_title "+
-					"         , lag(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as prev_num "+
-					"         , lag(faq_title, 1, '이전글이 없습니다') over(order by faq_title desc) as prev_title "+
+					"         , lead(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as prev_num "+
+					"         , lead(faq_title, 1, '다음글이 없습니다') over(order by faq_title desc) as prev_title "+
+					"         , lag(pk_faq_board_num, 1,	 0) over(order by pk_faq_board_num desc) as next_num "+
+					"         , lag(faq_title, 1, '이전글이 없습니다') over(order by faq_title desc) as next_title "+
+					"		  , rownum AS rno " +
 					" from tbl_faq_board "+
 					" ) v "+
-					" where currentnum = ? ";
+					" where currentnum = ? " +
+					" order by length(currentnum), currentnum ";
 		
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, currentNum);
@@ -915,6 +943,7 @@ public class BoardDAO implements InterBoardDAO {
 				faqPrevNext.setPrev_title(rs.getString(4));
 				faqPrevNext.setNext_num(rs.getInt(5));
 				faqPrevNext.setNext_title(rs.getString(6));
+				
 				
 				System.out.println("이전글 번호 : " + faqPrevNext.getPrev_num());
 				System.out.println("이전글 제목 : " + faqPrevNext.getPrev_title());

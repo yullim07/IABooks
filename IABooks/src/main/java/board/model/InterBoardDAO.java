@@ -33,7 +33,7 @@ public interface InterBoardDAO {
 	int writeFaqBoard(Map<String, String> paraMap) throws SQLException;	
 	
 	// 리뷰게시판 글 목록보기
-	List<ReviewBoardVO> selectPagingRevBord(Map<String, String> paraMap) throws SQLException;
+	List<ReviewBoardVO> selectPagingRevBoard(Map<String, String> paraMap) throws SQLException;
 
 	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
 	int getTotalRevPage(Map<String, String> paraMap) throws SQLException;

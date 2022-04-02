@@ -128,7 +128,7 @@ public class FaqBoardAction extends AbstractController {
 		}
 		
 		while( !(loop > blockSize || pageNo > totalPage) ) {
-			// 루프가 블락사이즈(3,5,10)을 넘어가거나 || 페이지번호가 총 페이지수를 넘어가기 전까지 반복
+			// 루프가 블락사이즈(10)을 넘어가거나 || 페이지번호가 총 페이지수를 넘어가기 전까지 반복
 			if( pageNo == Integer.parseInt(currentShowPageNo) ) {
 				pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
 				// 현재페이지 링크 제거

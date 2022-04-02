@@ -1,6 +1,7 @@
 package board.model;
 
 import member.model.MemberVO;
+import product.model.CategoryVO;
 import product.model.ProductVO;
 
 public class ReviewBoardVO {
@@ -25,7 +26,16 @@ public class ReviewBoardVO {
 		
 		private ProductVO product;
 		
+		private CategoryVO category;
 		
+		public CategoryVO getCategory() {
+			return category;
+		}
+
+		public void setCategory(CategoryVO category) {
+			this.category = category;
+		}
+
 		public MemberVO getMember() {
 			return member;
 		}

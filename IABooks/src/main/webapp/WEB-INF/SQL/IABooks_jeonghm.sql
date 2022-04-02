@@ -428,15 +428,94 @@ where currentnum = 3;
 desc TBL_FAQ_BOARD
 
 
-select currentnum, currenttitle, prevnum, prevtitle, nextnum, nexttitle
-from
-(
-select   pk_faq_board_num as currentnum
-         , faq_title as currenttitle
-         , lead(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as nextnum
-         , lead(faq_title, 1, '다음글이 없습니다') over(order by faq_title desc) as nexttitle
-         , lag(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as prevnum
-         , lag(faq_title, 1, '이전글이 없습니다') over(order by faq_title desc) as prevtitle
+String sql = "select currentnum, currenttitle, prevnum, prevtitle, nextnum, nexttitle\n"+
+"from\n"+
+"(\n"+
+"select   pk_faq_board_num as currentnum\n"+
+"         , faq_title as currenttitle\n"+
+"         , lead(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as nextnum\n"+
+"         , lead(faq_title, 1, '다음글이 없습니다') over(order by faq_title desc) as nexttitle\n"+
+"         , lag(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as prevnum\n"+
+"         , lag(faq_title, 1, '이전글이 없습니다') over(order by faq_title desc) as prevtitle\n"+
+"from tbl_faq_board\n"+
+") v\n"+
+"where currentnum = 3;";
+
+delete 
+from TBL_FAQ_BOARD
+
+-- 시퀀스 값 초기화
+drop sequence SEQ_FAQ_BOARD
+
+  create sequence SEQ_FAQ_BOARD
+  start with 1    -- 첫번쨰 출발은 1 부터 한다.
+  increment by 1  -- 증가치는 1이다. 1씩 증가한다.
+  maxvalue 10000      -- 최대값이 5이다.
+  minvalue 1      -- 최소값이 2이다.
+  cycle           -- 반복을 한다.
+  nocache;
+
+select last_number from user_sequences where sequence_name = 'SEQ_FAQ_BOARD'
+
+alter sequence SEQ_FAQ_BOARD increment by -1;
+
+select SEQ_FAQ_BOARD.nextval from dual;
+
+select *
+from user_sequences
+
+select *
 from tbl_faq_board
-) v
-where currentnum = 3;
+order by pk_faq_board_num;
+
+-- 끝
+
+commit;
+
+select *
+from tbl_product
+
+desc tbl_review_board
+desc tbl_product
+desc tbl_member
+
+
+
+select pk_rnum, pro_name, pro_imgfile_name, re_title, mname
+       , to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, re_readcount, fk_userid , re_grade
+from tbl_review_board R JOIN tbl_member M 
+ON R.fk_userid = M.pk_userid 
+JOIN tbl_product P
+ON P = P.pk_pro_num = R.fk_pnum
+where R.isdelete = 0;
+
+
+select pk_rnum, R.re_title,
+       M.mname AS mname, to_char(R.re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, re_readcount, R.fk_userid , R.re_grade
+from tbl_review_board R JOIN tbl_member M ON R.fk_userid = M.pk_userid 
+
+
+-- qna 쿼리문 
+SELECT pk_rnum, pro_name, p_img_name, re_title, mname, re_date, fk_userid, re_grade, cate_name
+FROM   
+(   
+    SELECT rownum as rno, pk_rnum, pro_name, p_img_name, re_title, mname, re_date, fk_userid, re_grade, cate_name
+    FROM
+    (    
+        select R.pk_rnum AS pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS p_img_name, R.re_title AS re_title, M.mname AS mname
+               , to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, R.fk_userid AS fk_userid , R.re_grade AS re_grade, C.cate_name AS cate_name
+        from tbl_member M
+        JOIN tbl_review_board R
+        ON  M.PK_USERID = R.FK_USERID
+        JOIN tbl_product P
+        ON R.fk_pnum = P.pk_pro_num
+        JOIN TBL_CATEGORY C
+        ON P.fk_cate_num = C.pk_cate_num
+        WHERE isdelete = 0
+    ) V
+) T
+where rno between 1 and 10;
+
+
+
+
