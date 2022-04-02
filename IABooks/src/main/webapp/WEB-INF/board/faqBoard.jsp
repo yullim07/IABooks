@@ -116,7 +116,7 @@
 </script>
 
 	    <div class="container">
-	    <form name="faqBoardFrm" action="faqBoard.book" method="get">
+	    <form name="faqBoardFrm" method="get">
 			    <div class="title" >
 				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 				  	<h2>FAQ</h2>
@@ -182,7 +182,7 @@
 			    </select>
 			    <input type="text" name="searchWord" id="searchWord"></input>
 			    <button class="btn btn_faq_search" id="btn_search" name="btn_search" onclick="goSearch();" >찾기</button>
-			    <button class="btn btn_faq_write" id="btn_write" style="float:right;" name="write" onclick="location.href='<%= ctxPath%>/board/faqWrite.book'">글쓰기</button>
+			    <button class="btn btn_faq_write" type="button" id="btn_write" style="float:right;" name="btn_write" onclick="location.href='<%= ctxPath%>/board/faqWrite.book'">글쓰기</button>
 			    </div>
 		    
 		  	</div>
