@@ -191,13 +191,12 @@
 			}
 			
 			else {
-				if(bool == $(".calc1 tbody input:checkbox[id=cbtr1]").is(":checked")) {
+				
+				if(bool == $(".calc1 tbody tr input:checkbox[id=cbtr1]").is(":checked")) {
 					$(".calc1_tbody_tr1").remove();
-					alert("AAAAA");
 				}
-				else if(bool == $(".calc1 tbody input:checkbox[id=cbtr2]").is(":checked")) {
+				else if(bool == $(".calc1 tbody tr input:checkbox[id=cbtr2]").is(":checked")) {
 					$(".calc1_tbody_tr2").remove();
-					alert("BBBBB");
 				}
 			}
 			
@@ -253,7 +252,7 @@
 								<th colspan="10" style="text-align: left; padding-left: 10px;">일반상품(1)</th>
 							</tr>
 							<tr>
-								<th><input type="checkbox" name="checkbox" id="check"></th>
+								<th><label for="allCheck"><input type="checkbox" name="checkbox" id="check"></label></th>
 								<th><span>이미지</span></th>
 								<th style="width: 550px;"><span>상품정보</span></th>
 								<th>판매가</th>
@@ -266,6 +265,7 @@
 							</tr>
 						</thead>
 						
+						<%-- <c:if test=""> --%>
 						<tbody id="notproduct">
 							<tr style="height: 90px; background-color: #fff;">
 								<td colspan="10" style="text-align: left; text-align: center; border-right: none;">
@@ -273,10 +273,11 @@
 								</td>
 							</tr>
 						</tbody>
+						<%-- </c:if> --%>
 						
 						<tbody id="calc1tbody">
-						
 							<tr class="calc1_tbody_tr1" style="height: 90px; background-color: #fff;">
+								
 								<td style="text-align: left; text-align: center; border-right: none;">
 									<input type="checkbox" id="cbtr1" name="checkbox" />
 								</td>
