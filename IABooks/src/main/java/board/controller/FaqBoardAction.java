@@ -44,8 +44,7 @@ public class FaqBoardAction extends AbstractController {
 			currentShowPageNo = "1";
 		}
 		
-		if(sizePerPage == null || 
-		   !( "3".equals(sizePerPage) || "5".equals(sizePerPage) || "10".equals(sizePerPage)) ) {
+		if(sizePerPage == null || !( "10".equals(sizePerPage)) ) {
 			sizePerPage = "10"; // 페이지별 보여줄 글의 개수 지정
 		}
 		

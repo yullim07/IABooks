@@ -874,6 +874,67 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return result;
 	}
+
+	// 이전글, 다음글 정보를 가져오기
+	@Override
+	public FaqBoardVO getPrevNextContent(Map<String, String> paraMap) throws SQLException {
+		
+		int currentNum = Integer.parseInt(paraMap.get("currentNum"));
+		System.out.println("잘 갔니? " + currentNum);
+		FaqBoardVO faqPrevNext = null;
+		
+		try {
+			conn = ds.getConnection();
+		
+		
+			String sql = "select currentnum, currenttitle, prev_num, prev_title, next_num, next_title "+
+					" from "+
+					" ( "+
+					" select   pk_faq_board_num as currentnum "+
+					"         , faq_title as currenttitle "+
+					"         , lead(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as next_num "+
+					"         , lead(faq_title, 1, '다음글이 없습니다') over(order by faq_title desc) as next_title "+
+					"         , lag(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as prev_num "+
+					"         , lag(faq_title, 1, '이전글이 없습니다') over(order by faq_title desc) as prev_title "+
+					" from tbl_faq_board "+
+					" ) v "+
+					" where currentnum = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, currentNum);
+						
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				faqPrevNext = new FaqBoardVO();
+				
+				faqPrevNext.setCurrentNum(rs.getInt(1));
+				faqPrevNext.setCurrentTitle(rs.getString(2));
+				faqPrevNext.setPrev_num(rs.getInt(3));
+				faqPrevNext.setPrev_title(rs.getString(4));
+				faqPrevNext.setNext_num(rs.getInt(5));
+				faqPrevNext.setNext_title(rs.getString(6));
+				
+				System.out.println("이전글 번호 : " + faqPrevNext.getPrev_num());
+				System.out.println("이전글 제목 : " + faqPrevNext.getPrev_title());
+				System.out.println("다음글 번호 : " + faqPrevNext.getNext_num());
+				System.out.println("다음글 제목 : " + faqPrevNext.getNext_title());
+				
+				
+			}
+
+		
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return faqPrevNext;
+		
+		
+	} // end of public void getPrevNextContent(Map<String, String> paraMap) throws SQLException
 	
 	
 

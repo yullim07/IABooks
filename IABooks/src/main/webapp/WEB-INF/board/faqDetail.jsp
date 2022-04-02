@@ -53,7 +53,7 @@
 
 	
  <div class="container">
-	
+	<c:set var="faqVO" value="${requestScope.faqVO}" />
 	<div class="content">
 	    
 	<div class="title" >
@@ -63,7 +63,7 @@
 		  	<span >이용안내 FAQ입니다.</span>
 	    
 	   </div>
-	   			<c:set var="faqVO" value="${requestScope.faqVO}" />
+	   			
 				<table class=" review_table table_content">
 				  	<tbody>
 				    <tr>
@@ -105,20 +105,38 @@
 				<table class="prev_next">
 					<tbody>
 						<tr>
-							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_prev.gif" id="img_prev" />
-							<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${(board.pk_faq_board_num)-1}">이전글</a></th>
-							<td id="td_left" class="board_prev"><a href=""></a></td>
+							<th>
+								<img src="<%=ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
+								<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${faqVO.prev_num}">이전글</a>
+							</th>
+							
+							<td id="td_left" class="board_prev">
+								<c:if test="${faqVO.prev_num ne 0 }">	
+									<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${faqVO.prev_num}">${faqVO.prev_title}</a>
+								</c:if>
+								<c:if test="${faqVO.prev_num eq 0 }">	
+									<p>이전글이 없습니다.</p>
+								</c:if>
+							</td>
 						</tr>
 						<tr>
-							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_next.gif" id="img_next" />
-							<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${(board.pk_faq_board_num)+1}">다음글</a></th>
-							<td id="td_left" class="board_next"><a href=""></a></td>
+							<th><img src="<%=ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
+								<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${faqVO.next_num}">다음글</a>
+							</th>
+							<td id="td_left" class="board_next">
+								<c:if test="${faqVO.next_num ne 0 }">
+									<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${faqVO.next_num}">${faqVO.next_title}</a>
+								</c:if>
+								<c:if test="${faqVO.next_num eq 0 }">	
+									<p>다음글이 없습니다.</p>
+								</c:if>
+							</td>
 						</tr>
 					</tbody>
 					
 				</table>
 			</div>
-		<input type="hidden" class="pk_faq_board_num" name="pk_faq_board_num" id="pk_faq_board_num" value="${(board.pk_faq_board_num)}"/>
+		<input type="hidden" class="pk_faq_board_num" name="pk_faq_board_num" id="pk_faq_board_num" value="${faqVO.pk_faq_board_num}"/>
 	</div>	
 			
 </div> <!-- container 끝 -->

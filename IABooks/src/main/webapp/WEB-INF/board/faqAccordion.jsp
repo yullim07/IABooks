@@ -44,19 +44,19 @@
 		<div class="cs_btn">
 			<ul>
 				<li>
-					<a href="">회원</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=member&searchType=&searchWord=">회원</a>
 				</li>
 				<li>
-					<a href="">상품</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=product&searchType=&searchWord=">상품</a>
 				</li>
 				<li>
-					<a href="">주문/배송</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=return&searchType=&searchWord=">주문/배송</a>
 				</li>
 				<li>
-					<a href="">반품/교환</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=order&searchType=&searchWord=">반품/교환</a>
 				</li>
 				<li>
-					<a href="">제휴</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=promotion&searchType=&searchWord=">제휴</a>
 				</li>
 			</ul>
 		</div>

@@ -149,6 +149,7 @@
 			    </tr>
 			  </thead>
 			  <tbody>
+			  	<c:if test="${not empty requestScope.faqBoardList}">
 			    <c:forEach var="board" items="${requestScope.faqBoardList}" >
 				    <tr> 
 				    	<td>${board.pk_faq_board_num}</td>
@@ -158,7 +159,17 @@
 				    	</td>
 				    	<td>${board.faq_writer}</td>
 				    </tr>
-			    </c:forEach>  
+			    </c:forEach> 
+			    </c:if> 
+			    <c:if test="${empty requestScope.faqBoardList}">
+        		<tr id="notExist">
+			      	<td colspan="6">
+			      		<div>
+			      		<span style="color: #555555; font-weight:bold;">표시할 내용이 없습니다.</span>
+			      		</div>
+			      	</td>
+			    </tr>
+        	</c:if>
 			  </tbody>
 			
 			</table>

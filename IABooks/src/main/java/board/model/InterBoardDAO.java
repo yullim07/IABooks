@@ -52,6 +52,9 @@ public interface InterBoardDAO {
 	
 	// FAQ 게시판 값을 삭제하기
 	int deleteFaqBoard(FaqBoardVO faqVO) throws SQLException;
+
+	// 이전글, 다음글 정보를 가져오기
+	FaqBoardVO getPrevNextContent(Map<String, String> paraMap) throws SQLException;
 	
 
 	

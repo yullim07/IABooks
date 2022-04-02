@@ -12,6 +12,12 @@ public class FaqBoardVO {
 	private String faq_writer;		// 작성자
 	private String faq_contents;	// 게시글 내용
 	private int isdelete; 			// 삭제유무(0:삭제안함, 1:삭제함)
+	private int currentNum;			// 현재글 번호
+	private String currentTitle;	// 현재글 내용
+	private int prev_num;			// 이전글 번호
+	private String prev_title;	// 이전글 내용
+	private int next_num;			// 다음글 번호
+	private String next_title;	// 다음글 내용	
 	
 	private MemberVO member;
 	
@@ -97,6 +103,53 @@ public class FaqBoardVO {
 		this.member = member;
 	}
 	
-	
-	
+	public int getPrev_num() {
+		return prev_num;
+	}
+
+	public void setPrev_num(int prev_num) {
+		this.prev_num = prev_num;
+	}
+
+	public int getNext_num() {
+		return next_num;
+	}
+
+	public void setNext_num(int next_num) {
+		this.next_num = next_num;
+	}
+
+	public int getCurrentNum() {
+		return currentNum;
+	}
+
+	public void setCurrentNum(int currentNum) {
+		this.currentNum = currentNum;
+	}
+
+	public String getCurrentTitle() {
+		return currentTitle;
+	}
+
+	public void setCurrentTitle(String currentTitle) {
+		this.currentTitle = currentTitle;
+	}
+
+	public String getPrev_title() {
+		return prev_title;
+	}
+
+	public void setPrev_title(String prev_title) {
+		this.prev_title = prev_title;
+	}
+
+	public String getNext_title() {
+		return next_title;
+	}
+
+	public void setNext_title(String next_title) {
+		this.next_title = next_title;
+	}
+
+
 }

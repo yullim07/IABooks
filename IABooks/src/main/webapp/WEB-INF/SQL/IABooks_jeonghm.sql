@@ -402,3 +402,41 @@ update tbl_faq_board set faq_title = ?, faq_contents= ?, fk_faq_c_num = ?
 where pk_faq_board_num = 6
 String sql = "update tbl_faq_board set faq_title = ?, faq_contents= ?, fk_faq_c_num = ?\n"+
 "where pk_faq_board_num = 6";
+
+
+
+select *
+from tbl_faq_board
+
+select *
+from tbl_faq_board
+where fk_faq_c_num = 3;
+
+select currentnum, currenttitle, prevnum, prevtitle, nextnum, nexttitle
+from
+(
+select   pk_faq_board_num as currentnum
+         , faq_title as currenttitle
+         , lead(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as nextnum
+         , lead(faq_title, 1, '다음글이 없습니다') over(order by faq_title desc) as nexttitle
+         , lag(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as prevnum
+         , lag(faq_title, 1, '이전글이 없습니다') over(order by faq_title desc) as prevtitle
+from tbl_faq_board
+) v
+where currentnum = 3;
+
+desc TBL_FAQ_BOARD
+
+
+select currentnum, currenttitle, prevnum, prevtitle, nextnum, nexttitle
+from
+(
+select   pk_faq_board_num as currentnum
+         , faq_title as currenttitle
+         , lead(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as nextnum
+         , lead(faq_title, 1, '다음글이 없습니다') over(order by faq_title desc) as nexttitle
+         , lag(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as prevnum
+         , lag(faq_title, 1, '이전글이 없습니다') over(order by faq_title desc) as prevtitle
+from tbl_faq_board
+) v
+where currentnum = 3;
