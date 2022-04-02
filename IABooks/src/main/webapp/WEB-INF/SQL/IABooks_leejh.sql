@@ -598,3 +598,14 @@ select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_user
 		   			   		 ) T 
 		   			   		 where rno between ? and ? 
 
+
+
+desc tbl_qna_board;
+
+select *
+from tbl_qna_board
+
+
+update tbl_qna_board set qna_title = '도넛', qna_contents= '은 맛있어', qna_issecret = 1
+where pk_qna_num = '3081';  
+commit;

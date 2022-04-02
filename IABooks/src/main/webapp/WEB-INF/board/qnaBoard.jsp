@@ -35,6 +35,8 @@
 	$(document).ready(function(){
 		
 		
+		$()
+		
 		
 		/* $("input#searchContent").bind("keyup",function(event){
 			if(event.keyCode ==13){
@@ -112,10 +114,17 @@
 							
 				    	</td>
 				    	<td class="tbl_subject">
-				    		<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
-				    		${board.qna_title}
-				    		<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
-				    		</a>
+				    		<c:if test="${board.qna_issecret eq '1'}" >
+					    		<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
+					    				${board.qna_title}
+					    		</a>
+					    		<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
+				    		</c:if>
+				    		<c:if test="${board.qna_issecret eq '0'}">
+				    			<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
+					    				${board.qna_title}
+					    		</a>
+				    		</c:if>
 				    	</td>
 				    	<td class="tbl_writer mycenter">${board.member.name}</td>
 				    	<td class="tbl_date mycenter">${board.qna_date}</td>

@@ -254,7 +254,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 	   
 	   
-
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 Qna게시판에 대한 페이지 알아오기
 	    @Override
 		public int getTotalqnaPage(Map<String, String> paraMap) throws SQLException {
 	    	int totalPage = 0;
@@ -719,6 +719,43 @@ public class BoardDAO implements InterBoardDAO {
 		}
 		
 		
+		
+		return result;
+	}
+
+	
+	//Qna 게시글 삭제하기
+	@Override
+	public int deleteQnaBoard(QnABoardVO qnaVO) throws SQLException {
+		// TODO Auto-generated method stub
+		
+		int result = 0;
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_qna_board  "
+					   + " where pk_qna_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qnaVO.getPk_qna_num());
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				System.out.println("삭제 성공!");
+			}
+			
+			result = n;
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+	
 		
 		return result;
 	}

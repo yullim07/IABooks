@@ -16,7 +16,7 @@ public class QnaDetailAction extends AbstractController {
 			
 		int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num"));
 			
-			System.out.println("나오나?");
+		//	System.out.println("나오나?");
 		
 			QnABoardVO qnaVO = new QnABoardVO();
 			

@@ -65,6 +65,9 @@ public interface InterBoardDAO {
 
 	//Qna 게시글 수정하기
 	int UpdateQnaBoard(Map<String, String> paraMap) throws SQLException;
+
+	//Qna 게시글 삭제하기
+	int deleteQnaBoard(QnABoardVO qnaVO) throws SQLException;
 	
 	
 	
