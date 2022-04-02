@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class QuantityIncreaseDecreaseAction extends AbstractController {
+public class X_QuantityIncreaseDecreaseAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

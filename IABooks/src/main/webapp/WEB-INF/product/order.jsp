@@ -7,7 +7,7 @@
 %>
 
 <meta charset="UTF-8">
-<title>in사과북스::장바구니</title>
+<title>in사과북스::주문상세</title>
 
 <!-- 부트스트랩 css -->
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
@@ -32,9 +32,10 @@
 		padding-bottom: 10px;
 	}
 	
-	/* 홈 > 장바구니 */
+	/* 홈 > 주문상세 */
 	.home { 
 		float: right;
+		clear: both;
 	}
 	
 	/* 계산 테이블 */
@@ -183,8 +184,8 @@
 		<div id="frame">
 			<form>
 				<div id="frame2">
-					<span style="font-size: 16pt; font-weight: bold;">장바구니</span>
-					<span class="home">홈 > 장바구니</span>
+					<span style="font-size: 16pt; font-weight: bold;">주문상세</span>
+					<span class="home">홈 > 주문상세</span>
 					<span> </span>
 				</div>
 				
@@ -223,10 +224,10 @@
 							</tr>
 						</thead>
 						
-						<tbody id="calc1_tbody">
-							<tr class="clac1_tbody_tr1" style="height: 90px; background-color: #fff;">
+						<tbody>
+							<tr style="height: 90px; background-color: #fff;">
 								<td style="text-align: left; text-align: center; border-right: none;">
-									<input type="checkbox" id="cbtr1" name="checkbox" />
+									<input type="checkbox" name="checkbox" />
 								</td>
 								<td style="text-align: left; padding-left: 10px; border-left: none;">
 									<img src="<%=ctxPath%>/images/product/book.jpg" width="100px;">
@@ -248,9 +249,9 @@
 								<td><span>0</span>원</td>
 								
 								<td>
-									<button type="button" class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">주문하기</button>
-									<button type="button" class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">관심상품등록</button>
-									<button type="button" class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
+									<button class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">주문하기</button>
+									<button class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">관심상품등록</button>
+									<button class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
 								</td>
 							</tr>
 						</tbody>
@@ -269,10 +270,7 @@
 					<div style="margin: 10px 0;">
 						<span style="margin: 0 10px;" class="btnfloat">선택상품을</span>
 						<button class="btn default btnfloat" style="background-color: grey; color: #fff">삭제하기</button>
-						<button class="btn default backBtn btnfloat">해외배송 장바구니로 이동</button>
-						
-						<button class="btn default backBtn btnfloat2 productClear">장바구니 비우기</button>
-						<button class="btn default backBtn btnfloat2">견적서 출력</button>
+						<button class="btn default btnfloat2" onclick="javascript:history.back()">이전페이지</button>
 						<span class="clearboth"></span>
 					</div>
 				</div>
@@ -299,8 +297,8 @@
 				
 				<div align="center">
 					<button class="btn default orderGobtn" id="allProduct">전체상품주문</button>
-					<button class="btn default orderGobtn" id="productClear">선택상품주문</button>
-					<button class="btn default footerbtn" id="footerbtn" onclick="javascript:location.href='<%=ctxPath %>/index.book'">쇼핑계속하기</button>
+					<button class="btn default backBtn orderGobtn" id="productClear">선택상품주문</button>
+					<button class="btn default footerbtn orderGobtn" id="footerbtn" onclick="javascript:location.href='<%=ctxPath %>/index.book'">쇼핑계속하기</button>
 					<span class="clearboth"></span>
 				</div>
 			</form>
