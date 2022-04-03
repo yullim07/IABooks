@@ -212,107 +212,24 @@
 		</div>
 	</div>
 	
-	<div class="prev_next table table-responsive" >
-		<table class="prev_next line_table">
-			<tbody>
-				<tr>
-					<th>
-						<img style="max-width:100%; height:auto;" src="<%= ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
-						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=(${board.pk_qna_num-1})">이전글</a>
-					</th>
-					<td><a href="">만족</a></td>
-				</tr>
-				<tr>
-					<th>
-						<img src="<%= ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
-						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num= ${board.pk_qna_num+1}">다음글</a>
-					</th>
-					<td><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
-				</tr>
-			</tbody>
-			
-		</table>
-		
-		
-		
+	<div class="prev_next table table-responsive">
+				<table class="prev_next">
+					<tbody>
+						<tr>
+							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_prev.gif" id="img_prev" />
+							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${(board.pk_qna_num)-1}">이전글</a></th>
+							<td id="td_left" class="board_prev"><a href=""></a></td>
+						</tr>
+						<tr>
+							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_next.gif" id="img_next" />
+							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${(board.pk_qna_num)+1}">다음글</a></th>
+							<td id="td_left" class="board_next"><a href=""></a></td>
+						</tr>
+					</tbody>
+					
+				</table>
+			</div>
 	</div>
-	
-	
- 	<div class="related">
- 		<h3>관련 글 보기</h3>
- 
-  		<div class="table">
-	  		<table class="table tbl_related table-hover">
-			    <thead>
-			      <tr class="tblHeader">
-			        <th width="9.2%">번호</th>
-			        <th width="18.5%">상품명</th>
-			        <th width="40%">제목</th>
-			        <th width="11%">작성자</th>
-			        <th width="10.5%">작성일</th>
-			       <!--  <th width="10.5%">조회</th> -->
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <td class="tbl_number mycenter">218</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">만족</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-03-10</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">214</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">보통</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-02-13</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">204</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">만족</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-25</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">203</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">직업이 술꾼이라니 너무 재밌는 책이라 구입했습니다. 먼저 일러스트로 알게 되었고, 그 다음<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-24</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">194</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">배송이 빨라 좋았어요!<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-04</td>
-			      </tr>
-			    </tbody>
-			</table>
-			
-		</div>
-		
-		
-	</div>
-  
-</div>
-</div>
 
 
 	
