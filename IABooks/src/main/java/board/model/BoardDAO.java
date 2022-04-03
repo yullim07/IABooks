@@ -17,6 +17,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import member.model.MemberVO;
+import product.model.CategoryVO;
 import product.model.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
