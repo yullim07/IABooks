@@ -156,7 +156,7 @@ public class QnaBoardAction extends AbstractController {
    				// 현재페이지 링크 제거
    			}
    			else {
-   				pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
+   				pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
    			}
    			loop++;
    			pageNo++;
