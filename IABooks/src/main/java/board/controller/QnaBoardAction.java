@@ -53,7 +53,7 @@ public class QnaBoardAction extends AbstractController {
       if(currentShowPageNo == null) {
          currentShowPageNo = "1";
       }
-      if( sizePerPage == null  ) {
+      if( sizePerPage == null || !(  "10".equals(sizePerPage))  ) {
          sizePerPage = "10";
       }
      
@@ -66,6 +66,7 @@ public class QnaBoardAction extends AbstractController {
          System.out.println("오류");
       }
       
+      paraMap.put("sizePerPage", sizePerPage);
       
       //== 검색이 있을 경우 시작 == //
       
@@ -99,8 +100,8 @@ public class QnaBoardAction extends AbstractController {
       //== 검색이 있을 경우 끝 == //
       
       
-      paraMap.put("sizePerPage", sizePerPage);
-      
+ //// 여기로 옮겨옴			
+ 			
       // 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
       int totalPage = bdao.getTotalqnaPage(paraMap);
       System.out.println("~~~확인용 totalPage => " + totalPage);
@@ -121,7 +122,7 @@ public class QnaBoardAction extends AbstractController {
       List<QnABoardVO> qnaboardList = bdao.selectPagingQnaBoard(paraMap); //메소드를 만든다  // 리턴타입이 MemberVO 가 복수개
       
       request.setAttribute("qnaboardList", qnaboardList);
-      
+      request.setAttribute("sizePerPage", sizePerPage);
       
       
       // *** ======== 페이지바 만들기 시작 ========= *** //
@@ -140,6 +141,13 @@ public class QnaBoardAction extends AbstractController {
       // pageNo 는 페이지바에서 보여지는 첫번째 번호이다.
       
       
+		if(searchContent == null) {
+			searchContent = "";
+		}
+		if(searchWord == null) {
+			searchWord = "";
+		}
+		
       
    // **** [맨처음][이전] 만들기 **** //
    		if(pageNo != 1) {
