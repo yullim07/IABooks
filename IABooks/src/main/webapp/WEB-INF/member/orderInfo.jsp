@@ -9,18 +9,16 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_header_footer.css" />
-
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css">
 	
-	<!-- Optional JavaScript-->
-	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
-
+<jsp:include page="/WEB-INF/header.jsp"/>
 <script type="text/javascript">
 
-	
+	 
 </script>
+
+
 
 <style type="text/css">
 
@@ -87,12 +85,29 @@ div.pagination {
       font-weight: bolder;
       opacity: 0.3;
    }
-
+	
+	input.orderDay {
+		background-color: white;
+		border: solid 1px grey;
+		margin-left: -5;
+		padding: 2px;
+	}
+	
+	input.orderDay:hover {
+		color: white;
+		font-weight:bold;
+		background-color: black;
+	}
+	
+	input.orderDay.clicked {
+        color: white;
+		font-weight:bold;
+		background-color: black;
+     }
 
 
 </style>
 <title>주문조회</title>
-<jsp:include page="/header_orgin.jsp"/>
 <div class="container">
 	
 	<div class="titleArea">
@@ -127,11 +142,11 @@ div.pagination {
 	                     </select>
 	                 </td>
 	                 <td>
-	                 	 <input type = "button" value = "오늘">
-		                 <input type = "button" value = "일주일">
-		                 <input type = "button" value = "1개월">
-		                 <input type = "button" value = "3개월">
-		                 <input type = "button" value = "6개월">
+	                 	 <input class="orderDay" type = "button" value = "오늘">
+		                 <input class="orderDay" type = "button" value = "일주일">
+		                 <input class="orderDay" type = "button" value = "1개월">
+		                 <input class="orderDay" type = "button" value = "3개월">
+		                 <input class="orderDay" type = "button" value = "6개월">
 	                 </td>
 	                 <td><input type = "date" value="2000-01-01"> ~ <input type = "date" value="2022-03-22"> <input type = "button" value="조회"></td>
                  </tr>
@@ -169,11 +184,11 @@ div.pagination {
 	            <table>
 	                <tr class = "option">
 	                   <td>
-		                   <input type = "button" value = "오늘">
-		                   <input type = "button" value = "일주일">
-		                   <input type = "button" value = "1개월">
-		                   <input type = "button" value = "3개월">
-		                   <input type = "button" value = "6개월">
+		                   <input class="orderDay" type = "button" value = "오늘">
+		                   <input class="orderDay" type = "button" value = "일주일">
+		                   <input class="orderDay" type = "button" value = "1개월">
+		                   <input class="orderDay" type = "button" value = "3개월">
+		                   <input class="orderDay" type = "button" value = "6개월">
 	                   </td>
 	                   <td><input type = "date" value="2000-01-01"> ~ <input type = "date" value="2022-03-22"> <input type = "button" value="조회"></td>
 	                </tr>
@@ -212,5 +227,5 @@ div.pagination {
 
 </div>
 	
-<jsp:include page="/footer_orgin.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  
