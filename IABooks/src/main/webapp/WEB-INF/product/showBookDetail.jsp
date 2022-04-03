@@ -23,8 +23,7 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
-<!-- 헤더 삽입 -->
-<jsp:include page="<%=ctxPath %>/WEB-INF/header.jsp" />
+<jsp:include page="/WEB-INF/header.jsp" />
 
 	<!-- 컨테이너 시작 -->
 	<div class="container detail_container">
@@ -79,7 +78,7 @@
 							<tr style="border-bottom: solid 2px #F2F2F2; width: 100%; line-height: 32px;">
 								<th scope="row" width="40%">판매가</th>
 								<td scope="col" id="pro_saleprice" name="pro_saleprice" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;">
-									<span><strong><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></strong></span>원
+									<span><strong><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></strong>원</span>
 									<%-- <span><strong>${requestScope.pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
 									<%-- <span id=`${requestScope.pvo.pk_pro_num}`><strong>${requestScope.pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
 								</td>
@@ -670,4 +669,4 @@
 </script>
 
 
-<jsp:include page="<%=ctxPath %>/WEB-INF/footer.jsp" />
+<jsp:include page="/WEB-INF/footer.jsp" />

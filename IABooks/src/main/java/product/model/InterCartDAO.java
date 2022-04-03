@@ -2,19 +2,42 @@ package product.model;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public interface InterCartDAO {
 	
-	// 장바구니 목록 보여주기 메소드
-	// List<CartVO> selectPagingProduct(Map<String, String> paraMap) throws SQLException;
 	
-	// 장바구니에서 상품의 수량을 변경하는 메소드
+	// 카트 추가하기 메소드 완료
+	public int addCart(CartVO cart) throws SQLException;
 	
-	// 장바구니에 상품을 추가하는 메소드
+	// 카트 삭제하기 메소드 완료
+	public int deleteCart(String pk_cartno) throws SQLException;
 	
-	// 장바구니에서 상품을 삭제하는 메소드 (전체삭제와 선택삭제 각각 구현?)
+	// 카트 수량 수정하기 메소드 완료
+	public int modifyCount(CartVO cart) throws SQLException;
 	
-	// 장바구니의 목록을 관심상품 등록
+	// 카트 목록 확인하기 메소드 완료
+	public List<CartVO> getCart(String fk_userid) throws SQLException;
+	
+	// 카트 확인하기 메소드 완료
+	public CartVO checkCart(CartVO cart) throws SQLException;
+	
+	
+	/*
+	
+	// 장바구니 전체삭제(장바구니 비우기) 메소드
+	void cartDeleteAll(String userid);
+	
+	// 장바구니 금액 합계 메소드
+	int cartTotalPrice(String userid);
+	
+	// 장바구니 상품 개수 메소드
+	int cartTotalQty(String userid, String pk_pro_num);
+	
+	// 장바구니 수정 메소드
+	void cartUpdate(CartVO cvo);
+		
+	// 장바구니의 목록을 관심상품으로 등록하기 메소드
+
+	 */
 	
 }

@@ -32,11 +32,6 @@
 		padding-bottom: 10px;
 	}
 	
-	/* 홈 > 장바구니 */
-	.home { 
-		float: right;
-	}
-	
 	/* 계산 테이블 */
 	table.calc1 {
 		clear: both;
@@ -144,7 +139,7 @@
 		});
 		
 		
-		/*
+		
 		// === 체크박스 === //
 		$(".calc1 thead th input:checkbox[id=check]").click(function() {
 			var bool = $(this).prop("checked");
@@ -190,7 +185,7 @@
 		});
 		
 		// === 삭제 버튼 눌렀을 때 제품 삭제하기 === //
-		$("#choiceProductDelete").click(function() {
+		$(".choiceProductDelete").click(function() {
 			
 			var bool = $(".calc1 tbody input:checkbox[name=checkbox]").is(":checked");
 			
@@ -201,10 +196,10 @@
 			else {
 				
 				if(bool == $(".calc1 tbody tr input:checkbox[id=cbtr1]").is(":checked")) {
-					$(".calc1_tbody_tr1").remove();
+					$("#calc1_tbody_tr1").remove();
 				}
 				else if(bool == $(".calc1 tbody tr input:checkbox[id=cbtr2]").is(":checked")) {
-					$(".calc1_tbody_tr2").remove();
+					$("#calc1_tbody_tr2").remove();
 				}
 			}
 			
@@ -228,14 +223,18 @@
 	
 	
 </script>
-<body>
+
+	<jsp:include page="/WEB-INF/header.jsp" />
 	<div class="container">
 		<div id="frame">
 			<form>
 				<div id="frame2">
-					<span style="font-size: 16pt; font-weight: bold;">장바구니</span>
-					<span class="home">홈 > 장바구니</span>
-					<span> </span>
+					<table>
+						<tr style="margin-top: 60px;">
+							<span style="font-size: 16pt; font-weight: bold;">장바구니</span>
+						</tr>
+						<tr><img src="<%=ctxPath %>/images/product/img_order_step1.gif" style="width: 100%;" /></tr>
+					</table>
 				</div>
 				
 				<br/>
@@ -413,8 +412,12 @@
 				</div>
 			</form>
 		</div>
+		
+		<br><br><br>
+		<jsp:include page="cart_board.jsp" />
+				
 	</div>
-	<%-- <jsp:include page="cart_board.jsp" /> --%>
-	<%-- <jsp:include page="<%=ctxPath %>/WEB-INF/product/cart_board.jsp" /> --%>
-	<%-- <jsp:include page="../footer.jsp" /> --%>
-	<%-- <jsp:include page="<%=ctxPath %>/WEB-INF/footer.jsp" /> --%>
+	
+
+
+	<jsp:include page="/WEB-INF/footer.jsp" />

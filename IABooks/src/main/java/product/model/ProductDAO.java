@@ -999,179 +999,230 @@ public class ProductDAO implements InterProductDAO {
 	
 	// ============================================================================================
 
-		// 제품번호를 입력받아서 제품의 상세정보를 출력해주는 메소드 구현하기
-		@Override
-		public ProductVO showBookDetail(String pk_pro_num) throws SQLException {
-			
-			ProductVO pvo = new ProductVO(); 
-			CategoryVO cvo = new CategoryVO();
-			WriterVO wvo = new WriterVO();
-			
-			try {
-				conn = ds.getConnection();			
-							
-				String sql =  " SELECT "					
-							+ " A.pro_name, A.pro_imgfile_name, A.pro_saleprice, "
-							+ " A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date, "
-							+ " A.fk_cate_num, C.cate_name, A.pro_bindtype, A.pro_pages, A.pro_size, "
-							+ "	A.pk_pro_num, A.pro_price, "
-							+ "	A.pro_index, "
-						//	CLOB으로 선언된 책소개, 작가소개 생략 후 진행	
-						//	+ " A.pro_content, B.wr_info, "
-							+ " A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
-							+ "	FROM "
-							+ " tbl_product A "
-							+ "	LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
-							+ " LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
-							+ " WHERE "
-							+ " pk_pro_num = ? ";
-				/*
-				 * 도서정보 (도서명, 판매가, 이미지파일명)
-				 * 품목정보 (도서명, 저자명, 출판사, 출간일, 카테고리명, 제본, 쪽수, 크기, 상품코드, 정가)
-				 * 책소개 / 저자소개 / 목차
-				 */
-				// LEFT OUTER JOIN을 사용했다.
-
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, pk_pro_num);
-				
-				rs = pstmt.executeQuery(); // 결과값은 1개의 행이 나온다!
-				
-				if(rs.next()) { // 결과값이 1개만 나오기 때문에 while문을 사용할 필요가 없다!
-					
-					pvo = new ProductVO();
-					cvo = new CategoryVO();
-					wvo = new WriterVO();
-					
-					/*
-						pro_name
-						pro_imgfile_name
-						pro_saleprice			int
-						fk_wr_code				int
-						wr_name
-						publisher
-						pro_publish_date		date(String)
-						fk_cate_num				int
-						cate_name
-						pro_bindtype
-						pro_pages				int
-						pro_size
-						pk_pro_num
-						pro_price				int
-						pro_index
-						pro_content				CLOB
-						wr_info					CLOB
-						pro_inputdate			date(String)
-						pro_qty					int
-						pro_sales				int
-						pro_viewcnt				int
-					*/
-					
-					pvo.setPro_name(rs.getString(1));
-					pvo.setPro_imgfile_name(rs.getString(2));
-					pvo.setPro_saleprice(rs.getInt(3));	
-					pvo.setFk_wr_code(rs.getInt(4));				
-					wvo.setWr_name(rs.getString(5));			// 작가이름
-					pvo.setPublisher(rs.getString(6));
-					pvo.setPro_publish_date(rs.getString(7));
-					pvo.setFk_cate_num(rs.getInt(8));
-					cvo.setCate_name(rs.getString(9));			// 카텍고리명
-					pvo.setPro_bindtype(rs.getString(10));
-					pvo.setPro_pages(rs.getInt(11));		
-					pvo.setPro_size(rs.getString(12));
-					pvo.setPk_pro_num(rs.getString(13));
-					pvo.setPro_price(rs.getInt(14));			
-					pvo.setPro_index(rs.getString(15));
-				//	CLOB 사용법 모르겠음
-				//	pvo.setPro_content(rs.getString(16));
-				//	wvo.setWr_info(rs.getString(17));
-					pvo.setPro_inputdate(rs.getString(16));
-					pvo.setPro_qty(rs.getInt(17));
-					pvo.setPro_sales(rs.getInt(18));			
-					
-					int pro_viewcnt = rs.getInt(19);
-					pvo.setPro_viewcnt(pro_viewcnt);
-					pro_viewcnt++;
-					
-					plusViewCnt(pk_pro_num);
-					
-				}
-				
-			} finally {
-				close();
-			}
-			return pvo;
-		}
-
-		@Override
-		public int plusViewCnt(String pk_pro_num) throws SQLException {
-
-			try {
-				
-				conn = ds.getConnection();
-				
-				String sql =  " update tbl_product "
-							+ " set pro_viewcnt = pro_viewcnt + 1 "
-							+ " where pk_pro_num = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, pk_pro_num);
-				
-				int result = pstmt.executeUpdate();
-				return result;
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				close();
-			}
-			
-			return -1; // 데이터베이스 오류
-		}
-
-		@Override
-		public List<CartVO> getCartList(String fk_userid) {
-			
-			List<CartVO> cartList = null;
-			
-			try {
-				conn = ds.getConnection();
-				
-				String sql =  " SELECT * "
-							+ " FROM tbl_cart "
-							+ " WHERE fk_userid = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, fk_userid);
-				
-				rs = pstmt.executeQuery();
-				
-				int cnt = 0;
-				
-				while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까 
-					cnt++;
-					
-					if(cnt == 1) {
-						cartList = new ArrayList<CartVO>();
-					}
-					
-					CartVO cvo = new CartVO();
-					
-					cvo.setPk_cartno(rs.getInt("pk_cartno"));
-					cvo.setFK_USERID(rs.getString("fk_userid"));
-					cvo.setPk_pro_num(rs.getInt("pk_pro_num")); 
-					cvo.setCk_odr_qty(rs.getInt("ck_odr_qty"));
-					cvo.setCk_cart_register(rs.getDate("ck_cart_register"));			
-				}
+	// 제품번호를 입력받아서 제품의 상세정보를 출력해주는 메소드 구현하기
+	@Override
+	public ProductVO showBookDetail(String pk_pro_num) throws SQLException {
 		
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				close();
+		ProductVO pvo = new ProductVO(); 
+		CategoryVO cvo = new CategoryVO();
+		WriterVO wvo = new WriterVO();
+		
+		try {
+			conn = ds.getConnection();			
+						
+			String sql =  " SELECT "					
+						+ " A.pro_name, A.pro_imgfile_name, A.pro_saleprice, "
+						+ " A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date, "
+						+ " A.fk_cate_num, C.cate_name, A.pro_bindtype, A.pro_pages, A.pro_size, "
+						+ "	A.pk_pro_num, A.pro_price, "
+						+ "	A.pro_index, "
+					//	CLOB으로 선언된 책소개, 작가소개 생략 후 진행	
+					//	+ " A.pro_content, B.wr_info, "
+						+ " A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
+						+ "	FROM "
+						+ " tbl_product A "
+						+ "	LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
+						+ " LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
+						+ " WHERE "
+						+ " pk_pro_num = ? ";
+			/*
+			 * 도서정보 (도서명, 판매가, 이미지파일명)
+			 * 품목정보 (도서명, 저자명, 출판사, 출간일, 카테고리명, 제본, 쪽수, 크기, 상품코드, 정가)
+			 * 책소개 / 저자소개 / 목차
+			 */
+			// LEFT OUTER JOIN을 사용했다.
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_pro_num);
+			
+			rs = pstmt.executeQuery(); // 결과값은 1개의 행이 나온다!
+			
+			if(rs.next()) { // 결과값이 1개만 나오기 때문에 while문을 사용할 필요가 없다!
+				
+				pvo = new ProductVO();
+				cvo = new CategoryVO();
+				wvo = new WriterVO();
+				
+				/*
+					pro_name
+					pro_imgfile_name
+					pro_saleprice			int
+					fk_wr_code				int
+					wr_name
+					publisher
+					pro_publish_date		date(String)
+					fk_cate_num				int
+					cate_name
+					pro_bindtype
+					pro_pages				int
+					pro_size
+					pk_pro_num
+					pro_price				int
+					pro_index
+					pro_content				CLOB
+					wr_info					CLOB
+					pro_inputdate			date(String)
+					pro_qty					int
+					pro_sales				int
+					pro_viewcnt				int
+				*/
+				
+				pvo.setPro_name(rs.getString(1));
+				pvo.setPro_imgfile_name(rs.getString(2));
+				pvo.setPro_saleprice(rs.getInt(3));	
+				pvo.setFk_wr_code(rs.getInt(4));				
+				wvo.setWr_name(rs.getString(5));			// 작가이름
+				pvo.setPublisher(rs.getString(6));
+				pvo.setPro_publish_date(rs.getString(7));
+				pvo.setFk_cate_num(rs.getInt(8));
+				cvo.setCate_name(rs.getString(9));			// 카텍고리명
+				pvo.setPro_bindtype(rs.getString(10));
+				pvo.setPro_pages(rs.getInt(11));		
+				pvo.setPro_size(rs.getString(12));
+				pvo.setPk_pro_num(rs.getString(13));
+				pvo.setPro_price(rs.getInt(14));			
+				pvo.setPro_index(rs.getString(15));
+			//	CLOB 사용법 모르겠음
+			//	pvo.setPro_content(rs.getString(16));
+			//	wvo.setWr_info(rs.getString(17));
+				pvo.setPro_inputdate(rs.getString(16));
+				pvo.setPro_qty(rs.getInt(17));
+				pvo.setPro_sales(rs.getInt(18));			
+				
+				int pro_viewcnt = rs.getInt(19);
+				pvo.setPro_viewcnt(pro_viewcnt);
+				pro_viewcnt++;
+				
+				plusViewCnt(pk_pro_num);
+				
 			}
 			
-			return cartList;
-		}	
+		} finally {
+			close();
+		}
+		return pvo;
+	}
 	
+	@Override
+	public int plusViewCnt(String pk_pro_num) throws SQLException {
+
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql =  " update tbl_product "
+						+ " set pro_viewcnt = pro_viewcnt + 1 "
+						+ " where pk_pro_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_pro_num);
+			
+			int result = pstmt.executeUpdate();
+			return result;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return -1; // 데이터베이스 오류
+	}
+
+	@Override
+	public List<CartVO> getCartList(String fk_userid) throws SQLException {
+		
+		List<CartVO> cartList = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " SELECT * "
+						+ " FROM tbl_cart "
+						+ " WHERE fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			
+			rs = pstmt.executeQuery();
+			
+			int cnt = 0;
+			
+			while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까 
+				cnt++;
+				
+				if(cnt == 1) {
+					cartList = new ArrayList<CartVO>();
+				}
+				
+				CartVO cvo = new CartVO();
+				
+				cvo.setPk_cartno(rs.getInt("pk_cartno"));
+				cvo.setFk_userid(rs.getString("fk_userid"));
+				cvo.setPk_pro_num(rs.getInt("pk_pro_num")); 
+				cvo.setCk_odr_qty(rs.getInt("ck_odr_qty"));
+				cvo.setCk_cart_register(rs.getString("ck_cart_register"));			
+			}
+	
+		} finally {
+			close();
+		}
+		
+		return cartList;
+	}
+
+	@Override
+	public int addCart(String fk_userid, String pk_pro_num, String ck_odr_qty) throws SQLException {
+
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " SELECT pk_cartno "
+						+ " FROM tbl_cart "
+						+ " WHERE "
+						+ " c_status = 1 AND fk_userid = ? AND pk_pro_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			pstmt.setString(2, pk_pro_num);
+			
+			rs = pstmt.executeQuery();
+			
+			// 어떤 제품을 "추가로" 장바구니에 넣고자 하는 경우
+			if(rs.next()) { 
+				
+				int pk_cartno = rs.getInt("pk_cartno");
+				
+				sql = " UPDATE tbl_cart "
+					+ " SET ck_odr_qty = ck_odr_qty + ? "
+					+ " WHERE pk_cartno = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(ck_odr_qty));
+				pstmt.setInt(2, pk_cartno);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+			// 장바구니에 존재하지 않은 새로운 제품을 넣고자 하는 경우
+			sql = " INSERT INTO tbl_cart(pk_cartno, fk_userid, pk_pro_num, ck_odr_qty, c_status) "
+				+ " VALUES(seq_cartno.nextval, ?, ?, ?, DEFAULT) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			pstmt.setString(2, pk_pro_num);
+			pstmt.setInt(3, Integer.parseInt(ck_odr_qty));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;
+	}
+	
+
 
 }

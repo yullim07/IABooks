@@ -1,47 +1,83 @@
 package product.controller;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import member.model.MemberVO;
 import product.model.*;
 
-public class AddToCartAction extends AbstractController {
+public class CartAddAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		HttpSession session = request.getSession();
+		
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
 		String method = request.getMethod();
 		
-		if(!"POST".equalsIgnoreCase(method)) { // 비회원구매기능이 없으니 GET 으로 들어오는 것을 막아준다.
+		if(!"POST".equalsIgnoreCase(method)) {
 
-			String message = "도서를 구매하기 위해서는 로그인을 해주세요!";
+			String message = "잘못된 경로입니다!";
 			String loc = "javascript:history.back()"; // 뒤로가기
 			
 			request.setAttribute("message", message); // requset 영역에 넣어주기 
 			request.setAttribute("loc", loc);
 			
 		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/product/showBookDetail.jsp");
+			super.setViewPage("/WEB-INF/msg.jsp");
+			return; // 종료
 		}
 		
 		else { // 장바구니에 등록하기 버튼을 누른 경우
 	
-			String userid = request.getParameter("userid");
-			String pk_pro_num = request.getParameter("pk_pro_num");
+			// 로그인 여부
+			boolean isLogin = super.checkLogin(request);
 			
-			// Map 에 넣어주기
-			Map<String, String> paraMap = new HashMap<>();
+			// 로그인하지 않은 회원(비회원의 경우 구매불가)
+			if(!isLogin) {
+				// 비회원이 장바구니 기능 사용 => 로그인하면 다시 원래대로 돌아가야
+				
+			//	String goBackURL = request.getParameter("goBackURL");
+				
+			//	session.setAttribute("goBackURL", goBackURL);
+				
+				request.setAttribute("message", "장바구니에 담으려면 로그인하세요!");
+				request.setAttribute("loc", "javascript:history.back()");
+				
+			//	super.setRedirect(false);
+				super.setViewPage("/WEB-INF/msg.jsp");
+				
+				return; // 종료
+			}
 			
-			paraMap.put("userid", userid);
-			paraMap.put("pk_pro_num", pk_pro_num);
+			// 로그인을 한 경우
+			else { 
+				String pk_pro_num = request.getParameter("pk_pro_num");
+				String ck_odr_qty = request.getParameter("ck_odr_qty");
+				
+				InterProductDAO pdao = new ProductDAO();
+				
+				int n = pdao.addCart( loginuser.getUserid(), pk_pro_num, ck_odr_qty);
+				
+				if(n==1) { // 장바구니 추가 성공
+					request.setAttribute("message", "장바구니에 담았습니다.");
+					request.setAttribute("loc", "cart.book");
+				}
+				else {
+					request.setAttribute("message", "");
+					request.setAttribute("loc", "javascript:history.back()");
+				}
+				
+			//	super.setRedirect(false);
+				super.setViewPage("/WEB-INF/msg.jsp");
+			}
 			
 			/*
 			ArrayList<CartVO> cartList = new ArrayList<>();

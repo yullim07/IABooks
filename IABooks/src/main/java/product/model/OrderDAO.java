@@ -112,7 +112,7 @@ public class OrderDAO implements InterOrderDAO {
 	        //boolean result = false;
 	        try {
 	            query = "delete from orders where o_id=?";
-	            pst = this.con.prepareStatement(query);
+	            pst = this.conn.prepareStatement(query);
 	            pst.setInt(1, id);
 	            pst.execute();
 	            //result = true;
