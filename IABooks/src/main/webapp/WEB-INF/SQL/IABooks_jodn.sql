@@ -1,6 +1,18 @@
 select *
 from tbl_member;
 
+select *
+from tbl_coupon;
+
+ insert into tbl_coupon(PK_COUPON_ID, CNAME, CPRICE,  CSTARTDATE, CENDDATE, CMINPRICE) 
+	                   values('12312', '배송비무료쿠폰', '2599',  '23123', '123123','123123');
+
+delete from tbl_coupon
+-- 탈퇴해제 
+update tbl_member set ck_status = '1' where pk_userid = 'deokno';
+
+update tbl_member set tel = '031-555-1234' where PK_userid = 'admin';
+
 delete from tbl_member where Pk_userid = 'deokno';
 commit;
 
@@ -12,8 +24,29 @@ delete from tbl_loginhistory where fk_userid='admin';
 delete from tbl_member where Pk_userid = 'admin';
 commit;
 
+update tbl_member set  mname = '덕노'
+, lastpwdchangedate= sysdate
+where pk_userid = 'deokno' ;
+
+
 select *
 from tbl_loginhistory;
+
+-- 쿠폰 테이블 생성
+create table tbl_coupon (
+    pk_coupon_id    varchar2(20)  primary key,  -- 쿠폰아이디
+    cname           varchar2(50) not null,      -- 쿠폰이름 
+    cprice          varchar2(20)  not null,     -- 할인가격
+    cdate           date   default sysdate,     -- 쿠폰발급일
+    cstartdate      date   not null,            -- 쿠폰사용가능일
+    cenddate        date   not null             -- 쿠폰사용가능일
+    );
+
+-- 쿠폰하고 회원하고 연결하는 테이블 생성
+create table tbl_user_coupon_status ( 
+    pk_userid varchar2(20)  not null, -- 회원아이디
+    coupon_id varchar2(20)  not null -- 쿠폰아이디
+)
 
 -- 회원
 create table tbl_member (
@@ -155,4 +188,7 @@ CREATE TABLE TBL_LOGINHISTORY (
 	logindate DATE         DEFAULT sysdate, -- 로그인날짜시각
 	clientip  VARCHAR2(15) NOT NULL  -- 접속IP주소
 );
+
+-- 회원탈퇴 날짜 저장 
+ALTER TABLE tbl_member ADD DeleteDay date NULL; 
         

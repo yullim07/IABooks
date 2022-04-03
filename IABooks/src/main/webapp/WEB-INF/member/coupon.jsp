@@ -3,45 +3,78 @@
 
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
 	String ctxPath = request.getContextPath();
 %>
- <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+<jsp:include page="/WEB-INF/header.jsp"/>
 <!-- 내가만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
-
-<!-- Bootstrap CSS -->
-<link rel="stylesheet" href="<%= ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 
 <script type="text/javascript">
 
+
+function generateCoupon(userid) {
+	
+//	alert(userid);
+	
+	// 쿠폰생성
+	const url = "<%= request.getContextPath()%>/member/generateCoupon.book?userid="+userid;
+	
+	// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
+	const pop_width = 800;
+	const pop_height = 600;
+	const pop_left = Math.ceil( ((window.screen.width)-pop_width)/2 ) ; <%-- 정수로 만든다 --%>
+	const pop_top = Math.ceil( ((window.screen.height)-pop_height)/2 ) ;
+	
+	window.open(url, "memberEdit",
+			   	"left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height );
+	
+}; // end of function generateCoupon()
+
+	
 </script>
 
 <style type="text/css">
+
+	a.admin_coupon {
+		margin-top: 20px;
+		width: 200px;
+		height: 36px;
+		background-color: #1a6dff;
+		color: white;
+		font-weight: bold;
+		float: right;
+		border: none;
+		text-align: center;
+		padding-top: 5px;
+		
+	}
+
 </style>
 
 <title>쿠폰조회</title>
 
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
+
 
 <div class="container">
+	<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
+		<a class="admin_coupon" href="javascript:generateCoupon('${(sessionScope.loginuser).userid}');" >coupon 발급하기</a>
+	</c:if>
 	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이쿠폰</strong>
 	<hr style="border: solid 2px #e8e8e8;">
 	
-	<strong>마이 쿠폰 목록</strong><p style="float: right;">사용가능 쿠폰 <span></span>장</p>
+	<strong>마이 쿠폰 목록</strong><p style="float: right;">사용가능 쿠폰 <span>${fn:length(session.loginuser.coupon)}</span> 장</p>
 	
 	<table class="coupon">
 		<thead>
 			<tr>
 				<td>번호</td>
 				<td>쿠폰명</td>
-				<td>쿠폰적용 상품</td>
+				<td>쿠폰적용상품</td>
 				<td>구매금액</td>
 				<td>결제수단</td>
 				<td>쿠폰혜택</td>
@@ -49,11 +82,24 @@
 			</tr>
 		</thead>
 		<tbody>		
+			<c:if test="${fn:length(session.loginuser.coupon) > 0}">
+			<tr>
+				<td align="center">번호</td>
+				<td align="center">쿠폰명</td>
+				<td align="center">쿠폰적용상품</td>
+				<td align="center">구매금액</td>
+				<td align="center">결제수단</td>
+				<td align="center">쿠폰혜택</td>
+				<td align="center">사용가능기간</td>
+			</tr>
+			</c:if>
+			<c:if test="${fn:length(session.loginuser.coupon) == 0}">
 			<tr>
 				<td colspan="7" align="center">
 					보유하고 계신 쿠폰내역이 없습니다.
 				</td>
 			</tr>
+			</c:if>
 		</tbody>	
 	</table>
 	
@@ -103,5 +149,5 @@
 	
 	
 	
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

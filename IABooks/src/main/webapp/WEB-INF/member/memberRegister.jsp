@@ -102,7 +102,6 @@ $(document).ready(function() {
 			
 		} else {
 			// 암호와 암호확인값이 같은 경우
-			$("table#tblMemberRegister :input").prop("disabled",false);
 			//	$target.next().hide();
 			// 	또는
 			$target.parent().find(".error").hide();
@@ -118,7 +117,7 @@ $(document).ready(function() {
 			
 		//	$target.next().show();
 		// 	또는
-		//	$target.parent().find(".error").show();
+			$target.parent().find(".error").show();
 			
 			
 		} else {
@@ -172,7 +171,6 @@ $(document).ready(function() {
 			
 		} else {
 			// bool == true 국번이 정규표현식에 맞는 경우
-			$("table#tblMemberRegister :input").prop("disabled",false);
 			//	$target.next().hide();
 			// 	또는
 			$target.parent().find(".error").hide();
@@ -247,6 +245,7 @@ $(document).ready(function() {
 	
 });// end of $(document).ready(function() 
 	
+	// 아이디 중복 여부 검사하기		
 	function isExistIdCheck() {
 	
 		b_flagIdDuplicateClick = true;
@@ -490,92 +489,90 @@ $(document).ready(function() {
 					<td><input type="password" class="requiredInfo" id="pwdCheck" size="20" maxlength="20" required /><span class="error">암호가 일치하지 않습니다.</span></td>
 				</tr>
 				<tr>
-				<th>성명 &nbsp;<span id="star">*</span></th>
+					<th>성명 &nbsp;<span id="star">*</span></th>
 				    <td>
 				        <input required type="text" class="requiredInfo" id="name" name="name" maxlength="20"><span class="error">성명은 필수입력 사항입니다.</span>
 				    </td>
 				</tr>
 				<tr>
 					<th>우편번호 &nbsp;<span id="star">*</span></th>
-				      <td>
-				         <input required type="text" class="requiredInfo" id="postcode" name="postcode" size="5" placeholder="우편번호" values="addr" style="width: 100px;" />
-				         &nbsp;&nbsp;
-				         <img id="zipcodeSearch" src="<%= ctxPath %>/images/member/btn_zipcode.gif" style="cursor: pointer;" />
-				      </td>
+				    <td>
+				       <input required type="text" class="requiredInfo" id="postcode" name="postcode" size="5" placeholder="우편번호" values="addr" style="width: 100px;" />
+				       &nbsp;&nbsp;
+				       <img id="zipcodeSearch" src="<%= ctxPath %>/images/member/btn_zipcode.gif" style="cursor: pointer;" />
+				    </td>
 				</tr>
 				<tr>
 					<th>주소 &nbsp;<span id="star">*</span></th>
-						<td>
-							<input class="my-1" class="requiredInfo" required type="text" id="address" name="address"  size="50" placeholder="주소" /><br>
-							<input class="my-1" type="text" id="detailAddress" name="detailAddress" size="50" placeholder="상세주소" /><br>
-							<input class="my-1" type="text" id="extraAddress" name="extraAddress" size="50" placeholder="참고항목" />                
-						</td>
-					</tr>
+					<td>
+						<input class="my-1" class="requiredInfo" required type="text" id="address" name="address"  size="50" placeholder="주소" /><br>
+						<input class="my-1" type="text" id="detailAddress" name="detailAddress" size="50" placeholder="상세주소" /><br>
+						<input class="my-1" type="text" id="extraAddress" name="extraAddress" size="50" placeholder="참고항목" />                
+					</td>
+				</tr>
 				<tr>
 					<th>일반전화</th>
-						<td>
-							<select id="num1" name="num1">
-								<option value="">선택</option>
-								<option value="02">02</option>
-								<option value="031">031</option>
-								<option value="032">032</option>
-								<option value="033">033</option>
-								<option value="041">041</option>
-								<option value="042">042</option>
-								<option value="043">043</option>
-								<option value="044">044</option>
-								<option value="051">051</option>
-								<option value="052">052</option>
-								<option value="053">053</option>
-								<option value="054">054</option>
-								<option value="055">055</option>
-								<option value="061">061</option>
-								<option value="062">062</option>
-								<option value="063">063</option>
-								<option value="064">064</option>
-								<option value="070">070</option>
-								<option value="010">010</option>
-							</select>&nbsp;-&nbsp;
-							<input id="num2" name="num2" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">&nbsp;-&nbsp; 
-							<input id="num3" name="num3" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-						</td>
+					<td>
+						<select id="num1" name="num1">
+							<option value="">선택</option>
+							<option value="02">02</option>
+							<option value="031">031</option>
+							<option value="032">032</option>
+							<option value="033">033</option>
+							<option value="041">041</option>
+							<option value="042">042</option>
+							<option value="043">043</option>
+							<option value="044">044</option>
+							<option value="051">051</option>
+							<option value="052">052</option>
+							<option value="053">053</option>
+							<option value="054">054</option>
+							<option value="055">055</option>
+							<option value="061">061</option>
+							<option value="062">062</option>
+							<option value="063">063</option>
+							<option value="064">064</option>
+							<option value="070">070</option>
+							<option value="010">010</option>
+						</select>&nbsp;-&nbsp;
+						<input id="num2" name="num2" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">&nbsp;-&nbsp; 
+						<input id="num3" name="num3" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+					</td>
 				</tr >
 				<tr>
 					<th>휴대전화 &nbsp;<span id="star">*</span></th>
-				        <td>
-				        	<select id="hp1" name="hp1">
-								<option value="010">010</option>
-								<option value="011">011</option>
-								<option value="019">019</option>
-							</select>&nbsp;-&nbsp;
-							<input class="requiredInfo" required id="hp2" name="hp2" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">&nbsp;-&nbsp; 
-							<input class="requiredInfo" required id="hp3" name="hp3" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
-						 	<span class="error">올바른 휴대전화 번호가 아닙니다.</span>
-						 </td>
-				     </tr>
+			        <td>
+			        	<select id="hp1" name="hp1">
+							<option value="010">010</option>
+						</select>&nbsp;-&nbsp;
+						<input class="requiredInfo" required id="hp2" name="hp2" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">&nbsp;-&nbsp; 
+						<input class="requiredInfo" required id="hp3" name="hp3" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+					 	<span class="error">올바른 휴대전화 번호가 아닙니다.</span>
+					 </td>
+			     </tr>
 				<tr>
 					<th>이메일 &nbsp;<span id="star">*</span></th>
-						<td>
-							<input type="email" class="requiredInfo" id="email" name="email" size="20" maxlength="20" required placeholder="example@gmail.com" />
-							<span id="isExistIdCheck" class="duplicateCheck" onclick="isExistEmailCheck();">이메일중복확인&nbsp;&nbsp;<i class="fas fa-angle-right"></i></span>
-							<br>
-							<span class="error">올바른 이메일 양식이 아닙니다.</span>
-							<span id="emailCheckResult"></span>
-						</td>
+					<td>
+						<input type="email" class="requiredInfo" id="email" name="email" size="20" maxlength="20" required placeholder="example@gmail.com" />
+						<span id="isExistIdCheck" class="duplicateCheck" onclick="isExistEmailCheck();">이메일중복확인&nbsp;&nbsp;<i class="fas fa-angle-right"></i></span>
+						<br>
+						<span class="error">올바른 이메일 양식이 아닙니다.</span>
+						<span id="emailCheckResult"></span>
+					</td>
 				</tr>
 				            
 				 <tr>
-			         <th>생년월일&nbsp;<span id="star">*</span></th> 
-			         <td>
-			            <input class="requiredInfo" type="text" id="datepicker" name="birthday">
-			         </td>
+			        <th>생년월일&nbsp;<span id="star">*</span></th> 
+			        <td>
+			           <input class="requiredInfo" type="text" id="datepicker" name="birthday">
+			        </td>
 			      </tr>
 				<tr>
-			         <th>성별&nbsp;<span id="star">*</span></th>
-			         <td>
-			            <input type="radio" id="male" name="gender" value="1" /><label for="male" style="margin-left: 2%;">남자</label>
-			            <input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" /><label for="female" style="margin-left: 2%;">여자</label>
-			         </td>
+			        <th>성별&nbsp;<span id="star">*</span></th>
+			        <td>
+			           <input type="radio" id="male" name="gender" value="1" /><label for="male" style="margin-left: 2%;">남자</label>
+			           <input type="radio" id="female" name="gender" value="2" style="margin-left: 10%;" /><label for="female" style="margin-left: 2%;">여자</label>
+			        </td>
 			    </tr>
 			</table>
 		
