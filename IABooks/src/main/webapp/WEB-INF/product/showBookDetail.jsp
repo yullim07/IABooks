@@ -174,15 +174,25 @@
 				<div class="detail_text_button row" style="margin: 80 0 0 0;">
 				
 					<!-- 구매하기 버튼 시작 -->
-					<form name="buynowFrm" action="order.book" method="post">
+					<form name="buynowFrm" action="<%=ctxPath %>/product/order.book" method="post">
 						<!-- <input type="submit" id="buynow" value="바로구매" style="margin-right: 30px" /> --> 
     					<button type="button" id="btn_buy" class="btn btn-dark" onclick="goBuynow(); return false;"">구매하기</button>
     				</form>
 					<!-- 구매하기 버튼 끝 -->
 					
 					<!-- 장바구니 버튼 시작 -->
-					<form name="cartnowFrm" action="cart.book" method="post">
+					<form name="cartnowFrm" method="post" action="<%=ctxPath %>/product/cart.book" method="post">
 						<!-- <input type="submit" id="cartnow" value="바로구매" style="margin-right: 30px" />  -->
+    					
+    					<input type="hidden" name="pk_pro_num" value="${requestScope.pvo.pk_pro_num}">
+						<!-- 상품코드를 히든타입으로 넘김 -->
+						<select name="amount">
+							<c:forEach begin="1" end="99" var="i">
+								<option value="${i}">${i}</option>
+								<!-- 장바구니에  99개 까지 담을수 있다.-->
+							</c:forEach>
+						</select>&nbsp;개
+						<!-- <input type="submit" value="장바구니에 담기"> -->
     					<button type="button" id="btn_cart" class="btn btn-dark" data-toggle="modal" data-target="#cartModal">
     						장바구니
     					</button>

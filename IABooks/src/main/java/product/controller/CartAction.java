@@ -24,6 +24,7 @@ public class CartAction extends AbstractController {
 		
 		String method = request.getMethod();
 		
+		/*
 		if(!"POST".equalsIgnoreCase(method)) { // POST 방식이 아닌 경우
 			String message = "잘못된 경로입니다!";
 			String loc = "javascript:history.back()"; // 이전 페이지로 가는 것
@@ -34,8 +35,9 @@ public class CartAction extends AbstractController {
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
 		}
+		*/
 		
-		else {
+	//	else {
 			
 			HttpSession session = request.getSession();
 			MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
@@ -64,7 +66,7 @@ public class CartAction extends AbstractController {
 			//	super.setRedirect(false);
 				super.setViewPage("/WEB-INF/product/cart.jsp");
 			}
-		}
+	//	}
 	} // end of execute ----------------------------------
 	
 	

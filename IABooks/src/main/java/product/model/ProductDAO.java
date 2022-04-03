@@ -2161,7 +2161,7 @@ public class ProductDAO implements InterProductDAO {
 				
 				cvo.setPk_cartno(rs.getInt("pk_cartno"));
 				cvo.setFK_USERID(rs.getString("fk_userid"));
-				cvo.setPk_pro_num(rs.getInt("pk_pro_num"));
+				cvo.setPk_pro_num(rs.getInt("pk_pro_num")); 
 				cvo.setCk_odr_qty(rs.getInt("ck_odr_qty"));
 				cvo.setCk_cart_register(rs.getDate("ck_cart_register"));			
 			}

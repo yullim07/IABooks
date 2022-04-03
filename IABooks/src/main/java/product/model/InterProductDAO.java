@@ -58,7 +58,7 @@ public interface InterProductDAO {
 	// 상품 조회수 증가시키기 제품번호를 받아서 상세보기 한 번 클릭할 때마다 조회수 증가시키기 메소드
 	int plusViewCnt(String pk_pro_num) throws SQLException;
 
-	// 장바구니로 상품 정보 넘기기 메소드
+	// 장바구니에 상품 정보 넘기기 메소드
 	List<CartVO> getCartList(String userid);
 	
 	// 상품 삭제하기 delete
