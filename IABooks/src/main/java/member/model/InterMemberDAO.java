@@ -19,14 +19,22 @@ public interface InterMemberDAO {
    // 입력받은 paraMap을 가지고 한명의 회원정보를 리턴시켜주는 메소드(로그인 처리)
    MemberVO selectOneMember(Map<String, String> paraMap) throws SQLException;
 
+   // 회원정보 수정하기
+   int updateMember(MemberVO member) throws SQLException;
+
+   // 회원 탈퇴하기
+   int memberDelete(Map<String, String> paraMap) throws SQLException;
+   
    // 성명과 이메일을 입력 받아서 해당 사용자에 아이디를 알려주는 메소드(아이디 찾기) 
-   String findUserid(Map<String, String> paraMap) throws SQLException;
+   String findUserid(Map<String, String> paraMap, int select) throws SQLException;
 
    // 아이디와 이메일을 입력받아서 해당 사용자가 존재하는지 유무를 알려주는 메소드(비밀번호 찾기)
-//   boolean isUserExist(Map<String, String> paraMap) throws SQLException;
+   boolean isUserExist(Map<String, String> paraMap,  int select) throws SQLException;
 
    // 암호 변경하기 메소드
-//   int pwdUpdate(Map<String, String> paraMap) throws SQLException;
+   int pwdUpdate(Map<String, String> paraMap) throws SQLException;
+
+   
    
    
 }

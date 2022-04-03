@@ -3,12 +3,17 @@
 
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
 	String ctxPath = request.getContextPath();
 	
 %>
+
+<title>마이페이지</title>
+
+<jsp:include page="/WEB-INF/header.jsp"/>
+
 <style type="text/css">
 
 
@@ -36,10 +41,11 @@
     	color:#999999;
     	padding-top: 1%;
     }
-    td.tbl_body_td {
+    table#tbl_body > tbody > tr > td {
+    	cursor:pointer;
     	padding: 2%;
     }
-    tr.tbl_body_line {
+    table#tbl_body > tbody > tr {
     	border-bottom: solid 1px lightgray;
     }
     
@@ -73,10 +79,90 @@
 		padding:3%;
 	}
 	
+	p.sojemok_nayong:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
+	
+	input.btn_jo {
+		width: 41px;
+		height: 24px;
+		background-color: white;
+		border: solid 1px black;
+		font-size: 9pt;
+		margin-left: 10px;
+	}
+	
 </style>
-<title>마이페이지</title>
 
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		
+		// 주문내역조회
+		$("td.tbl_body1").click(()=>{
+			
+			location.href="<%= ctxPath %>/member/orderInfo.book";
+			
+		})// end of $("td.tbl_body_td").click
+	
+		// 회원 정보
+		$("td.tbl_body2").click(()=>{
+			
+			location.href="<%= ctxPath %>/member/memberUpdate.book";
+			
+		})// end of $("td.tbl_body_td").click
+	
+		// 관심상품
+		$("td.tbl_body3").click(()=>{
+			
+			location.href="<%= ctxPath %>/member/interestedItem.book";
+			
+		})// end of $("td.tbl_body_td").click
+	
+		// 적립금
+		$("td.tbl_body4").click(()=>{
+			
+			location.href="<%= ctxPath %>/member/mileage.book";
+			
+		})// end of $("td.tbl_body_td").click
+	
+		// 적립금
+		$("input.mileage").click(()=>{
+			
+			location.href="<%= ctxPath %>/member/mileage.book";
+			
+		})// end of $("input.mileage").click(()
+	
+		// 쿠폰
+		$("td.tbl_body5").click(()=>{
+			
+			location.href="<%= ctxPath %>/member/coupon.book";
+			
+		})// end of $("td.tbl_body_td").click
+
+		// 쿠폰
+		$("input.coupon").click(()=>{
+			
+			location.href="<%= ctxPath %>/member/coupon.book";
+			
+		})// end of $("input.coupon").click(()
+	
+		// 게시물관리
+		$("td.tbl_body6").click(()=>{
+			
+			location.href="#";
+			
+		})// end of $("td.tbl_body_td").click
+	
+	
+	
+	});// end of $(document).ready(function()
+
+</script>
+
+
+
 <div class="container">
 
 	<div class="titleArea">
@@ -88,29 +174,29 @@
          <tr >
             <td class="tbl_head_first" width="35%;">
                <ul class="tbl_head_first" >
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>가용적립금</strong></li>
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>사용립금</strong></li>
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>총주문</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>가용적립금</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>사용적립금</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>총주문</strong></li>
                </ul>
             </td>
             <td class="tbl_head_first" width="15%;">
                <ul class="tbl_head_first">
-                  <li class="tbl_head_first"><strong>0원</strong>&nbsp;<input type="button" value="조회" style="width: 40px;"></li>
-                  <li class="tbl_head_first"><strong>0원</strong></li>
+                  <li class="tbl_head_first"><strong style="color:#00BBCC; ">${sessionScope.loginuser.mileage} 원</strong>&nbsp;<input class="btn_jo mileage" type="button" value="조회" ></li>
+                  <li class="tbl_head_first"><strong>${sessionScope.loginuser.mileage} 원</strong></li>
                   <li class="tbl_head_first"><strong>0원(0회)</strong></li>
                </ul>
             </td>
             
             <td class="tbl_head_first" style="border-left :solid 1px #e8e8e8;" width="35%;">
                <ul class="tbl_head_first">
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>총적립금</strong></li>
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/arrow_menu.gif" /> <strong>쿠폰</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>총적립금</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>쿠폰</strong></li>
                </ul>
             </td>
             <td class="tbl_head_first" width="15%;">
                <ul class="tbl_head_first">
                   <li class="tbl_head_first"><strong>0원</strong></li>
-                  <li class="tbl_head_first"><strong>0개</strong>&nbsp;<input type="button" value="조회" style="width: 40px;"></li>
+                  <li class="tbl_head_first"><strong style="color:#00BBCC;" >${fn:length(session.loginuser.coupon)} 개</strong>&nbsp;<input class="btn_jo coupon" type="button" value="조회" ></li>
                </ul>
             </td>
          </tr>
@@ -141,7 +227,7 @@
     
     <table id="tbl_body">
     	<tr class = "tbl_body_line">
-    		<td class="tbl_body_td">
+    		<td class="tbl_body1">
 	    		<p><strong class="sojemok">order</strong>&nbsp;&nbsp;주문내역 조회<p>
 			    <p class="sojemok_nayong">
 				    고객님께서 주문하신 상품의 주문내역을 확인하실 수 있습니다.<br>
@@ -150,7 +236,7 @@
 			</td>
 		</tr>
 		<tr class = "tbl_body_line">
-    		<td class="tbl_body_td">	
+    		<td class="tbl_body2">	
 			    <p><strong class="sojemok">profile</strong>&nbsp;&nbsp;회원 정보</p>
 		    	<p class="sojemok_nayong">	
 			    	회원이신 고객님의 개인정보를 관리하는 공간입니다.<br>
@@ -159,7 +245,7 @@
 			</td>
 		</tr>
 		<tr class = "tbl_body_line">
-    		<td class="tbl_body_td">
+    		<td class="tbl_body3">
 			    <p><strong class="sojemok">wishlist</strong>&nbsp;&nbsp;관심 상품</p>
 			    <p class="sojemok_nayong">
 			    관심상품으로 등록하신 상품의 목록을 보여드립니다.
@@ -167,7 +253,7 @@
 			</td>
 		</tr>
 		<tr class = "tbl_body_line">
-    		<td class="tbl_body_td">
+    		<td class="tbl_body4">
 			    <p><strong class="sojemok">mileage</strong>&nbsp;&nbsp;적립금</p>
 			    <p class="sojemok_nayong">
 			    적립금은 상품 구매 시 사용하실 수 있습니다.<br>
@@ -176,7 +262,7 @@
 			</td>
 		</tr>
 		<tr class = "tbl_body_line">
-    		<td class="tbl_body_td">
+    		<td class="tbl_body5">
 			    <p><strong class="sojemok">coupon</strong>&nbsp;&nbsp;쿠폰</p>
 			    <p class="sojemok_nayong">
 			    고객님이 보유하고 계신 쿠폰내역을 보여드립니다.
@@ -184,7 +270,7 @@
 			</td>
 		</tr>
 		<tr class = "tbl_body_line">
-    		<td class="tbl_body_td">
+    		<td class="tbl_body6">
 			    <p><strong class="sojemok">board</strong>&nbsp;&nbsp;게시물 관리</p>
 			    <p class="sojemok_nayong">
 			    고객님께서 작성하신 게시물을 관리하는 공간입니다.<br>
@@ -192,16 +278,10 @@
 				</p>
 			</td>
 		</tr>
-		<tr class = "tbl_body_line">
-    		<td class="tbl_body_td">
-			    <p><strong class="sojemok">address</strong>&nbsp;&nbsp;배송 주소록 관리</p>
-			    <p class="sojemok_nayong">
-			    자주 사용하는 배송지를 등록하고 관리하실 수 있습니다.
-			    </p>
-    		</td>
-		</tr>
 	</table>
+	
+
 
 </div>	
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

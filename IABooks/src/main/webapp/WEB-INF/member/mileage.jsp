@@ -9,6 +9,8 @@
 	String ctxPath = request.getContextPath();
 %>
 
+<jsp:include page="/WEB-INF/header.jsp"/>
+
 <title>적립금</title>
 
 	<!-- 내가만든 CSS -->
@@ -29,7 +31,6 @@
 
 </style>
 
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 
 <div class="container">
 	<br>
@@ -157,5 +158,5 @@
 
 </div>
 	
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
  

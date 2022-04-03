@@ -23,7 +23,7 @@ public class LoginAction extends AbstractController {
       
       if("get".equalsIgnoreCase(method)) {
          //super.setRedirect(false);
-         super.setViewPage(request.getContextPath()+"/login/login.jsp");
+         super.setViewPage("/login/join.book");
       }
       else { // post 방식
          
@@ -66,7 +66,7 @@ public class LoginAction extends AbstractController {
                  // session(세션)에 로그인 되어진 사용자 정보인 loginuser 을 키이름을 "loginuser" 으로 저장시켜두는 것이다. 
                  
                  if( loginuser.isRequirePwdChange() == true ) {
-                    String message = "비밀번호를 변경하신지 3개월이 지났습니다. 암호를 변경하세요!!";
+                   String message = "비밀번호를 변경하신지 3개월이 지났습니다. 암호를 변경하세요!!";
                    String loc = request.getContextPath()+"/index.book"; // 추후 수정 필요
                    // 원래는 위와 같이 index.up 이 아니라 암호를 변경해주는 페이지로 잡아주어야 한다. 
                   
@@ -94,7 +94,17 @@ public class LoginAction extends AbstractController {
 						
 						 return; 
 					 } 
-                 	
+					
+					 // 마이페이지에서 로그인 
+				 
+					 String myPageLogin = (String) session.getAttribute("myPageLogin");
+					 
+					 if(myPageLogin == "myPageLogin") {
+						 super.setViewPage(request.getContextPath()+"/member/myPage.book");
+						 
+						 return; 
+					 }
+					 
 	                   // 로그인을 하면 시작페이지(index.up)로 가는 것이 아니라 로그인을 시도하려고 머물렀던 그 페이지로 가기 위한 것이다.
 	                   super.setViewPage(request.getContextPath()+"/index.book");
                  }

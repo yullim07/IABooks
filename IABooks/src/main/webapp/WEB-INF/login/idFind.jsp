@@ -18,17 +18,18 @@
 $(document).ready(function(){
 	
 		const method = "${requestScope.method}";
+		
 		console.log("method =>" + method);
+		
 		
 		if(method == "GET") {
 			$("div#div_findResult").hide();
 		}
 		else if( method == "POST") {
-			$("input#name").val("${requestScope.name}");
-			$("input#email").val("${requestScope.email}");
 			$("div#div_findResult").show();
-		} 
 		
+
+		} //데이터를 넘기기위한게 X 새로고침후 데이터를 남기기위해
 		
 		$("input#email").bind("keyup", function(event){
 			if(event.keyCode == 13) { 
@@ -43,8 +44,17 @@ $(document).ready(function(){
 		
 		$(function(){
 			//페이지 로드후 적용되는 스크립트
-			show()
-		
+			
+			if("${requestScope.radio}" == 0){
+				$("#emailcheck").attr("checked", true)
+				$("#phonecheck").attr("checked", false)					
+			} else if("${requestScope.radio}" == 1){
+				$("#phonecheck").attr("checked", true)
+				$("#emailcheck").attr("checked", false)
+			}
+			
+			show();
+			
 		});
 	
 
@@ -56,17 +66,20 @@ function show() {
 	if($('input:radio[id=emailcheck]').is(':checked')){
 		$('#mobilefound').hide()
 		$('#emailfound').show()
+		
+		
+		
 	}
 	else if($('input:radio[id=phonecheck]').is(':checked')){
 		$('#mobilefound').show()
 		$('#emailfound').hide()
+		
 	}
 
 }
 
 
 function goFind() {
-	// 성명 및 email에 대한 유효성 검사(정규표현식)는 생략하겠습니다.
 	
 	const frm = document.idFindFrm;
 	frm.action = "<%= ctxPath%>/login/idFind.book";
@@ -178,14 +191,16 @@ function goFind() {
 	    				</td>
 	    			</tr>
 		    		<tr>
-		    			<td colspan="2">
-			    			<label for="emailcheck">이메일</label>&nbsp;
-			    			<input type="radio" name="check" id="emailcheck" checked="checked" onchange="show()">
-		    			</td>
-		    			<td>
-		    				<label for="phonecheck">휴대폰번호</label>&nbsp;
-		    				<input type="radio" name="check" id="phonecheck" onchange="show()">
-		    			</td>
+		    			<form>
+			    			<td colspan="2">
+				    			<label for="emailcheck">이메일</label>&nbsp;
+				    			<input type="radio" name="check" value="0" id="emailcheck" checked="checked" onchange="show()">
+			    			</td>
+			    			<td>
+			    				<label for="phonecheck">휴대폰번호</label>&nbsp;
+			    				<input type="radio" name="check" value="1" id="phonecheck" onchange="show()">
+			    			</td>
+		    			</form>
 					</tr>
 	    		</thead>	
 				
@@ -215,14 +230,14 @@ function goFind() {
 							<img src="<%= ctxPath%>/images/member/arrow_menu.gif" />&nbsp;휴대폰번호로찾기
 						</th>	
 						<td colspan="2" style=" text-align: left; ">
-							<input type="text" class="phonenb" maxlength='3' value="010" readonly>&nbsp;-&nbsp;<input type="text" class="phonenb" maxlength='4'  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />&nbsp;-&nbsp;<input type="text" class="phonenb" maxlength='4'  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+							<input type="text" class="phonenb" maxlength='3' value="010" readonly>&nbsp;-&nbsp;<input type="text" class="phonenb" name="phone_one" maxlength='4'  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />&nbsp;-&nbsp;<input type="text" class="phonenb" name="phone_two" maxlength='4'  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 						</td>
 					</tr>
 				</tbody>
 				<tfoot>
 					<tr>
 						<td colspan="3" style="text-align: center;" >
-							<button type="button" class="btn btn-success" id="btnFind" onclick="goFind();">검색</button>
+							<button type="button" class="btn btn-success" id="btnFind" onclick="goFind();">확인</button>
 						</td>	
 					</tr>
 				</tfoot>

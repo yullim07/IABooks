@@ -103,9 +103,9 @@ public class ProductVO {
 
 	// 상품 상세정보를 가져올 때 필요한 VO(나중에 추가이미지도 추가해야 함)
 	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String pro_publish_date, String publisher,
-			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
-			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
-			String pro_imgfile_name, int fk_wr_code, String pro_content, CategoryVO category, WriterVO writer) {
+			int pro_price, int pro_saleprice, String pro_index, String pro_inputdate, int pro_qty, int pro_sales,
+			int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages, String pro_imgfile_name,
+			int fk_wr_code, String pro_content, CategoryVO category, WriterVO writer) {
 		super();
 		this.pk_pro_num = pk_pro_num;
 		this.fk_cate_num = fk_cate_num;
@@ -115,7 +115,6 @@ public class ProductVO {
 		this.pro_price = pro_price;
 		this.pro_saleprice = pro_saleprice;
 		this.pro_index = pro_index;
-		this.point_rate = point_rate;
 		this.pro_inputdate = pro_inputdate;
 		this.pro_qty = pro_qty;
 		this.pro_sales = pro_sales;
@@ -156,6 +155,9 @@ public class ProductVO {
 	public void setPro_restock(int pro_restock) {
 		this.pro_restock = pro_restock;
 	}
+
+
+	
 
 
 	public void setPk_pro_num(String pk_pro_num) {

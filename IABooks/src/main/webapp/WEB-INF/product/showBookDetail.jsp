@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%
     String ctxPath = request.getContextPath();
@@ -14,15 +16,15 @@
 <link rel="stylesheet" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- Optional JavaScript -->
-   <script src="<%=ctxPath %>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
-   <script src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.js" type="text/javascript"></script>
+<script src="<%=ctxPath %>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.js" type="text/javascript"></script>
    
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
-		
-	<!-- 헤더 삽입 -->
-	<%-- <jsp:include page="<%=ctxPath %>/header.jsp" /> --%>
+
+<!-- 헤더 삽입 -->
+<jsp:include page="<%=ctxPath %>/WEB-INF/header.jsp" />
 
 	<!-- 컨테이너 시작 -->
 	<div class="container detail_container">
@@ -76,8 +78,8 @@
 						<thead>
 							<tr style="border-bottom: solid 2px #F2F2F2; width: 100%; line-height: 32px;">
 								<th scope="row" width="40%">판매가</th>
-								<td scope="col" id="pro_price" name="pro_price" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;">
-									<span><strong>12----</strong></span>원
+								<td scope="col" id="pro_saleprice" name="pro_saleprice" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;">
+									<span><strong><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></strong></span>원
 									<%-- <span><strong>${requestScope.pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
 									<%-- <span id=`${requestScope.pvo.pk_pro_num}`><strong>${requestScope.pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
 								</td>
@@ -115,14 +117,13 @@
 						</thead>
 						<tbody>
 							<tr style="line-height: 60px;">
-								<td scope="row" name="pro_name" style="padding-left: 10px;">책제목</td>
-								<%-- <td scope="row" name="pro_name" style="padding-left: 10px;">${requestScope.pvo.pro_name}</td> --%> <%-- 책제목 --%>
+								<td scope="row" id="pro_name" name="pro_name" style="padding-left: 10px;">${requestScope.pvo.pro_name}</td> <%-- 책제목 --%>
 								<td scope="row">
 									<input type='number' name="odr_qty" min='1' max='1000' value='1'
-										style="width: 60px; height: 24px; line-height: 24px;" /> <%-- id='${requestScope.pvo.pk_pro_num}' /> --%>
+										style="width: 60px; height: 24px; line-height: 24px;" id='${requestScope.pvo.pk_pro_num}' /> <%-- 상품 개수 --%>
 								</td>
 								<td scope="row">
-									<span><b>99999999</b></span>원</td>
+									<span><b><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></b></span></td>
 									<%-- <span id='${requestScope.pvo.pk_pro_num}'><b>${requestScope.pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%>
 							</tr>
 						</tbody>
@@ -131,11 +132,8 @@
 								<td scope="row">
 									<span style="text-align: right;"><strong>총상품금액</strong> &nbsp;(수량) :</span>
 								</td>
-								<td scope="row"><span><b>33333333</b></span>원</td>
-								<%-- <td scope="row"><span><b>${requestScope.pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%> <%-- 총상품금액 --%>
-								
+								<td scope="row"><span><b><span><b><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></b></span>원에 상품 개수 곱한만큼</td></b></span>원</td>
 								<%-- 오류 곱해진 수량을 보여줘야/span에 id값 추가/cartVO도 cvo 만들어줘야? --%>
-								
 								<td scope="row"><span id="odr_qty"></span>(1개)</td>	<%-- 수량 --%>
 							</tr>
 						</tfoot>
@@ -258,20 +256,23 @@
 				<br>
 				<p><span class="majorheading">품목정보</span></p>
 				<p class="subheading">
-					책제목 : <span><b>책제목</b></span><br>
-					저자 : <span><b>저자</b></span><br>
-					출간일 : <span><b>출간일</b></span><br>
-					분야 : <span><b>인문/사회/과학</b></span><br>
-					제본 : <span><b>제본방식선택</b></span><br>
-					쪽수 : <span><b>쪽수p</b></span><br>
-					크기 : <span><b>가로 × 세로 (mm)</b></span><br>
-					ISBN : <span><b>ISBN</b></span><br>
-					정가 : <span><b>정가</b></span><br>
+					책제목 : <span><b>${requestScope.pvo.pro_name}</b></span><br>
+					저자 : <span><b>${requestScope.wvo.wr_name}</b></span><br>
+					출간일 : <span><b>${requestScope.pvo.pro_inputdate}</b></span><br>
+					분야 : <span><b>${requestScope.wvo.cate_name}</b></span><br>
+					제본 : <span><b>${requestScope.pvo.pro_bindtype}</b></span><br>
+					쪽수 : <span><b>${requestScope.pvo.pro_pages}</b> 쪽</span><br>
+					크기 : <span><b>${requestScope.pvo.pro_size}</b></span><br>
+					ISBN : <span><b>${requestScope.pvo.pk_pro_num}</b></span><br>
+					정가 : <span><b>${requestScope.pvo.pro_price}</b></span><br>
 				</p>
 				
 				<br><br>
 				
 				<p><span class="majorheading">책소개</span></p>
+				<p class="subheading">~~~ 책소개 내용 ~~~</p>
+				<%-- <p class="subheading">${requestScope.pvo.pro_content}</p> --%>
+				<%--
 				<p class="subheading">
 				어느 날, 내가 어머니의 꿈을 궁금해 했던 적이 없다는 사실을 깨달았다. 그날부터 나는 평소라면 궁금해 하지 않았을 다른 사람들의 꿈에 관심을 가지게 되었다.
 				분명 눈에는 보이지만 보통 궁금해 하지 않는, 도시의 배경 같은 사람들. 하지만 그들도 분명 소중한 것을 품고 있고 이를 놓치지 않으려 노력하고 있다.
@@ -293,11 +294,13 @@
 				<br><br>
 				다시 처음으로 돌아가, 이 책을 읽는 모든 분들이 사랑하는 사람의 꿈을 함께 고민해주길 바라면서, 이 책을 전한다.				
 				</p>
+				--%>
 				
 				<br><br>
 				
 				<p><span class="majorheading">저자소개</span></p>
-				<p class="subheading">
+				<p class="subheading">${requestScope.wvo.wr_name}</p>
+				<%--  
 				- 김우상
 				프로그램 개발자로 일하지만 글 쓰는 것을 좋아하는 사람.<br>
 				사람들의 꿈과 감정에 대한 소설을 계속해서 집필하고 싶은 사람.<br>
@@ -306,12 +309,13 @@
 				미술작가 박선호의 『하드카피 리스트: 자연, 산업, 기억과 이미지 도큐먼트 북』, 작품 리뷰 필자로 참여<br>
 				미술작가 임창곤의 『불거지는 풍경』, 전시 리뷰 필자로 참여<br>
 				Instagram: woosang_kim_j, maemisool<br>
-				</p>
+				--%>
 				
 				<br><br>
 				
 				<p><span class="majorheading">목차</span></p>
-				<p class="subheading">
+				<p class="subheading">${requestScope.pvo.pro_index}</p>
+				<%--
 					『우리의 소중한 마을』<br>
 					『도시 원정』<br>
 					『심장에 사는 벌레』<br>
@@ -323,7 +327,7 @@
 					『광화문 도착!』<br>
 					『별명 부자』<br>
 					『환상의 마을』<br>
-				</p>
+				--%>
 				
 				<br><br>
 				
@@ -484,9 +488,7 @@
 	
 		$(document).ready(function(){
 			
-			
-			
-			// ******************** 썸네일 이미지 클릭 시 메인 이미지 바꾸기 시작 **************************************** //
+			// =============== 썸네일 이미지 클릭 시 메인 이미지 바꾸기 시작 =============== //
 			var bigPic = document.querySelector(".big");
 			var smallPics = document.querySelectorAll(".small");
 		
@@ -498,15 +500,15 @@
 				var smallPicAttr = this.getAttribute("src");
 				bigPic.setAttribute("src", smallPicAttr);
 			}
-			// ******************** 썸네일 이미지 클릭 시 메인 이미지 바꾸기 끝 **************************************** //
+			// =============== 썸네일 이미지 클릭 시 메인 이미지 바꾸기 끝 =============== //
 			
 			
 			
 			
 			
-			// ******************** 상세보기 상단 글영역 테이블 넣기 시작 **************************************** //
+			// =============== 상세보기 상단 글영역 테이블 넣기 시작 =============== //
 			
-			// *** 1. 상품 배열 선언 ***// 
+			// =============== 1. 상품 배열 선언 =============== // 
  			/*
  			const arr_product = [ 
 				{
@@ -537,11 +539,11 @@
 			
 		//	console.log(html_title);
 		//	document.querySelector("div#detail_text_title").innerHTML = html_title;
-			// *** 2-1. 테이블 넣기 - 제품제목 끝 *** //
+			// =============== 2-1. 테이블 넣기 - 제품제목 끝 =============== //
 			
 			
 			
-			// *** 2-2. 테이블 넣기 - 제품가격 시작 *** //
+			// =============== 2-2. 테이블 넣기 - 제품가격 시작 =============== //
 			/*
 			let html_purchase = `<table id=`+"tbl_detail_purchase"+`>
 									<thead>`;
@@ -569,11 +571,11 @@
 			
 			document.querySelector("div#detail_text_purchase").innerHTML = html_purchase;
 			*/
-			// *** 2-2. 테이블 넣기 - 제품가격 끝 *** //
+			// =============== 2-2. 테이블 넣기 - 제품가격 끝 =============== //
 			
 			
 			
-			// *** 2-3. 테이블 넣기 - 총주문액 시작 *** //
+			// =============== 2-3. 테이블 넣기 - 총주문액 시작 =============== //
 			/*
 			let html_total = `<table id='tbl_pro_total'>
 								<thead>
@@ -607,16 +609,16 @@
 			*/
 			// *** 2-3. 테이블 넣기 - 총주문액 시작 *** //
 			
-			// ******************** 상세보기 상단 글영역 테이블 넣기 끝 **************************************** //
+			// =============== 상세보기 상단 글영역 테이블 넣기 끝 =============== //
 			
 			
 			
+			/*
 			
-			
-			// ******************** 주문수량이 바뀌면 주문금액과 수량에 값을 넣어주기 시작 **************************************** //
+			// =============== 주문수량이 바뀌면 주문금액과 수량에 값을 넣어주기 시작 =============== //
 			const input_number_list = document.querySelectorAll("table#tbl_pro_total input[type='number']");
 
-			// *** 1. 주문수량 이벤트 처리하기 *** //
+			// 1. 주문수량 이벤트 처리하기
 			input_number_list.forEach(function(elt) {
 			
 				elt.addEventListener('change', () => {
@@ -641,23 +643,23 @@
 				});
 				
 			});		
-			// ******************** 주문수량이 바뀌면 주문금액과 수량에 값을 넣어주기 끝 **************************************** //
+			// =============== 주문수량이 바뀌면 주문금액과 수량에 값을 넣어주기 끝 =============== //
 			
 			
 			
 			
 						
-			// ******************** 주문수량 keyup 이벤트 처리하기 시작 **************************************** //
+			// =============== 주문수량 keyup 이벤트 처리하기 시작 =============== //
 			input_number_list.forEach(function(elt, i, array){
 				elt.addEventListener('keyup', ()=>{
 					alert("주문수량은 마우스로만 입력하세요.");
 					elt.value = 1;
 				});
 			});
-			// ******************** 주문수량 keyup 이벤트 처리하기 끝 **************************************** //
+			// =============== 주문수량 keyup 이벤트 처리하기 끝 =============== //
 			
 			
-			
+			*/
 			
 			
 			
@@ -668,4 +670,4 @@
 </script>
 
 
-<%-- <jsp:include page="<%=ctxPath %>/footer.jsp" /> --%>
+<jsp:include page="<%=ctxPath %>/WEB-INF/footer.jsp" />
