@@ -1,6 +1,7 @@
 package product.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +12,7 @@ import common.controller.AbstractController;
 import member.model.InterMemberDAO;
 import member.model.MemberDAO;
 import member.model.MemberVO;
+import product.model.CartVO;
 import product.model.InterProductDAO;
 import product.model.ProductDAO;
 import product.model.ProductVO;
@@ -20,22 +22,58 @@ public class CartAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/product/cart.jsp");
-	}
-		
-	/*
 		String method = request.getMethod();
 		
-		if(!"POST".equalsIgnoreCase(method)) {
-			String message = "비회원은 장바구니 기능을 사용하실 수 없습니다!";
-			String loc = "javascript:history.back()"; // [암기!] 이전 페이지
+		if(!"POST".equalsIgnoreCase(method)) { // POST 방식이 아닌 경우
+			String message = "잘못된 경로입니다!";
+			String loc = "javascript:history.back()"; // 이전 페이지로 가는 것
 			
 			request.setAttribute("message", message); // requset 영역에 넣어주기 
 			request.setAttribute("loc", loc);
 			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
+		}
+		
+		else {
+			
+			HttpSession session = request.getSession();
+			MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
+			
+			// 로그인하지 않은 경우
+			if(loginuser == null) {
+				String message = "로그인을 해주세요!";
+				String loc = "javascript:history.back()"; // 이전 페이지로 가는 것
+				
+				request.setAttribute("message", message); // requset 영역에 넣어주기 
+				request.setAttribute("loc", loc);
+				
+			//	super.setRedirect(false);
+				super.setViewPage("/WEB-INF/msg.jsp");
+			}
+			
+			// 로그인한 유저인 경우
+			else {
+				String userid = loginuser.getUserid();
+				
+				InterProductDAO pdao = new ProductDAO();
+				List<CartVO> cartList = pdao.getCartList(userid);
+				
+				request.setAttribute("cartList", cartList);
+				
+			//	super.setRedirect(false);
+				super.setViewPage("/WEB-INF/product/cart.jsp");
+			}
+		}
+	} // end of execute ----------------------------------
+	
+	
+		
+	/*
+		String method = request.getMethod();
+		
+		if(!"POST".equalsIgnoreCase(method)) {
+			
 		}
 		
 		else { // POST 방식으로 넘어온 경우

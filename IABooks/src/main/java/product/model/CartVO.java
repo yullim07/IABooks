@@ -2,6 +2,8 @@ package product.model;
 
 import java.util.Date;
 
+import member.model.MemberVO;
+
 public class CartVO {
 
 	/*
@@ -19,33 +21,91 @@ public class CartVO {
 	private Date ck_cart_register;	// 장바구니 등록일자
 	
 	private ProductVO product;
-	
-	/*
-	private int pk_pro_num; 			//국제표준도서번호
-	private int pro_price;   			//도서정가 디폴트 0
-	private int saleprice;   			//도서판매가 디폴트 0
-	private int point_rate;   			//포인트적립률 디폴트 0.01
-	private int pro_qty;   				//도서재고량 디폴트 100
-	private String pro_imgfile_name;	//이미지파일명	
-	
-	private String pk_cartno; 		// 주문코드
-	private String fk_userid; 		// 회원아이디
-	private int odr_totalprice; 	// 주문총액
-	private int odr_totalpoint;		// 주문총포인트
-	private Date odr_date;			// 주문일자 --------------------------- > > >> ??
-	private String rv_name;			//이름
-	private String rv_zipcode;   	// 우편번호
-	private String rv_addr1; 		// 기본주소
-	private String rv_addr2; 		// 상세주소
-	private int rv_phone; 			// 휴대전화
-	private String rv_email; 		// 이메일
-	private String del_msg; 		// 배송메시지
-	*/
+	private MemberVO member;
 	
 	///////////////////////////////////////////////
 	
 	// 기본생성자
 	public CartVO() {}
+
+	public CartVO(int pk_cartno, String fK_USERID, int pk_pro_num, int ck_odr_qty, Date ck_cart_register,
+			ProductVO product, MemberVO member) {
+		super();
+		this.pk_cartno = pk_cartno;
+		FK_USERID = fK_USERID;
+		this.pk_pro_num = pk_pro_num;
+		this.ck_odr_qty = ck_odr_qty;
+		this.ck_cart_register = ck_cart_register;
+		this.product = product;
+		this.member = member;
+	}
+
+	public CartVO(int pk_cartno, String fK_USERID, int pk_pro_num, int ck_odr_qty, Date ck_cart_register) {
+		super();
+		this.pk_cartno = pk_cartno;
+		FK_USERID = fK_USERID;
+		this.pk_pro_num = pk_pro_num;
+		this.ck_odr_qty = ck_odr_qty;
+		this.ck_cart_register = ck_cart_register;
+	}
+
+	public int getPk_cartno() {
+		return pk_cartno;
+	}
+
+	public void setPk_cartno(int pk_cartno) {
+		this.pk_cartno = pk_cartno;
+	}
+
+	public String getFK_USERID() {
+		return FK_USERID;
+	}
+
+	public void setFK_USERID(String fK_USERID) {
+		FK_USERID = fK_USERID;
+	}
+
+	public int getPk_pro_num() {
+		return pk_pro_num;
+	}
+
+	public void setPk_pro_num(int pk_pro_num) {
+		this.pk_pro_num = pk_pro_num;
+	}
+
+	public int getCk_odr_qty() {
+		return ck_odr_qty;
+	}
+
+	public void setCk_odr_qty(int ck_odr_qty) {
+		this.ck_odr_qty = ck_odr_qty;
+	}
+
+	public Date getCk_cart_register() {
+		return ck_cart_register;
+	}
+
+	public void setCk_cart_register(Date ck_cart_register) {
+		this.ck_cart_register = ck_cart_register;
+	}
+
+	public ProductVO getProduct() {
+		return product;
+	}
+
+	public void setProduct(ProductVO product) {
+		this.product = product;
+	}
+
+	public MemberVO getMember() {
+		return member;
+	}
+
+	public void setMember(MemberVO member) {
+		this.member = member;
+	}
+	
+	
 	
 }
 	

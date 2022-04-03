@@ -7,7 +7,7 @@
 %>
 
 <meta charset="UTF-8">
-<title>in사과북스::장바구니</title>
+<title>in사과::장바구니</title>
 
 <!-- 부트스트랩 css -->
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
@@ -138,13 +138,20 @@
 		
 		$("#notproduct").hide();	// 선택된 등록상품이 없습니다.
 	
-		/* 체크박스 */
+		// 체크박스 전체선택 전체해제
+		$("allCheck").click(function() {
+			
+		});
+		
+		
+		/*
+		// === 체크박스 === //
 		$(".calc1 thead th input:checkbox[id=check]").click(function() {
 			var bool = $(this).prop("checked");
 			#(".calc1 tbody input:checkbox[name=checkbox]").prop("checked", bool);
 		});
 		
-		/* 체크박스 */
+		// === 체크박스 === //
 		$(".calc1 tbody input:checkbox[name=check]").click(function() {
 			var flag = false;
 			$(".calc1 tbody input:checkbox[name=checkbox]").each(function() {
@@ -161,8 +168,9 @@
 				$(".calc1 thead input:checkbox[id=check]").prop("checked", true);
 			}
 		});
+		*/
 		
-		/* 상품주문 버튼 클릭시 주문페이지로 넘어가기 */
+		// === 상품주문 버튼 클릭시 주문페이지로 넘어가기 === //
 		$(".orderGobtn").click(function() {
 			var frm = document.cartForm;
 			frm.method = "POST";
@@ -170,7 +178,7 @@
 			frm.submit();
 		});
 		
-		/* 하나의 tr에서 삭제버튼을 누르면 현재 라인을 지워주기 */
+		// === 하나의 tr에서 삭제버튼을 누르면 현재 라인을 지워주기 === //
 		$(".btndelete").click(function() {
 		//	$(this).parent().parent().css('background-color', 'red');
 			$(this).parent().parent().remove();
@@ -181,7 +189,7 @@
 			}
 		});
 		
-		/* 삭제 버튼 눌렀을 때 제품 삭제하기 */
+		// === 삭제 버튼 눌렀을 때 제품 삭제하기 === //
 		$("#choiceProductDelete").click(function() {
 			
 			var bool = $(".calc1 tbody input:checkbox[name=checkbox]").is(":checked");
@@ -200,7 +208,7 @@
 				}
 			}
 			
-			/* checkbox 전체선택시 삭제하기 */
+			// === checkbox 전체선택시 삭제하기 === //
 			bool = $(".calc1 thead input:checkbox[id=check]").is(":checked");
 			
 			if(bool) {
@@ -276,10 +284,21 @@
 						<%-- </c:if> --%>
 						
 						<tbody id="calc1tbody">
+						<c:if test="${not empty requestScope.cartList}">
+						<c:forEach var="items" items="${requestScope.cartList}">
 							<tr class="calc1_tbody_tr1" style="height: 90px; background-color: #fff;">
 								
 								<td style="text-align: left; text-align: center; border-right: none;">
 									<input type="checkbox" id="cbtr1" name="checkbox" />
+									<input type="hidden" class="buynow">
+									<input type="hidden" name="cartAllCnt">
+									<%--
+										display:none, input type="hidden" 모두 form 전송 가능
+										display:none 과 visibillity:hidden, overflow:hidden 은
+										스크린리더기에서 읽을 수 있는지 여부
+										display:none 은 display:none 영역이 사라지면 아래의 내용이 위로 올라가지만
+										visibillity:hidden 은  visibillity:hidden 영역이 사라져도 아래의 내용은 원래 위치에 위치한다.
+									--%>
 								</td>
 								<td style="border-left: none; border-right: none;">
 									<img src="<%=ctxPath%>/images/product/book.jpg" width="100px;">
@@ -306,6 +325,8 @@
 									<button type="button" class="btn default btndelete" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
 								</td>
 							</tr>
+							</c:forEach>
+							</c:if>
 							
 							
 							

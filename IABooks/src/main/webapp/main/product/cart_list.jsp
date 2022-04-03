@@ -8,7 +8,7 @@
 
 
 <meta charset="UTF-8">
-<title>in사과북스::장바구니</title>
+<title>이거아님</title>
 
 <!-- css -->
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
