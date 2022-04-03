@@ -75,7 +75,7 @@
           		<c:if test="${empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberRegister.book">회원가입</a></li></c:if>
           		<c:if test="${not empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberUpdate.book">정보수정</a></li></c:if>
 				<li class="bar bulkhead"><a class="" href="#">장바구니</a></li>
-           		<li class="dropdown bulkhead"><a href="#">마이페이지<i class="bi bi-chevron-down dropdown-indicator"></i></a>
+           		<li class="dropdown bulkhead"><a href="<%= ctxPath%>/member/myPage.book" >마이페이지<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
 					<ul>
 						<li><a href="#">주문조회</a></li>
 						<li><a href="#">배송조회</a></li>
@@ -132,10 +132,10 @@
             		</ul>
           		</li>		
 				
-          		<li class=""><a class="" href="#">Best 20</a></li>
-				<li class="bulkhead"><a class="" href="#">신간</a></li>
-				<li class="bulkhead"><a class="" href="#">재입고</a></li>
-          		<li class="bulkhead"><a class="" href="#">구간의 재발견</a></li>	
+          		<li class=""><a class="" href="<%= ctxPath%>/product/showBest20.book">">Best 20</a></li>
+				<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showNewBook.book">">신간</a></li>
+				<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showRestock.book">">재입고</a></li>
+          		<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showOldBook.book">">구간의 재발견</a></li>	
 			</ul>
 		</nav>
 	</div>
