@@ -141,10 +141,8 @@
                      
                    </td>
                    <td class="tbl_subject">
-                       <a href="">${board.re_title}</a>
-                       <%-- <span class="new_tag">NEW</span> --%>
-                    </td>
-                   <%-- <td class="tbl_writer mycenter">${board.member.name}</td> --%>
+                       <a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.pk_rnum}">${board.re_title}</a>
+                   </td>
                    <td class="tbl_writer mycenter">${board.member.name}</td>
                    <td class="tbl_date mycenter">${board.re_date}</td>
                    <c:if test="${board.re_grade eq 1 }">

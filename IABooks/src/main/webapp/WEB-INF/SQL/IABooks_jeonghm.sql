@@ -516,6 +516,9 @@ FROM
 ) T
 where rno between 1 and 10;
 
+desc
 
-
+select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, RE_DATE, RE_GRADE, RE_CONTENTS, RE_PASSWD, RE_WRITER, isdelete, P.pro_name, P.pro_imgfile_name
+from tbl_review_board R JOIN tbl_product P
+ON R.FK_PNUM = P.pk_pro_num
 

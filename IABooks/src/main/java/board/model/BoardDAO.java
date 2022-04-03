@@ -820,7 +820,7 @@ public class BoardDAO implements InterBoardDAO {
 		FaqBoardVO faqVO = bdao.selectContent(pk_faq_board_num);
 		
 		return faqVO;
-	}
+	} // end of public FaqBoardVO getContent(int pk_faq_board_num) throws SQLException---------
 
 	// FAQ 게시판 값을 수정해주기
 	@Override
@@ -864,7 +864,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		
 		return result;
-	}
+	} // end of public int UpdateFaqBoard(Map<String, String> paraMap) throws SQLException---------
 
 	
 	// FAQ 게시판 값을 삭제하기
@@ -899,7 +899,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		
 		return result;
-	}
+	} // end of public int deleteFaqBoard(FaqBoardVO faqVO) throws SQLException--------
 
 	// 이전글, 다음글 정보를 가져오기
 	@Override
@@ -964,6 +964,143 @@ public class BoardDAO implements InterBoardDAO {
 		
 		
 	} // end of public void getPrevNextContent(Map<String, String> paraMap) throws SQLException
+
+	
+	// 리뷰게시판 상세글 읽어오기 
+	@Override
+	public ReviewBoardVO readReviewContent(int pk_rnum) throws SQLException {
+
+		InterBoardDAO bdao = new BoardDAO();
+		
+		ReviewBoardVO revVO = bdao.selectReviewContent(pk_rnum);
+		
+		return revVO;
+	} // end of public ReviewBoardVO readReviewContent(int pk_rnum) throws SQLException-------------
+
+	
+	// 번호 하나를 받아 리뷰게시판 정보 받아오기 
+	@Override
+	public ReviewBoardVO selectReviewContent(int pk_rnum) throws SQLException {
+		
+		ReviewBoardVO revVO = null;
+		
+		// System.out.println("몇 번이니? " + pk_faq_board_num);
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date "+
+						 "      , RE_GRADE, RE_CONTENTS, RE_PASSWD, RE_WRITER, isdelete, P.pro_name, P.pro_imgfile_name, P.PRO_PRICE " +
+						 "		, C.cate_name " +
+						 " from tbl_review_board R JOIN tbl_product P " +
+						 " ON R.FK_PNUM = P.pk_pro_num " +
+						 " JOIN TBL_CATEGORY C " +
+						 " ON P.fk_cate_num = C.pk_cate_num " +
+						 " where PK_RNUM = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pk_rnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				revVO = new ReviewBoardVO();
+				
+				revVO.setPk_rnum(rs.getInt(1));
+				revVO.setFk_pnum(rs.getString(2));
+				revVO.setFk_userid(rs.getString(3));
+				revVO.setRe_title(rs.getString(4));
+				revVO.setRe_date(rs.getString(5));
+				revVO.setRe_grade(rs.getInt(6));
+				revVO.setRe_contents(rs.getString(7));
+				revVO.setRe_passwd(rs.getString(8));
+				revVO.setRe_writer(rs.getString(9));
+				revVO.setIsdelete(rs.getInt(10));
+				
+				ProductVO product = new ProductVO();
+				product.setPro_name(rs.getString(11));
+				product.setPro_imgfile_name(rs.getString(12));
+				product.setPro_price(rs.getInt(13));
+				revVO.setProduct(product);
+				
+				CategoryVO category = new CategoryVO();
+                category.setCate_name(rs.getString(14));
+                revVO.setCategory(category);
+				
+				// System.out.println("받아왔니? " + faqVO.getFaq_contents());
+			}
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return revVO;
+	} // end of public ReviewBoardVO selectReviewContent(int pk_rnum) throws SQLException---------
+
+	// 리뷰게시판 이전글, 다음글 정보를 가져오기
+	@Override
+	public ReviewBoardVO getPrevNextReviewContent(Map<String, String> paraMap) throws SQLException {
+		int currentNum = Integer.parseInt(paraMap.get("currentNum"));
+		System.out.println("잘 갔니? " + currentNum);
+		ReviewBoardVO revPrevNext = null;
+		
+		try {
+			conn = ds.getConnection();
+		
+		
+			String sql = "select currentnum, currenttitle, prev_num, prev_title, next_num, next_title, rno "+
+					" from "+
+					" ( "+
+					" select   to_number(PK_RNUM) as currentnum "+
+					"         , RE_TITLE as currenttitle "+
+					"         , lead(PK_RNUM, 1, 0) over(order by PK_RNUM desc) as prev_num "+
+					"         , lead(RE_TITLE, 1, '다음글이 없습니다') over(order by RE_TITLE desc) as prev_title "+
+					"         , lag(PK_RNUM, 1,	 0) over(order by PK_RNUM desc) as next_num "+
+					"         , lag(RE_TITLE, 1, '이전글이 없습니다') over(order by RE_TITLE desc) as next_title "+
+					"		  , rownum AS rno " +
+					" from tbl_review_board "+
+					" ) v "+
+					" where currentnum = ? " +
+					" order by length(currentnum), currentnum ";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, currentNum);
+						
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				
+				revPrevNext = new ReviewBoardVO();
+				
+				revPrevNext.setCurrentNum(rs.getInt(1));
+				revPrevNext.setCurrentTitle(rs.getString(2));
+				revPrevNext.setPrev_num(rs.getInt(3));
+				revPrevNext.setPrev_title(rs.getString(4));
+				revPrevNext.setNext_num(rs.getInt(5));
+				revPrevNext.setNext_title(rs.getString(6));
+				
+				
+				System.out.println("이전글 번호 : " + revPrevNext.getPrev_num());
+				System.out.println("이전글 제목 : " + revPrevNext.getPrev_title());
+				System.out.println("다음글 번호 : " + revPrevNext.getNext_num());
+				System.out.println("다음글 제목 : " + revPrevNext.getNext_title());
+				
+				
+			}
+
+		
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return revPrevNext;
+	}
+
+	
 	
 	
 

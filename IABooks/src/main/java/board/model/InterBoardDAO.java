@@ -53,10 +53,17 @@ public interface InterBoardDAO {
 	// FAQ 게시판 값을 삭제하기
 	int deleteFaqBoard(FaqBoardVO faqVO) throws SQLException;
 
-	// 이전글, 다음글 정보를 가져오기
+	// FAQ 게시판 이전글, 다음글 정보를 가져오기
 	FaqBoardVO getPrevNextContent(Map<String, String> paraMap) throws SQLException;
-	
 
+	// 리뷰게시판 상세글 읽어오기 
+	ReviewBoardVO readReviewContent(int pk_rnum) throws SQLException;
+	
+	// 번호 하나를 받아 리뷰게시판 정보 받아오기 
+	ReviewBoardVO selectReviewContent(int pk_rnum) throws SQLException;
+
+	// 리뷰게시판 이전글, 다음글 정보를 가져오기
+	ReviewBoardVO getPrevNextReviewContent(Map<String, String> paraMap) throws SQLException;
 	
 
 	
