@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 	String ctxPath = request.getContextPath();	
@@ -14,14 +15,32 @@
 
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function () {
- 	$("li.pagenum > a").click(function(){//pagination active 설정
-		const $target = $(event.target);
-		/* $("li.pagenum > a.active").removeClass("active");  */
-	 	$(this).parent().siblings().children() .removeClass("active"); 
-	 	$target.addClass("active"); 
-	}); 	
-});
+	$(document).ready(function() { 
+		$("div.itemslist a#${requestScope.sort}").addClass("active");
+	 
+	 	$("li.nav-item > a").click(function() {
+			const $target = $(event.target);
+		 	$target.addClass("active"); 
+	 		
+			const sort = $(this).attr("id");
+			location.href="<%= ctxPath%>/product/search.book?searchWord=${requestScope.searchWord}&sort="+sort;
+	
+	 	});//end of $("li.nav-item > a").click(function()
+	 			
+	 	$("li.pagenum > a").click(function() {//pagination active 설정
+			const $target = $(event.target);
+			/* $("li.pagenum > a.active").removeClass("active");  */
+		 	$(this).parent().siblings().children() .removeClass("active"); 
+		 	$target.addClass("active"); 
+	
+		});//end of $("li.pagenum > a").click(function()
+				
+	});//end of $(document).ready(function()
+	
+		function showBookDetail(pronum) {
+			//console.log(pronum);
+			location.href="<%= ctxPath%>/product/showBookDetail.book?pronum="+pronum;
+	}//end of function showBookDetail(pronum)
 
 </script>
 
@@ -44,7 +63,8 @@ $(document).ready(function () {
 
 	<div class="divClear"></div>
 
-		<%-- 상품검색 상세조건 --%>	
+		<%-- 상품검색 상세조건 --%>	<%-- 상품검색 나중에 차후 --%>	
+		<!-- 
  		<div class="detailserch">
 	    	<table class="searchtbl">	
 	 			<tr>
@@ -56,8 +76,9 @@ $(document).ready(function () {
 							<option selected="selected">상품분류 선택</option>
 							<option value="total">종합</option>
 							<option value="humanities">종합 > 인문</option>
-							<option value="Society">종합 > 사회</option>
+							<option value="society">종합 > 사회</option>
 							<option value="science">종합 > 과학</option>
+							<option value="other">종합 > 기타</option>
 				    	</select>
 				    </td>
 				</tr>
@@ -68,11 +89,11 @@ $(document).ready(function () {
 				 	</th>
 			    	<td>
 					    <select id="search_condition" name="search_condition" class="p_search">
-							<option selected="selected">상품명</option>
-							<option value="pnun">상품코드</option>
-							<option value="private_pnum">자체상품코드</option>
-							<option value="model">모델명</option>
-							<option value="brand">브랜드명</option>
+							<option selected="selected">조건선택</option>
+							<option value="pnun">도서명</option>
+							<option value="private_pnum">도서표준번호</option>
+							<option value="model">작가명</option>
+							<option value="brand">출판사명</option>
 					    </select>
 					    <input type="text" class="product_name p_search" placeholder="도서명" />
 					</td>
@@ -118,185 +139,70 @@ $(document).ready(function () {
 			   <button class="searchbtn">검색하기</button>
 			</div>  	
 	    	 		     
-	    </div><%-- 상품검색 상세조건 끝 --%>	
-
+	    </div>
+	     -->
+	    <%-- 상품검색 상세조건 끝 --%>	
+ 		
+ 		<!-- 
 		<br/>
 		<br/>
 		<br/>
-
-	<%-- 검색한 리스트 --%>	
-	<div class="itemslist">
-		<span class="itemscount"><strong>0</strong> ITEMS</span>
-		<ul class="nav nav-tabs Justify-content-end">
-			<li class="nav-item">
-		    	<a class="nav-link active rounded-0" data-toggle="tab" href="#new">신상품</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link rounded-0" data-toggle="tab" href="#name">상품명</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link rounded-0" data-toggle="tab" href="#popularity">인기상품</a>
-			</li>
-		</ul>
-		<br/>
+		 -->
+		 
+		<%-- 검색한 리스트 --%>	
+		<div class="itemslist">
 	
-		<div class="tab-content"><%-- foreach 사용해서 불러옴 --%>	
-			<div class="tab-pane fade show active" id="new">
-	
-				<div class="row">
-				
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-		
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
-							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-						
-				</div>	
-						
-			</div>
-
-			<div class="tab-pane fade" id="name">
+			<span class="itemscount"><strong>${requestScope.totalPro}</strong> ITEMS</span>
+			<ul class="nav nav-tabs Justify-content-end">
+				<li class="nav-item">
+			    	<a class="nav-link rounded-0" data-toggle="tab" id="new" href="#">신상품</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0" data-toggle="tab"  id="name" href="#">상품명</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link rounded-0" data-toggle="tab" id="popularity" href="#">인기상품</a>
+				</li>
+			</ul>
 			
-				<div class="row">
-					<div class="col-3">
-						<ul class="booklist">
-							<li>
-							<div class="card">
-						  		<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >
-								<a href="#" class="stretched-link"></a>
+			<br/>
+		
+			<div class="tab-content"><%-- foreach 사용해서 불러옴 --%>	
+				<div class="tab-pane fade show active">
+					<div class="row">
+						<c:forEach var="pvo" items="${requestScope.productList}">
+							<div class="col-3">
+								<ul class="booklist">
+									<li>
+									<div class="card">
+								  		<img src="<%= ctxPath%>/images/product/${pvo.category.cate_name}/${pvo.pro_imgfile_name}" class="card-img-top">
+										<a href="javascript:showBookDetail(${pvo.pk_pro_num})" class="stretched-link"></a>
+									</div>	
+									</li>
+									<li>
+										<a href="javascript:showBookDetail(${pvo.pk_pro_num})"><span class="name">${pvo.pro_name}</span></a>
+									</li>
+									<li>
+										<div class="line"></div> 
+									</li>
+								    <li>
+										<span class="price"><fmt:formatNumber value="${pvo.pro_saleprice}" pattern="###,###" />원</span>
+									</li>  
+								</ul>
 							</div>	
-							</li>
-							<li>
-								<a href="#"><span class="name">Ordinary</span></a>
-							</li>
-							<li>
-								<div class="line"></div> 
-							</li>
-						    <li>
-								<span class="price">16,000원</span>
-							</li>  
-						</ul>
-					</div>
-				</div>	
-	
-			</div>
-
-			<div class="tab-pane fade" id="popularity">
-			</div>
-
-
-		</div>	
-	</div><%--<div class="itemslist"> 끝 --%>
+						</c:forEach>		
+					</div>				
+				</div>
+				
+			</div>	
+		</div><%--<div class="itemslist"> end --%>
 
 	<%--페이지 네비게이션 --%>
 	<nav aria-label="Page navigation example">
 		<ul class="pagination justify-content-center ">
-			<li class="page-item pageicon">
-				<a class="page-link" href="#" aria-label="Previous">
-					<span aria-hidden="true"><i class="bi bi-chevron-double-left"></i></span>
-				</a>
-			</li>
-	    
-			<li class="page-item pageicon">
-				<a class="page-link" href="#" aria-label="Previous">
-	        		<span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
-	      		</a>
-	    	</li>
-	    
-	    	<li class="page-item pagenum"><a class="page-link active" href="#">1</a></li>
-	    	<li class="page-item pagenum"><a class="page-link" href="#">2</a></li>
-	    	<li class="page-item pagenum"><a class="page-link" href="#">3</a></li>
-	    	<li class="page-item pagenum"><a class="page-link" href="#">4</a></li>
-	    	<li class="page-item pagenum"><a class="page-link" href="#">5</a></li>
-	    
-	    	<li class="page-item pageicon">
-	      		<a class="page-link" href="#" aria-label="Next">
-	        	<span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
-	      		</a>
-	    	</li>
-	    
-	   		<li class="page-item pageicon">
-	      		<a class="page-link" href="#" aria-label="Next">
-	        	<span aria-hidden="true"><i class="bi bi-chevron-double-right"></i></span>
-	      		</a>
-	    	</li>
+			${requestScope.pageBar}
 	  	</ul>
 	</nav>
-
 
 </div><%-- <div class="container d-none d-lg-block">끝 --%>
 

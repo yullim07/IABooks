@@ -8,28 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
-
 import product.model.InterProductDAO;
 import product.model.ProductDAO;
 import product.model.ProductVO;
 
-public class ShowBookListAction extends AbstractController {
+public class SearchAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String category = request.getParameter("category");
+		//String searchType = request.getParameter("searchType");
+		String searchWord = request.getParameter("searchWord");
+		
 		String sort = request.getParameter("sort");
 		
-		//category, sort 변조방지
 		if(sort == null) {
 			sort = "new";
 		}
 	
-		if(!("total".equals(category) || "humanities".equals(category) || "society".equals(category) || "science".equals(category) || "other".equals(category)) ) {
-			category = "total";
-		}
-		
 		if(!("new".equals(sort) || "popularity".equals(sort) || "name".equals(sort)) ) {
 			sort = "new";
 		}
@@ -69,12 +65,11 @@ public class ShowBookListAction extends AbstractController {
 		}
 		
 		paraMap.put("sizePerPage", sizePerPage);
-		paraMap.put("category", category);
+		//paraMap.put("searchType", searchType);
+		paraMap.put("searchWord", searchWord);
 		paraMap.put("sort", sort);
-
 		//페이징 처리를 위한 검책이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기
-		//int totalPage= mdao.getTotalPage(paraMap);
-		Map<String, Integer> paraMap2= mdao.getTotalPage(paraMap);
+		Map<String, Integer> paraMap2= mdao.getSearchPage(paraMap);
 		
 		int totalPage = paraMap2.get("totalPage");
 		int totalPro = paraMap2.get("totalPro");
@@ -85,7 +80,7 @@ public class ShowBookListAction extends AbstractController {
 
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		
-		List<ProductVO> productList = mdao.selectPagingProduct(paraMap);
+		List<ProductVO> productList = mdao.selectPagingSearch(paraMap);
 		request.setAttribute("productList", productList);
 		request.setAttribute("sizePerPage", sizePerPage);
 		
@@ -97,11 +92,11 @@ public class ShowBookListAction extends AbstractController {
 		//pageNo 구하는공식 pageNo 페이지 보여지는  첫넘버
 		int pageNo = ( (Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1;
 	
-		pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='showBookList.book?category="+category+"&sort="+sort+"&currentShowPageNo=1&sizePerPage="+sizePerPage+"'>"
+		pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='showBookList.book?searchWord="+searchWord+"&sort="+sort+"&currentShowPageNo=1&sizePerPage="+sizePerPage+"'>"
 				+ "<span aria-hidden='true'><i class='bi bi-chevron-double-left'></i></span></a></li>";
 		
 		if( pageNo != 1 ) {
-			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='showBookList.book?category="+category+"&sort="+sort+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"' >"
+			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='showBookList.book?searchWord="+searchWord+"&sort="+sort+"&currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"' >"
 					+ "<span aria-hidden='true'><i class='bi bi-chevron-left'></i></span></a></li>";
 		}
 
@@ -110,28 +105,27 @@ public class ShowBookListAction extends AbstractController {
 				pageBar += "<li class='page-item pagenum '><a class='page-link active' href='#'>"+pageNo+"</a></li>";
 			
 			}else {
-				pageBar +="<li class='page-item pagenum'><a class='page-link' href='showBookList.book?category="+category+"&sort="+sort+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a></li>";
+				pageBar +="<li class='page-item pagenum'><a class='page-link' href='showBookList.book?searchWord="+searchWord+"&sort="+sort+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a></li>";
 			}
 			loop++;
 			pageNo++;
 		}//end of while (!(loop > blockSize))
 		
 		if( pageNo <= totalPage ) {
-			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='showBookList.book?category="+category+"&sort="+sort+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"' >"
+			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='showBookList.book?searchWord="+searchWord+"&sort="+sort+"&currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"' >"
 					+ "<span aria-hidden='true'><i class='bi bi-chevron-right'></i></span></a></li>";
 		}
 		
-		pageBar +=  "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='showBookList.book?category="+category+"&sort="+sort+"&currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"' >"
+		pageBar +=  "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='showBookList.book?searchWord="+searchWord+"&sort="+sort+"&currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"' >"
 				+ "<span aria-hidden='true'><i class='bi bi-chevron-double-right'></i></span></a></li>";
-
+		
 		request.setAttribute("totalPro", totalPro);
-		request.setAttribute("category", category);
-		request.setAttribute("sort", sort);
 		request.setAttribute("pageBar", pageBar);
+		request.setAttribute("searchWord", searchWord);
+		request.setAttribute("sort", sort);
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/product/showBookList.jsp");
-
+		super.setViewPage("/WEB-INF/product/search.jsp");
 	}
 
 }

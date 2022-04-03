@@ -16,26 +16,7 @@ SELECT * FROM TBL_CATEGORY;
 
 -- TBL_WRITER insert start --
 --엑셀로 작업--
-insert into TBL_WRITER(PK_WR_CODE, WR_NAME, WR_INFO)
-values(1001,'프레데리케 파브리티우스, 한스 하게만│옮긴이 박단비',
-'"프레데리케 파브리티우스 Friederike Fabritius
 
-신경심리학자이자 리더십 전문가로 활동하면서 리더십과 신경과학의 통섭을 이끌고 있다. 포춘 500대 기업 소속의 임원들은 그녀의 연구가 “삶을 바꾸는 경험”이었다고 극찬했다.
-
-막스플랑크뇌과학연구소에서 커리어를 시작했으며, 맥킨지에서 경영 컨설턴트로 일했다. 이후 비즈니스와 뇌과학을 결합한 뉴로리더십 전문가로 활동하면서 세계적으로 인정받고 있다. 두뇌가 가지고 있는 고유한 능력을 통해 새로운 정보를 효율적으로 습득하고 유지하도록 하는 학습 시스템을 설계했으며, 언스트앤영, 바이엘, 몽블랑, 트리바고, 티센크루프, 지멘스, 아우디 등, 글로벌 기업 고객들이 자신의 역량을 최대로 발휘하고 중요한 순간에 최고의 성과를 달성할 수 있도록 돕고 있다.
-
-
-
-한스 하게만 Hans Hegemann
-
-글로벌 경영컨설팅기업 뮌헨리더십그룹의 공동설립자이자 이사로 혁신과 리더십 분야의 전문가다. 신경과학 분야에서 혁신과 리더십의 엄청난 잠재력을 발견하였으며, 학문적 통찰과 이론을 실용적인 리더십 기술로 변화시켜 성공적으로 기업의 혁신을 이끌어내고 있다.
-
-
-
-옮긴이 박단비
-
-서강대학교에서 영미어문학과 중국문화학을 전공했다. 국내 PR회사와 싱가포르 소재 글로벌 IT기업에서 근무했으며, 글밥아카데미 수료 후 바른번역 소속 번역가로 활동 중이다. 옮긴 책으로는 《로이드 칸의 적당한 작은 집》이 있다."
-');
 -- TBL_WRITER insert end --    
 
 
@@ -112,8 +93,8 @@ where cate_name = *
 )V
 where rno between 3 and  10;
 
-
-
+select *
+from tbl_product
 
 
 order by  pro_name
@@ -135,6 +116,275 @@ order by  pro_name
 
 
 
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales 
+from tbl_product
+order by pro_inputdate desc
+
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales 
+from tbl_product
+order by pro_name asc
+
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales 
+from tbl_product
+order by pro_sales desc
+
+--
+select rno pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from tbl_product
+order by pro_inputdate desc
+)A
+JOIN
+TBL_CATEGORY B
+on fk_cate_num = pk_cate_num
+
+)V
+where rno between 1 and  100
+
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from tbl_product
+)A
+JOIN
+TBL_CATEGORY B
+on fk_cate_num = pk_cate_num
+order by pro_name
+)V
+where rno between 1 and  100 
+
+
+
+--
+
+
+select rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from tbl_product
+)A
+JOIN
+TBL_CATEGORY B
+on fk_cate_num = pk_cate_num
+order by pro_sales desc
+)V
+where rno between 1 and  5
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, A.*
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales, cate_name 
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+order by pro_sales desc, pro_name
+)A
+)B
+where rno between 1 and  20
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, A.*
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales, cate_name 
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+where pro_inputdate > add_months(sysdate, -12)
+order by pro_inputdate desc, pro_name
+)A
+)B
+where rno between 1 and  20
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, A.*
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales,PRO_RESTOCK, cate_name 
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+where PRO_RESTOCK = 1
+order by pro_inputdate desc, pro_name
+)A
+)B
+where rno between 1 and  20
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name, pro_inputdate, pk_pro_num
+from
+(
+select rownum as rno, A.*
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales, PRO_SOLDOUT, pk_pro_num, cate_name 
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+where PRO_SOLDOUT = 0 and pro_inputdate < add_months(sysdate, -36)
+order by DBMS_RANDOM.RANDOM
+)A
+)B
+where rno between 1 and  20
+--
+select rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name, pro_inputdate, pk_pro_num
+from
+(
+select rownum as rno, A.*
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales, PRO_SOLDOUT, pk_pro_num, cate_name 
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+where cate_name = 'humanities'
+order by pro_inputdate desc
+)A
+)B
+where rno between 1 and  20
+
+---
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select rownum as rno, pro_name, pro_saleprice, pro_imgfile_name, cate_name
+from
+(
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales
+from tbl_product
+)A
+JOIN
+TBL_CATEGORY B
+on fk_cate_num = pk_cate_num
+order by pro_name
+)V
+where rno between 1 and  100 
+
+
+
+select ceil(count(*)/12) 
+from tbl_product 
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+where cate_name = 'humanities'
+
+select ceil(count(*)/12), count(*) 
+from tbl_product 
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+where cate_name = 'other'
+
+select ceil(count(*)/12)
+from tbl_product
+where cate_name='humanities'
+--
+select *
+from
+(
+select *
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+)
+JOIN
+TBL_WRITER V2
+on FK_WR_CODE = PK_WR_CODE
+where PRO_NAME like '%'||'새벽'||'%' or PUBLISHER like '%'||'새벽'||'%' or PK_PRO_NUM like '%'||'88'||'%' or WR_NAME like '%'||'김필통'||'%'
+order by pro_inputdate desc
+--
+select ceil(count(*)/12), count(*)
+from
+(
+select *
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+)
+JOIN
+TBL_WRITER V2
+on FK_WR_CODE = PK_WR_CODE
+where PRO_NAME like '%'||'새벽'||'%' or PUBLISHER like '%'||'새벽'||'%' or PK_PRO_NUM like '%'||'88'||'%' or WR_NAME like '%'||'김필통'||'%'
+--
+select pro_name, pro_saleprice, pro_imgfile_name, cate_name, pk_pro_num
+from
+(
+select rownum as rno, A.*
+from
+(
+select *
+from
+(
+select *
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+)
+JOIN
+TBL_WRITER V2
+on FK_WR_CODE = PK_WR_CODE
+where PRO_NAME like '%'||'새벽'||'%' or PUBLISHER like '%'||'새벽'||'%' or PK_PRO_NUM like '%'||'새벽'||'%' or WR_NAME like '%'||'새벽'||'%'
+order by pro_inputdate desc
+)A
+)B
+where rno between 1 and  20
+--
+select ceil(count(*)/12), count(*) 
+from 
+( 
+select *
+from tbl_product 
+ join V 
+tbl_category V 
+on fk_cate_num = pk_cate_num 
+) 
+join 
+tbl_writer V2
+on fk_wr_code = pk_wr_code 
+where pro_name like '%'|| '커피' ||'%' or publisher like '%'|| '커피' ||'%' or pk_pro_num like '%'|| '커피' ||'%' or wr_name like '%'|| '커피' ||'%'
+--
+select ceil(count(*)/12), count(*)
+from
+(
+select *
+from tbl_product
+JOIN
+TBL_CATEGORY V
+on fk_cate_num = pk_cate_num
+)
+JOIN
+TBL_WRITER V2
+on FK_WR_CODE = PK_WR_CODE
+where PRO_NAME like '%'||'커피'||'%' or PUBLISHER like '%'||'커피'||'%' or PK_PRO_NUM like '%'||'98'||'%' or WR_NAME like '%'||'커피'||'%'
 
 
 

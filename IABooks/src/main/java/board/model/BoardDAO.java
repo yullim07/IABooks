@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package board.model;
 
 import java.io.UnsupportedEncodingException;
@@ -1366,5 +1365,4 @@ public class BoardDAO implements InterBoardDAO {
 	
 	
    
->>>>>>> refs/remotes/origin/leejh
 }

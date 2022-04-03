@@ -27,7 +27,7 @@ public class MemberVO {
    private boolean requirePwdChange = false;
    // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
    // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지나지 않았으면 false
-
+   
    
    /////////////////////////////////////////////////////////////////////   
 
@@ -51,7 +51,20 @@ public class MemberVO {
       this.phone = phone;
    }
    
-
+   public MemberVO(String userid, String name, String pwd, String email, String tel , String phone, String postcode, String address, 
+		   String detailaddress, String extraaddress) {
+	  this.userid = userid;
+	  this.name = name;
+      this.pwd = pwd;
+      this.email = email;
+      this.tel = tel;
+      this.phone = phone;
+      this.postcode = postcode;
+      this.address = address;
+      this.detailaddress = detailaddress;
+      this.extraaddress = extraaddress;
+   }
+   	
 
    public String getUserid() {
       return userid;
@@ -205,7 +218,6 @@ public class MemberVO {
       this.requirePwdChange = requirePwdChange;
    }
 
-   
 
    
 
