@@ -132,10 +132,10 @@
             		</ul>
           		</li>		
 				
-          		<li class=""><a class="" href="<%= ctxPath%>/product/showBest20.book">">Best 20</a></li>
-				<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showNewBook.book">">신간</a></li>
-				<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showRestock.book">">재입고</a></li>
-          		<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showOldBook.book">">구간의 재발견</a></li>	
+          		<li class=""><a class="" href="<%= ctxPath%>/product/showBest20.book">Best 20</a></li>
+				<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showNewBook.book">신간</a></li>
+				<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showRestock.book">재입고</a></li>
+          		<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showOldBook.book">구간의 재발견</a></li>	
 			</ul>
 		</nav>
 	</div>
