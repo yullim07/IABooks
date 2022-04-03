@@ -60,7 +60,7 @@
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
 			
 			if($("select.searchType").val() == "" ) {
-				alert("검색대상을 올바르게 선택하세요!!");
+				alert("검색대상을 올바르게 선택하세요!! 11");
 				return false; // submit을 하지 않고 종료
 			}
 			
