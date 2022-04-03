@@ -4,7 +4,7 @@ from tbl_member;
 select *
 from tbl_coupon;
 
- insert into tbl_coupon(PK_COUPON_ID, CNAME, CPRICE,  CSTARTDATE, CENDDATE, CMINPRICE) 
+insert into tbl_coupon(PK_COUPON_ID, CNAME, CPRICE,  CSTARTDATE, CENDDATE, CMINPRICE) 
 	                   values('12312', '배송비무료쿠폰', '2599',  '23123', '123123','123123');
 
 delete from tbl_coupon
