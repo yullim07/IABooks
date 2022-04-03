@@ -1098,7 +1098,85 @@ public class BoardDAO implements InterBoardDAO {
 		}
 		
 		return revPrevNext;
-	}
+	} // end of public ReviewBoardVO getPrevNextReviewContent(Map<String, String> paraMap) throws SQLException----------
+
+	// 리뷰게시판 값을 수정해주기
+	@Override
+	public int UpdateReviewBoard(Map<String, String> paraMap) throws SQLException {
+
+		int result = 0;
+		
+		int pk_rnum = Integer.parseInt(paraMap.get("pk_rnum"));
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_review_board set re_title = ?, re_contents= ?, re_writer = ? "+
+						 " where pk_rnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("title"));
+			pstmt.setString(2, paraMap.get("content"));
+			pstmt.setString(3, paraMap.get("writer"));
+			pstmt.setInt(4, pk_rnum);
+			
+			System.out.println("들어왔니 번호야? : " + pk_rnum);
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				System.out.println("업데이트 성공!");
+			}
+			
+			result = n;
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		
+		
+		return result;
+		
+	} // end of public int UpdateReviewBoard(Map<String, String> paraMap) throws SQLException
+
+	// 리뷰게시판 값을 삭제하기
+	@Override
+	public int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException {
+
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_review_board " 
+					   + " where pk_rnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, revVO.getPk_rnum());
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				System.out.println("삭제 성공!");
+			}
+			
+			result = n;
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		
+		
+		return result;
+		
+	} // end of public int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException---------------
 
 	
 	

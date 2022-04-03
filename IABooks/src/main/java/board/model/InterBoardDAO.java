@@ -64,6 +64,12 @@ public interface InterBoardDAO {
 
 	// 리뷰게시판 이전글, 다음글 정보를 가져오기
 	ReviewBoardVO getPrevNextReviewContent(Map<String, String> paraMap) throws SQLException;
+
+	// 리뷰게시판 값을 수정해주기
+	int UpdateReviewBoard(Map<String, String> paraMap) throws SQLException;
+
+	// 리뷰게시판 값을 삭제하기
+	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
 	
 
 	

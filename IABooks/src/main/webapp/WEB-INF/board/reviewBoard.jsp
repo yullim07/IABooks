@@ -164,6 +164,15 @@
              
              </c:forEach>   
  			 </c:if>
+ 			 <c:if test="${empty requestScope.reviewList}">
+        		<tr id="notExist">
+			      	<td colspan="6">
+			      		<div>
+			      		<span style="color: #555555; font-weight:bold;">표시할 내용이 없습니다.</span>
+			      		</div>
+			      	</td>
+			    </tr>
+       		 </c:if>
          </tbody>
          
         </table>
