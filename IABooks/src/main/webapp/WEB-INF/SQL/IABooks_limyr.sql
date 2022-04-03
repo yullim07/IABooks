@@ -709,37 +709,3 @@ FROM tbl_product A
 LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
 LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
 WHERE pk_pro_num = ;
-
-select * from tbl_cart;
-
-desc tbl_cart;
-desc tbl_orderdetail;
-
-
-desc tbl_product;
-
-SELECT  A.pro_name, A.pro_imgfile_name, A.pro_price,
-        A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date,
-        A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice,
-        A.pro_index, A.pro_content, B.wr_info,
-        A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt        
-FROM tbl_product A
-LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code
-LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num
-WHERE pk_pro_num = '9791196045999';
-
-desc TBL_PRODUCT_IMAGEFILE;
-
-select * from TBL_PRODUCT_IMAGEFILE;
-select pk_pro_num from TBL_PRODUCT;
-
-select * from tbl_cart;
-
-select * from tbl_product where pk_pro_num = '9791189652067';
-desc TBL_PRODUCT;
-
-desc tbl_order;
-select * from tbl_order;
-
-desc tbl_cart;
-select * from tbl_cart;
