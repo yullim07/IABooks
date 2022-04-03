@@ -534,7 +534,7 @@ ul li {
 @media (min-width: 992px) {
  	.search_section {
 		position: relative;
-		top: 15px;
+		top: -5px;
 		left: 150px;
 	    display: inline;
 	}
@@ -566,7 +566,7 @@ ul li {
 	    text-shadow: none;
 	    display: inline-block;
 	    text-align: start;
-	    -webkit-rtl-ordering: logical;
+	   -webkit-rtl-ordering: logical;
 	    cursor: text;
 	    outline: none !important;
 	}
