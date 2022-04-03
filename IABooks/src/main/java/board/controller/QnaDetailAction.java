@@ -46,12 +46,14 @@ public class QnaDetailAction extends AbstractController {
 			if( qnaVO.getPk_qna_num() != 0 ) {
 				paraMap.put("currentNum", currentNum);
 				System.out.println("여기까진 오니?");
-				qnaPrevNext = bdao.getqnaPrevNextContent(paraMap);
-				
-				qnaVO.setPrev_num(qnaPrevNext.getPrev_num());
-				qnaVO.setPrev_title(qnaPrevNext.getPrev_title());
-				qnaVO.setNext_num(qnaPrevNext.getNext_num());
-				qnaVO.setNext_title(qnaPrevNext.getNext_title());
+				/*
+				 * qnaPrevNext = bdao.getqnaPrevNextContent(paraMap);
+				 * 
+				 * qnaVO.setPrev_num(qnaPrevNext.getPrev_num());
+				 * qnaVO.setPrev_title(qnaPrevNext.getPrev_title());
+				 * qnaVO.setNext_num(qnaPrevNext.getNext_num());
+				 * qnaVO.setNext_title(qnaPrevNext.getNext_title());
+				 */
 			}
 
 			
