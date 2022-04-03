@@ -11,6 +11,15 @@
 
 <style type="text/css">
 
+	select#searchType, select#searchCate {
+		font-size:14px;
+	}
+	
+	img#thumbimg {
+		width: 30%;
+		float: left;
+	}
+
 </style>
 
      
@@ -33,7 +42,14 @@
 
    $(document).ready(function(){
       
-      /* 
+	   if( "${sessionScope.loginuser.userid}" == "admin" ) {
+			$("div.write_btn_zone").show();
+		}
+		else {
+			$("div.write_btn_zone").hide();
+		}
+	   
+	   /* 
        $("span.error").hide();
        $("input#name").focus();
        */
@@ -53,6 +69,26 @@
    
    });
    
+	// Function Declaration
+	function goSearch(){
+		
+		if($("select.searchType").val() == "" ) {
+			alert("검색대상을 올바르게 선택하세요!!");
+			return; // goSearch() 함수 종료.
+		}
+		
+		if($("input#searchWord").val().trim() == "") {
+			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
+			return;
+		}
+		
+		const frm = document.revBoardFrm;
+		frm.action = "reviewBoard.book";
+		frm.method = "get";
+		frm.submit();
+		
+	}
+   
    
 </script>
 
@@ -67,7 +103,10 @@
 
 
 <div class="container">
+
 <div class="contents">
+
+  
   <div class="title" >
      <div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
      <h2 >타인의 책장</h2>
@@ -76,8 +115,8 @@
     
   </div>
   <p class="mb-3"></p>
-  <form name="revBoardFrm">
   
+  <form name="revBoardFrm" method="get">
      <div class="table_all">
      <div class="table">
         <table class="table line_table">
@@ -93,25 +132,47 @@
           </thead>
           
           <tbody>
-             <c:forEach var="board" items="${requestScope.revBoardList}" >
+          	 <c:if test="${not empty requestScope.reviewList}">
+			 <c:forEach var="board" items="${requestScope.reviewList}" >
                    <tr>
                    <td class="tbl_number mycenter">${board.pk_rnum}</td>
-                   <td class="tbl_bookname">
-                      <a  href="#">
-                           ${board.product.pro_name}
-                        <span ></span>
-                     </a>
+                   <td class="tbl_bookname"> <img src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>${board.product.pro_name}
+                        
+                     
                    </td>
                    <td class="tbl_subject">
-                       <a href="">${board.re_title}</a>
-                       <%-- <span class="new_tag">NEW</span> --%>
-                    </td>
-                   <%-- <td class="tbl_writer mycenter">${board.member.name}</td> --%>
-                   <td class="tbl_writer mycenter">${board.re_writer}</td>
+                       <a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.pk_rnum}">${board.re_title}</a>
+                   </td>
+                   <td class="tbl_writer mycenter">${board.member.name}</td>
                    <td class="tbl_date mycenter">${board.re_date}</td>
-                   <td class="tbl_grade mycenter">${board.re_grade}</td>
+                   <c:if test="${board.re_grade eq 1 }">
+				   <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point1.gif" /></td>
+				   </c:if>
+				   <c:if test="${board.re_grade eq 2 }">
+				   <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point2.gif" /></td>
+				   </c:if>
+				   <c:if test="${board.re_grade eq 3 }">
+				   <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point3.gif" /></td>
+				   </c:if>
+				   <c:if test="${board.re_grade eq 4 }">
+				   <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point4.gif" /></td>
+				   </c:if>
+				   <c:if test="${board.re_grade eq 5 }">
+				   <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point5.gif" /></td>
+				   </c:if>
                 </tr>
+             
              </c:forEach>   
+ 			 </c:if>
+ 			 <c:if test="${empty requestScope.reviewList}">
+        		<tr id="notExist">
+			      	<td colspan="6">
+			      		<div>
+			      		<span style="color: #555555; font-weight:bold;">표시할 내용이 없습니다.</span>
+			      		</div>
+			      	</td>
+			    </tr>
+       		 </c:if>
          </tbody>
          
         </table>
@@ -122,44 +183,40 @@
       </div>
         
         </div>
-        
-    </form>
+   
 
    <nav class="my-5">
       <div style="display: flex; width: 100%;">
          <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
       </div>   
    </nav>
-
-   
+     
     
     <div class="search_outer" >
        <div class="search_inner">
        <a><img src="<%= ctxPath%>/images/board/leejh_images/ico_triangle3.gif" /></a>
         <p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
         
-       <select id="searchDate" name="search">
-          <option value="week">일주일</option>
-           <option value="month">한달</option>
-           <option value="3months">세달</option>
-           <option value="all">전체</option>
-       </select>
-       <select id="searchContent" name="search">
-          <option value="subject">제목</option>
-           <option value="content">내용</option>
-           <option value="writername">글쓴이</option>
-           <option value="userid">아이디</option>
-           <option value="nickname">별명</option>
+       <select class="searchType" id="searchType" name="searchType">
+       	   <option value="">대상</option>
+           <option value="re_title">제목</option>
+           <option value="re_writer">글쓴이</option>
+           <option value="fk_userid">아이디</option>
            <option value="product">상품정보</option>
    
        </select>
-       <input type="text" name="search"></input>
-       <button class="btn" name="search" >찾기</button>
-       </div>
+       	<input type="text" name="searchWord" id="searchWord"></input>
+	   	<button class="btn btn_rev_search" type="button" id="btn_search" name="btn_search" onclick="goSearch();" >찾기</button>
+	   </div>
     
      </div>
-</div>
-</div>
+     
+     	
+	</form>     
+	</div>
+
+
+</div> <!-- container 끝 -->
 
 
    
