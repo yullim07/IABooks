@@ -29,9 +29,58 @@
 <script type="text/javascript">
 	
 	$(document).ready(function(){
+		$("button.btn_delete").click(function(){
+			
+			if( confirm("글을 삭제하시겠습니까?") == true ) {
+				location.href="<%= ctxPath%>/board/qnaDelete.book?pk_qna_num="+"${qnaVO.pk_qna_num}";
+			}
+		});
 		
+		//댓글쓰기
+		
+		$("button#submitCmt").click( () =>{
+			console.log("돼요?");
+			 var commnettext=$("#commnet_content").val(); //댓글 내용
+		        var pk_qna_num="${qnaVO.pk_qna_num}"; //게시물 번호
+		        	console.log("나오는거니????"+${qnaVO.pk_qna_num});
+		        var param= { "commnettext": commnettext, "pk_qna_num": pk_qna_num
+		        		   , "comment_pwd" : $("input#comment_pwd").val()};
+		        
+		        //var param="replytext="+replytext+"&bno="+bno;
+		        $.ajax({
+		            type: "post", //데이터를 보낼 방식
+		            url: "<%= ctxPath%>/board/commentSubmit.book", //데이터를 보낼 url
+		            data: param, //보낼 데이터
+		            dataType:"json",
+		            success: function(json){ //데이터를 보내는것이 성공했을시 출력되는 메시지
+		                alert("댓글이 등록되었습니다.");
+		                listComment(); //댓글 목록 출력
+		            },
+		            error:function(request, status, error){
+		               alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+		            }
+		        });
+			
+		});
+		
+		
+	});//end of $(document).ready(function(){})--------------
 	
-	});
+	
+	//댓글 목록 출력 함수
+	function listComment(){
+		$.ajax({
+	        type: "get", //get방식으로 자료를 전달한다
+	        url: "<%= ctxPath%>/board/commentList.book?pk_qna_num="+${qnaVO.pk_qna_num}, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
+	        success: function(result){ //자료를 보내는것이 성 공했을때 출력되는 메시지
+	            //result : responseText 응답텍스트(html)
+	            $("#listComment").html(result);
+	        }
+	    });
+		
+	}
+	
+	
 
 </script>
 
@@ -51,177 +100,136 @@
   </div>
   <p class="mb-3"></p>
   
-  <div class="pdt_img_info" >
-  	<p><img  onclick="#" src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg"/></p>
-  	<div class="pdt_info" >
-  		<h3><a href="#">직업이 술꾼입니다!</a></h3>
-  		<p class="p_price">16,000원</p>
-  		<p class="button"><button class="btn btn_detail" type="button"><a href="#">상품 상세보기 ></a></button></p>
-  	</div>
-  </div>
-	
+  
+	  <div class="pdt_img_info" >
+	  	<p><img  onclick="#" src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg"/></p>
+	  	<div class="pdt_info" >
+	  		<h3><a href="#">직업이 술꾼입니다!</a></h3>
+	  		<p class="p_price">16,000원</p>
+	  		<p class="button"><button class="btn btn_detail" type="button"><a href="#">상품 상세보기 ></a></button></p>
+	  	</div>
+	  </div>
+  
 	
 	<div class="table ">
-		<table class=" review_table ">
-		  	<tbody>
-		    <tr>
-		      <th class="col-2" >제목</th>
-		      <td class="col-10" >배송도 빠르도 책도 잘 포장돼서 왔어요!</td>
-		    </tr>
-		  	
-		    <tr>
-		      <th>작성자</th>
-		      <td>네****</td>
-		    </tr>
-		    <tr>
-		      
-		      <td colspan="2">
-		      	<ul>
-		      		
-		      		<li class="li_header">
-		      			<strong>작성일</strong>
-		      			<span style="font-size: 11px; color: gray; ">2022-03-10 04:06:33</span>
-		      		</li>
-		      		<li class="li_header">
-		      			<strong>조회수</strong>
-		      			<span style="font-size: 11px; color: gray; ">33</span>
-		      		</li>
-		      	
-		      	</ul>
-		      	<div class="detail " >
-		      		
-		      		<div>
-		      		<p>배송도 빠르도 책도 잘 포장돼서 왔어요!</p>
-		      		</div>
-		      	</div>
-		      
-		      </td>
-		    
-		    
-		    </tr>
-		    
-		    <tr>
-		      <th>비밀번호</th>
-		      <td class="password">
-		      	<input type="text" id="password" name="password"/>
-		      	<div class="exclam_mark"><p id="wow">!</p></div>
-		      	<span>삭제하려면 비밀번호를 입력하세요.</span>
-		      </td>
-		    </tr>
-		    </tbody>
-		  
-		</table>
+		<c:set var="qnaVO" value="${requestScope.qnaVO}" />
+			<table class=" review_table ">
+			  	<tbody>
+			    <tr>
+			      <th class="col-2" >제목</th>
+			      <td class="col-10 subject" >${qnaVO.qna_title}</td>
+			    </tr>
+			  	
+			    <tr>
+			      <th>작성자</th>
+			      <td class="writer">${qnaVO.member.name}</td>
+			    </tr>
+			    <tr>
+			      
+			      <td colspan="2">
+			      	<ul>
+			      		
+			      		<li class="li_header">
+			      			<strong>작성일</strong>
+			      			<span class="writedate" style="font-size: 11px; color: gray; ">${qnaVO.qna_date}</span>
+			      			
+			      		</li>
+			      		<li class="li_header">
+			      			<strong>조회수</strong>
+			      			<span class="readcount" style="font-size: 11px; color: gray; ">${qnaVO.qna_readcount}</span>
+			      		</li>
+			      	
+			      	</ul>
+			      	<div class="detail " >
+			      		
+			      		<div class="content">
+			      		${qnaVO.qna_contents}
+			      		</div>
+			      	</div>
+			      
+			      </td>
+			    
+			    
+			    </tr>
+			    
+			    <%-- 
+			    <tr>
+			      <th>비밀번호</th>
+			      <td class="password">
+			      	<input type="text" id="pasword" name="password"/>
+			      	<div class="exclam_mark"><p id="wow">!</p></div>
+			      	<span>삭제하려면 비밀번호를 입력하세요.</span>
+			      </td>
+			    </tr>
+			     --%> 
+			    </tbody>
+			  
+			</table>
+			<input type="hidden" class="pk_qna_num" name="pk_qna_num" id="pk_qna_num" value="${board.pk_qna_num}"/>
 	</div>
+	
 	
 	<div class="buttons">
 		
-		<button class="btn btn_list" type="button">목록</button>
-		<button class="btn btn_update" type="button">수정</button>
-		<button class="btn btn_delete" type="button">삭제</button>	
+		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/qnaBoard.book'">목록</button>
+		<button class="btn btn_update" type="button" onclick="location.href='<%= ctxPath%>/board/qnaUpdate.book?pk_qna_num=${qnaVO.pk_qna_num}'">수정</button>
+		<button class="btn btn_delete" type="button">삭제</button>
+		<%-- <button class="btn btn_delete" type="button" onclick="location.href='<%= ctxPath%>/board/qnaDelete.book?pk_qna_num=${qnaVO.pk_qna_num}'">삭제</button> --%>	
 		
 	</div>
 	
-	<div class="jumbotron" style="background-color:#fbfafa; border: 1px solid #e9e9e9; margin-top: 70px;">
-		<form class="comment">
-			<div class="mb-1"><strong>댓글달기</strong></div>
-			<div class="mb-3"><a>이름 : </a><input type="text"/> <a>비밀번호 : </a><input id="comment_pwd" name="comment_pwd" type="password"/></div>
-			<div style="vertical-align: middle;"><textarea style="float:left; width:90%;" id="comment" name="commnet" type="text"></textarea>
-			<button onclick="#" class="submit btn-dark" type="button" style="float:right; width:9%; height: 50px; border-radius: 10%;">확인</button></div>
-		</form>
-	</div>
+	<%-- 댓글달기 --%>
 	
+	<div>
 	
-	<div class="prev_next table table-responsive" >
-		<table class="prev_next line_table">
-			<tbody>
-				<tr>
-					<th><img style="max-width:100%; height:auto;" src="<%= ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" /><a>이전글</a></th>
-					<td><a href="">만족</a></td>
-				</tr>
-				<tr>
-					<th><img src="<%= ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" /><a>다음글</a></th>
-					<td><a href="">고민하며 성장하는 모습은 감동적이고 아름답다.</a></td>
-				</tr>
-			</tbody>
+		<!-- 댓글 목록 -->
+		<!-- 댓글이 등록이 되면 listReply에 댓글이 쌓이게 된다 -->
+		<div id="listComment"></div>
+		
+		<div class="comment" style=" font-size: 14px; padding:auto 20px; background-color:#fbfafa; border: 1px solid #e9e9e9; margin-top: 70px;">
+			<c:set var="qnaVO" value="${qnaVO}" />
+			<c:if test="${ not empty sessionScope.loginuser }">
+			<form class="comment" method="post">
+				<div class="mb-1"><strong>댓글달기</strong></div>
+				<div class="mb-3">
+					<a>이름 : </a><input id="cmtWriter" name="cmtWriter" type="text" value="${(requestScope.qnaVO).member.name}"/> 
+					
+					<a>비밀번호 : </a><input id="comment_pwd" name="comment_pwd" type="password" value="${(requestScope.qnaVO).qna_passwd}"/>
+				</div>
+				<div style="vertical-align: middle;">
+					<textarea style="float:left; width:90%; height: 50px;"  id="commnet_content" name="commnet_content" ></textarea>
+					<button onclick="" id ="submitCmt" class=" submit" type="button" style="color: white; float:right; font-size: 14px; border: none; background-color: #999; width:9%; height: 50px; border-radius: 10%;">확인</button>
+				</div>
+				
+				<input type="hidden" class="fk_userid" name="fk_userid" id="fk_userid" value="${board.fk_userid}"/>
+				<input type="hidden" name="pk_qna_num" id="pk_qna_num" value="${(requestScope.qnaVO).pk_qna_num}">
+			</form>
+			</c:if>
+			<c:if test="${empty sessionScope.loginuser }">
 			
-		</table>
-	</div>
-	
-	
- 	<div class="related">
- 		<h3>관련 글 보기</h3>
- 
-  		<div class="table">
-	  		<table class="table tbl_related table-hover">
-			    <thead>
-			      <tr class="tblHeader">
-			        <th width="9.2%">번호</th>
-			        <th width="18.5%">상품명</th>
-			        <th width="40%">제목</th>
-			        <th width="11%">작성자</th>
-			        <th width="10.5%">작성일</th>
-			       <!--  <th width="10.5%">조회</th> -->
-			      </tr>
-			    </thead>
-			    <tbody>
-			      <tr>
-			        <td class="tbl_number mycenter">218</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">만족</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-03-10</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">214</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">보통</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-02-13</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">204</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">만족</a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-25</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">203</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">직업이 술꾼이라니 너무 재밌는 책이라 구입했습니다. 먼저 일러스트로 알게 되었고, 그 다음<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-24</td>
-			      </tr>
-			      
-			      <tr>
-			        <td class="tbl_number mycenter">194</td>
-			        <td class="tbl_bookname">
-						<span >직업이 술꾼입니다!</span>
-			        </td>
-			        <td class="tbl_subject"><a href="">배송이 빨라 좋았어요!<img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/></a></td>
-			        <td class="tbl_writer mycenter">네****</td>
-			        <td class="tbl_date mycenter">2022-01-04</td>
-			      </tr>
-			    </tbody>
-			</table>
-			
+			<p style="font-size: 14px; margin:0;">회원에게만 댓글 작성 권한이 있습니다.</p>
+			</c:if>
 		</div>
-		
 	</div>
-  
-</div>
-</div>
+	
+	<div class="prev_next table table-responsive">
+				<table class="prev_next">
+					<tbody>
+						<tr>
+							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_prev.gif" id="img_prev" />
+							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${(board.pk_qna_num)-1}">이전글</a></th>
+							<td id="td_left" class="board_prev"><a href=""></a></td>
+						</tr>
+						<tr>
+							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_next.gif" id="img_next" />
+							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${(board.pk_qna_num)+1}">다음글</a></th>
+							<td id="td_left" class="board_next"><a href=""></a></td>
+						</tr>
+					</tbody>
+					
+				</table>
+			</div>
+	</div>
 
 
 	

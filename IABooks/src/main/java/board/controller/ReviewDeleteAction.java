@@ -7,10 +7,11 @@ import javax.servlet.http.HttpSession;
 import board.model.BoardDAO;
 import board.model.FaqBoardVO;
 import board.model.InterBoardDAO;
+import board.model.ReviewBoardVO;
 import common.controller.AbstractController;
 import member.model.MemberVO;
 
-public class FaqDeleteAction extends AbstractController {
+public class ReviewDeleteAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -22,29 +23,28 @@ public class FaqDeleteAction extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		InterBoardDAO bdao = new BoardDAO();
-		FaqBoardVO faqVO = new FaqBoardVO();
+		ReviewBoardVO revVO = new ReviewBoardVO();
 		
 		String message = "";
 		String loc = "";
 		
 		// 이전글, 다음글을 불러오기 위한 글상세보기의 게시판번호 불러오기
-		int pk_faq_board_num = Integer.parseInt(request.getParameter("pk_faq_board_num"));
-		System.out.println(" 삭제하기 위해 FaqDeleteAction 에서 받아온 번호 : " + pk_faq_board_num);
-		faqVO.setPk_faq_board_num(pk_faq_board_num);
+		int pk_rnum = Integer.parseInt(request.getParameter("pk_rnum"));
+		System.out.println(" 삭제하기 위해 ReviewDeleteAction 에서 받아온 번호 : " + pk_rnum);
 		
+		revVO.setPk_rnum(pk_rnum);
+		revVO = bdao.readReviewContent(pk_rnum);
 		
-		faqVO = bdao.getContent(pk_faq_board_num);
-		
-		if( loginuser != null && ( "admin".equals(loginuser.getUserid()) || faqVO.getFk_userid().equals(loginuser.getUserid()) )  ) {
+		if( loginuser != null && ( "admin".equals(loginuser.getUserid()) || revVO.getFk_userid().equals(loginuser.getUserid()) )  ) {
 			
 			
-			request.setAttribute("faqVO", faqVO);
+			request.setAttribute("revVO", revVO);
 			
-			int n = bdao.deleteFaqBoard(faqVO);
+			int n = bdao.deleteReviewBoard(revVO);
 			
 			if(n==1) {
 				message = "삭제가 성공하였습니다!";
-				loc = request.getContextPath()+"/board/faqBoard.book";// faq목록페이지로 이등
+				loc = request.getContextPath()+"/board/reviewBoard.book";// 리뷰게시판 목록페이지로 이등
 			}
 		}
 		else {

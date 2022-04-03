@@ -7,7 +7,7 @@ public class CommentVO {
 	private int pk_cmt_num; 		// 댓글번호
 	private String fk_userid; 		// 회원아이디
 	private int fk_qna_num; 		// 문의번호
-	private String cmt_name; 		// 댓글이름
+
 	private String cmt_passwd; 		// 댓글비밀번호
 	private String cmt_contents; 	// 댓글내용
 	private String cmt_date; 		// 작성일자
@@ -41,13 +41,6 @@ public class CommentVO {
 		this.fk_qna_num = fk_qna_num;
 	}
 
-	public String getCmt_name() {
-		return cmt_name;
-	}
-
-	public void setCmt_name(String cmt_name) {
-		this.cmt_name = cmt_name;
-	}
 
 	public String getCmt_passwd() {
 		return cmt_passwd;

@@ -200,6 +200,16 @@ nocycle
 nocache;
 --Sequence SEQ_FAQ_BOARD이(가) 생성되었습니다.
 
+create sequence seq_comment
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+--Sequence SEQ_COMMENT이(가) 생성되었습니다.
+
+
 
 SELECT * FROM USER_SEQUENCES
 
@@ -331,8 +341,10 @@ order by pk_qna_num desc
 --qna 게시판 목록 보기
 select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
 from tbl_member M
-JOIN tbl_qna_board Q  ON M.pk_userid = Q.fk_userid
-JOIN tbl_product P ON Q.fk_pnum = P.pk_pro_num
+JOIN tbl_qna_board Q  
+ON M.pk_userid = Q.fk_userid
+JOIN tbl_product P 
+ON Q.fk_pnum = P.pk_pro_num
 where isdelete = 0
 order by pk_qna_num desc;
 
@@ -342,9 +354,66 @@ from tbl_member M
 JOIN tbl_qna_board Q  
 ON M.pk_userid = Q.fk_userid
 JOIN tbl_product P 
-ON Q.fk_pnum = P.pk_pro_num
+ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999)
 where isdelete = 0
 order by pk_qna_num desc;
+
+
+select  fk_pnum, pk_qna_num, qna_title, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret ,isdelete 
+from tbl_qna_board
+
+-- fk_pnum 이 null이 아니라면
+    
+select  fk_pnum, pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
+from tbl_member M
+JOIN tbl_qna_board Q  
+ON M.pk_userid = Q.fk_userid    
+    
+select pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret, isdelete 
+    from
+    (
+        select  fk_pnum, pk_qna_num, qna_title, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret ,isdelete 
+        from tbl_qna_board
+        
+    )v1
+    JOIN tbl_qna_board Q  
+    ON M.pk_userid = Q.fk_userid
+    (   
+        select *
+        from tbl_product P 
+        JOIN 
+        ON Q.fk_pnum = P.pk_pro_num
+    )v2
+    on isdelete = 0
+    order by pk_qna_num desc;
+
+
+
+
+
+
+
+
+
+
+
+select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
+from tbl_member M
+JOIN tbl_qna_board Q  
+ON M.pk_userid = Q.fk_userid
+JOIN tbl_product P 
+ON nvl(Q.fk_pnum,-9999) = P.pk_pro_num
+where isdelete = 0
+order by pk_qna_num desc;
+
+
+select pk_qna_num, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret
+from  tbl_member M
+JOIN tbl_qna_board Q  
+ON M.pk_userid = Q.fk_userid
+where isdelete = 0
+order by pk_qna_num desc;
+
 
 String sql = "select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret\n"+
 "from tbl_member M\n"+
@@ -355,6 +424,11 @@ String sql = "select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.m
 "where isdelete = 0\n"+
 "order by pk_qna_num desc";
 
+select pk_qna_num, mname, qna_title, qna_contents, fk_userid
+from tbl_qna_board  Q
+join  tbl_member M
+ON Q.fk_userid = M.pk_userid 
+where pk_qna_num = 24
 
 
 String sql = "\n"+
@@ -426,6 +500,8 @@ select *
 from TBL_QNA_BOARD;
 
 
+
+
 insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
 values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , '커피한잔 문의', '상품문의입니다', '1234', '0', '0');
 
@@ -434,4 +510,141 @@ values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , '커피한잔 문의',
 insert into tbl_review_board(pk_rnum, fk_pnum, fk_userid, re_title, re_grade, re_contents, re_passwd, re_writer)
 values(SEQ_REVIEW_BOARD.nextval ,  '9791196045999' , 'admin','커피한잔 문의', 3, '상품문의입니다안녕하세요 우와 좋다 뭐가/ 몰라', '1234', '작성이');
 
+commit;
+
+
+alter table TBL_QNA_BOARD modify (fk_pnum NULL);
+--Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+alter table TBL_QNA_BOARD modify isdelete default '0';
+--Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+
+
+
+
+
+
+
+
+select pk_rnum, pro_name, pro_imgfile_name, re_title 
+					  	  , mname, re_date, re_readcount, fk_userid, re_grade 
+ 						  from 
+ 						  ( 
+ 						  select pk_rnum, pro_name, pro_imgfile_name, re_title 
+ 						   		  , mname, re_date, re_readcount, fk_userid, re_grade, rownum AS rno 
+ 						      from 
+ 						      ( 
+        			 	   		select  pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS pro_imgfile_name, re_title
+        			 	   		, M.mname AS mname, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, re_readcount, fk_userid , re_grade
+        			       		from tbl_member M 
+        			       		JOIN tbl_review_board R  ON M.pk_userid = R.fk_userid 
+        			       		JOIN tbl_product P 
+        			       		ON P.pk_pro_num = R.fk_pnum 
+        			       		where isdelete = 0 
+        			       		order by pk_rnum desc 
+        			          ) V 
+      					   ) T 
+      					   where rno between 1 and 10;
+
+
+select pk_qna_num, pro_name, pro_imgfile_name, qna_title 
+					  	  , mname, qna_date, qna_readcount, fk_userid, qna_issecret
+ 						  from 
+ 						  ( 
+ 						  select pk_qna_num, pro_name, pro_imgfile_name, qna_title 
+ 						   		  , mname, qna_date, qna_readcount, fk_userid, qna_issecret, rownum AS qno 
+ 						      from 
+ 						      ( 
+        			 	   		select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date, qna_readcount , fk_userid , qna_issecret
+                                from tbl_member M
+                                JOIN tbl_qna_board Q  
+                                ON M.pk_userid = Q.fk_userid
+                                JOIN tbl_product P 
+                                ON nvl(Q.fk_pnum,-9999) = P.pk_pro_num
+                                where isdelete = 0
+                                order by pk_qna_num desc
+        			          ) V 
+      					   ) T 
+      					   where qno between 1 and 10;
+
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , '커피', '상품문의입니다22', '1234', '0', '0');
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , 'dd', '상품문의입니다dd', '1234', '0', '0');
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , '문의', '상품문의입니다', '1234', '0', '0');
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , '문의', '상품문의입니다', '1234', '0', '0');
+
+insert into tbl_qna_board(pk_qna_num, fk_userid,  qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'admin',   '페이징', '페이징', '1111', '1', '0');
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_
+issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , '커dfefwf피한잔 문의', '상품문의ddd입니다', '1234', '0', '0');
+
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , 'abcd', '상품문의입니다', '1234', '0', '0');
+
+commit;
+
+
+
+
+
+
+
+
+
+
+select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret 
+							from 
+							( 
+							 select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret 
+							    from 
+	 			   			 	( 
+	 			   			 		select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret 
+		   			   		 		from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  
+		   			   		 		where isdelete = 0
+		   			   		 		order by pk_qna_num desc
+		   			   		 	) V
+		   			   		 ) T 
+		   			   		 where rno between ? and ? 
+
+
+
+desc tbl_qna_board;
+
+select *
+from tbl_qna_board
+
+
+update tbl_qna_board set qna_title = '도넛', qna_contents= '은 맛있어', qna_issecret = 1
+where pk_qna_num = '3081';  
+commit;
+
+select *
+from tbl_comment;
+
+desc tbl_comment;
+
+
+
+insert into tbl_comment(pk_cmt_num, fk_userid, fk_qna_num, cmt_passwd, cmt_contents) 
+values(SEQ_COMMENT.nextval, 'admin', 3093, '1111', '안녕하세요');
+--1 행 이(가) 삽입되었습니다.
+commit;
+
+-- 댓글작성자 cmt_name 컬럼 삭제하고 fk_userid를 통해서 사용자이름 끌어오기
+alter table tbl_comment drop column cmt_name;
+--Table TBL_COMMENT이(가) 변경되었습니다.
+
+
+update tbl_qna_board set qna_readcount = qna_readcount+1 where pk_qna_num=3202;
 commit;
