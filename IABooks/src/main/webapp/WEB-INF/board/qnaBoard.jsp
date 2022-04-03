@@ -79,6 +79,9 @@
 			$("select#searchContent").val("${requestScope.searchContent}");
 			$("input#searchWord").val("${requestScope.searchWord}");
 		}
+		
+		
+		
 	
 	}); // end of $(document).ready(function(){})-----------
 	
@@ -104,6 +107,8 @@
 		frm.submit(); 
 		
 	}
+	
+	
 
 </script>
 
@@ -139,6 +144,7 @@
 	    
 	    
 	    <tbody>
+	    <c:set var="qnaVO" value="${requestScope.qnaVO}" />
 	    	<c:if test="${not empty requestScope.qnaboardList}">
 	    		<c:forEach var="board" items="${requestScope.qnaboardList}">
 	        		<tr class="qnaboardInfo">
@@ -151,27 +157,42 @@
 							</a>  
 							
 				    	</td>
+				    	
+				    	
 				    	<td class="tbl_subject">
 				    		<%-- 비밀글일때 아이콘 표시 --%>
-				    		<c:if test="${board.qna_issecret eq '1'}" >
 					    		<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
+					    				${board.qna_title}
+					    		</a>
+				    		
+				    		<c:if test="${board.qna_issecret eq '1'}">
+				    			<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
+				    		</c:if>
+				    	</td>
+				    	
+				    	<%-- 
+				    	<td class="tbl_subject">
+				    		비밀글일때 아이콘 표시
+				    		<c:if test="${board.qna_issecret eq '1'}" >
+					    		<a href="<%= ctxPath%>/board/goSecreatQna.book">
 					    				${board.qna_title}
 					    		</a>
 					    		<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
 				    		</c:if>
-				    		<%-- 공개글 아이콘 없음 --%>
+				    		공개글 아이콘 없음
 				    		<c:if test="${board.qna_issecret eq '0'}">
 				    			<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
 					    				${board.qna_title}
 					    		</a>
 				    		</c:if>
-				    	</td>
+				    	</td> --%>
 				    	<td class="tbl_writer mycenter">${board.member.name}</td>
 				    	<td class="tbl_date mycenter">${board.qna_date}</td>
 				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
 	        			
 	        		</tr>
 	        		 <input type="hidden" class="qna_passwd" name="qna_passwd" id="qna_passwd" value="${board.qna_passwd}"/>
+	        		
 	        	</c:forEach>
 	        </c:if>
 	        

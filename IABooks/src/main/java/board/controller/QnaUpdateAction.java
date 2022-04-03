@@ -21,10 +21,11 @@ public class QnaUpdateAction extends AbstractController {
 			//	int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num")); // 프라이머리키를 JSP에서 가져온다.
 				HttpSession session  = request.getSession();
 				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-				System.out.println("어디가 문제");
+			//	System.out.println("어디가 문제");
+			
 				InterBoardDAO bdao = new BoardDAO();
 				QnABoardVO qnaVO = new QnABoardVO();
-				System.out.println("여긴가");
+			//	System.out.println("여긴가");
 				
 			 int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num")); // 프라이머리키를 JSP에서 가져온다.
 				

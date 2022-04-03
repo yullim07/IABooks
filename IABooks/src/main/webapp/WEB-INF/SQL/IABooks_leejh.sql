@@ -578,10 +578,19 @@ values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , 'dd', '상품문의입
 insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
 values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , '문의', '상품문의입니다', '1234', '0', '0');
 
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , '문의', '상품문의입니다', '1234', '0', '0');
+
+insert into tbl_qna_board(pk_qna_num, fk_userid,  qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'admin',   '페이징', '페이징', '1111', '1', '0');
 
 insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_
 issecret, isdelete) 
 values(SEQ_QNA_BOARD.nextval , 'admin', '9791196045999' , '커dfefwf피한잔 문의', '상품문의ddd입니다', '1234', '0', '0');
+
+
+insert into tbl_qna_board(pk_qna_num, fk_userid, fk_pnum, qna_title,  qna_contents , qna_passwd, qna_issecret, isdelete) 
+values(SEQ_QNA_BOARD.nextval , 'jaehee', '9791196045999' , 'abcd', '상품문의입니다', '1234', '0', '0');
 
 commit;
 
@@ -636,3 +645,6 @@ commit;
 alter table tbl_comment drop column cmt_name;
 --Table TBL_COMMENT이(가) 변경되었습니다.
 
+
+update tbl_qna_board set qna_readcount = qna_readcount+1 where pk_qna_num=3202;
+commit;

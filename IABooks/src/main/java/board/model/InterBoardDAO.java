@@ -75,12 +75,9 @@ public interface InterBoardDAO {
 	
 	//Qna 게시글 댓글 읽어오기
 	QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
-	
-	
-	
-	
-	
 
+	
+	
 }
 
 	
