@@ -2,149 +2,110 @@ package product.model;
 
 import java.util.Date;
 
-public class CartVO extends ProductVO {
+import member.model.MemberVO;
+
+public class CartVO {
+
+	/*
+	PK_CARTNO        NOT NULL NUMBER       
+	FK_USERID        NOT NULL VARCHAR2(20) 
+	PK_PRO_NUM                NUMBER
+	CK_ODR_QTY                NUMBER(4)    
+	CK_CART_REGISTER          DATE    
+	*/
 	
-	private int pk_pro_num; 			//국제표준도서번호
-	private int pro_price;   			//도서정가 디폴트 0
-	private int saleprice;   			//도서판매가 디폴트 0
-	private int point_rate;   			//포인트적립률 디폴트 0.01
-	private int pro_qty;   				//도서재고량 디폴트 100
-	private String pro_imgfile_name;	//이미지파일명	
+	private int pk_cartno;			// 장바구니 번호
+	private String FK_USERID;		// 회원아이디
+	private int pk_pro_num; 		// 국제표준도서번호
+	private int ck_odr_qty;			// 총 주문량
+	private Date ck_cart_register;	// 장바구니 등록일자
 	
-	private String pk_cartno; 		// 주문코드
-	private String fk_userid; 		// 회원아이디
-	private int odr_totalprice; 	// 주문총액
-	private int odr_totalpoint;		// 주문총포인트
-	private Date odr_date;			// 주문일자 --------------------------- > > >> ??
-	private String rv_name;			//이름
-	private String rv_zipcode;   	// 우편번호
-	private String rv_addr1; 		// 기본주소
-	private String rv_addr2; 		// 상세주소
-	private int rv_phone; 			// 휴대전화
-	private String rv_email; 		// 이메일
-	private String del_msg; 		// 배송메시지
-	
+	private ProductVO product;
+	private MemberVO member;
 	
 	///////////////////////////////////////////////
 	
 	// 기본생성자
 	public CartVO() {}
-	
-	public CartVO(String pk_odrcode, String fk_userid, int odr_totalprice, int odr_totalpoint, Date odr_date,
-			String rv_name, String rv_zipcode, String rv_addr1, String rv_addr2, int rv_phone, String rv_email,
-			String del_msg) {
-		
-		this.pk_odrcode = pk_odrcode;
-		this.fk_userid = fk_userid;
-		this.odr_totalprice = odr_totalprice;
-		this.odr_totalpoint = odr_totalpoint;
-		this.odr_date = odr_date;
-		this.rv_name = rv_name;
-		this.rv_zipcode = rv_zipcode;
-		this.rv_addr1 = rv_addr1;
-		this.rv_addr2 = rv_addr2;
-		this.rv_phone = rv_phone;
-		this.rv_email = rv_email;
-		this.del_msg = del_msg;
+
+	public CartVO(int pk_cartno, String fK_USERID, int pk_pro_num, int ck_odr_qty, Date ck_cart_register,
+			ProductVO product, MemberVO member) {
+		super();
+		this.pk_cartno = pk_cartno;
+		FK_USERID = fK_USERID;
+		this.pk_pro_num = pk_pro_num;
+		this.ck_odr_qty = ck_odr_qty;
+		this.ck_cart_register = ck_cart_register;
+		this.product = product;
+		this.member = member;
 	}
 
-	public String getPk_odrcode() {
-		return pk_odrcode;
+	public CartVO(int pk_cartno, String fK_USERID, int pk_pro_num, int ck_odr_qty, Date ck_cart_register) {
+		super();
+		this.pk_cartno = pk_cartno;
+		FK_USERID = fK_USERID;
+		this.pk_pro_num = pk_pro_num;
+		this.ck_odr_qty = ck_odr_qty;
+		this.ck_cart_register = ck_cart_register;
 	}
 
-	public void setPk_odrcode(String pk_odrcode) {
-		this.pk_odrcode = pk_odrcode;
+	public int getPk_cartno() {
+		return pk_cartno;
 	}
 
-	public String getFk_userid() {
-		return fk_userid;
+	public void setPk_cartno(int pk_cartno) {
+		this.pk_cartno = pk_cartno;
 	}
 
-	public void setFk_userid(String fk_userid) {
-		this.fk_userid = fk_userid;
+	public String getFK_USERID() {
+		return FK_USERID;
 	}
 
-	public int getOdr_totalprice() {
-		return odr_totalprice;
+	public void setFK_USERID(String fK_USERID) {
+		FK_USERID = fK_USERID;
 	}
 
-	public void setOdr_totalprice(int odr_totalprice) {
-		this.odr_totalprice = odr_totalprice;
+	public int getPk_pro_num() {
+		return pk_pro_num;
 	}
 
-	public int getOdr_totalpoint() {
-		return odr_totalpoint;
+	public void setPk_pro_num(int pk_pro_num) {
+		this.pk_pro_num = pk_pro_num;
 	}
 
-	public void setOdr_totalpoint(int odr_totalpoint) {
-		this.odr_totalpoint = odr_totalpoint;
+	public int getCk_odr_qty() {
+		return ck_odr_qty;
 	}
 
-	public Date getOdr_date() {
-		return odr_date;
+	public void setCk_odr_qty(int ck_odr_qty) {
+		this.ck_odr_qty = ck_odr_qty;
 	}
 
-	public void setOdr_date(Date odr_date) {
-		this.odr_date = odr_date;
+	public Date getCk_cart_register() {
+		return ck_cart_register;
 	}
 
-	public String getRv_name() {
-		return rv_name;
+	public void setCk_cart_register(Date ck_cart_register) {
+		this.ck_cart_register = ck_cart_register;
 	}
 
-	public void setRv_name(String rv_name) {
-		this.rv_name = rv_name;
+	public ProductVO getProduct() {
+		return product;
 	}
 
-	public String getRv_zipcode() {
-		return rv_zipcode;
+	public void setProduct(ProductVO product) {
+		this.product = product;
 	}
 
-	public void setRv_zipcode(String rv_zipcode) {
-		this.rv_zipcode = rv_zipcode;
+	public MemberVO getMember() {
+		return member;
 	}
 
-	public String getRv_addr1() {
-		return rv_addr1;
+	public void setMember(MemberVO member) {
+		this.member = member;
 	}
-
-	public void setRv_addr1(String rv_addr1) {
-		this.rv_addr1 = rv_addr1;
-	}
-
-	public String getRv_addr2() {
-		return rv_addr2;
-	}
-
-	public void setRv_addr2(String rv_addr2) {
-		this.rv_addr2 = rv_addr2;
-	}
-
-	public int getRv_phone() {
-		return rv_phone;
-	}
-
-	public void setRv_phone(int rv_phone) {
-		this.rv_phone = rv_phone;
-	}
-
-	public String getRv_email() {
-		return rv_email;
-	}
-
-	public void setRv_email(String rv_email) {
-		this.rv_email = rv_email;
-	}
-
-	public String getDel_msg() {
-		return del_msg;
-	}
-
-	public void setDel_msg(String del_msg) {
-		this.del_msg = del_msg;
-	}
-	
 	
 	
 	
 }
+	

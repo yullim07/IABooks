@@ -22,9 +22,7 @@ public class ProductVO {
 	private String pro_imgfile_name;	//이미지파일명
     private int fk_wr_code;  			//저자코드
     private String pro_content;			//도서소개(대용량)
-    private int pro_restock; 			//재입고 유무 디폴트 0
-    private int pro_soldout; 			//품절유무
-    
+  
     private CategoryVO category;
     private WriterVO writer;
  // private ImagefileVO imagefile;  
@@ -70,11 +68,12 @@ public class ProductVO {
 	
 	// ================================================================================= //
 	
+	
+	
 	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String pro_publish_date, String publisher,
 			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
 			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
-			String pro_imgfile_name, int fk_wr_code, String pro_content, int pro_restock, int pro_soldout,
-			CategoryVO category, WriterVO writer) {
+			String pro_imgfile_name, int fk_wr_code, String pro_content) {
 		super();
 		this.pk_pro_num = pk_pro_num;
 		this.fk_cate_num = fk_cate_num;
@@ -95,17 +94,16 @@ public class ProductVO {
 		this.pro_imgfile_name = pro_imgfile_name;
 		this.fk_wr_code = fk_wr_code;
 		this.pro_content = pro_content;
-		this.pro_restock = pro_restock;
-		this.pro_soldout = pro_soldout;
-		this.category = category;
-		this.writer = writer;
 	}
 
+	
+	
 	// 상품 상세정보를 가져올 때 필요한 VO(나중에 추가이미지도 추가해야 함)
+	/*
 	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String pro_publish_date, String publisher,
-			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
-			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
-			String pro_imgfile_name, int fk_wr_code, String pro_content, CategoryVO category, WriterVO writer) {
+			int pro_price, int pro_saleprice, String pro_index, String pro_inputdate, int pro_qty, int pro_sales,
+			int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages, String pro_imgfile_name,
+			int fk_wr_code, String pro_content, CategoryVO category, WriterVO writer) {
 		super();
 		this.pk_pro_num = pk_pro_num;
 		this.fk_cate_num = fk_cate_num;
@@ -115,7 +113,6 @@ public class ProductVO {
 		this.pro_price = pro_price;
 		this.pro_saleprice = pro_saleprice;
 		this.pro_index = pro_index;
-		this.point_rate = point_rate;
 		this.pro_inputdate = pro_inputdate;
 		this.pro_qty = pro_qty;
 		this.pro_sales = pro_sales;
@@ -130,7 +127,42 @@ public class ProductVO {
 		this.writer = writer;
 	}
 	
+	*/
+	
+	// 입고일자를 제외하고 test
+	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String pro_publish_date, String publisher,
+			int pro_price, int pro_saleprice, String pro_index, int pro_qty, int pro_sales,
+			int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages, String pro_imgfile_name,
+			int fk_wr_code, String pro_content, CategoryVO category, WriterVO writer) {
+		super();
+		this.pk_pro_num = pk_pro_num;
+		this.fk_cate_num = fk_cate_num;
+		this.pro_name = pro_name;
+		this.pro_publish_date = pro_publish_date;
+		this.publisher = publisher;
+		this.pro_price = pro_price;
+		this.pro_saleprice = pro_saleprice;
+		this.pro_index = pro_index;
+		this.pro_qty = pro_qty;
+		this.pro_sales = pro_sales;
+		this.pro_viewcnt = pro_viewcnt;
+		this.pro_size = pro_size;
+		this.pro_bindtype = pro_bindtype;
+		this.pro_pages = pro_pages;
+		this.pro_imgfile_name = pro_imgfile_name;
+		this.fk_wr_code = fk_wr_code;
+		this.pro_content = pro_content;
+		this.category = category;
+		this.writer = writer;
+	}
+	
+	
+	
 	// ================================================================================= //
+	
+	
+	
+	
 	
 	
 	public String getPk_pro_num() {
@@ -138,24 +170,9 @@ public class ProductVO {
 	}
 
 
-	public int getPro_soldout() {
-		return pro_soldout;
-	}
 
 
-	public void setPro_soldout(int pro_soldout) {
-		this.pro_soldout = pro_soldout;
-	}
-
-
-	public int getPro_restock() {
-		return pro_restock;
-	}
-
-
-	public void setPro_restock(int pro_restock) {
-		this.pro_restock = pro_restock;
-	}
+	
 
 
 	public void setPk_pro_num(String pk_pro_num) {

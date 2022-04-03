@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import product.model.*;
 
-public class AddToCartAction extends AbstractController {
+public class X_AddToCartAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

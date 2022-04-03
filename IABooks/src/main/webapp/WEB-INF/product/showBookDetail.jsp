@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+ <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -15,16 +15,27 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
-<!-- Optional JavaScript -->
-<script src="<%=ctxPath %>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
-<script src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.js" type="text/javascript"></script>
-   
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/product_detail.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 
+<!-- Optional JavaScript -->
+<script src="<%=ctxPath %>/js/jquery-3.6.0.min.js" type="text/javascript"></script>
+<script src="<%=ctxPath %>/bootstrap-4.6.0-dist/js/bootstrap.bundle.js" type="text/javascript"></script>
+
+<%-- 
+<!-- spinner를 사용하기 위한 jquery CSS -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
+<!-- spinner를 사용하기 위한 jquery JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+<script src="/resources/demos/external/jquery-mousewheel/jquery.mousewheel.js"></script>
+--%>
+
 <!-- 헤더 삽입 -->
-<jsp:include page="<%=ctxPath %>/WEB-INF/header.jsp" />
+<jsp:include page="/WEB-INF/header.jsp" />
 
 	<!-- 컨테이너 시작 -->
 	<div class="container detail_container">
@@ -48,9 +59,9 @@
 				<div class="detail_img_thumbnails">
 					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
 					<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
-					<img class="small" src="<%=ctxPath%>/images/product/book3.jpg">
-					<img class="small" src="<%=ctxPath%>/images/product/book4.jpg">
-					<img class="small" src="<%=ctxPath%>/images/product/book5.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book2.jpg">
+					<img class="small" src="<%=ctxPath%>/images/product/book.jpg">
 				</div>
 				<!-- 상세보기 썸네일이미지(detail_img_thumbnail) 끝 -->
 			</div>
@@ -59,6 +70,9 @@
 			
 			<!-- 상세보기 상단 글영역(detail_top_text) 시작 -->
 			<div class="detail_top_text col-lg-6">
+				
+				<!-- 상품정보 숨기기 -->
+				
 				
 				<!-- 상품보기 제품제목(detail_text_title) 시작 -->
 				<div id="detail_text_title">
@@ -79,22 +93,20 @@
 							<tr style="border-bottom: solid 2px #F2F2F2; width: 100%; line-height: 32px;">
 								<th scope="row" width="40%">판매가</th>
 								<td scope="col" id="pro_saleprice" name="pro_saleprice" style="color: #c11e31; font-size: 16pt; border-bottom: solid 2px #F2F2F2;">
-									<span><strong><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></strong></span>원
-									<%-- <span><strong>${requestScope.pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
-									<%-- <span id=`${requestScope.pvo.pk_pro_num}`><strong>${requestScope.pvo.pro_price.toLocaleString('en')}</strong></span>원 --%>
+									<span><strong><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></strong>원</span>
 								</td>
 							<tr>
 						</thead>
 						<tbody>
-							<tr>
+							<tr style="height: 40px;">
 								<th scope="row" width="30%">배송방법</th>
 								<td scope="col">택배</td>
 							</tr>
 						</tbody>
 						<tfoot>
-							<tr>
+							<tr style="height: 40px;">
 								<th scope="row" width="30%">배송비</th>
-								<td scope="col"><span>3000</span>원&nbsp;(50,000원 이상 구매 시 무료)</td>
+								<td scope="col"><span>3000원&nbsp;(50,000원 이상 구매 시 무료)</span></td>
 							</tr>
 						</tfoot>
 					</table>
@@ -110,31 +122,46 @@
 					<table id='tbl_pro_total' style="width: 100%;">
 						<thead>
 							<tr style="background-color: #F2F2F2; line-height: 32px;">
-								<th scope="col" width="50%" style="padding-left: 10px;">상품명</th>
-								<th scope="col" width="20%">상품수</th>
-								<th scope="col" width="30%">가격</th>
+								<th scope="col" style="padding-left: 10px; width: 50%;">상품명</th>
+								<th scope="col" style="width: 20%;">상품수</th>
+								<th scope="col" style="width: 30%;">가격</th>
 							<tr></tr>
 						</thead>
 						<tbody>
 							<tr style="line-height: 60px;">
-								<td scope="row" id="pro_name" name="pro_name" style="padding-left: 10px;">${requestScope.pvo.pro_name}</td> <%-- 책제목 --%>
-								<td scope="row">
-									<input type='number' name="odr_qty" min='1' max='1000' value='1'
-										style="width: 60px; height: 24px; line-height: 24px;" id='${requestScope.pvo.pk_pro_num}' /> <%-- 상품 개수 --%>
+								<td scope="row" id="pro_name" name="pro_name" style="padding-left: 10px; width: 50%;">
+									${requestScope.pvo.pro_name} <%-- 책제목 --%>
 								</td>
-								<td scope="row">
-									<span><b><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></b></span></td>
-									<%-- <span id='${requestScope.pvo.pk_pro_num}'><b>${requestScope.pvo.pro_price.toLocaleString('en')}</b></span>원</td> --%>
+								
+								
+								<%-- 수량박스 --%>
+								<%-- <td scope="row" style="width: 20%;">
+									<p>
+										<label for="spinner">수량</label>
+										<input id="spinner" name="ck_odr_qty"  min="1" max="100" value="1" style="width: 40px; height: 24px; line-height: 24px;" id="${requestScope.pvo.pk_pro_num}">
+										<button id="getvalue">확인</button>
+									</p>
+								</td> --%>
+								
+								<%-- 수량박스 --%>
+								<td scope="row" style="width: 20%;">
+									<span id="${requestScope.pvo.pk_pro_num}">
+										<input type="number" id="odr_qty" min="1" max="99" value="1" style="width: 40px; height: 24px; line-height: 24px;"/>
+									</span>									
+								</td>
+								
+								<td scope="row" style="width: 30%;">
+									<span><b><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></b>원</span>
+								</td>
 							</tr>
 						</tbody>
 						<tfoot>
-							<tr style="line-height: 32px; border-top: solid 2px #F2F2F2;">
-								<td scope="row">
+							<tr style="height: 40px; line-height: 32px; border-top: solid 2px #F2F2F2;">
+								<td scope="row" colspan="3" style="text-align: right;">
 									<span style="text-align: right;"><strong>총상품금액</strong> &nbsp;(수량) :</span>
+									<b><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></b>곱하기수량
+									<span id="odr_qty"></span>(1개)
 								</td>
-								<td scope="row"><span><b><span><b><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></b></span>원에 상품 개수 곱한만큼</td></b></span>원</td>
-								<%-- 오류 곱해진 수량을 보여줘야/span에 id값 추가/cartVO도 cvo 만들어줘야? --%>
-								<td scope="row"><span id="odr_qty"></span>(1개)</td>	<%-- 수량 --%>
 							</tr>
 						</tfoot>
 					</table>
@@ -147,13 +174,29 @@
 				<div class="detail_text_button row" style="margin: 80 0 0 0;">
 				
 					<!-- 구매하기 버튼 시작 -->
-					<button type="button" id="btn_buy" class="btn btn-dark" onclick="productPurchase()">구매하기</button>
+					<form name="buynowFrm" action="<%=ctxPath %>/product/order.book" method="post">
+						<!-- <input type="submit" id="buynow" value="바로구매" style="margin-right: 30px" /> --> 
+    					<button type="button" id="btn_buy" class="btn btn-dark" onclick="goBuynow(); return false;"">구매하기</button>
+    				</form>
 					<!-- 구매하기 버튼 끝 -->
 					
 					<!-- 장바구니 버튼 시작 -->
-					<button type="button" id="btn_cart" class="btn btn-dark" data-toggle="modal" data-target="#cartModal">
-					    장바구니
-					</button>
+					<form name="cartnowFrm" method="post" action="<%=ctxPath %>/product/cart.book" method="post">
+						<!-- <input type="submit" id="cartnow" value="바로구매" style="margin-right: 30px" />  -->
+    					
+    					<input type="hidden" name="pk_pro_num" value="${requestScope.pvo.pk_pro_num}">
+						<!-- 상품코드를 히든타입으로 넘김 -->
+						<select name="amount">
+							<c:forEach begin="1" end="99" var="i">
+								<option value="${i}">${i}</option>
+								<!-- 장바구니에  99개 까지 담을수 있다.-->
+							</c:forEach>
+						</select>&nbsp;개
+						<!-- <input type="submit" value="장바구니에 담기"> -->
+    					<button type="button" id="btn_cart" class="btn btn-dark" data-toggle="modal" data-target="#cartModal">
+    						장바구니
+    					</button>
+    				</form>
 					
 					<!-- Modal -->
 					<div class="modal fade" id="cartModal" data-backdrop="static">
@@ -175,7 +218,7 @@
 					            <!-- Modal footer -->
 					            <div class="modal-footer" style="margin: 0 auto;">
 					                <button type="button" class="btn btn-danger" data-dismiss="modal">쇼핑 계속하기</button>
-					                <button type="button" class="btn btn-primary" onclick="goCart()">장바구니 확인</button>
+					                <button type="button" class="btn btn-primary" onclick="goCart(); return false;">장바구니 확인</button>
 					            </div>
 					        </div>
 					    </div>
@@ -184,9 +227,11 @@
 					<!-- 장바구니 버튼 끝 -->
 					
 					<!-- 관심상품 버튼 시작 -->
-					<button type="button" id="btn_like" class="btn btn-dark" data-toggle="modal" data-target="#wishModal">
-					    관심상품
-					</button>
+					<form name="wishnowFrm" action="wishlist.book" method="post">
+						<button type="button" id="btn_like" class="btn btn-dark" data-toggle="modal" data-target="#wishModal">
+						    관심상품
+						</button>
+					</form>
 					
 					<!-- Modal -->
 					<div class="modal fade" id="wishModal" data-backdrop="static">
@@ -208,17 +253,12 @@
 					            <!-- Modal footer -->
 					            <div class="modal-footer" style="margin: 0 auto;">
 					                <button type="button" class="btn btn-danger" data-dismiss="modal">쇼핑 계속하기</button>
-					                <button type="button" class="btn btn-primary">관심상품 확인</button>
+					                <button type="button" class="btn btn-primary" onclick="goWish(); return false;">관심상품 확인</button>
 					            </div>
 					        </div>
 					    </div>
 					</div>
 					<!-- 관심상품 버튼 끝 -->
-					
-					<!--  
-					<button type="button" id="btn_cart">장바구니</button>
-					<button type="button" id="btn_like">관심상품</button>
-					-->
 					
 				</div>
 				
@@ -271,6 +311,7 @@
 				
 				<p><span class="majorheading">책소개</span></p>
 				<p class="subheading">~~~ 책소개 내용 ~~~</p>
+				<%-- CLOB 생략 --%>
 				<%-- <p class="subheading">${requestScope.pvo.pro_content}</p> --%>
 				<%--
 				<p class="subheading">
@@ -299,6 +340,7 @@
 				<br><br>
 				
 				<p><span class="majorheading">저자소개</span></p>
+				<%-- CLOB 생략 --%>
 				<p class="subheading">${requestScope.wvo.wr_name}</p>
 				<%--  
 				- 김우상
@@ -420,7 +462,9 @@
 			<!-- 관련상품(detail_bottom_related) 시작 -->
 			<div class="detail_bottom_related">
 				<br>
+				
 				<hr style="border: solid 1px #e8e8e8;">
+				
 				<div class="detail_related_contents">
 					관련 상품이 없습니다.<br>
 				</div>
@@ -488,7 +532,37 @@
 	
 		$(document).ready(function(){
 			
-			// =============== 썸네일 이미지 클릭 시 메인 이미지 바꾸기 시작 =============== //
+			
+			// ===== 수량박스에 담긴 수량 알아오기 시작 ===== //
+			let odr_qty = $("input#odr_qty").val();
+			
+			$("#odr_qty_up").click(function() {
+				const $target = $(event.target); // 클릭한 버튼?
+				odr_qty += 1;
+			});
+			
+			$("#odr_qty_down").click(function() {
+				const $target = $(event.target); // 클릭한 버튼?
+				odr_qty += -1;
+			});
+			// ===== 수량박스에 담긴 수량 알아오기 끝 ===== //
+			
+			// ===== 수량박스 마우스로만 입력하기 시작 ===== //
+			/* pro_qty.forEach(function(elt, i, array){
+				elt.addEventListener('keyup', ()=>{
+					alert("주문수량은 마우스로만 입력하세요.");
+					elt.value = 1;
+				});
+			}); */
+			// ===== 수량박스 마우스로만 입력하기 끝 ===== //
+			
+			
+		}); // end of $(document).ready(function(){}) --------------------
+		
+		
+		// Function Declaration
+		function changeImage() {
+			
 			var bigPic = document.querySelector(".big");
 			var smallPics = document.querySelectorAll(".small");
 		
@@ -500,141 +574,95 @@
 				var smallPicAttr = this.getAttribute("src");
 				bigPic.setAttribute("src", smallPicAttr);
 			}
-			// =============== 썸네일 이미지 클릭 시 메인 이미지 바꾸기 끝 =============== //
 			
+		}
+		
+		
+		// ===== 바로구매로 이동하기 시작 ===== //
+		function goBuynow() {
+			location.href = "<%=ctxPath %>/product/order.book";
+		}
+		// ===== 바로구매로 이동하기 끝 ===== //
+		
+		// ===== 장바구니로 이동하기 시작 ===== // 
+		function goCart() {
+			location.href = "<%=ctxPath %>/product/cart.book";
+		}
+		// ===== 장바구니로 이동하기 끝 ===== //
+		
+		// ===== 관심상품으로 이동하기 시작 ===== //
+		function goWish() {
+			<%-- location.href = "<%=ctxPath %>/product/wishlist.book"; --%>
+			location.href = "<%=ctxPath %>/index.book";
+		}
+		// ===== 관심상품로 이동하기 끝 ===== //
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</script>
 			
-			
-			
-			
-			// =============== 상세보기 상단 글영역 테이블 넣기 시작 =============== //
-			
-			// =============== 1. 상품 배열 선언 =============== // 
- 			/*
- 			const arr_product = [ 
-				{
-					productId : "harrypotter",
-					productName : "해리포터와 마법사의 돌",
-					image : "harrypotter1.jpg",
-					price : 13000,
-					shippingfee: 3000
-				}
-			];
-			
- 			arr_product.forEach(function(elt, i, array) {
- 				console.log("내용 : " + arr_product[i]);
- 			});
-			*/
-			
-			// *** 2-1. 테이블 넣기 - 제품제목 시작 *** //
-			/*
-			let html_title = `<table id=`+'tbl_detail_title'+`>`;
-			
-			arr_product.forEach(function(elt, i, array) {
-				html_title += `<tr>
-									<th>${elt.productName}책제목</th>
-								<tr>
-							</table>`;
-			});
-			*/
-			
-		//	console.log(html_title);
-		//	document.querySelector("div#detail_text_title").innerHTML = html_title;
-			// =============== 2-1. 테이블 넣기 - 제품제목 끝 =============== //
-			
-			
-			
-			// =============== 2-2. 테이블 넣기 - 제품가격 시작 =============== //
-			/*
-			let html_purchase = `<table id=`+"tbl_detail_purchase"+`>
-									<thead>`;
-			
-			arr_product.forEach(function(elt, i, array) {
-				html_purchase += 		`<tr>
-											<th scope="row" width="40%">판매가</th>
-											<td scope="col"><span id='${requestScope.pvo.pk_pro_num}'>${elt.price.toLocaleString('en')}</span>원</td>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<th scope="row" width="30%">배송방법</th>
-											<td scope="col">택배</td>
-										</tr>
-									</tbody>
-									<tfoot>
-										<tr>
-											<th scope="row" width="30%">배송비</th>
-											<td scope="col"><span id='${requestScope.pvo.pk_pro_num}'>${elt.shippingfee.toLocaleString('en')}</span>원&nbsp;(50,000원 이상 구매 시 무료)</td>
-										</tr>
-									</tfoot>
-								</table>`;
-			});
-			
-			document.querySelector("div#detail_text_purchase").innerHTML = html_purchase;
-			*/
-			// =============== 2-2. 테이블 넣기 - 제품가격 끝 =============== //
-			
-			
-			
-			// =============== 2-3. 테이블 넣기 - 총주문액 시작 =============== //
-			/*
-			let html_total = `<table id='tbl_pro_total'>
-								<thead>
-									<tr>
-										<th scope="col" width="50%">상품명</th>
-										<th scope="col" width="20%">상품수</th>
-										<th scope="col" width="30%">가격</th>
-									<tr>
-								</thead>
-								<tbody>`;
-			
-			arr_product.forEach(function(elt, i, array) {
-				
-					html_total += `<tr>
-										<td scope="row">${elt.productName}</td>
-										<td scope="row"><input type='number' min='1' max='1000' value='1' id='${requestScope.pvo.pk_pro_num}' /></td>
-										<td scope="row"><span id='${requestScope.pvo.pk_pro_num}'><b>${elt.price.toLocaleString('en')}</b></span>원</td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<td scope="row"><span><b>총상품금액</b></span>&nbsp;(수량)&nbsp;:&nbsp;</td>
-										<td scope="row"><span><b>${elt.price.toLocaleString('en')}</b></span>원</td>
-										<td scope="row"><span id="odr_qty"></span>(1개)</td>
-									</tr>
-								</tfoot>
-							</table>`;
-			});
 
-			document.querySelector("div#pro_detail_total").innerHTML = html_total;
-			*/
-			// *** 2-3. 테이블 넣기 - 총주문액 시작 *** //
+<!-- 
+
+		// =============== 썸네일 이미지 클릭 시 메인 이미지 바꾸기 시작 =============== //
+			var bigPic = document.querySelector(".big");
+			var smallPics = document.querySelectorAll(".small");
+		
+			for(var i=0; i < smallPics.length; i++) {
+				smallPics[i].addEventListener("click", changepic);
+			} 		
+		
+			function changepic() {
+				var smallPicAttr = this.getAttribute("src");
+				bigPic.setAttribute("src", smallPicAttr);
+			}
+			// =============== 썸네일 이미지 클릭 시 메인 이미지 바꾸기 끝 =============== //		
+	
+	
+		
+		
+		// =============== 장바구니 Spinner 시작 =========================== //
+			var spinner = $("#spinner").spinner();
+			var ck_odr_qty = $("input#spinner").val();
+			let last_odr_qty = 0;
 			
-			// =============== 상세보기 상단 글영역 테이블 넣기 끝 =============== //
+			$("#getvalue").on("click", function() {
+				alert(spinner.spinner("ck_odr_qty"));
+				last_odr_qty = spinner.spinner("ck_odr_qty");
+			});
+	
+			/* $("button").button(); */
+			// =============== 장바구니 Spinner 끝 =========================== //
 			
-			
-			
-			/*
-			
+		
+		
+		
 			// =============== 주문수량이 바뀌면 주문금액과 수량에 값을 넣어주기 시작 =============== //
-			const input_number_list = document.querySelectorAll("table#tbl_pro_total input[type='number']");
-
+			
+			
+			const pro_qty = document.querySelector("#tbl_pro_total > tbody > tr > td:nth-child(2)");
+			const total_price = document.querySelector("#tbl_pro_total > tbody > tr > td:nth-child(3) > span > b");
+			
 			// 1. 주문수량 이벤트 처리하기
-			input_number_list.forEach(function(elt) {
+			pro_qty.forEach(function(elt) {
 			
 				elt.addEventListener('change', () => {
 						
 				// 주문수량에 대한 금액 알아오기
-				
-			//	console.log(document.querySelector("table#tbl_detail_purchase span#"+elt.id).innerText); // "구매테이블에서 받아온 가격 정보" 예: 13000
-				
 				let odrqty = Number(elt.value);
 				let price = Number(document.querySelector("table#tbl_detail_purchase > thead > tr > td > span").innerText.split(",").join(""));
 				let odr_price = odrqty*price;
 				
-			//	console.log("1. 수량(Number(elt.value) " + odrqty);
-			//	console.log("2. 가격(price) " + price);
-			//	console.log("3. 수량×가격(odr_price) " + odr_price);
-			//	console.log("4. odr_price.toLocaleString('en') => " + odr_price.toLocaleString('en'));
+				console.log("1. 수량(Number(elt.value) " + odrqty);
+				console.log("2. 가격(price) " + price);
+				console.log("3. 수량×가격(odr_price) " + odr_price);
+				console.log("4. odr_price.toLocaleString('en') => " + odr_price.toLocaleString('en'));
 				
 				document.querySelector("#tbl_pro_total > tbody > tr > td:last-child").innerHTML = "<b>" + odr_price.toLocaleString('en') + "</b> 원";
 				document.querySelector("#tbl_pro_total > tfoot > tr > td:nth-child(2)").innerHTML = "<b>" + odr_price.toLocaleString('en') + "</b> 원";
@@ -644,30 +672,19 @@
 				
 			});		
 			// =============== 주문수량이 바뀌면 주문금액과 수량에 값을 넣어주기 끝 =============== //
+
 			
-			
-			
-			
-						
 			// =============== 주문수량 keyup 이벤트 처리하기 시작 =============== //
-			input_number_list.forEach(function(elt, i, array){
+			pro_qty.forEach(function(elt, i, array){
 				elt.addEventListener('keyup', ()=>{
 					alert("주문수량은 마우스로만 입력하세요.");
 					elt.value = 1;
 				});
 			});
 			// =============== 주문수량 keyup 이벤트 처리하기 끝 =============== //
-			
-			
-			*/
-			
-			
-			
-		});
 		
-		
-		
-</script>
 
 
-<jsp:include page="<%=ctxPath %>/WEB-INF/footer.jsp" />
+
+ -->
+<jsp:include page="/WEB-INF/footer.jsp" />

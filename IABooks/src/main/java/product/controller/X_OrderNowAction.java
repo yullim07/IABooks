@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import common.controller.AbstractController;
 
-public class OrderNowAction extends AbstractController {
+public class X_OrderNowAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {

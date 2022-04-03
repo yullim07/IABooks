@@ -13,7 +13,7 @@ import product.model.InterProductDAO;
 import product.model.ProductDAO;
 import product.model.ProductVO;
 
-public class PlusViewCntAction extends AbstractController {
+public class X_PlusViewCntAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
