@@ -41,19 +41,8 @@ public class QnaDetailAction extends AbstractController {
 				qnaVO = bdao.readqnaContent(pk_qna_num,fk_userid);
 				
 			
-			if( qnaVO.getPk_qna_num() != 0  ) {
-				paraMap.put("currentNum", currentNum);
-				System.out.println("여기까진 오니?");
-				
-				 qnaPrevNext = bdao.getPrevNextQnaContent(paraMap);
-				 
-				 qnaVO.setPrev_num(qnaPrevNext.getPrev_num());
-				 qnaVO.setPrev_title(qnaPrevNext.getPrev_title());
-				 qnaVO.setNext_num(qnaPrevNext.getNext_num());
-				 qnaVO.setNext_title(qnaPrevNext.getNext_title());
-				 
-			}
-			else  {
+			
+			if(qnaVO ==  null){
 				String message = "게시글이 없습니다.";
 				String loc = "javascript:history.back()";
 				

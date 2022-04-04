@@ -62,18 +62,86 @@
 		
 	});
 	
+	
+	
+	
+	
 	function goQnaSubmit() {
 		  
-		  // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
+	 // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
+		  let b_FlagRequiredInfo = false;
+		  
+		  $("input#qnaSubject").each(function(index, item){
+			  const data = $(item).val().trim();
+			  if(data == "") {
+				  alert("제목 항목은 필수 입력값입니다.");
+				  b_FlagRequiredInfo = true;
+				  return false;  // for 문에서 break; 와 같은 기능이다.
+			  }
+		  });
+		  
+		  if(b_FlagRequiredInfo) {
+			  return; // 종료 
+		  } 
+		 
+		  
+		  $("textarea#editordata").each(function(index, item){
+			  const data = $(item).val().trim();
+			  if(data == "") {
+				  alert("내용(을/를) 입력하세요.");
+				  b_FlagRequiredInfo = true;
+				  return false;  // for 문에서 break; 와 같은 기능이다.
+			  }
+		  });
+		  
+		  if(b_FlagRequiredInfo) {
+			  return; // 종료 
+		  } 
+		  
+		  $("input#qnaPasswd").each(function(index, item){
+			  const data = $(item).val().trim();
+			  if(data == "") {
+				  alert("비밀번호 항목은 필수 입력값입니다.");
+				  b_FlagRequiredInfo = true;
+				  return false;  // for 문에서 break; 와 같은 기능이다.
+			  }
+		  });
+		  
+		  if(b_FlagRequiredInfo) {
+			  return; // 종료 
+		  } 
+		  
+		  
+	/* 	  // *** 비밀글설정이 선택 되었는지 검사한다. *** //
+		  const qnaIssecretCheckedLength = $("input:radio[name='qnaIssecret']:checked").length;
+		  
+		  if(qnaIssecretCheckedLength == 0) {
+			  alert("비밀글 유무를 선택하셔야 합니다.");
+			  return; // 종료
+		  }
+		   */
+	
+		  
+		  
 		  
 		  const frm = document.qnaSubmitFrm;
 		  frm.action = "qnaSubmit.book";
-		   frm.method = "post"; 
+		  frm.method = "post"; 
 		  frm.submit();
 		  
 		  
 	  }// end of function goQnaWrite() {}------------------------------------
 	
+	  
+	  function cancelUpdate(){
+			if( confirm("작성을 취소하시겠습니까?") == true ) {
+				window.history.back();	
+			}
+			else{
+				
+			}
+		}
+	  
 
 </script>
 
@@ -172,12 +240,12 @@
 		    <tr>
 		      <th>비밀번호</th>
 		      <td>
-		      	<input type="text" id="qnaPasswd" name="qnaPasswd" type="password"/>
+		      	<input type="text" id="qnaPasswd" name="qnaPasswd" type="password" class="requiredInfo"/>
 		      </td>
 		    </tr>
 		    <tr>
 				<th scope="row">비밀글설정</th>
-				<td><input type="radio" name="qnaIssecret" id="qnaPublic" value="0"/>공개글&nbsp;<input type="radio" name="qnaIssecret" id="qnaSecret" value="1" />비밀글</td>
+				<td><input checked="checked" type="radio" name="qnaIssecret" id="qnaPublic" value="0"/>공개글&nbsp;<input type="radio" name="qnaIssecret" id="qnaSecret" value="1" />비밀글</td>
 			</tr>
 		   
 					
@@ -193,7 +261,7 @@
 	<div class="buttons">
 		
 		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/qnaBoard.book'">목록</button>
-		<button class="btn btn_cancel" type="reset">취소</button>
+		<button class="btn btn_cancel" type="reset" onclick="cancelUpdate()">취소</button>
 		<button class="btn btn_submit" type="submit" onclick="goQnaSubmit()">등록</button>	
 		
 	</div>

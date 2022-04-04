@@ -152,11 +152,14 @@
 	        			
 		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
 				    	<td class="tbl_bookname">
+				    		<c:if test="${board.product.pro_name != '-9999'}">
 				    		<a  href="#">
-		            			<img src="" border="0" alt=""/>
+		            			 <img src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>
+		            			
 								<span>${board.product.pro_name}</span>
+								
 							</a>  
-							
+							</c:if>
 				    	</td>
 				    	
 				    	
@@ -205,7 +208,7 @@
 	        			
 	        		</tr>
 	        		 <input type="hidden" class="qna_passwd" name="qna_passwd" id="qna_passwd" value="${board.qna_passwd}"/>
-	        		
+	        		<input type="hidden" class="qna_issecret" name="qna_issecret" id="qna_issecret" value="${board.qna_issecret}"/>
 	        	</c:forEach>
 	        </c:if>
 	        
@@ -279,7 +282,7 @@
 		        <option value="all">전체</option>
 		    </select>
 		    --%>
-		    <select id="searchContent" name="searchContent">
+		    <select id="searchContent" name="searchContent" style="font-size: 14px;">
 		    	<option value="qna_title" selected="selected">제목</option>
 		        <option value="qna_contents">글내용</option>
 		        <option value="mname">글쓴이</option>

@@ -648,3 +648,142 @@ alter table tbl_comment drop column cmt_name;
 
 update tbl_qna_board set qna_readcount = qna_readcount+1 where pk_qna_num=3202;
 commit;
+
+select nvl(fk_pnum,-9999)
+from tbl_qna_board;
+
+--완성본
+select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name
+from 
+    ( 
+    select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name
+    from 
+    ( 
+        select  fk_pnum, pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,C.cate_name AS cate_name
+        from tbl_member M right JOIN tbl_qna_board Q  
+        ON M.pk_userid = Q.fk_userid 
+        left JOIN tbl_product P  
+        ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999) 
+        left JOIN TBL_CATEGORY C
+		ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)
+        where isdelete = 0 
+    ) V
+) T
+where rno between 1 and 10
+-----------------------------------------
+
+select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name
+from 
+    ( 
+    select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name
+    from 
+    ( 
+        select  nvl(fk_pnum,9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,9999), nvl(pro_imgfile_name,9999) ,nvl(C.cate_name,9999) AS cate_name
+        from tbl_member M right JOIN tbl_qna_board Q  
+        ON M.pk_userid = Q.fk_userid 
+        left JOIN tbl_product P  
+        ON Q.fk_pnum = P.pk_pro_num
+        left JOIN TBL_CATEGORY C
+		ON P.fk_cate_num = C.pk_cate_num
+        where isdelete = 0 
+    ) V
+) T
+where rno between 1 and 10
+
+
+
+
+
+
+
+String sql = "select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\n"+
+"from \n"+
+"    ( \n"+
+"    select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\n"+
+"    from \n"+
+"    ( \n"+
+"        select  fk_pnum, pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,C.cate_name AS cate_name\n"+
+"        from tbl_member M right JOIN tbl_qna_board Q  \n"+
+"        ON M.pk_userid = Q.fk_userid \n"+
+"        left JOIN tbl_product P  \n"+
+"        ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999) \n"+
+"        left JOIN TBL_CATEGORY C\n"+
+"		ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)\n"+
+"        where isdelete = 0 \n"+
+"    ) V\n"+
+") T\n"+
+"where rno between 1 and 10";
+
+
+
+select   * 
+from tbl_member M 
+right JOIN tbl_qna_board Q  
+ON M.pk_userid = Q.fk_userid 
+left JOIN tbl_product P  
+ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999) 
+left JOIN TBL_CATEGORY C
+ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)
+ where isdelete = 0
+ order by pk_qna_num desc ;
+
+
+
+ select  *
+			    	  		 from tbl_member M \r\n"
+			    	  	right JOIN tbl_qna_board Q  \r\n"
+			    	   ON M.pk_userid = Q.fk_userid \r\n"
+			    	   left JOIN tbl_product P  \r\n"
+			    	  		 ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999) \r\n"
+			    	  	left JOIN TBL_CATEGORY C\r\n"
+			    	  	ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)\r\n"
+			    	  		where isdelete = 0 pk_qna_num = ? "
+                         order by pk_qna_num desc
+
+
+
+
+
+String sql = "select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\n"+
+"from \n"+
+"    ( \n"+
+"    select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\n"+
+"    from \n"+
+"    ( \n"+
+"        select  fk_pnum, pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,C.cate_name AS cate_name\n"+
+"        from tbl_member M right JOIN tbl_qna_board Q  \n"+
+"        ON M.pk_userid = Q.fk_userid \n"+
+"        left JOIN tbl_product P  \n"+
+"        ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999) \n"+
+"        left JOIN TBL_CATEGORY C\n"+
+"		ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num\n"+
+"        where isdelete = 0 \n"+
+"    ) V\n"+
+") T\n"+
+"where rno between 1 and 10";
+
+
+
+select  pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents
+                    						from 
+		         							( 
+                    							select rownum AS rno, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents
+                    							  from 
+                    	 			   			 ( 
+                    	 			   			 	select  pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents
+                    		   			   		 	from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  
+                    		   			   		 	where isdelete = 0
+                                ) V
+) T
+where rno between 1 and 10;
+
+
+
+select   * 
+							 from tbl_member M 
+							 JOIN tbl_qna_board Q  
+							 ON M.pk_userid = Q.fk_userid 
+							 JOIN tbl_product P  
+							 ON Q.fk_pnum = P.pk_pro_num 
+							 where isdelete = 0 
+							 order by pk_qna_num desc

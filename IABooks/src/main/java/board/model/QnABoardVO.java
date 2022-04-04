@@ -1,6 +1,7 @@
 package board.model;
 
 import member.model.MemberVO;
+import product.model.CategoryVO;
 import product.model.ProductVO;
 
 public class QnABoardVO {
@@ -31,6 +32,12 @@ public class QnABoardVO {
 
 	// private int commentcnt;  //필드 추가. 
 	//오라클의 jdbc_board 테이블과 jdbc_comment 테이블을 join하여 select 하는 용도
+	
+	private CategoryVO category;
+	
+	public CategoryVO getCategory() {
+		return category;
+	}
 	
 	public int getPk_qna_num() {
 		return pk_qna_num;
@@ -172,10 +179,11 @@ public class QnABoardVO {
 	public void setNext_title(String next_title) {
 		this.next_title = next_title;
 	}
-	public void setFk_userid(MemberVO loginuser) {
-		// TODO Auto-generated method stub
-		
+
+	public void setCategory(CategoryVO category) {
+		this.category = category;
 	}
+
 	
 	
 	

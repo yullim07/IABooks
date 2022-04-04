@@ -79,147 +79,112 @@ public class BoardDAO implements InterBoardDAO {
 	      QnABoardVO board = null;
 	      try {
 	    	  conn = ds.getConnection();
-	      
-	       
-	         String sql =   " select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
-	         		+ "						from \r\n"
-	         		+ "						( \r\n"
-	         		+ "							select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
-	         		+ "							  from \r\n"
-	         		+ "	 			   			 ( \r\n"
-	         		+ "	 			   			 	select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
-	         		+ "		   			   		 	from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  \r\n"
-	         		+ "		   			   		 	where isdelete = 0\r\n";
-	       
-	         
-	         
-	         
-	          String colname = paraMap.get("searchContent");
-	          System.out.println("searchCOnte"+colname);
-	          
-			  String searchWord = paraMap.get("searchWord");	
-	    	   
-			  if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-						sql += " and " + colname + " like '%'|| ? ||'%' ";
-						// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
-						// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
-					
-			  } 		
-			  
-			  sql +=  " 		order by pk_qna_num desc " +
-					  " 	) V " +
-	   			   	  " ) T " +
-					  " where rno between ? and ? ";
-	         
-	         
-	         
-            pstmt = conn.prepareStatement(sql);
-
-            int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
-			
 	
+		
+	    		
+	    	  String sql = "select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\n"+
+	    			  "from \n"+
+	    			  "    ( \n"+
+	    			  "    select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\n"+
+	    			  "    from \n"+
+	    			  "    ( \n"+
+	    			  "        select  nvl(fk_pnum,-9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,-9999) as pro_name, nvl(pro_imgfile_name,-9999) as pro_imgfile_name ,nvl(C.cate_name,-9999) AS cate_name\n"+
+	    			  "        from tbl_member M right JOIN tbl_qna_board Q  \n"+
+	    			  "        ON M.pk_userid = Q.fk_userid \n"+
+	    			  "        left JOIN tbl_product P  \n"+
+	    			  "        ON Q.fk_pnum = P.pk_pro_num\n"+
+	    			  "        left JOIN TBL_CATEGORY C\n"+
+	    			  "		ON P.fk_cate_num = C.pk_cate_num\n"+
+	    			  "        where isdelete = 0 \n";
+	       
+		          String colname = paraMap.get("searchContent");
+		          System.out.println("searchCOnte"+colname);
+		          
+				  String searchWord = paraMap.get("searchWord");	
+		    	   
+				  if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+							sql += " and " + colname + " like '%'|| ? ||'%' ";
+							// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+							// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+						
+				  } 		
+			  
+				  sql +=  " 		order by pk_qna_num desc " +
+						  " 	) V " +
+		   			   	  " ) T " +
+						  " where rno between ? and ? ";
+	         
+	         
+	         
+		          pstmt = conn.prepareStatement(sql);
+		
+		          int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				  int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+					
 			
-			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-				// 검색종류와 검색어가 있으면	
-				pstmt.setString(1, searchWord);
-				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-				pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-				System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
+					
+				  if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+						// 검색종류와 검색어가 있으면	
+					  pstmt.setString(1, searchWord);
+					  pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+					  pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+					  System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
+						  
+				  }
+				  else {
+					  pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+					  pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+					  System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
 				  
-			}
-			else {
-				pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-				pstmt.setInt(2, (currentShowPageNo * sizePerPage));
-				System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
-				  
-			}
+				  }
 			
-            rs = pstmt.executeQuery();
-       
-            while (rs.next()) {
-    
-               board = new QnABoardVO();
-               
-               board.setFk_pnum(rs.getString(1));
-               
-               board.setPk_qna_num(rs.getInt(2));
-               /*
-               ProductVO product = new ProductVO(); 
-               product.setPro_name(rs.getString(2));
-               product.setPro_imgfile_name(rs.getString(3)); 
-               board.setProduct(product);
-               */
-               board.setQna_title(rs.getString(3)); 
-               
-               
-               // **중요한 부분 
-               MemberVO member = new MemberVO();
-               member.setName(rs.getString("mname")); 
-               board.setMember(member); // 보드에 멤버를 넣어줌.
-               
-               board.setQna_date(rs.getString(5)); 
-               board.setQna_readcount(rs.getInt(6));
-               board.setFk_userid(rs.getString(7));
-               board.setQna_issecret(rs.getInt(8));
-              
+				  rs = pstmt.executeQuery();
    
-               qnaboardList.add(board);
-               
-               System.out.println(" 넣어진 제목 : " + board.getFk_pnum());
-               
-               ///
-               /*
-               if(  !(board.getFk_pnum() == null)) {
-             	   
-               	sql = " select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret , nvl(pk_pnum,-9999)\n"+
-   	                       " from tbl_member M\n"+
-   	                       " JOIN tbl_qna_board Q  \n"+
-   	                       " ON M.pk_userid = Q.fk_userid\n"+
-   	                       " JOIN tbl_product P \n"+
-   	                       " ON Q.fk_pnum = P.pk_pro_num\n"+
-   	                       " where isdelete = 0\n"+
-   	                       " order by pk_qna_num desc";
-            //   	pstmt = conn.prepareStatement(sql);
+				  while (rs.next()) {
 
-               //    rs = pstmt.executeQuery();
-
-                   while (rs.next()) {
-         
-                      board = new QnABoardVO();
-                      
-                      board.setPk_qna_num(rs.getInt(1));
-                      
-                      ProductVO product = new ProductVO(); 
-                      product.setPro_name(rs.getString(2));
-                      product.setPro_imgfile_name(rs.getString(3)); 
-                      board.setProduct(product);
-                      
-                      board.setQna_title(rs.getString(4)); 
-                      
-                      
-                      // **중요한 부분 
-                      member = new MemberVO();
-                      member.setName(rs.getString("mname")); 
-                      board.setMember(member); // 보드에 멤버를 넣어줌.
-                      
-                      board.setQna_date(rs.getString(6)); 
-                      board.setQna_readcount(rs.getInt(7));
-                      board.setFk_userid(rs.getString(8));
-                      board.setQna_issecret(rs.getInt(9));
-                      
-                      qnaboardList.add(board);
-                      
-                      System.out.println(" 넣어진 제목 : " + board.getQna_title());
-                      System.out.println(" 넣어진 제목 : " + product.getPro_name());
-                   } // end of while(rs.next()) ------------
-
-               }*/
-               
-               
-            } // end of while(rs.next()) ------------
+					  board = new QnABoardVO();
            
-            //sql = 새로운 쿼리
+					  board.setFk_pnum(rs.getString(1));
+           
+					  board.setPk_qna_num(rs.getInt(2));
+					           /*
+					   ProductVO product = new ProductVO(); 
+					   product.setPro_name(rs.getString(2));
+					   product.setPro_imgfile_name(rs.getString(3)); 
+					   board.setProduct(product);
+					   */
+					   board.setQna_title(rs.getString(3)); 
+   
+   
+					   // **중요한 부분 
+					   MemberVO member = new MemberVO();
+					   member.setName(rs.getString("mname")); 
+					   board.setMember(member); // 보드에 멤버를 넣어줌.
+               
+		               board.setQna_date(rs.getString(5)); 
+		               board.setQna_readcount(rs.getInt(6));
+		               board.setFk_userid(rs.getString(7));
+		               board.setQna_issecret(rs.getInt(8));
+		               board.setQna_contents(rs.getString(9));
+		               
+		               ProductVO product = new ProductVO(); 
+	                   product.setPro_name(rs.getString(10));
+	                   product.setPro_imgfile_name(rs.getString(11)); 
+	                   board.setProduct(product);
+		               
+	                   
+	                   CategoryVO category = new CategoryVO();
+	                   category.setCate_name(rs.getString(12)); 
+					   board.setCategory(category);
+					   
+					   
+		               qnaboardList.add(board);
+		               
+		               System.out.println(" 넣어진 제목 : " + board.getFk_pnum());
+				  }// end of while(rs.next()) ------------
+				  
+		       
+     
          
          } catch (SQLException e) {
             e.printStackTrace();
@@ -246,7 +211,7 @@ public class BoardDAO implements InterBoardDAO {
 		         
 				pstmt = conn.prepareStatement(sql);
 			
-				pstmt.setString( 1, paraMap.get("userid"));
+				pstmt.setString(1, paraMap.get("userid"));
 				pstmt.setString(2, paraMap.get("subject"));
 				pstmt.setString(3, paraMap.get("content"));
 				pstmt.setString(4, paraMap.get("passwd"));
@@ -555,6 +520,7 @@ public class BoardDAO implements InterBoardDAO {
 		        String sql = "update tbl_qna_board set qna_readcount = qna_readcount+1 where pk_qna_num = ? ";
 		        System.out.println(sql);
 		        pstmt = conn.prepareStatement(sql);
+		        pstmt.setInt(1, pk_qna_num);
 		        pstmt.executeUpdate();
 		         
 		    } catch (SQLException e) {
