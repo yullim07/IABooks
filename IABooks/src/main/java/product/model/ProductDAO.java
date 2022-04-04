@@ -1129,17 +1129,22 @@ public class ProductDAO implements InterProductDAO {
 		return -1; // 데이터베이스 오류
 	}
 
+	// 로그인 된 사용자의 장바구니 데이터 조회결과물 가져오기
 	@Override
-	public List<CartVO> getCartList(String fk_userid) throws SQLException {
+	public List<CartVO> getCart(String fk_userid) throws SQLException {
 		
 		List<CartVO> cartList = null;
 		
 		try {
 			conn = ds.getConnection();
 			
-			String sql =  " SELECT * "
-						+ " FROM tbl_cart "
-						+ " WHERE fk_userid = ? ";
+			String sql =  " SELECT A.pk_cartno, A.fk_userid, A.pk_pro_num, "
+						+ "        B.pro_name, B.fk_cate_num, "
+						+ "        B.pro_imgfile_name, B.pro_price, B.pro_saleprice, "
+						+ "        A.ck_odr_qty, A.c_status, A.totalPrice "
+						+ " FROM tbl_cart A LEFT OUTER JOIN tbl_product B "
+						+ " ON A.pk_pro_num = B.pk_pro_num "
+						+ " WHERE A.c_status = 1 AND A.fk_userid = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fk_userid);
@@ -1155,13 +1160,36 @@ public class ProductDAO implements InterProductDAO {
 					cartList = new ArrayList<CartVO>();
 				}
 				
-				CartVO cvo = new CartVO();
+				int pk_cartno = rs.getInt("pk_cartno");
+				fk_userid = rs.getString("fk_userid");
+				String pk_pro_num = rs.getString("pk_pro_num");
+				String pro_name = rs.getString("pro_name");
+				int fk_cate_num = rs.getInt("fk_cate_num");
+				String pro_imgfile_name = rs.getString("pro_imgfile_name");
+				int pro_price = rs.getInt("pro_price");
+				int pro_saleprice = rs.getInt("pro_saleprice");
+				int ck_odr_qty = rs.getInt("ck_odr_qty");
+				int c_status = rs.getInt("c_status");
+				int totalPrice = rs.getInt("totalPrice");
 				
-				cvo.setPk_cartno(rs.getInt("pk_cartno"));
-				cvo.setFk_userid(rs.getString("fk_userid"));
-				cvo.setPk_pro_num(rs.getInt("pk_pro_num")); 
-				cvo.setCk_odr_qty(rs.getInt("ck_odr_qty"));
-				cvo.setCk_cart_register(rs.getString("ck_cart_register"));			
+				ProductVO pvo = new ProductVO();
+				pvo.setPk_pro_num(pk_pro_num);
+				pvo.setPro_name(pro_name);
+				pvo.setFk_cate_num(fk_cate_num);
+				pvo.setPro_imgfile_name(pro_imgfile_name);
+				pvo.setPro_price(pro_price);
+				pvo.setPro_saleprice(pro_saleprice);
+				
+				CartVO cvo = new CartVO();
+				cvo.setPk_cartno(pk_cartno);
+				cvo.setFk_userid(fk_userid);
+				cvo.setPk_pro_num(pk_pro_num);
+				cvo.setCk_odr_qty(ck_odr_qty);
+				cvo.setC_status(c_status);
+				cvo.setTotalPrice(totalPrice);
+				
+				cvo.setProduct(pvo);
+				cartList.add(cvo);
 			}
 	
 		} finally {
@@ -1171,6 +1199,7 @@ public class ProductDAO implements InterProductDAO {
 		return cartList;
 	}
 
+	// 장바구니에 추가하기 메소드
 	@Override
 	public int addCart(String fk_userid, String pk_pro_num, String ck_odr_qty) throws SQLException {
 
@@ -1217,6 +1246,65 @@ public class ProductDAO implements InterProductDAO {
 			
 			result = pstmt.executeUpdate();
 			
+		} finally {
+			close();
+		}
+		return result;
+	}
+
+	// 장바구니에 들어있는 특정 사용자의 제품의 총 개수 구해오기
+	@Override
+	public int getTotalCountCart(String fk_userid) throws SQLException {
+
+		int totalCountCart = 0;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql =  " SELCT count(*) AS CNT "
+						+ " FROM tbl_cart "
+						+ " WHERE fk_userid = ? ";
+			// status = 1 내용 있음 / 0 없음
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			totalCountCart = rs.getInt("CNT");
+			
+			
+		} finally {
+			close();
+		}
+		return totalCountCart;
+	}
+
+	// 장바구니 업데이트하기
+	@Override
+	public int updateCount(CartVO cart) throws SQLException {
+
+		int result = 0;
+		
+		CartVO cvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " update tbl_cart "
+						+ " set ck_odr_qty = ? "
+						+ " where pk_cartno = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, cvo.getCk_odr_qty());
+			pstmt.setInt(2, cvo.getPk_cartno());
+						
+			result = pstmt.executeUpdate(); // 0 또는 1만 나온다
+
 		} finally {
 			close();
 		}

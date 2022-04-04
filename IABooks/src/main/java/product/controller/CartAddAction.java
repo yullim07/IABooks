@@ -71,7 +71,7 @@ public class CartAddAction extends AbstractController {
 					request.setAttribute("loc", "cart.book");
 				}
 				else {
-					request.setAttribute("message", "");
+					request.setAttribute("message", "장바구니 담기에 실패했습니다.");
 					request.setAttribute("loc", "javascript:history.back()");
 				}
 				

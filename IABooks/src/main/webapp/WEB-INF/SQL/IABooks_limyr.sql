@@ -839,6 +839,15 @@ NOMINVALUE
 NOCYCLE
 NOCACHE;
 
+select * from user_sequences;
+
+select seq_cartno.currval from dual;
+
+desc tbl_cart;
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'leess', '9791197296932', )
+
 
 ----------------- 시퀀스 추가 및 PK_PRO_NUM의 데이터 타입 변경 완료 -----------------
 
@@ -865,23 +874,65 @@ commit;
 
 -- ProductDAO의 addCart의 세번째 SQL문(else문 - 장바구니에 없던 어떤 제품을 추가로 장바구니에 넣고자 하는 경우)
 INSERT INTO tbl_cart(pk_cartno, fk_userid, pk_pro_num, ck_odr_qty, c_status)
+VALUES(seq_cartno.nextval, 'admin', '9791197296932', 2, DEFAULT);
+
+select * from tbl_cart; commit; desc tbl_cart;
+INSERT INTO tbl_cart(pk_cartno, fk_userid, pk_pro_num, ck_odr_qty, c_status)
 VALUES(seq_cartno.nextval, ?, ?, ?, DEFAULT);
 
 
+desc tbl_product; desc tbl_cart;
+select * from tbl_product;
 
-select * from user_sequences;
+-- getCartList
+SELECT A.PK_CARTNO, 
+FROM tbl_cart A LEFT OUTER JOIN tbl_product B
+ON A.PK_PRO_NUM = B.PK_PRO_NUM
+WHERE A.C_STATUS = 1 AND A.FK_USERID = ?
 
-select seq_cartno.currval from dual;
+
+-- 제약조건 조회 확인 
+select constraint_name, constraint_type, table_name from user_constraints;
+where table_name = 'TBL_PRODUCT';
+
+select *
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = 'tbl_product';
+
+
+ALTER TABLE tbl_writer
+	ADD
+		CONSTRAINT PK_tbl_writer -- 저자 기본키
+		PRIMARY KEY (
+			pk_wr_code -- 저자코드
+		);
+
+ALTER TABLE tbl_cart rename constraints
+SYS_C007479 TO FK_TBL_CART_USERID;
+
+desc tbl_member;
+-- 장바구니 제약조건 추가
+ALTER TABLE tbl_cart
+	ADD
+		CONSTRAINT FK_member_to_cart
+		FOREIGN KEY (
+			fk_userid -- 저자코드
+		)
+		REFERENCES tbl_member ( -- 저자
+			pk_userid -- 저자코드
+		);
+        
+        desc tbl_cart;
+        
+-- getCartList SQL문
+
+SELECT  A.PK_CARTNO, A.FK_USERID, A.PK_PRO_NUM, 
+        B.PRO_NAME, B.FK_CATE_NUM, 
+        B.PRO_IMGFILE_NAME, B.PRO_PRICE, B.PRO_SALEPRICE, 
+        A.CK_ODR_QTY, A.C_STATUS
+FROM tbl_cart A LEFT OUTER JOIN tbl_product B
+ON A.PK_PRO_NUM = B.PK_PRO_NUM
+WHERE A.C_STATUS = 1 AND A.FK_USERID = 'leess';
 
 desc tbl_cart;
-INSERT INTO
-tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
-VALUES (seq_cartno.NEXTVAL, 'leess', '9791197296932', )
-
-desc tbl_product;
-select * from tbl_product;
-9791197296932
-
-
-
-INSERT 

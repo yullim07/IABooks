@@ -16,37 +16,66 @@ public class CartAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		/*
-		 * // 카테고리 목록 조회? super.getCategoryList(request);
+		 * 카테고리 목록 조회 페이징 추가해야 하나? 없는데
+		 * super.getCategoryList(request);
 		 */
 		
-		// 로그인 여부
-		boolean isLogin = super.checkLogin(request);
+		HttpSession session = request.getSession();
 		
-		// 로그인을 하지 않은 경우
-		if(!isLogin) {
-			request.setAttribute("message", "장바구니를 보려면 로그인하세요.");
-			request.setAttribute("loc", "javascript:history.back()");
+		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		
+		// 로그인 안 한 경우
+		if( loginuser == null ) {
+			
+			String message = "비회원은 장바구니를 사용할 수 없습니다!";
+			String loc = "javascript:history.back()"; 
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
 			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
-			return;
 		}
 		
 		// 로그인을 한 경우	
-		else { 
-			request.setAttribute("message", "장바구니를 보려면 로그인하세요.");
-			request.setAttribute("loc", "javascript:history.back()");
+		else {
 			
-		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
-			return;
+			// 장바구니 목록 보여주기
+			InterProductDAO pdao = new ProductDAO();
+			
+			// 장바구니에 들어있는 제품의 총갯수 구하기
+		//	HttpSession session = request.getSession();
+		//	MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+			
+			String fk_userid = loginuser.getUserid();
+		//	int totalCount = pdao.getTotalCountCart(fk_userid);
+			
+			/*
+			currentshowPageNo= Integer.parseInt(str_currentshowPageNo);
+			
+			if (currentshowPage No < 1 || currentshowPageNo > totalPage) { 
+				currentshowPageNo= 1;
+			}
+			*/
+			
+			/*try {
+				
+			} catch (Number FormatException e) {
+				currentshowPageNo= 1;	
+			}*/
 		}
-	}	
+			
+		// -- 로그인 되어진 사용자의 페이징 처리한 장바구니 데이터조회 결과물 가져오기 List<Cartvo> cartList=pdao.getProductCart(userid, currentshowPageNo, sizePerPage);
+	//	List<CartVO> cartList = pdao.getCartList(String pk_userid);
+			
+		HashMap<String, Integer> sumMap = pdao.getSumCartPricePoint(fk_userid);
 		
+	//	request.setAttribute("cartList", cartList);
+		request.setAttribute("sumMap", sumMap);
+	//	request.setAttribute("goBackURL", goBackURL);
 		
-		
-		
-		
-		
-
+	//	super.setRedirect(false);
+		super.setViewPage("/WEB-INF/product/cart.jsp");
+		return;
+		}
 }
