@@ -139,7 +139,7 @@ public class ReviewBoardVO {
 
 		public void setMember(MemberVO member) {
 			// TODO Auto-generated method stub
-			
+			this.member = member;
 		}
 		
 		private int currentNum;			// 현재글 번호

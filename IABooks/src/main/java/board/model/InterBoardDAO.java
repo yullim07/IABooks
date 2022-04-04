@@ -123,7 +123,7 @@ public interface InterBoardDAO {
 
 	   
 	// FAQ 글목록보기
-	List<FaqBoardVO> selectPagingFaqBord(Map<String, String> paraMap) throws SQLException;	
+	List<FaqBoardVO> selectPagingFaqBoard(Map<String, String> paraMap) throws SQLException;	
 	
 	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 FAQ게시판에 대한 페이지 알아오기
 	int getTotalfaqPage(Map<String, String> paraMap) throws SQLException;
