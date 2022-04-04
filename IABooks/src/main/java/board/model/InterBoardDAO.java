@@ -169,6 +169,15 @@ public interface InterBoardDAO {
 
 	// 리뷰게시판 값을 삭제하기
 	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
+
+	// 페이징 처리를 위한 하나의 상품에 대한 리뷰게시글 페이지 알아오기
+	int getProductRevPage(Map<String, String> paraMap) throws SQLException;
+
+	// 제품상세페이지에 보여줄 한 제품에 대한 게시글 불러오기
+	List<ReviewBoardVO> selectPagingProductRev(Map<String, String> paraMap) throws SQLException;
+
+	// 리뷰게시판 글 작성하기
+	int writeRevBoard(Map<String, String> paraMap) throws SQLException;
 	
 
 	

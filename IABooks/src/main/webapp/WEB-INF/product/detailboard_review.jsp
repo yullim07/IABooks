@@ -93,6 +93,8 @@
 		  <%-- $("tr#question_content").hide(); --%>
 		  
 		  
+		  
+		  
 	});
 	
 	function goReviewWrite(){
@@ -115,41 +117,48 @@
 							<th width="5.6%">번호</th>
 							<th width="66.4%">제목</th>
 							<th width="8%">작성자</th>
-							<th width="8%">작성일</th>
-							<th width="6.4%">조회</th>
-							<th width="5.6%">평점</th>
+							<th width="11%">작성일</th>
+							<th width="9%">평점</th>
 						</tr>
 					</thead>
 					<tbody id="faq_tbody">
+						<c:if test="${not empty requestScope.productRevList}">
+				    	<c:forEach var="board" items="${requestScope.productRevList}" >
 						<tr id="review_content">
-							<td class="tbl_number mycenter">1</td>
+							<td class="tbl_number mycenter">${board.pk_rnum}</td>
 
 							</td>
-							<td class="tbl_subject" id="td_left"><a href=""> 번호 : <%=request.getParameter("pk_pro_num") %></a> <img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> /> <span id="mouseover_img" style="position: absolute;"></span> <span class="new_tag">NEW</span>
-							<td class="tbl_writer mycenter">네**** </td>
-							<td class="tbl_date mycenter">2022-03-17</td>
-							<td class="tbl_readcount mycenter"><span>1</span></td>
-							<td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif" /></td>
+							<td class="tbl_subject" id="td_left"><a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.pk_rnum}">${board.re_title}</a><img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> /> <span id="mouseover_img" style="position: absolute;"></span> <span class="new_tag">NEW</span>
+							<td class="tbl_writer mycenter">${board.re_writer}</td>
+							<td class="tbl_date mycenter">${board.re_date}</td>
+							<c:if test="${board.re_grade eq 1 }">
+						    <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point1.gif" /></td>
+						    </c:if>
+						    <c:if test="${board.re_grade eq 2 }">
+						    <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point2.gif" /></td>
+						    </c:if>
+						    <c:if test="${board.re_grade eq 3 }">
+						    <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point3.gif" /></td>
+						    </c:if>
+						    <c:if test="${board.re_grade eq 4 }">
+						    <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point4.gif" /></td>
+						    </c:if>
+						    <c:if test="${board.re_grade eq 5 }">
+						    <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point5.gif" /></td>
+						    </c:if>	
 						</tr>
-
-						<tr id="review_content">
-							<td class="tbl_number mycenter">2</td>
-
-							</td>
-							<td class="tbl_subject" id="td_left"><a href=""> 우리팀 화이팅! ${requestScope.pvo.pk_pro_num} </a> <img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> /> <span id="mouseover_img" style="position: absolute;"></span> <span class="new_tag">NEW</span>
-							<td class="tbl_writer mycenter">쌍****</td>
-							<td class="tbl_date mycenter">2022-03-24</td>
-							<td class="tbl_readcount mycenter"><span>1</span></td>
-							<td class="tbl_grade mycenter"><img name="star_point" src="<%= ctxPath%>/images/board/leejh_images/ico_point5.gif" /></td>
-						</tr>
-
-						<tr id="notExist">
-							<td colspan="6">
-								<div>
-									<span style="color: #555555; font-weight: bold;">표시할 내용이 없습니다.</span>
-								</div>
-							</td>
-						</tr>
+						</c:forEach> 
+			    		</c:if> 
+						
+						<c:if test="${empty requestScope.productRevList}">
+		        		<tr id="notExist">
+					      	<td colspan="6">
+					      		<div>
+					      		<span style="color: #555555; font-weight:bold;">표시할 내용이 없습니다.</span>
+					      		</div>
+					      	</td>
+					    </tr>
+		        		</c:if>
 
 
 
@@ -178,22 +187,11 @@
 
 
 
-		<div class="pagination2 justify-content-center">
-			<ul>
-				<li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_first.gif" /></a></li>
-				<li class="active"><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#">6</a></li>
-				<li><a href="#">7</a></li>
-				<li><a href="#">8</a></li>
-				<li><a href="#">9</a></li>
-				<li><a href="#">10</a></li>
-				<li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_last.gif" /></a></li>
-			</ul>
-		</div>
+		<nav class="my-5">
+				<div style="display: flex; width: 100%;">
+					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
+				</div>	
+		</nav>
 		
 	</div>
 

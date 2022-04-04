@@ -559,3 +559,24 @@ String sql = "select prevnum, prevtitle,currentnum, currenttitle, nextnum, nextt
 "         -- 다음(과거)\n"+
 "from tbl_faq_board\n"+
 ") v";
+
+
+
+select ceil( count(*)/5 )
+			from tbl_review_board A JOIN tbl_product B 
+			ON A.FK_PNUM = B.PK_PRO_NUM
+			JOIN tbl_member C ON A.FK_USERID = C.PK_USERID
+			where pk_pro_num = '9791190259088';
+
+
+String sql = "\n"+
+"select ceil( count(*)/5 )\n"+
+"			from tbl_review_board A JOIN tbl_product B \n"+
+"			ON A.FK_PNUM = B.PK_PRO_NUM\n"+
+"			JOIN tbl_member C ON A.FK_USERID = C.PK_USERID\n"+
+"			where fk_pnum = '9791190259088';";
+
+
+
+select *
+from tbl_review_board
