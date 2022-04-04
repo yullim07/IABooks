@@ -4,12 +4,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page import="board.model.BoardDAO" %>
 <%@ page import="board.model.QnABoardVO" %>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Date"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -164,10 +165,22 @@
 					    		<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
 					    				${board.qna_title}
 					    		</a>
-				    		
-				    		<c:if test="${board.qna_issecret eq '1'}">
+							<c:if test="${board.qna_issecret eq '1'}">
 				    			<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
 				    		</c:if>
+					    	 
+							<c:set var="yesterday" value="<%= new Date(new Date().getTime() - 60*60*24*1000) %>"/>
+							<fmt:formatDate value="${yesterday}" pattern="yyyy-MM-dd HH:mm:ss" var="yesterday" />
+							
+					    	<c:if test="${ board.qna_date > yesterday}">
+					    	<span class="new_tag">NEW</span>
+					    	</c:if>
+
+				    		<c:if test="${board.qna_readcount > '10'}">
+				    		<span class="hit_tag">HIT</span>
+				    		</c:if>
+
+				    		
 				    	</td>
 				    	
 				    	<%-- 

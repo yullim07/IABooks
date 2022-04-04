@@ -73,7 +73,20 @@
 	span.new_tag{
 		background-color: #0099ff;
 		color: white;
-		padding: 0 4px ;
+		padding: 0 1px ;
+		margin-left: 5px; 
+		/* margin-left: 5px; */
+		font-size: 13px;
+		
+	}
+	
+	span.hit_tag{
+		background-color: #C11E31;
+		color: white;
+		padding: 0 4px ; 
+		font-size: 13px;
+		
+		
 	}
 	
 	div.table_all > div > table > tbody > tr >td.tbl_subject{

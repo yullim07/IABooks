@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
+
 <%
 	String ctxPath = request.getContextPath();
 	
@@ -136,6 +137,7 @@
 			      		</li>
 			      		<li class="li_header">
 			      			<strong>조회수</strong>
+			      			
 			      			<span class="readcount" style="font-size: 11px; color: gray; ">${qnaVO.qna_readcount}</span>
 			      		</li>
 			      	
@@ -183,13 +185,13 @@
 	<div>
 	
 		<!-- 댓글 목록 -->
-		<!-- 댓글이 등록이 되면 listReply에 댓글이 쌓이게 된다 -->
+		<!-- 댓글이 등록이 되면 listComment에 댓글이 쌓이게 된다 -->
 		<div id="listComment"></div>
 		
 		<div class="comment" style=" font-size: 14px; padding:auto 20px; background-color:#fbfafa; border: 1px solid #e9e9e9; margin-top: 70px;">
 			<c:set var="qnaVO" value="${qnaVO}" />
 			<c:if test="${ not empty sessionScope.loginuser }">
-			<form class="comment" method="post">
+			<%-- <form class="comment" method="post"> --%>
 				<div class="mb-1"><strong>댓글달기</strong></div>
 				<div class="mb-3">
 					<a>이름 : </a><input id="cmtWriter" name="cmtWriter" type="text" value="${(requestScope.qnaVO).member.name}"/> 
@@ -203,7 +205,7 @@
 				
 				<input type="hidden" class="fk_userid" name="fk_userid" id="fk_userid" value="${board.fk_userid}"/>
 				<input type="hidden" name="pk_qna_num" id="pk_qna_num" value="${(requestScope.qnaVO).pk_qna_num}">
-			</form>
+			<%--</form>--%>
 			</c:if>
 			<c:if test="${empty sessionScope.loginuser }">
 			
@@ -212,26 +214,46 @@
 		</div>
 	</div>
 	
+	
 	<div class="prev_next table table-responsive">
-				<table class="prev_next">
-					<tbody>
-						<tr>
-							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_prev.gif" id="img_prev" />
-							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${(board.pk_qna_num)-1}">이전글</a></th>
-							<td id="td_left" class="board_prev"><a href=""></a></td>
-						</tr>
-						<tr>
-							<th><img src="<%=ctxPath%>/images/board/jeonghm_images/ico_move_next.gif" id="img_next" />
-							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${(board.pk_qna_num)+1}">다음글</a></th>
-							<td id="td_left" class="board_next"><a href=""></a></td>
-						</tr>
-					</tbody>
+		<table class="prev_next">
+			<tbody>
+				<tr>
+					<th>
+						<img src="<%=ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
+						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.next_num}">다음글</a>
+					</th>
 					
-				</table>
-			</div>
+					<td id="td_left" class="board_prev">
+						<c:if test="${qnaVO.next_num ne 0 }">	
+							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.next_num}">${qnaVO.next_title}</a>
+						</c:if>
+						<c:if test="${qnaVO.next_num eq 0 }">	
+							<p>다음글이 없습니다.</p>
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<th><img src="<%=ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
+						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.prev_num}">이전글</a>
+					</th>
+					<td id="td_left" class="board_next">
+						<c:if test="${qnaVO.prev_num ne 0 }">
+							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.prev_num}">${qnaVO.prev_title}</a>
+						</c:if>
+						<c:if test="${qnaVO.prev_num eq 0 }">	
+							<p>이전글이 없습니다.</p>
+						</c:if>
+					</td>
+				</tr>
+			</tbody>
+			
+		</table>
 	</div>
-
-
+	
+	<input type="hidden" class="pk_qna_num" name="pk_qna_num" id="pk_qna_num" value="${qnaVO.pk_qna_num}"/>
+</div>
+</div>
 	
 <jsp:include page="/WEB-INF/footer.jsp"/>
  

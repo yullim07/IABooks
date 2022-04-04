@@ -16,7 +16,7 @@ public interface InterBoardDAO {
 	   int writeQnaBoard(Map<String, String> paraMap) throws SQLException;
 	   
 	   // Qna 상세글 읽어오기
-	   QnABoardVO readqnaContent(int pk_qna_num) throws SQLException;
+	   QnABoardVO readqnaContent(int pk_qna_num, String fk_userid) throws SQLException;
 	   
 	   // 번호 하나를 받아 Qna글 정보 받아오기 
 	   QnABoardVO selectqnaContent(int pk_qna_num) throws SQLException;
@@ -37,8 +37,8 @@ public interface InterBoardDAO {
 	   //Qna 게시글 댓글 읽어오기
 	   QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
 
-	
-	
+	   // Qna 게시판 이전글, 다음글 정보를 가져오기
+	   QnABoardVO getPrevNextQnaContent(Map<String, String> paraMap) throws SQLException;
 	
 	
 	
@@ -169,6 +169,10 @@ public interface InterBoardDAO {
 
 	// 리뷰게시판 값을 삭제하기
 	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
+
+	
+
+	
 	
 
 	

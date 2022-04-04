@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Session;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -317,12 +318,71 @@ public class BoardDAO implements InterBoardDAO {
 		
 		// Qna 상세글 읽어오기
 		@Override
-		public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {
+		public QnABoardVO readqnaContent(int pk_qna_num, String fk_userid) throws SQLException {
 			InterBoardDAO bdao = new BoardDAO();
-			
 			QnABoardVO qnaVO = bdao.selectqnaContent(pk_qna_num);
 			
+			try {
+	
+				conn = ds.getConnection();
+				
+				String sql =  " select * "
+							+ " from tbl_qna_board "
+							+ " where pk_qna_num = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pk_qna_num);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					sql = " select * "
+						+ " from tbl_qna_board "
+						+ " where pk_qna_num = ? and fk_userid = ? ";
+							
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, pk_qna_num); 
+					pstmt.setString(2, fk_userid);
+					
+					
+					rs = pstmt.executeQuery();
+					System.out.println("받아왔니? " + qnaVO.getQna_passwd());
+					System.out.println("있니?"+rs);
+					
+					//위에꺼가 결과물이 나오면 로그인한 사람이 쓴 글이라는 소리다.
+					if(!rs.next()) {//결과물이 없어야지 남이 쓴글이라 조회수를 올리는 update를 해줘야한다.    <-> 내가 쓴글은 셀렉트 결과가 나옴.
+						// 로그인한 사용자가 쓴 글이 아닌 다른 사용자가 쓴 글이라면  ex. boardno = 3234123 터무니 없는 숫자들.
+						
+						sql = " update tbl_qna_board set qna_readcount = qna_readcount +1 "
+							+ " where pk_qna_num = ? ";
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setInt(1, pk_qna_num);
+						
+						pstmt.executeUpdate();
+					}  //업데이트 하고나서 제대로 보여주는거야밑에가 
+					
+					
+					
+					System.out.println("보자구"+qnaVO.getQna_readcount());
+					
+					qnaVO = bdao.selectqnaContent(pk_qna_num);
+					
+				}
+				else{//어차피 초기치가 null 이기 떄문에 null처리 안해줘도 된다. 
+					// 입력한 글번호에 해당하는 글이 존재하지 않는 경우
+					System.out.println(">> 조회하고자 하는 글번호 "+pk_qna_num+"에 해당하는 글은 없습니다.  <<\n");
+				}
+					
+				
+				
+			} catch(SQLException e) { 
+				e.printStackTrace();
+			}finally {
+				close();
+			}
+			
 			return qnaVO;
+			
 		}//end of public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {})
 		
 		
@@ -333,23 +393,26 @@ public class BoardDAO implements InterBoardDAO {
 
 			QnABoardVO qnaVO = null;
 			
+			
 			// System.out.println("몇 번이니? " + pk_qna_num);
 			
 			try {
+				
 				conn = ds.getConnection();
 				
-				String sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,qna_date, qna_passwd\r\n"
+				
+				String	sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,qna_date, qna_passwd, qna_readcount\r\n"
 							+ " from tbl_qna_board  Q\r\n"
 							+ " join  tbl_member M\r\n"
 							+ " ON Q.fk_userid = M.pk_userid \r\n"
-							+ " where pk_qna_num = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, pk_qna_num);
-				
-				rs = pstmt.executeQuery();
-				
-				if(rs.next()) {
+							+ " where pk_qna_num = ? "; //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, pk_qna_num);
+					
+					rs = pstmt.executeQuery();
+					
+					rs.next();
+					
 					qnaVO = new QnABoardVO();
 					
 					qnaVO.setPk_qna_num(rs.getInt(1));
@@ -361,8 +424,15 @@ public class BoardDAO implements InterBoardDAO {
 					qnaVO.setFk_userid(rs.getString(5));
 					qnaVO.setQna_date(rs.getString(6));
 					qnaVO.setQna_passwd(rs.getString(7));
-					 System.out.println("받아왔니? " + qnaVO.getQna_passwd());
-				}
+					qnaVO.setQna_readcount(rs.getInt(8));
+					
+					System.out.println("보자구"+qnaVO.getQna_readcount());
+					
+					
+				
+	
+					
+				
 				
 			} catch(SQLException e) { 
 				e.printStackTrace();
@@ -478,7 +548,34 @@ public class BoardDAO implements InterBoardDAO {
 			System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
 			
 			
+			Connection conn = null;
+		    PreparedStatement pstmt = null;
+		    try {
+		    	conn = ds.getConnection();
+		        String sql = "update tbl_qna_board set qna_readcount = qna_readcount+1 where pk_qna_num = ? ";
+		        System.out.println(sql);
+		        pstmt = conn.prepareStatement(sql);
+		        pstmt.executeUpdate();
+		         
+		    } catch (SQLException e) {
+		        // TODO Auto-generated catch block
+		        e.printStackTrace();
+		    } finally {
+		        close();
+		    }
+		    
+			
+			
+		   
+			
+			
+			
+			
 			try {
+				
+				
+				
+				
 				conn = ds.getConnection();
 				
 				String sql = " insert into tbl_comment(pk_cmt_num, fk_userid, fk_qna_num, cmt_passwd, cmt_contents) \r\n"
@@ -511,8 +608,70 @@ public class BoardDAO implements InterBoardDAO {
 
 
 		
-
-	
+		// Qna 게시판 이전글, 다음글 정보를 가져오기
+		@Override
+		public QnABoardVO getPrevNextQnaContent(Map<String, String> paraMap) throws SQLException {
+			
+			int currentNum = Integer.parseInt(paraMap.get("currentNum"));
+			System.out.println("잘 갔니? " + currentNum);
+			QnABoardVO qnaPrevNext = null;
+			
+			try {
+				conn = ds.getConnection();
+				
+				
+				String sql = "select currentnum, currenttitle, prev_num, prev_title, next_num, next_title, rno "+
+							" from "+
+							" ( "+
+							" select   to_number(PK_QNA_NUM) as currentnum "+
+							"         , QNA_TITLE as currenttitle "+
+							"         , lead(PK_QNA_NUM, 1, 0) over(order by PK_QNA_NUM desc) as prev_num "+
+							"         , lead(QNA_TITLE, 1, '다음글이 없습니다') over(order by QNA_TITLE desc) as prev_title "+
+							"         , lag(PK_QNA_NUM, 1,	 0) over(order by PK_QNA_NUM desc) as next_num "+
+							"         , lag(QNA_TITLE, 1, '이전글이 없습니다') over(order by QNA_TITLE desc) as next_title "+
+							"		  , rownum AS rno " +
+							" from tbl_qna_board "+
+							" ) v "+
+							" where currentnum = ? " +
+							" order by length(currentnum), currentnum ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, currentNum);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+				
+				qnaPrevNext = new QnABoardVO();
+				
+				qnaPrevNext.setCurrentNum(rs.getInt(1));
+				qnaPrevNext.setCurrentTitle(rs.getString(2));
+				qnaPrevNext.setPrev_num(rs.getInt(3));
+				qnaPrevNext.setPrev_title(rs.getString(4));
+				qnaPrevNext.setNext_num(rs.getInt(5));
+				qnaPrevNext.setNext_title(rs.getString(6));
+				
+				
+				System.out.println("이전글 번호 : " + qnaPrevNext.getPrev_num());
+				System.out.println("이전글 제목 : " + qnaPrevNext.getPrev_title());
+				System.out.println("다음글 번호 : " + qnaPrevNext.getNext_num());
+				System.out.println("다음글 제목 : " + qnaPrevNext.getNext_title());
+				
+				
+			}
+			
+			
+			} catch(SQLException e) { 
+				e.printStackTrace();
+			}finally {
+				close();
+			}
+			
+			return qnaPrevNext;
+			
+			
+		}
+		
 	
 	
 		
@@ -1352,7 +1511,10 @@ public class BoardDAO implements InterBoardDAO {
 		return result;
 		
 		} // end of public int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException---------------
+
 		
+		
+
 		
 		
 		
