@@ -83,7 +83,7 @@ $( document ).ready( function() {
 	</div><%-- <div class="container d-none d-lg-block">끝 --%>	
 		
 		<%-- slick 사용 --%>
-		<div class="slider">
+		<div class="slider d-none d-lg-block">
 			<div>
 				<div class="card">
 		  			<img src="<%= ctxPath%>/images/product/12.jpg" class="card-img-top" >

@@ -11,36 +11,16 @@ public class ShowBookDetailAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String method = request.getMethod();
-		System.out.println("확인용 method : " + method);
-		
-		String pk_pro_num = request.getParameter("pk_pro_num");
-		System.out.println("확인용 pk_pro_num : " + pk_pro_num);
-		
+		String pk_pro_num = request.getParameter("pronum");
+
 		InterProductDAO pdao = new ProductDAO();
 		ProductVO pvo = pdao.showBookDetail(pk_pro_num);
-		
-		
-		if(pvo == null) {
-			String message = "존재하지 않는 상품입니다.";
-			String loc = "javascript:history.back()";
 			
-			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
-			
-			super.setRedirect(false);
-			super.setViewPage("/WEB-INF/product/showBookDetail.jsp");
-		}
+		request.setAttribute("pvo", pvo);
 		
-		else {
-			// ProductDAO_lyr에서 편집하고 난 뒤 돌아와서 하는 곳
-		//	request.setAttribute("pk_pro_num", pk_pro_num);
-			request.setAttribute("pvo", pvo);
-				
-		//	super.setRedirect(false);
-			super.setViewPage("/WEB-INF/product/showBookDetail.jsp");
-		}
-		
+		//super.setRedirect(false);
+		super.setViewPage("/WEB-INF/product/showBookDetail.jsp");
+						
 	}
 
 }

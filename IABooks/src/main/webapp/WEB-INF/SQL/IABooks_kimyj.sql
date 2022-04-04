@@ -385,6 +385,44 @@ JOIN
 TBL_WRITER V2
 on FK_WR_CODE = PK_WR_CODE
 where PRO_NAME like '%'||'커피'||'%' or PUBLISHER like '%'||'커피'||'%' or PK_PRO_NUM like '%'||'98'||'%' or WR_NAME like '%'||'커피'||'%'
+--
+
+SELECT PRO_NAME, PUBLISHER, PRO_PUBLISH_DATE, PRO_SALEPRICE, PRO_VIEWCNT, PRO_SIZE, nvl(PRO_BINDTYPE, '-')
+FROM
+tbl_product 
+
+SELECT PRO_NAME, PUBLISHER, PRO_PUBLISH_DATE, PRO_SALEPRICE, PRO_VIEWCNT, PRO_SIZE, nvl(PRO_BINDTYPE, ' '), PRO_PAGES, PRO_IMGFILE_NAME,
+PK_PRO_NUM, PRO_SOLDOUT, PRO_RESTOCK,
+WR_NAME, nvl(WR_INFO, ' '), CATE_NAME
+--, nvl(PRO_INDEX, ' '), nvl(PRO_CONTENT, ' ')
+FROM
+tbl_product 
+JOIN 
+tbl_writer
+ON fk_wr_code = pk_wr_code
+JOIN 
+tbl_category
+ON fk_cate_num = pk_cate_num
+WHERE pk_pro_num = '9791190362078'
+
+--WR_INFO  PRO_INDEX PRO_CONTENT PRO_BINDTYPE
+nvl(PRO_BINDTYPE, '')
+
+LEFT OUTER JOIN 
+tbl_writer B 
+ON A.fk_wr_code = B.pk_wr_code
+LEFT OUTER JOIN 
+tbl_category C 
+ON A.fk_cate_num = C.pk_cate_num
+WHERE pk_pro_num = ?
+
+
+
+
+update tbl_product set pro_viewcnt = pro_viewcnt+1 where pk_pro_num = '9791190362078';
+
+
+
 
 
 
