@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
 	String ctxPath = request.getContextPath();
 %>
@@ -419,7 +419,11 @@
 </script>
 
 	<jsp:include page="/WEB-INF/header.jsp" />
+	
 	<div class="container">
+		<div>
+			<img src="<%= ctxPath %>/images/product/img_order_step1.gif" style="width: 100%; margin: 20px 0 20px 0;" />
+		</div>
 		<form name="orderFrm">
 			<table id="tblCartList">
 				<thead>
@@ -481,14 +485,15 @@
 						</td>
 						<td align="right"> <%-- 총금액 및 총포인트 --%>
 							<span id="totalprice">
-								<fmt:formatNumber value="${cvo.product.totalPrice)" pattern="###,###" />
+								<fmt:formatNumber value="${cvo.totalPrice}" pattern="###,###" />
 							</span> 원
 							<input class="totalPrice" type="hidden" value="${cvo.totalPrice}" />
 							<br/>
 							
 							<span style="color: green; font-weight: bold;">
 							<span id="totalpoint">
-								<fmt:formatNumber value="${cvo.product.totalPoint}" pattern="###,###" />
+								포인트 적용 X
+								<%-- <fmt:formatNumber value="${cvo.totalPoint}" pattern="###,###" /> --%>
 							</span> POINT</span>
 							<input class="totalPoint" type="hidden" value="${cartvo.item.totalPoint}" />
 						</td>
@@ -508,7 +513,7 @@
 							<span style="color: red; font-weight: bold;"><fmt:formatNumber value="${sunMap. SUMCARTPOINT}" pattern="###,###" /> POINT</span>
 						</td>
 						<td colspan="3" align="center">
-							<span class="ordershopping" style="cursor: pointer;" onclick="goorder();">[주문하기]</span>&nbsp;&nbsp;
+							<span class="ordershopping" style="cursor: pointer;" onclick="goOrder();">[주문하기]</span>&nbsp;&nbsp;
 							<span class="ordershopping" style="cursor: pointer;" onclick="javascript:location.href='<%=ctxPath %>/product/index.up'">[계속쇼핑]</span>
 						</td>
 					</tr>

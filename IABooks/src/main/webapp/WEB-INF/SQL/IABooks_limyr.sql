@@ -936,3 +936,41 @@ ON A.PK_PRO_NUM = B.PK_PRO_NUM
 WHERE A.C_STATUS = 1 AND A.FK_USERID = 'leess';
 
 desc tbl_cart;
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+-- 2022년 04월 04일 23시 54분 카트 확인용
+
+select * from tbl_cart; select pk_pro_num from tbl_product;
+desc tbl_cart;
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'leess', '9791190604062', 3, sysdate, 1);
+-- 제약조건 때문에 못 만든다
+
+select last_number from user_sequences where sequence_name = 'seq_cartno';
+
+select constraint_name, constraint_type, table_name from user_constraints
+where table_name = 'TBL_CART';
+
+select * from user_constraints
+where table_name = 'TBL_CART'; 
+
+-- 1. 현재 장바구니 테이블에 이순신의 정보가 들어있음.
+-- 2. insert into에 pk_cartno를 seq_cartno.NEXTVAL이라고 쓰려고 했더니 무결성 제약을 위배한다고 뜸
+-- 같은 사용자가 여러번 살 수도 있으니 제약조건 UK_TBL_CART 제약조건 삭제하겠다.
+
+alter table tbl_cart
+drop constraints UK_TBL_CART;
+-- Table TBL_CART이(가) 변경되었습니다.
+
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'leess', '9791190604062', 3, sysdate, 1);
+-- 1 행 이(가) 삽입되었습니다.

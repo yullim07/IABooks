@@ -1133,7 +1133,7 @@ public class ProductDAO implements InterProductDAO {
 	@Override
 	public List<CartVO> getCart(String fk_userid) throws SQLException {
 		
-		List<CartVO> cartList = null;
+		List<CartVO> cartList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
@@ -1151,14 +1151,15 @@ public class ProductDAO implements InterProductDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			int cnt = 0;
+		//	int cnt = 0; // 1이라면 결과값이 null이 아니라는 뜻!
 			
-			while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까 
-				cnt++;
+			while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까
 				
-				if(cnt == 1) {
+			//	cnt++;
+				
+			//	if(cnt == 1) {
 					cartList = new ArrayList<CartVO>();
-				}
+			//	}
 				
 				int pk_cartno = rs.getInt("pk_cartno");
 				fk_userid = rs.getString("fk_userid");
@@ -1199,7 +1200,7 @@ public class ProductDAO implements InterProductDAO {
 		return cartList;
 	}
 
-	// 장바구니에 추가하기 메소드
+	// 장바구니에 추가하기 메소드 + 이미 담은 제품의 경우 수량 추가하기
 	@Override
 	public int addCart(String fk_userid, String pk_pro_num, String ck_odr_qty) throws SQLException {
 
@@ -1220,7 +1221,7 @@ public class ProductDAO implements InterProductDAO {
 			rs = pstmt.executeQuery();
 			
 			// 어떤 제품을 "추가로" 장바구니에 넣고자 하는 경우
-			if(rs.next()) { 
+			if(rs.next()) {
 				
 				int pk_cartno = rs.getInt("pk_cartno");
 				
@@ -1265,7 +1266,7 @@ public class ProductDAO implements InterProductDAO {
 			String sql =  " SELCT count(*) AS CNT "
 						+ " FROM tbl_cart "
 						+ " WHERE fk_userid = ? ";
-			// status = 1 내용 있음 / 0 없음
+			// c_status = 1 내용 있음 / 0 없음 (기존제품이 있는지 여부)
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fk_userid);
@@ -1283,12 +1284,11 @@ public class ProductDAO implements InterProductDAO {
 		return totalCountCart;
 	}
 
-	// 장바구니 업데이트하기
+	// 장바구니에서 특정 물건의 수량 변경하기
 	@Override
-	public int updateCount(CartVO cart) throws SQLException {
-
-		int result = 0;
+	public int updateCart(CartVO cart) throws SQLException {
 		
+		int result = 0;
 		CartVO cvo = null;
 		
 		try {
@@ -1296,21 +1296,59 @@ public class ProductDAO implements InterProductDAO {
 			
 			String sql =  " update tbl_cart "
 						+ " set ck_odr_qty = ? "
-						+ " where pk_cartno = ?";
+						+ " where c_status = 1 AND pk_cartno = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setInt(1, cvo.getCk_odr_qty());
 			pstmt.setInt(2, cvo.getPk_cartno());
-						
-			result = pstmt.executeUpdate(); // 0 또는 1만 나온다
-
+			
+			result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("장바구니 수량변경에 성공했습니다.");
+			}
+			
+			else {
+				System.out.println("장바구니 수량변경에 실패했습니다.");
+			}
+			
 		} finally {
 			close();
 		}
 		return result;
 	}
-	
 
-
+	// 장바구니에서 삭제하기 메소드 구현하기
+	// 전제조건 qty > 0, c_status = 1
+	@Override
+	public int deleteCart(int pk_cartno) throws SQLException {
+		int result = 0;
+		CartVO cvo = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " delete tbl_cart "
+						+ " where c_status = 1 AND pk_cartno = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, cvo.getPk_cartno());
+			
+			result = pstmt.executeUpdate();
+			
+			if(result == 1) {
+				System.out.println("장바구니에서 삭제 성공!");
+			}
+			
+			else {
+				System.out.println("장바구니에서 삭제 실패!");
+			}
+			
+		} finally {
+			close();
+		}
+		return result;
+	}
 }

@@ -63,10 +63,10 @@ public interface InterProductDAO {
 	int addCart(String fk_userid, String pk_pro_num, String ck_odr_qty) throws SQLException;
 	
 	// 장바구니 수정하기 메소드 (update)
-	int updateCount(CartVO cart) throws SQLException;
+	int updateCart(CartVO cart) throws SQLException;
 	
 	// 장바구니 삭제하기 메소드 (delete)
-	// int deleteCart(String pk_cartno) throws SQLException;
+	int deleteCart(int pk_cartno) throws SQLException;
 	
 	// 장바구니에 담긴 특정 사용자의 제품 총개수 조회하기
 	int getTotalCountCart(String fk_userid) throws SQLException;

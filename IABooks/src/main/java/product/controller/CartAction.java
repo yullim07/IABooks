@@ -68,10 +68,10 @@ public class CartAction extends AbstractController {
 		// -- 로그인 되어진 사용자의 페이징 처리한 장바구니 데이터조회 결과물 가져오기 List<Cartvo> cartList=pdao.getProductCart(userid, currentshowPageNo, sizePerPage);
 	//	List<CartVO> cartList = pdao.getCartList(String pk_userid);
 			
-		HashMap<String, Integer> sumMap = pdao.getSumCartPricePoint(fk_userid);
+	//	HashMap<String, Integer> sumMap = pdao.getSumCartPricePoint(fk_userid);
 		
 	//	request.setAttribute("cartList", cartList);
-		request.setAttribute("sumMap", sumMap);
+	//	request.setAttribute("sumMap", sumMap);
 	//	request.setAttribute("goBackURL", goBackURL);
 		
 	//	super.setRedirect(false);
