@@ -1118,7 +1118,7 @@ public class BoardDAO implements InterBoardDAO {
 				"       , lead(faq_title, 1) over(order by pk_faq_board_num desc) as nexttitle "+
 				" from tbl_faq_board "+
 				" ) v " +
-		" where currentnum = ? ";
+				" where currentnum = ? ";
 		
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, currentNum);
@@ -1241,21 +1241,20 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 		conn = ds.getConnection();
 		
-		
-		String sql = "select currentnum, currenttitle, prev_num, prev_title, next_num, next_title, rno "+
-		" from "+
-		" ( "+
-		" select   to_number(PK_RNUM) as currentnum "+
-		"         , RE_TITLE as currenttitle "+
-		"         , lead(PK_RNUM, 1, 0) over(order by PK_RNUM desc) as prev_num "+
-		"         , lead(RE_TITLE, 1, '다음글이 없습니다') over(order by RE_TITLE desc) as prev_title "+
-		"         , lag(PK_RNUM, 1,	 0) over(order by PK_RNUM desc) as next_num "+
-		"         , lag(RE_TITLE, 1, '이전글이 없습니다') over(order by RE_TITLE desc) as next_title "+
-		"		  , rownum AS rno " +
-		" from tbl_review_board "+
-		" ) v "+
-		" where currentnum = ? " +
-		" order by length(currentnum), currentnum ";
+		String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle "+
+				" from "+
+				" ( "+
+				" select   "+
+				"         lag(PK_RNUM, 1) over(order by PK_RNUM desc) as prevnum "+
+				"       , lag(RE_TITLE, 1) over(order by PK_RNUM desc) as prevtitle "+
+				"       , PK_RNUM as currentnum "+
+				"       , RE_TITLE as currenttitle "+
+				"       , lead(PK_RNUM, 1) over(order by PK_RNUM desc) as nextnum "+
+				"       , lead(RE_TITLE, 1) over(order by PK_RNUM desc) as nexttitle "+
+				" from tbl_review_board "+
+				" ) v " +
+				" where currentnum = ? ";
+
 		
 		pstmt = conn.prepareStatement(sql);
 		pstmt.setInt(1, currentNum);
@@ -1266,10 +1265,11 @@ public class BoardDAO implements InterBoardDAO {
 		
 		revPrevNext = new ReviewBoardVO();
 		
-		revPrevNext.setCurrentNum(rs.getInt(1));
-		revPrevNext.setCurrentTitle(rs.getString(2));
-		revPrevNext.setPrev_num(rs.getInt(3));
-		revPrevNext.setPrev_title(rs.getString(4));
+
+		revPrevNext.setPrev_num(rs.getInt(1));
+		revPrevNext.setPrev_title(rs.getString(2));
+		revPrevNext.setCurrentNum(rs.getInt(3));
+		revPrevNext.setCurrentTitle(rs.getString(4));
 		revPrevNext.setNext_num(rs.getInt(5));
 		revPrevNext.setNext_title(rs.getString(6));
 		

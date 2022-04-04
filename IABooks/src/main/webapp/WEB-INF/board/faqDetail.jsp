@@ -109,7 +109,7 @@
 								<img src="<%=ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
 								<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${faqVO.prev_num}">이전글</a>
 							</th>
-							<td id="td_left" class="board_next">
+							<td id="td_left" class="board_prev">
 								<c:if test="${not empty faqVO.prev_num}">
 									<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${faqVO.prev_num}">${faqVO.prev_title}</a>
 								</c:if>
@@ -124,7 +124,7 @@
 								<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${faqVO.next_num}">다음글</a>
 							</th>
 							
-							<td id="td_left" class="board_prev">
+							<td id="td_left" class="board_next">
 								<c:if test="${not empty faqVO.next_num}">	
 									<a href="<%= ctxPath%>/board/faqDetail.book?pk_faq_board_num=${faqVO.next_num}">${faqVO.next_title}</a>
 								</c:if>
