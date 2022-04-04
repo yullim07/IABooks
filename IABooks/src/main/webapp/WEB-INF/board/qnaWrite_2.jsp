@@ -221,8 +221,7 @@
                             placeholder: '최대 2048자까지 쓸 수 있습니다'   //placeholder 설정
                            });
                         </script>
-		      	
-		      	
+
 		      </td>
 		    
 		    
@@ -248,9 +247,6 @@
 				<td><input checked="checked" type="radio" name="qnaIssecret" id="qnaPublic" value="0"/>공개글&nbsp;<input type="radio" name="qnaIssecret" id="qnaSecret" value="1" />비밀글</td>
 			</tr>
 		   
-					
-		    
-		    
 		    
 		    </tbody>
 		  

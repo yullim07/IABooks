@@ -215,34 +215,36 @@
 	</div>
 	
 	
+	
+	
 	<div class="prev_next table table-responsive">
 		<table class="prev_next">
 			<tbody>
 				<tr>
 					<th>
 						<img src="<%=ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
-						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.next_num}">다음글</a>
+						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.prev_num}">이전글</a>
 					</th>
 					
 					<td id="td_left" class="board_prev">
-						<c:if test="${qnaVO.next_num ne 0 }">	
-							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.next_num}">${qnaVO.next_title}</a>
+						<c:if test="${not empty qnaVO.prev_num}">	
+							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.prev_num}">${qnaVO.prev_title}</a>
 						</c:if>
-						<c:if test="${qnaVO.next_num eq 0 }">	
-							<p>다음글이 없습니다.</p>
+						<c:if test="${empty qnaVO.prev_num}">	
+							<p>이전글이 없습니다.</p>
 						</c:if>
 					</td>
 				</tr>
 				<tr>
 					<th><img src="<%=ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
-						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.prev_num}">이전글</a>
+						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.next_num}">다음글</a>
 					</th>
 					<td id="td_left" class="board_next">
-						<c:if test="${qnaVO.prev_num ne 0 }">
-							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.prev_num}">${qnaVO.prev_title}</a>
+						<c:if test="${not empty qnaVO.next_num}">
+							<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.next_num}">${qnaVO.next_title}</a>
 						</c:if>
-						<c:if test="${qnaVO.prev_num eq 0 }">	
-							<p>이전글이 없습니다.</p>
+						<c:if test="${empty qnaVO.next_num}">	
+							<p>다음글이 없습니다.</p>
 						</c:if>
 					</td>
 				</tr>
