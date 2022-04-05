@@ -1429,7 +1429,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " SELECT pk_rnum, pro_name, pro_imgfile_name, re_title, re_writer, re_date, fk_userid, re_grade, cate_name"+
+			String sql = " SELECT pk_rnum, pro_name, pro_imgfile_name, re_title, re_writer, re_date, fk_userid, re_grade, cate_name "+
 			" FROM   \n"+
 			" (   \n"+
 			"    SELECT rownum as rno, pk_rnum, pro_name, pro_imgfile_name, re_title, re_writer, re_date, fk_userid, re_grade, cate_name "+
@@ -1532,6 +1532,72 @@ public class BoardDAO implements InterBoardDAO {
 			
 			
 		} // end of public int writeRevBoard(Map<String, String> paraMap) throws SQLException--------------
+
+		
+		// 한 제품에 대한 리뷰게시글 갯수 알아오기
+		@Override
+		public int countOneProductReview(Map<String, String> paraMap) throws SQLException {
+
+			List<ReviewBoardVO> productRevList = new ArrayList<>(); 
+			
+			ReviewBoardVO board = null;
+			String pk_pro_num = paraMap.get("pk_pro_num");
+			int cnt = 0;
+			
+			try {
+			
+			
+			conn = ds.getConnection();
+			
+			String sql = " SELECT count(*) "+
+			" FROM   \n"+
+			" (   \n"+
+			"    SELECT rownum as rno, pk_rnum, pro_name, pro_imgfile_name, re_title, re_writer, re_date, fk_userid, re_grade, cate_name "+
+			"    FROM\n"+
+			"    (    \n"+
+			"        select R.pk_rnum AS pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS pro_imgfile_name, R.re_title AS re_title, R.re_writer AS re_writer "+
+			"               , to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, R.fk_userid AS fk_userid , R.re_grade AS re_grade, C.cate_name AS cate_name "+
+			"        from tbl_member M\n"+
+			"        JOIN tbl_review_board R\n"+
+			"        ON  M.PK_USERID = R.FK_USERID "+
+			"        JOIN tbl_product P\n"+
+			"        ON R.fk_pnum = P.pk_pro_num "+
+			"        JOIN TBL_CATEGORY C " +
+			"        ON P.fk_cate_num = C.pk_cate_num " +
+			"        WHERE isdelete = 0 and P.pk_pro_num = ?"+
+		    "	  ) V "+
+		    " ) T ";	
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, pk_pro_num);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+			
+			board = new ReviewBoardVO();
+			cnt = Integer.parseInt(rs.getString(1));
+			board.setReviewCnt(cnt);
+			
+			System.out.println("몇개야 " + cnt);
+			
+			productRevList.add(board);
+			
+			
+			}//end of while(rs.next()) ------------ 
+			
+			
+			}catch(SQLException e){  
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			
+			return cnt;
+			
+		} // end of public List<ReviewBoardVO> countOneProductReview(Map<String, String> paraMap) throws SQLException--------
 		
 		
 		

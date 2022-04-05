@@ -69,7 +69,12 @@ public class ShowBookDetailAction extends AbstractController {
 		// 제품상세페이지에 보여줄 한 제품에 대한 게시글 불러오기
 		List<ReviewBoardVO> productRevList = bdao.selectPagingProductRev(paraMap);
 		
+		// 시험용
+		// 한 제품에 대한 리뷰게시글 갯수 알아오기
+		int reviewCnt = bdao.countOneProductReview(paraMap);
+		
 		request.setAttribute("productRevList", productRevList);
+		request.setAttribute("reviewCnt", reviewCnt);
 		
 		String pageBar = "";
 		

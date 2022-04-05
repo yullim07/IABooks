@@ -178,6 +178,9 @@ public interface InterBoardDAO {
 
 	// 리뷰게시판 글 작성하기
 	int writeRevBoard(Map<String, String> paraMap) throws SQLException;
+
+	// 한 제품에 대한 리뷰게시글 갯수 알아오기
+	int countOneProductReview(Map<String, String> paraMap) throws SQLException;
 	
 
 	

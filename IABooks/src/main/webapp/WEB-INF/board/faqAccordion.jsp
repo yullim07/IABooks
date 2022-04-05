@@ -44,19 +44,19 @@
 		<div class="cs_btn">
 			<ul>
 				<li>
-					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=member&searchType=&searchWord=">회원</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=member&faqsearchType=&faqsearchWord=">회원</a>
 				</li>
 				<li>
-					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=product&searchType=&searchWord=">상품</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=product&faqsearchType=&faqsearchWord=">상품</a>
 				</li>
 				<li>
-					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=return&searchType=&searchWord=">주문/배송</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=return&faqsearchType=&faqsearchWord=">주문/배송</a>
 				</li>
 				<li>
-					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=order&searchType=&searchWord=">반품/교환</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=return&faqsearchType=&faqsearchWord=">반품/교환</a>
 				</li>
 				<li>
-					<a href="<%= ctxPath%>/board/faqBoard.book?searchCate=promotion&searchType=&searchWord=">제휴</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=promotion&faqsearchType=&faqsearchWord=">제휴</a>
 				</li>
 			</ul>
 		</div>
