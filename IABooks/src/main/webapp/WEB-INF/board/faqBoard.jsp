@@ -24,7 +24,7 @@
 		text-align: center;
 	}
 	
-	select#searchContent, select#searchCate {
+	select#faqsearchContent, select#faqsearchCate {
 		font-size:14px;
 	}
 	
@@ -43,7 +43,7 @@
 		}
 		
 		// **** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ****//
-		$("select#searchCate").bind("change", function(){
+		$("select#faqsearchCate").bind("change", function(){
 			
 			const frm = document.faqBoardFrm;
 			frm.action = "faqBoard.book";
@@ -52,24 +52,24 @@
 			
 		});
 		
-		if( "${requestScope.searchCate}" != "" ) {
-			$("select#searchCate").val("${requestScope.searchCate}");
+		if( "${requestScope.faqsearchCate}" != "" ) {
+			$("select#faqsearchCate").val("${requestScope.faqsearchCate}");
 		}
 		
 		$("button#btn_search").click(function(){
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
 			
-			if($("select.searchType").val() == "" ) {
-				alert("검색대상을 올바르게 선택하세요!! 11");
+			if($("select.faqsearchType").val() == "" ) {
+				alert("검색대상을 올바르게 선택하세요!! faq1");
 				return false; // submit을 하지 않고 종료
 			}
 			
-			if($("input#searchWord").val().trim() == "") {
-				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
+			if($("input#faqsearchWord").val().trim() == "") {
+				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! qwe2");
 				return false;
 			}
 			
-			$("input#searchWord").bind("keyup", function(){
+			$("input#faqsearchWord").bind("keyup", function(){
 				
 				if(event.keyCode == 13) {
 					// 검색어에서 엔터를 치면 검색하러 간다.
@@ -84,9 +84,9 @@
 		// alert("~~ 확인용 : ${requestScope.searchType} ");
 		// "~~ 확인용 : "
 		// 회원명 조건하고 했더니 "~~ 확인용 : name" 뜸
-		if( "${requestScope.searchType}" != "" ) { // 반드시 if에 넣을때 쌍따옴표 꼭 붙여라!!(자바스크립트임)
-			$("select#searchType").val("${requestScope.searchType}");
-			$("input#searchWord").val("${requestScope.searchWord}");
+		if( "${requestScope.faqsearchType}" != "" ) { // 반드시 if에 넣을때 쌍따옴표 꼭 붙여라!!(자바스크립트임)
+			$("select#faqsearchType").val("${requestScope.faqsearchType}");
+			$("input#faqsearchWord").val("${requestScope.faqsearchWord}");
 		}
 		
 	}); // end of $(document).ready(function(){})---------------------
@@ -95,13 +95,13 @@
 	// Function Declaration
 	function goSearch(){
 		
-		if($("select.searchType").val() == "" ) {
-			alert("검색대상을 올바르게 선택하세요!!");
+		if($("select.faqsearchType").val() == "" ) {
+			alert("검색대상을 올바르게 선택하세요!! faq1");
 			return; // goSearch() 함수 종료.
 		}
 		
-		if($("input#searchWord").val().trim() == "") {
-			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
+		if($("input#faqsearchWord").val().trim() == "") {
+			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! faq2");
 			return;
 		}
 		
@@ -127,7 +127,7 @@
 			  <!-- <p class="mb-3"></p> -->
 			
 			  	
-			    <select id="searchCate" class="cateDropdown" name="searchCate">
+			    <select id="faqsearchCate" class="cateDropdown" name="faqsearchCate">
 			       <option value="">분류</option>
 	               <option value="all">전체</option>
 	               <option value="member">회원</option>
@@ -185,13 +185,13 @@
 		 		<a><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_triangle3.gif" /></a>
 			  	<p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
 			  	
-			    <select id="searchContent" class="searchType" name="searchType">
+			    <select id="faqsearchContent" class="faqsearchType" name="faqsearchType">
 			    	<option value="">대상</option>
 			    	<option value="faq_title">제목</option>
 			        <option value="faq_writer">글쓴이</option>
 			
 			    </select>
-			    <input type="text" name="searchWord" id="searchWord"></input>
+			    <input type="text" name="faqsearchWord" id="faqsearchWord"></input>
 			    <button class="btn btn_faq_search" id="btn_search" name="btn_search" onclick="goSearch();" >찾기</button>
 			    <button class="btn btn_faq_write" type="button" id="btn_write" style="float:right;" name="btn_write" onclick="location.href='<%= ctxPath%>/board/faqWrite.book'">글쓰기</button>
 			    </div>

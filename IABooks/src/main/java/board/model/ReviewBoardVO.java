@@ -19,9 +19,18 @@ public class ReviewBoardVO {
 		private String re_writer;    // 작성자
 		private int isdelete; 		 // 삭제유무(0:삭제안함, 1:삭제함)
 		
+		private int reviewCnt;		// 한 제품에 대한 리뷰게시글 수
 		
 //		-----------------------------------------	
 		
+		public int getReviewCnt() {
+			return reviewCnt;
+		}
+
+		public void setReviewCnt(int reviewCnt) {
+			this.reviewCnt = reviewCnt;
+		}
+
 		private MemberVO member;
 		
 		private ProductVO product;
@@ -139,7 +148,7 @@ public class ReviewBoardVO {
 
 		public void setMember(MemberVO member) {
 			// TODO Auto-generated method stub
-			
+			this.member = member;
 		}
 		
 		private int currentNum;			// 현재글 번호

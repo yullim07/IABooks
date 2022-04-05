@@ -73,12 +73,12 @@
 	function goSearch(){
 		
 		if($("select.searchType").val() == "" ) {
-			alert("검색대상을 올바르게 선택하세요!!");
+			alert("검색대상을 올바르게 선택하세요!! rev1");
 			return; // goSearch() 함수 종료.
 		}
 		
 		if($("input#searchWord").val().trim() == "") {
-			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
+			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! rev2");
 			return;
 		}
 		
@@ -143,6 +143,7 @@
                    <td class="tbl_subject">
                        <a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.pk_rnum}">${board.re_title}</a>
                    </td>
+                   <%-- <td class="tbl_writer mycenter">${board.re_writer}</td> --%>
                    <td class="tbl_writer mycenter">${board.member.name}</td>
                    <td class="tbl_date mycenter">${board.re_date}</td>
                    <c:if test="${board.re_grade eq 1 }">

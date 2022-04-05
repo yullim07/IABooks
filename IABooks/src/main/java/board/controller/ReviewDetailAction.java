@@ -53,7 +53,7 @@ public class ReviewDetailAction extends AbstractController {
 			revVO.setNext_num(revPrevNext.getNext_num());
 			revVO.setNext_title(revPrevNext.getNext_title());
 		}
-
+		
 		request.setAttribute("revVO", revVO);
 		
 	

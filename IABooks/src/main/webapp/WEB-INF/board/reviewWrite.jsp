@@ -54,6 +54,17 @@
 		
 		
 	});
+	
+	function goReviewSubmit() {
+		  
+		  // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
+		  
+		  const frm = document.reviewSubmitFrm;
+		  frm.action = "reviewSubmit.book";
+		  frm.method = "post";
+		  frm.submit();
+		  
+	  }// end of function goReviewSubmit() {}------------------------------------
 
 </script>
 
@@ -75,20 +86,24 @@
   
   
 	<div class="table table-responsive">
-		<form method="post" action="reviewWriteAction.jsp" >
+		<form name="reviewSubmitFrm">
+		<c:set var="revVO" value="${requestScope.revVO}" />
+		<c:set var="pk_pro_num" value="${requestScope.pk_pro_num}" />
+		<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pk_pro_num}">
+		<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${revVO.fk_pnum}">
 		<table class=" write_review">
 		  	<tbody>
 		    <tr>
 		      <th class="col-2" >제목</th>
-		      <td class="col-10" ><input type="text" id="subject" name="subject" /></td>
+		      <td class="col-10" ><input type="text" id="reviewBoardTitle" name="reviewBoardTitle" /></td>
 		    </tr>
 		  	
 		    <tr class="notMember">
 		      <th>작성자</th>
-		      <td><input type="text" id="writer" name="writer" /></td>
+		      <td><input type="text" id="reviewBoardWriter" name="reviewBoardWriter" /></td>
 		    </tr>
 		    
-		    <tr>
+		    <!-- <tr>
 		      <th>이메일</th>
 		      <td>
 		      	<input type="text" id="email1" name="email1" />
@@ -108,22 +123,22 @@
 		      		<option>직접입력</option>
 		      	</select>
 		      </td>
-		    </tr>
+		    </tr> -->
 		    
 		    
 		    <tr >
 		      <th>평점</th>
-		      <td class="star_point" style="vertical-align: middle;">
-				  <input type="radio" id="point0" name="point" value="5">
-				  <label for="point0"><span class="point" style="color:red;"><em>★★★★★</em></span></label>
-				  <input type="radio" id="point1" name="point" value="5">
-				  <label for="point1"><span class="point" style="color:red;"><em>★★★★</em></span></label>
-				  <input type="radio" id="point2" name="point" value="5">
-				  <label for="point2"><span class="point" style="color:red;"><em>★★★</em></span></label>
-				  <input type="radio" id="point3" name="point" value="5">
-				  <label for="point3"><span class="point" style="color:red;"><em>★★</em></span></label>
-				  <input type="radio" id="point4" name="point" value="5">
-				  <label for="point4"><span class="point" style="color:red;"><em>★</em></span></label>
+		      <td class="star_grade" style="vertical-align: middle;">
+				  <input type="radio" id="grade" name="grade" value="5">
+				  <label for="grade5"><span class="point" style="color:red;"><em>★★★★★</em></span></label>
+				  <input type="radio" id="grade" name="grade" value="4">
+				  <label for="grade4"><span class="point" style="color:red;"><em>★★★★</em></span></label>
+				  <input type="radio" id="grade" name="grade" value="3">
+				  <label for="grade3"><span class="point" style="color:red;"><em>★★★</em></span></label>
+				  <input type="radio" id="grade" name="grade" value="2">
+				  <label for="grade2"><span class="point" style="color:red;"><em>★★</em></span></label>
+				  <input type="radio" id="grade" name="grade" value="1">
+				  <label for="grade1"><span class="point" style="color:red;"><em>★</em></span></label>
 		      </td>
 		    </tr>
 		    
@@ -131,7 +146,7 @@
 		      
 		      <td colspan="2">
 		      	
-		      		<textarea class="summernote" name="editordata"></textarea>
+		      		<textarea class="summernote" name="reviewBoardContent" id="reviewBoardContent">${revVO.fk_pnum} ${pk_pro_num}</textarea>
                         <script>
                         $('.summernote').summernote({
                         	height: 300,                 // 에디터 높이
@@ -149,21 +164,6 @@
 		    
 		    </tr>
 		    <tr>
-		      <th>첨부파일</th>
-		      <td>
-		      	<a href="#">
-			      	<img id="file_attach_2" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
-			      	<a class="file_attach" href="#">review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg</a>
-			    </a>
-		      </td>
-		    </tr>
-		    <tr>
-		      <th>UCC URL</th>
-		      <td class="uccurl_input">
-		      	<input type="text" id="ucc_url" name="ucc_url"/>
-		      </td>
-		    </tr>
-		    <tr>
 		      <th>첨부파일1</th>
 		      <td class="" >
 		      	<button  name="file_attach" type="button">파일 선택</button> <%--  button으로 할지 input으로 할지 고민고민 --%>
@@ -171,85 +171,16 @@
 		      </td>
 		    </tr>
 		    <tr>
-		      <th>첨부파일2</th>
-		      <td class="" >
-		      	<button name="file_attach" type="button">파일 선택</button>
-		      	<span>선택된 파일 없음</span>
-		      </td>
-		    </tr>
-		    <tr>
-		      <th>첨부파일3</th>
-		      <td class="" >
-		      	<button name="file_attach" type="button">파일 선택</button>
-		      	<span>선택된 파일 없음</span>
-		      </td>
-		    </tr>
-		    <tr>
-		      <th>첨부파일4</th>
-		      <td class="" >
-		      	<button name="file_attach" type="button">파일 선택</button>
-		      	<span>선택된 파일 없음</span>
-		      </td>
-		    </tr>
-		    <tr>
-		      <th>첨부파일5</th>
-		      <td class="" >
-		      	<button name="file_attach" type="button">파일 선택</button>
-		      	<span>선택된 파일 없음</span>
-		      </td>
-		    </tr>
-		    <tr>
 		      <th>비밀번호</th>
 		      <td>
-		      	<input type="text" id="password" name="password" type="password"/>
+		      	<input type="text" id="reviewBoardPasswd" name="reviewBoardPasswd" type="password"/>
 		      </td>
 		    </tr>
-		    
-		    <tr class="notMember">
-		      <th>자동등록방지<br>보안문자</th>
-		      <td>
-		      	<img id="captcha" /> <%-- captcha 오픈소스를 가져와야겠다 --%>
-		      	<img src="<%= ctxPath%>/images/board/leejh_images/btn_captcha_refresh.png"/>
-		      	
-		      	<p class="gBlank5"> 
-		      		<input type="text"  id="captcha" name="captcha" placeholder="보안문자를 입력해 주세요." type="text"/>
-		      		<%-- 느낌표 이미지를 span::before로 가져와보기 --%>
-		      		<img src="<%= ctxPath%>/images/board/leejh_images/ico_info.gif"/>
-		      		<span class="ec-base-help txtInfo">영문, 숫자 조합을 공백없이 입력하세요(대소문자구분)</span> 
-		      	</p>
-		      </td>
-		    </tr>
-		    <tr>
-		    	<th>
-		    		개인정보 수집 및<br>이용 동의
-		    	</th>
-		    	<td>
-		    		<textarea id="terms" class="agree" name="terms" style="width: 60%; height: 140px; margin: 0 0 10px 0; ">
-■ 개인정보의 수집·이용 목적
-서비스 제공 및 계약의 이행, 구매 및 대금결제, 물품배송 또는 청구지 발송, 회원관리 등을 위한 목적
-
-■ 수집하려는 개인정보의 항목
-이름, 주소, 연락처, 이메일 등
-
-■ 개인정보의 보유 및 이용 기간
-회사는 개인정보 수집 및 이용목적이 달성된 후에는 예외없이 해당정보를 파기합니다. 
-					</textarea>
-					<div class="privacy_agree">
-						개인정보 수집 및 이용에 동의하십니까?  
-						<input type="radio" id="privacy_agreement0" name="privacy_agreement" value="T">
-				    	<label for="privacy_agreement0">동의함</label>
-				    	<input type="radio" id="privacy_agreement1" name="privacy_agreement" value="F">
-				    	<label for="privacy_agreement1">동의안함</label>
-					</div>
-					
-		    	</td>
-		    </tr>
-		    
-		    
-		    
 		    </tbody>
 		  
 		</table>
+		
+				
 		</form>
 	</div>
 	
@@ -257,7 +188,7 @@
 		
 		<button class="btn btn_list" type="button" onclick="location.href='<%= ctxPath%>/board/reviewBoard.book'">목록</button>
 		<button class="btn btn_cancel" type="button">취소</button>
-		<button class="btn btn_submit" type="button">등록</button>	
+		<button class="btn btn_submit" type="button" onclick="goReviewSubmit()">등록</button>	
 		
 	</div>
   

@@ -327,7 +327,9 @@
 			
 			<!-- 상세보기 게시판 상품후기(detail_board_review) 시작 -->
 			<div class="detail_board_review">
-				<jsp:include page="detailboard_review.jsp" />
+				<jsp:include page="detailboard_review.jsp">
+					<jsp:param value="${requestScope.pvo.pk_pro_num}" name="pk_pro_num"/>
+				</jsp:include>
 			</div>
 			<!-- 상세보기 게시판 상품후기(detail_board_review) 끝 -->
 			
