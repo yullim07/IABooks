@@ -13,13 +13,20 @@
 /* 	container img {
   max-width: 100%;
   height: auto;
-  display: block; */
+  display: block; }
+*/
+
+.board_prevnext {
+	border: solid 1px #d7d5d5;
 }
+
+
+
 </style>
 
 	  
 <meta charset="UTF-8">
-<title>배송도 빠르도 책도 잘 포장돼서 왔어요! 타인의 책장</title>
+<title>타인의 책장</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
@@ -156,31 +163,32 @@
 	<div class="prev_next table table-responsive">
 				<table class="prev_next">
 					<tbody>
-						<tr>
-							<th>
+						<tr class="board_prevnext">
+							<th class="board_prevnext">
 								<img src="<%=ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
-								<a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${revVO.next_num}">다음글</a>
+								<a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${revVO.prev_num}">이전글</a>
 							</th>
 							
 							<td id="td_left" class="board_prev">
-								<c:if test="${revVO.next_num ne 0 }">	
-									<a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${revVO.next_num}">${revVO.next_title}</a>
+								<c:if test="${not empty revVO.prev_num}">	
+									<a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${revVO.prev_num}">${revVO.prev_title}</a>
 								</c:if>
-								<c:if test="${revVO.next_num eq 0 }">	
-									<p>다음글이 없습니다.</p>
+								<c:if test="${empty revVO.prev_num}">	
+									<p>이전글이 없습니다.</p>
 								</c:if>
 							</td>
 						</tr>
-						<tr>
-							<th><img src="<%=ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
-								<a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${revVO.prev_num}">이전글</a>
+						<tr class="board_prevnext">
+							<th class="board_prevnext">
+								<img src="<%=ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
+								<a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${revVO.next_num}">다음글</a>
 							</th>
-							<td id="td_left" class="board_next">
-								<c:if test="${revVO.prev_num ne 0 }">
-									<a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${revVO.prev_num}">${revVO.prev_title}</a>
+							<td id="td_left" class="board_next ">
+								<c:if test="${not empty revVO.next_num}">
+									<a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${revVO.next_num}">${revVO.next_title}</a>
 								</c:if>
-								<c:if test="${revVO.prev_num eq 0 }">	
-									<p>이전글이 없습니다.</p>
+								<c:if test="${empty revVO.next_num}">	
+									<p>다음글이 없습니다.</p>
 								</c:if>
 							</td>
 						</tr>

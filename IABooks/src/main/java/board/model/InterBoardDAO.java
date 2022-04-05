@@ -32,7 +32,7 @@ public interface InterBoardDAO {
 	   
 	   
 	   //Qna 게시글에 댓글 작성하기
-	   List<CommentVO> writeCmtBoard(Map<String, String> paraMap) throws SQLException;
+	   int writeCmtBoard(Map<String, String> paraMap) throws SQLException;
 	   
 	   //Qna 게시글 댓글 읽어오기
 	   QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
@@ -122,7 +122,7 @@ public interface InterBoardDAO {
 
 	   
 	// FAQ 글목록보기
-	List<FaqBoardVO> selectPagingFaqBord(Map<String, String> paraMap) throws SQLException;	
+	List<FaqBoardVO> selectPagingFaqBoard(Map<String, String> paraMap) throws SQLException;	
 	
 	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 FAQ게시판에 대한 페이지 알아오기
 	int getTotalfaqPage(Map<String, String> paraMap) throws SQLException;
@@ -169,6 +169,7 @@ public interface InterBoardDAO {
 	// 리뷰게시판 값을 삭제하기
 	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
 
+
 	/*
 	 * // Ajax(JSON)를 사용하여 더보기 방식(페이징처리)으로 상품정보를 8개씩 잘라서(start ~ end) 조회해오기
 	 * List<CommentVO> insertComment(Map<String, String> paraMap);
@@ -183,6 +184,19 @@ public interface InterBoardDAO {
 	
 
 	
+
+	// 페이징 처리를 위한 하나의 상품에 대한 리뷰게시글 페이지 알아오기
+	int getProductRevPage(Map<String, String> paraMap) throws SQLException;
+
+	// 제품상세페이지에 보여줄 한 제품에 대한 게시글 불러오기
+	List<ReviewBoardVO> selectPagingProductRev(Map<String, String> paraMap) throws SQLException;
+
+	// 리뷰게시판 글 작성하기
+	int writeRevBoard(Map<String, String> paraMap) throws SQLException;
+
+	// 한 제품에 대한 리뷰게시글 갯수 알아오기
+	int countOneProductReview(Map<String, String> paraMap) throws SQLException;
+
 	
 
 	
