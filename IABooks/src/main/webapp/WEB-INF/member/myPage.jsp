@@ -151,7 +151,7 @@
 		// 게시물관리
 		$("td.tbl_body6").click(()=>{
 			
-			location.href="#";
+			location.href="<%= ctxPath %>/member/myboard.book";
 			
 		})// end of $("td.tbl_body_td").click
 	
