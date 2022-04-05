@@ -61,7 +61,7 @@
 		padding: 0 0 0 8px; 
 		float: left;
 		text-align: left;
-		width: 80px;
+		max-width: 120px !important; 
 		/* cursor: pointer; */
 	}
 	

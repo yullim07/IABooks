@@ -210,6 +210,8 @@
 	        		 <input type="hidden" class="qna_passwd" name="qna_passwd" id="qna_passwd" value="${board.qna_passwd}"/>
 	        		<input type="hidden" class="qna_issecret" name="qna_issecret" id="qna_issecret" value="${board.qna_issecret}"/>
 	        		<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${board.fk_pnum}"/>
+	        		<input type="hidden" class="cate_name" name="cate_name" id="cate_name" value="${requestScope.product.cate_name}"/>
+	        		<input type="hidden" class="pro_imgfile_name" name="pro_imgfile_name" id="pro_imgfile_name" value="${requestScope.product.pro_imgfile_name}"/>
 	        	</c:forEach>
 	        </c:if>
 	        

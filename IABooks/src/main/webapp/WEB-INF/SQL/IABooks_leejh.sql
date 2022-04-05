@@ -672,13 +672,34 @@ from
 where rno between 1 and 10
 -----------------------------------------
 
+String sql = "select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\n"+
+"from \n"+
+"    ( \n"+
+"    select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\n"+
+"    from \n"+
+"    ( \n"+
+"        select  nvl(fk_pnum,-9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,-9999) as pro_name, nvl(pro_imgfile_name,-9999) as pro_imgfile_name ,nvl(C.cate_name,-9999) AS cate_name\n"+
+"        from tbl_member M right JOIN tbl_qna_board Q  \n"+
+"        ON M.pk_userid = Q.fk_userid \n"+
+"        left JOIN tbl_product P  \n"+
+"        ON Q.fk_pnum = P.pk_pro_num\n"+
+"        left JOIN TBL_CATEGORY C\n"+
+"		ON P.fk_cate_num = C.pk_cate_num\n"+
+"        where isdelete = 0 \n"+
+"    ) V\n"+
+") T\n"+
+"where rno between 1 and 10";
+
+
+
+
 select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name
 from 
     ( 
     select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name
     from 
     ( 
-        select  nvl(fk_pnum,9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,9999), nvl(pro_imgfile_name,9999) ,nvl(C.cate_name,9999) AS cate_name
+        select  nvl(fk_pnum,9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,-9999) as pro_name, nvl(pro_imgfile_name,-9999) as pro_imgfile_name ,nvl(C.cate_name,-9999) AS cate_name
         from tbl_member M right JOIN tbl_qna_board Q  
         ON M.pk_userid = Q.fk_userid 
         left JOIN tbl_product P  

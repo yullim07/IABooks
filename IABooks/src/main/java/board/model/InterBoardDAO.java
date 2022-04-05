@@ -32,7 +32,7 @@ public interface InterBoardDAO {
 	   
 	   
 	   //Qna 게시글에 댓글 작성하기
-	   int writeCmtBoard(Map<String, String> paraMap) throws SQLException;
+	   List<CommentVO> writeCmtBoard(Map<String, String> paraMap) throws SQLException;
 	   
 	   //Qna 게시글 댓글 읽어오기
 	   QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
@@ -169,6 +169,10 @@ public interface InterBoardDAO {
 	// 리뷰게시판 값을 삭제하기
 	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
 
+	/*
+	 * // Ajax(JSON)를 사용하여 더보기 방식(페이징처리)으로 상품정보를 8개씩 잘라서(start ~ end) 조회해오기
+	 * List<CommentVO> insertComment(Map<String, String> paraMap);
+	 */
 	
 
 	

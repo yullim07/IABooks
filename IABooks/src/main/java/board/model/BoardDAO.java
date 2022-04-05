@@ -279,7 +279,8 @@ public class BoardDAO implements InterBoardDAO {
 			
 			return totalPage;
 		}
-	
+	    
+	    //qna게시판 조회수 올리기
 	    @Override
 		public int qnaReadCountUp(int pk_qna_num) throws SQLException {
 	    	InterBoardDAO bdao = new BoardDAO();
@@ -289,19 +290,33 @@ public class BoardDAO implements InterBoardDAO {
 	    	int result = 0;
 			try {
 				conn = ds.getConnection();
+				
+				String sql =  " select * "
+							+ " from tbl_qna_board "
+							+ " where pk_qna_num = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pk_qna_num);
+				
+				rs = pstmt.executeQuery();
+				
+				
+					if(rs.next()) {
+						
+							sql = " update tbl_qna_board set qna_readcount = qna_readcount +1 "
+									+ " where pk_qna_num = ? ";
+								pstmt = conn.prepareStatement(sql);
+								pstmt.setInt(1, pk_qna_num);
+								
+								pstmt.executeUpdate();
+					}  //업데이트 하고나서 제대로 보여주는거야밑에가 
 					
-			
-				String	sql = " update tbl_qna_board set qna_readcount = qna_readcount +1 "
-						+ " where pk_qna_num = ? ";
-					pstmt = conn.prepareStatement(sql);
-					pstmt.setInt(1, pk_qna_num);
 					
-					result = pstmt.executeUpdate();
-				 //업데이트 하고나서 제대로 보여주는거야밑에가 
-				
-				
-				
-				System.out.println("보자구"+qnaVO.getQna_readcount());
+					
+					System.out.println("보자구"+qnaVO.getQna_readcount());
+					
+					qnaVO = bdao.selectqnaContent(pk_qna_num);
+					
 				
 				
 		
@@ -320,48 +335,8 @@ public class BoardDAO implements InterBoardDAO {
 		public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {
 			InterBoardDAO bdao = new BoardDAO();
 			QnABoardVO qnaVO = bdao.selectqnaContent(pk_qna_num);
-			
-			try {
-	
-				conn = ds.getConnection();
+		
 				
-				String sql =  " select * "
-							+ " from tbl_qna_board "
-							+ " where pk_qna_num = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, pk_qna_num);
-				
-				rs = pstmt.executeQuery();
-				
-				
-					if(!rs.next()) {//결과물이 없어야지 남이 쓴글이라 조회수를 올리는 update를 해줘야한다.    <-> 내가 쓴글은 셀렉트 결과가 나옴.
-						// 로그인한 사용자가 쓴 글이 아닌 다른 사용자가 쓴 글이라면  ex. boardno = 3234123 터무니 없는 숫자들.
-						
-						sql = " update tbl_qna_board set qna_readcount = qna_readcount +1 "
-							+ " where pk_qna_num = ? ";
-						pstmt = conn.prepareStatement(sql);
-						pstmt.setInt(1, pk_qna_num);
-						
-						pstmt.executeUpdate();
-					}  //업데이트 하고나서 제대로 보여주는거야밑에가 
-					
-					
-					
-					System.out.println("보자구"+qnaVO.getQna_readcount());
-					
-					qnaVO = bdao.selectqnaContent(pk_qna_num);
-					
-				
-					
-				
-				
-			} catch(SQLException e) { 
-				e.printStackTrace();
-			}finally {
-				close();
-			}
-			
 			return qnaVO;
 			
 		}//end of public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {})
@@ -382,11 +357,15 @@ public class BoardDAO implements InterBoardDAO {
 				conn = ds.getConnection();
 				
 				
-				String	sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,qna_date, qna_passwd, qna_readcount\r\n"
-							+ " from tbl_qna_board  Q\r\n"
-							+ " join  tbl_member M\r\n"
-							+ " ON Q.fk_userid = M.pk_userid \r\n"
-							+ " where pk_qna_num = ? "; //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
+				String	sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') AS qna_date, qna_passwd, qna_readcount "
+					    	+ " ,qna_issecret,  isdelete, pro_name, pro_imgfile_name, pro_price, cate_name "
+							+ " from tbl_member M right JOIN tbl_qna_board Q  \r\n"
+							+ "        ON M.pk_userid = Q.fk_userid \r\n"
+							+ "        left JOIN tbl_product P  \r\n"
+							+ "        ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999) \r\n"
+							+ "        left JOIN TBL_CATEGORY C\r\n"
+							+ "		   ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)\r\n"
+							+ "        where isdelete = 0  and pk_qna_num = ? "; //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setInt(1, pk_qna_num);
 					
@@ -405,7 +384,20 @@ public class BoardDAO implements InterBoardDAO {
 					qnaVO.setFk_userid(rs.getString(5));
 					qnaVO.setQna_date(rs.getString(6));
 					qnaVO.setQna_passwd(rs.getString(7));
-					qnaVO.setQna_readcount(rs.getInt(8));
+					qnaVO.setQna_readcount(rs.getInt(8));  
+					qnaVO.setQna_issecret(rs.getInt(9));
+					qnaVO.setIsdelete(rs.getInt(10));
+					
+					ProductVO product = new ProductVO();
+					product.setPro_name(rs.getString(11));
+					product.setPro_imgfile_name(rs.getString(12));
+					product.setPro_price(rs.getInt(13));
+					qnaVO.setProduct(product);
+					
+					
+					CategoryVO category = new CategoryVO();
+					category.setCate_name(rs.getString(14));
+					qnaVO.setCategory(category);
 					
 					System.out.println("보자구"+qnaVO.getQna_readcount());
 					
@@ -526,24 +518,6 @@ public class BoardDAO implements InterBoardDAO {
 			System.out.println("바잉");
 			System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
 			
-			
-			Connection conn = null;
-		    PreparedStatement pstmt = null;
-		    try {
-		    	conn = ds.getConnection();
-		        String sql = "update tbl_qna_board set qna_readcount = qna_readcount+1 where pk_qna_num = ? ";
-		        System.out.println(sql);
-		        pstmt = conn.prepareStatement(sql);
-		        pstmt.setInt(1, pk_qna_num);
-		        pstmt.executeUpdate();
-		         
-		    } catch (SQLException e) {
-		        // TODO Auto-generated catch block
-		        e.printStackTrace();
-		    } finally {
-		        close();
-		    }
-		    
 			
 			try {
 			

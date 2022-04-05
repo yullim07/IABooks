@@ -41,11 +41,17 @@
 		
 		$("button#submitCmt").click( () =>{
 			console.log("돼요?");
-			 var commnettext=$("#commnet_content").val(); //댓글 내용
+			alert("?되나?");
+			 	var commnettext=$("#commnet_content").val(); //댓글 내용
 		        var pk_qna_num="${qnaVO.pk_qna_num}"; //게시물 번호
+		        var comment_pwd = $("#comment_pwd").val();
+		        var cmtWriter = ${(requestScope.qnaVO).member.name}.val();
+		        var fk_userid = ${(requestScope.qnaVO).fk_userid}.val();
+		        
 		        	console.log("나오는거니????"+${qnaVO.pk_qna_num});
-		        var param= { "commnettext": commnettext, "pk_qna_num": pk_qna_num
-		        		   , "comment_pwd" : $("input#comment_pwd").val()};
+		        var param= { "cmtWriter" : cmtWriter , "comment_pwd" : comment_pwd
+		        		   , "commnettext": commnettext,"fk_userid" : fk_userid , "pk_qna_num": pk_qna_num
+		        		   ,  };
 		        
 		        //var param="replytext="+replytext+"&bno="+bno;
 		        $.ajax({
@@ -90,7 +96,7 @@
 
 	
 <div class="container">
-
+<c:set var="qnaVO" value="${requestScope.qnaVO}" />
 <div class="contents">
   <div class="title" >
   	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
@@ -101,19 +107,19 @@
   </div>
   <p class="mb-3"></p>
   
-  
-	  <div class="pdt_img_info" >
-	  	<p><img  onclick="#" src="//indiepub.kr/web/product/tiny/202112/f449e3d8f488e8ca32e413dade853e84.jpg"/></p>
+  	<c:if test="${not empty qnaVO.category.cate_name}">
+	 <div class="pdt_img_info" >
+	  	<p><img src="<%= ctxPath%>/images/product/${qnaVO.category.cate_name}/${qnaVO.product.pro_imgfile_name}" id="thumbimg"/></p>
 	  	<div class="pdt_info" >
-	  		<h3><a href="#">직업이 술꾼입니다!</a></h3>
-	  		<p class="p_price">16,000원</p>
+	  		<h3><a href="#">${qnaVO.product.pro_name}</a></h3>
+	  		<p class="p_price">${qnaVO.product.pro_price} 원</p>
 	  		<p class="button"><button class="btn btn_detail" type="button"><a href="#">상품 상세보기 ></a></button></p>
 	  	</div>
 	  </div>
-  
+  	</c:if>
 	
 	<div class="table ">
-		<c:set var="qnaVO" value="${requestScope.qnaVO}" />
+		
 			<table class=" review_table ">
 			  	<tbody>
 			    <tr>
@@ -196,14 +202,14 @@
 				<div class="mb-3">
 					<a>이름 : </a><input id="cmtWriter" name="cmtWriter" type="text" value="${(requestScope.qnaVO).member.name}"/> 
 					
-					<a>비밀번호 : </a><input id="comment_pwd" name="comment_pwd" type="password" value="${(requestScope.qnaVO).qna_passwd}"/>
+					<a>비밀번호 : </a><input id="comment_pwd" name="comment_pwd" type="password" value="${(requestScope.qnaVO).member.pwd}"/>
 				</div>
 				<div style="vertical-align: middle;">
 					<textarea style="float:left; width:90%; height: 50px;"  id="commnet_content" name="commnet_content" ></textarea>
 					<button onclick="" id ="submitCmt" class=" submit" type="button" style="color: white; float:right; font-size: 14px; border: none; background-color: #999; width:9%; height: 50px; border-radius: 10%;">확인</button>
 				</div>
 				
-				<input type="hidden" class="fk_userid" name="fk_userid" id="fk_userid" value="${board.fk_userid}"/>
+				<input type="hidden" class="fk_userid" name="fk_userid" id="fk_userid" value="${(requestScope.qnaVO).fk_userid}"/>
 				<input type="hidden" name="pk_qna_num" id="pk_qna_num" value="${(requestScope.qnaVO).pk_qna_num}">
 			<%--</form>--%>
 			</c:if>
