@@ -576,7 +576,7 @@ String sql = "\n"+
 "			JOIN tbl_member C ON A.FK_USERID = C.PK_USERID\n"+
 "			where fk_pnum = '9791190259088';";
 
-
+select * from user_sequences;
 
 select *
 from tbl_review_board

@@ -150,7 +150,7 @@
 						</c:forEach> 
 			    		</c:if> 
 						
-						<c:if test="${empty requestScope.productRevList}">
+						<c:if test="${empty board.productRevList}">
 		        		<tr id="notExist">
 					      	<td colspan="6">
 					      		<div>
