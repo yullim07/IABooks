@@ -163,7 +163,12 @@
   
   
 	<div class="table table-responsive">
-		<form name="qnaSubmitFrm" method="post" action="qnaWrite.book" >
+		<form name="qnaSubmitFrm" >
+		<c:set var="qnaVO" value="${requestScope.qnaVO}" />
+		<c:set var="pk_pro_num" value="${requestScope.pk_pro_num}" />
+		<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pk_pro_num}">
+		<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${qnaVO.fk_pnum}">
+		
 		<table class=" write_review">
 		  	<tbody>
 		    <tr>

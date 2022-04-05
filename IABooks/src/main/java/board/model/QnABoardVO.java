@@ -18,7 +18,7 @@ public class QnABoardVO {
 	private int qna_issecret;		// 비밀유무(0:공개글 1:비밀글)
 	private int isdelete;			// 삭제유무(0:삭제안함, 1:삭제함)
 	
-	
+	private int qnaCnt;             // 한 제품에 대한 qna게시글 수 
 	
 	
 	// 1. 게시판마다 DAO, VO를 나눠야 하는지? 아니면 하나에 다 몰아넣어도 되는지?
@@ -182,6 +182,14 @@ public class QnABoardVO {
 
 	public void setCategory(CategoryVO category) {
 		this.category = category;
+	}
+
+	public int getQnaCnt() {
+		return qnaCnt;
+	}
+
+	public void setQnaCnt(int qnaCnt) {
+		this.qnaCnt = qnaCnt;
 	}
 
 	

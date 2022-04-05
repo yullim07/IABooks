@@ -17,12 +17,12 @@
 						<td align="left" bgcolor="beige">댓글</td>
 					</tr>
 					<tr>
-						<%
+						<%-- <%
 							BoardDAO bdao = new BoardDAO();
 							ArrayList<Comment> list = BoardDAO.getList(fk_userid,cmtContent, cmtPasswd
 									,cmtWriter,pk_qna_num);
 							for(int i=0; i<list.size(); i++){
-						%>
+						%> --%>
 <%-- 댓글달기 --%>
 	
 	<div>

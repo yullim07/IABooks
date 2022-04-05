@@ -712,9 +712,9 @@ from
 where rno between 1 and 10
 
 
+SELECT * FROM ALL_TABLES;
 
-
-
+select * from all_tab_columns
 
 
 String sql = "select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\n"+
@@ -808,3 +808,58 @@ select   *
 							 ON Q.fk_pnum = P.pk_pro_num 
 							 where isdelete = 0 
 							 order by pk_qna_num desc
+                             
+                             
+                             
+select * 
+from tbl_product;
+                             
+                             
+-----
+
+select ceil( count(*)/1) 
+					    from tbl_qna_board A JOIN tbl_product B 
+					    ON A.FK_PNUM = B.PK_PRO_NUM 
+					    JOIN tbl_member C ON A.FK_USERID = C.PK_USERID 
+					    where pk_pro_num =  '9791196418335';
+                             
+                             
+                             
+SELECT pk_rnum, pro_name, pro_imgfile_name, re_title, re_writer, re_date, fk_userid, re_grade, cate_name "+
+			" FROM   \n"+
+			" (   \n"+
+			"    SELECT rownum as rno, pk_rnum, pro_name, pro_imgfile_name, re_title, re_writer, re_date, fk_userid, re_grade, cate_name "+
+			"    FROM\n"+
+			"    (    \n"+
+			"        select R.pk_rnum AS pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS pro_imgfile_name, R.re_title AS re_title, R.re_writer AS re_writer "+
+			"               , to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, R.fk_userid AS fk_userid , R.re_grade AS re_grade, C.cate_name AS cate_name "+
+			"        from tbl_member M\n"+
+			"        JOIN tbl_review_board R\n"+
+			"        ON  M.PK_USERID = R.FK_USERID "+
+			"        JOIN tbl_product P\n"+
+			"        ON R.fk_pnum = P.pk_pro_num "+
+			"        JOIN TBL_CATEGORY C " +
+			"        ON P.fk_cate_num = C.pk_cate_num " +
+			"        WHERE isdelete = 0 and P.pk_pro_num = ?"+
+		    "	  ) V "+
+		    " ) T "+
+		    " where rno between ? and ?
+            
+            
+select count(*)
+	    			  from 
+	    			      ( 
+	    			      select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name
+	    			      from 
+	    			      ( 
+	    			          select   fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents , pro_name,  pro_imgfile_name , cate_name 
+	    			          from tbl_member M JOIN tbl_qna_board Q  
+	    			          ON M.pk_userid = Q.fk_userid 
+	    			          JOIN tbl_product P 
+	    			          ON Q.fk_pnum = P.pk_pro_num
+	    			          JOIN TBL_CATEGORY C
+	    			  		ON P.fk_cate_num = C.pk_cate_num
+	    			          where isdelete = 0 and  pk_pro_num =  '9791196418335'
+                     	  ) V 
+		               ) T 
+		              

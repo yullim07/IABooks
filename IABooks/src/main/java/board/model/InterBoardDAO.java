@@ -45,19 +45,14 @@ public interface InterBoardDAO {
 	   QnABoardVO getqnaPrevNextContent(Map<String, String> paraMap) throws SQLException;
 	
 	
+	   // 페이징 처리를 위한 하나의 상품에 대한 Qna게시글 페이지 알아오기
+	   int getProductQnaPage(Map<String, String> paraMap) throws SQLException;
 	
+	   // 제품상세페이지에 보여줄 한 제품에 대한 qna게시글 불러오기
+	   List<QnABoardVO> selectPagingProductQna(Map<String, String> paraMap) throws SQLException;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	   // 한 제품에 대한 Qna게시글 갯수 알아오기
+	   int countOneProductQna(Map<String, String> paraMap) throws SQLException;
 	
 	
 	
@@ -117,7 +112,7 @@ public interface InterBoardDAO {
 	
 	
 	   
-	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////  [115] 
 	//////////////////정환모 작업 (안겹치도록 방파제) //////////////////////////////////
 
 	   
@@ -196,7 +191,11 @@ public interface InterBoardDAO {
 
 	// 한 제품에 대한 리뷰게시글 갯수 알아오기
 	int countOneProductReview(Map<String, String> paraMap) throws SQLException;
-
+	
+	
+	
+	
+	
 	
 
 	
