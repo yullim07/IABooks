@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import member.model.MemberVO;
+
 public interface InterProductDAO {
 	
 	// 카테고리(종합,인문,사회,과학) select 
@@ -22,17 +24,18 @@ public interface InterProductDAO {
 	Map<String, Integer> getSearchPage(Map<String, String> paraMap) throws SQLException;
 	//페이징 처리를 위한 검색한 제품 select
 	List<ProductVO> selectPagingSearch(Map<String, String> paraMap) throws SQLException;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//주문할 회원 아이디 정보 불러오기 ? 삭제예정
+	MemberVO oderUserInfo(String userid) throws SQLException;
+	//인덱스에서 slidesList 띄우기
+	List<ProductVO> selectSlides(Map<String, String> paraMap)throws SQLException;
+	//인덱스에서 best책띄우기
+	List<ProductVO> selectIndexBest(Map<String, String> paraMap)throws SQLException;
+	//인덱스에서 화제의책 띄우기
+	List<ProductVO> selectIndexHot()throws SQLException;
+	//인덱스에서 이책어때요 띄우기
+	List<ProductVO> selectIndexRandom()throws SQLException;
+	// 제품번호를 입력받아서 제품의 상세정보를 출력해주는 메소드 구현하기
+	ProductVO showBookDetail(String pk_pro_num) throws SQLException;
 	
 	
 	
@@ -49,9 +52,6 @@ public interface InterProductDAO {
 	
 	//팀장님////////////////////////////////////////////
 	
-	// 제품번호를 입력받아서 제품의 상세정보를 출력해주는 메소드 구현하기 (select) <= 단일VO가 아니므로 리턴타입은 List로? => wvo를 pvo에 추가해서 단일 vo로 사용가능, 나중에 insert하려면 vo 쓰는 게 좋다?
-	ProductVO showBookDetail(String pk_pro_num) throws SQLException;
-		
 	// 상품 조회수 증가시키기 제품번호를 받아서 상세보기 한 번 클릭할 때마다 조회수 증가시키기 메소드
 	int plusViewCnt(String pk_pro_num) throws SQLException;
 
@@ -97,6 +97,13 @@ public interface InterProductDAO {
 	// 상품 조회수 증가시키기 제품번호를 받아서 상세보기 한 번 클릭할 때마다 조회수 증가시키기 메소드 <= String 제품번호, int 클릭수
 	int plusViewCnt(Map<String, String> paraMap) throws SQLException;
 	// int coinUpdate(Map<String, String> paraMap) throws SQLException;
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

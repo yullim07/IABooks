@@ -1,0 +1,148 @@
+@charset "UTF-8";
+
+
+    div.titleArea {
+    min-height: 30px;
+    margin: 10px 0 20px;
+    border-bottom: 1px solid #e8e8e8;
+    }
+
+table.benefit_info {
+	width: 100%;	
+	border: solid 5px #e8e8e8;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+table.benefit_info td {
+	height: 50px;
+}
+
+table.benefit_info span {
+	font-weight: bold; 
+	padding-right: 30px;
+}
+
+table.benefit_info span[name='point'] , table.benefit_info span[name='coupon'] {
+	color: blue;
+}
+
+.floatR {
+	float: right;
+}
+
+table.shipping_info {
+	width: 100%;
+	border-bottom: solid 2px #e8e8e8;
+	margin-top: 10px;
+	margin-bottom: 50px;
+}
+
+table.shipping_info td {
+	padding: 15px;
+}
+
+table.shipping_info tr {
+	border-top: solid 2px #e8e8e8;
+	border-bottom: solid 2px #e8e8e8;
+}
+
+table.shipping_info th {
+	background-color: #FBFAFA;
+	width: 180px; 
+	padding-left: 20px;
+}
+
+
+table.shipping_info textarea {
+	width: 85%;
+	height: 60px;
+}
+
+table.paymentExpected {
+	width: 100%;
+	border-bottom: solid 1px #e8e8e8;
+	border-top: solid 1px #e8e8e8;
+	margin-top: 10px;
+	margin-bottom: 50px;
+}
+
+table.paymentExpected tr {
+	border-top: solid 1px #e8e8e8;
+}
+
+table.paymentExpected > thead > tr >  td {
+	padding: 20px 0;;
+	text-align: center;
+	width: 33%;
+}
+
+table.paymentExpected > thead > tr:first-child{
+	border-top: solid 1px black;
+}
+table.paymentExpected > thead > tr:last-child{
+	border-bottom: solid 1px black;
+}
+
+table.paymentExpected > thead > tr:nth-child(2) > td {
+	font-weight: bold;
+	font-size: 16pt;
+}
+
+table.paymentExpected > thead > tr:first-child > td {
+	background-color: #FBFAFA;
+}
+
+table.paymentExpected > tbody > tr > td {
+	background-color: #FBFAFA;
+	padding: 20px;
+	font-weight: bold;
+}
+
+div.btn_order {
+	cursor: pointer;
+	text-align: center;
+	margin: 30px 0;
+}
+
+
+	 /*  팝업
+	div.deiailOrderBox {
+		display: none;
+		border: solid 1px #495164;
+		width: 300px;
+		height: 187px;
+	}
+	
+	div.deiailOrderBox strong {
+		color: white;
+		padding-left: 10px;
+		padding-top: 5px;
+	}
+	
+	div.deiailOrderBox button {
+		background-color: rgba( 0, 0, 0, 0 );
+		border: none;
+		color: white;
+		margin-bottom: 20px;
+	}
+	
+	div.deiailOrderBox_header {
+		display: flex;
+		background-color: #495164;
+		height: 35px;
+	}
+	
+	div.deiailOrderBox span {
+  		margin-left: auto;
+  		font-size: 24pt;
+  		vertical-align: middle;
+	}
+	
+	div.orderImg{
+		text-align: center;
+		 width: 100%;
+		 margin: 20px 0;
+	}
+	
+	*/

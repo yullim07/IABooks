@@ -1,6 +1,7 @@
 show user;
 -- USER이(가) "SEMIORAUSER3"입니다.
-       
+    
+   
 -- TBL_CATEGORY insert start --        
 insert into TBL_CATEGORY(PK_CATE_NUM, CATE_NAME)
 values(101,'인문');
@@ -20,6 +21,48 @@ SELECT * FROM TBL_CATEGORY;
 -- TBL_WRITER insert end --    
 
 
+--인덱스 띄위기--
+select pro_name, pro_imgfile_name, cate_name, pk_pro_num, PRO_SALES, PRO_VIEWCNT
+ from
+( 
+select rownum as rno, A.* 
+from 
+( 
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, PRO_SALES, pk_pro_num, cate_name, PRO_VIEWCNT 
+from tbl_product
+join
+tbl_category 
+on fk_cate_num = pk_cate_num
+order by DBMS_RANDOM.RANDOM
+)A
+)B
+where rno between 1 and  8;
+
+
+
+
+select pro_name, pro_imgfile_name, cate_name, pk_pro_num "
+    + " from "
+    + " ( "
+        + " select rownum as rno, A.* "
+        + " from "
+        + " ( "
+            + " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, TBL_PRODUCT, pk_pro_num, cate_name "
+            + " from tbl_product "
+            + " join "
+            + " tbl_category V "
+            + " on fk_cate_num = pk_cate_num "
+            + " order by TBL_PRODUCT desc "
+        + " )A "
+    + " )B "
+    + " where rno between 1 and  20 ";
+
+
+
+
+
+---
+
 select pro_name, pro_saleprice, pro_imgfile_name
 from
 (
@@ -36,7 +79,7 @@ where rno between 1 and 10;
 select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, cate_name
 from
 (
-select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, 
 from tbl_product
 group by fk_cate_num
 )V1

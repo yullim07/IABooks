@@ -17,8 +17,20 @@ a:hover {
   text-decoration: none;
 }
 
-@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+header {
+  position: fixed;
+  z-index: 100000;
+  top: 0;
+  /* width: 100% */
+  left: 0;
+  right: 0;
+  background-color: white;
+}
 
+/* @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css); */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap'); */
 .notosanskr * { 
   font-family: 'Noto Sans KR', sans-serif;
 }
@@ -365,7 +377,7 @@ ul li {
 	
   div#categorie {
     position: relative;
-    z-index: 28;
+    z-index: 100;
     width: 100%;
     height: 50px;
     border-bottom: 1px solid #333;
@@ -422,12 +434,12 @@ ul li {
     line-height: 0;
     margin-left: 5px;
   } 
-
+/* 
   #navbar2 a:hover:before, #navbar2 li:hover > a:before, #navbar2 .active:before {
     visibility: visible;
     transform: scaleX(0.7);
   }
-  
+   */
   #navbar2 a:hover, #navbar2 .active, #navbar2 .active:focus, #navbar2 li:hover > a {
     font-weight:bold;
   }
@@ -446,11 +458,11 @@ ul li {
     z-index: 99;
     opacity: 0;
     visibility: hidden;
-    transition: 0.3s;
-  }
+     /* transition: 0.3s; */
+  } 
   
   #navbar2 .dropdown ul li {
-    min-width: 125px;
+    min-width: 138px;
   } 
   
   #navbar2 .dropdown ul a {
@@ -469,11 +481,16 @@ ul li {
 	align-items: center;
 	
 	
-/* 	    position: relative;
+    position: relative;
     z-index: 28;
     width: 100%;
-    height: 50px;
-    border-bottom: 1px solid #333; */
+    /* 왼쪽띄우기 */
+    /* 
+   	right:135px;
+   	bottom:49px; */
+   	/* 아래띄우기 */
+   	bottom:-1px;
+   	
     background: url('../../images/product/header_bg.png') rgba(30,30,30,.93);
 /*     box-shadow: none;
     transition: box-shadow 1s ease;
@@ -482,10 +499,16 @@ ul li {
 	
   }
 
-  #navbar2 .dropdown ul a:hover, #navbar2 .dropdown ul .active, #navbar2 .dropdown ul .active:hover, #navbar2 .dropdown ul li:hover > a { 
+/*   #navbar2 .dropdown ul a:hover, #navbar2 .dropdown ul .active, #navbar2 .dropdown ul .active:hover, #navbar2 .dropdown ul li:hover > a { 
     color: #333333; 
   }
-  
+   */
+ 
+/*   #navbar2 .dropdown:hover ~ ul {
+    opacity: 1;
+    visibility: visible;
+  } 
+   */
   #navbar2 .dropdown:hover > ul {
     opacity: 1;
     visibility: visible;
@@ -504,20 +527,22 @@ ul li {
   #navbar2 .megamenu ul li {
     flex: 1;
   }
-  
-  #navbar2 .dropdown .dropdown ul {
+/*   
+  #navbar2 .dropdown ul {
     top: 0;
     left: calc(100% - 30px);
     visibility: hidden;
   }
   
-  #navbar2 .dropdown .dropdown:hover > ul {
+   */
+/*  
+  #navbar2 .dropdown:hover > ul {
     opacity: 1;
     top: 0;
     left: 100%;
     visibility: visible;
   } 
-  
+   */
   #navbar2 > ul > li.bulkhead { 	
     position: relative;
     float: left;

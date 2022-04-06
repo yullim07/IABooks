@@ -1,4 +1,4 @@
-package product.controller;
+package product.controller2;
 
 import java.util.List;
 
@@ -10,16 +10,16 @@ import product.model.InterProductDAO;
 import product.model.ProductDAO;
 import product.model.ProductVO;
 
-public class ShowRestockAction extends AbstractController {
+public class ShowNewBookAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		InterProductDAO mdao = new ProductDAO();
 		
-		List<ProductVO> productList = mdao.selectCategoryRestock();
+		List<ProductVO> productList = mdao.selectCategoryNewBook();
 		request.setAttribute("productList", productList);
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/product/category_restock.jsp");
+		super.setViewPage("/WEB-INF/product/category_newbook.jsp");
 	}
 }
