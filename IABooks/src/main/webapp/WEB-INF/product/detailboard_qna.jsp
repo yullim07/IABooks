@@ -89,7 +89,7 @@
 	
 	
 	function goQnaWrite(){
-		var form = document.test;
+		var form = document.test2;
 		form.action = "qnaProduct.book";
 		form.submit();
 	} 
@@ -107,13 +107,15 @@
 
 
 
-<div class="container">
-	<div class="contents">
-		
-		<!-- 상품문의 테이블 구간 시작 -->
 
+<div class="contents">
+		<p class="mb-3"></p>
+		<!-- 상품문의 테이블 구간 시작 -->
+		
 		<div class="table_all tbl_small_board">
+			
 			<div class="table">
+				<c:if test="${not empty requestScope.productQnaList}">
 				<table class="table" id="faq_table_all">
 					<thead class="thead-light" id="faq_thead">
 						<tr class="tblHeader">
@@ -126,7 +128,8 @@
 					</thead>
 					<tbody id="faq_tbody">
 					
-						<c:if test="${not empty requestScope.productQnaList}">
+						
+				    	
 				    	<c:forEach var="board" items="${requestScope.productQnaList}" >
 						<tr id="question_content">
 							<td class="tbl_number mycenter">${board.pk_qna_num}</td>
@@ -157,7 +160,7 @@
 
 						</tr>
 						</c:forEach> 
-			    		</c:if> 
+			    		
 			    		
 			    		<%-- 답글
 						<tr id="question_content">
@@ -172,26 +175,33 @@
 
 						</tr> --%>
 
-						<c:if test="${empty board.productList}">
-		        		<tr id="notExist">
-					      	<td colspan="6">
-					      		<div>
-					      		<span style="color: #555555; font-weight:bold;">표시할 내용이 없습니다.</span>
-					      		</div>
-					      	</td>
-					    </tr>
-		        		</c:if>
+						
 
 
 
 					</tbody>
+					
 				</table>
-				<form name="test" id="test" method="post">
+				</c:if> 
+				<c:if test="${empty requestScope.productQnaList}">
+	        		
+		      		<div>
+						<br>
+						<div style="text-align: center;">
+							게시글이 없습니다.
+						</div>
+						<hr>
+					</div>
+				      	
+	        		</c:if>
+				
+				
+				<form name="test2" id="test2" method="post">
 				<c:set var="pvo" value="${requestScope.pvo}" />
 				<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pvo.pk_pro_num}">
 				<div class="view_btn_zone">
-					<button type="button" class="btn btn-dark" id="write_btn" onclick="location.href='<%= ctxPath%>/product/qnaProduct.book'">상품문의하기</button>
-					<button type="button" class="btn btn-dark" id="view_btn" onclick="goQnaWrite()">모두보기</button>
+					<button type="button" class="btn btn-dark" id="write_btn" onclick="goQnaWrite()">상품문의하기</button>
+					<button type="button" class="btn btn-dark" id="view_btn" onclick="location.href='<%= ctxPath%>/board/qnaBoard.book'">모두보기</button>
 				</div>
 				</form>
 
@@ -205,10 +215,10 @@
 
 
 		<nav class="my-5">
-				<div style="display: flex; width: 100%;">
+				<div  class="pagination2 justify-content-center" style="display: flex; width: 100%;">
 					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 				</div>	
 		</nav>
-	</div>
+
 </div>
 

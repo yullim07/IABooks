@@ -862,4 +862,8 @@ select count(*)
 	    			          where isdelete = 0 and  pk_pro_num =  '9791196418335'
                      	  ) V 
 		               ) T 
+                       
+                       
+select *
+from tbl_qna_board;
 		              

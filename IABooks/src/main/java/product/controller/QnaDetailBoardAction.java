@@ -31,7 +31,7 @@ public class QnaDetailBoardAction extends AbstractController {
 	      MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 	      
 	      String pk_pro_num = request.getParameter("pk_pro_num"); // 제품번호를 받아온다.
-		  System.out.println(" 제발 가져와 : " + pk_pro_num);
+		  System.out.println(" 제품번호 말해줘: " + pk_pro_num);
 	      
 		  ProductVO pvo = new ProductVO();
 		  QnABoardVO qnaVO = new QnABoardVO();
@@ -94,9 +94,9 @@ public class QnaDetailBoardAction extends AbstractController {
 	      paraMap.put("currentShowPageNo", currentShowPageNo); //위에서 예외처리 다 해줌
 	      
 	      
-	      List<QnABoardVO> qnaboardList = bdao.selectPagingQnaBoard(paraMap); //메소드를 만든다  // 리턴타입이 MemberVO 가 복수개
+	      List<QnABoardVO> productQnaList = bdao.selectPagingProductQna(paraMap); //메소드를 만든다  // 리턴타입이 MemberVO 가 복수개
 	      
-	      request.setAttribute("qnaboardList", qnaboardList);
+	      request.setAttribute("productQnaList", productQnaList);
 	      request.setAttribute("sizePerPage", sizePerPage);
 	      
 	      
@@ -133,7 +133,7 @@ public class QnaDetailBoardAction extends AbstractController {
 	   				// 현재페이지 링크 제거
 	   			}
 	   			else {
-	   				pageBar += "<li class='page-item'><a class='page-link' href='reviewBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a></li>";
+	   				pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a></li>";
 	   			}
 	   			loop++;
 	   			pageNo++;
@@ -143,8 +143,8 @@ public class QnaDetailBoardAction extends AbstractController {
 	   		// pageNo ==> 11
 	   		if(pageNo <= totalPage) {
 	   			// 마지막 페이지랑 같으면 다음 마지막이 없어져야 됨
-	   			pageBar += "<li class='page-item'><a class='page-link' href='reviewBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>[다음]</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='reviewBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"'>[마지막]</a></li>";
+	   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>[다음]</a></li>";
+	   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"'>[마지막]</a></li>";
 			}
 	   		
 	   		request.setAttribute("pageBar", pageBar);

@@ -676,20 +676,21 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql =  " select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\r\n"
+			String sql =  " select pk_pro_num, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\r\n"
 						+ "	    			  from \r\n"
 						+ "	    			      ( \r\n"
-						+ "	    			      select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\r\n"
+						+ "	    			      select rownum AS rno, pk_pro_num, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\r\n"
 						+ "	    			      from \r\n"
 						+ "	    			      ( \r\n"
-						+ "	    			          select   fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents , pro_name,  pro_imgfile_name , cate_name \r\n"
+						+ "	    			          select   pk_pro_num , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents , pro_name,  pro_imgfile_name , cate_name \r\n"
 						+ "	    			          from tbl_member M JOIN tbl_qna_board Q  \r\n"
 						+ "	    			          ON M.pk_userid = Q.fk_userid \r\n"
 						+ "	    			          JOIN tbl_product P \r\n"
 						+ "	    			          ON Q.fk_pnum = P.pk_pro_num\r\n"
 						+ "	    			          JOIN TBL_CATEGORY C\r\n"
-						+ "	    			  		ON P.fk_cate_num = C.pk_cate_num\r\n"
+						+ "	    			  		  ON P.fk_cate_num = C.pk_cate_num\r\n"
 						+ "	    			          where isdelete = 0  and P.pk_pro_num = ? \r\n"
+						+ " 						  order by pk_qna_num desc " 
 						+ "                     	  ) V \r\n"
 						+ "		               ) T \r\n"
 						+ "		              where rno between ? and ? ";
@@ -730,13 +731,13 @@ public class BoardDAO implements InterBoardDAO {
 	               board.setQna_contents(rs.getString(9));
 	               
 	               ProductVO product = new ProductVO(); 
-                  product.setPro_name(rs.getString(10));
-                  product.setPro_imgfile_name(rs.getString(11)); 
-                  board.setProduct(product);
+                   product.setPro_name(rs.getString(10));
+                   product.setPro_imgfile_name(rs.getString(11)); 
+                   board.setProduct(product);
 	               
                   
-                  CategoryVO category = new CategoryVO();
-                  category.setCate_name(rs.getString(12)); 
+                   CategoryVO category = new CategoryVO();
+                   category.setCate_name(rs.getString(12)); 
 				   board.setCategory(category);
 				   
 				   
@@ -756,7 +757,7 @@ public class BoardDAO implements InterBoardDAO {
 			return productQnaList;
 			
 			
-		} // public List<ReviewBoardVO> selectPagingProductRev(Map<String, String> paraMap) throws SQLException
+		} // public List<QnABoardVO> selectPagingProductQna(Map<String, String> paraMap) throws SQLException --------
 
 		
 		
@@ -778,10 +779,10 @@ public class BoardDAO implements InterBoardDAO {
 			String sql = " select count(*)\r\n"
 					   + "	    			  from \r\n"
 					   + "	    			      ( \r\n"
-					   + "	    			      select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\r\n"
+					   + "	    			      select rownum AS rno, pk_pro_num, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\r\n"
 					   + "	    			      from \r\n"
 					   + "	    			      ( \r\n"
-					   + "	    			          select   fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents , pro_name,  pro_imgfile_name , cate_name \r\n"
+					   + "	    			          select   pk_pro_num , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents , pro_name,  pro_imgfile_name , cate_name \r\n"
 					   + "	    			          from tbl_member M JOIN tbl_qna_board Q  \r\n"
 					   + "	    			          ON M.pk_userid = Q.fk_userid \r\n"
 					   + "	    			          JOIN tbl_product P \r\n"

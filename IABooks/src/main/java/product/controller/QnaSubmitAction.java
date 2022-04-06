@@ -44,8 +44,8 @@ public class QnaSubmitAction extends AbstractController {
 			
 		
 			// 글쓰기 버튼을 클릭했을 경우
-			String fk_pnum = request.getParameter("fk_pnum"); // 제품번호를 받아온다.
-			System.out.println(" 제발 가져와 : " + fk_pnum);
+			String fk_pnum = request.getParameter("pk_pro_num"); // 제품번호를 받아온다.
+			System.out.println(" @@제발 가져와 : " + fk_pnum);
 			
 			String userid = loginuser.getUserid();
 			String subject = request.getParameter("qnaSubject");

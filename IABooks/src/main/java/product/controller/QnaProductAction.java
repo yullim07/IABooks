@@ -24,7 +24,7 @@ public class QnaProductAction extends AbstractController {
 		// 추후 구매이력 유무로 리뷰작성 확인 예정
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		String pk_pro_num = request.getParameter("pk_pro_num"); // 제품번호를 받아온다.
-		System.out.println(" 피케이프로넘!? : " + pk_pro_num);
+		System.out.println(" ####피케이프로넘!? : " + pk_pro_num);
 		
 		QnABoardVO qnaVO = new QnABoardVO();
 		qnaVO.setFk_pnum(pk_pro_num);
