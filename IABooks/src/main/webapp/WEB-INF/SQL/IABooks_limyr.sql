@@ -828,7 +828,7 @@ tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATU
 VALUES (seq_cartno.NEXTVAL, 'leess', '9791197296932', 1, sysdate, 1);
 
 select * from tbl_cart;
-
+s
 
 -- 시퀀스 생성 --
 CREATE SEQUENCE seq_cartno
@@ -945,7 +945,8 @@ desc tbl_cart;
 
 -- 2022년 04월 04일 23시 54분 카트 확인용
 
-select * from tbl_cart; select pk_pro_num from tbl_product;
+select * from tbl_cart;
+select pk_pro_num from tbl_product;
 desc tbl_cart;
 
 INSERT INTO
@@ -969,8 +970,62 @@ alter table tbl_cart
 drop constraints UK_TBL_CART;
 -- Table TBL_CART이(가) 변경되었습니다.
 
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'leess', '9791190604062', 1, sysdate, 1);
+-- 1 행 이(가) 삽입되었습니다.
+
+select * from tbl_cart A left outer join tbl_product B
+on A.pk_pro_num = B.pk_pro_num
+where A.c_status = 1 AND A.fk_userid = 'leess';
+
+------------------
+
+-- 220405
+
+select * from tbl_cart where fk_userid = 'leess';
+select * from tbl_product where pk_pro_num = '9791190604062'; -- 커피 한 잔 값으로 독립출판 책 디자인
+select * from tbl_product where pk_pro_num = '9791197296932'; -- 명화로 읽는 전쟁의 세계사
+
+------------
+-- 장바구니 이미지 포함 출력
+SELECT  A.pk_cartno, A.fk_userid, A.pk_pro_num
+        , B.pro_name, B.fk_cate_num, C.cate_name
+        , B.pro_imgfile_name, B.pro_price, B.pro_saleprice
+		, A.ck_odr_qty, A.c_status, A.ck_odr_qty*B.pro_saleprice AS totalPrice
+        , A.ck_odr_qty, A.c_status
+FROM tbl_cart A LEFT OUTER JOIN tbl_product B
+                ON A.pk_pro_num = B.pk_pro_num
+                LEFT OUTER JOIN tbl_category C
+                ON B.fk_cate_num = C.pk_cate_num
+WHERE A.c_status = 1 AND A.fk_userid = 'leess';
+
+
+desc tbl_cart; PK_PRO_NUM
+desc tbl_product; FK_CATE_NUM
+desc tbl_category; PK_CATE_NUM
+
+commit;
+
+--------------------------------------------------------------------------------
+
+-- 2022년 04월 06일, 20220406
+
+select * from tbl_cart;
+
+select pk_pro_num from tbl_product
+
 
 INSERT INTO
 tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
-VALUES (seq_cartno.NEXTVAL, 'leess', '9791190604062', 3, sysdate, 1);
--- 1 행 이(가) 삽입되었습니다.
+VALUES (seq_cartno.NEXTVAL, 'leess', '9791190604062', 1, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'leess', '9788993767766', 2, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'leess', '9791160542080', 3, sysdate, 1);
+
+

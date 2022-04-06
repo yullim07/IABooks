@@ -59,12 +59,12 @@ public class CartAddAction extends AbstractController {
 			
 			// 로그인을 한 경우
 			else {
-				String pk_pro_num = request.getParameter("pk_pro_num");
+				String fk_pro_num = request.getParameter("fk_pro_num");
 				String ck_odr_qty = request.getParameter("ck_odr_qty");
 				
 				InterProductDAO pdao = new ProductDAO();
 				
-				int n = pdao.addCart( loginuser.getUserid(), pk_pro_num, ck_odr_qty);
+				int n = pdao.addCart( loginuser.getUserid(), fk_pro_num, ck_odr_qty);
 				
 				if(n==1) { // 장바구니 추가 성공
 					request.setAttribute("message", "장바구니에 담았습니다.");

@@ -39,7 +39,7 @@ public class PlusViewCntAction extends AbstractController {
 		}
 		
 		super.setRedirect(false);
-		super.setViewPage("/WEB-INF/product/product_detail.jsp");
+		super.setViewPage("/WEB-INF/product/showBookDetail.jsp");
 	}
 
 }

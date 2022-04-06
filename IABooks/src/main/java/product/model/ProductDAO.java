@@ -1,7 +1,5 @@
 package product.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +12,7 @@ import java.util.Map;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.security.auth.message.callback.PrivateKeyCallback.Request;
 import javax.sql.DataSource;
 
 
@@ -1138,34 +1137,43 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql =  " SELECT A.pk_cartno, A.fk_userid, A.pk_pro_num, "
-						+ "        B.pro_name, B.fk_cate_num, "
-						+ "        B.pro_imgfile_name, B.pro_price, B.pro_saleprice, "
-						+ "        A.ck_odr_qty, A.c_status, A.totalPrice "
-						+ " FROM tbl_cart A LEFT OUTER JOIN tbl_product B "
-						+ " ON A.pk_pro_num = B.pk_pro_num "
-						+ " WHERE A.c_status = 1 AND A.fk_userid = ?";
+			String sql =  " SELECT A.pk_cartno, A.fk_userid, A.fk_pro_num "
+						+ "      , B.pro_name, B.fk_cate_num, C.cate_name "
+						+ "      , B.pro_imgfile_name, B.pro_price, B.pro_saleprice "
+						+ "      , A.ck_odr_qty, A.c_status, A.ck_odr_qty*B.pro_saleprice AS totalPrice "
+					//	+ "      , A.ck_odr_qty, A.c_status "
+						+ "	FROM tbl_cart A LEFT OUTER JOIN tbl_product B "
+						+ "	ON A.fk_pro_num = B.pk_pro_num "
+		                + "	LEFT OUTER JOIN tbl_category C "
+		                + "	ON B.fk_cate_num = C.pk_cate_num "
+	                	+ "	WHERE A.c_status = 1 AND A.fk_userid = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fk_userid);
 			
 			rs = pstmt.executeQuery();
 			
-		//	int cnt = 0; // 1이라면 결과값이 null이 아니라는 뜻!
+			int cnt = 0; // 1이라면 결과값이 null이 아니라는 뜻인가? 아니면
 			
 			while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까
 				
-			//	cnt++;
+				cnt++;
 				
-			//	if(cnt == 1) {
+				if(cnt == 1) {
 					cartList = new ArrayList<CartVO>();
-			//	}
+				}
+				
+				CartVO cvo = new CartVO();
+				ProductVO pvo = new ProductVO();
+				CategoryVO catevo = new CategoryVO();
 				
 				int pk_cartno = rs.getInt("pk_cartno");
 				fk_userid = rs.getString("fk_userid");
-				String pk_pro_num = rs.getString("pk_pro_num");
+			//	String pk_pro_num = rs.getString("pk_pro_num");
+				String fk_pro_num = rs.getString("fk_pro_num");
 				String pro_name = rs.getString("pro_name");
 				int fk_cate_num = rs.getInt("fk_cate_num");
+				String cate_name = rs.getString("cate_name");
 				String pro_imgfile_name = rs.getString("pro_imgfile_name");
 				int pro_price = rs.getInt("pro_price");
 				int pro_saleprice = rs.getInt("pro_saleprice");
@@ -1173,23 +1181,25 @@ public class ProductDAO implements InterProductDAO {
 				int c_status = rs.getInt("c_status");
 				int totalPrice = rs.getInt("totalPrice");
 				
-				ProductVO pvo = new ProductVO();
-				pvo.setPk_pro_num(pk_pro_num);
+			//	pvo.setPk_pro_num(pk_pro_num);
 				pvo.setPro_name(pro_name);
 				pvo.setFk_cate_num(fk_cate_num);
 				pvo.setPro_imgfile_name(pro_imgfile_name);
 				pvo.setPro_price(pro_price);
 				pvo.setPro_saleprice(pro_saleprice);
 				
-				CartVO cvo = new CartVO();
 				cvo.setPk_cartno(pk_cartno);
 				cvo.setFk_userid(fk_userid);
-				cvo.setPk_pro_num(pk_pro_num);
+				cvo.setFk_pro_num(fk_pro_num);
 				cvo.setCk_odr_qty(ck_odr_qty);
 				cvo.setC_status(c_status);
 				cvo.setTotalPrice(totalPrice);
 				
+				catevo.setCate_name(cate_name);
+				
 				cvo.setProduct(pvo);
+				cvo.setCategory(catevo);
+				
 				cartList.add(cvo);
 			}
 	
@@ -1198,59 +1208,6 @@ public class ProductDAO implements InterProductDAO {
 		}
 		
 		return cartList;
-	}
-
-	// 장바구니에 추가하기 메소드 + 이미 담은 제품의 경우 수량 추가하기
-	@Override
-	public int addCart(String fk_userid, String pk_pro_num, String ck_odr_qty) throws SQLException {
-
-		int result = 0;
-		
-		try {
-			conn = ds.getConnection();
-			
-			String sql =  " SELECT pk_cartno "
-						+ " FROM tbl_cart "
-						+ " WHERE "
-						+ " c_status = 1 AND fk_userid = ? AND pk_pro_num = ? ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, fk_userid);
-			pstmt.setString(2, pk_pro_num);
-			
-			rs = pstmt.executeQuery();
-			
-			// 어떤 제품을 "추가로" 장바구니에 넣고자 하는 경우
-			if(rs.next()) {
-				
-				int pk_cartno = rs.getInt("pk_cartno");
-				
-				sql = " UPDATE tbl_cart "
-					+ " SET ck_odr_qty = ck_odr_qty + ? "
-					+ " WHERE pk_cartno = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setInt(1, Integer.parseInt(ck_odr_qty));
-				pstmt.setInt(2, pk_cartno);
-				
-				result = pstmt.executeUpdate();
-			}
-			
-			// 장바구니에 존재하지 않은 새로운 제품을 넣고자 하는 경우
-			sql = " INSERT INTO tbl_cart(pk_cartno, fk_userid, pk_pro_num, ck_odr_qty, c_status) "
-				+ " VALUES(seq_cartno.nextval, ?, ?, ?, DEFAULT) ";
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, fk_userid);
-			pstmt.setString(2, pk_pro_num);
-			pstmt.setInt(3, Integer.parseInt(ck_odr_qty));
-			
-			result = pstmt.executeUpdate();
-			
-		} finally {
-			close();
-		}
-		return result;
 	}
 
 	// 장바구니에 들어있는 특정 사용자의 제품의 총 개수 구해오기
@@ -1284,6 +1241,60 @@ public class ProductDAO implements InterProductDAO {
 		return totalCountCart;
 	}
 
+	// 장바구니에 추가하기 메소드 + 이미 담은 제품의 경우 수량 추가하기
+	@Override
+	public int addCart(String fk_userid, String fk_pro_num, String ck_odr_qty) throws SQLException {
+
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " SELECT pk_cartno "
+						+ " FROM tbl_cart "
+						+ " WHERE "
+						+ " c_status = 1 AND fk_userid = ? AND fk_pro_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			pstmt.setString(2, fk_pro_num);
+			
+			rs = pstmt.executeQuery();
+			
+			// 어떤 제품을 "추가로" 장바구니에 넣고자 하는 경우
+			if(rs.next()) {
+				
+				int pk_cartno = rs.getInt("pk_cartno");
+				
+				sql = " UPDATE tbl_cart "
+					+ " SET ck_odr_qty = ck_odr_qty + ? "
+					+ " WHERE c_status = 1 AND pk_cartno = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(ck_odr_qty));
+				pstmt.setInt(2, pk_cartno);
+				
+				result = pstmt.executeUpdate();
+			}
+			
+			// 장바구니에 존재하지 않은 새로운 제품을 넣고자 하는 경우
+			sql = " INSERT INTO tbl_cart(pk_cartno, fk_userid, fk_pro_num, ck_odr_qty, c_status) "
+				+ " VALUES(seq_cartno.nextval, ?, ?, ?, DEFAULT) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			pstmt.setString(2, fk_pro_num);
+			pstmt.setInt(3, Integer.parseInt(ck_odr_qty));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;
+	}
+
+		
 	// 장바구니에서 특정 물건의 수량 변경하기
 	@Override
 	public int updateCart(CartVO cart) throws SQLException {
@@ -1319,36 +1330,36 @@ public class ProductDAO implements InterProductDAO {
 		return result;
 	}
 
-	// 장바구니에서 삭제하기 메소드 구현하기
-	// 전제조건 qty > 0, c_status = 1
+	// 장바구니에서 모두 삭제하기 메소드 구현하기
 	@Override
-	public int deleteCart(int pk_cartno) throws SQLException {
+	public int deleteCartAll(String fk_userid) throws SQLException {
+		
 		int result = 0;
-		CartVO cvo = null;
 		
 		try {
 			conn = ds.getConnection();
 			
 			String sql =  " delete tbl_cart "
-						+ " where c_status = 1 AND pk_cartno = ?";
+						+ " where fk_userid = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, cvo.getPk_cartno());
+			pstmt.setString(1, fk_userid);
 			
 			result = pstmt.executeUpdate();
 			
-			if(result == 1) {
-				System.out.println("장바구니에서 삭제 성공!");
-			}
-			
-			else {
-				System.out.println("장바구니에서 삭제 실패!");
-			}
-			
-		} finally {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
 			close();
 		}
 		return result;
+	}
+
+	// 장바구니 선택삭제하기 메소드
+	@Override
+	public int deleteCartSelect(int pk_cartno) throws SQLException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
