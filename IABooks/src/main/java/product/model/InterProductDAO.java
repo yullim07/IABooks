@@ -61,7 +61,7 @@ public interface InterProductDAO {
 	// 장바구니에 상품 추가하기 메소드 (insert)
 	int addCart(String fk_userid, String fk_pro_num, String ck_odr_qty) throws SQLException;
 	
-	// 장바구니 수정하기 메소드 (update)
+	// 장바구니 수량 수정하기 메소드 (update)
 	int updateCart(CartVO cart) throws SQLException;
 	
 	// 장바구니 삭제하기 메소드 (delete)
@@ -70,6 +70,8 @@ public interface InterProductDAO {
 	// 장바구니 선택삭제하기 메소드
 	int deleteCartSelect(int pk_cartno) throws SQLException;
 	
+	// 제품 조회수 증가 메소드
+	int plusViewCnt(String pk_pro_num);
 	
 	// 로그인 된 사용자의 장바구니에 담긴 주문총액합계 및 총포인트합계 가져오기 
 	// HashMap<String, Integer> getSumCartPricePoint(String userid) throws SQLException;

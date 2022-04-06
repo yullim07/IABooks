@@ -52,7 +52,6 @@
 		height: 100px;
 	}
 	
-	
 	button.btn_option {
 		line-height: 12pt;
 		font-size: 9pt;
@@ -69,21 +68,27 @@
 
 	$(document).ready(function() {
 		
-		// Spinner
-		var spinner = $( "#spinner" ).spinner();
-		
-		$(".spinner").spinner({
+		// 제품 수량에 스피너 달아주기
+		$("input#spinnerQty").spinner({
 			spin: function(event, ui) {
 				if(ui.value > 100) {
 					$(this).spinner("value", 100);
 					return false;
 				}
-				else if(ui.value < 0) {
-					$(this).spinner("value", 0);
+				else if(ui.value < 1) {
+					$(this).spinner("value", 1);
 					return false;
 				}
 			}
 		}); // end of $(".spinner").spinner({}); --------------------
+	
+		
+		
+		
+		
+		
+		
+		
 		
 	}); // end of $(document).ready() --------------------
 	
@@ -108,7 +113,8 @@
 		}
 	}
 	
-	// 체크박스 전체선택 전체해제
+	// ------------------------------------------------------------
+	// 체크박스 한 번에 전체선택/전체해제
 	function selectAll(selectAll)  {
 		const checkboxes = document.getElementsByName("checkbox");
 		
@@ -143,7 +149,7 @@
 	
 	// ------------------------------------------------------------
 	
-	// 삭제버튼 눌렀을 때 삭제해주기
+	// 삭제버튼 눌렀을 때 삭제해주기 << 이건 HTML에서만 작동하니까 사용하지 않는다.
 	/*
 	function goDel(ths) {
 		var ths = $(ths);
@@ -151,22 +157,46 @@
 		alert("삭제!");		
 	}
 	*/
-	// <button type="button" class="btn_option" onclick="goDel('${cvo.pk_cartno}');" value="${cvo.pk_cartno}">삭제하기</button>
-	
-	// document.querySelector("#cartlist_tbl > tbody > tr:nth-child(1) > td:nth-child(9) > button:nth-child(3)")
 	
 	// 전체삭제
 	function goDelAll(fk_userid) {
 		if(confirm("장바구니를 비우시겠습니까?")) {
-			const frm = document.cartDelFrm;
-			frm.fk_userid.value = fk_userid;
+			const frm = document.orderFrm;
+		//	frm.fk_userid.value = fk_userid;
 			
-			frm.action = "<%= ctxPath%>/product/CartDeleteAll.book?fk_userid="+fk_userid;
+			frm.action = "<%= ctxPath%>/product/cartDeleteAll.book";
 			frm.method = "post";
 			frm.submit();
 		}
 		else {
-			alert("장바구니 비우기를 취소하셨습니다");
+			alert("장바구니 비우기를 취소하셨습니다.");
+		}
+	}
+	
+	function goDelSel(pk_cartno) {
+		
+		
+		// 1. 우선 체크박스에서 체크가 되었는지를 확인한다.
+		// 2. 그리고 
+		
+		const cartcheck_len = $("input:checkbox[name='checkbox']:checked").length;
+		
+		if(cartcheck_len == 0) {
+			alert("주문할 상품을 1개 이상 선택하세요!!");
+			return false; // submit 을 하지 않고 종료한다.
+		}
+		
+		
+		if(confirm("선택한 상품을 삭제하시겠습니까?")) {
+			const frm = document.orderFrm;
+			frm.pk_cartno.value = pk_cartno;
+			
+			frm.action = "<%= ctxPath%>/product/CartDeleteSelect.book";
+			frm.method = "post";
+			frm.submit();
+		}
+		else {
+			alert("선택상품 삭제를 취소하셨습니다.");
 		}
 	}
 	
@@ -209,9 +239,12 @@
 					<c:if test="${not empty requestScope.cartList}">
 						<c:forEach var="cvo" items="${requestScope.cartList}" varStatus="status">
 						<tr>
-							<%-- 체크박스 --%>
-							<td> 
-								<input type="checkbox" name="checkbox" id="checkbox" value="${cvo.fk_pro_num}" onclick="checkSelectAll()" />
+							<%-- 체크박스 + 장바구니 번호(숨김) --%>
+							<td>
+								<input type="text" name="fk_userid" value="${sessionScope.loginuser.userid}"> <%-- 나증에 hidden으로 --%>
+								<input type="text" name="cartno" value="${cvo.pk_cartno}"> <%-- 나증에 hidden으로 --%>
+								<input type="text" name="cartno" value="${cvo.fk_pro_num}">
+								<input type="checkbox" name="checkbox" id="checkbox" value="${cvo.pk_cartno}" onclick="checkSelectAll()" />
 								<%-- <input type="checkbox" name="pk_pro_num" id="pk_pro_num${status.index}" value="${cvo.pk_pro_num }" /> --%>
 							</td>
 							
@@ -236,20 +269,12 @@
 							<%-- <br/><span style="color: green; font-weight: bold;"><fmt:formatNumber value="$(cvo.product.point}" pattern="###,###" /> POINT</span> --%>
 							</td>
 							
-							<%-- 주문수량 + 장바구니 번호(숨김) --%> 
+							<%-- 주문수량 + 수정버튼 --%> 
 							<td>
 								<%-- 주문수량(ck_odr_qty) --%>
-								<span>
-								<input type="number" class="spinner" id="spinner" name="ck_odr_qty" value="${cvo.ck_odr_qty}" style="width: 40px;"/>
-								<label for="spinner"></label>
-								<%-- <input class="spinner oqty" name="oqty" value="${cvo.ck_odr_qty}" style="width: 30px; height: 20px;">개 --%>
-								</span>
-								
-								<%-- 장바구니 번호 --%>
-								<span>
-								<input class="pk_cartno" type="hidden" name="pk_cartno" value="${cvo.pk_cartno}" />
-								<button type="button" class="btn_update" onclick="goOqtyEdit(this);">수정</button>
-								</span>
+								<input class="spinner" id="spinnerQty" name="ck_odr_qty" value="${cvo.ck_odr_qty}" style="width: 40px;"/>
+								<%-- 주문수량변경버튼 --%>
+								<button type="button" id="btn_qtyModify" class="btn_update" onclick="goQtyModify(${cvo.pk_cartno});">수정</button>
 							</td>
 							
 							<%-- 적립금(기본 비율 사용) --%>
@@ -291,7 +316,7 @@
 					<tfoot style="background-color: #e8e8e8; text-align: center; font-size: 9pt; height: 40px; line-height: 9pt;">
 						<tr>
 							<td colspan="2">
-								<button type="button" id="btn_goDelCheck" class="btn btn-primary" onclick="goDelSelect('${cvo.pk_cartno}');">선택삭제</button>
+								<button type="button" id="btn_goDelCheck" class="btn btn-primary" onclick="goDelSelect()">선택삭제</button>
 							</td>
 							<td colspan="2">
 								<button type="button" id="btn_goDelAll" class="btn btn-primary" onclick="goDelAll('${sessionScope.loginuser.userid}')">전체삭제</button>
@@ -332,11 +357,6 @@
 	<jsp:include page="cart_board.jsp" />
 				
 	</div>
-	
-
-    <form name="cartDelFrm">
-    	<input type="hidden" name="fk_userid">
-    </form>
 
 
 	<jsp:include page="/WEB-INF/footer.jsp" />

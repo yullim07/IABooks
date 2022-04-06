@@ -1028,4 +1028,59 @@ INSERT INTO
 tbl_cart(PK_CARTNO, FK_USERID, PK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
 VALUES (seq_cartno.NEXTVAL, 'leess', '9791160542080', 3, sysdate, 1);
 
+commit;
+
+select * from tbl_cart;
+select pk_pro_num from tbl_product;
+
+--- fk_pro_num을 바뀜!
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user1', '9791196132668', 4, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user1', '9791196132668', 1, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user1', '9791160542080', 8, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user1', '9791197191619', 3, sysdate, 1);
+
+commit;
+-- 커밋 완료.
+
+delete from tbl_cart
+where pk_cartno = 13;
+
+select * from tbl_cart
+
+
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user2', '9791197477812', 1, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user2', '9791197387715', 1, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user2', '9791196773205', 1, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user2', '9791195675807', 1, sysdate, 1);
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'user2', '9791195675807', 1, sysdate, 1);
+
+select * from tbl_cart;
+
 

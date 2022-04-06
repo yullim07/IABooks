@@ -1546,6 +1546,31 @@ public class ProductDAO implements InterProductDAO {
 	// 장바구니 선택삭제하기 메소드
 	@Override
 	public int deleteCartSelect(int pk_cartno) throws SQLException {
+
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " delete from tbl_cart "
+						+ " where pk_cartno = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, pk_cartno);
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		return result;
+	}
+
+	@Override
+	public int plusViewCnt(String pk_pro_num) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

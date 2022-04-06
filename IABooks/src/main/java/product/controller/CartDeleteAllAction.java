@@ -1,16 +1,10 @@
 package product.controller;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import member.model.MemberVO;
-import product.model.CartVO;
-import product.model.InterProductDAO;
-import product.model.ProductDAO;
+import product.model.*;
 
 public class CartDeleteAllAction extends AbstractController {
 
@@ -19,10 +13,12 @@ public class CartDeleteAllAction extends AbstractController {
 		
 		String fk_userid = request.getParameter("fk_userid");
 		String method = request.getMethod();
+		// request영역 = cart.jsp의 cartDelFrm
 		
 		String message = "";
 		String loc = "";
 		
+		System.out.println("확인용 => " + fk_userid);
 		if(!"POST".equalsIgnoreCase(method)) {
 
 			message = "잘못된 경로입니다!";
@@ -43,7 +39,7 @@ public class CartDeleteAllAction extends AbstractController {
 			// 로그인한 사용자가 자신의 카트를 삭제하는 경우
 			int n = pdao.deleteCartAll(fk_userid);
 				
-		    if(n > 0) { // 장바구니 삭제 성공
+		    if(n > 0) { // 장바구니 삭제 성공 - 무조건 1 이상이어야 되니까!
 				message = "장바구니에서 삭제했습니다.";
 				loc = request.getContextPath()+"/product/cart.book";
 			}
