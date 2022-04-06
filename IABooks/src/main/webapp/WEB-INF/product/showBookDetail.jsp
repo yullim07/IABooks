@@ -24,6 +24,7 @@
 
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+
 	$(document).ready(function () {
 		//총가격측정 숫자포맷
 		$("td.pro_qty input").bind("click", function () {
@@ -42,9 +43,38 @@
 			$("button#btn_cart").attr("disabled", true);
 			$("button#btn_like").attr("disabled", true);
 		}
+		
+		$("button#btn_cart").click(function() {
+			goCart();
+		});
 				
 				
 	});
+		
+	function goCart() {
+		$.ajax({
+			url:"<%= ctxPath%>/product/goCart.book",
+			type:"POST",
+			data:{"pro_saleprice":${requestScope.pvo.pro_saleprice},
+				"pk_pro_num":${requestScope.pvo.pk_pro_num},
+				"total_pro_qty": $("td.pro_qty input").val()	
+		
+			}, 
+			
+			dataType:"JSON",
+			success:function(json) {
+	
+	
+			},
+			error: function(request, status, error){
+			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
+		
+		});//end of $.ajax
+		
+		
+	}//end of function goCart()
+	
 </script>
 
 <jsp:include page="/WEB-INF/header.jsp" />
@@ -186,7 +216,8 @@
 			<p class="subheading">
 				책제목 : <span>${requestScope.pvo.pro_name}</span><br>
 				저자 : <span>${requestScope.pvo.writer.wr_name}</span><br>
-				출간일 : <span>${requestScope.pvo.pro_publish_date}</span><br>
+				<fmt:parseDate value="${requestScope.pvo.pro_publish_date}" var="parseDateValue" pattern="MM/dd/yyyy"/>
+				출간일 : <span><fmt:formatDate value="${parseDateValue}" pattern="yyyy-MM-dd"/>	</span><br>
 				분야 : <span>
 						<c:choose>
 							<c:when test="${requestScope.pvo.category.cate_name eq 'total'}">
@@ -205,12 +236,16 @@
 								기타
 							</c:when>
 						</c:choose>
+						
+	
+						
 				</span><br>
 				제본 : <span>${requestScope.pvo.pro_bindtype}</span><br>
 				쪽수 : <span>${requestScope.pvo.pro_pages}p</span><br>
 				크기 : <span>${requestScope.pvo.pro_size}</span><br>
 				ISBN   : <span>${requestScope.pvo.pk_pro_num}</span><br>
-				정가 : <span>${requestScope.pvo.pro_price}</span><br>
+				정가 : <span><fmt:formatNumber value="${requestScope.pvo.pro_price}" pattern="###,###" />원</span><br>
+
 			</p>
 				
 			<br><br>
@@ -247,7 +282,6 @@
 			<br>
 			<p><span class="majorheading2">상품결제정보</span></p>
 			<hr>
-			<p class="subheading">
 			고액결제의 경우 안전을 위해 카드사에서 확인전화를 드릴 수도 있습니다.
 			확인과정에서 도난 카드의 사용이나 타인 명의의 주문 등 정상적인 주문이 아니라고 판단될 경우 임의로 주문을 보류 또는 취소할 수 있습니다.<br>
 			무통장 입금은 상품 구매 대금은 PC뱅킹, 인터넷뱅킹, 텔레뱅킹 혹은 가까운 은행에서 직접 입금하시면 됩니다.<br>
@@ -406,7 +440,7 @@
 	        </div>
     	</div>
 	</div>
-	
+	<!-- Modal end -->
 	
 	
 <jsp:include page="/WEB-INF/footer.jsp" />
