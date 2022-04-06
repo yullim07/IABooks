@@ -26,21 +26,20 @@ public class PlusViewCntAction extends AbstractController {
 		paraMap.put("pro_viewcnt", pro_viewcnt);
 		
 		InterProductDAO pdao = new ProductDAO();
-		int n = pdao.plusViewCnt(paraMap); // DB에 조회수 증가하기
+		int n = pdao.plusViewCnt(pk_pro_num); // DB에 조회수 증가하기
 		Integer.parseInt(pro_viewcnt);
 		
 		// 조회수 증가가 성공하는 경우
 		if(n==1) {
-			
+			pro_viewcnt += 1;
 		}
 		
 		else {
 			pro_viewcnt += 0;
 		}
 		
-		
-		
-
+		super.setRedirect(false);
+		super.setViewPage("/WEB-INF/product/showBookDetail.jsp");
 	}
 
 }
