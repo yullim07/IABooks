@@ -1447,7 +1447,8 @@ public class BoardDAO implements InterBoardDAO {
 			"        WHERE isdelete = 0 and P.pk_pro_num = ?"+
 		    "	  ) V "+
 		    " ) T "+
-		    " where rno between ? and ?";		
+		    " where rno between ? and ?" +
+		    " order by to_char(re_date) asc";		
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -1598,6 +1599,184 @@ public class BoardDAO implements InterBoardDAO {
 			return cnt;
 			
 		} // end of public List<ReviewBoardVO> countOneProductReview(Map<String, String> paraMap) throws SQLException--------
+
+		
+		
+		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
+		@Override
+		public int getTotalMyPage(Map<String, String> paraMap) throws SQLException {
+			
+			int totalPage = 0;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select ceil( (revCnt + qnaCnt) / ? ) AS myCnt "+
+							 " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt from  tbl_review_board ) R "+
+							 " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt from  tbl_qna_board ) Q ";
+				
+				String colname = paraMap.get("searchType");
+				String searchWord = paraMap.get("searchWord");
+				
+				System.out.println(" 확인용 colname : " + colname);
+				System.out.println(" 확인용 searchWord : " + searchWord);
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+				// 검색종류 및 검색어가 있을 때
+				sql += " where " + colname + " like '%'|| ? ||'%' ";
+				// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+				// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("sizePerPage"));
+				pstmt.setString(2, paraMap.get("userid"));
+				pstmt.setString(3, paraMap.get("userid"));
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					pstmt.setString(5, searchWord);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				totalPage = rs.getInt(1);
+			
+			} finally {
+			close();
+			}
+			
+			return totalPage;
+			
+		} // end of public int getTotalMyPage(Map<String, String> paraMap) throws SQLException
+
+		
+		// 마이페이지에 보여줄 내가 쓴 게시글 불러오기
+		@Override
+		public List<MyBoardVO> selectPagingMyBoard(Map<String, String> paraMap) throws SQLException {
+			
+			MyBoardVO myBoardVO = null;
+			
+			List<MyBoardVO> myBoardList = new ArrayList<>();
+			
+			try {
+			
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+				
+				System.out.println("currentShowPageNo : " + currentShowPageNo);
+				System.out.println("sizePerPage : " + sizePerPage);
+				
+				String colname = paraMap.get("searchType");
+				String searchWord = paraMap.get("searchWord");
+				
+				conn = ds.getConnection();
+				/*
+				String sql = " SELECT pk_rnum, fk_pnum, re_title, re_date, re_grade, pk_qna_num, qna_title, qna_date "+
+				" FROM   "+
+				" (   "+
+				"    SELECT rownum as rno, pk_rnum, fk_pnum, re_title, re_date, re_grade, pk_qna_num, qna_title, qna_date "+
+				"    FROM "+
+				"    (    "+
+				" 		select R.pk_rnum AS pk_rnum, R.fk_pnum AS fk_pnum, R.re_title AS re_title "+
+				"     		, to_char(R.re_date, 'yyyy-mm-dd') AS re_date, R.re_grade AS re_grade "+
+				"     		, Q.pk_qna_num AS pk_qna_num, Q.qna_title AS qna_title "+
+				"     		, to_char(Q.qna_date, 'yyyy-mm-dd') AS qna_date "+
+				" 		from tbl_review_board R "+
+				" 		LEFT OUTER JOIN tbl_qna_boa	rd Q "+
+				" 		ON R.fk_userid = Q.fk_userid "+
+				" 		WHERE R.fk_userid = ? OR Q.fk_userid = ? AND R.isdelete = 0 AND Q.isdelete = 0 ";
+				*/
+				
+				String sql = "SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade "+
+							" FROM "+
+							" ( "+
+							"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade "+
+							"    from  "+
+							"        ( "+
+							"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date "+
+							"        from tbl_qna_board A "+
+							"        FULL OUTER JOIN tbl_review_board B "+
+							"        ON A.qna_title = B.re_title "+
+							"        where A.fk_userid = ? "+
+							"        ) Q\n"+
+							"    FULL OUTER JOIN\n"+
+							"        (\n"+
+							"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade "+
+							"        from tbl_qna_board A "+
+							"        FULL OUTER JOIN tbl_review_board B "+
+							"        ON A.qna_title = B.re_title "+
+							"        where B.fk_userid = ? "+
+							"        ) R "+
+							"    ON Q.qna_title = R.re_title ";
+				
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					sql += " and " + colname + " like '%'|| ? ||'%' ";
+					// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+					// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+				}
+				
+				sql += "    ) V "+
+					   " where rno between ? and ?";		
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, paraMap.get("userid"));
+				pstmt.setString(2, paraMap.get("userid"));
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					pstmt.setString(3, searchWord);
+					pstmt.setInt(4, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(5, (currentShowPageNo * sizePerPage));
+					System.out.println("카테고리 없고 검색조건 있을 때 : " + currentShowPageNo + "," + sizePerPage);	  
+				}
+				else {
+					pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+					pstmt.setInt(4, (currentShowPageNo * sizePerPage));
+					System.out.println("검색조건 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+				
+					myBoardVO = new MyBoardVO();
+					
+					QnABoardVO qna = new QnABoardVO();
+					qna.setPk_qna_num(rs.getInt(1));
+					qna.setQna_title(rs.getString(2));
+					qna.setQna_date(rs.getString(3));
+					myBoardVO.setQnaBoard(qna);
+					
+					ReviewBoardVO review = new ReviewBoardVO();
+					review.setPk_rnum(rs.getInt(4));
+					review.setRe_title(rs.getString(5));
+					review.setRe_date(rs.getString(6));
+					review.setRe_grade(rs.getInt(7));
+					myBoardVO.setRevBoard(review);
+					
+					System.out.println("잘들어감? => " + myBoardVO.getRevBoard().getRe_title());
+					System.out.println("잘들어감? => " + myBoardVO.getQnaBoard().getQna_title());
+					
+					myBoardList.add(myBoardVO);
+					
+				}//end of while(rs.next()) ------------ 
+			
+			
+			} catch(SQLException e){  
+				e.printStackTrace();
+			} catch(NumberFormatException e) { 
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			
+			return myBoardList;
+			
+		} // end of public MyBoardVO selectPagingMyBoard(Map<String, String> paraMap) throws SQLException
 		
 		
 		

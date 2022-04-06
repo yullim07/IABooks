@@ -84,7 +84,6 @@ public class ReviewBoardAction extends AbstractController {
 		
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		
-		
 		List<ReviewBoardVO> reviewList = bdao.selectPagingRevBoard(paraMap); 
 		
 		request.setAttribute("reviewList", reviewList);
