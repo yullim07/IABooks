@@ -26,6 +26,10 @@
 	text-align: center;
 }
 
+ #mySearchContent {
+		font-size:14px;
+}
+
 </style>
 
 
@@ -42,39 +46,29 @@
 		else {
 			$("button#btn_write").hide();
 		}
+		 
+		*** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ***
+		*/
 		
-		// **** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ****//
-		$("select#faqsearchCate").bind("change", function(){
-			
-			const frm = document.faqBoardFrm;
-			frm.action = "faqBoard.book";
-			frm.method = "get";
-			frm.submit();
-			
-		});
 		
-		if( "${requestScope.faqsearchCate}" != "" ) {
-			$("select#faqsearchCate").val("${requestScope.faqsearchCate}");
-		}
-		
-		$("button#btn_search").click(function(){
+		$("button#btn_mySearch").click(function(){
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
 			
-			if($("select.faqsearchType").val() == "" ) {
-				alert("검색대상을 올바르게 선택하세요!! faq1");
+			if($("select.mySearchType").val() == "" ) {
+				alert("검색대상을 올바르게 선택하세요!! ");
 				return false; // submit을 하지 않고 종료
 			}
 			
-			if($("input#faqsearchWord").val().trim() == "") {
+			if($("input#mySearchWord").val().trim() == "") {
 				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! qwe2");
 				return false;
 			}
 			
-			$("input#faqsearchWord").bind("keyup", function(){
+			$("input#mySearchWord").bind("keyup", function(){
 				
 				if(event.keyCode == 13) {
 					// 검색어에서 엔터를 치면 검색하러 간다.
-					goSearch();
+					goMyBoardSearch();
 				}
 				
 			});
@@ -85,15 +79,36 @@
 		// alert("~~ 확인용 : ${requestScope.searchType} ");
 		// "~~ 확인용 : "
 		// 회원명 조건하고 했더니 "~~ 확인용 : name" 뜸
-		if( "${requestScope.faqsearchType}" != "" ) { // 반드시 if에 넣을때 쌍따옴표 꼭 붙여라!!(자바스크립트임)
-			$("select#faqsearchType").val("${requestScope.faqsearchType}");
-			$("input#faqsearchWord").val("${requestScope.faqsearchWord}");
+		if( "${requestScope.mySearchType}" != "" ) { // 반드시 if에 넣을때 쌍따옴표 꼭 붙여라!!(자바스크립트임)
+			$("select#mySearchType").val("${requestScope.mySearchType}");
+			$("input#mySearchWord").val("${requestScope.mySearchWord}");
 		}
 		
-		*/
+		
 	});
 
+	// Function Declaration
+	function goMyBoardSearch(){
+	
+		if($("select.mySearchType").val() == "" ) {
+			alert("검색대상을 올바르게 선택하세요!!");
+			return; // goMyBoardSearch() 함수 종료.
+		}
+		
+		if($("input#mySearchWord").val().trim() == "") {
+			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
+			return;
+		}
+		
+		const frm = document.myBoardFrm;
+		frm.action = "myBoard.book";
+		frm.method = "get";
+		frm.submit();
+		
+	 }
+	
 </script>
+
 
 
 </head>
@@ -109,18 +124,8 @@
 				  	<span >내가 작성했던 글들을 볼 수 있습니다.</span>
 			    
 			   </div>
-			  <!-- <p class="mb-3"></p> -->
+			  <p class="mb-3"></p>
 			
-			  	<div id="sort">
-			  		<span> 분류 선택 </span>
-				    <select id="mysearchCate" class="cateDropdown" name="mysearchCate">
-				       <option value="all">전체</option>
-		               <option value="sort_date">작성 일자별</option>
-		               <option value="sort_category">분류별</option>
-				    </select>
-		    	</div>
-			
-			<hr>
 			  <table class="table" id="faq_table_all">
 			  <thead class="thead-light" id="faq_thead">
 			    <tr style="text-align: center;">
@@ -145,13 +150,14 @@
 			    	<c:if test="${board.qnaBoard.pk_qna_num ne 0 }">
 				    <tr>
 				      	<td>${board.qnaBoard.pk_qna_num}</td>
-				      	<td><a href="<%= ctxPath%>/board/qnaBoard.book">문의</a></td>
+				      	<td><a href="<%= ctxPath%>/board/qnaBoard.book">상품 Q&A</a></td>
 				      	<td><a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.qnaBoard.pk_qna_num}">${board.qnaBoard.qna_title}</a></td>
 				      	<td>${board.qnaBoard.qna_date}</td>
 				    </tr>
 				    </c:if>
 			    </c:forEach> 
 			    </c:if> 
+			     <c:if test="${empty requestScope.myBoardList}">
 			     <tr id="notExist">
 			      	<td colspan="6">
 			      		<div>
@@ -159,20 +165,27 @@
 			      		</div>
 			      	</td>
 			     </tr>
+			     </c:if>
 			  </tbody>
 			</table>
 			
+			<nav class="my-5">
+				<div style="display: flex; width: 100%;">
+					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
+				</div>	
+			</nav>
+			
 			<div class="search_outer" id="tab_center">
 		 		<div class="search_inner">
-			    <select id="searchContent" name="search">
-			    	<option value="subject">제목</option>
-			        <option value="content">내용</option>
-			        <option value="writername">글쓴이</option>
-			        <option value="userid">아이디</option>
-			        <option value="nickname">별명</option>
+			    <select id="mySearchContent" name="mySearchType">
+			    	<option value="">분류</option>
+			    	<option value="all">전체</option>
+			    	<option value="my_title">제목</option>
+			        <option value="my_contents">내용</option>
 			    </select>
-			    <input type="text" name="search" id="input_myboard_search"></input>
-			    <button class="btn btn_myboard_search" name="search" >찾기</button>
+			    <input type="text" name="mySearchWord" id="mySearchWord"></input>
+			    <button class="btn btn_myboard_search" name="btn_mySearch" id="btn_mySearch" onlick="goMyBoardSearch();">찾기</button>
+			    <button class="btn btn_myboard_reset" name="btn_myReset" id="btn_myReset" onlick="location.href='<%= ctxPath%>/member/myBoard.book'">목록</button>
 			    </div>
 		    
 		  	</div>

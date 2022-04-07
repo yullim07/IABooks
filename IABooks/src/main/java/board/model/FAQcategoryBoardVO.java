@@ -10,6 +10,8 @@ public class FAQcategoryBoardVO {
 
 	private int pk_faq_c_num;       // FAQ 번호
 	private String faq_c_name;      //FAQ 이름
+	private String faq_c_ename;      //FAQ 영어 이름
+
 	private int isdelete; // 삭제유무
 	
 //	-----------------------------------------	
@@ -39,7 +41,14 @@ public class FAQcategoryBoardVO {
 	}
 	
 	
-	
+	public String getFaq_c_ename() {
+		return faq_c_ename;
+	}
+
+	public void setFaq_c_ename(String faq_c_ename) {
+		this.faq_c_ename = faq_c_ename;
+	}
+
 	
 	
 }

@@ -11,7 +11,7 @@
 
 <style type="text/css">
 
-	select#searchType, select#searchCate {
+	select#revSearchType, select#revSearchWord {
 		font-size:14px;
 	}
 	
@@ -70,15 +70,15 @@
    });
    
 	// Function Declaration
-	function goSearch(){
+	function goRevSearch(){
 		
-		if($("select.searchType").val() == "" ) {
-			alert("검색대상을 올바르게 선택하세요!! rev1");
+		if($("select.revSearchType").val() == "" ) {
+			alert("검색대상을 올바르게 선택하세요!!");
 			return; // goSearch() 함수 종료.
 		}
 		
-		if($("input#searchWord").val().trim() == "") {
-			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! rev2");
+		if($("input#revSearchWord").val().trim() == "") {
+			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
 			return;
 		}
 		
@@ -198,7 +198,7 @@
        <a><img src="<%= ctxPath%>/images/board/leejh_images/ico_triangle3.gif" /></a>
         <p class="pSearch" style=" display: inline-block; font-size: 12px;">검색어</p>
         
-       <select class="searchType" id="searchType" name="searchType">
+       <select class="revSearchType" id="revSearchType" name="revSearchType">
        	   <option value="">대상</option>
            <option value="re_title">제목</option>
            <option value="re_writer">글쓴이</option>
@@ -206,8 +206,8 @@
            <option value="product">상품정보</option>
    
        </select>
-       	<input type="text" name="searchWord" id="searchWord"></input>
-	   	<button class="btn btn_rev_search" type="button" id="btn_search" name="btn_search" onclick="goSearch();" >찾기</button>
+       	<input type="text" name="revSearchWord" id="revSearchWord"></input>
+	   	<button class="btn btn_rev_search" type="button" id="btn_search" name="btn_search" onclick="goRevSearch();" >찾기</button>
 	   </div>
     
      </div>

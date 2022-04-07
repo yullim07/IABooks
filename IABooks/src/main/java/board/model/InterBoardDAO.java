@@ -1,6 +1,7 @@
 package board.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -187,6 +188,9 @@ public interface InterBoardDAO {
 
 	// 마이페이지에 보여줄 내가 쓴 게시글 불러오기
 	List<MyBoardVO> selectPagingMyBoard(Map<String, String> paraMap) throws SQLException;
+
+	// FAQ 카테고리 불러오기
+	List<HashMap<String, String>> getFaqCateList() throws SQLException;
 	
 
 	

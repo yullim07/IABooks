@@ -60,7 +60,7 @@
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
 			
 			if($("select.faqsearchType").val() == "" ) {
-				alert("검색대상을 올바르게 선택하세요!! faq1");
+				alert("검색대상을 올바르게 선택하세요!! ");
 				return false; // submit을 하지 않고 종료
 			}
 			
@@ -96,12 +96,12 @@
 	function goSearch(){
 		
 		if($("select.faqsearchType").val() == "" ) {
-			alert("검색대상을 올바르게 선택하세요!! faq1");
+			alert("검색대상을 올바르게 선택하세요!!");
 			return; // goSearch() 함수 종료.
 		}
 		
 		if($("input#faqsearchWord").val().trim() == "") {
-			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! faq2");
+			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
 			return;
 		}
 		
@@ -127,15 +127,18 @@
 			  <!-- <p class="mb-3"></p> -->
 			
 			  	
-			    <select id="faqsearchCate" class="cateDropdown" name="faqsearchCate">
-			       <option value="">분류</option>
-	               <option value="all">전체</option>
-	               <option value="member">회원</option>
-	               <option value="product">상품</option>
-	               <option value="return">반품/교환</option>
-	               <option value="order">주문/배송</option>
-	               <option value="promotion">제휴</option>
-			    </select>
+			    <%-- <select id="faqsearchCate" class="cateDropdown" name="faqsearchCate">
+			    <option value="">분류</option>
+			    <c:forEach var="map" items="${requestScope.faqCateList}">
+	            	<option value="${map.faq_c_ename}">${map.faq_c_name}</option>
+	            </c:forEach> --%>
+	            
+	            <select class="cateDropdown" id="faqsearchCate" name="faqsearchCate" onchange="">
+				    <option value="">분류</option>
+				    <c:forEach items="${requestScope.faqCateList}" var="map">
+				      <option value="${map.faq_c_ename}" ${map.faq_c_ename == 'all' ? 'selected="selected"' : ''}>${map.faq_c_name}</option>
+				    </c:forEach>
+	            </select>
 		    
 			
 			<hr>

@@ -535,9 +535,34 @@ FROM
         WHERE isdelete = 0
     ) V
 ) T
-where rno between 1 and 10;
+where rno between 1 and 10
 
-desc
+-- 리뷰쿼리문 수정
+SELECT pk_rnum, pro_name, p_img_name, re_title, mname, re_date, fk_userid, re_grade, cate_name, rownum
+FROM   
+(   
+    SELECT rownum as rno, pk_rnum, pro_name, p_img_name, re_title, mname, re_date, fk_userid, re_grade, cate_name
+    FROM
+    (    
+        select R.pk_rnum AS pk_rnum, P.pro_name AS pro_name, P.pro_imgfile_name AS p_img_name, R.re_title AS re_title, M.mname AS mname
+               , to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date, R.fk_userid AS fk_userid , R.re_grade AS re_grade, C.cate_name AS cate_name
+        from tbl_member M
+        JOIN tbl_review_board R
+        ON  M.PK_USERID = R.FK_USERID
+        JOIN tbl_product P
+        ON R.fk_pnum = P.pk_pro_num
+        JOIN TBL_CATEGORY C
+        ON P.fk_cate_num = C.pk_cate_num
+        WHERE isdelete = 0
+        order by re_date desc
+    ) V
+) T
+where rownum between 1 and 10
+
+------------------------------------------
+
+
+
 
 select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, RE_DATE, RE_GRADE, RE_CONTENTS, RE_PASSWD, RE_WRITER, isdelete, P.pro_name, P.pro_imgfile_name
 from tbl_review_board R JOIN tbl_product P
@@ -595,11 +620,10 @@ ON R.fk_userid = Q.fk_userid;
 select ceil( (revCnt + qnaCnt) / 10 ) AS myCnt
 from ( select COUNT(CASE WHEN fk_userid='gorush34' THEN 1 END) AS revCnt from  tbl_review_board ) R
    , ( select COUNT(CASE WHEN fk_userid='gorush34' THEN 1 END) AS qnaCnt from  tbl_qna_board ) Q
-   
-select *
-from ( select re_title, fk_userid AS rev_userid, to_char(re_date, 'yyyy-mm-dd') AS re_date from  tbl_review_board where fk_userid = 'gorush34' ) R
-   , ( select qna_title, fk_userid AS qna_userid, to_char(qna_date, 'yyyy-mm-dd') AS qna_date from  tbl_qna_board where fk_userid = 'gorush34' ) Q
 
+select revCnt, qnaCnt
+from ( select COUNT(CASE WHEN fk_userid='gorush34' THEN 1 END) AS revCnt, re_title, re_contents from  tbl_review_board where re_title like '%'||'세계'||'%' ) R
+   , ( select COUNT(CASE WHEN fk_userid='gorush34' THEN 1 END) AS qnaCnt, qna_title, qna_contents from  tbl_qna_board where qna_title like '%'||'세계'||'%' ) Q
 
 
 
@@ -710,4 +734,8 @@ FROM
         ) R
     ON Q.qna_title = R.re_title
 ) V
-where rno between 1 and 10;
+where rno between 1 and 10
+and re_title like '%' || '세계' || '%' or qna_title like '%' || '세계' || '%';
+
+
+

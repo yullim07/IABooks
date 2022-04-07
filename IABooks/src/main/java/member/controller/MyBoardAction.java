@@ -39,13 +39,9 @@ public class MyBoardAction extends AbstractController {
 			// 페이징 처리가 되어진 모든 리뷰 게시글 목록 보여주기
 			
 			// 검색조건이 있을 경우 시작
-			String searchCate = request.getParameter("faqsearchCate");
-			if( searchCate == "" || searchCate == null ) {
-				searchCate = "all";
-			}
 			
-			String searchType = request.getParameter("searchType");
-			String searchWord = request.getParameter("searchWord");
+			String searchType = request.getParameter("mySearchType");
+			String searchWord = request.getParameter("mySearchWord");
 			// 검색조건이 있을 경우 끝
 			
 			InterBoardDAO bdao = new BoardDAO();
@@ -74,7 +70,7 @@ public class MyBoardAction extends AbstractController {
 			paraMap.put("userid", userid);
 			
 			// 검색조건이 있을 경우 시작
-			if(searchType != null && !"".equals(searchType) && !"re_title".equals(searchType) && !"re_writer".equals(searchType) && !"product".equals(searchType) ) {
+			if(searchType != null && !"".equals(searchType) && !("my_title".equals(searchType) || "my_contents".equals(searchType)) ) {
 				// 사용자가 웹브라우저 주소입력란에서 searchType 장난을 친 경우
 				String message = "부적절한 검색타입입니다. 장난 그만해라.";
 				String loc = request.getContextPath()+"/member/myBoard.book";
@@ -131,15 +127,11 @@ public class MyBoardAction extends AbstractController {
 				searchWord = "";
 			}
 			
-			if(searchCate == null) { // 검색조건을 넣지 않았을 시 자바에서 null이기 때문에 바꿔준다.
-				searchCate = "1";
-			}
-			
 			// **** [맨처음][이전] 만들기 **** //
 			if(pageNo != 1) {
 			// if(Integer.parseInt(currentShowPageNo) >= 2) {
-				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a></li>";
 			}
 			
 			while( !(loop > blockSize || pageNo > totalPage) ) {
@@ -149,7 +141,7 @@ public class MyBoardAction extends AbstractController {
 					// 현재페이지 링크 제거
 				}
 				else {
-					pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
+					pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
 				}
 				loop++;
 				pageNo++;
@@ -159,8 +151,8 @@ public class MyBoardAction extends AbstractController {
 			// pageNo ==> 11
 			if(pageNo <= totalPage) {
 				// 마지막 페이지랑 같으면 다음 마지막이 없어져야 됨
-				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>[마지막]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[마지막]</a></li>";
 			}
 			
 			request.setAttribute("pageBar", pageBar);
@@ -171,7 +163,6 @@ public class MyBoardAction extends AbstractController {
 			// if 안쓰는이유 : 위에서 null이면 ""로 바꿔줘서
 			request.setAttribute("searchType", searchType);
 			request.setAttribute("searchWord", searchWord);
-			request.setAttribute("searchCate", searchCate);
 			
 			
 			setRedirect(false);
