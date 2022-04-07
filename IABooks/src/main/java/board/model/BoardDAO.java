@@ -514,9 +514,9 @@ public class BoardDAO implements InterBoardDAO {
 			
 			System.out.println("하잉");
 			int result = 0;
-			int pk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
+			int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
 			System.out.println("바잉");
-			System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
+			System.out.println("들어왔니 fkqnanum? : " + fk_qna_num);
 			
 			
 			try {
@@ -527,8 +527,8 @@ public class BoardDAO implements InterBoardDAO {
 						+ "values(SEQ_COMMENT.nextval, ?, ?, ?, ?)";
 				
 				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, paraMap.get("userid"));
-				pstmt.setInt( 2, pk_qna_num);
+				pstmt.setString(1, paraMap.get("fk_userid"));
+				pstmt.setInt( 2, fk_qna_num);
 				pstmt.setString(3, paraMap.get("cmtPasswd"));
 				pstmt.setString(4, paraMap.get("cmtContent"));
 				
@@ -547,10 +547,34 @@ public class BoardDAO implements InterBoardDAO {
 		//Qna 게시글 댓글 읽어오기
 		@Override
 		public QnABoardVO readCmtContent(int pk_qna_num) throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
+			InterBoardDAO bdao = new BoardDAO();
+			QnABoardVO qnaVO = null;
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete \r\n"
+						+ "			from tbl_comment \r\n"
+						+ "			where isdelete = 0 and fk_qna_num = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				/* pstmt.setInt(1, fk_qna_num); */
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+				
+				}
+			
+			
+				} catch(SQLException e) { 
+					e.printStackTrace();
+				}finally {
+					close();
+				}
+				
+				return qnaVO;
 		}
-
 		
 		
 		// Qna 게시판 이전글, 다음글 정보를 가져오기

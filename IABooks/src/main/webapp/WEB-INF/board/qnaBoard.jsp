@@ -45,6 +45,16 @@
 					
 		});
 		 */
+		 
+		 $(".goPro").click(()=>{
+			 
+			 
+			
+				//	alert("확인용 => "+ userid);
+					
+			 
+			 location.href="<%= ctxPath%>/product/showBookDetail.book?pronum=;
+		 });
 		
 		$("button#btn_search").click(function(){
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
@@ -109,7 +119,9 @@
 		
 	}
 	
+	function goPro(){
 	
+	}
 
 </script>
 
@@ -154,10 +166,10 @@
 				    	<td class="tbl_bookname">
 				    		<c:if test="${board.product.pro_name != '-9999'}">
 				    		<a  href="#">
-		            			 <img src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>
+		            			 <img  class="goPro"  src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>
 		            			
-								<span>${board.product.pro_name}</span>
-								
+								<span class="goPro">${board.product.pro_name}</span>
+								<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${board.fk_pnum}"/>
 							</a>  
 							</c:if>
 				    	</td>

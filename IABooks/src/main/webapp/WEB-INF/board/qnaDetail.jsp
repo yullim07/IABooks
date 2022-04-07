@@ -43,13 +43,13 @@
 			console.log("돼요?");
 			alert("?되나?");
 			 	var commnettext=$("#commnet_content").val(); //댓글 내용
-		        var pk_qna_num="${qnaVO.pk_qna_num}"; //게시물 번호
+		        var pk_qna_num="${(requestScope.qnaVO).pk_qna_num}"; //게시물 번호
 		        var comment_pwd = $("#comment_pwd").val();
-		        var cmtWriter = ${(requestScope.qnaVO).member.name}.val();
-		        var fk_userid = ${(requestScope.qnaVO).fk_userid}.val();
+		     /*    var cmtWriter = ${(requestScope.qnaVO).member.name}.val();  "cmtWriter" : cmtWriter , */
+		        var fk_userid = "${(requestScope.qnaVO).fk_userid}";
 		        
 		        	console.log("나오는거니????"+${qnaVO.pk_qna_num});
-		        var param= { "cmtWriter" : cmtWriter , "comment_pwd" : comment_pwd
+		        var param= {  "comment_pwd" : comment_pwd
 		        		   , "commnettext": commnettext,"fk_userid" : fk_userid , "pk_qna_num": pk_qna_num
 		        		   ,  };
 		        
@@ -58,15 +58,21 @@
 		            type: "post", //데이터를 보낼 방식
 		            url: "<%= ctxPath%>/board/commentSubmit.book", //데이터를 보낼 url
 		            data: param, //보낼 데이터
-		            dataType:"json",
+		            dataType:"JSON",
 		            success: function(json){ //데이터를 보내는것이 성공했을시 출력되는 메시지
-		                alert("댓글이 등록되었습니다.");
+		            	
+		            		alert("댓글이 등록되었습니다.");
+							//getAllReplies(); //댓글 새로고침
+					
 		                listComment(); //댓글 목록 출력
 		            },
 		            error:function(request, status, error){
 		               alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
 		            }
 		        });
+		        
+		        let html  = "";
+		        
 			
 		});
 		
@@ -80,12 +86,19 @@
 	        type: "get", //get방식으로 자료를 전달한다
 	        url: "<%= ctxPath%>/board/commentList.book?pk_qna_num="+${qnaVO.pk_qna_num}, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
 	        success: function(result){ //자료를 보내는것이 성 공했을때 출력되는 메시지
-	            //result : responseText 응답텍스트(html)
-	            $("#listComment").html(result);
-	        }
-	    });
+	        	if(result=='success'){
+					alert('댓글 입력 성공');
+					getAllReplies(); //댓글 새로고침
+				}
+			}
+	        	
+	        	//result : responseText 응답텍스트(html)
+	        	
+	           // $("#listComment").html(result);
+	        });//end of ajax()
+	    }//end of fucntion listComment
 		
-	}
+	
 	
 	
 
@@ -199,18 +212,18 @@
 			<c:if test="${ not empty sessionScope.loginuser }">
 			<%-- <form class="comment" method="post"> --%>
 				<div class="mb-1"><strong>댓글달기</strong></div>
-				<div class="mb-3">
-					<a>이름 : </a><input id="cmtWriter" name="cmtWriter" type="text" value="${(requestScope.qnaVO).member.name}"/> 
-					
-					<a>비밀번호 : </a><input id="comment_pwd" name="comment_pwd" type="password" value="${(requestScope.qnaVO).member.pwd}"/>
-				</div>
-				<div style="vertical-align: middle;">
-					<textarea style="float:left; width:90%; height: 50px;"  id="commnet_content" name="commnet_content" ></textarea>
-					<button onclick="" id ="submitCmt" class=" submit" type="button" style="color: white; float:right; font-size: 14px; border: none; background-color: #999; width:9%; height: 50px; border-radius: 10%;">확인</button>
-				</div>
+					<div class="mb-3">
+						<a>이름 : </a><input id="cmtWriter" name="cmtWriter" type="text" value="${sessionScope.loginuser}"/> 
+						
+						<a>비밀번호 : </a><input id="comment_pwd" name="comment_pwd" type="password" value=""/>
+					</div>
+					<div style="vertical-align: middle;">
+						<textarea style="float:left; width:90%; height: 50px;"  id="commnet_content" name="commnet_content" ></textarea>
+						<button onclick="" id ="submitCmt" class=" submit" type="button" style="color: white; float:right; font-size: 14px; border: none; background-color: #999; width:9%; height: 50px; border-radius: 10%;">확인</button>
+					</div>
 				
-				<input type="hidden" class="fk_userid" name="fk_userid" id="fk_userid" value="${(requestScope.qnaVO).fk_userid}"/>
-				<input type="hidden" name="pk_qna_num" id="pk_qna_num" value="${(requestScope.qnaVO).pk_qna_num}">
+					<input type="hidden" class="fk_userid" name="fk_userid" id="fk_userid" value="${(requestScope.qnaVO).fk_userid}"/>
+					<input type="hidden" name="pk_qna_num" id="pk_qna_num" value="${(requestScope.qnaVO).pk_qna_num}">
 			<%--</form>--%>
 			</c:if>
 			<c:if test="${empty sessionScope.loginuser }">

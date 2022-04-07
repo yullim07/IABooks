@@ -865,5 +865,9 @@ select count(*)
                        
                        
 select *
-from tbl_qna_board;
+from tbl_comment;
 		              
+select *
+from tbl_comment
+where fk_qna_num = 3237;
+                      
