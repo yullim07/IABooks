@@ -204,7 +204,7 @@
 			<button type="button" class="btn_active" id="btn_detail" onclick="location.href='#btn_detail'">상품상세안내</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_purchase'">상품구매안내</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_related'">관련상품</button>
-			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;&nbsp;<span class="badge badge-dark">0</span></button>
+			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
 			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button> 
 		</div>
 		<!-- 버튼그룹 끝 -->
@@ -273,7 +273,7 @@
 			<button type="button" class="btn1" onclick="location.href='#btn_detail'">상품상세안내</button>
 			<button type="button" class="btn_active" id="btn_purchase" onclick="location.href='#btn_purchase'">상품구매안내</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_related'">관련상품</button>
-			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
+			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
 			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>	 
 		</div>
 		<!-- 버튼그룹 끝 -->
@@ -329,7 +329,7 @@
 			<button type="button" class="btn1" onclick="location.href='#btn_detail'">상품상세안내</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_purchase'">상품구매안내</button>
 			<button type="button" class="btn_active" id="btn_related" onclick="location.href='#btn_related'">관련상품</button>
-			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
+			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
 			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
 		</div>
 		<!-- 버튼그룹 끝 -->
@@ -354,7 +354,7 @@
 				<button type="button" class="btn1" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" class="btn1" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" class="btn1" onclick="location.href='#btn_related'">관련상품</button>
-				<button type="button" class="btn_active" id="btn_review" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
+				<button type="button" class="btn_active" id="btn_review" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
 				<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
 			</div>
 			<!-- 버튼그룹 끝 -->
@@ -374,7 +374,7 @@
 				<button type="button" class="btn1" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" class="btn1" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" class="btn1" onclick="location.href='#btn_related'">관련상품</button>
-				<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">0</span></button>
+				<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
 				<button type="button" class="btn_active" id="btn_qna" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>	 
 			</div>
 			<!-- 버튼그룹 끝 -->

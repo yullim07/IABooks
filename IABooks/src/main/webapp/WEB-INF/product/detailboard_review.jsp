@@ -150,7 +150,7 @@
 						</c:forEach> 
 			    		</c:if> 
 						
-						<c:if test="${empty board.productRevList}">
+						<c:if test="${board.productRevList eq null}">
 		        		<tr id="notExist">
 					      	<td colspan="6">
 					      		<div>
@@ -187,11 +187,11 @@
 
 
 
-		<nav class="my-5">
+		<%-- <nav class="my-5">
 				<div style="display: flex; width: 100%;">
 					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 				</div>	
-		</nav>
+		</nav> --%>
 		
 	</div>
 

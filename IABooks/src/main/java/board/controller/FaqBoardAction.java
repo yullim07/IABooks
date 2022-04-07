@@ -93,6 +93,12 @@ public class FaqBoardAction extends AbstractController {
 		
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		
+		// FAQ 카테고리 불러오기
+		List<HashMap<String, String>> faqCateList = bdao.getFaqCateList();
+		
+		request.setAttribute("faqCateList", faqCateList);
+		
+		// FAQ 글 목록 불러오기
 		List<FaqBoardVO> faqBoardList = bdao.selectPagingFaqBoard(paraMap); 
 		
 		request.setAttribute("faqBoardList", faqBoardList);

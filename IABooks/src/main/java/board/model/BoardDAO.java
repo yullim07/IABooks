@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -602,33 +603,33 @@ public class BoardDAO implements InterBoardDAO {
 		// 카테고리 값이 있으면
 		pstmt.setString(1, searchCate);
 		
-		if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-		// 검색종류와 검색어가 있으면	
-		pstmt.setString(2, searchWord);
-		pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-		pstmt.setInt(4, (currentShowPageNo * sizePerPage));
-		System.out.println("카테고리 있고 검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
-		
-		}
-		else {
-		pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-		pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-		System.out.println("카테고리 있고 검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
-		
-		}
+			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+			// 검색종류와 검색어가 있으면	
+			pstmt.setString(2, searchWord);
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(4, (currentShowPageNo * sizePerPage));
+			System.out.println("카테고리 있고 검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
+			
+			}
+			else {
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			System.out.println("카테고리 있고 검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+			
+			}
 		
 		}
 		else if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-		pstmt.setString(1, searchWord);
-		pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-		pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-		System.out.println("카테고리 없고 검색조건 있을 때 : " + currentShowPageNo + "," + sizePerPage);
-		
+			pstmt.setString(1, searchWord);
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			System.out.println("카테고리 없고 검색조건 있을 때 : " + currentShowPageNo + "," + sizePerPage);
+			
 		}
 		else {// 검색조건이 없을 때
-		pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-		pstmt.setInt(2, (currentShowPageNo * sizePerPage));
-		System.out.println("검색조건 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+			pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+			System.out.println("검색조건 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
 		
 		}
 		
@@ -641,6 +642,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		FAQcategoryBoardVO faqCate = new FAQcategoryBoardVO();
 		faqCate.setFaq_c_name(rs.getString(2));
+		faqCate.setFaq_c_ename(rs.getString(6));
 		board.setFaqCate(faqCate);
 		
 		board.setFaq_title(rs.getString(3));
@@ -683,9 +685,9 @@ public class BoardDAO implements InterBoardDAO {
 		String colname = paraMap.get("searchType");
 		String searchWord = paraMap.get("searchWord");	
 		String searchCate = paraMap.get("searchCate");	
-		System.out.println(" 확인용 colname : " + colname);
-		System.out.println(" 확인용 searchWord : " + searchWord);
-		System.out.println(" 확인용 searchCate : " + searchCate);
+		// System.out.println(" 확인용 colname : " + colname);
+		// System.out.println(" 확인용 searchWord : " + searchWord);
+		// System.out.println(" 확인용 searchCate : " + searchCate);
 		
 		if( !"all".equalsIgnoreCase(searchCate) ) {
 		// 카테고리 값이 1(전체)이 아니고 검색종류 및 검색어가 있을 때
@@ -800,7 +802,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " SELECT pk_rnum, pro_name, pro_imgfile_name, re_title, mname, re_date, fk_userid, re_grade, cate_name"+
+			String sql = " SELECT pk_rnum, pro_name, pro_imgfile_name, re_title, mname, re_date, fk_userid, re_grade, cate_name, rownum"+
 			" FROM   \n"+
 			" (   \n"+
 			"    SELECT rownum as rno, pk_rnum, pro_name, pro_imgfile_name, re_title, mname, re_date, fk_userid, re_grade, cate_name "+
@@ -826,9 +828,10 @@ public class BoardDAO implements InterBoardDAO {
 				// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 			}
 			
-			sql += "    ) V "+
+			sql +=  "	order by re_date desc " +
+					"    ) V"+
 					   " ) T "+
-					   " where rno between ? and ?";		
+					   " where rno between ? and ?";	
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -862,7 +865,7 @@ public class BoardDAO implements InterBoardDAO {
 			mname = rs.getString(5);
 			member.setName(mname); 
 			board.setMember(member); // 보드에 멤버를 넣어줌.
-			System.out.println("이름 : " + mname);
+			// System.out.println("이름 : " + mname);
 			
 			board.setRe_date( rs.getString(6));
 			board.setFk_userid(rs.getString(7));
@@ -1447,13 +1450,16 @@ public class BoardDAO implements InterBoardDAO {
 			"        WHERE isdelete = 0 and P.pk_pro_num = ?"+
 		    "	  ) V "+
 		    " ) T "+
-		    " where rno between ? and ?";		
+		    " where rno between ? and ?" +
+		    " order by to_char(re_date) asc";		
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, pk_pro_num);
-			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-			pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			pstmt.setInt(2, 1);
+			pstmt.setInt(3, 5);
+			// pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			// pstmt.setInt(3, (currentShowPageNo * sizePerPage));
 			
 			rs = pstmt.executeQuery();
 			
@@ -1598,6 +1604,253 @@ public class BoardDAO implements InterBoardDAO {
 			return cnt;
 			
 		} // end of public List<ReviewBoardVO> countOneProductReview(Map<String, String> paraMap) throws SQLException--------
+
+		
+		
+		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
+		@Override
+		public int getTotalMyPage(Map<String, String> paraMap) throws SQLException {
+			
+			int totalPage = 0;
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
+			String re_option = "";
+			String qna_option = "";
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select ceil( (revCnt + qnaCnt) / ? ) AS myCnt ";
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					re_option = "re_title";
+					qna_option = "qna_title";
+					sql +=  " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						    " where "+re_option+" like '%'|| ? ||'%' ) R "+
+						    " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						    " where "+qna_option+" like '%'|| ? ||'%' ) Q ";
+				}
+				else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					re_option = "re_contents";
+					qna_option = "qna_contents";
+					sql +=  " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						    " where "+re_option+" like '%'|| ? ||'%' ) R "+
+						    " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						    " where "+qna_option+" like '%'|| ? ||'%' ) Q ";
+				}
+				else { // 검색조건이 없을 때
+					sql += " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						   " ) R "+
+						   " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						   " ) Q ";
+				}
+				System.out.println(" 확인용 colname : " + colname);
+				System.out.println(" 확인용 searchWord : " + searchWord);
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("sizePerPage"));
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, searchWord);
+					pstmt.setString(4, paraMap.get("userid"));
+					pstmt.setString(5, searchWord);
+				}
+				else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, searchWord);
+					pstmt.setString(4, paraMap.get("userid"));
+					pstmt.setString(5, searchWord);
+					
+				}
+				else { // 검색조건이 없을 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, paraMap.get("userid"));
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				totalPage = rs.getInt(1);
+			
+			} finally {
+			close();
+			}
+			
+			return totalPage;
+			
+		} // end of public int getTotalMyPage(Map<String, String> paraMap) throws SQLException
+
+		
+		// 마이페이지에 보여줄 내가 쓴 게시글 불러오기
+		@Override
+		public List<MyBoardVO> selectPagingMyBoard(Map<String, String> paraMap) throws SQLException {
+			
+			MyBoardVO myBoardVO = null;
+			
+			List<MyBoardVO> myBoardList = new ArrayList<>();
+			
+			try {
+			
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+				
+				System.out.println("currentShowPageNo : " + currentShowPageNo);
+				System.out.println("sizePerPage : " + sizePerPage);
+				
+				String colname = paraMap.get("searchType");
+				String searchWord = paraMap.get("searchWord");
+				String re_option = "";
+				String qna_option = "";
+				
+				conn = ds.getConnection();
+				/*
+				String sql = " SELECT pk_rnum, fk_pnum, re_title, re_date, re_grade, pk_qna_num, qna_title, qna_date "+
+				" FROM   "+
+				" (   "+
+				"    SELECT rownum as rno, pk_rnum, fk_pnum, re_title, re_date, re_grade, pk_qna_num, qna_title, qna_date "+
+				"    FROM "+
+				"    (    "+
+				" 		select R.pk_rnum AS pk_rnum, R.fk_pnum AS fk_pnum, R.re_title AS re_title "+
+				"     		, to_char(R.re_date, 'yyyy-mm-dd') AS re_date, R.re_grade AS re_grade "+
+				"     		, Q.pk_qna_num AS pk_qna_num, Q.qna_title AS qna_title "+
+				"     		, to_char(Q.qna_date, 'yyyy-mm-dd') AS qna_date "+
+				" 		from tbl_review_board R "+
+				" 		LEFT OUTER JOIN tbl_qna_boa	rd Q "+
+				" 		ON R.fk_userid = Q.fk_userid "+
+				" 		WHERE R.fk_userid = ? OR Q.fk_userid = ? AND R.isdelete = 0 AND Q.isdelete = 0 ";
+				*/
+				
+				String sql = "SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents "+
+							" FROM "+
+							" ( "+
+							"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents "+
+							"    from  "+
+							"        ( "+
+							"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents "+
+							"        from tbl_qna_board A "+
+							"        FULL OUTER JOIN tbl_review_board B "+
+							"        ON A.qna_title = B.re_title "+
+							"        where A.fk_userid = ? "+
+							"        ) Q\n"+
+							"    FULL OUTER JOIN\n"+
+							"        (\n"+
+							"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents "+
+							"        from tbl_qna_board A "+
+							"        FULL OUTER JOIN tbl_review_board B "+
+							"        ON A.qna_title = B.re_title "+
+							"        where B.fk_userid = ? "+
+							"        ) R "+
+							"    ON Q.qna_title = R.re_title " +
+							"    ) V "+
+							" where rno between ? and ?";		
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					re_option = "re_title";
+					qna_option = "qna_title";
+					sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
+				}
+				
+				if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					re_option = "re_contents";
+					qna_option = "qna_contents";
+					sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, paraMap.get("userid"));
+				pstmt.setString(2, paraMap.get("userid"));
+				pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+				pstmt.setInt(4, (currentShowPageNo * sizePerPage));
+				
+				
+				if( "my_title".equalsIgnoreCase(colname) || "my_contents".equalsIgnoreCase(colname) ) {
+					pstmt.setString(5, searchWord);
+					pstmt.setString(6, searchWord);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+				
+					myBoardVO = new MyBoardVO();
+					
+					QnABoardVO qna = new QnABoardVO();
+					qna.setPk_qna_num(rs.getInt(1));
+					qna.setQna_title(rs.getString(2));
+					qna.setQna_date(rs.getString(3));
+					qna.setQna_contents(rs.getString(9));
+					myBoardVO.setQnaBoard(qna);
+					
+					ReviewBoardVO review = new ReviewBoardVO();
+					review.setPk_rnum(rs.getInt(4));
+					review.setRe_title(rs.getString(5));
+					review.setRe_date(rs.getString(6));
+					review.setRe_grade(rs.getInt(7));
+					review.setRe_contents(rs.getString(8));
+					myBoardVO.setRevBoard(review);
+					
+					System.out.println("잘들어감? => " + myBoardVO.getRevBoard().getRe_title());
+					System.out.println("잘들어감? => " + myBoardVO.getQnaBoard().getQna_title());
+					
+					myBoardList.add(myBoardVO);
+					
+				}//end of while(rs.next()) ------------ 
+			
+			
+			} catch(SQLException e){  
+				e.printStackTrace();
+			} catch(NumberFormatException e) { 
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			
+			return myBoardList;
+			
+		} // end of public MyBoardVO selectPagingMyBoard(Map<String, String> paraMap) throws SQLException
+
+		// FAQ 카테고리 불러오기
+		@Override
+		public List<HashMap<String, String>> getFaqCateList() throws SQLException {
+
+			List<HashMap<String, String>> categoryList = new ArrayList<>();
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select pk_faq_c_num, faq_c_name, faq_c_ename "
+						   + " from tbl_faq_category "
+						   + " order by pk_faq_c_num asc ";
+				
+				pstmt = conn.prepareStatement(sql); // 연결
+				
+				rs = pstmt.executeQuery(); // 실행(select니까 query)
+				
+				while(rs.next()) {
+					
+					HashMap<String, String> map = new HashMap<>();
+					
+					map.put("pk_faq_c_num", rs.getString(1));
+					map.put("faq_c_name", rs.getString(2));
+					map.put("faq_c_ename", rs.getString(3));
+					
+					categoryList.add(map);
+					
+				} // end of while
+					
+			} finally {
+				close();
+			}
+		
+			
+			return categoryList;
+			
+		} // end of public List<HashMap<String, String>> getFaqCateList() throws SQLException
 		
 		
 		

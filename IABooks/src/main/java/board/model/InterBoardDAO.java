@@ -1,6 +1,7 @@
 package board.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -181,6 +182,15 @@ public interface InterBoardDAO {
 
 	// 한 제품에 대한 리뷰게시글 갯수 알아오기
 	int countOneProductReview(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
+	int getTotalMyPage(Map<String, String> paraMap) throws SQLException;
+
+	// 마이페이지에 보여줄 내가 쓴 게시글 불러오기
+	List<MyBoardVO> selectPagingMyBoard(Map<String, String> paraMap) throws SQLException;
+
+	// FAQ 카테고리 불러오기
+	List<HashMap<String, String>> getFaqCateList() throws SQLException;
 	
 
 	
