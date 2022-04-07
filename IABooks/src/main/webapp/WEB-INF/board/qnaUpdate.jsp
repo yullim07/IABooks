@@ -60,11 +60,65 @@
 	$(document).ready(function(){
 		
 		
+		
 	});
 	
 	function goEdit() {
 		  
 		  // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
+		  let b_FlagRequiredInfo = false;
+		  
+		  $("input#qnaSubject").each(function(index, item){
+			  const data = $(item).val().trim();
+			  if(data == "") {
+				  alert("제목 항목은 필수 입력값입니다.");
+				  b_FlagRequiredInfo = true;
+				  return false;  // for 문에서 break; 와 같은 기능이다.
+			  }
+		  });
+		  
+		  if(b_FlagRequiredInfo) {
+			  return; // 종료 
+		  } 
+		 
+		  
+		  $("textarea#editordata").each(function(index, item){
+			  const data = $(item).val().trim();
+			  if(data == "") {
+				  alert("내용(을/를) 입력하세요.");
+				  b_FlagRequiredInfo = true;
+				  return false;  // for 문에서 break; 와 같은 기능이다.
+			  }
+		  });
+		  
+		  if(b_FlagRequiredInfo) {
+			  return; // 종료 
+		  } 
+		  
+		  $("input#qnaPasswd").each(function(index, item){
+			  const data = $(item).val().trim();
+			  if(data == "") {
+				  alert("비밀번호 항목은 필수 입력값입니다.");
+				  b_FlagRequiredInfo = true;
+				  return false;  // for 문에서 break; 와 같은 기능이다.
+			  }
+		  });
+		  
+		  if(b_FlagRequiredInfo) {
+			  return; // 종료 
+		  } 
+		  
+		  
+	/* 	  // *** 비밀글설정이 선택 되었는지 검사한다. *** //
+		  const qnaIssecretCheckedLength = $("input:radio[name='qnaIssecret']:checked").length;
+		  
+		  if(qnaIssecretCheckedLength == 0) {
+			  alert("비밀글 유무를 선택하셔야 합니다.");
+			  return; // 종료
+		  }
+		   */
+		  
+		  
 		  
 		  const frm = document.qnaEditFrm;
 		  frm.action = "<%= ctxPath%>/board/qnaUpdateEnd.book";
@@ -102,14 +156,17 @@
   </div>
   <p class="mb-3"></p>
   
-  <c:set var="qnaVO" value="${qnaVO}" />
+  <c:set var="qnaVO" value="${requestScope.qnaVO}" />
+  	
+  		
+  	
   	<form name="qnaEditFrm" method="post"  >
 		<div class="table table-responsive">
 		<table class=" write_review">
 		  	<tbody>
 		    <tr>
 		      <th class="col-2" >제목</th>
-		      <td class="col-10" ><input type="text" id="qnaSubject" name="qnaSubject" value="${(requestScope.qnaVO).qna_title}" /></td>
+		      <td class="col-10" ><input type="text" id="qnaSubject" name="qnaSubject" value="${qnaVO.qna_title}" /></td>
 		    </tr>
 		  	
 		  	 <%--
@@ -151,7 +208,7 @@
 		      
 		      <td colspan="2">
 		      	
-		      		<textarea class="summernote" id="editordata" name="qnaContent">${(requestScope.qnaVO).qna_contents}</textarea>
+		      		<textarea class="summernote" id="editordata" name="qnaContent">${qnaVO.qna_contents}</textarea>
                         <script>
                         $('.summernote').summernote({
                         	height: 300,                 // 에디터 높이
@@ -187,7 +244,21 @@
 		    --%>
 		    <tr>
 				<th scope="row">비밀글설정</th>
-				<td><input type="radio" name="qnaIssecret" id="qnaPublic" value="${(requestScope.qnaVO).qna_issecret}"/>공개글&nbsp;<input type="radio" name="qnaIssecret" id="qnaSecret" value="1" />비밀글</td>
+				<td>
+						<c:if test="${qnaVO.qna_issecret eq '0'}">
+						<input checked="checked" type="radio" name="qnaIssecret" id="qnaPublic" value="0"/>공개글
+						&nbsp;
+						<input  type="radio" name="qnaIssecret" id="qnaSecret" value="1" />비밀글
+						</c:if> 
+						
+						<c:if test="${qnaVO.qna_issecret eq '1'}">
+						<input type="radio" name="qnaIssecret" id="qnaPublic" value="0"/>공개글
+						&nbsp;
+						<input checked="checked" type="radio" name="qnaIssecret" id="qnaSecret" value="1" />비밀글
+						</c:if>
+						<input type="hidden" class="qna_issecret" name="qna_issecret" id="qna_issecret" value="${(requestScope.qnaVO).qna_issecret}"/>
+				</td>
+				
 			</tr>
 		   
 					
@@ -198,14 +269,15 @@
 		  
 		</table>
 		
-		<input type="hidden" name="pk_qna_num" id="pk_qna_num" value="${(requestScope.qnaVO).pk_qna_num}">
-		<span style="display:none;">${(requestScope.qnaVO).pk_qna_num}</span>	
+		<input type="hidden" name="pk_qna_num" id="pk_qna_num" value="${qnaVO.pk_qna_num}">
+		<span style="display:none;">${qnaVO.pk_qna_num}</span>	
 		
 	</div>
 	</form>
+
 	<div class="buttons">
 		
-		<button class="btn btn_update" type="button" onclick="goEdit()">수정하기</button>
+		<button class="btn btn_update" type="button" onclick="goEdit()">수정</button>
 		<button class="btn btn_delete" type="button" onclick="cancelUpdate()">취소</button>		
 		
 	</div>

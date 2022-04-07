@@ -4,12 +4,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page import="board.model.BoardDAO" %>
 <%@ page import="board.model.QnABoardVO" %>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Date"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -44,6 +45,16 @@
 					
 		});
 		 */
+		 
+		 $(".goPro").click(()=>{
+			 
+			 
+			
+				//	alert("확인용 => "+ userid);
+					
+			 
+			 location.href="<%= ctxPath%>/product/showBookDetail.book?pronum=;
+		 });
 		
 		$("button#btn_search").click(function(){
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
@@ -108,7 +119,9 @@
 		
 	}
 	
+	function goPro(){
 	
+	}
 
 </script>
 
@@ -151,11 +164,14 @@
 	        			
 		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
 				    	<td class="tbl_bookname">
+				    		<c:if test="${board.product.pro_name != '-9999'}">
 				    		<a  href="#">
-		            			<img src="" border="0" alt=""/>
-								<span>${board.product.pro_name}</span>
+		            			 <img  class="goPro"  src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>
+		            			
+								<span class="goPro">${board.product.pro_name}</span>
+								<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${board.fk_pnum}"/>
 							</a>  
-							
+							</c:if>
 				    	</td>
 				    	
 				    	
@@ -164,10 +180,22 @@
 					    		<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
 					    				${board.qna_title}
 					    		</a>
-				    		
-				    		<c:if test="${board.qna_issecret eq '1'}">
+							<c:if test="${board.qna_issecret eq '1'}">
 				    			<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
 				    		</c:if>
+					    	 
+							<c:set var="yesterday" value="<%= new Date(new Date().getTime() - 60*60*24*1000) %>"/>
+							<fmt:formatDate value="${yesterday}" pattern="yyyy-MM-dd HH:mm:ss" var="yesterday" />
+							
+					    	<c:if test="${ board.qna_date > yesterday}">
+					    	<span class="new_tag">NEW</span>
+					    	</c:if>
+
+				    		<c:if test="${board.qna_readcount > '10'}">
+				    		<span class="hit_tag">HIT</span>
+				    		</c:if>
+
+				    		
 				    	</td>
 				    	
 				    	<%-- 
@@ -192,7 +220,10 @@
 	        			
 	        		</tr>
 	        		 <input type="hidden" class="qna_passwd" name="qna_passwd" id="qna_passwd" value="${board.qna_passwd}"/>
-	        		
+	        		 <input type="hidden" class="qna_issecret" name="qna_issecret" id="qna_issecret" value="${board.qna_issecret}"/>
+	        		 <input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${board.fk_pnum}"/>
+	        		 <input type="hidden" class="cate_name" name="cate_name" id="cate_name" value="${requestScope.product.cate_name}"/>
+	        		 <input type="hidden" class="pro_imgfile_name" name="pro_imgfile_name" id="pro_imgfile_name" value="${requestScope.product.pro_imgfile_name}"/>
 	        	</c:forEach>
 	        </c:if>
 	        
@@ -266,7 +297,7 @@
 		        <option value="all">전체</option>
 		    </select>
 		    --%>
-		    <select id="searchContent" name="searchContent">
+		    <select id="searchContent" name="searchContent" style="font-size: 14px;">
 		    	<option value="qna_title" selected="selected">제목</option>
 		        <option value="qna_contents">글내용</option>
 		        <option value="mname">글쓴이</option>

@@ -1,5 +1,8 @@
 package board.model;
 
+import java.util.List;
+import java.util.Map;
+
 import member.model.MemberVO;
 
 public class CommentVO {
@@ -89,5 +92,10 @@ public class CommentVO {
 	public void setQnaBoard(QnABoardVO qnaBoard) {
 		this.qnaBoard = qnaBoard;
 	}
+
+
+	
+
+	
 	
 }

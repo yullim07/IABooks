@@ -24,7 +24,10 @@
 
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/remotes/origin/leejh
 	$(document).ready(function () {
 		//총가격측정 숫자포맷
 		$("td.pro_qty input").bind("click", function () {
@@ -50,6 +53,7 @@
 				
 				
 	});
+<<<<<<< HEAD
 		
 	function goCart() {
 		$.ajax({
@@ -75,6 +79,8 @@
 		
 	}//end of function goCart()
 	
+=======
+>>>>>>> refs/remotes/origin/leejh
 </script>
 
 <jsp:include page="/WEB-INF/header.jsp" />
@@ -205,7 +211,11 @@
 			<button type="button" class="btn1" onclick="location.href='#btn_purchase'">상품구매안내</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_related'">관련상품</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
+<<<<<<< HEAD
 			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button> 
+=======
+			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">${requestScope.qnaCnt}</span></button> 
+>>>>>>> refs/remotes/origin/leejh
 		</div>
 		<!-- 버튼그룹 끝 -->
 				
@@ -274,7 +284,11 @@
 			<button type="button" class="btn_active" id="btn_purchase" onclick="location.href='#btn_purchase'">상품구매안내</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_related'">관련상품</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
+<<<<<<< HEAD
 			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>	 
+=======
+			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">${requestScope.qnaCnt}</span></button>	 
+>>>>>>> refs/remotes/origin/leejh
 		</div>
 		<!-- 버튼그룹 끝 -->
 		<!-- 상품구매안내(detail_bottom_purchase) 시작 -->
@@ -329,8 +343,14 @@
 			<button type="button" class="btn1" onclick="location.href='#btn_detail'">상품상세안내</button>
 			<button type="button" class="btn1" onclick="location.href='#btn_purchase'">상품구매안내</button>
 			<button type="button" class="btn_active" id="btn_related" onclick="location.href='#btn_related'">관련상품</button>
+<<<<<<< HEAD
 			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
 			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+=======
+			<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}
+			</span></button>
+			<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">${requestScope.qnaCnt}</span></button>
+>>>>>>> refs/remotes/origin/leejh
 		</div>
 		<!-- 버튼그룹 끝 -->
 		<!-- 관련상품(detail_bottom_related) 시작 -->
@@ -354,8 +374,14 @@
 				<button type="button" class="btn1" onclick="location.href='#btn_detail'">상품상세안내</button>
 				<button type="button" class="btn1" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" class="btn1" onclick="location.href='#btn_related'">관련상품</button>
+<<<<<<< HEAD
 				<button type="button" class="btn_active" id="btn_review" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
 				<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>
+=======
+				<button type="button" class="btn_active" id="btn_review" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}
+				</span></button>
+				<button type="button" class="btn1" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">${requestScope.qnaCnt}</span></button>
+>>>>>>> refs/remotes/origin/leejh
 			</div>
 			<!-- 버튼그룹 끝 -->
 			
@@ -375,13 +401,20 @@
 				<button type="button" class="btn1" onclick="location.href='#btn_purchase'">상품구매안내</button>
 				<button type="button" class="btn1" onclick="location.href='#btn_related'">관련상품</button>
 				<button type="button" class="btn1" onclick="location.href='#btn_review'">상품후기&nbsp;<span class="badge badge-dark">${requestScope.reviewCnt}</span></button>
+<<<<<<< HEAD
 				<button type="button" class="btn_active" id="btn_qna" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">0</span></button>	 
+=======
+				<button type="button" class="btn_active" id="btn_qna" onclick="location.href='#btn_qna'">상품문의&nbsp;<span class="badge badge-dark">${requestScope.qnaCnt}</span></button>	 
+>>>>>>> refs/remotes/origin/leejh
 			</div>
 			<!-- 버튼그룹 끝 -->
 			
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
 			<div class="detail_board_qna">
-				<jsp:include page="detailboard_qna.jsp" />
+				
+				<jsp:include page="detailboard_qna.jsp" >
+					<jsp:param value="${requestScope.pvo.pk_pro_num}" name="pk_pro_num"/>
+				</jsp:include>
 			</div>
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
 
