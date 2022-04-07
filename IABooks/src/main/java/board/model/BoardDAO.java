@@ -817,8 +817,7 @@ public class BoardDAO implements InterBoardDAO {
 			"        ON R.fk_pnum = P.pk_pro_num "+
 			"        JOIN TBL_CATEGORY C " +
 			"        ON P.fk_cate_num = C.pk_cate_num " +
-			"        WHERE isdelete = 0 " +
-			"		 order by re_date desc ";
+			"        WHERE isdelete = 0 ";
 			
 			String colname = paraMap.get("searchType");
 			String searchWord = paraMap.get("searchWord");
@@ -829,7 +828,8 @@ public class BoardDAO implements InterBoardDAO {
 				// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 			}
 			
-			sql += "    ) V"+
+			sql +=  "	order by re_date desc " +
+					"    ) V"+
 					   " ) T "+
 					   " where rno between ? and ?";	
 			
