@@ -7,10 +7,11 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<jsp:include page="../header.jsp" />
+
 
 <meta charset="UTF-8">
 <title>in사과::장바구니</title>
+<jsp:include page="../header.jsp" />
 
 <!-- 부트스트랩 css -->
 <%-- <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
@@ -79,15 +80,7 @@
 				}
 			}
 		}); // end of $(".spinner").spinner({}); --------------------
-	
-		
-		
-		
-		
-		
-		
-		
-		
+
 	}); // end of $(document).ready() --------------------
 	
 	
@@ -109,7 +102,7 @@
 		else {
 		  selectAll.checked = false;
 		}
-	}
+	} // end of function checkSelectAll()
 	
 	// ------------------------------------------------------------
 	// 체크박스 한 번에 전체선택/전체해제
@@ -119,49 +112,69 @@
 		checkboxes.forEach((rowCheck) => {
 			rowCheck.checked = selectAll.checked // 끝에 세미콜론 들어가면 작동 안된다!
 		});
-	}
+	} // end of function selectAll(selectAll)
 	
 	// ------------------------------------------------------------
+	
+	
+	/*
+		내가 하고 싶은 거 >> 체크를 하고 그 체크된 값의 cartno를 배열에 넣은 뒤 액션단으로 보내서 자른 뒤에 
+		그 cartno를 가지고 DAO에서 삭제해준다. => form 이름을 다르게 줘야한다! => 선택삭제가 있는 곳을?
+	 */
+	
 	
 	// 이게 선행되기 전에 되야되는 것! 각각의 체크버튼을 클릭했을 때 배열에 넣어줘야 한다.
 	function checkSelectedBox() {
 		
-	//	const checkboxes = document.getElementsByName("rowCheck");
-		
-		var flag = false;
+	//	var flag = false;
 		var value = document.getElementsByName("rowCheck");
-		var count = 0;
+		var valueArr = new Array();
+		var pk_cartno = 0;
+		
 		for(var i = 0; i < value.length; i++) {
 			if(value[i].checked) {
-				console.log("value[i] : " + value[i].value);
+				pk_cartno = value[i].value;
+				console.log(pk_cartno);
 				// 선택한 것들이 나온다.
 				// 27을 눌렀을 때 - value[i] : 27
 				// 27, 28을 눌렀을 때 - value[i] : 27 / value[i] : 28
-				// 문제는 계속 반복해서 나온다... => 이걸 하나하나 배열에 넣으면 되나?
-				
-				
-				count++;
+				// 문제는 계속 반복해서 나온다... => 이걸 구분자와 함께 한 번에 배열에 넣고 쪼개서 삭제하면 된다!
+				valueArr.push(value[i].value);
 			}
-		}
+		} // end of for ------------------------------
 		
-	}
-	
-	function goDelSelect() {
-		var flag = false;
-		var value = document.getElementsByName("rowCheck");
-		var count = 0;
-		for(var i = 0; i < value.length; i++) {
-			if(value[i].checked) {
-				console.log("value[i] : " + value[i]);
-				count++;
-			}
+		console.log(valueArr);
+		if(valueArr.length == 0) {
+			alert("선택된 상품이 없습니다!");
 		}
-	}
-	
-	
+		else {
+			// var chk = confirm("선택한 상품을 삭제하시겠습니까?");
+			$.ajax({
+				url:"<%= ctxPath%>/product/CartDeleteSelect.up",
+				type:"post",
+				/* data:{"pk_cartno" : pk_cartno}, */
+				data:{valueArr : valueArr},
+				/* dataType:"json", */
+				success:function(n) {
+					if(n = 1) {
+						alert("선택한 상품을 삭제했습니다!");
+						location.replace("value");
+					}
+					else {
+						alert("선택한 상품을 삭제하는데 실패했습니다!");
+					}
+				}
+			});
+			
+		} // end of else ------------------------------
+		
+	} // end of function checkSelectedBox() ------------------------------
+
+
 	
 	// 체크박스 선택 후 삭제 버튼 클릭 시 이벤트
-	/* function goDel() {
+	
+	<%-- function goDelSelect() {
 		var checkboxArr = [];
 		$("input: checkbox[name='rowCheck']:checked").each(function() {
 			checkboxArr.push($(this).val()); // 체크된 것만 값을 뽑아서 배열에 push
@@ -170,28 +183,26 @@
 		
 		$.ajax({
 			type:"POST",
-			url:"",
+			url:"<%= ctxPath%>/product/CartDeleteSelect.up",
 			data: {
 				checkboxArr:checkboxArr // folder seq 값을 가지고 있음
 			},
 			success: function(result) {
-				
+				if(result = 1) {
+					alert("선택한 상품을 삭제했습니다!");
+					location.replace("value");
+				}
+				else {
+					alert("선택한 상품을 삭제하는데 실패했습니다!");
+				}
 			},
-			error: function()
+			error: function(request, status, error){
+				alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			}
 		});
 		
-	} */
+	} --%>
 	
-	// ------------------------------------------------------------
-	
-	// 삭제버튼 눌렀을 때 삭제해주기 << 이건 HTML에서만 작동하니까 사용하지 않는다.
-	/*
-	function goDel(ths) {
-		var ths = $(ths);
-		ths.parents("tr").remove;
-		alert("삭제!");		
-	}
-	*/
 	
 	// 전체삭제
 	function goDelAll(fk_userid) {
@@ -209,14 +220,6 @@
 	}
 	
 	<%-- function goDelSel(pk_cartno) {
-		
-		/* 
-			내가 하고 싶은 거 >> 체크를 하고 그 체크된 값의 cartno를 배열에 넣은 뒤
-			액션단으로 보내서 자른 뒤에 그 cartno를 가지고 DAO에서 삭제해준다.
-			=> form 이름을 다르게 줘야한다! => 선택삭제가 있는 곳을?
-			
-		*/ 
-		
 		const cartcheck_len = $("input:checkbox[name='rowCheck']:checked").length;
 		
 		if(cartcheck_len == 0) {
@@ -237,6 +240,11 @@
 		} --%>
 	
 	
+		// 테스트용 >> 체크박스 속성만 가져와도 카트 번호 가져오기 가능한지
+		function goDelSelect() {
+			
+		}
+		
 </script>
 
 	
@@ -278,11 +286,10 @@
 						<tr>
 							<%-- 체크박스 + 장바구니 번호(숨김) --%>
 							<td>
-								<input type="text" name="fk_userid" value="${sessionScope.loginuser.userid}"> <%-- 나증에 hidden으로 --%>
+								<%-- <input type="text" name="fk_userid" value="${sessionScope.loginuser.userid}"> --%> <%-- 나증에 hidden으로 --%>
 								<input type="text" name="cartno" value="${cvo.pk_cartno}"> <%-- 나증에 hidden으로 --%>
-								<input type="text" name="cartno" value="${cvo.fk_pro_num}">
+								<%-- <input type="text" name="cartno" value="${cvo.fk_pro_num}"> --%>
 								<input type="checkbox" name="rowCheck" id="rowCheck" value="${cvo.pk_cartno}" onclick="checkSelectAll(); checkSelectedBox();" />
-								<%-- <input type="checkbox" name="pk_pro_num" id="pk_pro_num${status.index}" value="${cvo.pk_pro_num }" /> --%>
 							</td>
 							
 							<%-- 이미지 --%>
@@ -353,7 +360,7 @@
 					<tfoot style="background-color: #e8e8e8; text-align: center; font-size: 9pt; height: 40px; line-height: 9pt;">
 						<tr>
 							<td colspan="2">
-								<button type="button" id="btn_goDelCheck" class="btn btn-primary" onclick="goDelSelect()">선택삭제</button>
+								<button type="button" id="btn_goDelCheck" class="btn btn-primary" onclick="goDelSelect(); checkSelectedBox();" >선택삭제</button>
 							</td>
 							<td colspan="2">
 								<button type="button" id="btn_goDelAll" class="btn btn-primary" onclick="goDelAll('${sessionScope.loginuser.userid}')">전체삭제</button>
