@@ -12,22 +12,22 @@
 <script type="text/javascript">
 	
 	$(function(){
-		var chkObj = document.getElementsByName("RowCheck");
+		var chkObj = document.getElementsByName("checkbox");
 		var rowCnt = chkObj.length;
 	
-		$("input[name='allCheck']").click(function(){
-			var chk_listArr = $("input[name='RowCheck']");
+		$("input[name='selectall']").click(function(){
+			var chk_listArr = $("input[name='checkbox']");
 			for (var i=0; i<chk_listArr.length; i++) {
 				chk_listArr[i].checked = this.checked;
 			}
 		});
 	
-		$("input[name='RowCheck']").click(function () {
-			if($("input[name='RowCheck']:checked").length == rowCnt) {
-				$("input[name='allCheck']")[0].checked = true;
+		$("input[name='checkbox']").click(function () {
+			if($("input[name='checkbox']:checked").length == rowCnt) {
+				$("input[name='selectall']")[0].checked = true;
 			}
 			else{
-				$("input[name='allCheck']")[0].checked = false;
+				$("input[name='selectall']")[0].checked = false;
 			}
 		});
 	});
@@ -35,7 +35,7 @@
 	function deleteValue() {
 		var url="delete"; // Controller로 보내고자 하는 URL
 		var valueArr = new Array();
-		var list = $("input[name='RowCheck']");
+		var list = $("input[name='checkbox']");
 		
 		for(var i=0; i<list.length; i++) {
 			if(list[i].checked){ // 선택되어있으면 배열에 값을 저장함
@@ -65,7 +65,9 @@
 					}
 				}
 			}); // end of ajax
-			
+		}
+	} // end of function deleteValue()
+	
 </script>
 
 </head>
@@ -75,7 +77,7 @@
 	<table>
 		<thead>
 			<tr>
-			<th scope="col"><input id="allCheck" type="checkbox" name="allCheck"/></th>
+			<th scope="col"><input id="selectall" type="checkbox" name="selectall"/></th>
 			<th scope="col">번호</th>
 			<th scope="col">ID</th>
 			<th scope="col">성함</th>
@@ -87,7 +89,7 @@
 		<tbody>
 			<c:forEach items="${list)" var="list">
 				<tr>
-					<td class="text_ct"><input name="RowChech" type="checkbox" value="${list.no}"/></td>
+					<td class="text_ct"><input name="checkbox" type="checkbox" value="${list.no}"/></td>
 					<td class="text_ct">${list.no}&nbsp;</td>
 					<td class="text_ct">${list.id}&nbsp;</td>
 					<td class="text_ct"><a href="${path}/board/detail?no=${list.no}">${list.name}&nbsp;</a></td>

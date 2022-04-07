@@ -1545,8 +1545,12 @@ public class ProductDAO implements InterProductDAO {
 
 	// 장바구니 선택삭제하기 메소드
 	@Override
-	public int deleteCartSelect(int pk_cartno) throws SQLException {
+	public int deleteCartSelect(Map<String, String> paraMap) throws SQLException {
 
+		String cartno = paraMap.get("pk_cartno").toString();
+		System.out.println("삭제할 카트번호 => " + cartno);
+		 
+		
 		int result = 0;
 		
 		try {
@@ -1557,7 +1561,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, pk_cartno);
+			pstmt.setString(1, cartno);
 			
 			result = pstmt.executeUpdate();
 			

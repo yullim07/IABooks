@@ -1080,7 +1080,17 @@ VALUES (seq_cartno.NEXTVAL, 'user2', '9791195675807', 1, sysdate, 1);
 INSERT INTO
 tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
 VALUES (seq_cartno.NEXTVAL, 'user2', '9791195675807', 1, sysdate, 1);
-
+commit;
 select * from tbl_cart;
 
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'leess', '9791195675807', 1, sysdate, 1);
+commit;
 
+
+desc tbl_cart;
+desc tbl_order;
+
+
+v
