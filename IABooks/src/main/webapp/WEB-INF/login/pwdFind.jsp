@@ -21,14 +21,22 @@ $(document).ready(function(){
 		console.log("method =>" + method);
 		
 		if(method == "GET") {
-			$("div#div_findResult").hide();
+			$("div#div_findResult_email").hide();
+			$("div#div_findResult_phone").hide();
 		}
 		else if( method == "POST") {
-			$("div#div_findResult").show();
+			$("div#div_findResult_email").show();
+			$("div#div_findResult_phone").show();
 			
 			if(${requestScope.sendMailSuccess == true}) {
 				$("div#div_btnFind").hide();
+				$("div#div_findResult_phone").hide();
 			}
+			else {
+				$("div#div_btnFind").hide();
+				$("div#div_findResult_phone").show();
+				$("div#div_findResult_email").hide();
+			} 
 		} 
 		
 		$("input#email").bind("keyup", function(event){
@@ -38,12 +46,13 @@ $(document).ready(function(){
 		});
 		
 		$("button#btnFind").click(function() {
-			 goFind();
+			 
+			goFind();
+			 
 		});
 	
 		
-		$(function(){
-			//페이지 로드후 적용되는 스크립트
+		$(function(){ // 라디오 체크
 			
 			if("${requestScope.radio}" == 0){
 				$("#emailcheck").attr("checked", true)
@@ -54,21 +63,33 @@ $(document).ready(function(){
 			}
 			
 			show();
-		});
+			
+		}); // end of $(function(){ // 라디오 체크
 		
+			
    		// 인증하기 
 		$("button#btnConfirmCode").click(function(){
-			
-			const frm = document.verifyCertificationFrm;
-			
-			frm.userCertificationCode.value = $("input#input_confirmCode").val();
-			frm.userid.value = $("input#userid").val();
-			
-			frm.action = "<%=ctxPath %>/login/verifyCertification.book";
-			frm.method = "post";
-			frm.submit();
-			
-		});
+			if("${requestScope.radio}" == "0"){
+				
+				
+				const frm = document.verifyCertificationFrm;
+				frm.userCertificationCode.value = $("input#input_confirmCode_email").val();
+				frm.action = "<%=ctxPath %>/login/verifyCertification.book";
+				frm.method = "post";
+				frm.submit();
+				
+				
+			}
+			else if("${requestScope.radio}" == "1"){
+				
+				const frm = document.verifyCertificationFrm;
+				frm.userCertificationCode.value = $("input#input_confirmCode_phone").val();
+				frm.action = "<%=ctxPath %>/login/verifyCertification.book";
+				frm.method = "post";
+				frm.submit();
+			}
+		}); // end of $("button#btnConfirmCode").click(function()
+   		
 	
 	
 	
@@ -76,28 +97,29 @@ $(document).ready(function(){
 	
 	function show() {
 	
-	if($('input:radio[id=emailcheck]').is(':checked')){
-		$('#mobilefound').hide()
-		$('#emailfound').show()
+		if($('input:radio[id=emailcheck]').is(':checked')){
+			$('#mobilefound').hide()
+			$('#emailfound').show()
+			$("div#div_findResult_phone").hide();
+		}
 		
-	}
-	else if($('input:radio[id=phonecheck]').is(':checked')){
-		$('#mobilefound').show()
-		$('#emailfound').hide()
+		else if($('input:radio[id=phonecheck]').is(':checked')){
+			$('#mobilefound').show()
+			$('#emailfound').hide()
+			$("div#div_findResult_email").hide();
+		}
 		
-	}
-	
-	}
+	}// end of function show()
 	
 	
 	function goFind() {
-	
+		
 	const frm = document.pwdFindFrm;
 	frm.action = "<%= ctxPath%>/login/pwdFind.book";
 	frm.method = "post";
 	frm.submit();
 	
-	}
+	}// end of function goFind()
 
 
 </script>
@@ -235,7 +257,7 @@ $(document).ready(function(){
 				</tfoot>
 			</table>
 			
-			<div class="my-3" id="div_findResult">
+			<div class="my-3" id="div_findResult_email">
 		        	<p class="text-center">
 		        <c:if test="${requestScope.isUserExist == false}">
 		        	<span style="color: red;">사용자 정보가 없습니다.</span>
@@ -244,10 +266,8 @@ $(document).ready(function(){
 		        <c:if test="${requestScope.isUserExist == true && requestScope.sendMailSuccess == true }">
 		        	 <span style="font-size: 10pt;">인증코드가 ${requestScope.email}로 발송되었습니다.</span><br>
 		             <span style="font-size: 10pt;">인증코드를 입력해주세요.</span><br>
-		             <input type="text" name="input_confirmCode" id="input_confirmCode" required />
+		             <input type="text" name="input_confirmCode_email" id="input_confirmCode_email" required />
 		             <br><br>
-		             <button type="button" class="btn btn-info" id="btnConfirmCode">인증하기</button>
-		             
 		        </c:if>	
 		        	
 		        <c:if test="${requestScope.isUserExist == true && requestScope.sendMailSuccess == false}">
@@ -255,10 +275,33 @@ $(document).ready(function(){
 		        </c:if>	
 		      </p>
 	  		</div>
+	  		
+	  		<div class="my-3" id="div_findResult_phone">
+		        	<p class="text-center">
+		        <c:if test="${requestScope.isUserExist == false}">
+		        	<span style="color: red;">사용자 정보가 없습니다.</span>
+		        </c:if>	
+	        	
+		        <c:if test="${requestScope.isUserExist == true && requestScope.sendSmsSuccess == true }">
+		        	 <span style="font-size: 10pt;">인증코드가 ${requestScope.phone}로 발송되었습니다.</span><br>
+		             <span style="font-size: 10pt;">인증코드를 입력해주세요.</span><br>
+		             <input type="text" name="input_confirmCode_phone" id="input_confirmCode_phone" required />
+		             <br><br>
+		        </c:if>	
+		        
+		        <c:if test="${requestScope.isUserExist == true && requestScope.sendSmsSuccess == false}">
+		        	<span style="color: red;">문자발송이 실패했습니다.</span>
+		        </c:if>	
+		        
+		      </p>
+	  		</div>
+	  		<c:if test="${requestScope.isUserExist == true && requestScope.sendSmsSuccess == true || requestScope.sendMailSuccess == true }">
+				<button type="button" style="margin-bottom:4%;" class="btn btn-info" id="btnConfirmCode" data-dismiss="modal">인증하기</button>
+			</c:if>
 		</form>	
 	</div>
 	
-	<form name="verifyCertificationFrm">
+<form name="verifyCertificationFrm">
 	<input type="hidden" name="userCertificationCode">
 	<input type="hidden" name="userid">
 </form>

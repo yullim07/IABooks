@@ -4,6 +4,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import member.model.*;
@@ -13,7 +14,8 @@ public class PwdUpdateEndAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String userid = request.getParameter("userid");
+		HttpSession session = request.getSession();  // 세션불러오기
+		String userid = (String) session.getAttribute("userid"); // 세션에 저장된 userid 불러오기
 		
 		String method = request.getMethod();
 		// "GET" 또는 "POST"

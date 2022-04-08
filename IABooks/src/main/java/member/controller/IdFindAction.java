@@ -27,13 +27,8 @@ public class IdFindAction extends AbstractController {
 	    	// POST 방식으로 넘어온 것 이라면
 				String name = request.getParameter("name");
 				String email = request.getParameter("email");
-				String phone = "010" + request.getParameter("phone_one") + request.getParameter("phone_two") ;
+				String phone = "010-" + request.getParameter("phone_one") +"-"+ request.getParameter("phone_two") ;
 				String radio = request.getParameter("check");
-				
-				System.out.println(name);
-				System.out.println(email);
-				System.out.println(phone);
-				System.out.println(radio);
 				
 				InterMemberDAO mdao = new MemberDAO();
 				
