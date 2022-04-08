@@ -26,7 +26,7 @@ public class QnaBoardAction extends AbstractController {
       MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
       
       
-   //   String issecret  = request.getParameter("qna_issecret");
+   //   int qna_issecret  = Integer.parseInt(request.getParameter("issecret"));
       
       
      
@@ -46,6 +46,7 @@ public class QnaBoardAction extends AbstractController {
       //db에 뭔가 실어서 보낸다 Map으로
       
       Map<String, String> paraMap = new HashMap<>();
+     
       
       String currentShowPageNo =  request.getParameter("currentShowPageNo"); // 현재 내가 보고자 하는 페이지가 무엇입니까
       // currentShowPageNo 은 사용자가 보고자 하는 페이지바의 페이지번호이다.
@@ -75,7 +76,6 @@ public class QnaBoardAction extends AbstractController {
       }
       
       paraMap.put("sizePerPage", sizePerPage);
-    
       //== 검색이 있을 경우 시작 == //
       
       if( searchContent != null && !"".equals(searchContent) && !"qna_title".equals(searchContent) 

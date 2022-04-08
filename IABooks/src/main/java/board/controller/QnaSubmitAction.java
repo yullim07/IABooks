@@ -18,7 +18,7 @@ public class QnaSubmitAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		System.out.println("되나?");
+	//	System.out.println("되나?");
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 해야 한다. == //
 		HttpSession session  = request.getSession();
 				

@@ -398,6 +398,7 @@ public class BoardDAO implements InterBoardDAO {
 				category.setCate_name(rs.getString(14));
 				qnaVO.setCategory(category);
 				
+			//	System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
 				System.out.println("보자구"+qnaVO.getQna_readcount());
 				
 			

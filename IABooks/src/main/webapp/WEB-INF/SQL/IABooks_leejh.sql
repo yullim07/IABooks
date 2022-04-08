@@ -870,4 +870,13 @@ from tbl_comment;
 select *
 from tbl_comment
 where fk_qna_num = 3237;
+
+
+select *
+from tbl_qna_board
+order by pk_qna_num desc;
                       
+                      
+-------------------
+
+alter table tbl_qna_board modify  qna_issecret varchar2(5) not null;
