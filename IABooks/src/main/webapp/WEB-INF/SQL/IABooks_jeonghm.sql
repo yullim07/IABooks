@@ -412,18 +412,40 @@ select *
 from tbl_faq_board
 where fk_faq_c_num = 3;
 
-select currentnum, currenttitle, prevnum, prevtitle, nextnum, nexttitle
+
+-----------------------------------------------------------
+-- 선생님 피드백
+select prevnum, prevtitle,currentnum, currenttitle, nextnum, nexttitle 
 from
 (
-select   pk_faq_board_num as currentnum
-         , faq_title as currenttitle
-         , lead(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as nextnum
-         , lead(faq_title, 1, '다음글이 없습니다') over(order by faq_title desc) as nexttitle
-         , lag(pk_faq_board_num, 1, 0) over(order by pk_faq_board_num desc) as prevnum
-         , lag(faq_title, 1, '이전글이 없습니다') over(order by faq_title desc) as prevtitle
+select   
+         lag(pk_faq_board_num, 1) over(order by pk_faq_board_num desc) as prevnum
+       , lag(faq_title, 1) over(order by pk_faq_board_num desc) as prevtitle
+         -- 이전(미래)
+       , pk_faq_board_num as currentnum
+       , faq_title as currenttitle 
+       , lead(pk_faq_board_num, 1) over(order by pk_faq_board_num desc) as nextnum
+       , lead(faq_title, 1) over(order by pk_faq_board_num desc) as nexttitle  
+         -- 다음(과거)
 from tbl_faq_board
 ) v
-where currentnum = 3;
+
+-- 기준이 같아야함
+-- default는 뷰단에서 잡아줘라
+---
+5
+4
+3
+2
+1
+--
+
+     1  2  3 페이지
+     5  3  1
+     4  2
+-----------------------------------------------------------
+
+
 
 desc TBL_FAQ_BOARD
 
@@ -495,7 +517,7 @@ select pk_rnum, R.re_title,
 from tbl_review_board R JOIN tbl_member M ON R.fk_userid = M.pk_userid 
 
 
--- qna 쿼리문 
+-- 리뷰 쿼리문 
 SELECT pk_rnum, pro_name, p_img_name, re_title, mname, re_date, fk_userid, re_grade, cate_name
 FROM   
 (   
@@ -522,3 +544,39 @@ select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, RE_DATE, RE_GRADE, RE_CONTENTS, RE
 from tbl_review_board R JOIN tbl_product P
 ON R.FK_PNUM = P.pk_pro_num
 
+
+String sql = "select prevnum, prevtitle,currentnum, currenttitle, nextnum, nexttitle \n"+
+"from\n"+
+"(\n"+
+"select   \n"+
+"         lag(pk_faq_board_num, 1) over(order by pk_faq_board_num desc) as prevnum\n"+
+"       , lag(faq_title, 1) over(order by pk_faq_board_num desc) as prevtitle\n"+
+"         -- 이전(미래)\n"+
+"       , pk_faq_board_num as currentnum\n"+
+"       , faq_title as currenttitle \n"+
+"       , lead(pk_faq_board_num, 1) over(order by pk_faq_board_num desc) as nextnum\n"+
+"       , lead(faq_title, 1) over(order by pk_faq_board_num desc) as nexttitle  \n"+
+"         -- 다음(과거)\n"+
+"from tbl_faq_board\n"+
+") v";
+
+
+
+select ceil( count(*)/5 )
+			from tbl_review_board A JOIN tbl_product B 
+			ON A.FK_PNUM = B.PK_PRO_NUM
+			JOIN tbl_member C ON A.FK_USERID = C.PK_USERID
+			where pk_pro_num = '9791190259088';
+
+
+String sql = "\n"+
+"select ceil( count(*)/5 )\n"+
+"			from tbl_review_board A JOIN tbl_product B \n"+
+"			ON A.FK_PNUM = B.PK_PRO_NUM\n"+
+"			JOIN tbl_member C ON A.FK_USERID = C.PK_USERID\n"+
+"			where fk_pnum = '9791190259088';";
+
+select * from user_sequences;
+
+select *
+from tbl_review_board

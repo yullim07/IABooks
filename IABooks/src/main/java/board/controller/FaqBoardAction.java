@@ -24,12 +24,12 @@ public class FaqBoardAction extends AbstractController {
 		// 페이징 처리가 되어진 모든 FAQ 목록 보여주기
 		
 		// 검색조건이 있을 경우 시작
-		String searchCate = request.getParameter("searchCate");
+		String searchCate = request.getParameter("faqsearchCate");
 		if( searchCate == "" || searchCate == null ) {
 			searchCate = "all";
 		}
-		String searchType = request.getParameter("searchType");
-		String searchWord = request.getParameter("searchWord");
+		String searchType = request.getParameter("faqsearchType");
+		String searchWord = request.getParameter("faqsearchWord");
 		// 검색조건이 있을 경우 끝
 		
 		
@@ -93,7 +93,7 @@ public class FaqBoardAction extends AbstractController {
 		
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		
-		List<FaqBoardVO> faqBoardList = bdao.selectPagingFaqBord(paraMap); 
+		List<FaqBoardVO> faqBoardList = bdao.selectPagingFaqBoard(paraMap); 
 		
 		request.setAttribute("faqBoardList", faqBoardList);
 		

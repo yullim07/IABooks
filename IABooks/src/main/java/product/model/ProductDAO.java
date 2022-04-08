@@ -1,7 +1,5 @@
 package product.model;
 
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +13,8 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+
+import member.model.MemberVO;
 
 
 public class ProductDAO implements InterProductDAO {
@@ -143,7 +143,7 @@ public class ProductDAO implements InterProductDAO {
 						+ " from "
 						+ " ( "
 							+ " select rownum as rno, A.* "
-							+ " from\r\n"
+							+ " from "
 							+ " ( "
 								+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pro_sales, pk_pro_num, cate_name "
 								+ " from tbl_product "
@@ -497,23 +497,359 @@ public class ProductDAO implements InterProductDAO {
 	}//end of public List<ProductVO> selectPagingSearch(Map<String, String> paraMap) throws SQLException
 
 
+	// 제품번호를 입력받아서 제품의 상세정보를 출력해주는 메소드 구현하기
+	@Override
+	public ProductVO showBookDetail(String pk_pro_num) throws SQLException {
+		
+		ProductVO pvo = new ProductVO(); 
+		CategoryVO cvo = new CategoryVO();
+		WriterVO wvo = new WriterVO();
+		try {
+			conn = ds.getConnection();			
+						
+			String sql = " select pro_name, publisher, pro_publish_date, pro_saleprice, pro_viewcnt, pro_size, nvl(pro_bindtype, ' '), pro_pages, pro_imgfile_name, "
+						+ " pk_pro_num, pro_soldout, pro_restock, pro_price, cate_name, wr_name "
+					/* + " --nvl(wr_info, ' '), nvl(pro_index, ' '), nvl(pro_content, ' ') " */
+						+ " from "
+						+ " tbl_product "
+						+ " join "
+						+ " tbl_writer "
+						+ " on fk_wr_code = pk_wr_code "
+						+ " join "
+						+ " tbl_category "
+						+ " on fk_cate_num = pk_cate_num "
+						+ " where pk_pro_num = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_pro_num);
+			
+			rs = pstmt.executeQuery(); // 결과값은 1개의 행이 나온다!
+			
+			if(rs.next()) { // 결과값이 1개만 나오기 때문에 while문을 사용할 필요가 없다!
+				
+				pvo.setPro_name(rs.getString(1));
+				pvo.setPublisher(rs.getString(2));
+				pvo.setPro_publish_date(rs.getString(3));
+				pvo.setPro_saleprice(rs.getInt(4));	
+				pvo.setPro_viewcnt(rs.getInt(5));
+				pvo.setPro_size(rs.getString(6));
+				pvo.setPro_bindtype(rs.getString(7));
+				pvo.setPro_pages(rs.getInt(8));		
+				pvo.setPro_imgfile_name(rs.getString(9));
+				pvo.setPk_pro_num(rs.getString(10));
+				pvo.setPro_soldout(rs.getInt(11));
+				pvo.setPro_restock(rs.getInt(12));
+				pvo.setPro_price(rs.getInt(13));
+				
+				cvo.setCate_name(rs.getString(14));
+				pvo.setCategory(cvo);
+				
+				wvo.setWr_name(rs.getString(15));
+				//wvo.setWr_info(rs.getString(17));
+				pvo.setWriter(wvo);
+				
+				//pvo.setPro_index(rs.getString(15));
+				//pvo.setPro_content(rs.getString(16));
+				
+				viewCount(rs.getString(10));
 
+			}
+			
+		} finally {
+			close();
+		}
+		return pvo;
+	}//end of public ProductVO showBookDetail(String pk_pro_num) throws SQLException 
 
-
-
-
-
-
-
-
-
-
-
-
-
+	//조회수(update)메소드
+	public int viewCount(String pk_pro_num) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			String sql = "update tbl_product set pro_viewcnt = pro_viewcnt+1 "
+						+ " where pk_pro_num = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_pro_num);
+			
+			result = pstmt.executeUpdate();
 	
+		} finally {
+			close();
+		}
+		
+		return result;	
+	}//end of public int viewCount(String pk_pro_num) throws SQLException
 
+
+	@Override
+	public MemberVO oderUserInfo(String userid) throws SQLException {
+		MemberVO mvo = new MemberVO();
+		try {
+			conn = ds.getConnection();			
+						
+			String sql = "select mname, postcode, address, detailaddress, extraaddress, uq_phone, uq_email, mileage, coupon "
+						+ " from tbl_member "
+						+ " where pk_userid = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid);
+			
+			rs = pstmt.executeQuery(); // 결과값은 1개의 행이 나온다!
+			
+			if(rs.next()) { // 결과값이 1개만 나오기 때문에 while문을 사용할 필요가 없다!
+				
+				mvo.setName(rs.getString(1));
+				mvo.setPostcode(rs.getString(2));
+				mvo.setAddress(rs.getString(3));
+				mvo.setDetailaddress(rs.getString(4));
+				mvo.setExtraaddress(rs.getString(5));
+				mvo.setPhone(rs.getString(6));
+				mvo.setEmail(rs.getString(7));
+				mvo.setCoupon(rs.getInt(8));
+				mvo.setMileage(rs.getInt(9));	
+			}
+			
+		} finally {
+			close();
+		}
+		
+		return mvo;
+	}//end of public MemberVO oderUserInfo(String userid) throws SQLException
+
+	public List<ProductVO> selectSlides(Map<String, String> paraMap) throws SQLException {
+		List<ProductVO> prodList = new ArrayList<>();
+			
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " select pro_name, pro_imgfile_name, pk_pro_num, pro_saleprice, cate_name "
+						+ " from "
+						+ " ( "
+							+ " select rownum as rno, A.* "
+							+ " from "
+							+ " ( "
+								+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pk_pro_num, cate_name "
+								+ " from tbl_product "
+								+ " join "
+								+ " tbl_category "
+								+ " on fk_cate_num = pk_cate_num "
+								+ " order by pro_inputdate desc "
+							+ " )A "
+						+ " )B "
+						+ " where rno between 1 and  ? ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, paraMap.get("slidesCnt"));
+
+			 rs = pstmt.executeQuery();
+			
+			 while(rs.next()) {
 	
+				 ProductVO pvo = new ProductVO();
+				 CategoryVO cvo = new CategoryVO();
+				 
+				 pvo.setPro_name(rs.getString(1));
+				 pvo.setPro_imgfile_name(rs.getString(2));
+				 pvo.setPk_pro_num(rs.getString(3));
+				 pvo.setPro_saleprice(rs.getInt(4));
+				 
+				 cvo.setCate_name(rs.getString(5));
+				 pvo.setCategory(cvo);
+				 
+				 prodList.add(pvo);
+			 }
+			 
+		} finally {
+			close();
+		}
+		
+		return prodList;
+	}//end of public List<ProductVO> selectSlides(Map<String, String> paraMap) throws SQLException
+
+	//인덱스에서 best책띄우기
+	@Override
+	public List<ProductVO> selectIndexBest(Map<String, String> paraMap) throws SQLException {
+		List<ProductVO> prodList = new ArrayList<>();
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String cate_name = paraMap.get("cate_name");
+			 
+
+			 
+			 String sql = " select pro_name, pro_imgfile_name, pk_pro_num, pro_saleprice, cate_name "
+						+ " from "
+						+ " ( "
+							+ " select rownum as rno, A.* "
+							+ " from "
+							+ " ( "
+								+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pk_pro_num, cate_name "
+								+ " from tbl_product "
+								+ " join "
+								+ " tbl_category "
+								+ " on fk_cate_num = pk_cate_num ";
+								
+			 if("total".equalsIgnoreCase(cate_name)) {
+				sql +=  " order by pro_sales desc, pro_viewcnt desc "
+						+ " )A "
+						+ " )B "
+						+ " where rno between 1 and  7 ";
+				
+				 pstmt = conn.prepareStatement(sql);
+				
+			 }else if("other".equalsIgnoreCase(cate_name)) {
+				sql += " where cate_name in (?,'science') "
+						+ " order by pro_sales desc, pro_viewcnt desc "
+						+ " )A "
+						+ " )B "
+						+ " where rno between 1 and  7 ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, cate_name);
+			
+			 }else {
+				sql += " where cate_name = ? "
+						+ " order by pro_sales desc, pro_viewcnt desc "
+						+ " )A "
+						+ " )B "
+						+ " where rno between 1 and  7 "; 
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, cate_name);
+			 }
+			 
+			 rs = pstmt.executeQuery();
+			
+			 while(rs.next()) {
+	
+				 ProductVO pvo = new ProductVO();
+				 CategoryVO cvo = new CategoryVO();
+				 
+				 pvo.setPro_name(rs.getString(1));
+				 pvo.setPro_imgfile_name(rs.getString(2));
+				 pvo.setPk_pro_num(rs.getString(3));
+				 pvo.setPro_saleprice(rs.getInt(4));
+				 
+				 cvo.setCate_name(rs.getString(5));
+				 pvo.setCategory(cvo);
+				 
+				 prodList.add(pvo);
+			 }
+			 
+		} finally {
+			close();
+		}
+		
+		return prodList;
+	}//end of public List<ProductVO> selectIndexBest(Map<String, String> paraMap) throws SQLException
+
+	//인덱스에서 화제의책 띄우기
+	@Override
+	public List<ProductVO> selectIndexHot() throws SQLException {
+		List<ProductVO> prodList = new ArrayList<>();
+		
+		try {
+			 conn = ds.getConnection();
+			
+			 String sql = " select pro_name, pro_imgfile_name, pk_pro_num, pro_saleprice, cate_name "
+						+ " from "
+						+ " ( "
+							+ " select rownum as rno, A.* "
+							+ " from "
+							+ " ( "
+								+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pk_pro_num, cate_name "
+								+ " from tbl_product "
+								+ " join "
+								+ " tbl_category "
+								+ " on fk_cate_num = pk_cate_num "
+			 					+ " order by pro_viewcnt desc "
+			 				+ " )A "
+			 			+ " )B "
+			 			+ " where rno between 1 and  8 ";
+
+				
+			 pstmt = conn.prepareStatement(sql);
+
+			 rs = pstmt.executeQuery();
+			
+			 while(rs.next()) {
+	
+				 ProductVO pvo = new ProductVO();
+				 CategoryVO cvo = new CategoryVO();
+				 
+				 pvo.setPro_name(rs.getString(1));
+				 pvo.setPro_imgfile_name(rs.getString(2));
+				 pvo.setPk_pro_num(rs.getString(3));
+				 pvo.setPro_saleprice(rs.getInt(4));
+				 
+				 cvo.setCate_name(rs.getString(5));
+				 pvo.setCategory(cvo);
+				 
+				 prodList.add(pvo);
+			 }
+			 
+		} finally {
+			close();
+		}
+		
+		return prodList;
+	}//end of public List<ProductVO> selectIndexHot() throws SQLException
+
+	//인덱스에서 이책어때요 띄우기
+	@Override
+	public List<ProductVO> selectIndexRandom() throws SQLException {
+		List<ProductVO> prodList = new ArrayList<>();
+		
+		try {
+			 conn = ds.getConnection();
+			
+			 String sql = " select pro_name, pro_imgfile_name, pk_pro_num, pro_saleprice, cate_name "
+						+ " from "
+						+ " ( "
+							+ " select rownum as rno, A.* "
+							+ " from "
+							+ " ( "
+								+ " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, pk_pro_num, cate_name "
+								+ " from tbl_product "
+								+ " join "
+								+ " tbl_category "
+								+ " on fk_cate_num = pk_cate_num "
+			 					+ " order by dbms_random.random "
+			 				+ " )A "
+			 			+ " )B "
+			 			+ " where rno between 1 and  8 ";
+
+				
+			 pstmt = conn.prepareStatement(sql);
+
+			 rs = pstmt.executeQuery();
+			
+			 while(rs.next()) {
+	
+				 ProductVO pvo = new ProductVO();
+				 CategoryVO cvo = new CategoryVO();
+				 
+				 pvo.setPro_name(rs.getString(1));
+				 pvo.setPro_imgfile_name(rs.getString(2));
+				 pvo.setPk_pro_num(rs.getString(3));
+				 pvo.setPro_saleprice(rs.getInt(4));
+				 
+				 cvo.setCate_name(rs.getString(5));
+				 pvo.setCategory(cvo);
+				 
+				 prodList.add(pvo);
+			 }
+			 
+		} finally {
+			close();
+		}
+		
+		return prodList;
+	}//end of public List<ProductVO> selectIndexRandom() throws SQLException
+
 	
 	
 	
@@ -998,180 +1334,88 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 	// ============================================================================================
+	/*
+	 * @Override public int plusViewCnt(String pk_pro_num) throws SQLException {
+	 * 
+	 * try {
+	 * 
+	 * conn = ds.getConnection();
+	 * 
+	 * String sql = " update tbl_product " + " set pro_viewcnt = pro_viewcnt + 1 " +
+	 * " where pk_pro_num = ? ";
+	 * 
+	 * pstmt = conn.prepareStatement(sql); pstmt.setString(1, pk_pro_num);
+	 * 
+	 * int result = pstmt.executeUpdate(); return result;
+	 * 
+	 * } catch (Exception e) { e.printStackTrace(); } finally { close(); }
+	 * 
+	 * return -1; // 데이터베이스 오류 }
+	 * 
+	 * @Override public List<CartVO> getCartList(String fk_userid) {
+	 * 
+	 * List<CartVO> cartList = null;
+	 * 
+	 * try { conn = ds.getConnection();
+	 * 
+	 * String sql = " SELECT * " + " FROM tbl_cart " + " WHERE fk_userid = ? ";
+	 * 
+	 * pstmt = conn.prepareStatement(sql); pstmt.setString(1, fk_userid);
+	 * 
+	 * rs = pstmt.executeQuery();
+	 * 
+	 * int cnt = 0;
+	 * 
+	 * while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까 cnt++;
+	 * 
+	 * if(cnt == 1) { cartList = new ArrayList<CartVO>(); }
+	 * 
+	 * CartVO cvo = new CartVO();
+	 * 
+	 * cvo.setPk_cartno(rs.getInt("pk_cartno"));
+	 * cvo.setFK_USERID(rs.getString("fk_userid"));
+	 * cvo.setPk_pro_num(rs.getInt("pk_pro_num"));
+	 * cvo.setCk_odr_qty(rs.getInt("ck_odr_qty"));
+	 * cvo.setCk_cart_register(rs.getDate("ck_cart_register")); }
+	 * 
+	 * } catch (SQLException e) { e.printStackTrace(); } finally { close(); }
+	 * 
+	 * return cartList; }
+	 * 
+	 */
 
-		// 제품번호를 입력받아서 제품의 상세정보를 출력해주는 메소드 구현하기
 		@Override
-		public ProductVO showBookDetail(String pk_pro_num) throws SQLException {
-			
-			ProductVO pvo = new ProductVO(); 
-			CategoryVO cvo = new CategoryVO();
-			WriterVO wvo = new WriterVO();
-			
-			try {
-				conn = ds.getConnection();			
-							
-				String sql =  " SELECT "					
-							+ " A.pro_name, A.pro_imgfile_name, A.pro_saleprice, "
-							+ " A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date, "
-							+ " A.fk_cate_num, C.cate_name, A.pro_bindtype, A.pro_pages, A.pro_size, "
-							+ "	A.pk_pro_num, A.pro_price, "
-							+ "	A.pro_index, "
-						//	CLOB으로 선언된 책소개, 작가소개 생략 후 진행	
-						//	+ " A.pro_content, B.wr_info, "
-							+ " A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
-							+ "	FROM "
-							+ " tbl_product A "
-							+ "	LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
-							+ " LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
-							+ " WHERE "
-							+ " pk_pro_num = ? ";
-				/*
-				 * 도서정보 (도서명, 판매가, 이미지파일명)
-				 * 품목정보 (도서명, 저자명, 출판사, 출간일, 카테고리명, 제본, 쪽수, 크기, 상품코드, 정가)
-				 * 책소개 / 저자소개 / 목차
-				 */
-				// LEFT OUTER JOIN을 사용했다.
+		public List<ProductVO> showProductDetail(String pk_pro_num) throws SQLException {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, pk_pro_num);
-				
-				rs = pstmt.executeQuery(); // 결과값은 1개의 행이 나온다!
-				
-				if(rs.next()) { // 결과값이 1개만 나오기 때문에 while문을 사용할 필요가 없다!
-					
-					pvo = new ProductVO();
-					cvo = new CategoryVO();
-					wvo = new WriterVO();
-					
-					/*
-						pro_name
-						pro_imgfile_name
-						pro_saleprice			int
-						fk_wr_code				int
-						wr_name
-						publisher
-						pro_publish_date		date(String)
-						fk_cate_num				int
-						cate_name
-						pro_bindtype
-						pro_pages				int
-						pro_size
-						pk_pro_num
-						pro_price				int
-						pro_index
-						pro_content				CLOB
-						wr_info					CLOB
-						pro_inputdate			date(String)
-						pro_qty					int
-						pro_sales				int
-						pro_viewcnt				int
-					*/
-					
-					pvo.setPro_name(rs.getString(1));
-					pvo.setPro_imgfile_name(rs.getString(2));
-					pvo.setPro_saleprice(rs.getInt(3));	
-					pvo.setFk_wr_code(rs.getInt(4));				
-					wvo.setWr_name(rs.getString(5));			// 작가이름
-					pvo.setPublisher(rs.getString(6));
-					pvo.setPro_publish_date(rs.getString(7));
-					pvo.setFk_cate_num(rs.getInt(8));
-					cvo.setCate_name(rs.getString(9));			// 카텍고리명
-					pvo.setPro_bindtype(rs.getString(10));
-					pvo.setPro_pages(rs.getInt(11));		
-					pvo.setPro_size(rs.getString(12));
-					pvo.setPk_pro_num(rs.getString(13));
-					pvo.setPro_price(rs.getInt(14));			
-					pvo.setPro_index(rs.getString(15));
-				//	CLOB 사용법 모르겠음
-				//	pvo.setPro_content(rs.getString(16));
-				//	wvo.setWr_info(rs.getString(17));
-					pvo.setPro_inputdate(rs.getString(16));
-					pvo.setPro_qty(rs.getInt(17));
-					pvo.setPro_sales(rs.getInt(18));			
-					
-					int pro_viewcnt = rs.getInt(19);
-					pvo.setPro_viewcnt(pro_viewcnt);
-					pro_viewcnt++;
-					
-					plusViewCnt(pk_pro_num);
-					
-				}
-				
-			} finally {
-				close();
-			}
-			return pvo;
+		@Override
+		public int plusViewCnt(Map<String, String> paraMap) throws SQLException {
+			// TODO Auto-generated method stub
+			return 0;
 		}
 
 		@Override
 		public int plusViewCnt(String pk_pro_num) throws SQLException {
-
-			try {
-				
-				conn = ds.getConnection();
-				
-				String sql =  " update tbl_product "
-							+ " set pro_viewcnt = pro_viewcnt + 1 "
-							+ " where pk_pro_num = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, pk_pro_num);
-				
-				int result = pstmt.executeUpdate();
-				return result;
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				close();
-			}
-			
-			return -1; // 데이터베이스 오류
+			// TODO Auto-generated method stub
+			return 0;
 		}
 
 		@Override
-		public List<CartVO> getCartList(String fk_userid) {
-			
-			List<CartVO> cartList = null;
-			
-			try {
-				conn = ds.getConnection();
-				
-				String sql =  " SELECT * "
-							+ " FROM tbl_cart "
-							+ " WHERE fk_userid = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, fk_userid);
-				
-				rs = pstmt.executeQuery();
-				
-				int cnt = 0;
-				
-				while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까 
-					cnt++;
-					
-					if(cnt == 1) {
-						cartList = new ArrayList<CartVO>();
-					}
-					
-					CartVO cvo = new CartVO();
-					
-					cvo.setPk_cartno(rs.getInt("pk_cartno"));
-					cvo.setFK_USERID(rs.getString("fk_userid"));
-					cvo.setPk_pro_num(rs.getInt("pk_pro_num")); 
-					cvo.setCk_odr_qty(rs.getInt("ck_odr_qty"));
-					cvo.setCk_cart_register(rs.getDate("ck_cart_register"));			
-				}
-		
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} finally {
-				close();
-			}
-			
-			return cartList;
-		}	
+		public List<CartVO> getCartList(String userid) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+
+
+	
+
+
+
+
 	
 
 }

@@ -99,7 +99,8 @@
 <div class="divClear"></div>
 
 <%-- 로고 및 검색바 : 디자인수정--%>
-
+	<br>
+	<br>
 	<div class="container">    
 		<div class="d-none d-lg-block">
 			<a href="<%= ctxPath%>/index.book" style="display: inline-block;">

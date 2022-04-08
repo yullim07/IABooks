@@ -1,6 +1,7 @@
 show user;
 -- USER이(가) "SEMIORAUSER3"입니다.
-       
+    
+   
 -- TBL_CATEGORY insert start --        
 insert into TBL_CATEGORY(PK_CATE_NUM, CATE_NAME)
 values(101,'인문');
@@ -20,6 +21,48 @@ SELECT * FROM TBL_CATEGORY;
 -- TBL_WRITER insert end --    
 
 
+--인덱스 띄위기--
+select pro_name, pro_imgfile_name, cate_name, pk_pro_num, PRO_SALES, PRO_VIEWCNT
+ from
+( 
+select rownum as rno, A.* 
+from 
+( 
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, PRO_SALES, pk_pro_num, cate_name, PRO_VIEWCNT 
+from tbl_product
+join
+tbl_category 
+on fk_cate_num = pk_cate_num
+order by DBMS_RANDOM.RANDOM
+)A
+)B
+where rno between 1 and  8;
+
+
+
+
+select pro_name, pro_imgfile_name, cate_name, pk_pro_num "
+    + " from "
+    + " ( "
+        + " select rownum as rno, A.* "
+        + " from "
+        + " ( "
+            + " select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, pro_inputdate, TBL_PRODUCT, pk_pro_num, cate_name "
+            + " from tbl_product "
+            + " join "
+            + " tbl_category V "
+            + " on fk_cate_num = pk_cate_num "
+            + " order by TBL_PRODUCT desc "
+        + " )A "
+    + " )B "
+    + " where rno between 1 and  20 ";
+
+
+
+
+
+---
+
 select pro_name, pro_saleprice, pro_imgfile_name
 from
 (
@@ -36,7 +79,7 @@ where rno between 1 and 10;
 select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, cate_name
 from
 (
-select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num
+select pro_name, pro_saleprice, pro_imgfile_name, fk_cate_num, 
 from tbl_product
 group by fk_cate_num
 )V1
@@ -385,6 +428,44 @@ JOIN
 TBL_WRITER V2
 on FK_WR_CODE = PK_WR_CODE
 where PRO_NAME like '%'||'커피'||'%' or PUBLISHER like '%'||'커피'||'%' or PK_PRO_NUM like '%'||'98'||'%' or WR_NAME like '%'||'커피'||'%'
+--
+
+SELECT PRO_NAME, PUBLISHER, PRO_PUBLISH_DATE, PRO_SALEPRICE, PRO_VIEWCNT, PRO_SIZE, nvl(PRO_BINDTYPE, '-')
+FROM
+tbl_product 
+
+SELECT PRO_NAME, PUBLISHER, PRO_PUBLISH_DATE, PRO_SALEPRICE, PRO_VIEWCNT, PRO_SIZE, nvl(PRO_BINDTYPE, ' '), PRO_PAGES, PRO_IMGFILE_NAME,
+PK_PRO_NUM, PRO_SOLDOUT, PRO_RESTOCK,
+WR_NAME, nvl(WR_INFO, ' '), CATE_NAME
+--, nvl(PRO_INDEX, ' '), nvl(PRO_CONTENT, ' ')
+FROM
+tbl_product 
+JOIN 
+tbl_writer
+ON fk_wr_code = pk_wr_code
+JOIN 
+tbl_category
+ON fk_cate_num = pk_cate_num
+WHERE pk_pro_num = '9791190362078'
+
+--WR_INFO  PRO_INDEX PRO_CONTENT PRO_BINDTYPE
+nvl(PRO_BINDTYPE, '')
+
+LEFT OUTER JOIN 
+tbl_writer B 
+ON A.fk_wr_code = B.pk_wr_code
+LEFT OUTER JOIN 
+tbl_category C 
+ON A.fk_cate_num = C.pk_cate_num
+WHERE pk_pro_num = ?
+
+
+
+
+update tbl_product set pro_viewcnt = pro_viewcnt+1 where pk_pro_num = '9791190362078';
+
+
+
 
 
 
