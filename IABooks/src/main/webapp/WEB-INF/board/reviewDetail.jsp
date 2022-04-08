@@ -71,9 +71,9 @@
   <div class="pdt_img_info" >
   	<p><img src="<%= ctxPath%>/images/product/${revVO.category.cate_name}/${revVO.product.pro_imgfile_name}" id="thumbimg"/></p>
   	<div class="pdt_info" >
-  		<h3><a href="#">${revVO.product.pro_name}</a></h3>
+  		<h3>${revVO.product.pro_name}</h3>
   		<p class="p_price">${revVO.product.pro_price} 원</p>
-  		<p class="button"><button class="btn btn_detail" type="button"><a href="#">상품 상세보기 ></a></button></p>
+  		<p class="button"><button class="btn btn_detail" type="button"><a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${revVO.fk_pnum}">상품 상세보기 </a></button></p>
   	</div>
   </div>
 	

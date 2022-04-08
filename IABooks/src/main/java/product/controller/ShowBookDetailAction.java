@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import board.model.BoardDAO;
 import board.model.InterBoardDAO;
+import board.model.QnABoardVO;
 import board.model.ReviewBoardVO;
 import common.controller.AbstractController;
 import member.model.MemberVO;
@@ -32,6 +33,7 @@ public class ShowBookDetailAction extends AbstractController {
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
 		ReviewBoardVO revVO = new ReviewBoardVO();
+		QnABoardVO qnaVO = new QnABoardVO();
 		
 		InterBoardDAO bdao = new BoardDAO();
 		// 기능을 수행할 DAO 객체화
@@ -68,13 +70,19 @@ public class ShowBookDetailAction extends AbstractController {
 		
 		// 제품상세페이지에 보여줄 한 제품에 대한 게시글 불러오기
 		List<ReviewBoardVO> productRevList = bdao.selectPagingProductRev(paraMap);
+		List<QnABoardVO> productQnaList = bdao.selectPagingProductQna(paraMap);
 		
 		// 시험용
 		// 한 제품에 대한 리뷰게시글 갯수 알아오기
 		int reviewCnt = bdao.countOneProductReview(paraMap);
+		int qnaCnt = bdao.countOneProductQna(paraMap);
+		
 		
 		request.setAttribute("productRevList", productRevList);
 		request.setAttribute("reviewCnt", reviewCnt);
+		
+		request.setAttribute("productQnaList", productQnaList);
+		request.setAttribute("qnaCnt", qnaCnt);
 		
 		String pageBar = "";
 		

@@ -17,12 +17,20 @@ public class QnaBoardAction extends AbstractController {
       String method = request.getMethod(); // "GET" 또는 "POST"
       System.out.println("method : " + method);
 
-         
+        
+      
       
       //페이징처리
       HttpSession session = request.getSession();
       
       MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+      
+      
+   //   String issecret  = request.getParameter("qna_issecret");
+      
+      
+     
+      
       
       //검색이 있을 경우 시작 //
       // 검색조건이 있을 경우 시작
@@ -67,7 +75,7 @@ public class QnaBoardAction extends AbstractController {
       }
       
       paraMap.put("sizePerPage", sizePerPage);
-      
+    
       //== 검색이 있을 경우 시작 == //
       
       if( searchContent != null && !"".equals(searchContent) && !"qna_title".equals(searchContent) 
@@ -94,7 +102,7 @@ public class QnaBoardAction extends AbstractController {
       
       
       
-     
+      
       paraMap.put("searchContent", searchContent);
       paraMap.put("searchWord", searchWord);
       //== 검색이 있을 경우 끝 == //

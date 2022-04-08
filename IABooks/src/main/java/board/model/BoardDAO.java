@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -71,28 +72,31 @@ public class BoardDAO implements InterBoardDAO {
    
    
 	// *** QnA 글목록보기 메소드를 구현하기 *** //
-	   @Override
-	   public List<QnABoardVO> selectPagingQnaBoard(Map<String, String> paraMap) throws SQLException {
+   @Override
+   public List<QnABoardVO> selectPagingQnaBoard(Map<String, String> paraMap) throws SQLException {
+
+      List<QnABoardVO> qnaboardList = new ArrayList<>(); // BoardDTO 속에는 MemberDTO가 들어와야 한다.
+      QnABoardVO board = null;
+      try {
+    	  conn = ds.getConnection();
+
 	
-	      List<QnABoardVO> qnaboardList = new ArrayList<>(); // BoardDTO 속에는 MemberDTO가 들어와야 한다.
-	      QnABoardVO board = null;
-	      try {
-	    	  conn = ds.getConnection();
-	      
-	       
-	         String sql =   " select fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
-	         		+ "						from \r\n"
-	         		+ "						( \r\n"
-	         		+ "							select rownum AS rno, fk_pnum, pk_qna_num,qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
-	         		+ "							  from \r\n"
-	         		+ "	 			   			 ( \r\n"
-	         		+ "	 			   			 	select fk_pnum, pk_qna_num,qna_title, mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents\r\n"
-	         		+ "		   			   		 	from tbl_member M JOIN tbl_qna_board Q ON M.pk_userid = Q.fk_userid  \r\n"
-	         		+ "		   			   		 	where isdelete = 0\r\n";
-	       
-	         
-	         
-	         
+    		
+    	  String sql = "select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\n"+
+    			  "from \n"+
+    			  "    ( \n"+
+    			  "    select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\n"+
+    			  "    from \n"+
+    			  "    ( \n"+
+    			  "        select  nvl(fk_pnum,-9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,-9999) as pro_name, nvl(pro_imgfile_name,-9999) as pro_imgfile_name ,nvl(C.cate_name,-9999) AS cate_name\n"+
+    			  "        from tbl_member M right JOIN tbl_qna_board Q  \n"+
+    			  "        ON M.pk_userid = Q.fk_userid \n"+
+    			  "        left JOIN tbl_product P  \n"+
+    			  "        ON Q.fk_pnum = P.pk_pro_num\n"+
+    			  "        left JOIN TBL_CATEGORY C\n"+
+    			  "		ON P.fk_cate_num = C.pk_cate_num\n"+
+    			  "        where isdelete = 0 \n";
+       
 	          String colname = paraMap.get("searchContent");
 	          System.out.println("searchCOnte"+colname);
 	          
@@ -104,266 +108,463 @@ public class BoardDAO implements InterBoardDAO {
 						// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 					
 			  } 		
-			  
+		  
 			  sql +=  " 		order by pk_qna_num desc " +
 					  " 	) V " +
 	   			   	  " ) T " +
 					  " where rno between ? and ? ";
-	         
-	         
-	         
-            pstmt = conn.prepareStatement(sql);
-
-            int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
-			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
-			
+         
+         
+         
+	          pstmt = conn.prepareStatement(sql);
 	
+	          int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+			  int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+				
+		
+				
+			  if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					// 검색종류와 검색어가 있으면	
+				  pstmt.setString(1, searchWord);
+				  pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+				  pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+				  System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
+					  
+			  }
+			  else {
+				  pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+				  pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+				  System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+			  
+			  }
+		
+			  rs = pstmt.executeQuery();
+
+			  while (rs.next()) {
+
+				  board = new QnABoardVO();
+       
+				  board.setFk_pnum(rs.getString(1));
+       
+				  board.setPk_qna_num(rs.getInt(2));
+				           /*
+				   ProductVO product = new ProductVO(); 
+				   product.setPro_name(rs.getString(2));
+				   product.setPro_imgfile_name(rs.getString(3)); 
+				   board.setProduct(product);
+				   */
+				   board.setQna_title(rs.getString(3)); 
+
+
+				   // **중요한 부분 
+				   MemberVO member = new MemberVO();
+				   member.setName(rs.getString("mname")); 
+				   board.setMember(member); // 보드에 멤버를 넣어줌.
+           
+	               board.setQna_date(rs.getString(5)); 
+	               board.setQna_readcount(rs.getInt(6));
+	               board.setFk_userid(rs.getString(7));
+	               board.setQna_issecret(rs.getInt(8));
+	               board.setQna_contents(rs.getString(9));
+	               
+	               ProductVO product = new ProductVO(); 
+                   product.setPro_name(rs.getString(10));
+                   product.setPro_imgfile_name(rs.getString(11)); 
+                   board.setProduct(product);
+	               
+                   
+                   CategoryVO category = new CategoryVO();
+                   category.setCate_name(rs.getString(12)); 
+				   board.setCategory(category);
+				   
+				   
+	               qnaboardList.add(board);
+	               
+	               System.out.println(" 넣어진 제목 : " + board.getFk_pnum());
+			  }// end of while(rs.next()) ------------
+			  
+	       
+ 
+     
+     } catch (SQLException e) {
+        e.printStackTrace();
+     } finally {
+        close();
+     }
+
+     return qnaboardList;
+  }// end of public List<BoardDTO> boardList() -----
+
+   
+   
+   
+   //Qna 게시판에 글 작성하기  
+   @Override
+   public int writeQnaBoard(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title,  qna_contents , qna_passwd, qna_issecret ) "
+	                   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?, ?) ";
+	         
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("fk_pnum"));
+			pstmt.setString(2, paraMap.get("userid"));
+			pstmt.setString(3, paraMap.get("subject"));
+			pstmt.setString(4, paraMap.get("content"));
+			pstmt.setString(5, paraMap.get("passwd"));
+			pstmt.setString(6, paraMap.get("issecret"));
+			
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return result;
+	} // end of public int writeFaqBoard(Map<String, String> paraMap) throws SQLException-------------
+	
+   
+   
+// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 Qna게시판에 대한 페이지 알아오기
+    @Override
+	public int getTotalqnaPage(Map<String, String> paraMap) throws SQLException {
+    	int totalPage = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ceil( count(*)/? ) "
+					   + " from tbl_qna_board Q"
+					   + " join tbl_member M"
+					   + " on Q.fk_userid = M.pk_userid";
+					  // + " where fk_userid != 'admin' ";
+			
+			String colname = paraMap.get("searchContent");
+			String searchWord = paraMap.get("searchWord");	
+			System.out.println(" 확인용 colname : " + colname);
+			System.out.println(" 확인용 searchWord : " + searchWord);
+			
+			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+				sql += " where " + colname + " like '%'|| ? ||'%' ";
+				// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+				// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+			}
+			
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("sizePerPage"));
 			
 			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 				// 검색종류와 검색어가 있으면	
-				pstmt.setString(1, searchWord);
-				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-				pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-				System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
-				  
-			}
-			else {
-				pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-				pstmt.setInt(2, (currentShowPageNo * sizePerPage));
-				System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
-				  
+				pstmt.setString(2, searchWord);
 			}
 			
-            rs = pstmt.executeQuery();
-       
-            while (rs.next()) {
-    
-               board = new QnABoardVO();
-               
-               board.setFk_pnum(rs.getString(1));
-               
-               board.setPk_qna_num(rs.getInt(2));
-               /*
-               ProductVO product = new ProductVO(); 
-               product.setPro_name(rs.getString(2));
-               product.setPro_imgfile_name(rs.getString(3)); 
-               board.setProduct(product);
-               */
-               board.setQna_title(rs.getString(3)); 
-               
-               
-               // **중요한 부분 
-               MemberVO member = new MemberVO();
-               member.setName(rs.getString("mname")); 
-               board.setMember(member); // 보드에 멤버를 넣어줌.
-               
-               board.setQna_date(rs.getString(5)); 
-               board.setQna_readcount(rs.getInt(6));
-               board.setFk_userid(rs.getString(7));
-               board.setQna_issecret(rs.getInt(8));
-              
-   
-               qnaboardList.add(board);
-               
-               System.out.println(" 넣어진 제목 : " + board.getFk_pnum());
-               
-               ///
-               /*
-               if(  !(board.getFk_pnum() == null)) {
-             	   
-               	sql = " select  pk_qna_num, P.pro_name, P.pro_imgfile_name, qna_title, M.mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss'), qna_readcount , fk_userid , qna_issecret , nvl(pk_pnum,-9999)\n"+
-   	                       " from tbl_member M\n"+
-   	                       " JOIN tbl_qna_board Q  \n"+
-   	                       " ON M.pk_userid = Q.fk_userid\n"+
-   	                       " JOIN tbl_product P \n"+
-   	                       " ON Q.fk_pnum = P.pk_pro_num\n"+
-   	                       " where isdelete = 0\n"+
-   	                       " order by pk_qna_num desc";
-            //   	pstmt = conn.prepareStatement(sql);
-
-               //    rs = pstmt.executeQuery();
-
-                   while (rs.next()) {
-         
-                      board = new QnABoardVO();
-                      
-                      board.setPk_qna_num(rs.getInt(1));
-                      
-                      ProductVO product = new ProductVO(); 
-                      product.setPro_name(rs.getString(2));
-                      product.setPro_imgfile_name(rs.getString(3)); 
-                      board.setProduct(product);
-                      
-                      board.setQna_title(rs.getString(4)); 
-                      
-                      
-                      // **중요한 부분 
-                      member = new MemberVO();
-                      member.setName(rs.getString("mname")); 
-                      board.setMember(member); // 보드에 멤버를 넣어줌.
-                      
-                      board.setQna_date(rs.getString(6)); 
-                      board.setQna_readcount(rs.getInt(7));
-                      board.setFk_userid(rs.getString(8));
-                      board.setQna_issecret(rs.getInt(9));
-                      
-                      qnaboardList.add(board);
-                      
-                      System.out.println(" 넣어진 제목 : " + board.getQna_title());
-                      System.out.println(" 넣어진 제목 : " + product.getPro_name());
-                   } // end of while(rs.next()) ------------
-
-               }*/
-               
-               
-            } // end of while(rs.next()) ------------
-           
-            //sql = 새로운 쿼리
-         
-         } catch (SQLException e) {
-            e.printStackTrace();
-         } finally {
-            close();
-         }
-
-         return qnaboardList;
-      }// end of public List<BoardDTO> boardList() -----
-
-	   
-	   
-	   //Qna 게시판에 글 작성하기  
-	   @Override
-	   public int writeQnaBoard(Map<String, String> paraMap) throws SQLException {
+			rs = pstmt.executeQuery();
 			
-			int result = 0;
+			rs.next();
 			
-			try {
-				conn = ds.getConnection();
-				
-				String sql = " insert into tbl_qna_board (pk_qna_num, fk_userid, qna_title,  qna_contents , qna_passwd, qna_issecret ) "
-		                   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?) ";
-		         
-				pstmt = conn.prepareStatement(sql);
+			totalPage = rs.getInt(1);
 			
-				pstmt.setString( 1, paraMap.get("userid"));
-				pstmt.setString(2, paraMap.get("subject"));
-				pstmt.setString(3, paraMap.get("content"));
-				pstmt.setString(4, paraMap.get("passwd"));
-				pstmt.setString(5, paraMap.get("issecret"));
-				
-				
-				result = pstmt.executeUpdate();
-				
-			} catch (SQLException e) { 
-				e.printStackTrace();
-			} finally {
-				close();
-			}
-			
-			return result;
-		} // end of public int writeFaqBoard(Map<String, String> paraMap) throws SQLException-------------
-		
-	   
-	   
-	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 Qna게시판에 대한 페이지 알아오기
-	    @Override
-		public int getTotalqnaPage(Map<String, String> paraMap) throws SQLException {
-	    	int totalPage = 0;
-			
-			try {
-				conn = ds.getConnection();
-				
-				String sql = " select ceil( count(*)/? ) "
-						   + " from tbl_qna_board Q"
-						   + " join tbl_member M"
-						   + " on Q.fk_userid = M.pk_userid";
-						  // + " where fk_userid != 'admin' ";
-				
-				String colname = paraMap.get("searchContent");
-				String searchWord = paraMap.get("searchWord");	
-				System.out.println(" 확인용 colname : " + colname);
-				System.out.println(" 확인용 searchWord : " + searchWord);
-				
-				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-					sql += " where " + colname + " like '%'|| ? ||'%' ";
-					// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
-					// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
-				}
-				
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, paraMap.get("sizePerPage"));
-				
-				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-					// 검색종류와 검색어가 있으면	
-					pstmt.setString(2, searchWord);
-				}
-				
-				rs = pstmt.executeQuery();
-				
-				rs.next();
-				
-				totalPage = rs.getInt(1);
-				
-			} finally {
-				close();
-			}
-			
-			return totalPage;
+		} finally {
+			close();
 		}
+		
+		return totalPage;
+	}
+    
+    //qna게시판 조회수 올리기
+    @Override
+	public int qnaReadCountUp(int pk_qna_num) throws SQLException {
+    	InterBoardDAO bdao = new BoardDAO();
+		
+    	QnABoardVO qnaVO = new QnABoardVO();
+    	qnaVO = bdao.selectqnaContent(pk_qna_num);
+    	int result = 0;
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select * "
+						+ " from tbl_qna_board "
+						+ " where pk_qna_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pk_qna_num);
+			
+			rs = pstmt.executeQuery();
+			
+			
+				if(rs.next()) {
+					
+						sql = " update tbl_qna_board set qna_readcount = qna_readcount +1 "
+								+ " where pk_qna_num = ? ";
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setInt(1, pk_qna_num);
+							
+							pstmt.executeUpdate();
+				}  //업데이트 하고나서 제대로 보여주는거야밑에가 
+				
+				
+				
+				System.out.println("보자구"+qnaVO.getQna_readcount());
+				
+				qnaVO = bdao.selectqnaContent(pk_qna_num);
+				
+			
+			
 	
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}		
 		
-		
-		
-		// Qna 상세글 읽어오기
-		@Override
-		public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {
-			InterBoardDAO bdao = new BoardDAO();
+		return result;
+	}
+	
+	
+	// Qna 상세글 읽어오기
+	@Override
+	public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {
+		InterBoardDAO bdao = new BoardDAO();
+		QnABoardVO qnaVO = bdao.selectqnaContent(pk_qna_num);
+	
 			
-			QnABoardVO qnaVO = bdao.selectqnaContent(pk_qna_num);
-			
-			return qnaVO;
-		}//end of public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {})
+		return qnaVO;
 		
-		
-		// 번호 하나를 받아 Qna글 정보 받아오기 
-		@Override
-		public QnABoardVO selectqnaContent(int pk_qna_num) throws SQLException {
+	}//end of public QnABoardVO readqnaContent(int pk_qna_num) throws SQLException {})
+	
+	
+	// 번호 하나를 받아 Qna글 정보 받아오기 
+	@Override
+	public QnABoardVO selectqnaContent(int pk_qna_num) throws SQLException {
 
 
-			QnABoardVO qnaVO = null;
+		QnABoardVO qnaVO = null;
+		
+		
+		// System.out.println("몇 번이니? " + pk_qna_num);
+		
+		try {
 			
-			// System.out.println("몇 번이니? " + pk_qna_num);
+			conn = ds.getConnection();
 			
-			try {
-				conn = ds.getConnection();
-				
-				String sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,qna_date, qna_passwd\r\n"
-							+ " from tbl_qna_board  Q\r\n"
-							+ " join  tbl_member M\r\n"
-							+ " ON Q.fk_userid = M.pk_userid \r\n"
-							+ " where pk_qna_num = ? ";
-				
+			
+			String	sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') AS qna_date, qna_passwd, qna_readcount "
+				    	+ " ,qna_issecret,  isdelete, pro_name, pro_imgfile_name, pro_price, cate_name "
+						+ " from tbl_member M right JOIN tbl_qna_board Q  \r\n"
+						+ "        ON M.pk_userid = Q.fk_userid \r\n"
+						+ "        left JOIN tbl_product P  \r\n"
+						+ "        ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999) \r\n"
+						+ "        left JOIN TBL_CATEGORY C\r\n"
+						+ "		   ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)\r\n"
+						+ "        where isdelete = 0  and pk_qna_num = ? "; //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, pk_qna_num);
 				
 				rs = pstmt.executeQuery();
 				
-				if(rs.next()) {
-					qnaVO = new QnABoardVO();
-					
-					qnaVO.setPk_qna_num(rs.getInt(1));
-					MemberVO member = new MemberVO();
-		            member.setName(rs.getString("mname")); 
-		            qnaVO.setMember(member); 
-					qnaVO.setQna_title(rs.getString(3));
-					qnaVO.setQna_contents(rs.getString(4));
-					qnaVO.setFk_userid(rs.getString(5));
-					qnaVO.setQna_date(rs.getString(6));
-					qnaVO.setQna_passwd(rs.getString(7));
-					 System.out.println("받아왔니? " + qnaVO.getQna_passwd());
-				}
+				rs.next();
 				
+				qnaVO = new QnABoardVO();
+				
+				qnaVO.setPk_qna_num(rs.getInt(1));
+				MemberVO member = new MemberVO();
+	            member.setName(rs.getString("mname")); 
+	            qnaVO.setMember(member); 
+				qnaVO.setQna_title(rs.getString(3));
+				qnaVO.setQna_contents(rs.getString(4));
+				qnaVO.setFk_userid(rs.getString(5));
+				qnaVO.setQna_date(rs.getString(6));
+				qnaVO.setQna_passwd(rs.getString(7));
+				qnaVO.setQna_readcount(rs.getInt(8));  
+				qnaVO.setQna_issecret(rs.getInt(9));
+				qnaVO.setIsdelete(rs.getInt(10));
+				
+				ProductVO product = new ProductVO();
+				product.setPro_name(rs.getString(11));
+				product.setPro_imgfile_name(rs.getString(12));
+				product.setPro_price(rs.getInt(13));
+				qnaVO.setProduct(product);
+				
+				
+				CategoryVO category = new CategoryVO();
+				category.setCate_name(rs.getString(14));
+				qnaVO.setCategory(category);
+				
+				System.out.println("보자구"+qnaVO.getQna_readcount());
+				
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return qnaVO;
+		
+	}
+	
+	
+	
+	
+	//Qna 게시판 값을 수정이나 삭제하기 위해 정보 받아오기
+	@Override
+	public QnABoardVO getqnaContent(int pk_qna_num) throws SQLException {
+
+		InterBoardDAO bdao = new BoardDAO();
+		
+		QnABoardVO qnaVO = bdao.selectqnaContent(pk_qna_num);
+		
+		return qnaVO; 
+		
+	}
+	
+	//Qna 게시글 수정하기
+	@Override
+	public int UpdateQnaBoard(Map<String, String> paraMap) throws SQLException {
+		
+		int result = 0;
+		
+		int pk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
+	//	System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
+
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " update tbl_qna_board set qna_title = ?, qna_contents= ?, qna_issecret = ? "+
+						 " where pk_qna_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("title"));
+			pstmt.setString(2, paraMap.get("content"));
+			pstmt.setString(3, paraMap.get("issecret"));
+			pstmt.setInt(4, pk_qna_num);
+			
+			System.out.println("들어왔니 번호야? : " + pk_qna_num);
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				System.out.println("업데이트 성공!");
+			}
+			
+			result = n;
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		
+		
+		return result;
+	}
+
+	
+	//Qna 게시글 삭제하기
+	@Override
+	public int deleteQnaBoard(QnABoardVO qnaVO) throws SQLException {
+		
+		int result = 0;
+		
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " delete tbl_qna_board  "
+					   + " where pk_qna_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, qnaVO.getPk_qna_num());
+			
+			int n = pstmt.executeUpdate();
+			
+			if(n==1) {
+				System.out.println("삭제 성공!");
+			}
+			
+			result = n;
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+	
+		
+		return result;
+	}
+	
+	
+	
+	//Qna 게시글에 댓글 작성하기
+	@Override
+	public int writeCmtBoard(Map<String, String> paraMap) throws SQLException{
+		
+		System.out.println("하잉");
+		int result = 0;
+		int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
+		System.out.println("바잉");
+		System.out.println("들어왔니 fkqnanum? : " + fk_qna_num);
+		
+		
+		try {
+		
+			conn = ds.getConnection();
+			
+			String sql = " insert into tbl_comment(pk_cmt_num, fk_userid, fk_qna_num, cmt_passwd, cmt_contents) \r\n"
+					+ "values(SEQ_COMMENT.nextval, ?, ?, ?, ?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("fk_userid"));
+			pstmt.setInt( 2, fk_qna_num);
+			pstmt.setString(3, paraMap.get("cmtPasswd"));
+			pstmt.setString(4, paraMap.get("cmtContent"));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+	
+	
+	//Qna 게시글 댓글 읽어오기
+	@Override
+	public QnABoardVO readCmtContent(int pk_qna_num) throws SQLException {
+		InterBoardDAO bdao = new BoardDAO();
+		QnABoardVO qnaVO = null;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete \r\n"
+					+ "			from tbl_comment \r\n"
+					+ "			where isdelete = 0 and fk_qna_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			/* pstmt.setInt(1, fk_qna_num); */
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+			
+			}
+		
+		
 			} catch(SQLException e) { 
 				e.printStackTrace();
 			}finally {
@@ -371,166 +572,302 @@ public class BoardDAO implements InterBoardDAO {
 			}
 			
 			return qnaVO;
-			
-		}
+	}
+	
+	
+	// Qna 게시판 이전글, 다음글 정보를 가져오기
+	@Override
+	public QnABoardVO getqnaPrevNextContent(Map<String, String> paraMap) throws SQLException {
 		
-		//Qna 게시판 값을 수정이나 삭제하기 위해 정보 받아오기
-		@Override
-		public QnABoardVO getqnaContent(int pk_qna_num) throws SQLException {
-
-			InterBoardDAO bdao = new BoardDAO();
-			
-			QnABoardVO qnaVO = bdao.selectqnaContent(pk_qna_num);
-			
-			return qnaVO; 
-			
-		}
+		int currentNum = Integer.parseInt(paraMap.get("currentNum"));
+		System.out.println("잘 갔니? " + currentNum);
+		QnABoardVO qnaPrevNext = null;
 		
-		//Qna 게시글 수정하기
-		@Override
-		public int UpdateQnaBoard(Map<String, String> paraMap) throws SQLException {
+		try {
+			conn = ds.getConnection();
 			
-			int result = 0;
 			
-			int pk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
-		//	System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
-
-			try {
-				conn = ds.getConnection();
-				
-				String sql = " update tbl_qna_board set qna_title = ?, qna_contents= ?, qna_issecret = ? "+
-							 " where pk_qna_num = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, paraMap.get("title"));
-				pstmt.setString(2, paraMap.get("content"));
-				pstmt.setString(3, paraMap.get("issecret"));
-				pstmt.setInt(4, pk_qna_num);
-				
-				System.out.println("들어왔니 번호야? : " + pk_qna_num);
-				
-				int n = pstmt.executeUpdate();
-				
-				if(n==1) {
-					System.out.println("업데이트 성공!");
-				}
-				
-				result = n;
-				
+			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle "+
+					" from "+
+					" ( "+
+					" select   "+
+					"         lag(pk_qna_num, 1) over(order by pk_qna_num desc) as prevnum "+
+					"       , lag(qna_title, 1) over(order by pk_qna_num desc) as prevtitle "+
+					"       , pk_qna_num as currentnum "+
+					"       , qna_title as currenttitle "+
+					"       , lead(pk_qna_num, 1) over(order by pk_qna_num desc) as nextnum "+
+					"       , lead(qna_title, 1) over(order by pk_qna_num desc) as nexttitle "+
+					" from tbl_qna_board "+
+					" ) v " +
+					" where currentnum = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, currentNum);
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+			
+			qnaPrevNext = new QnABoardVO();
+			
+			qnaPrevNext.setPrev_num(rs.getInt(1));
+			qnaPrevNext.setPrev_title(rs.getString(2));
+			qnaPrevNext.setCurrentNum(rs.getInt(3));
+			qnaPrevNext.setCurrentTitle(rs.getString(4));
+			qnaPrevNext.setNext_num(rs.getInt(5));
+			qnaPrevNext.setNext_title(rs.getString(6));
+			
+			
+			System.out.println("이전글 번호 : " + qnaPrevNext.getPrev_num());
+			System.out.println("이전글 제목 : " + qnaPrevNext.getPrev_title());
+			System.out.println("다음글 번호 : " + qnaPrevNext.getNext_num());
+			System.out.println("다음글 제목 : " + qnaPrevNext.getNext_title());
+			
+			
+			}
+			
+			
 			} catch(SQLException e) { 
-				e.printStackTrace();
-			}finally {
-				close();
-			}
-			
-			
-			
-			return result;
+			e.printStackTrace();
+		}finally {
+			close();
 		}
+		
+		return qnaPrevNext;
+		
+		
+	}
+	
+	
+	
+	
+	
+	// 페이징 처리를 위한 하나의 상품에 대한 Qna게시글 페이지 알아오기
+	@Override
+	public int getProductQnaPage(Map<String, String> paraMap) throws SQLException {
 
+		int totalPage = 0;
+		String pk_pro_num = paraMap.get("pk_pro_num");
 		
-		//Qna 게시글 삭제하기
-		@Override
-		public int deleteQnaBoard(QnABoardVO qnaVO) throws SQLException {
-			// TODO Auto-generated method stub
-			
-			int result = 0;
-			
-			
-			try {
-				conn = ds.getConnection();
-				
-				String sql = " delete tbl_qna_board  "
-						   + " where pk_qna_num = ? ";
-				
-				pstmt = conn.prepareStatement(sql);
-				
-				pstmt.setInt(1, qnaVO.getPk_qna_num());
-				
-				int n = pstmt.executeUpdate();
-				
-				if(n==1) {
-					System.out.println("삭제 성공!");
-				}
-				
-				result = n;
-				
-			} catch(SQLException e) { 
-				e.printStackTrace();
-			}finally {
-				close();
-			}
+		try {
+		conn = ds.getConnection();
 		
-			
-			return result;
+		String sql = " select ceil( count(*)/? ) "
+				   + " from tbl_qna_board A JOIN tbl_product B "
+				   + " ON A.FK_PNUM = B.PK_PRO_NUM "
+				   + " JOIN tbl_member C ON A.FK_USERID = C.PK_USERID "
+				   + " where pk_pro_num = ? ";
+	
+		
+		pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, paraMap.get("sizePerPage"));
+		pstmt.setString(2, pk_pro_num);
+		
+		rs = pstmt.executeQuery();
+		
+		rs.next();
+		
+		totalPage = rs.getInt(1);
+		
+		} finally {
+		close();
 		}
 		
+		return totalPage;
+	}
+	
+	
+
+	// 제품상세페이지에 보여줄 한 제품에 대한 게시글 불러오기
+	@Override
+	public List<QnABoardVO> selectPagingProductQna(Map<String, String> paraMap) throws SQLException {
+
+		List<QnABoardVO> productQnaList = new ArrayList<>(); 
+		
+		QnABoardVO board = null;
+		String pk_pro_num = paraMap.get("pk_pro_num");
 		
 		
-		//Qna 게시글에 댓글 작성하기
-		@Override
-		public int writeCmtBoard(Map<String, String> paraMap) throws SQLException{
-			
-			System.out.println("하잉");
-			int result = 0;
-			int pk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
-			System.out.println("바잉");
-			System.out.println("들어왔니 pkqnanum? : " + pk_qna_num);
-			
-			
-			try {
-				conn = ds.getConnection();
-				
-				String sql = " insert into tbl_comment(pk_cmt_num, fk_userid, fk_qna_num, cmt_passwd, cmt_contents) \r\n"
-						+ "values(SEQ_COMMENT.nextval, ?, ?, ?, ?)";
-				
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, paraMap.get("userid"));
-				pstmt.setInt( 2, pk_qna_num);
-				pstmt.setString(3, paraMap.get("cmtPasswd"));
-				pstmt.setString(4, paraMap.get("cmtContent"));
-				
-				result = pstmt.executeUpdate();
-				
-			} catch (SQLException e) { 
-				e.printStackTrace();
-			} finally {
-				close();
-			}
-			
-			return result;
-		}
+		try {
 		
+		int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+		int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 		
-		//Qna 게시글 댓글 읽어오기
-		@Override
-		public QnABoardVO readCmtContent(int pk_qna_num) throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
+		System.out.println("currentShowPageNo : " + currentShowPageNo);
+		System.out.println("sizePerPage : " + sizePerPage);
+		
+		conn = ds.getConnection();
+		
+		String sql =  " select pk_pro_num, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\r\n"
+					+ "	    			  from \r\n"
+					+ "	    			      ( \r\n"
+					+ "	    			      select rownum AS rno, pk_pro_num, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\r\n"
+					+ "	    			      from \r\n"
+					+ "	    			      ( \r\n"
+					+ "	    			          select   pk_pro_num , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents , pro_name,  pro_imgfile_name , cate_name \r\n"
+					+ "	    			          from tbl_member M JOIN tbl_qna_board Q  \r\n"
+					+ "	    			          ON M.pk_userid = Q.fk_userid \r\n"
+					+ "	    			          JOIN tbl_product P \r\n"
+					+ "	    			          ON Q.fk_pnum = P.pk_pro_num\r\n"
+					+ "	    			          JOIN TBL_CATEGORY C\r\n"
+					+ "	    			  		  ON P.fk_cate_num = C.pk_cate_num\r\n"
+					+ "	    			          where isdelete = 0  and P.pk_pro_num = ? \r\n"
+					+ " 						  order by pk_qna_num desc " 
+					+ "                     	  ) V \r\n"
+					+ "		               ) T \r\n"
+					+ "		              where rno between ? and ? ";
+		
+		pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, pk_pro_num);
+		pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+		pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+		
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+		
+			 board = new QnABoardVO();
+	           
+			  board.setFk_pnum(rs.getString(1));
+  
+			  board.setPk_qna_num(rs.getInt(2));
+			           /*
+			   ProductVO product = new ProductVO(); 
+			   product.setPro_name(rs.getString(2));
+			   product.setPro_imgfile_name(rs.getString(3)); 
+			   board.setProduct(product);
+			   */
+			   board.setQna_title(rs.getString(3)); 
 
 
+			   // **중요한 부분 
+			   MemberVO member = new MemberVO();
+			   member.setName(rs.getString("mname")); 
+			   board.setMember(member); // 보드에 멤버를 넣어줌.
+      
+               board.setQna_date(rs.getString(5)); 
+               board.setQna_readcount(rs.getInt(6));
+               board.setFk_userid(rs.getString(7));
+               board.setQna_issecret(rs.getInt(8));
+               board.setQna_contents(rs.getString(9));
+               
+               ProductVO product = new ProductVO(); 
+               product.setPro_name(rs.getString(10));
+               product.setPro_imgfile_name(rs.getString(11)); 
+               board.setProduct(product);
+               
+              
+               CategoryVO category = new CategoryVO();
+               category.setCate_name(rs.getString(12)); 
+			   board.setCategory(category);
+			   
+			   
+			   productQnaList.add(board);
 		
+		
+		}//end of while(rs.next()) ------------ 
+		
+		
+		}catch(SQLException e){  
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		
+		return productQnaList;
+		
+		
+	} // public List<QnABoardVO> selectPagingProductQna(Map<String, String> paraMap) throws SQLException --------
+
+	
+	
+	// 한 제품에 대한 리뷰게시글 갯수 알아오기
+	@Override
+	public int countOneProductQna(Map<String, String> paraMap) throws SQLException {
+
+		List<QnABoardVO> productQnaList = new ArrayList<>(); 
+		
+		QnABoardVO board = null;
+		String pk_pro_num = paraMap.get("pk_pro_num");
+		int cnt = 0;
+		
+		try {
+		
+		
+		conn = ds.getConnection();
+		
+		String sql = " select count(*)\r\n"
+				   + "	    			  from \r\n"
+				   + "	    			      ( \r\n"
+				   + "	    			      select rownum AS rno, pk_pro_num, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\r\n"
+				   + "	    			      from \r\n"
+				   + "	    			      ( \r\n"
+				   + "	    			          select   pk_pro_num , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents , pro_name,  pro_imgfile_name , cate_name \r\n"
+				   + "	    			          from tbl_member M JOIN tbl_qna_board Q  \r\n"
+				   + "	    			          ON M.pk_userid = Q.fk_userid \r\n"
+				   + "	    			          JOIN tbl_product P \r\n"
+				   + "	    			          ON Q.fk_pnum = P.pk_pro_num "
+				   + "	    			          JOIN TBL_CATEGORY C "
+				   + "	    			  		ON P.fk_cate_num = C.pk_cate_num "
+				   + "	    			          where isdelete = 0 and  pk_pro_num =  ? "
+				   + "                     	  ) V \r\n"
+				   + "		               ) T ";	
+		
+		pstmt = conn.prepareStatement(sql);
+		
+		pstmt.setString(1, pk_pro_num);
+		
+		rs = pstmt.executeQuery();
+		
+		while(rs.next()) {
+		
+		board = new QnABoardVO();
+		cnt = Integer.parseInt(rs.getString(1));
+		board.setQnaCnt(cnt);
+		
+		System.out.println("몇개> " + cnt);
+		
+		productQnaList.add(board);
+		
+		
+		}//end of while(rs.next()) ------------ 
+		
+		
+		}catch(SQLException e){  
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		
+		return cnt;
+		
+	} // end of public List<ReviewBoardVO> countOneProductReview(Map<String, String> paraMap) throws SQLException--------
+
+	
+	
+
 
 	
 	
 	
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		
 		
 	
@@ -602,33 +939,33 @@ public class BoardDAO implements InterBoardDAO {
 		// 카테고리 값이 있으면
 		pstmt.setString(1, searchCate);
 		
-		if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-		// 검색종류와 검색어가 있으면	
-		pstmt.setString(2, searchWord);
-		pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-		pstmt.setInt(4, (currentShowPageNo * sizePerPage));
-		System.out.println("카테고리 있고 검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
-		
-		}
-		else {
-		pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-		pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-		System.out.println("카테고리 있고 검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
-		
-		}
+			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+			// 검색종류와 검색어가 있으면	
+			pstmt.setString(2, searchWord);
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(4, (currentShowPageNo * sizePerPage));
+			System.out.println("카테고리 있고 검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
+			
+			}
+			else {
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			System.out.println("카테고리 있고 검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+			
+			}
 		
 		}
 		else if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-		pstmt.setString(1, searchWord);
-		pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-		pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-		System.out.println("카테고리 없고 검색조건 있을 때 : " + currentShowPageNo + "," + sizePerPage);
-		
+			pstmt.setString(1, searchWord);
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			System.out.println("카테고리 없고 검색조건 있을 때 : " + currentShowPageNo + "," + sizePerPage);
+			
 		}
 		else {// 검색조건이 없을 때
-		pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-		pstmt.setInt(2, (currentShowPageNo * sizePerPage));
-		System.out.println("검색조건 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+			pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+			System.out.println("검색조건 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
 		
 		}
 		
@@ -641,6 +978,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		FAQcategoryBoardVO faqCate = new FAQcategoryBoardVO();
 		faqCate.setFaq_c_name(rs.getString(2));
+		faqCate.setFaq_c_ename(rs.getString(6));
 		board.setFaqCate(faqCate);
 		
 		board.setFaq_title(rs.getString(3));
@@ -683,9 +1021,9 @@ public class BoardDAO implements InterBoardDAO {
 		String colname = paraMap.get("searchType");
 		String searchWord = paraMap.get("searchWord");	
 		String searchCate = paraMap.get("searchCate");	
-		System.out.println(" 확인용 colname : " + colname);
-		System.out.println(" 확인용 searchWord : " + searchWord);
-		System.out.println(" 확인용 searchCate : " + searchCate);
+		// System.out.println(" 확인용 colname : " + colname);
+		// System.out.println(" 확인용 searchWord : " + searchWord);
+		// System.out.println(" 확인용 searchCate : " + searchCate);
 		
 		if( !"all".equalsIgnoreCase(searchCate) ) {
 		// 카테고리 값이 1(전체)이 아니고 검색종류 및 검색어가 있을 때
@@ -800,7 +1138,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			conn = ds.getConnection();
 			
-			String sql = " SELECT pk_rnum, pro_name, pro_imgfile_name, re_title, mname, re_date, fk_userid, re_grade, cate_name"+
+			String sql = " SELECT pk_rnum, pro_name, pro_imgfile_name, re_title, mname, re_date, fk_userid, re_grade, cate_name, rownum"+
 			" FROM   \n"+
 			" (   \n"+
 			"    SELECT rownum as rno, pk_rnum, pro_name, pro_imgfile_name, re_title, mname, re_date, fk_userid, re_grade, cate_name "+
@@ -826,9 +1164,10 @@ public class BoardDAO implements InterBoardDAO {
 				// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 			}
 			
-			sql += "    ) V "+
+			sql +=  "	order by re_date desc " +
+					"    ) V"+
 					   " ) T "+
-					   " where rno between ? and ?";		
+					   " where rno between ? and ?";	
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -862,7 +1201,7 @@ public class BoardDAO implements InterBoardDAO {
 			mname = rs.getString(5);
 			member.setName(mname); 
 			board.setMember(member); // 보드에 멤버를 넣어줌.
-			System.out.println("이름 : " + mname);
+			// System.out.println("이름 : " + mname);
 			
 			board.setRe_date( rs.getString(6));
 			board.setFk_userid(rs.getString(7));
@@ -1447,13 +1786,16 @@ public class BoardDAO implements InterBoardDAO {
 			"        WHERE isdelete = 0 and P.pk_pro_num = ?"+
 		    "	  ) V "+
 		    " ) T "+
-		    " where rno between ? and ?";		
+		    " where rno between ? and ?" +
+		    " order by to_char(re_date) asc";		
 			
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, pk_pro_num);
-			pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-			pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			pstmt.setInt(2, 1);
+			pstmt.setInt(3, 5);
+			// pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			// pstmt.setInt(3, (currentShowPageNo * sizePerPage));
 			
 			rs = pstmt.executeQuery();
 			
@@ -1598,6 +1940,253 @@ public class BoardDAO implements InterBoardDAO {
 			return cnt;
 			
 		} // end of public List<ReviewBoardVO> countOneProductReview(Map<String, String> paraMap) throws SQLException--------
+
+		
+		
+		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
+		@Override
+		public int getTotalMyPage(Map<String, String> paraMap) throws SQLException {
+			
+			int totalPage = 0;
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
+			String re_option = "";
+			String qna_option = "";
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select ceil( (revCnt + qnaCnt) / ? ) AS myCnt ";
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					re_option = "re_title";
+					qna_option = "qna_title";
+					sql +=  " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						    " where "+re_option+" like '%'|| ? ||'%' ) R "+
+						    " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						    " where "+qna_option+" like '%'|| ? ||'%' ) Q ";
+				}
+				else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					re_option = "re_contents";
+					qna_option = "qna_contents";
+					sql +=  " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						    " where "+re_option+" like '%'|| ? ||'%' ) R "+
+						    " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						    " where "+qna_option+" like '%'|| ? ||'%' ) Q ";
+				}
+				else { // 검색조건이 없을 때
+					sql += " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						   " ) R "+
+						   " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						   " ) Q ";
+				}
+				System.out.println(" 확인용 colname : " + colname);
+				System.out.println(" 확인용 searchWord : " + searchWord);
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("sizePerPage"));
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, searchWord);
+					pstmt.setString(4, paraMap.get("userid"));
+					pstmt.setString(5, searchWord);
+				}
+				else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, searchWord);
+					pstmt.setString(4, paraMap.get("userid"));
+					pstmt.setString(5, searchWord);
+					
+				}
+				else { // 검색조건이 없을 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, paraMap.get("userid"));
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				totalPage = rs.getInt(1);
+			
+			} finally {
+			close();
+			}
+			
+			return totalPage;
+			
+		} // end of public int getTotalMyPage(Map<String, String> paraMap) throws SQLException
+
+		
+		// 마이페이지에 보여줄 내가 쓴 게시글 불러오기
+		@Override
+		public List<MyBoardVO> selectPagingMyBoard(Map<String, String> paraMap) throws SQLException {
+			
+			MyBoardVO myBoardVO = null;
+			
+			List<MyBoardVO> myBoardList = new ArrayList<>();
+			
+			try {
+			
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+				
+				System.out.println("currentShowPageNo : " + currentShowPageNo);
+				System.out.println("sizePerPage : " + sizePerPage);
+				
+				String colname = paraMap.get("searchType");
+				String searchWord = paraMap.get("searchWord");
+				String re_option = "";
+				String qna_option = "";
+				
+				conn = ds.getConnection();
+				/*
+				String sql = " SELECT pk_rnum, fk_pnum, re_title, re_date, re_grade, pk_qna_num, qna_title, qna_date "+
+				" FROM   "+
+				" (   "+
+				"    SELECT rownum as rno, pk_rnum, fk_pnum, re_title, re_date, re_grade, pk_qna_num, qna_title, qna_date "+
+				"    FROM "+
+				"    (    "+
+				" 		select R.pk_rnum AS pk_rnum, R.fk_pnum AS fk_pnum, R.re_title AS re_title "+
+				"     		, to_char(R.re_date, 'yyyy-mm-dd') AS re_date, R.re_grade AS re_grade "+
+				"     		, Q.pk_qna_num AS pk_qna_num, Q.qna_title AS qna_title "+
+				"     		, to_char(Q.qna_date, 'yyyy-mm-dd') AS qna_date "+
+				" 		from tbl_review_board R "+
+				" 		LEFT OUTER JOIN tbl_qna_boa	rd Q "+
+				" 		ON R.fk_userid = Q.fk_userid "+
+				" 		WHERE R.fk_userid = ? OR Q.fk_userid = ? AND R.isdelete = 0 AND Q.isdelete = 0 ";
+				*/
+				
+				String sql = "SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents "+
+							" FROM "+
+							" ( "+
+							"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents "+
+							"    from  "+
+							"        ( "+
+							"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents "+
+							"        from tbl_qna_board A "+
+							"        FULL OUTER JOIN tbl_review_board B "+
+							"        ON A.qna_title = B.re_title "+
+							"        where A.fk_userid = ? "+
+							"        ) Q\n"+
+							"    FULL OUTER JOIN\n"+
+							"        (\n"+
+							"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents "+
+							"        from tbl_qna_board A "+
+							"        FULL OUTER JOIN tbl_review_board B "+
+							"        ON A.qna_title = B.re_title "+
+							"        where B.fk_userid = ? "+
+							"        ) R "+
+							"    ON Q.qna_title = R.re_title " +
+							"    ) V "+
+							" where rno between ? and ?";		
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					re_option = "re_title";
+					qna_option = "qna_title";
+					sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
+				}
+				
+				if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					re_option = "re_contents";
+					qna_option = "qna_contents";
+					sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, paraMap.get("userid"));
+				pstmt.setString(2, paraMap.get("userid"));
+				pstmt.setInt(3, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+				pstmt.setInt(4, (currentShowPageNo * sizePerPage));
+				
+				
+				if( "my_title".equalsIgnoreCase(colname) || "my_contents".equalsIgnoreCase(colname) ) {
+					pstmt.setString(5, searchWord);
+					pstmt.setString(6, searchWord);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+				
+					myBoardVO = new MyBoardVO();
+					
+					QnABoardVO qna = new QnABoardVO();
+					qna.setPk_qna_num(rs.getInt(1));
+					qna.setQna_title(rs.getString(2));
+					qna.setQna_date(rs.getString(3));
+					qna.setQna_contents(rs.getString(9));
+					myBoardVO.setQnaBoard(qna);
+					
+					ReviewBoardVO review = new ReviewBoardVO();
+					review.setPk_rnum(rs.getInt(4));
+					review.setRe_title(rs.getString(5));
+					review.setRe_date(rs.getString(6));
+					review.setRe_grade(rs.getInt(7));
+					review.setRe_contents(rs.getString(8));
+					myBoardVO.setRevBoard(review);
+					
+					System.out.println("잘들어감? => " + myBoardVO.getRevBoard().getRe_title());
+					System.out.println("잘들어감? => " + myBoardVO.getQnaBoard().getQna_title());
+					
+					myBoardList.add(myBoardVO);
+					
+				}//end of while(rs.next()) ------------ 
+			
+			
+			} catch(SQLException e){  
+				e.printStackTrace();
+			} catch(NumberFormatException e) { 
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			
+			return myBoardList;
+			
+		} // end of public MyBoardVO selectPagingMyBoard(Map<String, String> paraMap) throws SQLException
+
+		// FAQ 카테고리 불러오기
+		@Override
+		public List<HashMap<String, String>> getFaqCateList() throws SQLException {
+
+			List<HashMap<String, String>> categoryList = new ArrayList<>();
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select pk_faq_c_num, faq_c_name, faq_c_ename "
+						   + " from tbl_faq_category "
+						   + " order by pk_faq_c_num asc ";
+				
+				pstmt = conn.prepareStatement(sql); // 연결
+				
+				rs = pstmt.executeQuery(); // 실행(select니까 query)
+				
+				while(rs.next()) {
+					
+					HashMap<String, String> map = new HashMap<>();
+					
+					map.put("pk_faq_c_num", rs.getString(1));
+					map.put("faq_c_name", rs.getString(2));
+					map.put("faq_c_ename", rs.getString(3));
+					
+					categoryList.add(map);
+					
+				} // end of while
+					
+			} finally {
+				close();
+			}
+		
+			
+			return categoryList;
+			
+		} // end of public List<HashMap<String, String>> getFaqCateList() throws SQLException
 		
 		
 		

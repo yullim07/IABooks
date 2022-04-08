@@ -9,8 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
 import member.model.InterMemberDAO;
-import member.model.MemberDAO;
-import member.model.MemberVO;
+import member.model.*;
 
 public class LoginAction extends AbstractController {
 
@@ -61,7 +60,7 @@ public class LoginAction extends AbstractController {
          
                HttpSession session = request.getSession();
                  // 메모리에 생성되어져 있는 session 을 불러오는 것이다.
-                 
+                 session.setAttribute("userid", userid);
                  session.setAttribute("loginuser", loginuser);
                  // session(세션)에 로그인 되어진 사용자 정보인 loginuser 을 키이름을 "loginuser" 으로 저장시켜두는 것이다. 
                  
@@ -105,8 +104,16 @@ public class LoginAction extends AbstractController {
 						 return; 
 					 }
 					 
-	                   // 로그인을 하면 시작페이지(index.up)로 가는 것이 아니라 로그인을 시도하려고 머물렀던 그 페이지로 가기 위한 것이다.
-	                   super.setViewPage(request.getContextPath()+"/index.book");
+					// 로그인을 하면 시작페이지(index.up)로 가는 것이 아니라 로그인을 시도하려고 머물렀던 그 페이지로 가기 위한 것이다.
+						String goBackURL = (String) session.getAttribute("goBackURL");
+						// 제품을 보여주는 곳 또는 null
+						
+						if(goBackURL != null) {
+							super.setViewPage(request.getContextPath()+goBackURL);
+						} else {
+							super.setViewPage(request.getContextPath()+"/index.book");
+						}
+					 
                  }
                
             }

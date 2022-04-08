@@ -151,7 +151,7 @@
 		// 게시물관리
 		$("td.tbl_body6").click(()=>{
 			
-			location.href="#";
+			location.href="<%= ctxPath %>/member/myBoard.book";
 			
 		})// end of $("td.tbl_body_td").click
 	
@@ -181,8 +181,8 @@
             </td>
             <td class="tbl_head_first" width="15%;">
                <ul class="tbl_head_first">
-                  <li class="tbl_head_first"><strong style="color:#00BBCC; ">${sessionScope.loginuser.mileage} 원</strong>&nbsp;<input class="btn_jo mileage" type="button" value="조회" ></li>
-                  <li class="tbl_head_first"><strong>${sessionScope.loginuser.mileage} 원</strong></li>
+                  <li class="tbl_head_first"><strong style="color:#00BBCC; ">0 원</strong>&nbsp;<input class="btn_jo mileage" type="button" value="조회" ></li>
+                  <li class="tbl_head_first"><strong>0 원</strong></li>
                   <li class="tbl_head_first"><strong>0원(0회)</strong></li>
                </ul>
             </td>
@@ -196,7 +196,7 @@
             <td class="tbl_head_first" width="15%;">
                <ul class="tbl_head_first">
                   <li class="tbl_head_first"><strong>0원</strong></li>
-                  <li class="tbl_head_first"><strong style="color:#00BBCC;" >${fn:length(session.loginuser.coupon)} 개</strong>&nbsp;<input class="btn_jo coupon" type="button" value="조회" ></li>
+                  <li class="tbl_head_first"><strong style="color:#00BBCC;" >${requestScope.couponNum} 개</strong>&nbsp;<input class="btn_jo coupon" type="button" value="조회" ></li>
                </ul>
             </td>
          </tr>

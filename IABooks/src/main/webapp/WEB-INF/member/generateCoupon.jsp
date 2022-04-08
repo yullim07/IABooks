@@ -75,6 +75,14 @@
 		color: red;
 	}
 	
+	a.btn_coupon:hover {
+		cursor: pointer;
+		text-decoration: none;
+		color: white;
+		background-color: navy;
+		font-weight: bold;
+	}
+	
 </style>
 
 
@@ -87,7 +95,7 @@ $(document).ready(function() {
 
 	
 	//=== jQuery UI 의 datepicker === //
-	$("input#datepicker").datepicker({
+	$("input.datepicker").datepicker({
 	           dateFormat: 'yy-mm-dd'  //Input Display Format 변경
 	          ,showOtherMonths: true   //빈 공간에 현재월의 앞뒤월의 날짜를 표시
 	          ,showMonthAfterYear:true //년도 먼저 나오고, 뒤에 월 표시
@@ -231,16 +239,16 @@ function couponOk() {
 			</tr>
 			<tr>
 				<td><label for="couponDiscount">할인설정</label></td>
-				<td><input class="requiredInfo" type="text" id="couponDiscount" name="couponDiscount"  /> 원 할인<span class="error">할인설정을 입력해주세요 </span></td>
+				<td><input class="requiredInfo" type="text" id="couponDiscount" name="couponDiscount"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원 할인<span class="error" >할인설정을 입력해주세요 </span></td>
 			</tr>
 			<tr>
 				<td><label>최소주문금액<span id="star"> * </span></label></td>
-				<td colspan="2"><input class="requiredInfo" type="text" id="minDiscount" name="minDiscount"  /> 원<span class="error">최소주문금액을 입력해주세요 </span></td>
+				<td colspan="2"><input class="requiredInfo" type="text" id="minDiscount" name="minDiscount"  oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" /> 원<span class="error">최소주문금액을 입력해주세요 </span></td>
 			</tr>
 			<tr>
 				<td>혜택기간<span id="star"> * </span></td>
-				<td><input type="text" id="datepicker" name="coupondateStart"/> ~ </td> 
-				<td><input type="text" id="datepicker" name="coupondateEnd" style="margin-left: -40px;"/>
+				<td><input type="text" class="datepicker" name="coupondateStart"/> ~ </td> 
+				<td><input type="text" class="datepicker" name="coupondateEnd" style="margin-left: -40px;"/>
 			</tr>
 		</table>
 		

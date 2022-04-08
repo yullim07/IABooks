@@ -153,13 +153,13 @@ public class FrontController extends HttpServlet {
 		//System.out.println("~~~ 확인용 uri => " + uri );
 		// ~~~ 확인용 uri => /MyMVC/member/idDuplicateCheck.up
 		
-		System.out.println("~~~ 확인용 ctxPath => " + request.getContextPath());
+	//	System.out.println("~~~ 확인용 ctxPath => " + request.getContextPath());
 		// ~~~ 확인용 ctxPath => /MyMVC
 		
 		String ctxPath = request.getContextPath();
 		
 		String key = uri.substring(ctxPath.length());
-		System.out.println("~~~ 확인용 key => " + key); // /member/idDuplicateCheck.up 만 잘라오는 것이 목표 > why? properties에 key값으로 올라갈 것이라서!
+	//	System.out.println("~~~ 확인용 key => " + key); // /member/idDuplicateCheck.up 만 잘라오는 것이 목표 > why? properties에 key값으로 올라갈 것이라서!
 		// ~~~ 확인용 key => /member/idDuplicateCheck.up
 		// http://localhost:9090/MyMVC/index.up 입력 시 ~~~ 확인용 key => /index.up
 		// http://localhost:9090/MyMVC/main.up 입력 시 ~~~ 확인용 key => /main.up 

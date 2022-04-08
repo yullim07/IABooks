@@ -17,18 +17,31 @@ public class GenerateCouponAction extends AbstractController {
 
 		String method = request.getMethod();
 
+		InterMemberDAO mdao = new MemberDAO();
+
 		if ("post".equalsIgnoreCase(method)) {
 
 			Random rnd = new Random();
 
 			String couponNumber = "";
-
-			int randnum = 0;
-			for (int i = 0; i < 15; i++) {
-				randnum = rnd.nextInt(9 - 0 + 1) + 0;
-				couponNumber += randnum;
-
-			} // end of for
+			
+			String randDuplicateCheck = "";
+			
+			// 쿠폰중복번호 방지하는 기능 
+			do {
+			
+				int randnum = 0;
+				for (int i = 0; i < 15; i++) {
+					randnum = rnd.nextInt(9 - 0 + 1) + 0;
+					couponNumber += randnum;
+	
+				} // end of for
+				
+				
+				randDuplicateCheck = mdao.randDuplicateCheck(couponNumber);
+			
+			} while(randDuplicateCheck == couponNumber);
+				
 
 			String cname = request.getParameter("couponName");
 			String cprice = request.getParameter("couponDiscount");
@@ -37,14 +50,15 @@ public class GenerateCouponAction extends AbstractController {
 			String cenddate = request.getParameter("coupondateEnd");
 			String couponid = couponNumber;
 
-			CouponVO coupon = new CouponVO(cname, cprice, cminprice, cstartdate, cenddate, couponid);
-
+			CouponVO coupon = new CouponVO(couponid, cname, cprice, cminprice, cstartdate, cenddate );
+			
+			
 			try {
-				InterCouponDAO cdao = new CouponDAO();
-				int n = cdao.couponRegister(coupon);
+				int n = mdao.couponRegister(coupon);
 				
 				if (n == 1) {
-					request.setAttribute("couponid", couponNumber);
+					
+					request.setAttribute("couponid", couponid);
 					request.setAttribute("cname", cname);
 					request.setAttribute("cprice", cprice);
 					request.setAttribute("cminprice", cminprice);
@@ -99,7 +113,7 @@ public class GenerateCouponAction extends AbstractController {
 					// super.setRedirect(false);
 					super.setViewPage("/WEB-INF/msg.jsp");
 				}
-
+				
 			} else { // 로그인을 안한 경우
 				String message = "관리자로 로그인 해주세요";
 				String loc = "javascript:history.back()";

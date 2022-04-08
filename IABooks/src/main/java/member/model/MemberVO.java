@@ -12,8 +12,6 @@ public class MemberVO {
    private String tel;            // 일반전화
    private String phone;            // 연락처(휴대전화) (AES-256 암호화/복호화 대상) 
    private String email;            // 이메일 (AES-256 암호화/복호화 대상)
-   private int mileage;               // 포인트 
-   private int coupon;               // 쿠폰
    private String registerday;       // 가입일자 
    private String lastpwdchangedate;     // 마지막으로 암호를 변경한 날짜  
    private String birthday;            // 생년월일   
@@ -66,7 +64,11 @@ public class MemberVO {
    }
    	
 
-   public String getUserid() {
+   public MemberVO(String userid) {
+	   this.userid=userid;
+}
+
+public String getUserid() {
       return userid;
    }
 
@@ -144,22 +146,6 @@ public class MemberVO {
 
    public void setEmail(String email) {
       this.email = email;
-   }
-
-   public int getMileage() {
-      return mileage;
-   }
-
-   public void setMileage(int mileage) {
-      this.mileage = mileage;
-   }
-
-   public int getCoupon() {
-      return coupon;
-   }
-
-   public void setCoupon(int coupon) {
-      this.coupon = coupon;
    }
 
    public String getRegisterday() {

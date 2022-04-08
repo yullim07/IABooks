@@ -1,6 +1,7 @@
 package board.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,27 +39,21 @@ public interface InterBoardDAO {
 	   QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
 
 	
+	   // Qna 게시판 조회수 증가
+	   int qnaReadCountUp(int pk_qna_num) throws SQLException;
+	   
+	   // Qna 게시판 이전글, 다음글 정보를 가져오기
+	   QnABoardVO getqnaPrevNextContent(Map<String, String> paraMap) throws SQLException;
 	
 	
+	   // 페이징 처리를 위한 하나의 상품에 대한 Qna게시글 페이지 알아오기
+	   int getProductQnaPage(Map<String, String> paraMap) throws SQLException;
 	
+	   // 제품상세페이지에 보여줄 한 제품에 대한 qna게시글 불러오기
+	   List<QnABoardVO> selectPagingProductQna(Map<String, String> paraMap) throws SQLException;
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	   // 한 제품에 대한 Qna게시글 갯수 알아오기
+	   int countOneProductQna(Map<String, String> paraMap) throws SQLException;
 	
 	
 	
@@ -118,7 +113,7 @@ public interface InterBoardDAO {
 	
 	
 	   
-	//////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////  [115] 
 	//////////////////정환모 작업 (안겹치도록 방파제) //////////////////////////////////
 
 	   
@@ -170,6 +165,22 @@ public interface InterBoardDAO {
 	// 리뷰게시판 값을 삭제하기
 	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
 
+
+	/*
+	 * // Ajax(JSON)를 사용하여 더보기 방식(페이징처리)으로 상품정보를 8개씩 잘라서(start ~ end) 조회해오기
+	 * List<CommentVO> insertComment(Map<String, String> paraMap);
+	 */
+	
+
+	
+
+
+	
+
+	
+
+	
+
 	// 페이징 처리를 위한 하나의 상품에 대한 리뷰게시글 페이지 알아오기
 	int getProductRevPage(Map<String, String> paraMap) throws SQLException;
 
@@ -181,6 +192,20 @@ public interface InterBoardDAO {
 
 	// 한 제품에 대한 리뷰게시글 갯수 알아오기
 	int countOneProductReview(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
+	int getTotalMyPage(Map<String, String> paraMap) throws SQLException;
+
+	// 마이페이지에 보여줄 내가 쓴 게시글 불러오기
+	List<MyBoardVO> selectPagingMyBoard(Map<String, String> paraMap) throws SQLException;
+
+	// FAQ 카테고리 불러오기
+	List<HashMap<String, String>> getFaqCateList() throws SQLException;
+	
+	
+	
+	
+	
 	
 
 	

@@ -53,7 +53,7 @@
 					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=return&faqsearchType=&faqsearchWord=">주문/배송</a>
 				</li>
 				<li>
-					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=return&faqsearchType=&faqsearchWord=">반품/교환</a>
+					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=order&faqsearchType=&faqsearchWord=">반품/교환</a>
 				</li>
 				<li>
 					<a href="<%= ctxPath%>/board/faqBoard.book?faqsearchCate=promotion&faqsearchType=&faqsearchWord=">제휴</a>

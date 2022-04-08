@@ -24,8 +24,8 @@ public class ReviewBoardAction extends AbstractController {
 		// 페이징 처리가 되어진 모든 리뷰 게시글 목록 보여주기
 		
 		// 검색조건이 있을 경우 시작
-		String searchType = request.getParameter("searchType");
-		String searchWord = request.getParameter("searchWord");
+		String searchType = request.getParameter("revSearchType");
+		String searchWord = request.getParameter("revSearchWord");
 		// 검색조건이 있을 경우 끝
 		
 		InterBoardDAO bdao = new BoardDAO();
@@ -83,7 +83,6 @@ public class ReviewBoardAction extends AbstractController {
 		}
 		
 		paraMap.put("currentShowPageNo", currentShowPageNo);
-		
 		
 		List<ReviewBoardVO> reviewList = bdao.selectPagingRevBoard(paraMap); 
 		
