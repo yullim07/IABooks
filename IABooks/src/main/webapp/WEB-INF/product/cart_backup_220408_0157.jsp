@@ -270,24 +270,22 @@
 	//////////////////////////////////////////////
 	function goDelSelect() {
 		
-		<%-- if(confirm("선택한 상품을 삭제하시겠습니까?")) {
+		if(confirm("선택한 상품을 삭제하시겠습니까?")) {
 			const frm = document.btnCartFrm;
-			frm.pk_cartno.value = pk_cartno;
 			frm.action = "<%= ctxPath%>/product/cartDeleteSelect.book";
 			frm.method = "post";
 			frm.submit();
 		}
 		else {
 			alert("선택상품 삭제하기를 취소하셨습니다.");
-		} --%>
-		var url="<%= ctxPath%>/product/cartDeleteSelect.book";
+		}
+		<%-- var url="<%= ctxPath%>/product/cartDeleteSelect.book";
 		var valueArr = new Array();
 		var value = $("input[name='rowCheck']");
 		
 		for(var i = 0; i < value.length; i++) {
 			if(value[i].checked) {
 				valueArr.push(value[i].value);
-				console.log(value[i].value);
 			}
 		}
 		
@@ -315,7 +313,7 @@
 				}
 			});
 			
-		}
+		} --%>
 	} //////////////////////////////////////////////
 	
 	

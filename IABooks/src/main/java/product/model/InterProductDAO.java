@@ -68,7 +68,7 @@ public interface InterProductDAO {
 	int deleteCartAll(String fk_userid) throws SQLException;
 	
 	// 장바구니 선택삭제하기 메소드
-	int deleteCartSelect(Map<String, String> paraMap) throws SQLException;
+	int deleteCartSelect(CartVO cart) throws SQLException;
 	
 	// 제품 조회수 증가 메소드
 	int plusViewCnt(String pk_pro_num);
