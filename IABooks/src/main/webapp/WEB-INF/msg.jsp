@@ -11,7 +11,7 @@
 	location.href = "${requestScope.loc}"; 	// 자바스크립트에서 페이지이동
 	
 	self.close(); // 팝업창 닫기
-	opener.location.reload(true); // 부모창 새로 고침
+	//opener.location.reload(true); // 부모창 새로 고침
 	
 	
 </script>

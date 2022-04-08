@@ -268,7 +268,7 @@ $(document).ready(function() {
 	 				if(json.isExist) {	// 입력한 $("input#userid").val() 값이 이미 사용중이라면
 	 					$("span#idcheckResult").html($("input#userid").val()+"은 중복된 ID 이므로 사용 불가합니다.").css("color","red");
 	  	 				$("input#userid").val("");
-	 				} else if($("input#userid").val().length < 5 ) {
+	 				} else if($("input#userid").val().length < 4 ) {
 	 					$("span#idcheckResult").html("아이디는 4글자 이상 16글자 이하로 작성하세요!").css("color","red");
 	 				} else {	// 입력한 $("input#userid").val() 값이 DB테이블(tbl_member)에 존재하지 않는 경우라면
 	 					$("span#idcheckResult").html($("input#userid").val()+"은 사용 가능합니다.").css("color","green");

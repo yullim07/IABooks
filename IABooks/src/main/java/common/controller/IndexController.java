@@ -14,6 +14,7 @@ public class IndexController extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
+		super.goBackURL(request);
 	
 		//super.setRedirect(false);//false 생략가능
 		//this.setRedirect(false); 다같다.

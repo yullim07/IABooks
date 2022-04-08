@@ -14,9 +14,15 @@ public class VerifyCertificationAction extends AbstractController {
 		String userCertificationCode = request.getParameter("userCertificationCode");
 		//		사용자가 보내어준 인증코드
 		String userid= request.getParameter("userid");
+		String name = request.getParameter("name");
+		String email = request.getParameter("email");
+		String phone = "010-" + request.getParameter("phone_one") +"-"+ request.getParameter("phone_two") ;
+		String phone2 = "010" + request.getParameter("phone_one") + request.getParameter("phone_two") ;
+		String radio = request.getParameter("check");
 		
 		HttpSession session = request.getSession();  // 세션불러오기
 		String certificationCode = (String) session.getAttribute("certificationCode"); // 세션에 저장된 인증코드 가져오기
+		
 		//		랜덤하게 발생된 인증코드
 		
 		String message = "";
@@ -24,7 +30,7 @@ public class VerifyCertificationAction extends AbstractController {
 		
 		if( certificationCode.equals(userCertificationCode) ) {
 			message = "인증성공 되었습니다";
-			loc = request.getContextPath() + "/login/pwdUpdateEnd.book?userid="+userid;
+			loc = request.getContextPath() + "/login/pwdUpdateEnd.book";
 		}
 		else {
 			message = "발급된 인증코드가 아닙니다. 인증코드를 다시 발급받으세요!!";

@@ -8,6 +8,8 @@
     
 %>
 
+
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -16,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 
 <!-- Optional JavaScript -->
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
@@ -44,7 +46,10 @@
       width: 90%;
       height: 15%;
       margin-bottom: 5%;
-      margin-left: 10%;      
+      text-align: center;
+	  font-weight: bold;
+	  color: firebrick;
+	  font-size: 14pt;
       position: relative;
    }
    
@@ -54,6 +59,10 @@
       margin-bottom: 5%;
       margin-left: 10%;
       position: relative;
+   }
+   
+   .text{
+   	height: 40px;
    }
    
 </style>
@@ -101,25 +110,28 @@
 	});// end of $(document).ready(function()-----------
 
 </script>
-
+<title>비밀번호 변경</title>
+<jsp:include page="/WEB-INF/header.jsp"/>
+<div class="container">
+	<div class="titleArea">
+		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;비밀번호 변경</strong>
+    </div>
+	<hr style="border: solid 2px #e8e8e8; margin-bottom:8rem;">
 <form name="pwdUpdateEndFrm">
 
 	<div id="div_pwd" align="center">
-      	<span style="color: blue; font-size: 12pt;">새암호</span><br/> 
-      	<input type="password" name="pwd" id="pwd" size="25" placeholder="PASSWORD" required />
+      	<span style="color: gray; font-size: 16pt;"><strong>새암호</strong></span><br/> 
+      	<input type="password" class="text" name="pwd" id="pwd" size="30" placeholder="PASSWORD" required />
    	</div>
    
    	<div id="div_pwd2" align="center">
-        <span style="color: blue; font-size: 12pt;">새암호확인</span><br/>
-      	<input type="password" id="pwd2" size="25" placeholder="PASSWORD" required />
+        <span style="color: gray; font-size: 16pt;"><strong>새암호확인</strong></span><br/>
+      	<input type="password" class="text" id="pwd2" size="30" placeholder="PASSWORD" required />
    	</div>
-   	
-   	<input type="hidden" name="userid" value="${requestScope.userid}">
-
 
 	<c:if test="${requestScope.method == 'GET'}">
 		<div id="div_btnUpdate" align="center">
-	        <button type="button" class="btn btn-success" id="btnUpdate">암호변경하기</button>
+	        <button type="button" style= "font-weight: bold;" class="btn btn-success" id="btnUpdate">암호변경하기</button>
 	    </div>
 	</c:if>
 	
@@ -129,4 +141,6 @@
 	    </div>
 	</c:if>
 </form>
+</div>
+<jsp:include page="/WEB-INF/footer.jsp"/>
 	
