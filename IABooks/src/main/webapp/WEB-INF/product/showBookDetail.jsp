@@ -45,35 +45,53 @@
 		}
 		
 		$("button#btn_cart").click(function() {
+			addCart();
+		});
+		
+		$("div#cartModal button.btn2").click(function() {
+			<%-- location.href="<%= ctxPath%>/product/cart.book"; --%>
 			goCart();
 		});
 				
-				
 	});
 		
-	function goCart() {
+	function addCart() {
 		$.ajax({
-			url:"<%= ctxPath%>/product/goCart.book",
+			url:"<%= ctxPath%>/product/addCart.book",
 			type:"POST",
-			data:{"pro_saleprice":${requestScope.pvo.pro_saleprice},
-				"pk_pro_num":${requestScope.pvo.pk_pro_num},
-				"total_pro_qty": $("td.pro_qty input").val()	
-		
-			}, 
-			
+			data:{"pk_pro_num":${requestScope.pvo.pk_pro_num},
+				 "now_pro_qty":$("td.pro_qty input").val(),
+				 "userid":"${sessionScope.loginuser.userid}" }, 
 			dataType:"JSON",
 			success:function(json) {
-	
+				 if(json.addCart == 1) {
+					// alert("장바구니 추가");
+					 $("#cartModal").modal("show");
+				 }
 	
 			},
 			error: function(request, status, error){
-			alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				if(request.responseText.match("로그인")){
+					if(!alert(request.responseText)) document.location = "<%= ctxPath%>/login/join.book";
+				}else{
+					alert(request.responseText);
+					location.reload();
+				}
+				
 			}
 		
 		});//end of $.ajax
 		
-		
-	}//end of function goCart()
+	}//end of function addCart()
+	
+	function goCart() {
+		const frm = document.createElement('form');
+		document.body.appendChild(frm);
+		frm.action = "<%= ctxPath%>/product/cart.book";
+		frm.method = "post";
+		frm.submit();
+	};
 	
 </script>
 
@@ -178,7 +196,7 @@
 							</button>
 						</td>
 						<td class="button">
-							<button type="button" id="btn_cart" class="btn2" data-toggle="modal" data-target="#cartModal">
+							<button type="button" id="btn_cart" class="btn2" >
 					    		장바구니
 							</button>
 						</td>
@@ -380,12 +398,9 @@
 			<!-- 버튼그룹 끝 -->
 			
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
-			<div class="detail_board_qna">
-				
-				<jsp:include page="detailboard_qna.jsp" >
+			<jsp:include page="detailboard_qna.jsp" >
 					<jsp:param value="${requestScope.pvo.pk_pro_num}" name="pk_pro_num"/>
-				</jsp:include>
-			</div>
+			</jsp:include>
 			<!-- 상세보기 게시판 영역(detail_board) 시작 -->
 
 		</div>
@@ -401,11 +416,13 @@
 	            <!-- Modal header -->
 	            <div class="modal-header">
 	                <h5 class="modal-title">장바구니 추가</h5>
-	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+        			</button>
 	            </div>
 	
 	            <!-- Modal body -->
-	            <div class="modal-body">
+	            <div class="modal-body text-center">
 	               해당 상품이 장바구니에 추가되었습니다.<br>
 	               장바구니로 이동하시겠습니까?<br>
 	            </div>
@@ -413,7 +430,7 @@
 	            <!-- Modal footer -->
 	            <div class="modal-footer">
 	                <button type="button" class="btn1" data-dismiss="modal">쇼핑 계속하기</button>
-	                <button type="button" class="btn2" onclick="goCart()">장바구니 확인</button>
+	                <button type="button" class="btn2">장바구니 확인</button>
 	            </div>
 	        </div>
 	    </div>
@@ -426,11 +443,13 @@
 	            <!-- Modal header -->
 	            <div class="modal-header">
 	                <h5 class="modal-title">관심상품 추가</h5>
-	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+        			</button>
 	            </div>
 	
 	            <!-- Modal body -->
-	            <div class="modal-body">
+	            <div class="modal-body text-center">
 	               해당 상품이 관심상품에 추가되었습니다.<br>
 	               관심상품으로 이동하시겠습니까?<br>
 	            </div>

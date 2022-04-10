@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -32,7 +34,39 @@
 			newAddress();
 		});
 		
-	});
+		//전체체크박스설정		
+		$("input#selectAll").bind("click",function () {
+            if ($("input#selectAll").prop("checked")) {
+                $("input#proCheck").prop("checked", true);
+            } else {
+                $("input#proCheck").prop("checked", false);
+            }
+		});//end of $("input#selectAll").click(function ()
+			
+        $("input#proCheck").bind("click",function() {
+            if ($("input[name='proCheck']:checked").length == $("input[name='proCheck']").length) {
+                $("input#selectAll").prop("checked", true);
+            } else {
+                $("input#selectAll").prop("checked", false);
+            }
+        });	//end of $(".test").click(function()
+        		
+		//선택상품 삭제		
+		$("span#deleteSelect").click(function () {
+			var cnt = $("input[name='proCheck']:checked").length;
+	      	var cartNoArr = new Array();
+	        $("input[name='proCheck']:checked").each(function() {
+	        	cartNoArr.push($(this).val());
+	        });
+	        if(cnt == 0){
+	            alert("선택된 제품이 없습니다.");
+	        }
+	        const cartNoStr = cartNoArr.join();
+	        
+	        proDeleteSelect(cnt, cartNoStr);
+		});//end of $("li#btn_delete").click(function ()		
+		
+	});//end of $(document).ready(function()
 
 	function openDaumPOST() {
 
@@ -128,17 +162,6 @@
 			return;
 			
 		}
-	/* 	var IMP = window.IMP;
-	
-		 var frm = document.paymentFrm;
-		 var url = "payment.book";
-		 window.open("" ,"paymentFrm", 
-		       "toolbar=no, left=350px, top=100px, width=1000px, height=600px, directories=no, status=no, scrollorbars=no, resizable=no, menubar=no, channelmode=no, location=no, fullscreen=no"); 
-		 frm.action =url; 
-		 frm.method="post";
-		 frm.target="paymentFrm";
-		 frm.submit(); */
-		 //ajax로 결제하자
 		 var frm = document.paymentFrm;
 		 var url = "payment.book";
 		 frm.action =url; 
@@ -146,81 +169,203 @@
 		 frm.target="paymentFrm";
 		 frm.submit(); 
 	
-		 //test();
 	}//end of function payment() 
 	
-	
-	function test() {
-		var IMP = window.IMP; // 생략가능
-		IMP.init('imp51671394');
-		// 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-		// i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
-		IMP.request_pay({
-			pg: 'inicis', // version 1.1.0부터 지원.
-			/*
-			'kakao':카카오페이,
-			html5_inicis':이니시스(웹표준결제)
-			'nice':나이스페이
-			'jtnet':제이티넷
-			'uplus':LG유플러스
-			'danal':다날
-			'payco':페이코
-			'syrup':시럽페이
-			'paypal':페이팔
-			*/
-			pay_method: 'card',
-			/*
-			'samsung':삼성페이,
-			'card':신용카드,
-			'trans':실시간계좌이체,
-			'vbank':가상계좌,
-			'phone':휴대폰소액결제
-			*/
-			merchant_uid: 'merchant_' + new Date().getTime(),
-			/*
-			merchant_uid에 경우
-			https://docs.iamport.kr/implementation/payment
-			위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
-			참고하세요.
-			나중에 포스팅 해볼게요.
-			*/
-			name: '주문명:결제테스트',
-			//결제창에서 보여질 이름
-			amount: 1000,
-			//가격
-			buyer_email: 'iamport@siot.do',
-			buyer_name: '구매자이름',
-			buyer_tel: '010-1234-5678',
-			buyer_addr: '서울특별시 강남구 삼성동',
-			buyer_postcode: '123-456',
-			m_redirect_url: 'https://www.yourdomain.com/payments/complete'
-			/*
-			모바일 결제시,
-			결제가 끝나고 랜딩되는 URL을 지정
-			(카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐)
-			*/
-		}, function (rsp) {
-			console.log(rsp);
-			if (rsp.success) {
-			var msg = '결제가 완료되었습니다.';
-			msg += '고유ID : ' + rsp.imp_uid;
-			msg += '상점 거래ID : ' + rsp.merchant_uid;
-			msg += '결제 금액 : ' + rsp.paid_amount;
-			msg += '카드 승인번호 : ' + rsp.apply_num;
-		} else {
-			var msg = '결제에 실패하였습니다.';
-			msg += '에러내용 : ' + rsp.error_msg;
-		}
-		alert(msg);
-		});
+	//선택삭제버튼 함수
+	function  proDeleteSelect(cnt, cartNoStr) {
+		$.ajax({
+			url:"<%= ctxPath%>/product/proDeleteSelect.book",
+			type:"POST",
+			data:{"cnt":cnt,
+				  "cartNoStr":cartNoStr}, 
+			dataType:"JSON",
+			success:function(json) {
+				if(json.proDeleteSelect == 1) {
+					alert("선택한 제품이 삭제되었습니다.");
+					location.reload();
+				}else{
+					alert("오류발생"); 
+				}
 
-	}
+			},
+			error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			
+				if(request.responseText.match("로그인")){
+					if(!alert(request.responseText)) document.location = "<%= ctxPath%>/login/join.book";
+				}else{
+					alert(request.responseText);
+					location.reload();
+				}
+				
+			}
+		});//end of $.ajax
+	}//end of function  proDeleteSelect(cnt, cartNoStr) 
+	
 	
 </script>
 
 <style type="text/css">
 
-	 */
+	
+/* 회원 */
+
+
+ table.cartListTbl {
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 10px;
+}
+
+table.cartListTbl td {
+	text-align: center;
+	padding-left: 10px;
+	height: 100px;
+	
+}
+table.cartListTbl span {
+color: #212529;
+}
+
+table.cartListTbl a:hover {
+text-decoration-line: none;
+}
+
+table.cartListTbl img {
+cursor: pointer;
+}
+
+table.cartListTbl > tfoot > tr:first-child td {
+	height: 70px;
+	background-color: #FBFAFA;
+	padding-right: 10px;
+}
+
+table.cartListTbl > tfoot > tr:last-child td {
+	height: 90px;
+	vertical-align: top;
+	padding-right: 10px;
+	padding-top: 10px;
+	font-size: 15px;
+}
+
+table.cartListTbl .pqty{
+width: 50px;
+height: 26px;
+padding-left: 2px;
+
+}
+
+table.cartListTbl > thead > tr > td {
+	height: 50px;
+	background-color: #FBFAFA;
+}
+
+table.cartListTbl  tr {
+	border-top: solid 2px #e8e8e8;
+}
+
+table.cartListTbl tr:last-child {
+	border-bottom: solid 2px #e8e8e8;
+}
+
+
+table.cartTotalTbl {
+width: 100%;
+}
+
+table.cartTotalTbl tr:first-child td {
+	text-align: left;
+	padding-left:50px;
+	height: 50px;
+	background-color: #FBFAFA;
+}
+
+table.cartTotalTbl tr:last-child td {
+	text-align: left;
+	padding-left:50px;
+	height: 70px;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+table.cartTotalTbl  tr {
+	border-top: solid 2px #e8e8e8;
+}
+
+table.cartTotalTbl tr:last-child {
+	border-bottom: solid 2px #e8e8e8;
+}
+
+	div.order {
+	 text-align: center;
+	 margin: 20px 0px 200px 0px ;
+	}
+	
+	div.order span:last-child {
+	position: relative;
+	right: 10px;
+	float: right;
+	text-align: right;
+	}
+	
+	div.order img {
+	cursor: pointer;
+	}
+
+/* 상품없음 */
+table.interested_none { 
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 10px;
+}
+
+table.interested_none td {
+	text-align: center;
+	height: 100px;
+}
+
+table.interested_none tr {
+	border-top: solid 2px #e8e8e8;
+	border-bottom: solid 2px #e8e8e8;
+}
+
+
+
+
+/*  페이징 CSS 중복   */
+
+	div.pagination {
+	  display: inline-block;
+	  width: 100%;
+	  text-align: center;
+	  margin: 20px 0;
+	}
+	
+	div.pagination a {
+	  color: black;
+	  text-decoration: none;
+	  width: 32px;
+	  height: 32px;
+	  text-align: center;
+	}
+	
+	div.pagination a.active {
+		border-bottom: solid 2px black;
+	  	
+	}
+	
+	div.pagination a img {
+		margin-top: -4px;
+		vertical-align: middle;
+	
+	}
+	
+	div.pagination a:hover {
+		font-weight: bolder;
+		opacity: 0.3;
+	}
+	
 	
 </style>
 
@@ -242,8 +387,8 @@
 				<td>
 					<span style="padding-left: 30px;">혜택정보</span>
 					<img src="<%= ctxPath%>/images/bar_eee.gif" style="width: 2px; height: 20px;" />
-					가용적립금 : <span name="point"><a>0</a></span>
-					쿠폰 : <span name="coupon"><a>0</a></span>
+					가용적립금 : <span><a>0</a></span>
+					쿠폰 : <span><a>0</a></span>
 				</td>
 			</tr>
 		</table>
@@ -252,13 +397,110 @@
 
 
 
+		<table class="cartListTbl">
+			<thead>
+				<tr>
+					<td style="width: 4%"><input type="checkbox" id="selectAll" name="selectAll" /></td>
+					<td style="width: 10%">이미지</td>
+					<td style="width: 30%">상품정보</td>
+					<td style="width: 10%">판매가</td>
+					<td style="width: 6%">수량</td>
+					<td style="width: 10%">적립금</td>
+					<td style="width: 10%">배송비</td>
+					<td style="width: 10%">합계</td>
+				</tr>
+			</thead>
+				
+			<tbody>
+				
+				<c:forEach var="cvo" items="${requestScope.order}" varStatus="status">
+					<tr>							
+						<%-- 체크박스 --%>
+						<td> 
+							<input type="checkbox" name="proCheck" id="proCheck" value="${cvo.pk_cartno}" />
+						</td>
+						
+						<%-- 이미지 --%>
+						<td> 
+							<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
+							<img src="<%=ctxPath%>/images/product/${cvo.category.cate_name}/${cvo.product.pro_imgfile_name}" style="width: 100%"/>
+							</a>
+						</td>
+						
+						<%-- 상품정보 --%>
+						<td> 
+							<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
+								<span class="cartPname">${cvo.product.pro_name}</span>
+							</a>
+						</td>
+						
+						<%-- 판매가 --%>
+						<td> 
+							<span class="orderPrice"><fmt:formatNumber value="${cvo.product.pro_saleprice}" pattern="###,###" />원</span>
+						</td>
+						
+						<%-- 주문수량 + 장바구니 번호(숨김) --%> 
+						<td>
+							<span class="pqty">${cvo.ck_odr_qty}</span>
+						</td>
+						
+						<%-- 적립금 --%>
+						<td> 
+							<span id="totalPoint">${cvo.totalPoint}p</span>
+						</td>
+						 					 
+						<%-- 배송비(주문총액이 5만원 이상이면 무료, 아니면 3000원) --%>
+						<c:if test="${status.first}">
+							<td rowspan= "${fn:length(cartList)}" >
+								<span class="shippingFee">
+									<c:if test="${requestScope.totalPrice >= 50000}">무료</c:if>
+									<c:if test="${requestScope.totalPrice < 50000}">3,000원</c:if>
+								</span>
+							</td>
+						</c:if>
+						<%-- 주문총액 --%>
+						<td>
+							<span id="partsaleprice"><fmt:formatNumber value="${cvo.partPrice}" pattern="###,###" />원</span>
+						</td>
+					</tr>
+				</c:forEach>
+				
+			
+			</tbody>
+			
+			<tfoot>
+				<tr>
+					<td colspan="2" class="text-left">
+						<span>[기본배송]</span>
+					</td>
 
-
-
-
-
-
-
+					<td colspan="6" class="text-right">
+						<span>상품구매금액&nbsp;</span>
+						<span class="totalPrice" id="totalPrice"><fmt:formatNumber value="${requestScope.totalPrice}" pattern="###,###" />원</span>
+						<span>&nbsp;+&nbsp;배송비</span>
+						<span class="shippingFee">
+							<c:if test="${requestScope.totalPrice >= 50000}">무료</c:if>
+							<c:if test="${requestScope.totalPrice < 50000}">3,000원</c:if>
+						</span>
+						<span>&nbsp;=&nbsp;합계&nbsp;:&nbsp;</span>
+						<span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
+					</td>
+				</tr>
+				<tr style="border-bottom: none;">
+					<td colspan="3" class="text-left">
+						<span id="deleteSelect">
+							선택상품&nbsp;&nbsp;<img src="<%= ctxPath %>/images/product/btn_delete2.gif" />
+						</span>
+					</td>
+					<td colspan="5" class="text-right">
+						<span>
+							<img src="<%= ctxPath %>/images/product/btn_prev.gif" onclick=""/>
+						</span>	
+					</td>
+				</tr>	
+			</tfoot>	
+		</table>
+		
 		<hr style="border: solid 1px black;">	
 		
 		<strong style="font-size: 12pt; padding-left: 20px;">배송정보</strong>
@@ -281,7 +523,7 @@
 				<tr>
 					<th>우편번호</th>
 			      	<td>
-			        	<input required type="text" id="postcode" name="postcode" size="5" placeholder="우편번호" values="addr" style="width: 100px;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+			        	<input required type="text" id="postcode" name="postcode" size="5" placeholder="우편번호" value="" style="width: 100px;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
 			         	&nbsp;&nbsp;
 			         	<img src="<%= ctxPath %>/images/product/btn_zipcode.gif" style="cursor: pointer;" onclick="openDaumPOST();"/>
 			      	</td>
@@ -338,14 +580,14 @@
 					</tr>
 					<tr>
 						<td>
-							<span>14,000원</span>
+							<span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
 							<input required type="hidden" value="10000" name="totalprice" id="totalprice" maxlength="20" />
 						</td>
 						<td>
 							- <span>0원</span>
 						</td>
 						<td style="color: #008BCC;">
-							= <span>14,000원</span>
+							= <span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
 						</td>
 					</tr>
 				</thead>

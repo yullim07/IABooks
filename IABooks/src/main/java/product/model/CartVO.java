@@ -13,15 +13,25 @@ public class CartVO {
 	private CategoryVO category;
 	
 	// 추가
+<<<<<<< HEAD
 	private int totalPrice;				// ck_odr_qty * ck_odr_qty
+=======
+	private int partPrice;				// ck_odr_qty * ck_odr_qty
+	private int totalPoint;
+>>>>>>> refs/remotes/origin/sub_main
 	
 	///////////////////////////////////////////////
 	
+
 	// 기본생성자
 	public CartVO() {}
 
 	public CartVO(int pk_cartno, String fk_userid, String fk_pro_num, int ck_odr_qty, String ck_cart_register,
+<<<<<<< HEAD
 			int c_status, ProductVO product, CategoryVO category, int totalPrice) {
+=======
+			int c_status, ProductVO product, CategoryVO category, int partPrice, int totalPoint) {
+>>>>>>> refs/remotes/origin/sub_main
 		super();
 		this.pk_cartno = pk_cartno;
 		this.fk_userid = fk_userid;
@@ -31,7 +41,13 @@ public class CartVO {
 		this.c_status = c_status;
 		this.product = product;
 		this.category = category;
+<<<<<<< HEAD
 		this.totalPrice = totalPrice;
+=======
+		this.partPrice = partPrice;
+		this.totalPoint = totalPoint;
+		
+>>>>>>> refs/remotes/origin/sub_main
 	}
 
 	public int getPk_cartno() {
@@ -68,6 +84,8 @@ public class CartVO {
 
 	public String getCk_cart_register() {
 		return ck_cart_register;
+<<<<<<< HEAD
+=======
 	}
 	
 	public void setCk_cart_register(String ck_cart_register) {
@@ -78,6 +96,54 @@ public class CartVO {
 		return c_status;
 	}
 	
+	public void setC_status(int c_status) {
+		this.c_status = c_status;
+	}
+
+	public ProductVO getProduct() {
+		return product;
+	}
+
+	public void setProduct(ProductVO product) {
+		this.product = product;
+	}
+
+	
+	public CategoryVO getCategory() {
+		return category;
+	}
+
+	public void setCategory(CategoryVO category) {
+		this.category = category;
+	}
+
+	public int getPartPrice() {
+		return partPrice;
+	}
+
+	public void setPartPrice(int partPrice) {
+		this.partPrice = partPrice;
+		
+	}
+	
+	public int getTotalPoint() {
+		return totalPoint;
+	}
+
+	public void setTotalPoint(int totalPoint) {
+		this.totalPoint = totalPoint;
+>>>>>>> refs/remotes/origin/sub_main
+	}
+	
+	public void setCk_cart_register(String ck_cart_register) {
+		this.ck_cart_register = ck_cart_register;
+	}
+
+	public int getC_status() {
+		return c_status;
+	}
+	
+<<<<<<< HEAD
 	public void setC_status(int c_status) {
 		this.c_status = c_status;
 	}
@@ -109,4 +175,6 @@ public class CartVO {
 		
 	}
 	
+=======
+>>>>>>> refs/remotes/origin/sub_main
 }

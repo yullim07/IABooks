@@ -19,7 +19,7 @@ a:hover {
 
 header {
   position: fixed;
-  z-index: 100000;
+  z-index: 1000;
   top: 0;
   /* width: 100% */
   left: 0;

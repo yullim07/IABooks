@@ -585,7 +585,7 @@ public class ProductDAO implements InterProductDAO {
 		return result;	
 	}//end of public int viewCount(String pk_pro_num) throws SQLException
 
-
+	
 	@Override
 	public MemberVO oderUserInfo(String userid) throws SQLException {
 		MemberVO mvo = new MemberVO();
@@ -610,8 +610,13 @@ public class ProductDAO implements InterProductDAO {
 				mvo.setExtraaddress(rs.getString(5));
 				mvo.setPhone(rs.getString(6));
 				mvo.setEmail(rs.getString(7));
+<<<<<<< HEAD
 				mvo.setCoupon(rs.getInt(8));
 				mvo.setMileage(rs.getInt(9));
+=======
+				//mvo.setCoupon(rs.getInt(8));
+				//mvo.setMileage(rs.getInt(9));	
+>>>>>>> refs/remotes/origin/sub_main
 			}
 			
 		} finally {
@@ -853,469 +858,940 @@ public class ProductDAO implements InterProductDAO {
 		return prodList;
 	}//end of public List<ProductVO> selectIndexRandom() throws SQLException
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//장바구니에 추가할 상품개수랑 재고량비교
+	@Override
+	public Map<String, Integer> qtyCheck(Map<String, String> paraMap) throws SQLException {
+		
+		Map<String, Integer> qtyCheck = new HashMap<String, Integer>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pro_qty "
+						+ " from tbl_product "
+						+ " where pk_pro_num = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("pk_pro_num"));
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			qtyCheck.put("pro_qty", rs.getInt(1));
+			
+			
+		} finally {
+			close();
+		}
+		return qtyCheck;
+	}//end of public boolean qtyCheck(Map<String, String> paraMap) throws SQLException 
+	
+	//현재 장바구니에 추가할 제품이 장바구니에 있는지 중복체크
+	@Override
+	public boolean proCartCheck(Map<String, String> paraMap) throws SQLException {
+		boolean proCartCheck = false;
+		
+		try {
+			conn = ds.getConnection();
+			String sql = " select pk_cartno "
+						+ " from tbl_cart "
+						+ " JOIN "
+						+ " tbl_member "
+						+ " on fk_userid = pk_userid "
+						+ " where fk_pro_num = ? and fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("pk_pro_num"));
+			pstmt.setString(2, paraMap.get("userid"));
+			
+			rs = pstmt.executeQuery();
+			
+			proCartCheck = rs.next();
+			
+		} finally {
+			close();
+		}
+		return proCartCheck;
+	}//end of public boolean proCartCheck(Map<String, String> paraMap) throws SQLException
+	
+	//장바구니에 중복된 제품이 있어서 수량 update
+	@Override
+	public int updateAddCart(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " update tbl_cart "
+						+ " set ck_odr_qty = ck_odr_qty + ? "
+						+ " where fk_pro_num = ? and fk_userid = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("now_pro_qty")) );
+			pstmt.setString(2, paraMap.get("pk_pro_num"));
+			pstmt.setString(3, paraMap.get("userid"));
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of public int updateAddCart(Map<String, String> paraMap) throws SQLException 
+	
+	//장바구니에 제품 추가 insert
+	@Override
+	public int insertAddCart(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " insert into "
+						+ " tbl_cart(pk_cartno, fk_userid, fk_pro_num, ck_odr_qty) "
+						+ " values (seq_cartno.nextval, ?, ?, ?) ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("pk_pro_num"));
+			pstmt.setInt(3, Integer.parseInt(paraMap.get("now_pro_qty")) );
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of public int insertAddCart(Map<String, String> paraMap)
+
+	//현재 유저가 장바구니에 가지고있는 제품수(상세페이지)
+	@Override
+	public Map<String, Integer> cartQtyCheck(Map<String, String> paraMap) throws SQLException {
+		Map<String, Integer> cartQtyCheck = new HashMap<String, Integer>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ck_odr_qty "
+						+ " from tbl_cart "
+						+ " where fk_pro_num = ? and fk_userid = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("pk_pro_num"));
+			pstmt.setString(2, paraMap.get("userid"));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {		
+				cartQtyCheck.put("ck_odr_qty", rs.getInt(1));	
+			}else {
+				cartQtyCheck.put("ck_odr_qty", 0);
+			}
+			
+		} finally {
+			close();
+		}
+		return cartQtyCheck;
+	}//end of public Map<String, Integer> cartQtyCheck(Map<String, String> paraMap) throws SQLException
+
+	//현재 유저의 장바구니 수량 변경
+	@Override
+	public int updatePqty(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " update tbl_cart "
+						+ " set ck_odr_qty = ? "
+						+ " where pk_cartno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("pqty_update")) );
+			pstmt.setInt(2, Integer.parseInt(paraMap.get("pk_cartno")) );
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of public int updatePqty(Map<String, String> paraMap) throws SQLException
+
+	//삭제하기 버튼 클릭시 선택 제품 삭제
+	@Override
+	public int proDeleteSelect(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " delete from tbl_cart where pk_cartno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, Integer.parseInt(paraMap.get("pk_cartno")) );
+			
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of public int proDeleteSelect(Map<String, Integer> paraMap) throws SQLException 
+
+	//partPrice값조회
+	@Override
+	public int partPriceSelect(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select ck_odr_qty*pro_saleprice as pro_saleprice "
+						+ " from tbl_cart join tbl_product "
+						+ " on fk_pro_num = pk_pro_num "
+						+ " where pk_cartno = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("pk_cartno"));
+		
+			rs = pstmt.executeQuery();
+			rs.next();
+			result = rs.getInt(1);
+
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of public int proDeleteSelect(Map<String, Integer> paraMap) throws SQLException  
+	
+	//totalPrice조회
+	@Override
+	public int totalPriceSelect(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select sum(ck_odr_qty*pro_saleprice) "
+						+ "	from tbl_cart join tbl_product "
+						+ "	on fk_pro_num = pk_pro_num "
+						+ "	where fk_userid = ? ";
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+		
+			rs = pstmt.executeQuery();
+			rs.next();
+			result = rs.getInt(1);
+
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of public int totalPriceSelect(Map<String, String> paraMap) throws SQLException
+
+	//장바구니 모두비우기
+	@Override
+	public int deleteCartAll(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " delete tbl_cart "
+						+ " where fk_userid = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, paraMap.get("userid"));
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		return result;
+	}//end of public int deleteCartAll(Map<String, String> paraMap) throws SQLException
+
+	//선택상품 주문하기
+	@Override
+	public CartVO orderSelect(Map<String, String> paraMap) throws SQLException {
+		
+		CartVO cvo = new CartVO();
+
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " SELECT A.pk_cartno, A.fk_userid, A.fk_pro_num, B.point_rate*A.ck_odr_qty*B.pro_saleprice AS totalPoint "
+						+ "      , B.pro_name, B.fk_cate_num, C.cate_name "
+						+ "      , B.pro_imgfile_name, B.pro_price, B.pro_saleprice "
+						+ "      , A.ck_odr_qty, A.c_status, A.ck_odr_qty*B.pro_saleprice AS partPrice "
+					//	+ "      , A.ck_odr_qty, A.c_status "
+						+ "	FROM tbl_cart A LEFT OUTER JOIN tbl_product B "
+						+ "	ON A.fk_pro_num = B.pk_pro_num "
+		                + "	LEFT OUTER JOIN tbl_category C "
+		                + "	ON B.fk_cate_num = C.pk_cate_num "
+	                	+ "	WHERE A.c_status = 1 AND A.fk_userid = ? AND A.pk_cartno = ? " ;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("pk_cartno"));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			
+				ProductVO pvo = new ProductVO();
+				CategoryVO catevo = new CategoryVO();
+				
+				int pk_cartno = rs.getInt("pk_cartno");
+				String fk_userid = rs.getString("fk_userid");
+			//	String pk_pro_num = rs.getString("pk_pro_num");
+				String fk_pro_num = rs.getString("fk_pro_num");
+				String pro_name = rs.getString("pro_name");
+				int fk_cate_num = rs.getInt("fk_cate_num");
+				String cate_name = rs.getString("cate_name");
+				String pro_imgfile_name = rs.getString("pro_imgfile_name");
+				int pro_price = rs.getInt("pro_price");
+				int pro_saleprice = rs.getInt("pro_saleprice");
+				int ck_odr_qty = rs.getInt("ck_odr_qty");
+				int c_status = rs.getInt("c_status");
+				int partPrice = rs.getInt("partPrice");
+				int totalPoint = rs.getInt("totalPoint");
+				System.out.println("totalPoint "+totalPoint);
+				
+				pvo.setPro_name(pro_name);
+				pvo.setFk_cate_num(fk_cate_num);
+				pvo.setPro_imgfile_name(pro_imgfile_name);
+				pvo.setPro_price(pro_price);
+				pvo.setPro_saleprice(pro_saleprice);
+				
+				cvo.setPk_cartno(pk_cartno);
+				cvo.setFk_userid(fk_userid);
+				cvo.setFk_pro_num(fk_pro_num);
+				cvo.setCk_odr_qty(ck_odr_qty);
+				cvo.setC_status(c_status);
+				cvo.setPartPrice(partPrice);
+				cvo.setTotalPoint(totalPoint);
+				catevo.setCate_name(cate_name);
+				
+				cvo.setProduct(pvo);
+				cvo.setCategory(catevo);
+			}
+	
+		} finally {
+			close();
+		}
+		
+		return cvo;
+	}//end of public CartVO orderSelect(Map<String, String> paraMap) throws SQLException 
+	
+	//전체상품 주문
+	@Override
+	public List<CartVO> orderAll(Map<String, String> paraMap) throws SQLException {
+		List<CartVO> orderList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " SELECT A.pk_cartno, A.fk_userid, A.fk_pro_num, B.point_rate*A.ck_odr_qty*B.pro_saleprice AS totalPoint "
+						+ "      , B.pro_name, B.fk_cate_num, C.cate_name "
+						+ "      , B.pro_imgfile_name, B.pro_price, B.pro_saleprice "
+						+ "      , A.ck_odr_qty, A.c_status, A.ck_odr_qty*B.pro_saleprice AS partPrice "
+					//	+ "      , A.ck_odr_qty, A.c_status "
+						+ "	FROM tbl_cart A LEFT OUTER JOIN tbl_product B "
+						+ "	ON A.fk_pro_num = B.pk_pro_num "
+		                + "	LEFT OUTER JOIN tbl_category C "
+		                + "	ON B.fk_cate_num = C.pk_cate_num "
+	                	+ "	WHERE A.c_status = 1 AND A.fk_userid = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			
+				CartVO cvo = new CartVO();
+				ProductVO pvo = new ProductVO();
+				CategoryVO catevo = new CategoryVO();
+				
+				int pk_cartno = rs.getInt("pk_cartno");
+				String fk_userid = rs.getString("fk_userid");
+			//	String pk_pro_num = rs.getString("pk_pro_num");
+				String fk_pro_num = rs.getString("fk_pro_num");
+				String pro_name = rs.getString("pro_name");
+				int fk_cate_num = rs.getInt("fk_cate_num");
+				String cate_name = rs.getString("cate_name");
+				String pro_imgfile_name = rs.getString("pro_imgfile_name");
+				int pro_price = rs.getInt("pro_price");
+				int pro_saleprice = rs.getInt("pro_saleprice");
+				int ck_odr_qty = rs.getInt("ck_odr_qty");
+				int c_status = rs.getInt("c_status");
+				int partPrice = rs.getInt("partPrice");
+				int totalPoint = rs.getInt("totalPoint");
+				System.out.println("totalPoint "+totalPoint);
+				
+				pvo.setPro_name(pro_name);
+				pvo.setFk_cate_num(fk_cate_num);
+				pvo.setPro_imgfile_name(pro_imgfile_name);
+				pvo.setPro_price(pro_price);
+				pvo.setPro_saleprice(pro_saleprice);
+				
+				cvo.setPk_cartno(pk_cartno);
+				cvo.setFk_userid(fk_userid);
+				cvo.setFk_pro_num(fk_pro_num);
+				cvo.setCk_odr_qty(ck_odr_qty);
+				cvo.setC_status(c_status);
+				cvo.setPartPrice(partPrice);
+				cvo.setTotalPoint(totalPoint);
+				catevo.setCate_name(cate_name);
+				
+				cvo.setProduct(pvo);
+				cvo.setCategory(catevo);
+				
+				orderList.add(cvo);
+			}
+	
+		} finally {
+			close();
+		}
+		
+		return orderList;
+	}//end of public List<CartVO> orderAll(Map<String, String> paraMap) throws SQLException
+
+	//한개 상품 주문
+	@Override
+	public List<CartVO> orderOne(Map<String, String> paraMap) throws SQLException {
+		List<CartVO> orderList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " SELECT A.pk_cartno, A.fk_userid, A.fk_pro_num, B.point_rate*A.ck_odr_qty*B.pro_saleprice AS totalPoint "
+						+ "      , B.pro_name, B.fk_cate_num, C.cate_name "
+						+ "      , B.pro_imgfile_name, B.pro_price, B.pro_saleprice "
+						+ "      , A.ck_odr_qty, A.c_status, A.ck_odr_qty*B.pro_saleprice AS partPrice "
+					//	+ "      , A.ck_odr_qty, A.c_status "
+						+ "	FROM tbl_cart A LEFT OUTER JOIN tbl_product B "
+						+ "	ON A.fk_pro_num = B.pk_pro_num "
+		                + "	LEFT OUTER JOIN tbl_category C "
+		                + "	ON B.fk_cate_num = C.pk_cate_num "
+	                	+ "	WHERE A.c_status = 1 AND A.fk_userid = ? AND A.pk_cartno = ? " ;
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("pk_cartno"));
+			
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+				CartVO cvo = new CartVO();
+				ProductVO pvo = new ProductVO();
+				CategoryVO catevo = new CategoryVO();
+				
+				int pk_cartno = rs.getInt("pk_cartno");
+				String fk_userid = rs.getString("fk_userid");
+			//	String pk_pro_num = rs.getString("pk_pro_num");
+				String fk_pro_num = rs.getString("fk_pro_num");
+				String pro_name = rs.getString("pro_name");
+				int fk_cate_num = rs.getInt("fk_cate_num");
+				String cate_name = rs.getString("cate_name");
+				String pro_imgfile_name = rs.getString("pro_imgfile_name");
+				int pro_price = rs.getInt("pro_price");
+				int pro_saleprice = rs.getInt("pro_saleprice");
+				int ck_odr_qty = rs.getInt("ck_odr_qty");
+				int c_status = rs.getInt("c_status");
+				int partPrice = rs.getInt("partPrice");
+				int totalPoint = rs.getInt("totalPoint");
+				System.out.println("totalPoint "+totalPoint);
+				
+				pvo.setPro_name(pro_name);
+				pvo.setFk_cate_num(fk_cate_num);
+				pvo.setPro_imgfile_name(pro_imgfile_name);
+				pvo.setPro_price(pro_price);
+				pvo.setPro_saleprice(pro_saleprice);
+				
+				cvo.setPk_cartno(pk_cartno);
+				cvo.setFk_userid(fk_userid);
+				cvo.setFk_pro_num(fk_pro_num);
+				cvo.setCk_odr_qty(ck_odr_qty);
+				cvo.setC_status(c_status);
+				cvo.setPartPrice(partPrice);
+				cvo.setTotalPoint(totalPoint);
+				catevo.setCate_name(cate_name);
+				
+				cvo.setProduct(pvo);
+				cvo.setCategory(catevo);
+				
+				orderList.add(cvo);
+			}
+	
+		} finally {
+			close();
+		}
+		
+		return orderList;
+	}//end of public List<CartVO> orderAll(Map<String, String> paraMap) throws SQLException
 	
 	
 	
 	
 
+	
+	
+<<<<<<< HEAD
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+=======
+>>>>>>> refs/remotes/origin/sub_main
+
 	// ============================================================================================
+<<<<<<< HEAD
 
 
 	// 로그인 된 사용자의 장바구니 데이터 조회결과물 가져오기
@@ -1737,7 +2213,10 @@ public class ProductDAO implements InterProductDAO {
 			 pro_restock               number(1)     
 			 point_rate                number(8,2)
 			*/		 
+=======
+>>>>>>> refs/remotes/origin/sub_main
 
+<<<<<<< HEAD
 		} finally {
 			close();
 		}
@@ -1749,7 +2228,10 @@ public class ProductDAO implements InterProductDAO {
 	/*
 	@Override
 	public int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException {
+=======
+>>>>>>> refs/remotes/origin/sub_main
 
+<<<<<<< HEAD
 		int result = 0;
 		
 		try {
@@ -1765,14 +2247,108 @@ public class ProductDAO implements InterProductDAO {
 			 
 			 result = pstmt.executeUpdate();
 			 
+=======
+	// 로그인 된 사용자의 장바구니 데이터 조회결과물 가져오기
+	@Override
+	public List<CartVO> getCart(String fk_userid) throws SQLException {
+		
+		List<CartVO> cartList = new ArrayList<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " SELECT A.pk_cartno, A.fk_userid, A.fk_pro_num "
+						+ "      , B.pro_name, B.fk_cate_num, C.cate_name "
+						+ "      , B.pro_imgfile_name, B.pro_price, B.pro_saleprice "
+						+ "      , A.ck_odr_qty, A.c_status, A.ck_odr_qty*B.pro_saleprice AS partPrice "
+					//	+ "      , A.ck_odr_qty, A.c_status "
+						+ "	FROM tbl_cart A LEFT OUTER JOIN tbl_product B "
+						+ "	ON A.fk_pro_num = B.pk_pro_num "
+		                + "	LEFT OUTER JOIN tbl_category C "
+		                + "	ON B.fk_cate_num = C.pk_cate_num "
+	                	+ "	WHERE A.c_status = 1 AND A.fk_userid = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, fk_userid);
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			
+				CartVO cvo = new CartVO();
+				ProductVO pvo = new ProductVO();
+				CategoryVO catevo = new CategoryVO();
+				
+				int pk_cartno = rs.getInt("pk_cartno");
+				fk_userid = rs.getString("fk_userid");
+			//	String pk_pro_num = rs.getString("pk_pro_num");
+				String fk_pro_num = rs.getString("fk_pro_num");
+				String pro_name = rs.getString("pro_name");
+				int fk_cate_num = rs.getInt("fk_cate_num");
+				String cate_name = rs.getString("cate_name");
+				String pro_imgfile_name = rs.getString("pro_imgfile_name");
+				int pro_price = rs.getInt("pro_price");
+				int pro_saleprice = rs.getInt("pro_saleprice");
+				int ck_odr_qty = rs.getInt("ck_odr_qty");
+				int c_status = rs.getInt("c_status");
+				int partPrice = rs.getInt("partPrice");
+				
+			//	pvo.setPk_pro_num(pk_pro_num);
+				pvo.setPro_name(pro_name);
+				pvo.setFk_cate_num(fk_cate_num);
+				pvo.setPro_imgfile_name(pro_imgfile_name);
+				pvo.setPro_price(pro_price);
+				pvo.setPro_saleprice(pro_saleprice);
+				
+				cvo.setPk_cartno(pk_cartno);
+				cvo.setFk_userid(fk_userid);
+				cvo.setFk_pro_num(fk_pro_num);
+				cvo.setCk_odr_qty(ck_odr_qty);
+				cvo.setC_status(c_status);
+				cvo.setPartPrice(partPrice);
+				
+				catevo.setCate_name(cate_name);
+				
+				cvo.setProduct(pvo);
+				cvo.setCategory(catevo);
+				
+				cartList.add(cvo);
+			}
+	
+>>>>>>> refs/remotes/origin/sub_main
 		} finally {
 			close();
 		}
 		
+<<<<<<< HEAD
 		return result;
 	}
 	*/
+=======
+		return cartList;
+	}//end of public List<CartVO> getCart(String fk_userid) throws SQLException
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> refs/remotes/origin/sub_main
 	
+<<<<<<< HEAD
 
 
 	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기  
@@ -1874,7 +2450,10 @@ public class ProductDAO implements InterProductDAO {
 		return imgList;
 	}
 	*/
+=======
+>>>>>>> refs/remotes/origin/sub_main
 	
+<<<<<<< HEAD
 	// 제품번호를 가지고서 해당 제품의 제품설명서 텀부파일의 서버에 업로드 된 파일명과 오리지널 파일명 알아오기 메소드 구현하기
 	/*
 	@Override
@@ -1923,3 +2502,29 @@ public class ProductDAO implements InterProductDAO {
 	 */
 	
 }
+=======
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+	
+	
+	
+	
+	
+	
+>>>>>>> refs/remotes/origin/sub_main
