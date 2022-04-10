@@ -13,12 +13,11 @@ public class FaqAccordionAction extends AbstractController {
 		String method = request.getMethod(); // "GET" 또는 "POST"
 		System.out.println("method : " + method);
 		
-		if("GET".equalsIgnoreCase(method)) {
-			
+		
 			// 페이지 이동을 시킨다.
 			// super.setRedirect(false);
 			super.setViewPage("/WEB-INF/board/faqAccordion.jsp");
-		}
+		
 		
 	}
 

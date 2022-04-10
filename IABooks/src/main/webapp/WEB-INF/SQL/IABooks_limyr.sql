@@ -112,7 +112,7 @@ CREATE TABLE tbl_product_imagefile (
 	imgfilename VARCHAR2(50)         -- 이미지파일명
 );
 -- Table TBL_PRODUCT_IMAGEFILE이(가) 생성되었습니다.
-
+desc tbl_product_imagefile;
 -- 제품추가이미지
 ALTER TABLE tbl_product_imagefile
 	ADD
@@ -423,6 +423,10 @@ select constraint_name, constraint_type, r_constraint_name
 from user_constraints
 where table_name = 'TBL_ORDER';
 
+select constraint_name, constraint_type, r_constraint_name
+from user_constraints
+where table_name = 'tbl_faq_board';
+
 -- tbl_cart  TBL_CATEGORY TBL_ORDER  TBL_ORDERDETAIL TBL_PRODUCT TBL_PRODUCT_IMAGEFILE
 -- TBL_SPEC TBL_WRITER
 
@@ -447,3 +451,261 @@ commit;
 
 
 select * from tab;
+
+
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+select * from tab;
+select * from TBL_CART;
+select * from TBL_CATEGORY;
+select * from TBL_COMMENT;
+select * from TBL_FAQ_BOARD;
+select * from TBL_FAQ_CATEGORY;
+select * from TBL_LOGINHISTORY;
+select * from TBL_MEMBER;
+select * from TBL_ORDER;
+select * from TBL_ORDERDETAIL;
+select * from TBL_PRODUCT;
+select * from TBL_PRODUCT_IMAGEFILE;
+select * from TBL_QNA_BOARD;
+select * from TBL_REVIEW_BOARD;
+select * from TBL_WRITER;
+
+
+select *
+from TBL_PRODUCT
+where fk_cate_num=101;
+
+
+desc tbl_product;
+desc TBL_PRODUCT_IMAGEFILE;
+
+
+select *
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = 'tbl_product';
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+-- 제품팀 테이블
+
+select * from tab;
+select * from TBL_CART;
+select * from TBL_CATEGORY;
+select * from TBL_COMMENT;
+select * from TBL_FAQ_BOARD;
+select * from TBL_FAQ_CATEGORY;
+select * from TBL_LOGINHISTORY;
+select * from TBL_MEMBER;
+select * from TBL_ORDER;
+select * from TBL_ORDERDETAIL;
+select * from TBL_PRODUCT;
+select * from TBL_PRODUCT_IMAGEFILE;
+select * from TBL_QNA_BOARD;
+select * from TBL_REVIEW_BOARD;
+select * from TBL_WRITER;
+
+select *
+    from user_constraints
+    where table_name = 'tbl_orderdetail';
+    
+select *
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = 'tbl_orderdetail';
+
+
+
+---------- 제약조건 지우고 다시 만들기----------------------------------------------------------------------------------------------------------------
+
+-- 주문상세 테이블 제약조건 삭제 후 다시 만들기
+alter table tbl_orderdetail
+drop constraint PK_tbl_orderdetail;
+
+alter table tbl_orderdetail
+drop constraint UK_tbl_orderdetail;
+
+alter table tbl_orderdetail
+drop constraint CK_odrdetail_totalqty;
+
+alter table tbl_orderdetail
+drop constraint CK_odrdetail_deliverstatus;
+
+
+
+
+-- 주문상세
+ALTER TABLE tbl_orderdetail
+	ADD
+		CONSTRAINT PK_tbl_orderdetail -- 주문상세 기본키
+		PRIMARY KEY (
+			pk_odr_seqnum -- 주문상세일련번호
+		);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+ 
+
+-- 주문상세
+ALTER TABLE tbl_orderdetail
+	ADD
+		CONSTRAINT UK_tbl_orderdetail -- 주문상세 유니크 제약
+		UNIQUE (
+			fk_odrcode -- 주문코드
+		);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+
+-- 주문상세
+ALTER TABLE tbl_orderdetail
+ADD
+		CONSTRAINT CK_odrdetail_totalqty -- 주문상세 총주문량 체크
+		CHECK (ck_odr_totalqty > 0);
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+
+-- 주문상세
+ALTER TABLE tbl_orderdetail
+	ADD
+		CONSTRAINT CK_odrdetail_deliverstatus -- 주문상세 주문상태 체크
+		CHECK (ck_deliverstatus in('발송준비', '배송준비', '배송중', '배송완료', '배송실패'));
+-- Table TBL_ORDERDETAIL이(가) 변경되었습니다.
+
+
+
+desc tbl_cart;
+desc tbl_order;
+
+select * 
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = '테이블명';
+
+select * 
+from user_constraints A JOIN user_cons_columns B
+ON A.constraint_name = B.constraint_name -- 제약조건 이름이 같고
+where A.table_name = '테이블명';
+
+
+
+select * from TBL_CART;
+select * from TBL_PRODUCT;
+select * from TBL_PRODUCT_IMAGEFILE;
+
+desc tbl_cart;
+
+insert into tbl_cart
+values(2203311221, 'admin', 9791197381010, 2, sysdate);
+
+select * from tbl_cart;
+
+desc tbl_product;
+select * from tbl_product where pk_pro_num = '9791197381010';
+
+select * from 
+
+commit;
+
+select * from tbl_product_imagefile;
+
+
+
+select * from tabs;
+select * from tbl_writer;
+select * from tbl_product;
+select * from tbl_spec;
+select * from tbl_category;
+select * from tbl_product_imagefile;
+
+desc tbl_product;           
+-- fk_cate_num, pk_pro_num, pro_name, pro_imgfile_name, pro_price, pro_saleprice, point_rate, 
+-- publisher, pro_publish_date, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, 
+-- fk_wr_code, pro_index, pro_content, pro_size, pro_bindtype, pro_pages
+desc tbl_spec;              -- pk_spec_num, fk_cate_num, spec_size, ck_bindtype, spec_pages;
+desc TBL_PRODUCT_IMAGEFILE; -- fk_pro_num, pro_imgfile_name2
+desc tbl_writer;            -- PK_WR_CODE, WR_NAME, WR_INFO
+desc tbl_category;          -- pk_cate_num, cate_name
+--------------------------------------------------------------------------------
+-- 기본정보  상품명 이미지파일 판매가 
+-- 품목정보  상품명 저자명(저자코드) 출판사 출간일
+--          카테고리명(카테고리 코드) 상품코드 정가
+--          목차 책소개 저자소개
+-- 기타     입고일(New) 재고량,판매량(품절 표시) 조회수(Best 20)
+--------------------------------------------------------------------------------
+-- 우선 추가이미지/스펙 테이블 빼고
+SELECT  A.pro_name, A.pro_imgfile_name, A.pro_price,
+        A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date,
+        A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice,
+        A.pro_index, A.pro_content, B.wr_info,
+        A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt        
+FROM tbl_product A
+LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code
+LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num
+WHERE pk_pro_num = '9791196045999';
+
+--
+String sql = "SELECT  A.pro_name, A.pro_imgfile_name, A.pro_price,\n"+
+"        A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date,\n"+
+"        A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice,\n"+
+"        A.pro_index, A.pro_content, B.wr_info,\n"+
+"        A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt        \n"+
+"FROM tbl_product A\n"+
+"LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code\n"+
+"LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num\n"+
+"WHERE pk_pro_num = '9791196045999'";
+
+desc tbl_order;
+desc tbl_member;
+select * from tabs;
+
+select * from TBL_PRODUCT_IMAGEFILE;
+
+desc tbl_spec;
+
+drop table tbl_spec purge;
+-- Table TBL_SPEC이(가) 삭제되었습니다.
+
+commit;
+
+desc tbl_product;
+
+--------------------------------------------------------
+
+SELECT  A.pro_name, A.pro_imgfile_name, A.pro_price,
+        A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date,
+        A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice,
+        A.pro_index, A.pro_content, B.wr_info,
+        A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt        
+FROM tbl_product A
+LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code
+LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num
+WHERE pk_pro_num = '9791196045999';
+
+
+desc tbl_writer;
+select * from tbl_writer;
+
+
+SELECT
+A.pro_name, A.pro_imgfile_name, A.pro_saleprice,
+A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date, "
+A.fk_cate_num, C.cate_name, A.pro_bindtype, A.pro_pages, A.pro_size,  "
+A.pk_pro_num, A.pro_price, "
+A.pro_index, A.pro_content, B.wr_info, "
+A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt "
+FROM tbl_product A
+LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
+LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
+WHERE pk_pro_num = ;

@@ -61,7 +61,7 @@
 		padding: 0 0 0 8px; 
 		float: left;
 		text-align: left;
-		width: 80px;
+		max-width: 120px !important; 
 		/* cursor: pointer; */
 	}
 	
@@ -73,7 +73,20 @@
 	span.new_tag{
 		background-color: #0099ff;
 		color: white;
-		padding: 0 4px ;
+		padding: 0 1px ;
+		margin-left: 5px; 
+		/* margin-left: 5px; */
+		font-size: 13px;
+		
+	}
+	
+	span.hit_tag{
+		background-color: #C11E31;
+		color: white;
+		padding: 0 4px ; 
+		font-size: 13px;
+		
+		
 	}
 	
 	div.table_all > div > table > tbody > tr >td.tbl_subject{
@@ -119,7 +132,7 @@
   		margin: 0;
   		padding: 0;
   	}
-  	div.pagination2 > ul > li{
+  	div.pagination2 > ul > li.page-item{
   		width: 33px;
   		height: 32px;
   		list-style: none;
@@ -129,7 +142,7 @@
   		
   	}
   	
-  	div.pagination2 > ul > li > a{
+  	div.pagination2 > ul > li.page-item > a{
 	  	padding: 9px 0; 
 	  	color: gray;
 	  	font-weight: bold;
@@ -138,15 +151,17 @@
   		height: 32px;
   		line-height: 14px;
   		display: block;
+  		
 	  	
   	}
 
-  	div.pagination2 > ul > li.active  {
-	  	border-bottom: solid 2px #333;
-	 
+  	div.pagination2 > ul > li.active .page-link {
+	  	/* border-bottom: solid 2px #333 !important; */
+	  	background-color: #c11e31 !important;
+	 	border: solid 0px ;
   	}
   	div.pagination2 > ul > li.active >a{
-  		color: #333 !important; 
+  		color: white !important; 
   	}
   	
   	

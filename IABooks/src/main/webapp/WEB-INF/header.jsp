@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <%
@@ -11,7 +9,6 @@
 
 <!DOCTYPE html>
 <html>
-
 <head>
 
 	<title>header</title>
@@ -38,15 +35,38 @@
 	<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> 
 	
 	<script type="text/javascript">	
-		$(document).ready(function(){
-			
-			
-		});
+		$(document).ready(function() {
+ 			
+			$("input#searchWord").bind("keyup", function(event) {
+				if(event.keyCode == 13) {
+					goSearch();
+				}
+			});//end of $("input#searchWord").bind("keyup", function(event)
+			 
+		});//end of $(document).ready(function()
+ 		
+		function goSearch() {
+			if($("input#searchWord").val().trim() == "") {
+				alert("검색어를 입력하세요.");
+				return; 
+			}
+			const frm = document.searchBarForm;
+			frm.action = "<%= ctxPath%>/product/search.book";
+			frm.method = "get";
+			frm.submit();
+						
+		}//end of function goSearch()	
+		
+		function goCart() {
+			const frm = document.createElement('form');
+			document.body.appendChild(frm);
+			frm.action = "<%= ctxPath%>/product/cart.book";
+			frm.method = "post";
+			frm.submit();
+		};
 	</script>
 	
 </head>
-
-
 
 <body>
 
@@ -56,11 +76,13 @@
 
 	<div class="container">
 		<nav id="navbar" class="navbar">
-			<ul class="justify-content-end ml-auto">     		
-          		<li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/login.book">로그인</a></li>
-          		<li class="bar bulkhead"><a class="nav-link scrollto" href="#">회원가입</a></li>
-				<li class="bar bulkhead"><a class="" href="#">장바구니</a></li>
-           		<li class="dropdown bulkhead"><a href="#">마이페이지<i class="bi bi-chevron-down dropdown-indicator"></i></a>
+			<ul class="justify-content-end ml-auto"> 
+          		<c:if test="${empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/join.book">로그인</a></li></c:if>
+          		<c:if test="${not empty sessionScope.loginuser}"><li class="bar"><a class="nav-link scrollto" href="<%= ctxPath%>/login/logout.book">로그아웃</a></li></c:if>
+          		<c:if test="${empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberRegister.book">회원가입</a></li></c:if>
+          		<c:if test="${not empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberUpdate.book">정보수정</a></li></c:if>
+				<li class="bar bulkhead"><a class="" onclick="goCart()"style="cursor: pointer;">장바구니</a></li>
+           		<li class="dropdown bulkhead"><a href="<%= ctxPath%>/member/myPage.book" >마이페이지<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
 					<ul>
 						<li><a href="#">주문조회</a></li>
 						<li><a href="#">배송조회</a></li>
@@ -72,10 +94,9 @@
 				<li class="dropdown bulkhead"><a href="#">고객센터<i class="bi bi-chevron-down dropdown-indicator"></i></a>
             		<ul>
               			<li><a href="#">자주 묻는 질문</a></li>
-						<li><a href="#">1:1문의</a></li>
+						<li><a href="<%= ctxPath%>/board/qnaBoard.book">1:1문의</a></li>
 					</ul>
-				</li>
-				
+				</li>	
 			</ul>
         	<i class="bi bi-list mobile-nav-toggle d-none"></i>
 		</nav>
@@ -85,23 +106,24 @@
 <div class="divClear"></div>
 
 <%-- 로고 및 검색바 : 디자인수정--%>
-<div class="container">    
-	<div class="d-none d-lg-block">
-		<a href="#" style="display: inline-block;">
-			<img src="<%= ctxPath%>/images/product/logo.png" alt="로고"/>
-    	</a>
-       
-		<div class="search_section">
-			<form class="searchBarForm" name="" action="/product/search.html" method="get" target="_self" enctype="multipart/form-data" >
-				<fieldset>
-		      		<input type="text"  class="inputTypeText" name="keyword" onmousedown="" >
-		      		<input type="image" class="inputTypeImage" onclick="" src="<%= ctxPath%>/images/product/search_btn.png" alt="검색" >
-				</fieldset>
-			</form>    
-		</div>
-		
+	<br>
+	<br>
+	<div class="container">    
+		<div class="d-none d-lg-block">
+			<a href="<%= ctxPath%>/index.book" style="display: inline-block;">
+				<img src="<%= ctxPath%>/images/product/logo.png" alt="로고"/>
+	    	</a>
+	       
+			<div class="search_section">
+				<form class="searchBarForm" name="searchBarForm" >
+		      		<input type="text" class="inputTypeText" id="searchWord" name="searchWord" >
+		      		<input type="text" style="display: none;" />	
+				</form> 
+				<input type="image" class="inputTypeImage" onclick="goSearch()" src="<%= ctxPath%>/images/product/search_btn.png"> 	
+			</div>
+		</div>	
 	</div>	
-</div>	
+
 <%-- 중앙nav : 디자인수정 리뷰게시판 위치 수정--%>
 <div class="container">
 	<div id="categorie">
@@ -109,18 +131,19 @@
 			<ul class="justify-content-start">     
 				<li class="dropdown"><a class="" href="#">카테고리 전체보기<i class="bi bi-chevron-down dropdown-indicator"></i></a>
 					<ul>
-						<li><a href="#">종합</a></li>
-						<li><a href="#">인문</a></li>
-						<li><a href="#">사회</a></li>
-						<li><a href="#">과학</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=total">종합</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=humanities">인문</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=society">사회</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=science">과학</a></li>
+						<li><a href="<%= ctxPath%>/product/showBookList.book?category=other">기타</a></li>
 						<li><a href="<%= ctxPath%>/board/reviewBoard.book">리뷰</a></li>
             		</ul>
           		</li>		
 				
-          		<li class=""><a class="" href="#">Best 20</a></li>
-				<li class="bulkhead"><a class="" href="#">신간</a></li>
-				<li class="bulkhead"><a class="" href="#">재입고</a></li>
-          		<li class="bulkhead"><a class="" href="#">구간의 재발견</a></li>	
+          		<li class=""><a class="" href="<%= ctxPath%>/product/showBest20.book">Best 20</a></li>
+				<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showNewBook.book">신간</a></li>
+				<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showRestock.book">재입고</a></li>
+          		<li class="bulkhead"><a class="" href="<%= ctxPath%>/product/showOldBook.book">구간의 재발견</a></li>	
 			</ul>
 		</nav>
 	</div>

@@ -1,13 +1,14 @@
 package board.model;
 
 import member.model.MemberVO;
+import product.model.CategoryVO;
 import product.model.ProductVO;
 
 public class ReviewBoardVO {
 	
 //	-----------------------------------------	
 		private int pk_rnum;		 // 후기번호
-		private int fk_pnum;		 // 국제표준도서번호
+		private String fk_pnum;		 // 국제표준도서번호
 		private String fk_userid;	 // 회원아이디
 		private String re_title;	 // 게시글 제목
 		private String re_date; 	 //작성일자
@@ -18,14 +19,40 @@ public class ReviewBoardVO {
 		private String re_writer;    // 작성자
 		private int isdelete; 		 // 삭제유무(0:삭제안함, 1:삭제함)
 		
+		private int reviewCnt;		// 한 제품에 대한 리뷰게시글 수
 		
 //		-----------------------------------------	
 		
+		public int getReviewCnt() {
+			return reviewCnt;
+		}
+
+		public void setReviewCnt(int reviewCnt) {
+			this.reviewCnt = reviewCnt;
+		}
+
 		private MemberVO member;
 		
 		private ProductVO product;
 		
+		private CategoryVO category;
 		
+		public CategoryVO getCategory() {
+			return category;
+		}
+
+		public void setCategory(CategoryVO category) {
+			this.category = category;
+		}
+
+		public MemberVO getMember() {
+			return member;
+		}
+
+		public ProductVO getProduct() {
+			return product;
+		}
+
 		public int getPk_rnum() {
 			return pk_rnum;
 		}
@@ -34,11 +61,11 @@ public class ReviewBoardVO {
 			this.pk_rnum = pk_rnum;
 		}
 		
-		public int getFk_pnum() {
+		public String getFk_pnum() {
 			return fk_pnum;
 		}
 		
-		public void setFk_pnum(int fk_pnum) {
+		public void setFk_pnum(String fk_pnum) {
 			this.fk_pnum = fk_pnum;
 		}
 		
@@ -118,8 +145,66 @@ public class ReviewBoardVO {
 			// TODO Auto-generated method stub
 			this.product = product;
 		}
-		
 
+		public void setMember(MemberVO member) {
+			// TODO Auto-generated method stub
+			this.member = member;
+		}
+		
+		private int currentNum;			// 현재글 번호
+		private String currentTitle;	// 현재글 내용
+		private int prev_num;			// 이전글 번호
+		private String prev_title;	// 이전글 내용
+		private int next_num;			// 다음글 번호
+		private String next_title;	// 다음글 내용	
+
+		public int getCurrentNum() {
+			return currentNum;
+		}
+
+		public void setCurrentNum(int currentNum) {
+			this.currentNum = currentNum;
+		}
+
+		public String getCurrentTitle() {
+			return currentTitle;
+		}
+
+		public void setCurrentTitle(String currentTitle) {
+			this.currentTitle = currentTitle;
+		}
+
+		public int getPrev_num() {
+			return prev_num;
+		}
+
+		public void setPrev_num(int prev_num) {
+			this.prev_num = prev_num;
+		}
+
+		public String getPrev_title() {
+			return prev_title;
+		}
+
+		public void setPrev_title(String prev_title) {
+			this.prev_title = prev_title;
+		}
+
+		public int getNext_num() {
+			return next_num;
+		}
+
+		public void setNext_num(int next_num) {
+			this.next_num = next_num;
+		}
+
+		public String getNext_title() {
+			return next_title;
+		}
+
+		public void setNext_title(String next_title) {
+			this.next_title = next_title;
+		}
 		
 		
 }

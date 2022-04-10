@@ -11,10 +11,9 @@ public class RegisterSuccessAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
 		String method = request.getMethod();
-		
-		if("post".equalsIgnoreCase(method)) {
+		if("get".equalsIgnoreCase(method)) {
 			//super.setRedirect(false);
-			super.setViewPage("/WEB-INF/member/registerSuccess.jsp");
+			super.setViewPage("/WEB-INF/login/registerSuccess.jsp");
 		}
 		
 	}
