@@ -2,19 +2,10 @@
 	pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.ArrayList"%>
-<%@ page import="java.util.Date"%>
 <%
 	String ctxPath = request.getContextPath();
-	
-	String pro_num = request.getParameter("pk_pro_num");
-	
-	
 	
 %>
 
@@ -64,7 +55,21 @@
 	
 	$(document).ready(function(){
 		
-		
+		/* 
+		 $("span.error").hide();
+		 $("input#name").focus();
+		 */
+		 let html = "";
+		 $("img#file_attach").mouseover( ()=>{
+			  const $target = $(event.target);
+			  console.log($target.text()+"에 마우스가 올라갔군요");
+			  $("span#mouseover_img").html("<img style='height: 80px; vertical-align:middle; ' src='<%= ctxPath%>/images/board/leejh_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg'/>");
+		 });
+		 
+		 $("img#file_attach").mouseout(function(){
+			 const $target = $(event.target);   
+			 $("span#mouseover_img").html("");
+		 });
 		 
 		<%-- let html = "";
 		 $("img#file_attach").mouseover(function(){
@@ -88,13 +93,6 @@
 	});
 	
 	
-	function goQnaWrite(){
-		var form = document.test2;
-		form.action = "qnaProduct.book";
-		form.submit();
-	} 
-	
-	
 </script>
 
 
@@ -107,103 +105,72 @@
 
 
 
-
-<div class="contents">
+<div class="container">
+	<div class="contents">
+		<div class="title">
+			<div class="title_icon">
+				<img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" />
+			</div>
+			<h2>상품문의</h2>
+			<div class="bar_icon">
+				<img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" />
+			</div>
+			<span>상품문의를 작성하는 공간입니다.</span>
+		</div>
 		<p class="mb-3"></p>
+
+
 		<!-- 상품문의 테이블 구간 시작 -->
-		
+
+
 		<div class="table_all tbl_small_board">
-			
 			<div class="table">
-				<c:if test="${not empty requestScope.productQnaList}">
 				<table class="table" id="faq_table_all">
 					<thead class="thead-light" id="faq_thead">
 						<tr class="tblHeader">
 							<th width="5.6%">번호</th>
+							<th width="5.6%">카테고리</th>
 							<th width="66.4%">제목</th>
 							<th width="8%">작성자</th>
-							<th width="11%">작성일</th>
-							<th width="9%">조회</th>
+							<th width="8%">작성일</th>
+							<th width="6.4%">조회</th>
 						</tr>
 					</thead>
 					<tbody id="faq_tbody">
-					
-						
-				    	
-				    	<c:forEach var="board" items="${requestScope.productQnaList}" >
 						<tr id="question_content">
-							<td class="tbl_number mycenter">${board.pk_qna_num}</td>
-							<td class="tbl_subject" style=" padding: 6px 3px 4px 40px ;">
-						    		<%-- 비밀글일때 아이콘 표시 --%>
-							    		<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.pk_qna_num}">
-							    				${board.qna_title}
-							    		</a>
-									<c:if test="${board.qna_issecret eq '1'}">
-						    			<img class="lock" src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif"/>
-						    		</c:if>
-							    	 
-									<c:set var="yesterday" value="<%= new Date(new Date().getTime() - 60*60*24*1000) %>"/>
-									<fmt:formatDate value="${yesterday}" pattern="yyyy-MM-dd HH:mm:ss" var="yesterday" />
-									
-							    	<c:if test="${ board.qna_date > yesterday}">
-							    	<span class="new_tag">NEW</span>
-							    	</c:if>
-		
-						    		<c:if test="${board.qna_readcount > '10'}">
-						    		<span class="hit_tag">HIT</span>
-						    		</c:if>
-					    		
-					    	</td>
-							<td class="tbl_writer mycenter">${board.member.name}</td>
-					    	<td class="tbl_date mycenter">${board.qna_date}</td>
-					    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
+							<td class="tbl_number mycenter">1</td>
+							<td class="tbl_category mycenter">배송</td>
+							<td class="tbl_subject" id="td_left"><a href=""> 배송관련
+									문의드립니다. </a> <img class="lock"
+								src="<%= ctxPath%>/images/board/leejh_images/ico_lock.gif" />
+							<td class="tbl_writer mycenter">네****</td>
+							<td class="tbl_date mycenter">2022-03-17</td>
+							<td class="tbl_readcount mycenter"><span>1</span></td>
 
 						</tr>
-						</c:forEach> 
-			    		
-			    		
-			    		<%-- 답글
+
 						<tr id="question_content">
 							<td class="tbl_number mycenter">2</td>
-							
-							<td class="tbl_subject" id="td_left">&nbsp;&nbsp;&nbsp; 
-							<img src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif" /> <a
+							<td class="tbl_category mycenter"></td>
+							<td class="tbl_subject" id="td_left">&nbsp;&nbsp;&nbsp; <img
+								src="<%= ctxPath%>/images/board/leejh_images/ico_re.gif" /> <a
 								href=""> 배송관련 문의드립니다. </a>
 							<td class="tbl_writer mycenter">인디펍</td>
 							<td class="tbl_date mycenter">2022-03-20</td>
 							<td class="tbl_readcount mycenter"><span>1</span></td>
 
-						</tr> --%>
+						</tr>
 
-						
+
 
 
 
 					</tbody>
-					
 				</table>
-				</c:if> 
-				<c:if test="${empty requestScope.productQnaList}">
-	        		
-		      		<div>
-						<br>
-						<div style="text-align: center;">
-							게시글이 없습니다.
-						</div>
-						<hr>
-					</div>
-				      	
-	        		</c:if>
-				
-				
-				<form name="test2" id="test2" method="post">
-				<c:set var="pvo" value="${requestScope.pvo}" />
-				<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pvo.pk_pro_num}">
 				<div class="view_btn_zone">
-					<button type="button" class="btn btn-dark" id="write_btn" onclick="goQnaWrite()">상품문의하기</button>
-					<button type="button" class="btn btn-dark" id="view_btn" onclick="location.href='<%= ctxPath%>/board/qnaBoard.book'">모두보기</button>
+					<button type="button" class="btn btn-dark" id="write_btn">상품문의하기</button>
+					<button type="button" class="btn btn-dark" id="view_btn">모두보기</button>
 				</div>
-				</form>
 
 			</div>
 
@@ -214,11 +181,24 @@
 
 
 
-		<nav class="my-5">
-				<div  class="pagination2 justify-content-center" style="display: flex; width: 100%;">
-					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
-				</div>	
-		</nav>
-
+		<div class="pagination2 justify-content-center">
+			<ul>
+				<li><a href="#"><img
+						src="<%= ctxPath%>/images/board/leejh_images/btn_page_first.gif" /></a></li>
+				<li class="active"><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+				<li><a href="#">6</a></li>
+				<li><a href="#">7</a></li>
+				<li><a href="#">8</a></li>
+				<li><a href="#">9</a></li>
+				<li><a href="#">10</a></li>
+				<li><a href="#"><img
+						src="<%= ctxPath%>/images/board/leejh_images/btn_page_last.gif" /></a></li>
+			</ul>
+		</div>
+	</div>
 </div>
 

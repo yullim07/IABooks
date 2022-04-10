@@ -216,6 +216,10 @@ div.detail_related_contents {
 } 
 
 /* Modal  */
+.modal{
+  top: 30% !important;
+ 
+}
 
 div.modal div.modal-footer {
 	margin: 0 auto; 
