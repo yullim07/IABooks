@@ -98,7 +98,7 @@
 						<li><a href="#">주문조회</a></li>
 						<li><a href="#">배송조회</a></li>
 						<li><a href="#">관심상품</a></li>
-						<li><a href="#">내게시물</a></li>
+						<li><a href="<%= ctxPath%>/member/myBoard.book">내게시물</a></li>
             		</ul>
           		</li>
           
