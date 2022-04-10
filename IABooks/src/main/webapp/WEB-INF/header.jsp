@@ -85,7 +85,7 @@
            		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid eq 'admin'}"> <%-- admin으로 로그인했으면 --%>
 					<li class="dropdown bulkhead"><a href="#" >관리자전용<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
 						<ul>
-							<li><a href="#">회원목록</a></li>
+							<li><a href="<%= ctxPath%>/member/memberList.book">회원목록</a></li>
 							<li><a href="<%= ctxPath%>/product/admin/productRegister.book">제품등록</a></li>
 							<li><a href="#">전체주문내역</a></li>
 							<li><a href="<%= ctxPath%>/board/admin/adminBoard.book">게시판관리</a></li>
