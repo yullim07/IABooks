@@ -85,10 +85,10 @@
            		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid eq 'admin'}"> <%-- admin으로 로그인했으면 --%>
 					<li class="dropdown bulkhead"><a href="#" >관리자전용<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
 						<ul>
-							<li><a href="#">회원목록</a></li>
+							<li><a href="<%= ctxPath%>/member/memberList.book">회원목록</a></li>
 							<li><a href="<%= ctxPath%>/product/admin/productRegister.book">제품등록</a></li>
 							<li><a href="#">전체주문내역</a></li>
-							<li><a href="#">게시판관리</a></li>
+							<li><a href="<%= ctxPath%>/board/admin/adminBoard.book">게시판관리</a></li>
 						</ul>
 					</li>
 				</c:if>
@@ -98,13 +98,13 @@
 						<li><a href="#">주문조회</a></li>
 						<li><a href="#">배송조회</a></li>
 						<li><a href="#">관심상품</a></li>
-						<li><a href="#">내게시물</a></li>
+						<li><a href="<%= ctxPath%>/member/myBoard.book">내게시물</a></li>
             		</ul>
           		</li>
           
 				<li class="dropdown bulkhead"><a href="#">고객센터<i class="bi bi-chevron-down dropdown-indicator"></i></a>
             		<ul>
-              			<li><a href="#">자주 묻는 질문</a></li>
+              			<li><a href="<%= ctxPath%>/board/faqAccordion.book">자주 묻는 질문</a></li>
 						<li><a href="<%= ctxPath%>/board/qnaBoard.book">1:1문의</a></li>
 					</ul>
 				</li>	

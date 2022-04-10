@@ -20,10 +20,10 @@
 			<div class="footer_menu">
 				<nav id="navbar" class="navbar">
 					<ul class="justify-content-start">     		
-		          		<li class="bulkhead"><a class="" href="#">이용약관</a></li>
+		          		<li class="bulkhead"><a class="" href="<%= ctxPath%>/board/termsOfService.book">이용약관</a></li>
 		          		<li class=" bulkhead"><a class="" href="<%= ctxPath%>/board/siteinfo.book">쇼핑몰 이용안내</a></li>
-						<li class="bulkhead"><a class="" href="#">개인정보취급방침</a></li>
-		          		<li class="bulkhead"><a class="" href="#">고객센터</a></li>
+						<li class="bulkhead"><a class="" href="<%= ctxPath%>/board/privacyPolicy.book">개인정보취급방침</a></li>
+		          		<li class="bulkhead"><a class="" href="<%= ctxPath%>/board/faqAccordion.book">고객센터</a></li>
 					</ul>
 				</nav>
 			</div>
