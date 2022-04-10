@@ -1,6 +1,7 @@
 package member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import common.controller.AbstractController;
 import member.model.InterMemberDAO;
 import member.model.MemberDAO;
+import member.model.MileageVO;
 
 public class MileageAction extends AbstractController {
 
@@ -29,20 +31,31 @@ public class MileageAction extends AbstractController {
 		} else { // 로그인 되었을 때
 			
 
-			InterMemberDAO mdao = new MemberDAO();
+			InterMemberDAO mdao = new MemberDAO(); // mdao 라는 새로운 dao 객체 생성
 			
-			Map<String, String> paraMap = new HashMap<String, String>();
-			paraMap.put("userid", (String)session.getAttribute("userid"));
+			Map<String, String> paraMap = new HashMap<String, String>(); // paraMap 이라는 Map 객체 생성 (파라미터값으로 String)
+			paraMap.put("userid", (String)session.getAttribute("userid")); // 세션에서 userid 값을 받아와서 파라맵에 넣어줌
 			
-			int result = mdao.mgCheck(paraMap);
+			Map<String,String> result  = mdao.mgInfo(paraMap); // sql에서 셀렉된것들이 맵에 담겨서 mgInfo 메소드를 써서 mdao로 가져온 후 그걸 result 라는 맵에 담음
 			
-			request.setAttribute("result", result);
+			request.setAttribute("all_mg", result.get("all_mg")); 
+			request.setAttribute("used_mg", result.get("used_mg"));
+			request.setAttribute("available_mg", result.get("available_mg"));
+			request.setAttribute("refund_mg", result.get("refund_mg"));
+			request.setAttribute("unsecured_mg", result.get("unsecured_mg"));
+			
+			
+			List<MileageVO> orderMileageInfo = mdao.orderMileageInfo(paraMap);
+			
+			
 			
 			
 			//super.setRedirect(false);
 			super.setViewPage("/WEB-INF/member/mileage.jsp");
     	  
       }
+		
+			
 	
 }
 

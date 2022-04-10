@@ -36,12 +36,18 @@ public class MyPageAction extends AbstractController {
 			paraMap.put("userid", userid);
 			
 			InterMemberDAO mdao = new MemberDAO();
-			//////////////////////////////////////////////////////////////리스트가져오기
+			//////////////////////////////////////////////////////////////
 			
-			List<CouponVO> couponList = mdao.selectCouponList(paraMap);
 			int couponNum = mdao.CouponNum(paraMap);
 			
-			request.setAttribute("couponList", couponList);
+			Map<String,String> result  = mdao.mgInfo(paraMap);
+			
+			request.setAttribute("all_mg", result.get("all_mg"));
+			request.setAttribute("used_mg", result.get("used_mg"));
+			request.setAttribute("available_mg", result.get("available_mg"));
+			request.setAttribute("refund_mg", result.get("refund_mg"));
+			request.setAttribute("unsecured_mg", result.get("unsecured_mg"));
+			
 			request.setAttribute("couponNum", couponNum);
 			
 			setRedirect(false);

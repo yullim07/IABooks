@@ -66,9 +66,9 @@ public class MemberVO {
 
    public MemberVO(String userid) {
 	   this.userid=userid;
-}
+   }
 
-public String getUserid() {
+   public String getUserid() {
       return userid;
    }
 

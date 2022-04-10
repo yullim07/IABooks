@@ -3,6 +3,7 @@
 
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <%
@@ -43,29 +44,29 @@
 			<tr >
 				<td class="pointTable" width="35%;">
 					<ul class="pointTable" >
-						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 총 적립금</li>
-						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 사용된 적립금</li>
-						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 환불예정 적립금</li>
+						<li class="pointTable"><strong><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 총 적립금</strong></li>
+						<li class="pointTable"><strong><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 사용된 적립금</strong></li>
+						<li class="pointTable"><strong><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 환불예정 적립금</strong></li>
 					</ul>
 				</td>
 				<td class="pointTable" width="15%;">
 					<ul class="pointTable">
-						<li class="pointTable">${requestScope.result}원</li>
-						<li class="pointTable">원</li>
-						<li class="pointTable">원</li>
+						<li class="pointTable"><fmt:formatNumber type="number" pattern="###,###">${requestScope.all_mg}</fmt:formatNumber>원</li>
+						<li class="pointTable"><fmt:formatNumber type="number" pattern="###,###">${requestScope.used_mg}</fmt:formatNumber>원</li>
+						<li class="pointTable"><fmt:formatNumber type="number" pattern="###,###">${requestScope.refund_mg}</fmt:formatNumber>원</li>
 					</ul>
 				</td>
 				
 				<td class="pointTable" style="border-left :solid 1px #e8e8e8;" width="35%;">
 					<ul class="pointTable">
-						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 사용가능 적립금</li>
-						<li class="pointTable"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 미가용 적립금</li>
+						<li class="pointTable"><strong><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 가용 적립금</strong></li>
+						<li class="pointTable"><strong><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> 미가용 적립금</strong></li>
 					</ul>
 				</td>
 				<td class="pointTable" width="15%;">
 					<ul class="pointTable">
-						<li class="pointTable">원</li>
-						<li class="pointTable">원</li>
+						<li class="pointTable"><fmt:formatNumber type="number" pattern="###,###">${requestScope.available_mg}</fmt:formatNumber>원</li>
+						<li class="pointTable"><fmt:formatNumber type="number" pattern="###,###">${requestScope.unsecured_mg}</fmt:formatNumber>원</li>
 					</ul>
 				</td>
 			</tr>

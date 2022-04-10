@@ -56,6 +56,31 @@ on C.pk_coupon_id = U.coupon_id
 )V
 where pk_userid='deokno' and CPSTATUS='1'
 
+
+-- 쿠폰 기간지나면 삭제할 셀렉트 가져오기
+select  CENDDATE,  pk_userid , pk_coupon_id  
+from
+(
+select row_number() over(order by M.pk_userid desc) as rno ,
+M.pk_userid, C.pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, U.user_cp_status    
+from tbl_member M
+join tbl_user_coupon_status U
+on M.pk_userid = U.pk_userid
+join tbl_coupon C
+on C.pk_coupon_id = U.coupon_id
+
+)V
+where pk_userid='deokno' and CPSTATUS='1'
+
+
+
+
+
+
+
+
+
+
 select count(*)
 from tbl_user_coupon_status
 where pk_userid = 'deokno';
@@ -73,7 +98,7 @@ select rownum as rno ,
 M.pk_userid, C.pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, U.user_cp_status    
 from tbl_member M
 join tbl_user_coupon_status U
-on M.pk_userid = U.pk_userid
+on M.pk_userid = U.fk_userid
 join tbl_coupon C
 on C.pk_coupon_id = U.coupon_id
 order by C.cenddate
@@ -81,7 +106,7 @@ order by C.cenddate
 where pk_userid='deokno' and CPSTATUS='1' and rno between 11 and 15;
 
 -- 페이징 처리된 쿠폰 리스트 보여주기 
- select rownum, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS , pk_userid, user_cp_status 
+ select rno, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS , pk_userid, user_cp_status 
  from 
  ( 
     select rownum as rno ,
@@ -90,13 +115,14 @@ where pk_userid='deokno' and CPSTATUS='1' and rno between 11 and 15;
          select M.pk_userid, C.pk_coupon_id, C.cname, C.cprice, C.cdate, C.cstartdate, C.CENDDATE, C.CMINPRICE, C.CPSTATUS, U.user_cp_status 
          from tbl_member M 
          join tbl_user_coupon_status U 
-         on M.pk_userid = U.pk_userid 
+         on M.pk_userid = U.fk_userid 
          join tbl_coupon C 
          on C.pk_coupon_id = U.coupon_id 
+         where pk_userid='admin' and CPSTATUS='1'   
          order by C.cenddate
          )V 
      )v2
- where pk_userid='admin' and CPSTATUS='1' and rownum between 1 and 5;
+ where rno between 11 and 15;
 
 delete from tbl_coupon
 
@@ -106,8 +132,8 @@ commit;
 
 
 update TBL_USER_COUPON_STATUS 
-set USER_CP_STATUS = '0' 
-where COUPON_ID = ?;
+set USER_CP_STATUS = '1' 
+where fk_userid = 'deokno';
 
 UPDATE TBL_USER_COUPON_STATUS  U
     SET USER_CP_STATUS = (
@@ -135,8 +161,8 @@ values('admin','978379227619298');
 insert into tbl_coupon(PK_COUPON_ID, CNAME, CPRICE,  CSTARTDATE, CENDDATE, CMINPRICE) 
 	                   values('12312', '배송비무료쿠폰', '2599',  '23123', '123123','123123');
 
-
-
+UPDATE tbl_user_coupon_status SET user_cp_status='1' 
+commit;
 
 
 -- 유저 쿠폰 등록시 중복확인 
@@ -340,4 +366,23 @@ CREATE TABLE TBL_LOGINHISTORY (
 
 -- 회원탈퇴 날짜 저장 
 ALTER TABLE tbl_member ADD DeleteDay date NULL; 
+
+select *
+from tbl_mileage
+
+select *
+from tbl_order
+
+update tbl_mileage
+set fk_ordercode = 'by0225' 
+
+delete from tbl_mileage
+
+select pk_userid , ODR_DATE
+from tbl_mileage
+join tbl_member
+on pk_userid = fk_userid
+join tbl_order
+on pk_odrcode = fk_odrcode
+where pk_userid = 'moonby'
         

@@ -4,10 +4,11 @@ import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
+import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -475,27 +476,22 @@ public class MemberDAO implements InterMemberDAO {
 	  	
 	  	
 
-	  	// 쿠폰조회를 위한 메소드 리스트
+	  	// 만료기간 지나면 쿠폰 사용못하도록 데이터값 변경
 	  	@Override
-	  	public List<CouponVO> selectCouponList(Map<String, String> paraMap) {
+	  	public int deleteCouponList(Map<String, String> paraMap) {
 
-	  		List<CouponVO> couponList = new ArrayList<>();
+	  		int result = 0;
 	  		
 	  		try {
 	  			conn = ds.getConnection();
 	  			
-	  			 String sql = " select rno, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, pk_userid, user_cp_status  "
-	  			 		+ " from "
-	  			 		+ " ( "
-	  			 		+ " select row_number() over(order by M.pk_userid desc) as rno , "
-	  			 		+ " M.pk_userid, C.pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, U.user_cp_status  "
-	  			 		+ " from tbl_member M "
+	  			 String sql = " select M.pk_userid, C.pk_coupon_id, CENDDATE "
+	  			 		+ " from tbl_member M  "
 	  			 		+ " join tbl_user_coupon_status U "
-	  			 		+ " on M.pk_userid = U.pk_userid "
+	  			 		+ " on M.pk_userid = U.fk_userid  "
 	  			 		+ " join tbl_coupon C "
-	  			 		+ " on C.pk_coupon_id = U.coupon_id "
-	  			 		+ " )V "
-	  			 		+ " where pk_userid=? and CPSTATUS='1' ";
+	  			 		+ " on C.pk_coupon_id = U.coupon_id  "
+	  			 		+ " where pk_userid=? and CPSTATUS='1'";
 	  	         
 	  	        
 	  	         
@@ -505,63 +501,62 @@ public class MemberDAO implements InterMemberDAO {
 	  			
 	  	         rs = pstmt.executeQuery();
 	  	         
-	  	         while(rs.next()){
-	  				
-	  	        // 쿠폰사용방지
-	  				String cenddate = rs.getString(7);
-	  				String user_cp_status = rs.getString(11);
-	  				boolean bool = true;
-	  		        	
+	  	         List<CouponVO> dcp = new ArrayList<>();
+	  	         
+	  	         CouponVO cvo = new CouponVO();
+	  	         MemberVO mvo = new MemberVO();
+
+	  	         while(rs.next()) {
+	  	        	 
+	  	        	 mvo.setUserid(rs.getString(1));
+	  	        	 cvo.setMvo(mvo);
+	  	        	 
+	  	        	 cvo.setCouponid(rs.getString(2));
+	  	        	 cvo.setCenddate(rs.getString(3));
+	  	        	 
+	  	        	 dcp.add(cvo);
+		  	         
+	  	         } // end of while
+		  	    
+	  	         for(int i=0; i < dcp.size(); i++ ) {
+		  			// 쿠폰사용방지
 	  	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	  				
-	  				LocalDate today = LocalDate.now();
-	  				String sToday = sdf.format(today);
+	  	        	Date today = new Date();
+	  	       // 	String str_today = sdf.format(today);
 	  				
-	  				Date todayD = (Date) sdf.parse(sToday);
-	  				Date cenddateD = (Date) sdf.parse(cenddate);
+	  	       //	Date todayD = (Date) sdf.parse(str_today);
+	  				Date cenddateD = (Date) sdf.parse(dcp.get(i).getCenddate());
 	  				
 	  				// 쿠폰 만료기간이 지나면 사용하지 못하도록 값 변경해준다.
-	  				if( cenddateD.after(todayD) ) {
-	  					bool = false;
+	  				int compare = cenddateD.compareTo(today);
+	  				
+	  				if( compare < 0  ) {
+		  	        // cenddateD.after(today) => 엔드데이트 > 오늘 
+		 				conn = ds.getConnection();
+			  	         
+		 				sql = " update TBL_USER_COUPON_STATUS "
+				        	+ " set USER_CP_STATUS = '0' "
+				        	+ " where COUPON_ID=? and fk_userid = ? ";
+		 				
+		 				pstmt = conn.prepareStatement(sql);
+		 				
+				        pstmt.setString(1, dcp.get(i).getCouponid());
+				        pstmt.setString(2, dcp.get(i).getMvo().getUserid());
+				         
+				        result += pstmt.executeUpdate();
+		 			 
 	  				}
-	  	        	
-	  				if( user_cp_status == "0" ) {
-	  					bool = false;
-	  				}
-	  				
-	  		
-	  	        	 
-	  				CouponVO cvo = new CouponVO();
-	  				
-	  				cvo.setRno(rs.getString(1));
-	  				cvo.setCouponid(rs.getString(2));
-	  				cvo.setCname(rs.getString(3));
-	  				cvo.setCprice(rs.getString(4));
-	  				cvo.setCdate(rs.getString(5));
-	  				cvo.setCstartdate(rs.getString(6));
-	  				cvo.setCenddate(rs.getString(7));
-	  				cvo.setCminprice(rs.getString(8));
-	  				cvo.setCpstatus(rs.getString(9));
-	  				
-	  				MemberVO mvo = new MemberVO();
-	  				mvo.setUserid(rs.getString(10));
-	  				
-	  				UserCouponStatusVO ucvo = new UserCouponStatusVO();
-	  				ucvo.setUser_cp_status(rs.getString(11));
-	  				
-	  				cvo.setUserCouponCheck(bool);
-	  				
-	  				
-	  				couponList.add(cvo);
-	  	         } // end of while
-	  			
+	  	         } // end of for
+	  	         
+	  	         
 	  		} catch(Exception e) { 
 	  		    e.printStackTrace();	
 	  		} finally {
 	  			close();
 	  		}
 	  		
-	  		return couponList;
+	  		return result;
 	  	}
 
 
@@ -576,7 +571,7 @@ public class MemberDAO implements InterMemberDAO {
 	  			
 	  			String sql = " select ceil(count(*)/?) "
 	  					   + " from tbl_user_coupon_status "
-	  					   + " where pk_userid = ? ";
+	  					   + " where fk_userid = ? ";
 	  			
 	  			pstmt = conn.prepareStatement(sql);
 	  			pstmt.setString(1, paraMap.get("sizePerPage"));
@@ -606,22 +601,23 @@ public class MemberDAO implements InterMemberDAO {
 	  		try {
 	  			conn = ds.getConnection();
 	  			
-	  			String sql =  " select rownum, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS , pk_userid, user_cp_status "
-	  						+ " from "
-	  						+ " (  "
-	  						+ "    select rownum as rno , "
-	  						+ "    pk_userid, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, user_cp_status  "
-	  						+ "    from ( "
-	  						+ "         select M.pk_userid, C.pk_coupon_id, C.cname, C.cprice, C.cdate, C.cstartdate, C.CENDDATE, C.CMINPRICE, C.CPSTATUS, U.user_cp_status  "
-	  						+ "         from tbl_member M  "
-	  						+ "         join tbl_user_coupon_status U  "
-	  						+ "         on M.pk_userid = U.pk_userid  "
-	  						+ "         join tbl_coupon C  "
-	  						+ "         on C.pk_coupon_id = U.coupon_id  "
-	  						+ "         order by C.cenddate "
-	  						+ "         )V  "
-	  						+ "     )v2 "
-	  						+ " where pk_userid=? and CPSTATUS='1' and rownum between ? and ? ";
+	  			String sql =  " select rno, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS , pk_userid, user_cp_status  "
+		  					+ " from "
+		  					+ " ( "
+		  					+ "    select rownum as rno , "
+		  					+ "    pk_userid, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, user_cp_status  "
+		  					+ "    from ( "
+		  					+ "         select M.pk_userid, C.pk_coupon_id, C.cname, C.cprice, C.cdate, C.cstartdate, C.CENDDATE, C.CMINPRICE, C.CPSTATUS, U.user_cp_status  "
+		  					+ "         from tbl_member M  "
+		  					+ "         join tbl_user_coupon_status U  "
+		  					+ "         on M.pk_userid = U.fk_userid   "
+		  					+ "         join tbl_coupon C  "
+		  					+ "         on C.pk_coupon_id = U.coupon_id  "
+		  					+ "         where pk_userid=? and CPSTATUS='1'    "
+		  					+ "         order by C.cenddate "
+		  					+ "         )V  "
+		  					+ "     )v2 "
+		  					+ " where rno between ? and ? ";
 	  						
 	  							
 	  			pstmt = conn.prepareStatement(sql);
@@ -640,31 +636,6 @@ public class MemberDAO implements InterMemberDAO {
 	  	            A는 (currentShowPageNo * sizePerPage) - (sizePerPage - 1); 이다.
 	  	            B는 (currentShowPageNo * sizePerPage); 이다.
 	  			*/
-	  		/*		
-	  			 // 쿠폰사용방지
-  				String cenddate = rs.getString(7);
-  				String user_cp_status = rs.getString(11);
-  				boolean bool = true;
-  		        	
-  	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-  				
-  				LocalDate today = LocalDate.now();
-  				String sToday = sdf.format(today);
-  				
-  				Date todayD = (Date) sdf.parse(sToday);
-  				Date cenddateD = (Date) sdf.parse(cenddate);
-  				
-  				// 쿠폰 만료기간이 지나면 사용하지 못하도록 값 변경해준다.
-  				if( cenddateD.after(todayD) ) {
-  					bool = false;
-  				}
-  	        	
-  				if( user_cp_status == "0" ) {
-  					bool = false;
-  				}
-  			*/	
-	  			
-	  			
 	  		
 	  				pstmt.setString(1, paraMap.get("userid"));
 	  				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
@@ -694,8 +665,6 @@ public class MemberDAO implements InterMemberDAO {
 	  					ucvo.setUser_cp_status(rs.getString(11));
 	  					cvo.setUcvo(ucvo);
 	  					
-	  			//		cvo.setUserCouponCheck(bool);
-	  					
 	  					pagingCouponList.add(cvo);
 	  					
 	  				} // end of while
@@ -716,7 +685,7 @@ public class MemberDAO implements InterMemberDAO {
 			try {
 		         conn =ds.getConnection();
 		         
-		         String sql = " insert into tbl_user_coupon_status(PK_USERID,COUPON_ID,USER_CP_STATUS) "
+		         String sql = " insert into tbl_user_coupon_status(FK_USERID,COUPON_ID,USER_CP_STATUS) "
 		                  +" values(?, ?, '1') ";
 		         
 		         pstmt = conn.prepareStatement(sql);
@@ -747,7 +716,7 @@ public class MemberDAO implements InterMemberDAO {
 						
 						 String sql = " select count(*) "
 							 		+ " from tbl_user_coupon_status "
-							 		+ " where pk_userid = ? ";
+							 		+ " where fk_userid = ? ";
 				         
 				         pstmt = conn.prepareStatement(sql);
 				        
@@ -779,7 +748,7 @@ public class MemberDAO implements InterMemberDAO {
 			         
 			         String sql = " update TBL_USER_COUPON_STATUS "
 			         			+ " set USER_CP_STATUS = '0' "
-			         			+ " where COUPON_ID=? and pk_user_id = ? ";
+			         			+ " where COUPON_ID=? and fk_userid = ? ";
 			         
 			         pstmt = conn.prepareStatement(sql);
 			         
@@ -842,7 +811,7 @@ public class MemberDAO implements InterMemberDAO {
 			         
 			         String sql = " select coupon_id "
 				         		+ " from tbl_user_coupon_status "
-				         		+ " where coupon_id = ? and PK_USERID = ? ";
+				         		+ " where coupon_id = ? and FK_USERID = ? ";
 			         
 			         pstmt = conn.prepareStatement(sql);
 			         
@@ -898,19 +867,19 @@ public class MemberDAO implements InterMemberDAO {
 ///////////////////////////////////////////////////////////////////////////////////////////////파일 합치기	
 		
 			
-		      
+			 
 			   // 아이디를 입력받아서 해당 사용자의 마일리지액 조회
 				@Override
-				public int mgCheck(Map<String, String> paraMap) throws SQLException {
+				public Map<String, String> mgInfo (Map<String, String> paraMap) throws SQLException {
 					
-					int result = 0;
+					Map<String, String> map = new HashMap<>();
 					
 					try {
 				         conn =ds.getConnection();
 				         
-				         String sql = " select All_MG "
+				         String sql = " select sum(all_mg), sum(used_mg), ( sum(all_mg)-sum(used_mg)-sum(unsecured_mg) ) AS available_mg , sum(refund_mg) , sum(unsecured_mg)  "
 				         		+ " from tbl_mileage "
-				         		+ " where USERID = ? ";
+				         		+ " where fk_userid = ? ";
 				         
 				         pstmt = conn.prepareStatement(sql);
 				        
@@ -919,7 +888,11 @@ public class MemberDAO implements InterMemberDAO {
 				         rs = pstmt.executeQuery();
 				         
 				         if(rs.next()) {
-				        	 result = Integer.parseInt(rs.getString(1));
+				        	 map.put("all_mg", rs.getString(1));
+				        	 map.put("used_mg", rs.getString(2));
+				        	 map.put("available_mg", rs.getString(3));
+				        	 map.put("refund_mg", rs.getString(4));
+				        	 map.put("unsecured_mg", rs.getString(5));
 				         }
 				         
 				      } catch(SQLException e) {
@@ -928,8 +901,17 @@ public class MemberDAO implements InterMemberDAO {
 				         close();
 				      }
 					
-					return result;
+					return map;
 				}
+
+				@Override
+				public List<MileageVO> orderMileageInfo(Map<String, String> paraMap) throws SQLException {
+					
+					
+					
+					return null;
+				}
+				
 					
 			
 
