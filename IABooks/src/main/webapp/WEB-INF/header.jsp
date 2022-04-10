@@ -82,6 +82,17 @@
           		<c:if test="${empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberRegister.book">회원가입</a></li></c:if>
           		<c:if test="${not empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberUpdate.book">정보수정</a></li></c:if>
 				<li class="bar bulkhead"><a class="" onclick="goCart()"style="cursor: pointer;">장바구니</a></li>
+           		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid eq 'admin'}"> <%-- admin으로 로그인했으면 --%>
+					<li class="dropdown bulkhead"><a href="#" >관리자전용<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
+						<ul>
+							<li><a href="#">회원목록</a></li>
+							<li><a href="<%= ctxPath%>/product/admin/productRegister.book">제품등록</a></li>
+							<li><a href="#">전체주문내역</a></li>
+							<li><a href="#">게시판관리</a></li>
+						</ul>
+					</li>
+				</c:if>
+           		
            		<li class="dropdown bulkhead"><a href="<%= ctxPath%>/member/myPage.book" >마이페이지<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
 					<ul>
 						<li><a href="#">주문조회</a></li>
