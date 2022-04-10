@@ -15,7 +15,9 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import member.model.MemberVO;
-/*import producct.model.SpecVO;*/
+/*import product.model.SpecVO;*/
+import product.model.*;
+/*import product.model.SpecVO;*/
 
 
 public class ProductDAO implements InterProductDAO {
@@ -609,7 +611,7 @@ public class ProductDAO implements InterProductDAO {
 				mvo.setPhone(rs.getString(6));
 				mvo.setEmail(rs.getString(7));
 				mvo.setCoupon(rs.getInt(8));
-				mvo.setMileage(rs.getInt(9));	
+				mvo.setMileage(rs.getInt(9));
 			}
 			
 		} finally {
@@ -1488,7 +1490,7 @@ public class ProductDAO implements InterProductDAO {
 	public int updateCart(CartVO cart) throws SQLException {
 		
 		int result = 0;
-		CartVO cvo = null;
+		CartVO cvo = new CartVO();
 		
 		try {
 			conn = ds.getConnection();
@@ -1559,8 +1561,8 @@ public class ProductDAO implements InterProductDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql =  " delete from tbl_cart "
-						+ " where pk_cartno = ?";
+			String sql =  " DELETE from tbl_cart "
+						+ " WHERE pk_cartno = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -1576,12 +1578,33 @@ public class ProductDAO implements InterProductDAO {
 		return result;
 	}
 
+	// 제품 조회수 증가시키기 메소드
 	@Override
 	public int plusViewCnt(String pk_pro_num) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql =  " UPDATE tbl_product "
+						+ " SET pro_viewcnt = pro_viewcnt + 1 "
+						+ " WHERE pk_pro_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_pro_num);
+			
+			int result = pstmt.executeUpdate();
+			return result;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return -1; // 데이터베이스 오류
 	}
 
+	// 카테고리 목록 보여주기
 	@Override
 	public List<HashMap<String, String>> getCategoryList() throws SQLException {
 		
@@ -1591,8 +1614,8 @@ public class ProductDAO implements InterProductDAO {
 			 
 			conn = ds.getConnection();
 			
-			String sql =  " select pk_cate_num, cate_name "
-						+ " from tbl_category ";
+			String sql =  " SELECT pk_cate_num, cate_name "
+						+ " FROM tbl_category ";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -1639,28 +1662,264 @@ public class ProductDAO implements InterProductDAO {
 	 */
 	
 	
+	// tbl_product 테이블에 제품정보 insert 하기 
+	@Override
+	public int productInsert(ProductVO pvo) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			 
+			String sql =  " INSERT INTO "
+						+ " tbl_product(fk_cate_num, pro_name, publisher, pro_publish_date, pro_price, pro_saleprice, "
+			 			+ "	pro_index, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, pro_size, pro_bindtype, pro_pages, "
+			 			+ " pro_imgfile_name, fk_wr_code, pro_content, pk_pro_num, pro_soldout, pro_restock, pro_restock, "
+			 			+ " point_rate) " 
+			 			+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			 
+			pstmt = conn.prepareStatement(sql);
+			 
+			pstmt.setInt(1, pvo.getFk_cate_num());
+			pstmt.setString(2, pvo.getPro_name());
+			pstmt.setString(3, pvo.getPublisher());
+			pstmt.setString(4, pvo.getPro_publish_date());
+			pstmt.setInt(5, pvo.getPro_price());
+			pstmt.setInt(6, pvo.getPro_saleprice());     
+			pstmt.setString(7, pvo.getPro_index()); // CLOB
+			pstmt.setString(8, pvo.getPro_inputdate());
+			pstmt.setInt(9, pvo.getPro_qty());
+			pstmt.setInt(10, pvo.getPro_sales());
+			pstmt.setInt(11, pvo.getPro_viewcnt());
+			pstmt.setString(12, pvo.getPro_size());
+			pstmt.setString(13, pvo.getPro_bindtype());
+			pstmt.setInt(14, pvo.getPro_pages());
+			pstmt.setString(15, pvo.getPro_imgfile_name());
+			// pstmt.setInt(16, wvo.getFk_wr_code());
+			pstmt.setString(17, pvo.getPro_content()); // CLOB
+			pstmt.setInt(18, pvo.getPro_soldout());
+			pstmt.setInt(19, pvo.getPro_restock());
+			pstmt.setInt(20, pvo.getPro_pages());
+			pstmt.setInt(21, pvo.getPoint_rate());
+			
+			result = pstmt.executeUpdate();
+			
+			/*
+			 fk_cate_num      not null number(5)     
+			 
+			 pro_name         not null varchar2(200) 
+			 publisher        not null varchar2(50)  
+			 pro_publish_date not null varchar2(12) 
+			  
+			 pro_price                 number(8)     
+			 pro_saleprice             number(8)   
+			   
+			 pro_index                 clob          
+			 pro_inputdate             date          
+			 pro_qty                   number(20)    
+			 pro_sales                 number(20)    
+			 pro_viewcnt               number(10)    
+			 
+			 pro_size                  varchar2(20)  
+			 pro_bindtype              varchar2(15)  
+			 
+			 pro_pages                 number(5)     
+			 
+			 pro_imgfile_name not null varchar2(30)  
+			 
+			 fk_wr_code                number(10)   
+			  
+			 pro_content               clob         
+			  
+			 pk_pro_num       not null varchar2(20)  
+			 
+			 pro_soldout               number(1)     
+			 pro_restock               number(1)     
+			 point_rate                number(8,2)
+			*/		 
+
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+	
+	// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블이니까 주석처리
+	/*
+	@Override
+	public int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException {
+
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " INSERT INTO tbl_product_imagefile(imgfileno, fk_pnum, imgfilename) "+ 
+				          " VALUES(seqImgfileno.nextval, ?, ?) ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 pstmt.setInt(1, Integer.parseInt(paraMap.get("pnum")));
+			 pstmt.setString(2, paraMap.get("attachFileName"));
+			 
+			 result = pstmt.executeUpdate();
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+	*/
+	
+
+
+	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기  
+	/*
+	@Override
+	public ProductVO selectOneProductByPnum(String pnum) throws SQLException {
+		
+		ProductVO pvo = null;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = "select S.sname, pnum, pname, pcompany, price, saleprice, point, pqty, pcontent, pimage1, pimage2, prdmanual_systemFileName, nvl(prdmanual_orginFileName, '없음') AS prdmanual_orginFileName "
+			 		+ " from "
+			 		+ " ( "
+			 		+ " select fk_snum, pnum, pname, pcompany, price, saleprice, point, pqty, pcontent, pimage1, pimage2, prdmanual_systemFileName, prdmanual_orginFileName "
+			 		+ " from tbl_product "
+			 		+ " where pnum = ? "
+			 		+ " ) P JOIN tbl_spec S "
+			 		+ " ON P.fk_snum = S.snum ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, pnum);
+			 
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 
+				 String sname = rs.getString(1);     // "HIT", "NEW", "BEST" 값을 가짐 
+	             int    npnum = rs.getInt(2);        // 제품번호
+	             String pname = rs.getString(3);     // 제품명
+	             String pcompany = rs.getString(4);  // 제조회사명
+	             int    price = rs.getInt(5);        // 제품 정가
+	             int    saleprice = rs.getInt(6);    // 제품 판매가
+	             int    point = rs.getInt(7);        // 포인트 점수
+	             int    pqty = rs.getInt(8);         // 제품 재고량
+	             String pcontent = rs.getString(9);  // 제품설명
+	             String pimage1 = rs.getString(10);  // 제품이미지1
+	             String pimage2 = rs.getString(11);  // 제품이미지2
+	             String prdmanual_systemFileName = rs.getString(12); // 파일서버에 업로드되어지는 실제 제품설명서 파일명
+	             String prdmanual_orginFileName = rs.getString(13);  // 웹클라이언트의 웹브라우저에서 파일을 업로드 할때 올리는 제품설명서 파일명
+	             
+	             pvo = new ProductVO();
+	             
+	             SpecVO spvo = new SpecVO();
+	             spvo.setSname(sname);
+	             
+	             pvo.setPnum(npnum);
+	             pvo.setPname(pname);
+	             pvo.setPcompany(pcompany);
+	             pvo.setPrice(price);
+	             pvo.setSaleprice(saleprice);
+	             pvo.setPoint(point);
+	             pvo.setPqty(pqty);
+	             pvo.setPcontent(pcontent);
+	             pvo.setPimage1(pimage1);
+	             pvo.setPimage2(pimage2);
+	             pvo.setPrdmanual_systemFileName(prdmanual_systemFileName);
+	             pvo.setPrdmanual_orginFileName(prdmanual_orginFileName);
+	             
+	             
+			 }
+		} finally {
+			close();
+		}
+		
+		return pvo;
+	}
+*/
+
+	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 ==> 추가이미지테이블은 우선 주석처리해놓기
+	/*
+	@Override
+	public List<String> getImagesByPnum(String pk_pro_num) throws SQLException {
+		
+		List<String> imgList = new ArrayList<>();
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " SELECT pro_imgfile_name2 "
+			 			+ " FROM tbl_product_imagefile "
+			 			+ " WHERE fk_pro_num = ? ";
+
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, pnum);
+			 
+			 rs = pstmt.executeQuery();
+			 
+			 while(rs.next()) {
+				 String imgfilename = rs.getString(1); // 이미지파일명
+				 imgList.add(imgfilename);
+			 }
+			 
+		} finally {
+			close();
+		}
+		
+		return imgList;
+	}
+	*/
+	
+	// 제품번호를 가지고서 해당 제품의 제품설명서 텀부파일의 서버에 업로드 된 파일명과 오리지널 파일명 알아오기 메소드 구현하기
+	/*
+	@Override
+	public Map<String, String> getPrdmanualFileName(String pnum) throws SQLException {
+
+		// 1. Map 선언
+		Map<String, String> map = new HashMap<>();
+		
+		// 2. select문 복사 및 편집
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " select prdmanual_systemFilename, prdmanual_orginFilename "
+			 			+ " from tbl_product "
+			 			+ " where pnum = ? ";
+
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setString(1, pnum);
+			 
+			 rs = pstmt.executeQuery();
+			 
+			 if(rs.next()) {
+				 map.put("prdmanual_systemFileName", rs.getString(1));
+				 System.out.println("확인용 prdmanual_systemFileName => " + rs.getString(1));
+				 // 파일서버에 업로드되는 실제 제품설명서 파일명
+				 map.put("prdmanual_orginFileName", rs.getString(2));
+				 System.out.println("확인용 prdmanual_orginFileName => " + rs.getString(2));
+				 // 웹클라이언트의 웹브라우저에서 파일을 업로드할 때 올리는 제품설명서 파일명
+			 } // end of if
+			 
+		} finally {
+			close();
+		}
+		
+		return map;
+	}
+	 */
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	/*
+	 * @Override public int addCart(Map<String, String> paraMap) throws SQLException
+	 * { // TODO Auto-generated method stub return 0; }
+	 * 
+	 * @Override public List<CartVO> selectProductCart(String userid) throws
+	 * SQLException { // TODO Auto-generated method stub return null; }
+	 */
 	
 }
-	
-	
-	
-	
-	
-	

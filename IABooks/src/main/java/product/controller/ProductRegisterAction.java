@@ -52,7 +52,8 @@ public class ProductRegisterAction extends AbstractController {
 			// GET 방식인 경우 막아줘야 하나..? 굳이?
 			if(!"POST".equalsIgnoreCase(method)) {				
 				
-				super.getCategoryList(request); // 그냥 옆에 카테고리 보여주는 거라서 필요없을 듯? 그래도 우선 넣기
+			//	super.getCategoryList(request); // 그냥 옆에 카테고리 보여주는 거라서 필요없을 듯? 그래도 우선 넣기
+				// Abstract에서 사라짐 왜?
 				
 				// spec 목록 보여주기 === 주석 처리
 			/*
@@ -217,6 +218,7 @@ public class ProductRegisterAction extends AbstractController {
 						attachCount = Integer.parseInt(str_attachCount);
 					}
 					
+					// 그런데 우리는 테이블에 원래파일명 시스템파일명 이런 거 없는데 어떡하지 
 					// 첨부파일의 파일명(파일서버에 업로드 되어진 실제파일명) 알아오기
 					for(int i=0; i<attachCount; i++) {
 						String attachFileName = mtrequest.getFilesystemName("attach"+i);
@@ -226,7 +228,7 @@ public class ProductRegisterAction extends AbstractController {
 						paraMap.put("pk_pro_num", String.valueOf(pk_pro_num));
 						paraMap.put("attachFileName", attachFileName);
 						
-						pdao.product_imagefile_Insert(paraMap);
+					//	pdao.product_imagefile_Insert(paraMap);
 					}// end of for-----------------------------------------------------
 					
 					message = "제품등록 성공!!";

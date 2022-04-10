@@ -83,13 +83,31 @@
 						<li><a href="#">내게시물</a></li>
             		</ul>
           		</li>
-          
+
 				<li class="dropdown bulkhead"><a href="#">고객센터<i class="bi bi-chevron-down dropdown-indicator"></i></a>
             		<ul>
               			<li><a href="#">자주 묻는 질문</a></li>
 						<li><a href="<%= ctxPath%>/board/qnaBoard.book">1:1문의</a></li>
 					</ul>
-				</li>	
+				</li>
+				
+<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid eq 'admin'}"> <%-- admin으로 로그인했으면 --%>
+	<li class="nav-item dropdown">
+		<a class="nav-link dropdown-toggle menufont_size text-info" href="#" id="navbarDropdown" data-toggle="dropdown"> 
+		              관리자전용                     <%-- .text-info 는 글자색으로 청록색임 --%>  
+		</a>
+		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+		<%-- <a class="dropdown-item text-info" href="<%= ctxPath%>/member/memberList.book">회원목록</a> --%>
+		<a class="dropdown-item text-info" href="<%= ctxPath%>/product/admin/productRegister.book">제품등록</a>
+		<div class="dropdown-divider"></div>
+		<%-- <a class="dropdown-item text-info" href="<%= ctxPath%>/product/orderList.book">전체주문내역</a> --%>
+		</div>
+	</li>
+</c:if>
+				
+				
+				
+					
 			</ul>
         	<i class="bi bi-list mobile-nav-toggle d-none"></i>
 		</nav>
