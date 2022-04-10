@@ -17,7 +17,7 @@ public class CartAction extends AbstractController {
 		
 		if(super.checkLogin(request)) {//로그인했으면 true
 			String method = request.getMethod();
-			System.out.println("method "+method);
+		
 			if("POST".equalsIgnoreCase(method)) {//포스트 방식이라며는 
 				HttpSession session = request.getSession();
 				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
