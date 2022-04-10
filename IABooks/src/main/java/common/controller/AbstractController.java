@@ -60,12 +60,11 @@ public abstract class AbstractController implements InterCommand {
 	MemberVO loginuser = (MemberVO)session.getAttribute("loginuser");
 	
 		if(loginuser != null) { // 로그인 한 경우
-			return true;
+		return true;
+		} else { // 로그인 안한 경우
+		return false;
 		}
-		else { // 로그인 안한 경우
-			return false;
-		}
-	}	
+	}
 	
 	///////////////////////////////////////////////////////////////////////////////////
 	// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기위한 것임

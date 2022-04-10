@@ -13,12 +13,8 @@ public class CartVO {
 	private CategoryVO category;
 	
 	// 추가
-<<<<<<< HEAD
-	private int totalPrice;				// ck_odr_qty * ck_odr_qty
-=======
 	private int partPrice;				// ck_odr_qty * ck_odr_qty
 	private int totalPoint;
->>>>>>> refs/remotes/origin/sub_main
 	
 	///////////////////////////////////////////////
 	
@@ -27,11 +23,7 @@ public class CartVO {
 	public CartVO() {}
 
 	public CartVO(int pk_cartno, String fk_userid, String fk_pro_num, int ck_odr_qty, String ck_cart_register,
-<<<<<<< HEAD
-			int c_status, ProductVO product, CategoryVO category, int totalPrice) {
-=======
 			int c_status, ProductVO product, CategoryVO category, int partPrice, int totalPoint) {
->>>>>>> refs/remotes/origin/sub_main
 		super();
 		this.pk_cartno = pk_cartno;
 		this.fk_userid = fk_userid;
@@ -41,13 +33,9 @@ public class CartVO {
 		this.c_status = c_status;
 		this.product = product;
 		this.category = category;
-<<<<<<< HEAD
-		this.totalPrice = totalPrice;
-=======
 		this.partPrice = partPrice;
 		this.totalPoint = totalPoint;
 		
->>>>>>> refs/remotes/origin/sub_main
 	}
 
 	public int getPk_cartno() {
@@ -84,8 +72,6 @@ public class CartVO {
 
 	public String getCk_cart_register() {
 		return ck_cart_register;
-<<<<<<< HEAD
-=======
 	}
 	
 	public void setCk_cart_register(String ck_cart_register) {
@@ -132,49 +118,7 @@ public class CartVO {
 
 	public void setTotalPoint(int totalPoint) {
 		this.totalPoint = totalPoint;
->>>>>>> refs/remotes/origin/sub_main
 	}
 	
-	public void setCk_cart_register(String ck_cart_register) {
-		this.ck_cart_register = ck_cart_register;
-	}
-
-	public int getC_status() {
-		return c_status;
-	}
 	
-<<<<<<< HEAD
-	public void setC_status(int c_status) {
-		this.c_status = c_status;
-	}
-
-	public ProductVO getProduct() {
-		return product;
-	}
-
-	public void setProduct(ProductVO product) {
-		this.product = product;
-	}
-
-	public CategoryVO getCategory() {
-		return category;
-	}
-
-	public void setCategory(CategoryVO category) {
-		this.category = category;
-	}
-
-	public int getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(int ck_odr_qty) { // 나중에
-	//	this.totalPrice = this.product.getPro_saleprice() * ck_odr_qty;
-		
-		this.totalPrice = 40 * ck_odr_qty; // 꼭 기억! 나중에
-		
-	}
-	
-=======
->>>>>>> refs/remotes/origin/sub_main
 }
