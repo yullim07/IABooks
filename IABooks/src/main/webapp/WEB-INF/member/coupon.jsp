@@ -153,7 +153,7 @@ function isExistCouponCheck() {
 		</thead>
 		<tbody>		
 			<c:if test="${not empty (requestScope.couponListP)}">
-				<c:forEach var="cvo" items="${requestScope.couponListP}" varStatus="i">
+				<c:forEach var="cvo" items="${requestScope.couponListP}" >
 					<tr>
 						<td align="center" class="numAsc">${cvo.rno}</td>
 						<td align="center">${cvo.cname }</td>
@@ -162,7 +162,7 @@ function isExistCouponCheck() {
 						<td align="center">${cvo.cstartdate }~${cvo.cenddate }</td>
 						<td align="center">
 						<c:choose>
-	   	  	  	  	  		<c:when test="${cvo.ucvo.user_cp_status eq '1'}"><!-- 조건변경 -->
+	   	  	  	  	  		<c:when test="${cvo.ucvo.user_cp_status eq '1' or cvo.cenddate > sysdate}"><!-- 조건변경 -->
 	   	  	  	  	  			<span style="color: blue;">사용가능</span>
 	   	  	  	  	  		</c:when>
 	   	  	  	  	  		<c:otherwise>

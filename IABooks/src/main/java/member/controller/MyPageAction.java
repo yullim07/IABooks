@@ -1,7 +1,6 @@
 package member.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,10 +37,8 @@ public class MyPageAction extends AbstractController {
 			InterMemberDAO mdao = new MemberDAO();
 			//////////////////////////////////////////////////////////////리스트가져오기
 			
-			List<CouponVO> couponList = mdao.selectCouponList(paraMap);
 			int couponNum = mdao.CouponNum(paraMap);
 			
-			request.setAttribute("couponList", couponList);
 			request.setAttribute("couponNum", couponNum);
 			
 			setRedirect(false);

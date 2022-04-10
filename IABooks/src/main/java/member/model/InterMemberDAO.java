@@ -38,8 +38,8 @@ public interface InterMemberDAO {
    	// 쿠폰등록을 해주는 메소드
 	int couponRegister(CouponVO coupon) throws SQLException;
 	
-	// 개인회원에게 쿠폰값 리스트 만들기 
-	List<CouponVO> selectCouponList(Map<String, String> paraMap) throws SQLException;
+	// 쿠폰 기간만료시 삭제하는 메소드
+	int deleteCouponList(Map<String, String> paraMap);
 
 	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 쿠폰에 대한 총페이지 알아오기. 
 	int getTotalPage(Map<String, String> paraMap) throws SQLException;
@@ -69,6 +69,8 @@ public interface InterMemberDAO {
 	
 	// 아이디를 입력받아서 해당 사용자의 마일리지액 조회
 	int mgCheck(Map<String, String> paraMap) throws SQLException;
+
+	
    
    
    
