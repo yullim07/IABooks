@@ -4,6 +4,7 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
 	String ctxPath = request.getContextPath();
@@ -175,27 +176,27 @@
             <td class="tbl_head_first" width="35%;">
                <ul class="tbl_head_first" >
                   <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>가용적립금</strong></li>
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>사용적립금</strong></li>
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>총주문</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>사용된 적립금</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>총 주문</strong></li>
                </ul>
             </td>
             <td class="tbl_head_first" width="15%;">
                <ul class="tbl_head_first">
-                  <li class="tbl_head_first"><strong style="color:#00BBCC; ">0 원</strong>&nbsp;<input class="btn_jo mileage" type="button" value="조회" ></li>
-                  <li class="tbl_head_first"><strong>0 원</strong></li>
+                  <li class="tbl_head_first"><strong style="color:#00BBCC; "><fmt:formatNumber type="number" pattern="###,###">${requestScope.available_mg}</fmt:formatNumber>원</strong>&nbsp;<input class="btn_jo mileage" type="button" value="조회" ></li>
+                  <li class="tbl_head_first"><strong><fmt:formatNumber type="number" pattern="###,###">${requestScope.used_mg}</fmt:formatNumber>원</strong></li>
                   <li class="tbl_head_first"><strong>0원(0회)</strong></li>
                </ul>
             </td>
             
             <td class="tbl_head_first" style="border-left :solid 1px #e8e8e8;" width="35%;">
                <ul class="tbl_head_first">
-                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>총적립금</strong></li>
+                  <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>총 적립금</strong></li>
                   <li class="tbl_head_first"><img src="<%= ctxPath%>/images/member/arrow_menu.gif" /> <strong>쿠폰</strong></li>
                </ul>
             </td>
             <td class="tbl_head_first" width="15%;">
                <ul class="tbl_head_first">
-                  <li class="tbl_head_first"><strong>0원</strong></li>
+                  <li class="tbl_head_first"><strong><fmt:formatNumber type="number" pattern="###,###">${requestScope.all_mg}</fmt:formatNumber>원</strong></li>
                   <li class="tbl_head_first"><strong style="color:#00BBCC;" >${requestScope.couponNum} 개</strong>&nbsp;<input class="btn_jo coupon" type="button" value="조회" ></li>
                </ul>
             </td>

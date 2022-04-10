@@ -67,9 +67,13 @@ public interface InterMemberDAO {
   
 /////////////////////////////////////////////// 파일 합치기
 	
+	
 	// 아이디를 입력받아서 해당 사용자의 마일리지액 조회
-	int mgCheck(Map<String, String> paraMap) throws SQLException;
+	Map<String, String> mgInfo (Map<String, String> paraMap) throws SQLException;
 
+	// 주문DB에서 데이터를 뽑아서 주문에 대한 상세정보 조회
+	List<MileageVO> orderMileageInfo(Map<String, String> paraMap) throws SQLException;
+	
 	
    
    

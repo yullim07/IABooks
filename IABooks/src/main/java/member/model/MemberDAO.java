@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -866,19 +867,19 @@ public class MemberDAO implements InterMemberDAO {
 ///////////////////////////////////////////////////////////////////////////////////////////////파일 합치기	
 		
 			
-		      
+			 
 			   // 아이디를 입력받아서 해당 사용자의 마일리지액 조회
 				@Override
-				public int mgCheck(Map<String, String> paraMap) throws SQLException {
+				public Map<String, String> mgInfo (Map<String, String> paraMap) throws SQLException {
 					
-					int result = 0;
+					Map<String, String> map = new HashMap<>();
 					
 					try {
 				         conn =ds.getConnection();
 				         
-				         String sql = " select All_MG "
+				         String sql = " select sum(all_mg), sum(used_mg), ( sum(all_mg)-sum(used_mg)-sum(unsecured_mg) ) AS available_mg , sum(refund_mg) , sum(unsecured_mg)  "
 				         		+ " from tbl_mileage "
-				         		+ " where USERID = ? ";
+				         		+ " where fk_userid = ? ";
 				         
 				         pstmt = conn.prepareStatement(sql);
 				        
@@ -887,17 +888,30 @@ public class MemberDAO implements InterMemberDAO {
 				         rs = pstmt.executeQuery();
 				         
 				         if(rs.next()) {
-				        	 result = Integer.parseInt(rs.getString(1));
+				        	 map.put("all_mg", rs.getString(1));
+				        	 map.put("used_mg", rs.getString(2));
+				        	 map.put("available_mg", rs.getString(3));
+				        	 map.put("refund_mg", rs.getString(4));
+				        	 map.put("unsecured_mg", rs.getString(5));
 				         }
 				         
-				      } catch(Exception e) {
+				      } catch(SQLException e) {
 				         e.printStackTrace();   
 				      } finally {
 				         close();
 				      }
 					
-					return result;
+					return map;
 				}
+
+				@Override
+				public List<MileageVO> orderMileageInfo(Map<String, String> paraMap) throws SQLException {
+					
+					
+					
+					return null;
+				}
+				
 					
 			
 
