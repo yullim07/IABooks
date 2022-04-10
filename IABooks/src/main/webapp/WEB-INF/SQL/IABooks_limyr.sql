@@ -1093,4 +1093,62 @@ desc tbl_cart;
 desc tbl_order;
 
 
-v
+--------------------------------------------------------------------------------
+
+-- 220408
+desc TBL_MEMBER
+desc TBL_PRODUCT_IMAGEFILE
+desc TBL_ORDERDETAIL
+desc TBL_ORDER
+desc TBL_CART
+desc TBL_PRODUCT
+desc TBL_WRITER
+desc TBL_CATEGORY
+desc TBL_MAIN_IMAGE -- 강사님 이미지 테이블
+
+select * from TBL_PRODUCT;
+
+--------------------------------------------------------------------------------
+
+-- 220409
+-- 제품등록시 필요한 것
+
+-- getCategoryList 쿼리
+desc tbl_category;
+select pk_cate_num, cate_name
+from tbl_category;
+
+--1. 재입고 여부(pro_restock)				체크박스
+--2. 카테고리(fk_cate_num, cate_name)	select
+--3. 기본정보
+--(1) 도서명(pro_name), ISBN번호(pk_pro_num) 
+--(2) 저자코드(fk_wr_code), 저자명(wr_name), 저자소개(wr_info), 출판사(publisher), 출간일자(pro_publish_date)
+--(3) 정가(pro_price), 판매가(pro_saleprice), 포인트적립률(point_rate)
+--(4)메인이미지(pro_imgfile_name)
+--4. 기타정보
+--(1) 규격(pro_size), 제본형태(pro_bindtype), 쪽수(pro_pages)
+--5. 상세정보
+--(1) 목차(pro_index-clob)
+--(2) 책소개(pro_content-clob) 
+--6.  입고량/재고량(pro_qty)
+
+
+
+SELECT  A.pro_name, A.pro_imgfile_name, A.pro_price,
+        A.fk_wr_code, B.wr_name, A.publisher, A.pro_publish_date,
+        A.fk_cate_num, C.cate_name, A.pk_pro_num, A.pro_saleprice,
+        A.pro_index, A.pro_content, B.wr_info,
+        A.pro_inputdate, A.pro_qty, A.pro_sales, A.pro_viewcnt        
+FROM tbl_product A
+LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code
+LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num
+WHERE pk_pro_num = '9791196045999';
+
+INSERT INTO
+tbl_cart(PK_CARTNO, FK_USERID, fK_PRO_NUM, CK_ODR_QTY, CK_CART_REGISTER, C_STATUS)
+VALUES (seq_cartno.NEXTVAL, 'leess', '9791195675807', 1, sysdate, 1);
+
+select * from tbl_product order by pk_pro_num;
+desc tbl_product;
+
+commit;

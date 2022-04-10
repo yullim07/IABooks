@@ -1,10 +1,14 @@
 package product.model;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import member.model.MemberVO;
+import product.model.CartVO;
+import product.model.ProductVO;
+// import product.model.SpecVO;
 
 public interface InterProductDAO {
 	
@@ -84,17 +88,43 @@ public interface InterProductDAO {
 	
 	// 장바구니의 목록을 관심상품으로 등록하기 메소드
 
+	// 제품등록하기 메소드
+	
+	// 제품정가와 판매가가 같도록 만들어주는 메소드? 여기에?
+	
 
 
+	// 카테고리 목록 가져오기
+	// tbl_category 테이블에서 카테고리 대분류 번호(cnum), 카테고리코드(code), 카테고리명(cname)을 조회해오기 
+	// VO 를 사용하지 않고 Map 으로 처리
+	List<HashMap<String, String>> getCategoryList() throws SQLException;
 
+	// spec 목록을 보여주고자 한다. 
+	// List<SpecVO> selectSpecList() throws SQLException;
 
+	// 제품번호 채번 해오기
+	// int getPnumOfProduct() throws SQLException;
 
+	// tbl_product 테이블에 제품정보 insert 하기 
+	int productInsert(ProductVO pvo) throws SQLException;
 
+	// tbl_product_imagefile 테이블에 insert 하기 
+	int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException;
+
+	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
+	ProductVO selectOneProductByPnum(String pnum) throws SQLException;
+
+	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
+	List<String> getImagesByPnum(String pnum) throws SQLException;
+
+	// 제품번호를 가지고서 해당 제품의 제품설명서 텀부파일의 서버에 업로드 된 파일명과 오리지널 파일명 알아오기
+	Map<String, String> getPrdmanualFileName(String pnum) throws SQLException;
 	
-	
-	
-	
-	
-	
-	
+	// 장바구니 테이블에 해당 제품이 존재하지 않는 경우에는 tbl_cart 테이블에 insert를 해야 하고,
+	// 장바구니 테이블에 해당 제품이 존재하는 경우에는 또 그 제품을 추가해서 장바구니 담기를 한다면 tbl_cart 테이블에 update를 한다.
+	int addCart(Map<String, String> paraMap) throws SQLException;
+
+	// 로그인한 사용자의 장바구니 목록을 조회하기
+	List<CartVO> selectProductCart(String userid) throws SQLException;
+		
 }

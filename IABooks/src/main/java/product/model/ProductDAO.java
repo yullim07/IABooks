@@ -15,6 +15,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import member.model.MemberVO;
+/*import producct.model.SpecVO;*/
 
 
 public class ProductDAO implements InterProductDAO {
@@ -1581,7 +1582,62 @@ public class ProductDAO implements InterProductDAO {
 		return 0;
 	}
 
+	@Override
+	public List<HashMap<String, String>> getCategoryList() throws SQLException {
+		
+		List<HashMap<String, String>> categoryList = new ArrayList<>();
+		
+		try {
+			 
+			conn = ds.getConnection();
+			
+			String sql =  " select pk_cate_num, cate_name "
+						+ " from tbl_category ";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				HashMap<String, String> map = new HashMap<>();
+				
+				map.put("pk_cate_num", rs.getString(1)); // 숫자!
+				map.put("cate_name", rs.getString(2));
+				
+				categoryList.add(map);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return categoryList;
+	}
 
+
+	// Spec 목록 보여주기 === 주석처리
+	/*
+		
+		@Override
+	public List<SpecVO> selectSpecList() throws SQLException {
+		
+		List<SpecVO> specList = new ArrayList<>();
+		
+		try {
+			 
+						 
+		} finally {
+			close();
+		}
+		
+		return specList;
+	}	
+			
+			
+	 */
+	
 	
 	
 	
