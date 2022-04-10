@@ -88,7 +88,7 @@
 							<li><a href="#">회원목록</a></li>
 							<li><a href="<%= ctxPath%>/product/admin/productRegister.book">제품등록</a></li>
 							<li><a href="#">전체주문내역</a></li>
-							<li><a href="#">게시판관리</a></li>
+							<li><a href="<%= ctxPath%>/board/admin/adminBoard.book">게시판관리</a></li>
 						</ul>
 					</li>
 				</c:if>
@@ -104,7 +104,7 @@
           
 				<li class="dropdown bulkhead"><a href="#">고객센터<i class="bi bi-chevron-down dropdown-indicator"></i></a>
             		<ul>
-              			<li><a href="#">자주 묻는 질문</a></li>
+              			<li><a href="<%= ctxPath%>/board/faqAccordion.book">자주 묻는 질문</a></li>
 						<li><a href="<%= ctxPath%>/board/qnaBoard.book">1:1문의</a></li>
 					</ul>
 				</li>	
