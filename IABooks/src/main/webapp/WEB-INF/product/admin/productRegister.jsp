@@ -47,8 +47,7 @@
 			}
 		}); // end of $("input#spinnerPqty").spinner() --------------------
 		
-		
-		// 추가이미지파일에 스피너 달아주기
+		// 추가이미지파일에 스피너 달아주기 << 주석처리?
 		$("input#spinnerImgQty").spinner({
 			spin:function(event,ui){
 				if(ui.value > 10) {

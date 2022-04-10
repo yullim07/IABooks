@@ -52,6 +52,15 @@ public class ProductRegisterAction extends AbstractController {
 			// GET 방식인 경우 막아줘야 하나..? 굳이?
 			if(!"POST".equalsIgnoreCase(method)) {				
 				
+				String message = "관리자로 로그인하세요!";
+				String loc = "javascript:history.back()";
+				
+				request.setAttribute("message", message);
+				request.setAttribute("loc", loc);
+				
+			//	super.setRedirect(false);
+				super.setViewPage("/WEB-INF/msg.jsp");
+				
 			//	super.getCategoryList(request); // 그냥 옆에 카테고리 보여주는 거라서 필요없을 듯? 그래도 우선 넣기
 				// Abstract에서 사라짐 왜?
 				

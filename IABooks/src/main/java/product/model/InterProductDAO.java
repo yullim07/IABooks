@@ -63,7 +63,7 @@ public interface InterProductDAO {
 	//한개 상품 주문하기
 	List<CartVO> orderOne(Map<String, String> paraMap) throws SQLException;
 	////////////////////////////////////////////////////////////
-		
+	
 	// 장바구니 조회하기 메소드
 	List<CartVO> getCart(String fk_userid) throws SQLException;
 
@@ -76,7 +76,7 @@ public interface InterProductDAO {
 		// spec 목록을 보여주고자 한다. 
 		// List<SpecVO> selectSpecList() throws SQLException;
 
-		// 제품번호 채번 해오기
+		// 제품번호 채번 해오기 << 
 		// int getPnumOfProduct() throws SQLException;
 
 		// tbl_product 테이블에 제품정보 insert 하기 
@@ -100,7 +100,7 @@ public interface InterProductDAO {
 		
 		// 매뉴얼 이름 가져오는 건데 필요없음 
 //		Map<String, String> getPrdmanualFileName(String pk_pro_num) throws SQLException;
-			
+		
 	
 
 	
