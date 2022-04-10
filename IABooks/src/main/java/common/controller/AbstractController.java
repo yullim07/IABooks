@@ -1,10 +1,15 @@
 package common.controller;
 
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import member.model.MemberVO;
 import my.Util.MyUtil;
+import product.model.*;
 
 public abstract class AbstractController implements InterCommand { 
 // AbstractController 클래스는 미완성(추상) 클래스로서 부모 클래스로 사용된다.
@@ -77,7 +82,13 @@ public abstract class AbstractController implements InterCommand {
 	
 	}
 
+	// ===== 제품목록(Category)을 만들어줄 메소드 생성하기 ===== //
+	// VO를 사용하지 않고 Map으로 처리해보겠습니다. JDBC에서 했었다!
+	public void getCategoryList(HttpServletRequest request) throws SQLException {
 	
-	
-	
+		product.model.InterProductDAO pdao = new ProductDAO();
+		List<HashMap<String, String>> categoryList = pdao.getCategoryList();
+		
+		request.setAttribute("categoryList", categoryList);
+	}	
 }

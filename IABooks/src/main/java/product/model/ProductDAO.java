@@ -1495,8 +1495,33 @@ public class ProductDAO implements InterProductDAO {
 
 		@Override
 		public List<HashMap<String, String>> getCategoryList() throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
+			
+			List<HashMap<String, String>> categoryList = new ArrayList<>();
+			
+			try {
+				 conn = ds.getConnection();
+				 
+				 String sql = " SELECT pk_cate_num, cate_name "+
+						      " FROM tbl_category "+
+						      " ORDER by pk_cate_num asc ";
+				 
+				 pstmt = conn.prepareStatement(sql);
+				 
+				 rs = pstmt.executeQuery();
+				 
+				 while(rs.next()) {
+					 HashMap<String, String> map = new HashMap<>();
+					 map.put("pk_cate_num", rs.getString(1));
+					 map.put("ck_cate_name", rs.getString(2));
+					 
+					 categoryList.add(map);
+				 }// end of while(rs.next())-------------------------------
+				 
+			} finally {
+				close();
+			}
+			
+			return categoryList;
 		}
 
 		@Override
@@ -1510,6 +1535,10 @@ public class ProductDAO implements InterProductDAO {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+		
+
+		
 		
 		// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블이니까 주석처리
 		/*

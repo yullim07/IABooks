@@ -16,7 +16,6 @@ import common.controller.AbstractController;
 import member.model.MemberVO;
 import product.model.*;
 
-
 public class ProductRegisterAction extends AbstractController {
 
 	@Override
@@ -29,9 +28,9 @@ public class ProductRegisterAction extends AbstractController {
 		HttpSession session = request.getSession();
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-			
-		// 로그인을 하지 않았거나 일반사용자로 로그인 한 경우 
-		if(loginuser == null || !"admin".equals(loginuser.getUserid()) ) {
+		
+		// 로그인을 하지 않았거나 일반사용자로 로그인 한 경우 => 이미 링크에서 막아줬기 때문에 필요없다? 모르겠다.. 왜 막는 거지?
+		if(loginuser == null || !"admin".equals(loginuser.getUserid()) ) { // 애초에 들어갈 수가 없는데... get 부터 막아야 하는 거 아닌가?
 			
 			String message = "관리자로 로그인하세요!";
 			String loc = "javascript:history.back()";
@@ -41,62 +40,58 @@ public class ProductRegisterAction extends AbstractController {
 			
 		//	super.setRedirect(false);
 			super.setViewPage("/WEB-INF/msg.jsp");
-				
-			
+
 		}
-		
+				
 		// 관리자로 로그인한 경우 => POST 방식인지 확인 => 
 		else {
+			
 			String method = request.getMethod();
 			
-			// GET 방식인 경우 막아줘야 하나..? 굳이?
-			if(!"POST".equalsIgnoreCase(method)) {				
+			if(!"POST".equalsIgnoreCase(method)) {			
+	
+				// 카테고리 목록을 조회해오기
+				super.getCategoryList(request);
 				
-				String message = "관리자로 로그인하세요!";
-				String loc = "javascript:history.back()";
-				
-				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
-				
-			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/msg.jsp");
-				
-			//	super.getCategoryList(request); // 그냥 옆에 카테고리 보여주는 거라서 필요없을 듯? 그래도 우선 넣기
-				// Abstract에서 사라짐 왜?
-				
-				// spec 목록 보여주기 === 주석 처리
-			/*
-				InterProductDAO pdao = new ProductDAO();
+				// spec 목록을 보여주고자 한다.
+			/*	InterProductDAO pdao = new ProductDAO();
 				List<SpecVO> specList = pdao.selectSpecList(); 
 				request.setAttribute("specList", specList);
 			*/
+				
+				super.setRedirect(false);
+				super.setViewPage("/WEB-INF/product/admin/productRegister.jsp");
+				
 			}
 			
 			// POST 방식이라
 			else {
 				/*
-					파일을 첨부해서 보내는 폼태그가 enctype="multipart/form-data" 으로 되어었다라면
+					파일을 첨부해서 보내는 폼태그가 enctype="multipart/form-data" 으로 되어었다면
 					HttpServletRequest request 을 사용해서는 데이터값을 받아올 수 없다.
 					이때는 cos.jar 라이브러리를 다운받아 사용하도록 한 후 아래의 객체를 사용해서 데이터 값 및 첨부되어진 파일까지 받아올 수 있다.
 				 */
 				
 				MultipartRequest mtrequest = null;
 				/*
-					MultipartRequest mtrequest 은 
-					HttpServletRequest request 가 하던일을 그대로 승계받아서 일처리를 해주고 
+					MultipartRequest mtrequest 은 HttpServletRequest request 가 하던일을 그대로 승계받아서 일처리를 해주고 
 					동시에 파일을 받아서 업로드, 다운로드까지 해주는 기능이 있다. 	  
 				 */
 				
 				
 				// 이미지 업로드를 위해 카테고리 이름 받아오기
-				String cate_name = mtrequest.getParameter("cate_name");
-				CategoryVO catevo = new CategoryVO();
-				catevo.setCate_name(cate_name);
+				/*
+				 * String cate_name = mtrequest.getParameter("cate_name");
+				 * CategoryVO catevo = new CategoryVO();
+				 * catevo.setCate_name(cate_name);
+				 */
 								
 				// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다. 
 				ServletContext svlCtx = session.getServletContext();
-				String uploadFileDir = svlCtx.getRealPath("/images/product/"+cate_name);
+			//	String uploadFileDir = svlCtx.getRealPath("/images/product"+cate_name);
+				String uploadFileDir = svlCtx.getRealPath("/images/product");
 				// images/product/한 다음에 카테고리명을 써줘야 한다.
+				System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
 				
 				
 				// ==== 파일을 업로드 해준다. 시작 ==== //
@@ -116,12 +111,13 @@ public class ProductRegisterAction extends AbstractController {
 				 
 				// === 첨부 이미지 파일을 올렸으니 그 다음으로 제품정보를 (제품명, 정가, 제품수량,...) DB의 tbl_product 테이블에 insert 를 해주어야 한다.  === 
 
+				// 아래의 변수들은 새로운 제품 등록시 form 태그에서 입력한 값들을 얻어온 것이다!
 				
 				// 재입고 여부 >> 이게 맞나..?
 				String restock_yes = mtrequest.getParameter("restock_yes");
-				// 새로운 제품 등록시 form 태그에서 입력한 값들을 얻어오기
+				
 				String fk_cate_num = mtrequest.getParameter("fk_cate_num");
-			//	String cate_name = mtrequest.getParameter("cate_name");
+				String cate_name = mtrequest.getParameter("cate_name");
 				String pk_pro_num = mtrequest.getParameter("pk_pro_num");
 				String pro_name = mtrequest.getParameter("pro_name");
 				String fk_wr_code = mtrequest.getParameter("fk_wr_code");
@@ -146,7 +142,6 @@ public class ProductRegisterAction extends AbstractController {
 				String pro_imgfile_name_originFileName = mtrequest.getOriginalFileName("pro_imgfile_name"); 
 				System.out.println("### 확인용 pro_imgfile_name_originFileName => " + pro_imgfile_name_originFileName);
 								
-				
 				String pro_index = mtrequest.getParameter("pro_index");
 				// 시큐어 코드
 				pro_index = pro_index.replaceAll("<", "&lt;");
@@ -160,16 +155,15 @@ public class ProductRegisterAction extends AbstractController {
 				pro_content = pro_content.replaceAll(">", "&gt;");
 				// 입력한 내용에서 엔터는 <br>로 변환시키기
 				pro_content = pro_content.replaceAll("\r\n", "<br>");
-				
-				
-				InterProductDAO pdao = new ProductDAO();
+
 			     
 				// 제품번호 채번 해오기 << seq가 아니라서 필요하지 않음!
 			//	int pnum = pdao.getPnumOfProduct();
 				
+				InterProductDAO pdao = new ProductDAO();
 				
 				ProductVO pvo = new ProductVO();
-			//	CategoryVO catevo = new CategoryVO();
+				CategoryVO catevo = new CategoryVO();
 				WriterVO wvo = new WriterVO();
 				
 				/*
@@ -191,7 +185,7 @@ public class ProductRegisterAction extends AbstractController {
 				// pro_restock
 				pvo.setPro_restock(Integer.parseInt(restock_yes));
 				pvo.setFk_cate_num(Integer.parseInt(fk_cate_num));
-			//	catevo.setCate_name(cate_name);
+				catevo.setCate_name(cate_name);
 				pvo.setPk_pro_num(pk_pro_num);
 				pvo.setPro_name(pro_name);
 				pvo.setFk_wr_code(Integer.parseInt(fk_wr_code));

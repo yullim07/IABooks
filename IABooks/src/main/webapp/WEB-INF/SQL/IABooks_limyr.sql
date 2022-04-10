@@ -709,3 +709,28 @@ FROM tbl_product A
 LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
 LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
 WHERE pk_pro_num = ;
+
+desc tbl_member;
+
+select * from tbl_product;
+-------------------------------
+-- 20220410
+
+desc tbl_category;
+select * from tbl_category;
+
+
+SELECT pk_cate_num, CATE_NAME
+FROM tbl_category
+ORDER by pk_cate_num asc;
+
+
+
+select * from tabs;
+
+desc TBL_PRODUCT_IMAGEFILE;
+desc TBL_PRODUCT;
+desc TBL_WRITER;
+desc TBL_CATEGORY;
+desc TBL_MAIN_IMAGE; -- 이거 아님!
+

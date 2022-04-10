@@ -18,13 +18,23 @@
 
 <!-- datePicker -->
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="/resources/demos/style.css">
+<!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
 
 <style type="text/css">
+
+	table#tblProdInput {
+		border: solid 1px grey;
+	}
+	
+	table#tblProdInput > tbody > tr > td {
+		font-size: 12pt;
+		line-height: 12pt;
+		background-color: #e8e8e8;
+	}
 </style>
 
 <script type="text/javascript">
@@ -32,6 +42,7 @@
 	$(document).ready(function() {
 		
 		$("span.error").hide();
+		
 		
 		// 제품 수량에 스피너 달아주기
 		$("input#spinnerPqty").spinner({
@@ -108,19 +119,26 @@
 			$("div#divfileattach").empty();	// 파일이 첨부된 곳을 다시 비운다.
 		});
 		
-		
-		
-		
 		// datapicker 사용
 		$(function() {
 			$("#datepicker").datepicker();
-		});
-		
-		
-		
-		
+		});	
 		
 	}); // end of $(document).ready(function()) --------------------
+	
+	
+	// 재입고 여부 체크 시 반환?
+	function getRestock(event) {
+		let result = 0;
+		if(event.target.checked) {
+			result = event.target.value;
+			console.log(result);
+		}
+		else {
+			result = 0;
+			console.log(result);
+		}
+	}
 	
 </script>
 
@@ -137,8 +155,11 @@
 				<tr>
 					<td><label class="title">재입고 상품 여부</label></td>
 					<td width="30%">
-						<label for="restock_yes"></label>
-						<input type="checkbox" name="restock_yes" id="restock_yes" />
+						<label for="restock_yes" style="margin-left: 2%;"></label>
+						<input type="checkbox" name="restock_yes" value="1" id="restock_yes" onclick="getRestock(event)"/>
+						<input type="checkbox" name="restock_no" value="0" id="restock_no" onclick="getRestock(event)"/>
+						<!-- <input type="radio" name="restock_yes" value="1" id="restock_yes" />
+						<input type="radio" name="restock_yes" value="1" id="restock_yes" /> -->
 					</td>
 				</tr>
 				<tr>
@@ -149,7 +170,7 @@
 						<c:forEach var="map" items="${requestScope.categoryList}">
 							<option value="${map.pk_cate_num}">${map.cate_name}</option>
 							<%-- value에 숫자 쓰면 안됨 --%>
-							<%-- var가 vo라면 get변수에서 get다음소문자 var가 map이라면 put의 키값 --%>
+							<%-- var가 vo라면 get변수에서 get다음소문자 / var가 map이라면 put의 키값 --%>
 						</c:forEach>
 						</select>
 						<span class="error">필수입력</span>
@@ -231,7 +252,7 @@
 				<tr>
 					<td width="25%" class="prodInputName">규격</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 100px;" name="pro_size" class="box infoData" /> 원 
+						<input type="text" style="width: 100px;" name="pro_size" class="box infoData" />
 						<span class="error">필수입력</span>
 					</td>
 				</tr>
@@ -254,7 +275,7 @@
 				<tr>
 					<td width="25%" class="prodInputName">쪽수</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 100px;" name="pro_pages" class="box infoData" /> 원 
+						<input type="text" style="width: 100px;" name="pro_pages" class="box infoData" /> 쪽
 						<span class="error">필수입력</span>
 					</td>
 				</tr>
