@@ -91,7 +91,6 @@ public class MemberRegisterAction extends AbstractController {
 					super.setViewPage("/WEB-INF/login/registerAfterAutoLogin.jsp");
 				}
 			
-			
 			} catch (SQLException e) {
 				e.printStackTrace();
 				

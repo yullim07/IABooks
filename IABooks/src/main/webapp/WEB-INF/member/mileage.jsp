@@ -24,6 +24,7 @@
 
 <script type="text/javascript">
 
+
 	
 </script>
 
@@ -49,7 +50,7 @@
 				</td>
 				<td class="pointTable" width="15%;">
 					<ul class="pointTable">
-						<li class="pointTable">0원</li>
+						<li class="pointTable">${requestScope.result}원</li>
 						<li class="pointTable">원</li>
 						<li class="pointTable">원</li>
 					</ul>
@@ -83,9 +84,6 @@
 		  </li>
 		  <li class="nav-item">
 		    <a class="nav-link" data-toggle="tab" href="#menu2">적립예정내역보기</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" data-toggle="tab" href="#menu3">사용가능한쿠폰/회원등급적립내역</a>
 		  </li>
 		</ul>
 
@@ -131,27 +129,8 @@
 		    	</tbody>	
 		    </table>
 		  </div>
+		</div>
 		  
-		  <!-- 사용가능한쿠폰/회원등급적립내역 -->
-		  <div class="tab-pane container" id="menu3">
-		     <table class="point_menu">
-		    	<thead>
-		    		<tr>
-						<td width="24%">주문날짜</td>
-						<td width="24%">적립금</td>
-						<td width="24%">관련주문</td>
-						<td width="28%">내용</td>
-		    		</tr>
-		    	</thead>
-		    	<tbody>
-		    		<tr>
-		    			<td colspan="4" align="center"><span>적립금내역이없습니다.</span></td>
-		    			<!-- 나중에 데이터값에 따라 태그 수정 -->
-		    		</tr>
-		    	</tbody>	
-		    </table>
-		  </div>
-		</div>	
 	
 	
 	

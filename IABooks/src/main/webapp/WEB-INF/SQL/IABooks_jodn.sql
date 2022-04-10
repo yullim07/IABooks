@@ -1,13 +1,157 @@
 select *
 from tbl_member;
 
+alter table tbl_user_coupon_status add coupon number default 0;
+
 select *
-from tbl_coupon;
+from tbl_coupon
+where pk_coupon_id = 267740114188324;
+
+select *
+from TBL_USER_COUPON_STATUS
+
+delete from TBL_USER_COUPON_STATUS where pk_userid = 'deokno'
+commit;
+
+-- 중복쿠폰발행 조회 
+
+select PK_COUPON_ID
+from tbl_coupon
+where PK_COUPON_ID = 213
+
+
+
+--------쿠폰조회 -------
+select DISTINCT PK_COUPON_ID,CNAME,CPRICE,CDATE,CSTARTDATE,CENDDATE,CMINPRICE,CPSTATUS,user_cp_status, coupon, m.pk_userid
+from 
+(
+select PK_COUPON_ID, CNAME,CPRICE,CDATE,CSTARTDATE,CENDDATE,CMINPRICE,CPSTATUS
+from tbl_coupon
+) C
+cross join
+(
+select PK_userid, coupon
+from tbl_member
+where PK_userid = 'admin'
+) M
+CROSS JOIN
+(
+select pk_userid, coupon_id, user_cp_status
+from tbl_user_coupon_status
+where PK_userid = 'admin' and user_cp_status = '1' and coupon_id = '?'
+) U
+
+-- 개인쿠폰조회
+select rno, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS , pk_userid, user_cp_status   
+from
+(
+select row_number() over(order by M.pk_userid desc) as rno ,
+M.pk_userid, C.pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, U.user_cp_status    
+from tbl_member M
+join tbl_user_coupon_status U
+on M.pk_userid = U.pk_userid
+join tbl_coupon C
+on C.pk_coupon_id = U.coupon_id
+
+)V
+where pk_userid='deokno' and CPSTATUS='1'
+
+select count(*)
+from tbl_user_coupon_status
+where pk_userid = 'deokno';
+
+
+select ceil(count(*)/5) 
+from tbl_user_coupon_status 
+where pk_userid = 'deokno';
+
+-- 쿠폰 페이징 처리
+select rno, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS , pk_userid, user_cp_status   
+from
+(
+select rownum as rno ,
+M.pk_userid, C.pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, U.user_cp_status    
+from tbl_member M
+join tbl_user_coupon_status U
+on M.pk_userid = U.pk_userid
+join tbl_coupon C
+on C.pk_coupon_id = U.coupon_id
+order by C.cenddate
+)V
+where pk_userid='deokno' and CPSTATUS='1' and rno between 11 and 15;
+
+-- 페이징 처리된 쿠폰 리스트 보여주기 
+ select rownum, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS , pk_userid, user_cp_status 
+ from 
+ ( 
+    select rownum as rno ,
+    pk_userid, pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, user_cp_status 
+    from (
+         select M.pk_userid, C.pk_coupon_id, C.cname, C.cprice, C.cdate, C.cstartdate, C.CENDDATE, C.CMINPRICE, C.CPSTATUS, U.user_cp_status 
+         from tbl_member M 
+         join tbl_user_coupon_status U 
+         on M.pk_userid = U.pk_userid 
+         join tbl_coupon C 
+         on C.pk_coupon_id = U.coupon_id 
+         order by C.cenddate
+         )V 
+     )v2
+ where pk_userid='admin' and CPSTATUS='1' and rownum between 1 and 5;
+
+delete from tbl_coupon
+
+delete from TBL_USER_COUPON_STATUS
+commit;
+-- 쿠폰 유효기간 만료 시 값 변경 
+
+
+update TBL_USER_COUPON_STATUS 
+set USER_CP_STATUS = '0' 
+where COUPON_ID = ?;
+
+UPDATE TBL_USER_COUPON_STATUS  U
+    SET USER_CP_STATUS = (
+    select U.user_cp_status  
+    from
+    (
+    select row_number() over(order by M.pk_userid desc) as rno ,
+    M.pk_userid, C.pk_coupon_id, cname, cprice, cdate, cstartdate, CENDDATE, CMINPRICE, CPSTATUS, U.user_cp_status    
+    from tbl_member M
+    join tbl_user_coupon_status U
+    on M.pk_userid = U.pk_userid
+    join tbl_coupon C
+    on C.pk_coupon_id = U.coupon_id
+    where M.pk_userid = 'deokno' and cenddate < sysdate 
+    )V
+);
+
+
+select *
+from tbl_user_coupon_status;
+
+insert into tbl_user_coupon_status (PK_USERID,COUPON_ID)
+values('admin','978379227619298');
 
 insert into tbl_coupon(PK_COUPON_ID, CNAME, CPRICE,  CSTARTDATE, CENDDATE, CMINPRICE) 
 	                   values('12312', '배송비무료쿠폰', '2599',  '23123', '123123','123123');
 
-delete from tbl_coupon
+
+
+
+
+-- 유저 쿠폰 등록시 중복확인 
+
+select coupon_id 
+ from tbl_user_coupon_status 
+ where coupon_id = 226231131867645 and PK_USERID = 'deokno' 
+
+select coupon_id
+from tbl_user_coupon_status
+where coupon_id = 735374052996278 and PK_USERID = 'admin'
+
+
+
+
 -- 탈퇴해제 
 update tbl_member set ck_status = '1' where pk_userid = 'deokno';
 
@@ -32,6 +176,10 @@ where pk_userid = 'deokno' ;
 select *
 from tbl_loginhistory;
 
+
+
+
+
 -- 쿠폰 테이블 생성
 create table tbl_coupon (
     pk_coupon_id    varchar2(20)  primary key,  -- 쿠폰아이디
@@ -47,6 +195,7 @@ create table tbl_user_coupon_status (
     pk_userid varchar2(20)  not null, -- 회원아이디
     coupon_id varchar2(20)  not null -- 쿠폰아이디
 )
+alter table tbl_user_coupon_status add user_cp_status varchar2(20) default '1'; -- 쿠폰사용여부 1 또는 0
 
 -- 회원
 create table tbl_member (

@@ -1,10 +1,16 @@
 package member.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import member.model.*;
+
 
 public class MyPageAction extends AbstractController {
 
@@ -23,6 +29,20 @@ public class MyPageAction extends AbstractController {
 			setViewPage("/login/join.book");
 			
 		} else {
+			
+			String userid = (String)session.getAttribute("userid");
+			
+			Map<String, String> paraMap = new HashMap<>();
+			paraMap.put("userid", userid);
+			
+			InterMemberDAO mdao = new MemberDAO();
+			//////////////////////////////////////////////////////////////리스트가져오기
+			
+			List<CouponVO> couponList = mdao.selectCouponList(paraMap);
+			int couponNum = mdao.CouponNum(paraMap);
+			
+			request.setAttribute("couponList", couponList);
+			request.setAttribute("couponNum", couponNum);
 			
 			setRedirect(false);
 			setViewPage("/WEB-INF/member/myPage.jsp");
