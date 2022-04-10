@@ -8,9 +8,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.ResponseWrapper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+
 
 import board.model.BoardDAO;
 import board.model.CommentVO;
@@ -20,8 +23,9 @@ import common.controller.AbstractController;
 import member.model.MemberVO;
 
 
-public class CommentSubmitAction extends AbstractController {
 
+public class CommentSubmitAction extends AbstractController {
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession();
@@ -31,60 +35,98 @@ public class CommentSubmitAction extends AbstractController {
 
 		 
 		 // 확인 버튼을 클릭했을 경우 
+		if( loginuser == null) {
+			String message = "관리자만 접근이 가능합니다.";
+			String loc = "javascript:history.back()";
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+			
+		//	super.setRedirect(false);
+			super.setViewPage("/WEB-INF/msg.jsp");
+			
+		}
+		else {
+			String method = request.getMethod();
+			
+			if("POST".equalsIgnoreCase(method)) {
+			
+		//	InterBoardDAO bdao = new BoardDAO();
+			
+			  String fk_userid = loginuser.getUserid(); 
+			  String cmtContent  = request.getParameter("commenttext"); 
+			  String cmtPasswd =request.getParameter("comment_pwd"); 
+				/* String cmtWriter =request.getParameter("cmtWriter"); */
+			  String fk_qna_num = (String) request.getParameter("pk_qna_num");
+			  
+			  System.out.println("와이?");
+			  
+			  
+				InterBoardDAO bdao = new BoardDAO();
+				  CommentVO cmtVO = new CommentVO();
+				  
+					/* Map<String, String> paraMap = new HashMap<>(); */
+				  
+				  
+				  
+				  cmtVO.setFk_userid(fk_userid);
+				  cmtVO.setCmt_contents(cmtContent);
+				  cmtVO.setCmt_passwd(cmtPasswd);
+				  cmtVO.setFk_qna_num(Integer.parseInt(fk_qna_num));
+				  
+				  
+				  
+				  String message = "";
+				  String loc = "";
+				  
+				  
+					
+					try {
+						
+						 bdao.writeCmtBoard(cmtVO);
+						
+						
+						
+							message = "글쓰기 성공!!!";
+						//	loc =  request.getContextPath()+"/board/qnaBoard.book";// qna목록페이지로 이동
+							response.getWriter().append("success"); // c페이지로 이동 
+							super.setViewPage("/WEB-INF/board/qnaDetail.jsp"); 
+						
+						
+					} catch(SQLException e) {
+						message = "SQL구문 에러발생";
+		                loc = "javascript:history.back()"; // 자바스크립트를 이용한 이전페이지로 이동하는것.
+			            
+		              e.printStackTrace();
+					}
+					request.setAttribute("message", message);
+		            request.setAttribute("loc", loc); 
+		           
+		            // super.setRedirect(false);  
+		            super.setViewPage("/WEB-INF/msg.jsp");
+				  
+			}         
+			else {
+				// GET 방식이라면
+				
+				  String message = "비정상적인 경로로 들어왔습니다";
+	              String loc = "javascript:history.back()";
+	               
+	              request.setAttribute("message", message);
+	              request.setAttribute("loc", loc);
+	              
+	          //  super.setRedirect(false);   
+	              super.setViewPage("/WEB-INF/msg.jsp");
+			}        
+				
+		}
+		 
 		
-		  String fk_userid = loginuser.getUserid(); 
-		  String cmtContent  = request.getParameter("commnettext"); 
-		  String cmtPasswd =request.getParameter("comment_pwd"); 
-			/* String cmtWriter =request.getParameter("cmtWriter"); */
-		  String pk_qna_num = (String) request.getParameter("pk_qna_num");
-		  
-		  System.out.println("와이?");
-		  
-		  CommentVO cmtVO = new CommentVO();
-		  
-		  Map<String, String> paraMap = new HashMap<>();
-		  
-		  
-		  paraMap.put("fk_userid", fk_userid); 
-		  paraMap.put("cmtContent", cmtContent);
-		  paraMap.put("cmtPasswd", cmtPasswd); 
-			/* paraMap.put("cmtWriter", cmtWriter); */
-		  paraMap.put("pk_qna_num", pk_qna_num);
 		  
 	
 		  
 		  
-		  String message = "";
-		  String loc = "";
 		  
-		  
-			
-			try {
-				InterBoardDAO bdao = new BoardDAO();
-				int n = bdao.writeCmtBoard(paraMap);
-				
-				
-				if(n==1) {
-					message = "글쓰기 성공!!!";
-				//	loc =  request.getContextPath()+"/board/qnaBoard.book";// qna목록페이지로 이동
-					response.getWriter().append("success"); // c페이지로 이동 
-					super.setViewPage("/WEB-INF/board/comment.jsp"); 
-				}
-				
-			} catch(SQLException e) {
-				message = "SQL구문 에러발생";
-                loc = "javascript:history.back()"; // 자바스크립트를 이용한 이전페이지로 이동하는것.
-	            
-              e.printStackTrace();
-			}
-			request.setAttribute("message", message);
-            request.setAttribute("loc", loc); 
-           
-            // super.setRedirect(false);  
-            super.setViewPage("/WEB-INF/msg.jsp");
-		  
-            
-            
             
             ////////////////
             

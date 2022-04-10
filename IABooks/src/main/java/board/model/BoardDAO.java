@@ -509,13 +509,13 @@ public class BoardDAO implements InterBoardDAO {
 	
 	//Qna 게시글에 댓글 작성하기
 	@Override
-	public int writeCmtBoard(Map<String, String> paraMap) throws SQLException{
+	public int writeCmtBoard(CommentVO cvo) throws SQLException{
 		
 		System.out.println("하잉");
 		int result = 0;
-		int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
+	//	int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
 		System.out.println("바잉");
-		System.out.println("들어왔니 fkqnanum? : " + fk_qna_num);
+	//	System.out.println("들어왔니 fkqnanum? : " + fk_qna_num);
 		
 		
 		try {
@@ -526,10 +526,10 @@ public class BoardDAO implements InterBoardDAO {
 					+ "values(SEQ_COMMENT.nextval, ?, ?, ?, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, paraMap.get("fk_userid"));
-			pstmt.setInt( 2, fk_qna_num);
-			pstmt.setString(3, paraMap.get("cmtPasswd"));
-			pstmt.setString(4, paraMap.get("cmtContent"));
+			pstmt.setString(1, cvo.getFk_userid());
+			pstmt.setInt( 2, cvo.getFk_qna_num());
+			pstmt.setString(3, cvo.getCmt_passwd());
+			pstmt.setString(4, cvo.getCmt_contents());
 			
 			result = pstmt.executeUpdate();
 			
@@ -538,16 +538,16 @@ public class BoardDAO implements InterBoardDAO {
 		} finally {
 			close();
 		}
-		
+		System.out.println("바잉2");
 		return result;
 	}
 	
 	
 	//Qna 게시글 댓글 읽어오기
 	@Override
-	public QnABoardVO readCmtContent(int pk_qna_num) throws SQLException {
-		InterBoardDAO bdao = new BoardDAO();
-		QnABoardVO qnaVO = null;
+	public CommentVO readCmtContent(int fk_qna_num) throws SQLException {
+		CommentVO cmtVO = null;
+		System.out.println("어퓨ㅣㅣ");
 		
 		try {
 			conn = ds.getConnection();
@@ -557,22 +557,39 @@ public class BoardDAO implements InterBoardDAO {
 					+ "			where isdelete = 0 and fk_qna_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			/* pstmt.setInt(1, fk_qna_num); */
+			 pstmt.setInt(1, fk_qna_num); 
 			
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-			
+				String fk_userid = rs.getString(1);
+				int nfk_qna_num = rs.getInt(2);
+				String cmt_passwd = rs.getString(3);
+				String cmt_contents = rs.getString(4);
+				String cmt_date = rs.getString(5);
+				int isdelete = rs.getInt(6);
+				
+				 cmtVO = new CommentVO();
+				 
+				 cmtVO.setFk_userid(fk_userid);
+				 cmtVO.setFk_qna_num(nfk_qna_num);
+				 cmtVO.setCmt_passwd(cmt_passwd);
+				 cmtVO.setCmt_contents(cmt_contents);
+				 cmtVO.setCmt_date(cmt_date);
+				 cmtVO.setIsdelete(isdelete);
+				
 			}
+			
+			
 		
 		
-			} catch(SQLException e) { 
-				e.printStackTrace();
-			}finally {
-				close();
-			}
-			
-			return qnaVO;
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return cmtVO;
 	}
 	
 	

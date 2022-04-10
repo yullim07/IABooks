@@ -25,13 +25,11 @@ public class QnaDetailAction extends AbstractController {
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			// 이전글, 다음글을 불러오기 위한 글상세보기의 게시판번호 불러오기
 			
-		//	System.out.println("찾@@자"+request.getParameter("issecret"));
 			int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num"));
 			
 			MemberVO issecret = (MemberVO) session.getAttribute("issecret");
 			System.out.println("찾@@자"+issecret);
 			
-		//	System.out.println("비밀글이니?"+qna_issecret);
 			System.out.println("받아온 글번호 : " + pk_qna_num);
 			String currentNum = request.getParameter("pk_qna_num");
 			System.out.println("받아온 글번호2 : " + currentNum);
@@ -49,36 +47,25 @@ public class QnaDetailAction extends AbstractController {
 			
 			QnABoardVO qnaVO = new QnABoardVO();
 			
-			//qnaVO.getQna_issecret();
 			
 			System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
 			
 			System.out.println("너닌?"+ qnaVO.getQna_issecret());
 			System.out.println("찾자"+request.getParameter("qna_issecret"));
-		//	int qna_issecret = qnaVO.getQna_issecret();
-		//	int qna_issecret = Integer.parseInt();
 			
 			InterBoardDAO bdao = new BoardDAO();
 			
 			qnaVO.setPk_qna_num(pk_qna_num);
-		//	qnaVO.setQna_issecret(qna_issecret);
-		//	String qna_issecret = request.getParameter("qna_issecret");
 			
-		//	System.out.println("머냐?"+qna_issecret + qnaVO.getQna_issecret());
-		//	bdao.qnaReadCountUp(pk_qna_num);
 			qnaVO = bdao.readqnaContent(pk_qna_num);
 			
 			System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
 			System.out.println("idid "+ qnaVO.getFk_userid());
-		//	System.out.println("loginuser : "+ loginuser.getUserid());
 			String message  ="";
 			String loc = "";
 			
-		//	qnaVO = new QnABoardVO();
 			if( qnaVO.getQna_issecret() == 1 ){
 				
-				//qnaVO.getFk_userid().equals(loginuser.getUserid()
-				//loginuser.getUserid().equals(qnaVO.getFk_userid())
 				
 				
 				if ( ! (loginuser.getUserid().equals(qnaVO.getFk_userid())) && loginuser.getUserid() == null     ){
@@ -98,8 +85,6 @@ public class QnaDetailAction extends AbstractController {
 			
 			
 		
-		//	System.out.println("loginuser.getUserid()" + loginuser.getUserid());
-		//	qnaVO = new QnABoardVO();
 			QnABoardVO qnaPrevNext = new QnABoardVO(); // 이전글 다음글을 받아옴.
 		
 			/*

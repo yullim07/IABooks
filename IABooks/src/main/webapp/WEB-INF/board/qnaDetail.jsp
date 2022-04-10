@@ -27,6 +27,10 @@
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" /> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+
 <script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -42,7 +46,7 @@
 		$("button#submitCmt").click( () =>{
 			console.log("돼요?");
 			alert("?되나?");
-			 	var commnettext=$("#commnet_content").val(); //댓글 내용
+			 	var commenttext=$("#comment_content").val(); //댓글 내용
 		        var pk_qna_num="${(requestScope.qnaVO).pk_qna_num}"; //게시물 번호
 		        var comment_pwd = $("#comment_pwd").val();
 		     /*    var cmtWriter = ${(requestScope.qnaVO).member.name}.val();  "cmtWriter" : cmtWriter , */
@@ -50,21 +54,27 @@
 		        
 		        	console.log("나오는거니????"+${qnaVO.pk_qna_num});
 		        var param= {  "comment_pwd" : comment_pwd
-		        		   , "commnettext": commnettext,"fk_userid" : fk_userid , "pk_qna_num": pk_qna_num
-		        		   ,  };
-		        
+		        		   , "commenttext": commenttext,"fk_userid" : fk_userid , "pk_qna_num": pk_qna_num
+		        		     }; 
+		       /*  const queryString = $("form[name=commentFrm]").serialize(); */
 		        //var param="replytext="+replytext+"&bno="+bno;
 		        $.ajax({
 		            type: "post", //데이터를 보낼 방식
-		            url: "<%= ctxPath%>/board/commentSubmit.book", //데이터를 보낼 url
+		            url: "<%= ctxPath%>/board/commentSubmit.book", 
 		            data: param, //보낼 데이터
-		            dataType:"JSON",
+		            dataType:"json",  
 		            success: function(json){ //데이터를 보내는것이 성공했을시 출력되는 메시지
-		            	
+		            	console.log("json : ", json);
+		            	if(json.n == 1) {
 		            		alert("댓글이 등록되었습니다.");
 							//getAllReplies(); //댓글 새로고침
 					
-		                listComment(); //댓글 목록 출력
+		                	listComment(); //댓글 목록 출력
+		            	}
+		            	 else{
+		            		 alert("댓글등록이 실패했습니다.");
+		            	 }
+		            	 $("textarea#comment_content").val("").focus();
 		            },
 		            error:function(request, status, error){
 		               alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
@@ -83,14 +93,45 @@
 	//댓글 목록 출력 함수
 	function listComment(){
 		$.ajax({
-	        type: "get", //get방식으로 자료를 전달한다
-	        url: "<%= ctxPath%>/board/commentList.book?pk_qna_num="+${qnaVO.pk_qna_num}, //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
-	        success: function(result){ //자료를 보내는것이 성 공했을때 출력되는 메시지
-	        	if(result=='success'){
-					alert('댓글 입력 성공');
-					getAllReplies(); //댓글 새로고침
-				}
-			}
+	        type: "get", //get방식으로 자료를 전달한다  //컨트롤러에 있는 list.do로 맵핑하고 게시판 번호도 같이 보낸다.
+	        url: "<%= ctxPath%>/board/commentList.book",
+	        data:{"pk_qna_num":"${requestScope.cmtVO.fk_qna_num}"},
+	        dataType:"JSON", 
+	        		
+	        success: function(json){ //자료를 보내는것이 성 공했을때 출력되는 메시지
+	        	let html = "";
+	        	console.log("출력");
+	        	
+	        	if(json.length > 0) {   
+	        		$.each(json, function(index, item){ 
+	        			 var loginuserid = "${sessionScope.loginuser.userid}";
+	        			 var writeuserid = item.fk_userid;
+	        			 html +=  "<div> "+item.comment_pwd+"</div>"
+                         + "<div class='customDisplay'>"+item.pk_qna_num+"</div>"      
+                         + "<div class='customDisplay'>"+item.commenttext+"</div>";
+                  
+		                  if( loginuserid == "") {
+		                     html += "<div class='customDisplay spacediv'>&nbsp;</div>";
+		                  }      
+		                  else if( loginuserid != "" && writeuserid != loginuserid ) {
+		                     html += "<div class='customDisplay spacediv'>&nbsp;</div>";
+		                  }    
+		                  else if( loginuserid != "" && writeuserid == loginuserid ) {
+		                     html += "<div class='customDisplay spacediv commentDel' onclick='delMyReview("+item.pk_cmt_num+")'>댓글삭제</div>";
+		                  }
+	        		});
+	        	}//end of if -----
+	        	 else {
+	                 html += "<div>등록된 상품후기가 없습니다.</div>";
+	              }// end of else ---------------------
+	              
+	              $("div#listComment").html(html);
+	        	
+	        	
+	        },
+	        error: function(request, status, error){
+	            alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	         }
 	        	
 	        	//result : responseText 응답텍스트(html)
 	        	
@@ -210,16 +251,16 @@
 		<div class="comment" style=" font-size: 14px; padding:auto 20px; background-color:#fbfafa; border: 1px solid #e9e9e9; margin-top: 70px;">
 			<c:set var="qnaVO" value="${qnaVO}" />
 			<c:if test="${ not empty sessionScope.loginuser }">
-			<%-- <form class="comment" method="post"> --%>
+			<%--  <form class="comment" method="post">  --%>
 				<div class="mb-1"><strong>댓글달기</strong></div>
 					<div class="mb-3">
 						<a>이름 : </a><input id="cmtWriter" name="cmtWriter" type="text" value="${sessionScope.loginuser}"/> 
 						
-						<a>비밀번호 : </a><input id="comment_pwd" name="comment_pwd" type="password" value=""/>
+						<a>비밀번호 : </a><input id="comment_pwd" name="comment_pwd" type="password"  autocomplete="off" value=""/>
 					</div>
 					<div style="vertical-align: middle;">
-						<textarea style="float:left; width:90%; height: 50px;"  id="commnet_content" name="commnet_content" ></textarea>
-						<button onclick="" id ="submitCmt" class=" submit" type="button" style="color: white; float:right; font-size: 14px; border: none; background-color: #999; width:9%; height: 50px; border-radius: 10%;">확인</button>
+						<textarea style="float:left; width:90%; height: 50px;"  id="comment_content" name="comment_content" ></textarea>
+						<button  id ="submitCmt" class="submitCmt" type="button" style="color: white; float:right; font-size: 14px; border: none; background-color: #999; width:9%; height: 50px; border-radius: 10%;">확인</button>
 					</div>
 				
 					<input type="hidden" class="fk_userid" name="fk_userid" id="fk_userid" value="${(requestScope.qnaVO).fk_userid}"/>

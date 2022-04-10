@@ -32,11 +32,12 @@ public interface InterBoardDAO {
 	   int deleteQnaBoard(QnABoardVO qnaVO) throws SQLException;
 	   
 	   
-	   //Qna 게시글에 댓글 작성하기
-	   int writeCmtBoard(Map<String, String> paraMap) throws SQLException;
+		/*
+		 * //Qna 게시글에 댓글 작성하기 int writeCmtBoard(CommentVO cmtVO) throws SQLException;
+		 */
 	   
 	   //Qna 게시글 댓글 읽어오기
-	   QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
+	   CommentVO readCmtContent(int pk_qna_num) throws SQLException;
 
 	
 	   // Qna 게시판 조회수 증가
@@ -201,8 +202,15 @@ public interface InterBoardDAO {
 
 	// FAQ 카테고리 불러오기
 	List<HashMap<String, String>> getFaqCateList() throws SQLException;
+
 	
-	
+	int writeCmtBoard(CommentVO cvo) throws SQLException;
+
+	/*
+	 * // ***** 댓글목록(Comment)을 보여줄 메소드 생성하기 ***** // // VO를 사용하지 않고 Map 으로 처리해보겠습니다.
+	 * List<HashMap<String, String>> getCommentList() throws SQLException;
+	 * 
+	 */
 	
 	
 	

@@ -13,28 +13,53 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import board.model.BoardDAO;
+import board.model.CommentVO;
 import board.model.InterBoardDAO;
 import board.model.QnABoardVO;
 import common.controller.AbstractController;
 import member.model.MemberVO;
+
 
 public class CommentListAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		  
-		
 		HttpSession session  = request.getSession();
-		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+		int fk_qna_num = Integer.parseInt(request.getParameter("fk_qna_num")); // 제품번호 
+		System.out.println("말해봐");
+		InterBoardDAO bdao = new BoardDAO();
+	      
+	      // 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
+	      CommentVO cmtVO = bdao.readCmtContent(fk_qna_num);
 		
 		
+	      if( cmtVO == null) {
+		         // GET 방식이므로 사용자가 웹브라우저 주소창에서 장난쳐서 존재하지 않는 제품번호를 입력한 경우
+		         String message = "검색하신 댓글은 존재하지 않습니다.";
+		         String loc = "javascript:history.back()";
+		         
+		         request.setAttribute("message", message);
+		         request.setAttribute("loc", loc);
+		         
+		      //   super.setRedirect(false);
+		         super.setViewPage("/WEB-INF/msg.jsp");
+		         
+		         return;
+		      }
+		      else {
+		         // 제품이 있는 경우
+		         request.setAttribute("cmtVO",cmtVO);         // 제품의 정보 
+		         
+		       // super.setRedirect(false);
+		         super.setViewPage("/WEB-INF/board/qnaDetail.jsp");
+		      }
+		      
+	      
+	      
+	      
 		
-		int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num"));
-		
-		
-		int pk_cmt_num =Integer.parseInt(request.getParameter("pk_cmt_num"));
        /*
 		List<CommentVO> cmtList=cmtVO.select(pk_cmt_num);
 		 JSONArray jsonArray=new JSONArray();
