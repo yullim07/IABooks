@@ -45,7 +45,7 @@ public class ReviewSubmitAction extends AbstractController {
 			//System.out.println(" 제발 가져와 : " + cda);
 			
 			String fk_pnum = request.getParameter("fk_pnum"); // 제품번호를 받아온다.
-			System.out.println(" 제발 가져와 : " + fk_pnum);
+			// System.out.println(" 제발 가져와 : " + fk_pnum);
 			
 			
 			String userid = loginuser.getUserid();

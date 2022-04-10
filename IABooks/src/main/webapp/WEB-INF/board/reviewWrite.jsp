@@ -57,8 +57,23 @@
 	
 	function goReviewSubmit() {
 		  
-		  // *** 필수입력 사항에 모두 입력이 되었는지 검사한다. *** //
-		  
+			// *** 필수입력사항에 모두 입력이 되었는지 검사한다. *** //
+			/*
+			let b_FlagRequiredInfo = false;
+			
+			$("input#reviewBoardPasswd").each(function(index, item) {
+				const data = $(item).val().trim();
+				if(data == ""){
+					alert("*표시된 필수입력사항은 모두 입력하셔야 합니다.");
+					b_FlagRequiredInfo = true;
+					return false; // each문에서 for문에서 break; 와 같은 기능이다.
+				}
+			});
+			
+			if(b_FlagRequiredInfo) {
+				return;
+			}
+		  	*/
 		  const frm = document.reviewSubmitFrm;
 		  frm.action = "reviewSubmit.book";
 		  frm.method = "post";
@@ -143,10 +158,10 @@
 		    </tr>
 		    
 		    <tr>
-		      
+			<%-- ${revVO.fk_pnum} ${pk_pro_num} --%>
 		      <td colspan="2">
 		      	
-		      		<textarea class="summernote" name="reviewBoardContent" id="reviewBoardContent">${revVO.fk_pnum} ${pk_pro_num}</textarea>
+		      		<textarea class="summernote" name="reviewBoardContent" id="reviewBoardContent"></textarea>
                         <script>
                         $('.summernote').summernote({
                         	height: 300,                 // 에디터 높이
@@ -173,7 +188,7 @@
 		    <tr>
 		      <th>비밀번호</th>
 		      <td>
-		      	<input type="text" id="reviewBoardPasswd" name="reviewBoardPasswd" type="password"/>
+		      	<input type="password" id="reviewBoardPasswd" name="reviewBoardPasswd" size="20" maxlength="20" required />
 		      </td>
 		    </tr>
 		    </tbody>
