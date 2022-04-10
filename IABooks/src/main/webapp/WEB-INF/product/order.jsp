@@ -1,310 +1,622 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%
 	String ctxPath = request.getContextPath();
 %>
 
-<meta charset="UTF-8">
-<title>in사과북스::주문상세</title>
+<title>주문서작성</title>
 
-<!-- 부트스트랩 css -->
-<link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css">
+<!-- 내가만든 CSS -->
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_order.css" /> 
+<!-- Optional JavaScript-->
+<script type="text/javascript" src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+	
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>	
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+		//회원정보동일 버튼클릭시 발생
+		$("input#user_address").click(function() {
+			userAddress();
+		});
+		
+		$("input#new_address").click(function() {
+			newAddress();
+		});
+		
+		//전체체크박스설정		
+		$("input#selectAll").bind("click",function () {
+            if ($("input#selectAll").prop("checked")) {
+                $("input#proCheck").prop("checked", true);
+            } else {
+                $("input#proCheck").prop("checked", false);
+            }
+		});//end of $("input#selectAll").click(function ()
+			
+        $("input#proCheck").bind("click",function() {
+            if ($("input[name='proCheck']:checked").length == $("input[name='proCheck']").length) {
+                $("input#selectAll").prop("checked", true);
+            } else {
+                $("input#selectAll").prop("checked", false);
+            }
+        });	//end of $(".test").click(function()
+        		
+		//선택상품 삭제		
+		$("span#deleteSelect").click(function () {
+			var cnt = $("input[name='proCheck']:checked").length;
+	      	var cartNoArr = new Array();
+	        $("input[name='proCheck']:checked").each(function() {
+	        	cartNoArr.push($(this).val());
+	        });
+	        if(cnt == 0){
+	            alert("선택된 제품이 없습니다.");
+	        }
+	        const cartNoStr = cartNoArr.join();
+	        
+	        proDeleteSelect(cnt, cartNoStr);
+		});//end of $("li#btn_delete").click(function ()		
+		
+	});//end of $(document).ready(function()
 
-<!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/cart_list.css" />
+	function openDaumPOST() {
 
+		new daum.Postcode({
+			oncomplete: function (data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+	
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				let addr = ''; // 주소 변수
+				let extraAddr = ''; // 참고항목 변수
+	
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+	
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					}
+					// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					if (extraAddr !== '') {
+						extraAddr = ' (' + extraAddr + ')';
+					}
+					// 조합된 참고항목을 해당 필드에 넣는다.
+					document.getElementById("extraAddress").value = extraAddr;
+					
+				} else {
+					document.getElementById("extraAddress").value = '';
+				}
+	
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('postcode').value = data.zonecode;
+				document.getElementById("address").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				document.getElementById("detailAddress").focus();
+			}
+		}).open();
+
+	}// end of openDaumPOST()
+
+	function detailOrder() {
+		$("div.deiailOrderBox").show();
+	}//end of function detailOrder()
+
+	function userAddress() {//회원 정보와 동일
+	//"${sessionScope.loginuser.userid}"
+	
+	$("input#name").val("${sessionScope.loginuser.name}");
+	$("input#postcode").val("${sessionScope.loginuser.postcode}");
+	$("input#address").val("${sessionScope.loginuser.address}");
+	$("input#detailAddress").val("${sessionScope.loginuser.detailaddress}");
+	$("input#extraAddress").val("${sessionScope.loginuser.extraaddress}");
+	
+	var phone = "${sessionScope.loginuser.phone}";
+	phone = phone.split("-");
+	$("input#hp1").val(phone[0]);
+	$("input#hp2").val(phone[1]);
+	$("input#hp3").val(phone[2]);
+	
+	$("input#email").val("${sessionScope.loginuser.email}");
+
+	}//end of userInfo()
+	
+	function newAddress() {
+		$("input#name").val("");
+		$("input#postcode").val("");
+		$("input#address").val("");
+		$("input#detailAddress").val("");
+		$("input#extraAddress").val("");
+		$("input#hp2").val("");
+		$("input#hp3").val("");
+		$("input#email").val("");
+		
+	}//end of function newAddress()
+	
+	function payment() {//결제버튼 클릭
+		if(	$("input#name").val().trim() == "" || $("input#postcode").val().trim() == "" || $("input#address").val().trim() == "" 
+			|| $("input#detailAddress").val().trim() == "" || $("input#extraAddress").val().trim() == "" || $("input#hp2").val().trim() == "" 
+			|| $("input#hp3").val().trim() == "" || $("input#email").val().trim() == "" ){
+			
+			alert("필수입력사항을 모두 입력해주세요")
+			return;
+			
+		}
+		 var frm = document.paymentFrm;
+		 var url = "payment.book";
+		 frm.action =url; 
+		 frm.method="post";
+		 frm.target="paymentFrm";
+		 frm.submit(); 
+	
+	}//end of function payment() 
+	
+	//선택삭제버튼 함수
+	function  proDeleteSelect(cnt, cartNoStr) {
+		$.ajax({
+			url:"<%= ctxPath%>/product/proDeleteSelect.book",
+			type:"POST",
+			data:{"cnt":cnt,
+				  "cartNoStr":cartNoStr}, 
+			dataType:"JSON",
+			success:function(json) {
+				if(json.proDeleteSelect == 1) {
+					alert("선택한 제품이 삭제되었습니다.");
+					location.reload();
+				}else{
+					alert("오류발생"); 
+				}
+
+			},
+			error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			
+				if(request.responseText.match("로그인")){
+					if(!alert(request.responseText)) document.location = "<%= ctxPath%>/login/join.book";
+				}else{
+					alert(request.responseText);
+					location.reload();
+				}
+				
+			}
+		});//end of $.ajax
+	}//end of function  proDeleteSelect(cnt, cartNoStr) 
+	
+	
+</script>
 
 <style type="text/css">
-	.container {
-		font-size: 13pt;
-		width: 100%;
-	}
+
 	
-	#frame {
-		width: 100%;
-		margin: 0 auto;
-	}
-	
-	#frame2 {
-		border-bottom: solid 1px #;
-		padding-bottom: 10px;
-	}
-	
-	/* 홈 > 주문상세 */
-	.home { 
-		float: right;
-		clear: both;
-	}
-	
-	/* 계산 테이블 */
-	table.calc1 {
-		clear: both;
-		border: solid 1px #e0e0eb;
-		border-collapse: collapse;
-		background-color: #f5f5f0;
-		width: 100%;
-		font-size: 10pt;
-	}
-	
-	/* 계산 테이블 - 제목 */
-	table.calc1 th {
-		border: solid 1px #e0e0eb;
-		padding: 10px 0;
-		text-align: center;
-	}
-	
-	/* 계산 테이블 - 내용 */
-	table.calc1 td {
-		border: solid 1px #e0e0eb;
-		text-align: center;
-	}
-	
-	/* 총 결제예정금액 테이블 */
-	table.calc2 {
-		border: solid 1px #e0e0eb;
-		border-collapse: collapse;
-		background-color: #f5f5f0;
-		width: 100%;
-		font-size: 10pt;
-	}
-	
-	/* 총 결제예정금액 테이블 - 제목 */
-	table.calc2 th {
-		border: solid 1px #e0e0eb;
-	}
-	
-	/* 총 결제예정금액 테이블 - 내용 */
-	table.calc2 td {
-		border: solid 1px #e0e0eb;
-		text-align: center;
-	}
-	
-	/* calc2 테이블 - 가격 ~원 */
-	.price {
-		font-size: 20pt;
-		font-weight: bold;
-	}
-	
-	/* bootstrap 버튼 */
-	.btn {
-		border: none;
-		color: #fff;
-		padding: 5px 10px;
-		font-size: 13px;
-		cursor: pointer;
-		border-radius: 5px;
-	}
-	
-	.default {background-color: #fff; border: solid 1px grey; color: black;}
-	.default:hover {background-color: #ddd;}
-	.backBtn {background-color: #fff; border: solid 1px grey;}
-	
-	/* 선택상품 삭제, 해외배송 장바구니로 이동 float */
-	.btnfloat {float: left;}
-	
-	/* 선택상품 장바구니, 견적서 출력 float */
-	.btnfloat2 {float: right;}
-	
-	/* clear */
-	.clearboth {clear: both;}
-	
-	/* 쇼핑계속하기 */
-	.footbtn{float: right; font-weight: bold; font-size: 12pt; border-radius: 3px;}
-	
-	/* 전체상품주문 선택상품주문 쇼핑계속하기 버튼 통합 */
-	#allProduct, #productClear, #footerbtn {padding: 11px 25px; }
-	
-	/* 전체상품주문 버튼 */
-	#allProduct {margin-left: 140px; background-color: #264d73; color: #fff; 
-		font-weight: bold; font-size: 12pt;}
-	/* 선택상품주문 버튼 */ 
-	#productClear {background-color: grey; color: #fff; font-weight: bold; font-size: 12pt;}
-	
-	/* 구매상품 해외상품 hover*/
-	.aa:hover { cursor: pointer;}
-	
+/* 회원 */
+
+
+ table.cartListTbl {
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 10px;
+}
+
+table.cartListTbl td {
+	text-align: center;
+	padding-left: 10px;
+	height: 100px;
 	
 }
+table.cartListTbl span {
+color: #212529;
+}
+
+table.cartListTbl a:hover {
+text-decoration-line: none;
+}
+
+table.cartListTbl img {
+cursor: pointer;
+}
+
+table.cartListTbl > tfoot > tr:first-child td {
+	height: 70px;
+	background-color: #FBFAFA;
+	padding-right: 10px;
+}
+
+table.cartListTbl > tfoot > tr:last-child td {
+	height: 90px;
+	vertical-align: top;
+	padding-right: 10px;
+	padding-top: 10px;
+	font-size: 15px;
+}
+
+table.cartListTbl .pqty{
+width: 50px;
+height: 26px;
+padding-left: 2px;
+
+}
+
+table.cartListTbl > thead > tr > td {
+	height: 50px;
+	background-color: #FBFAFA;
+}
+
+table.cartListTbl  tr {
+	border-top: solid 2px #e8e8e8;
+}
+
+table.cartListTbl tr:last-child {
+	border-bottom: solid 2px #e8e8e8;
+}
+
+
+table.cartTotalTbl {
+width: 100%;
+}
+
+table.cartTotalTbl tr:first-child td {
+	text-align: left;
+	padding-left:50px;
+	height: 50px;
+	background-color: #FBFAFA;
+}
+
+table.cartTotalTbl tr:last-child td {
+	text-align: left;
+	padding-left:50px;
+	height: 70px;
+	font-weight: bold;
+	font-size: 24px;
+}
+
+table.cartTotalTbl  tr {
+	border-top: solid 2px #e8e8e8;
+}
+
+table.cartTotalTbl tr:last-child {
+	border-bottom: solid 2px #e8e8e8;
+}
+
+	div.order {
+	 text-align: center;
+	 margin: 20px 0px 200px 0px ;
+	}
 	
+	div.order span:last-child {
+	position: relative;
+	right: 10px;
+	float: right;
+	text-align: right;
+	}
+	
+	div.order img {
+	cursor: pointer;
+	}
+
+/* 상품없음 */
+table.interested_none { 
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 10px;
+}
+
+table.interested_none td {
+	text-align: center;
+	height: 100px;
+}
+
+table.interested_none tr {
+	border-top: solid 2px #e8e8e8;
+	border-bottom: solid 2px #e8e8e8;
+}
+
+
+
+
+/*  페이징 CSS 중복   */
+
+	div.pagination {
+	  display: inline-block;
+	  width: 100%;
+	  text-align: center;
+	  margin: 20px 0;
+	}
+	
+	div.pagination a {
+	  color: black;
+	  text-decoration: none;
+	  width: 32px;
+	  height: 32px;
+	  text-align: center;
+	}
+	
+	div.pagination a.active {
+		border-bottom: solid 2px black;
+	  	
+	}
+	
+	div.pagination a img {
+		margin-top: -4px;
+		vertical-align: middle;
+	
+	}
+	
+	div.pagination a:hover {
+		font-weight: bolder;
+		opacity: 0.3;
+	}
 	
 	
 </style>
 
-<%-- <jsp:include page="../header.jsp" /> --%>
-<script type="text/javascript">
+<jsp:include page="/WEB-INF/header.jsp"/>
 
-	$(document).ready(function() {
-		
-		/* 체크박스 */
-		$(".calc1 thead input:checkbox[id=check]").click(function() {
-			var bool = $(this).prop("checked");
-			#(".calc1 tbody input:checkbox[name=checkbox]").prop("checked", bool);
-		});
-		
-		/* 체크박스 */
-		$(".calc1 tbody input:checkbox[name=check]").click(function() {
-			var flag = false;
-			$(".calc1 tbody input:checkbox[name=checkbox]").each(function() {
-				var bool = $(this).prop("checked");
-				
-				if(!bool) {
-					$(".calc1 thead input:checkbox[id=check]").prop("checked", false);
-					flag = true;
-					return false;
-				}
-			});
-			
-			if(!flag) {
-				$(".calc1 thead input:checkbox[id=check]").prop("checked", true);
-			}
-		});
-		
-		/* 상품주문 버튼 클릭시 주문페이지로 넘어가기 */
-		$(".orderGobtn").click(function() {
-			var frm = document.cartForm;
-			frm.method = "POST";
-			frm.action = "<%=ctxPath %>/product/order.book";
-			frm.submit();
-		});
-		
-		
-	}); // end of $(document).ready() --------------------
-	
-	
-	// Function Declartion
-	
-	
-	
-	
-</script>
-<body>
 	<div class="container">
-		<div id="frame">
-			<form>
-				<div id="frame2">
-					<span style="font-size: 16pt; font-weight: bold;">주문상세</span>
-					<span class="home">홈 > 주문상세</span>
-					<span> </span>
-				</div>
+	<div class="titleArea">
+		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이 쇼핑</strong>
+		<hr style="border: solid 2px #e8e8e8; margin-bottom: 3%;">
+    </div>
+	
+	<div class="orderImg">
+		<img src="<%= ctxPath %>/images/product/order.jpg" />
+	</div>
+		
+	<form name="paymentFrm">
+		<table class="benefit_info">
+			<tr>
+				<td>
+					<span style="padding-left: 30px;">혜택정보</span>
+					<img src="<%= ctxPath%>/images/bar_eee.gif" style="width: 2px; height: 20px;" />
+					가용적립금 : <span><a>0</a></span>
+					쿠폰 : <span><a>0</a></span>
+				</td>
+			</tr>
+		</table>
+		
+		<!-- 영준님 테이블 가져오기 -->
+
+
+
+		<table class="cartListTbl">
+			<thead>
+				<tr>
+					<td style="width: 4%"><input type="checkbox" id="selectAll" name="selectAll" /></td>
+					<td style="width: 10%">이미지</td>
+					<td style="width: 30%">상품정보</td>
+					<td style="width: 10%">판매가</td>
+					<td style="width: 6%">수량</td>
+					<td style="width: 10%">적립금</td>
+					<td style="width: 10%">배송비</td>
+					<td style="width: 10%">합계</td>
+				</tr>
+			</thead>
 				
-				<br/>
+			<tbody>
 				
-				<div>
-					<table class="calc1">
-						<tr>
-							<th class="aa">구매상품</th>
-							<th class="aa">해외상품</th>
-							<th style="width: 700px;"></th>
-						</tr>
-					</table>
-				</div>
-				
-				<br/>
-				
-				<%-- 상품정보 테이블 --%>
-				<div>
-					<table class="calc1">
-						<thead>
-							<tr>
-								<th colspan="10" style="text-align: left; padding-left: 10px;">일반상품(1)</th>
-							</tr>
-							<tr>
-								<th><input type="checkbox" name="checkbox" id="check"></th>
-								<th><span>이미지</span></th>
-								<th style="width: 550px;"><span>상품정보</span></th>
-								<th>판매가</th>
-								<th>수량</th>
-								<th style="width: 100px;">적립금</th>
-								<th>배송구분</th>
-								<th>배송비</th>
-								<th>합계</th>
-								<th>선택</th>
-							</tr>
-						</thead>
+				<c:forEach var="cvo" items="${requestScope.order}" varStatus="status">
+					<tr>							
+						<%-- 체크박스 --%>
+						<td> 
+							<input type="checkbox" name="proCheck" id="proCheck" value="${cvo.pk_cartno}" />
+						</td>
 						
-						<tbody>
-							<tr style="height: 90px; background-color: #fff;">
-								<td style="text-align: left; text-align: center; border-right: none;">
-									<input type="checkbox" name="checkbox" />
-								</td>
-								<td style="text-align: left; padding-left: 10px; border-left: none;">
-									<img src="<%=ctxPath%>/images/product/book.jpg" width="100px;">
-								</td>
-								<td style="text-align: left; padding-left: 10px; border-left: none; font-weight: bold;">
-									책제목쓸곳
-								</td>
-								<td>
-									<span style="padding-left: 10px;">0</span>원
-								</td>
-								<td style="width: 80px;">
-									<input type="number" style="text-align: right; width: 43px;" min="1" max="99" step="1" value="1">
-									<button class="btn default" style="border-radius: 3px; size: 10px;">변경</button>							
-								</td>
-								
-								<td>-</td> <%-- 적립금 --%>
-								<td>기본배송</td>
-								<td>3000원(5만원 이상 주문 시 배송비무료)</td>
-								<td><span>0</span>원</td>
-								
-								<td>
-									<button class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">주문하기</button>
-									<button class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">관심상품등록</button>
-									<button class="btn default" style="border-radius: 3px; width: 90px; margin-bottom: 3px; font-size: 11px;">삭제</button>
-								</td>
-							</tr>
-						</tbody>
-						<tfoot>
-							<tr style="height: 60px;">
-								<td colspan="5" style="border-right: none; text-align: left; padding-left: 10px;">
-									<span>[기본배송]</span>
-								</td>
-								<td colspan="5" style="border-left: none; text-align: right; padding-right: 10px;">
-									상품금액 <span>0</span> + <span>배송 3000 = 합계</span>&nbsp;<span style="font-weight: bold; font-size: 15pt;">0</span>
-								</td>
-							</tr>
-						</tfoot>
-					</table>
-					
-					<div style="margin: 10px 0;">
-						<span style="margin: 0 10px;" class="btnfloat">선택상품을</span>
-						<button class="btn default btnfloat" style="background-color: grey; color: #fff">삭제하기</button>
-						<button class="btn default btnfloat2" onclick="javascript:history.back()">이전페이지</button>
-						<span class="clearboth"></span>
-					</div>
-				</div>
-				
-				
-				<br><br>
+						<%-- 이미지 --%>
+						<td> 
+							<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
+							<img src="<%=ctxPath%>/images/product/${cvo.category.cate_name}/${cvo.product.pro_imgfile_name}" style="width: 100%"/>
+							</a>
+						</td>
+						
+						<%-- 상품정보 --%>
+						<td> 
+							<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
+								<span class="cartPname">${cvo.product.pro_name}</span>
+							</a>
+						</td>
+						
+						<%-- 판매가 --%>
+						<td> 
+							<span class="orderPrice"><fmt:formatNumber value="${cvo.product.pro_saleprice}" pattern="###,###" />원</span>
+						</td>
+						
+						<%-- 주문수량 + 장바구니 번호(숨김) --%> 
+						<td>
+							<span class="pqty">${cvo.ck_odr_qty}</span>
+						</td>
+						
+						<%-- 적립금 --%>
+						<td> 
+							<span id="totalPoint">${cvo.totalPoint}p</span>
+						</td>
+						 					 
+						<%-- 배송비(주문총액이 5만원 이상이면 무료, 아니면 3000원) --%>
+						<c:if test="${status.first}">
+							<td rowspan= "${fn:length(cartList)}" >
+								<span class="shippingFee">
+									<c:if test="${requestScope.totalPrice >= 50000}">무료</c:if>
+									<c:if test="${requestScope.totalPrice < 50000}">3,000원</c:if>
+								</span>
+							</td>
+						</c:if>
+						<%-- 주문총액 --%>
+						<td>
+							<span id="partsaleprice"><fmt:formatNumber value="${cvo.partPrice}" pattern="###,###" />원</span>
+						</td>
+					</tr>
+				</c:forEach>
 				
 			
-				<%-- 결제예정금액 테이블 --%>
-				<table class="calc2">
+			</tbody>
+			
+			<tfoot>
+				<tr>
+					<td colspan="2" class="text-left">
+						<span>[기본배송]</span>
+					</td>
+
+					<td colspan="6" class="text-right">
+						<span>상품구매금액&nbsp;</span>
+						<span class="totalPrice" id="totalPrice"><fmt:formatNumber value="${requestScope.totalPrice}" pattern="###,###" />원</span>
+						<span>&nbsp;+&nbsp;배송비</span>
+						<span class="shippingFee">
+							<c:if test="${requestScope.totalPrice >= 50000}">무료</c:if>
+							<c:if test="${requestScope.totalPrice < 50000}">3,000원</c:if>
+						</span>
+						<span>&nbsp;=&nbsp;합계&nbsp;:&nbsp;</span>
+						<span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
+					</td>
+				</tr>
+				<tr style="border-bottom: none;">
+					<td colspan="3" class="text-left">
+						<span id="deleteSelect">
+							선택상품&nbsp;&nbsp;<img src="<%= ctxPath %>/images/product/btn_delete2.gif" />
+						</span>
+					</td>
+					<td colspan="5" class="text-right">
+						<span>
+							<img src="<%= ctxPath %>/images/product/btn_prev.gif" onclick=""/>
+						</span>	
+					</td>
+				</tr>	
+			</tfoot>	
+		</table>
+		
+		<hr style="border: solid 1px black;">	
+		
+		<strong style="font-size: 12pt; padding-left: 20px;">배송정보</strong>
+			<p class="floatR"><span id="star">*</span> 필수입력사항</p>
+			<table class="shipping_info">
+				<tr>
+					<th>배송지선택&nbsp;</th>
+					<td>
+						<input type="radio" id="user_address" name="shippingInfo"required autocomplete="off" />&nbsp; <label class="title" for="user_address">회원정보와 동일</label>&nbsp;&nbsp;    
+						<input type="radio" id="new_address" name="shippingInfo" required autocomplete="off" />&nbsp; <label class="title" for="new_address">새로운 배송지</label>
+					</td>    
+				</tr>
+				<tr>
+					<th>받으시는분&nbsp;<span id="star">*</span></th>
+				    <td>
+				        <input required type="text" value="" name="name" id="name" maxlength="20" />
+				        <input required type="hidden" value="${sessionScope.loginuser.userid}" name="userid" id="userid" maxlength="20" />
+				    </td>
+				</tr>
+				<tr>
+					<th>우편번호</th>
+			      	<td>
+			        	<input required type="text" id="postcode" name="postcode" size="5" placeholder="우편번호" value="" style="width: 100px;" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" />
+			         	&nbsp;&nbsp;
+			         	<img src="<%= ctxPath %>/images/product/btn_zipcode.gif" style="cursor: pointer;" onclick="openDaumPOST();"/>
+			      	</td>
+				</tr>
+				<tr>
+					<th id="register">주소 &nbsp;<span id="star">*</span></th>
+					<td>
+						<input class="my-1" required type="text" id="address" name="address" size="50" placeholder="주소" /><br>
+						<input class="my-1" type="text" id="detailAddress" name="detailAddress" size="50" placeholder="상세주소" /><br>
+						<input class="my-1" type="text" id="extraAddress" name="extraAddress" size="50" placeholder="참고항목" />                
+					</td>
+				</tr>
+				<tr>
+					<th>휴대전화 &nbsp;<span id="star">*</span></th>
+			        <td>
+			        	<select id="hp1" name="hp1">
+							<option value="010">010</option>
+						</select>&nbsp;-&nbsp;
+						<input class="requiredInfo" required id="hp2" name="hp2" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">&nbsp;-&nbsp; 
+						<input class="requiredInfo" required id="hp3" name="hp3" type="text" size="5" maxlength="4" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+					 </td>
+				</tr>
+				<tr>
+					<th>이메일 &nbsp;<span id="star">*</span></th>
+					<td>
+						<input type="email" class="myinput" id="email" name="email" size="20" maxlength="20" required placeholder="email@gmail.com" />
+						<br>이메일을 통해 주문처리과정을 보내드립니다. 
+						<br>이메일 주소란에는 반드시 수신가능한 이메일주소를 입력해 주세요.
+					</td>
+				</tr>
+				            
+				<tr>
+			        <th>배송메세지</th>
+			        <td>
+			        	<textarea maxlength="255"></textarea>
+			        </td>
+			    </tr>
+			</table>
+		
+			<strong style="font-size: 12pt;">결제 예정 금액</strong>
+			<table class="paymentExpected">
+				<thead>
 					<tr>
-						<th>총 상품금액</th>
-						<th>총 배송비</th>
-						<th style="width: 750px; padding: 22px 0;"><span>결제예정금액</span></th>
+						<td>
+							<strong>총 주문 금액</strong>
+							<a style="cursor: pointer;" onclick="detailOrder()"><img src="<%= ctxPath %>/images/member/btn_list.gif" style="cursor: pointer;"/></a>
+						</td>
+						<td>
+							<strong>총 할인 + 부가결제 금액</strong>
+						</td>
+						<td>
+							<strong>총 결제예정 금액</strong>
+						</td>
 					</tr>
-					<tr style="background-color: #fff;">
-						<td style="padding: 22px 0;"><span class="price">0</span>원</td>
-						<td>+<span class="price">0</span>원</td>
-						<td>=<span class="price">0</span>원</td>
+					<tr>
+						<td>
+							<span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
+							<input required type="hidden" value="10000" name="totalprice" id="totalprice" maxlength="20" />
+						</td>
+						<td>
+							- <span>0원</span>
+						</td>
+						<td style="color: #008BCC;">
+							= <span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
+						</td>
 					</tr>
-				</table>
-				
-				<br/><br/>
-				
-				<div align="center">
-					<button class="btn default orderGobtn" id="allProduct">전체상품주문</button>
-					<button class="btn default backBtn orderGobtn" id="productClear">선택상품주문</button>
-					<button class="btn default footerbtn orderGobtn" id="footerbtn" onclick="javascript:location.href='<%=ctxPath %>/index.book'">쇼핑계속하기</button>
-					<span class="clearboth"></span>
-				</div>
-			</form>
-		</div>
-	</div>
-	<%-- <jsp:include page="cart_board.jsp" /> --%>
-	<%-- <jsp:include page="<%=ctxPath %>/WEB-INF/product/cart_board.jsp" /> --%>
-	<%-- <jsp:include page="../footer.jsp" /> --%>
-	<%-- <jsp:include page="<%=ctxPath %>/WEB-INF/footer.jsp" /> --%>
+				</thead>
+				<tbody>
+					<tr>
+						<td>총 할인금액</td>
+						<td colspan="2"><div>0원</div></td>
+					</tr>
+					<tr>
+						<td>총 부가결제금액</td>
+						<td colspan="2"><div>0원</div></td>
+					</tr>
+				</tbody>
+			</table>
+	
+			<div class="btn_order"><img src="<%= ctxPath%>/images/member/btn_place_order.gif" onclick="payment()"  ></div>
+	</form>
+	
+	<!-- <div class="deiailOrderBox" >
+       <div class="deiailOrderBox_header">
+         <strong>총 주문금액 상세내역</strong>
+         <span><button type="button" >&times;</button></span>
+       </div>
+       <div class="deiailOrderBox_body">
+         
+       </div>
+	</div>  -->
+	
+</div><%--<div class="container"> end  --%>
+
+<jsp:include page="/WEB-INF/footer.jsp"/>
+ 

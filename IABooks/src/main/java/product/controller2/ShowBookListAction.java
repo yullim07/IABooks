@@ -18,7 +18,7 @@ public class ShowBookListAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		String category = request.getParameter("category");
+		String category = request.getParameter ("category");
 		String sort = request.getParameter("sort");
 		
 		//category, sort 변조방지
