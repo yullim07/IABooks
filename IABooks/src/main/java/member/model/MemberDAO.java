@@ -113,11 +113,11 @@ public class MemberDAO implements InterMemberDAO {
           conn = ds.getConnection();
           
           String sql = "SELECT pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, "+
-                "       birthday, registerday, pwdchangegap, tel, "+
+                "       birthday, registerday, pwdchangegap, tel, ck_u_status, ck_status, "+
                 "       nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap "+
                 " FROM "+
                 " ( "+
-                " select pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender "+
+                " select pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, ck_u_status, ck_status "+
                 "     , birthday , tel, to_char(registerday, 'yyyy-mm-dd') AS registerday "+
                 "     , trunc( months_between(sysdate, lastpwdchangedate) ) AS pwdchangegap "+
                 " from tbl_member "+
@@ -154,6 +154,8 @@ public class MemberDAO implements InterMemberDAO {
              member.setBirthday(rs.getString(10));
              member.setRegisterday(rs.getString(11));
              member.setTel(rs.getString(13));
+             member.setU_status(rs.getInt(14));
+             member.setStatus(rs.getInt(15));
              
              if(rs.getInt(12) >= 3) {
                 // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
@@ -162,7 +164,7 @@ public class MemberDAO implements InterMemberDAO {
                member.setRequirePwdChange(true); // 로그인시 암호를 변경해라는 alert 를 띄우도록 할때 사용한다. 
              }
              
-             if(rs.getInt(14) >= 12) {
+             if(rs.getInt(16) >= 12) {
                 // 마지막으로 로그인 한 날짜시간이 현재시각으로 부터 1년이 지났으면 휴면으로 지정 
                 member.setU_status(1);
                 
@@ -485,14 +487,15 @@ public class MemberDAO implements InterMemberDAO {
 	  		try {
 	  			conn = ds.getConnection();
 	  			
-	  			 String sql = " select M.pk_userid, C.pk_coupon_id, CENDDATE "
-	  			 		+ " from tbl_member M  "
-	  			 		+ " join tbl_user_coupon_status U "
-	  			 		+ " on M.pk_userid = U.fk_userid  "
-	  			 		+ " join tbl_coupon C "
-	  			 		+ " on C.pk_coupon_id = U.coupon_id  "
-	  			 		+ " where pk_userid=? and CPSTATUS='1'";
-	  	         
+	  			 String sql = " select M.pk_userid, C.pk_coupon_id "
+		  			 		+ " from tbl_member M   "
+		  			 		+ " join tbl_user_coupon_status U  "
+		  			 		+ " on M.pk_userid = U.fk_userid   "
+		  			 		+ " join tbl_coupon C  "
+		  			 		+ " on C.pk_coupon_id = U.coupon_id   "
+		  			 		+ " where pk_userid=? and user_cp_status='1'  "
+		  			 		+ " AND TO_DATE(C.CENDDATE,'YYYY-MM-DD') < TO_DATE( TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')  ";
+		  	         
 	  	        
 	  	         
 	  	         pstmt = conn.prepareStatement(sql);
@@ -510,9 +513,7 @@ public class MemberDAO implements InterMemberDAO {
 	  	        	 
 	  	        	 mvo.setUserid(rs.getString(1));
 	  	        	 cvo.setMvo(mvo);
-	  	        	 
 	  	        	 cvo.setCouponid(rs.getString(2));
-	  	        	 cvo.setCenddate(rs.getString(3));
 	  	        	 
 	  	        	 dcp.add(cvo);
 		  	         
@@ -520,7 +521,7 @@ public class MemberDAO implements InterMemberDAO {
 		  	    
 	  	         for(int i=0; i < dcp.size(); i++ ) {
 		  			// 쿠폰사용방지
-	  	        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	  	     /*   	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	  				
 	  	        	Date today = new Date();
 	  	       // 	String str_today = sdf.format(today);
@@ -530,8 +531,9 @@ public class MemberDAO implements InterMemberDAO {
 	  				
 	  				// 쿠폰 만료기간이 지나면 사용하지 못하도록 값 변경해준다.
 	  				int compare = cenddateD.compareTo(today);
+	  				*/
 	  				
-	  				if( compare < 0  ) {
+	  		//		if( compare < 0  ) {
 		  	        // cenddateD.after(today) => 엔드데이트 > 오늘 
 		 				conn = ds.getConnection();
 			  	         
@@ -544,10 +546,11 @@ public class MemberDAO implements InterMemberDAO {
 				        pstmt.setString(1, dcp.get(i).getCouponid());
 				        pstmt.setString(2, dcp.get(i).getMvo().getUserid());
 				         
-				        result += pstmt.executeUpdate();
-		 			 
-	  				}
-	  	         } // end of for
+				        result = pstmt.executeUpdate();
+		 			    
+		  	         } // end of for
+  				
+	  
 	  	         
 	  	         
 	  		} catch(Exception e) { 
@@ -737,33 +740,6 @@ public class MemberDAO implements InterMemberDAO {
 					return couponNum;
 			}
 
-			// 쿠폰만료기간 지나면 사용막기 (수정해야함)
-			@Override
-			public int expireCoupon(Map<String, String> paraMap) throws SQLException {
-				
-				int result = 0;
-				
-				try {
-			         conn =ds.getConnection();
-			         
-			         String sql = " update TBL_USER_COUPON_STATUS "
-			         			+ " set USER_CP_STATUS = '0' "
-			         			+ " where COUPON_ID=? and fk_userid = ? ";
-			         
-			         pstmt = conn.prepareStatement(sql);
-			         
-			         pstmt.setString(1, paraMap.get("couponid"));
-			         
-			         result = pstmt.executeUpdate();
-			      
-			      } catch(Exception e) {
-			         e.printStackTrace();   
-			      } finally {
-			         close();
-			      }
-				
-				return result;
-			}
 
 			// 쿠폰번호 중복 발행을 막는 메소드
 			@Override
@@ -869,47 +845,649 @@ public class MemberDAO implements InterMemberDAO {
 			
 			 
 			   // 아이디를 입력받아서 해당 사용자의 마일리지액 조회
+				/*
+				 * @Override public Map<String, String> mgInfo (Map<String, String> paraMap)
+				 * throws SQLException {
+				 * 
+				 * Map<String, String> map = new HashMap<>();
+				 * 
+				 * try { conn =ds.getConnection();
+				 * 
+				 * String sql =
+				 * " select sum(all_mg), sum(used_mg), ( sum(all_mg)-sum(used_mg)-sum(unsecured_mg) ) AS available_mg , sum(refund_mg) , sum(unsecured_mg)  "
+				 * + " from tbl_mileage " + " where fk_userid = ? ";
+				 * 
+				 * pstmt = conn.prepareStatement(sql);
+				 * 
+				 * pstmt.setString(1, paraMap.get("userid"));
+				 * 
+				 * rs = pstmt.executeQuery();
+				 * 
+				 * if(rs.next()) { map.put("all_mg", rs.getString(1)); map.put("used_mg",
+				 * rs.getString(2)); map.put("available_mg", rs.getString(3));
+				 * map.put("refund_mg", rs.getString(4)); map.put("unsecured_mg",
+				 * rs.getString(5)); }
+				 * 
+				 * } catch(SQLException e) { e.printStackTrace(); } finally { close(); }
+				 * 
+				 * return map; }
+				 * 
+				 * @Override public List<MileageVO> orderMileageInfo(Map<String, String>
+				 * paraMap) throws SQLException {
+				 * 
+				 * 
+				 * 
+				 * return null; }
+				 */
+
+				
+//////////////////////////////////////////////////////////////////////////////////////////// 새로시작
+				
+				
+				// == 페이징 처리가 되어진 모든 회원 또는 검색한 회원 목록 보여주기 ==
 				@Override
-				public Map<String, String> mgInfo (Map<String, String> paraMap) throws SQLException {
+				public List<MemberVO> selectPagingMember(Map<String, String> paraMap) throws SQLException {
 					
-					Map<String, String> map = new HashMap<>();
+					List<MemberVO> memberList = new ArrayList<>();
 					
 					try {
+						conn = ds.getConnection();
+						
+						String sql =  " select pk_userid, mname, uq_email, ck_gender "
+									+ " from "
+									+ "  (  "
+									+ "    select rownum as rno, pk_userid, mname, uq_email, ck_gender "
+									+ "    from "
+									+ "    ( "
+									+ "        select pk_userid, mname, uq_email, ck_gender "
+									+ "        from tbl_member "
+									+ "        where pk_userid != 'admin' ";
+									
+						
+						String colname = paraMap.get("searchType");
+						String searchWord = paraMap.get("searchWord");
+						
+				//		System.out.println("확인용 colname => "+ colname);
+				//		System.out.println("확인용 searchWord  => "+ searchWord );
+						
+						
+						if(colname != null && !("".equals(colname)) && searchWord != null && !("".equals(searchWord)) && "name".equals(colname)) {
+							sql += " and mname like '%'|| ? ||'%' ";
+						} else if(colname != null && !("".equals(colname)) && searchWord != null && !("".equals(searchWord)) && "email".equals(colname)) {
+							sql += " and uq_email like '%'|| ? ||'%' ";
+						} else if(colname != null && !("".equals(colname)) && searchWord != null && !("".equals(searchWord)) && "userid".equals(colname)) {
+							sql += " and pk_userid like '%'|| ? ||'%' ";
+						}
+						
+						
+						sql += "        order by registerday desc "
+								+ "    ) V "
+								+ "   ) T  "
+								+ " where rno between ? and ?  ";
+						
+						pstmt = conn.prepareStatement(sql);
+						
+						int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo") );
+						int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage") );
+						
+						/*
+						  	where rno between A and B
+				            >>> A 와 B를 구하는 공식 <<<
+				            
+				            currentShowPageNo 은 보고자하는 페이지 번호이다. 즉, 1페이지, 2페이지, 3페이지.... 를 말한다.
+				            sizePerPage는 한페이지당 보여줄 행의 개수를 말한다. 즉, 3개, 5개, 10개를 보여줄때의 개수를 말한다.
+				            
+				            
+				            A는 (currentShowPageNo * sizePerPage) - (sizePerPage - 1); 이다.
+				            B는 (currentShowPageNo * sizePerPage); 이다.
+						*/
+						
+						if(colname != null && !("".equals(colname)) && searchWord != null && !("".equals(searchWord))) {
+							
+							if( "email".equals(colname) ) {
+								pstmt.setString(1, aes.encrypt(searchWord));
+							} else {
+								pstmt.setString(1, searchWord);
+							}
+							
+							pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+							pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+							
+						} else {
+							pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+							pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+						}
+						
+						rs = pstmt.executeQuery();
+						
+						while(rs.next()){
+							
+							MemberVO mvo = new MemberVO();
+							mvo.setUserid(rs.getString(1));
+							mvo.setName(rs.getString(2));
+							mvo.setEmail(aes.decrypt(rs.getString(3))); // 복호화
+							mvo.setGender(rs.getString(4));
+							
+							memberList.add(mvo);
+						} // end of while
+						
+					} catch(GeneralSecurityException | UnsupportedEncodingException e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return memberList;
+				}
+				
+				
+				// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기. 
+				@Override
+				public int getMemberTotalPage(Map<String, String> paraMap) throws SQLException {
+					
+					int totalPage = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						String sql = " select ceil(count(*)/?) "
+								   + " from tbl_member "
+								   + " where pk_userid != 'admin' ";
+						
+						String colname = paraMap.get("searchType");
+						String searchWord = paraMap.get("searchWord");
+						
+				//		System.out.println("확인용 colname => "+ colname);
+				//		System.out.println("확인용 searchWord  => "+ searchWord );
+						
+						
+						if(colname != null && !("".equals(colname)) && searchWord != null && !("".equals(searchWord)) && "name".equals(colname)) {
+							sql += " and mname like '%'|| ? ||'%' ";
+						} else if(colname != null && !("".equals(colname)) && searchWord != null && !("".equals(searchWord)) && "email".equals(colname)) {
+							sql += " and uq_email like '%'|| ? ||'%' ";
+						} else if(colname != null && !("".equals(colname)) && searchWord != null && !("".equals(searchWord)) && "userid".equals(colname)) {
+							sql += " and pk_userid like '%'|| ? ||'%' ";
+						}
+						
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setString(1, paraMap.get("sizePerPage")); 
+						
+						if(colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord)) {
+							if( "email".equals(colname) ) {
+								pstmt.setString(2, aes.encrypt(paraMap.get("searchWord")));
+							} else {
+								pstmt.setString(2, paraMap.get("searchWord"));
+							}
+						}
+						
+						rs = pstmt.executeQuery();
+						
+						rs.next();
+						
+						totalPage = rs.getInt(1);
+						
+					} catch(GeneralSecurityException | UnsupportedEncodingException e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return totalPage;
+				}
+
+				
+				
+				// userid 값을 입력받아서 회원 한명에 대한 상세 정보를 알아오기 
+				@Override
+				public MemberVO memberOneDetail(String userid) throws SQLException {
+
+					MemberVO mvo = null;
+					
+					try {
+						 conn = ds.getConnection();
+						 
+						 String sql = " select pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, birthday, "+
+								 	 " to_char(sysdate, 'yyyy')- substr(birthday,1,4)+1 as age , to_char(registerday, 'yyyy-mm-dd') as registerday " +
+									 	" from tbl_member "+
+									 	" where pk_userid = ? ";
+						 
+						 pstmt = conn.prepareStatement(sql);
+						 pstmt.setString(1, userid);
+						 
+						 rs = pstmt.executeQuery();
+						 
+						 if(rs.next()) {
+							 mvo = new MemberVO();
+							 
+							 mvo.setUserid(rs.getString(1));
+							 mvo.setName(rs.getString(2));
+							 mvo.setEmail( aes.decrypt(rs.getString(3)) );  // 복호화 
+							 mvo.setPhone( aes.decrypt(rs.getString(4)) ); // 복호화 
+							 mvo.setPostcode(rs.getString(5));
+							 mvo.setAddress(rs.getString(6));
+							 mvo.setDetailaddress(rs.getString(7));
+							 mvo.setExtraaddress(rs.getString(8));
+							 mvo.setGender(rs.getString(9));
+							 mvo.setBirthday(rs.getString(10));
+							 mvo.setAge(rs.getInt(11));
+							 mvo.setRegisterday(rs.getString(12));
+							 
+						 }
+					
+					} catch(GeneralSecurityException | UnsupportedEncodingException e) { 
+					    e.printStackTrace();	 
+					} finally {
+						close();
+					}
+					
+					return mvo;
+				}
+
+				
+				// 관리자 페이지에서 관리자가 회원의 정보변경 휴면계정
+				@Override
+				public int userUStatusUpdate(String userid) throws SQLException {
+					int result = 0;
+					
+					try {
+				         
 				         conn =ds.getConnection();
 				         
-				         String sql = " select sum(all_mg), sum(used_mg), ( sum(all_mg)-sum(used_mg)-sum(unsecured_mg) ) AS available_mg , sum(refund_mg) , sum(unsecured_mg)  "
-				         		+ " from tbl_mileage "
-				         		+ " where fk_userid = ? ";
+				         // 휴면계정일때 기본값 0 휴면계정일 때 1  
+				         String sql = " UPDATE tbl_member SET ck_u_status=1 "
+				        			+ " WHERE pk_userid = ? ";
+				         
 				         
 				         pstmt = conn.prepareStatement(sql);
-				        
-				         pstmt.setString(1, paraMap.get("userid")); 
+				         pstmt.setString(1, userid);
 				         
-				         rs = pstmt.executeQuery();
-				         
-				         if(rs.next()) {
-				        	 map.put("all_mg", rs.getString(1));
-				        	 map.put("used_mg", rs.getString(2));
-				        	 map.put("available_mg", rs.getString(3));
-				        	 map.put("refund_mg", rs.getString(4));
-				        	 map.put("unsecured_mg", rs.getString(5));
-				         }
-				         
-				      } catch(SQLException e) {
+				         result = pstmt.executeUpdate();
+				      
+				      } catch(Exception e) {
 				         e.printStackTrace();   
 				      } finally {
 				         close();
 				      }
 					
-					return map;
+					return result;
 				}
 
+
+				// 관리자 페이지에서 관리자가 회원의 정보변경 회원탈퇴
 				@Override
-				public List<MileageVO> orderMileageInfo(Map<String, String> paraMap) throws SQLException {
+				public int userStatusUpdate(String userid) throws SQLException {
+					int result = 0;
 					
+					try {
+				         
+				         conn =ds.getConnection();
+				        	
+				         // 회원탈퇴일때
+				         String sql = " UPDATE tbl_member SET ck_status = 0 WHERE pk_userid = ? ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				         pstmt.setString(1, userid);
+				         
+				         result = pstmt.executeUpdate();
+				      
+				      } catch(Exception e) {
+				         e.printStackTrace();   
+				      } finally {
+				         close();
+				      }
 					
+					return result;
+				}
+				
+				
+				// 관리자 페이지에서 관리자가 회원의 정보변경 일반회원으로 변경
+				@Override
+				public int userNormalStatusUpdate(String userid) throws SQLException {
+					int result = 0;
 					
-					return null;
+					try {
+				         
+				         conn =ds.getConnection();
+				        	
+			        	 // 일반회원일때
+				         String sql = " UPDATE tbl_member SET ck_u_status = 0, ck_status = 1 WHERE pk_userid = ? ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				         pstmt.setString(1, userid);
+				         
+				         result = pstmt.executeUpdate();
+				      
+				      } catch(Exception e) {
+				         e.printStackTrace();   
+				      } finally {
+				         close();
+				      }
+					
+					return result;
+				}
+				
+				
+				// 쿠폰삭제하기
+				@Override
+				public int couponDelete(String couponid, String userid) throws SQLException {
+					
+					int result = 0;
+					
+					try {
+				         
+				         conn =ds.getConnection();
+				        	
+			        	 // 쿠폰삭제하기
+				         String sql = " delete from tbl_member "
+				         		    + " WHERE pk_userid = ? ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				         pstmt.setString(1, userid);
+				         
+				         result = pstmt.executeUpdate();
+				      
+				      } catch(Exception e) {
+				         e.printStackTrace();   
+				      } finally {
+				         close();
+				      }
+					
+					return result;
+				}
+				
+				// 모든 쿠폰 정보 보여주기
+				@Override
+				public List<CouponVO> couponListInfo() throws SQLException {
+					
+					List<CouponVO> cpList = new ArrayList<>();
+					
+					try {
+				         conn =ds.getConnection();
+				         
+				         String sql = " select rownum, PK_COUPON_ID, CNAME, CPRICE, CDATE, CSTARTDATE, CENDDATE, CPSTATUS, CMINPRICE "
+					         		+ " from tbl_coupon "
+					         		+ " order by CENDDATE desc ";
+					         		
+					         		
+				         pstmt = conn.prepareStatement(sql);
+				         
+				         rs=pstmt.executeQuery();
+				         
+				         while(rs.next()) {
+				        	 
+				        	 CouponVO cvo = new CouponVO();
+				        	 cvo.setRno(rs.getString(1));
+				        	 cvo.setCouponid(rs.getString(2));
+				        	 cvo.setCname(rs.getString(3));
+				        	 cvo.setCprice(rs.getString(4));
+				        	 cvo.setCdate(rs.getString(5));
+				        	 cvo.setCstartdate(rs.getString(6));
+				        	 cvo.setCenddate(rs.getString(7));
+				        	 cvo.setCpstatus(rs.getString(8));
+				        	 cvo.setCminprice(rs.getString(9));
+				        	 
+				        	 cpList.add(cvo);
+				         }
+				      
+				      } catch(Exception e) {
+				         e.printStackTrace();   
+				      } finally {
+				         close();
+				      }
+					
+					return cpList;
+					
+				}
+
+				
+				// 마이페이지 주문처리현황 1단계
+				@Override
+				public int deliverStep1(String userid) throws SQLException {
+					
+					int step1 = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						 String sql = " select count(*) "
+							 		+ "from tbl_orderdetail D "
+							 		+ "join tbl_order O "
+							 		+ "on D.fk_odrcode = O.pk_odrcode "
+							 		+ "join tbl_member M "
+							 		+ "on M.pk_userid = O.fk_userid "
+							 		+ "where D.CK_DELIVERSTATUS = '1' and M.pk_userid=?  ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				        
+				         pstmt.setString(1, userid);
+						
+				         rs = pstmt.executeQuery();
+				         
+				         if( rs.next()) {
+				        	 step1 = rs.getInt(1);
+				         }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return step1;
+					
+				}
+
+				// 마이페이지 주문처리현황 2단계
+				@Override
+				public int deliverStep2(String userid) throws SQLException {
+					int step2 = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						 String sql = " select count(*) "
+							 		+ "from tbl_orderdetail D "
+							 		+ "join tbl_order O "
+							 		+ "on D.fk_odrcode = O.pk_odrcode "
+							 		+ "join tbl_member M "
+							 		+ "on M.pk_userid = O.fk_userid "
+							 		+ "where D.CK_DELIVERSTATUS = '2' and M.pk_userid=?  ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				        
+				         pstmt.setString(1, userid);
+						
+				         rs = pstmt.executeQuery();
+				         
+				         if( rs.next()) {
+				        	 step2 = rs.getInt(1);
+				         }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return step2;
+				}
+
+				// 마이페이지 주문처리현황 3단계
+				@Override
+				public int deliverStep3(String userid) throws SQLException {
+					int step3 = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						 String sql = " select count(*) "
+							 		+ "from tbl_orderdetail D "
+							 		+ "join tbl_order O "
+							 		+ "on D.fk_odrcode = O.pk_odrcode "
+							 		+ "join tbl_member M "
+							 		+ "on M.pk_userid = O.fk_userid "
+							 		+ "where D.CK_DELIVERSTATUS = '3' and M.pk_userid=?  ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				        
+				         pstmt.setString(1, userid);
+						
+				         rs = pstmt.executeQuery();
+				         
+				         if( rs.next()) {
+				        	 step3 = rs.getInt(1);
+				         }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return step3;
+				}
+
+				// 마이페이지 주문처리현황 4단계
+				@Override
+				public int deliverStep4(String userid) throws SQLException {
+					int step4 = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						 String sql = " select count(*) "
+							 		+ "from tbl_orderdetail D "
+							 		+ "join tbl_order O "
+							 		+ "on D.fk_odrcode = O.pk_odrcode "
+							 		+ "join tbl_member M "
+							 		+ "on M.pk_userid = O.fk_userid "
+							 		+ "where D.CK_DELIVERSTATUS = '4' and M.pk_userid=?  ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				        
+				         pstmt.setString(1, userid);
+						
+				         rs = pstmt.executeQuery();
+				         
+				         if( rs.next()) {
+				        	 step4 = rs.getInt(1);
+				         }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return step4;
+				}
+
+				
+				// 마이페이지 지금까지 구매한 내역 조회하기
+				@Override
+				public int allPrice(String userid) throws SQLException {
+					int allPrice = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						 String sql = " select sum(odr_price) "
+							 		+ " from tbl_orderdetail D "
+							 		+ " join tbl_order O "
+							 		+ " on D.fk_odrcode = O.pk_odrcode "
+							 		+ " join tbl_member M "
+							 		+ " on M.pk_userid = O.fk_userid "
+							 		+ " where M.pk_userid=? ";
+					         
+				         pstmt = conn.prepareStatement(sql);
+				        
+				         pstmt.setString(1, userid);
+						
+				         rs = pstmt.executeQuery();
+				         
+				         if( rs.next()) {
+				        	 allPrice = rs.getInt(1);
+				         }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return allPrice;
+				}
+
+				
+				// 마이페이지 지금까지 구매한 횟수 조회하기
+				@Override
+				public int allOdrCount(String userid) throws SQLException {
+					int allcount = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						 String sql = " select count(*) "
+							 		+ " from tbl_orderdetail D "
+							 		+ " join tbl_order O "
+							 		+ " on D.fk_odrcode = O.pk_odrcode "
+							 		+ " join tbl_member M "
+							 		+ " on M.pk_userid = O.fk_userid "
+							 		+ " where M.pk_userid=? ";
+					         
+				         pstmt = conn.prepareStatement(sql);
+				        
+				         pstmt.setString(1, userid);
+						
+				         rs = pstmt.executeQuery();
+				         
+				         if( rs.next()) {
+				        	 allcount = rs.getInt(1);
+				         }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return allcount;
+				}
+
+				
+				// 마이페이지 사용가능한 마일리지 금액 조회
+				@Override
+				public int useMileage(String userid) throws SQLException {
+					int mileage = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						 String sql = " select sum(mileageInfo) "
+							 		+ " from tbl_mileage I "
+							 		+ " join tbl_member M "
+							 		+ " on M.pk_userid = I.fk_userid "
+							 		+ " join tbl_order O "
+							 		+ " on I.fk_odrcode = O.pk_odrcode "
+							 		+ " where m.pk_userid = ? ";
+					         
+				         pstmt = conn.prepareStatement(sql);
+				        
+				         pstmt.setString(1, userid);
+						
+				         rs = pstmt.executeQuery();
+				         
+				         if( rs.next()) {
+				        	 mileage = rs.getInt(1);
+				         }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return mileage;
 				}
 				
 					
