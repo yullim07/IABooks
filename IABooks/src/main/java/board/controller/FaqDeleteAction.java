@@ -29,7 +29,7 @@ public class FaqDeleteAction extends AbstractController {
 		
 		// 이전글, 다음글을 불러오기 위한 글상세보기의 게시판번호 불러오기
 		int pk_faq_board_num = Integer.parseInt(request.getParameter("pk_faq_board_num"));
-		System.out.println(" 삭제하기 위해 FaqDeleteAction 에서 받아온 번호 : " + pk_faq_board_num);
+		// System.out.println(" 삭제하기 위해 FaqDeleteAction 에서 받아온 번호 : " + pk_faq_board_num);
 		faqVO.setPk_faq_board_num(pk_faq_board_num);
 		
 		

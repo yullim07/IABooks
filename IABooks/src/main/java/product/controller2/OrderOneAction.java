@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import member.model.CouponVO;
 import member.model.MemberVO;
 import product.model.CartVO;
 import product.model.InterProductDAO;
@@ -25,7 +26,7 @@ public class OrderOneAction extends AbstractController  {
 				HttpSession session = request.getSession();;
 				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 				
-				String pk_cartno = request.getParameter("pk_cartno");
+				String pk_cartno = request.getParameter("cartnoOne");
 				String userid = loginuser.getUserid();
 				
 				InterProductDAO pdao = new ProductDAO();
@@ -34,14 +35,15 @@ public class OrderOneAction extends AbstractController  {
 				paraMap.put("userid", userid);
 				paraMap.put("pk_cartno", pk_cartno);
 				List<CartVO> order  = pdao.orderOne(paraMap);
-				
-				int totalPrice = pdao.totalPriceSelect(paraMap);
+				List<CouponVO> userCoupon = pdao.userCoupon(paraMap);
+				int totalPrice = pdao.totalPriceSelect2(paraMap);
 				int shippingFee = 3000;
 				int finalPrice = totalPrice;
 				if(totalPrice < 50000) {
 					finalPrice = totalPrice + shippingFee;
 				}
 				
+				request.setAttribute("userCoupon", userCoupon);
 				request.setAttribute("order", order);
 				request.setAttribute("fk_userid", userid);
 				request.setAttribute("totalPrice", totalPrice);

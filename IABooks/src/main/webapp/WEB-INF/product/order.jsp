@@ -66,6 +66,36 @@
 	        proDeleteSelect(cnt, cartNoStr);
 		});//end of $("li#btn_delete").click(function ()		
 		
+		$("select#coupon").on("change", function() {	
+			const couponid =  $(this).val();
+			let cprice = Number($("select#coupon > option:selected").attr("value2") );
+			const cminprice = Number($("select#coupon > option:selected").attr("value3") );
+			let totalprice = Number($("input#totalprice").val() );
+			if(cminprice <= totalprice){
+				totalprice = totalprice - cprice;
+				$("input#paymentPrice").val(totalprice);
+				$("input#useCouponId").val(couponid);
+				totalprice = totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				cprice = cprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				$("span#lastPrice").text(totalprice+"원");
+				$("span#discount").text(cprice+"원");
+				
+			}else if(couponid == "") {
+				$("input#paymentPrice").val(totalprice);
+				totalprice = totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				$("span#lastPrice").text(totalprice+"원");
+				$("span#discount").text(0+"원");
+			}else{
+				alert("최소사용금액보다 주문금액이 낮습니다.");
+				$("input#paymentPrice").val(totalprice);
+				totalprice = totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				$("span#lastPrice").text(totalprice+"원");
+				$("span#discount").text(0+"원");
+				
+			}
+			
+		});//end of $("select#coupon").on("change", function()
+				
 	});//end of $(document).ready(function()
 
 	function openDaumPOST() {
@@ -163,10 +193,9 @@
 			
 		}
 		 var frm = document.paymentFrm;
-		 var url = "payment.book";
-		 frm.action =url; 
+		 frm.action ="<%= ctxPath%>/product/payment.book";
 		 frm.method="post";
-		 frm.target="paymentFrm";
+		// frm.target="paymentFrm";
 		 frm.submit(); 
 	
 	}//end of function payment() 
@@ -418,12 +447,14 @@ table.interested_none tr {
 						<%-- 체크박스 --%>
 						<td> 
 							<input type="checkbox" name="proCheck" id="proCheck" value="${cvo.pk_cartno}" />
+							<input type="hidden" id="pk_cartno" name="pk_cartno" value="${cvo.pk_cartno}"/>
 						</td>
 						
 						<%-- 이미지 --%>
 						<td> 
 							<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
 							<img src="<%=ctxPath%>/images/product/${cvo.category.cate_name}/${cvo.product.pro_imgfile_name}" style="width: 100%"/>
+							<input type="hidden" name="fk_pro_num" id="fk_pro_num" value="${cvo.fk_pro_num}" />
 							</a>
 						</td>
 						
@@ -442,11 +473,12 @@ table.interested_none tr {
 						<%-- 주문수량 + 장바구니 번호(숨김) --%> 
 						<td>
 							<span class="pqty">${cvo.ck_odr_qty}</span>
-						</td>
+							<input type="hidden" id="pqty" name="pqty" value="${cvo.ck_odr_qty}"/>
 						
 						<%-- 적립금 --%>
 						<td> 
 							<span id="totalPoint">${cvo.totalPoint}p</span>
+							<input type="hidden" id="point" name="point" value="${cvo.totalPoint}"/>
 						</td>
 						 					 
 						<%-- 배송비(주문총액이 5만원 이상이면 무료, 아니면 3000원) --%>
@@ -461,6 +493,7 @@ table.interested_none tr {
 						<%-- 주문총액 --%>
 						<td>
 							<span id="partsaleprice"><fmt:formatNumber value="${cvo.partPrice}" pattern="###,###" />원</span>
+							<input type="hidden" id="partPrice" name="partPrice" value="${cvo.partPrice}"/>
 						</td>
 					</tr>
 				</c:forEach>
@@ -567,9 +600,30 @@ table.interested_none tr {
 			<table class="paymentExpected">
 				<thead>
 					<tr>
+						<td>적립금사용</td>
+						<td colspan="2"><input /><div></div></td>
+					</tr>
+					<tr>
+					
+						<td>쿠폰사용</td>
+						<td colspan="2">
+							<select id="coupon" name="coupon">
+								<option value="">사용가능한 쿠폰</option>
+								<c:forEach var="cpvo" items="${requestScope.userCoupon}" varStatus="status">
+									<option value="${cpvo.couponid}" value2="${cpvo.cprice}" value3="${cpvo.cminprice}">
+										${cpvo.cname} : <fmt:formatNumber value="${cpvo.cprice}" pattern="###,###" />원&nbsp;
+										최소사용금액 : <fmt:formatNumber value="${cpvo.cminprice}" pattern="###,###" />원
+									</option>
+								</c:forEach>
+							</select>		
+						</td>
+						
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
 						<td>
 							<strong>총 주문 금액</strong>
-							<a style="cursor: pointer;" onclick="detailOrder()"><img src="<%= ctxPath %>/images/member/btn_list.gif" style="cursor: pointer;"/></a>
 						</td>
 						<td>
 							<strong>총 할인 + 부가결제 금액</strong>
@@ -578,43 +632,26 @@ table.interested_none tr {
 							<strong>총 결제예정 금액</strong>
 						</td>
 					</tr>
+					
 					<tr>
 						<td>
 							<span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
-							<input required type="hidden" value="10000" name="totalprice" id="totalprice" maxlength="20" />
+							<input required type="hidden" value="${requestScope.finalPrice}" name="totalprice" id="totalprice" maxlength="20" />
 						</td>
 						<td>
-							- <span>0원</span>
+							- <span id="discount">0원</span>
+							<input type="hidden" name="useCouponId" id="useCouponId" value="" />
 						</td>
-						<td style="color: #008BCC;">
-							= <span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
+						<td>
+							= <span class="finalPrice" id="lastPrice" ><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
+							<input type="hidden" name="paymentPrice" id="paymentPrice" value="${requestScope.finalPrice}" />
 						</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>총 할인금액</td>
-						<td colspan="2"><div>0원</div></td>
-					</tr>
-					<tr>
-						<td>총 부가결제금액</td>
-						<td colspan="2"><div>0원</div></td>
 					</tr>
 				</tbody>
 			</table>
 	
 			<div class="btn_order"><img src="<%= ctxPath%>/images/member/btn_place_order.gif" onclick="payment()"  ></div>
 	</form>
-	
-	<!-- <div class="deiailOrderBox" >
-       <div class="deiailOrderBox_header">
-         <strong>총 주문금액 상세내역</strong>
-         <span><button type="button" >&times;</button></span>
-       </div>
-       <div class="deiailOrderBox_body">
-         
-       </div>
-	</div>  -->
 	
 </div><%--<div class="container"> end  --%>
 

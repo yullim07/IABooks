@@ -23,7 +23,7 @@ public class ReviewDetailBoardAction extends AbstractController {
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		String pk_pro_num = request.getParameter("pk_pro_num"); // 제품번호를 받아온다.
-		System.out.println(" 제발 가져와 : " + pk_pro_num);
+		// System.out.println(" 제발 가져와 : " + pk_pro_num);
 		
 		ProductVO pvo = new ProductVO();
 		ReviewBoardVO revVO = new ReviewBoardVO();

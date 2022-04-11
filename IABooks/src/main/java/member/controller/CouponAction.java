@@ -27,7 +27,7 @@ public class CouponAction extends AbstractController {
 			setRedirect(false);
 			setViewPage("/login/join.book");
 			
-		} else {
+		} else { // 로그인을 한 상태에서 들어왔을 때
 			
 			String userid = (String)session.getAttribute("userid");
 			
@@ -41,7 +41,11 @@ public class CouponAction extends AbstractController {
 			
 			InterMemberDAO mdao = new MemberDAO();
 			//////////////////////////////////////////////////////////////리스트가져오기
-			mdao.deleteCouponList(paraMap);
+			int n = mdao.deleteCouponList(paraMap);
+			if(n == 1) {
+				request.setAttribute("deleteCouponList", n);
+			}
+			
 			int couponNum = mdao.CouponNum(paraMap);
 			
 			if(currentShowPageNo == null) {

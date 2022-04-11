@@ -17,9 +17,9 @@ public class FaqDetailAction extends AbstractController {
 
 		// 이전글, 다음글을 불러오기 위한 글상세보기의 게시판번호 불러오기
 		int pk_faq_board_num = Integer.parseInt(request.getParameter("pk_faq_board_num"));
-		System.out.println("받아온 글번호 : " + pk_faq_board_num);
+		// System.out.println("받아온 글번호 : " + pk_faq_board_num);
 		String currentNum = request.getParameter("pk_faq_board_num");
-		System.out.println("받아온 글번호2 : " + currentNum);
+		// System.out.println("받아온 글번호2 : " + currentNum);
 		
 		Map<String, String> paraMap = new HashMap<>();
 		
@@ -45,7 +45,7 @@ public class FaqDetailAction extends AbstractController {
 		
 		if( faqVO.getPk_faq_board_num() != 0 ) {
 			paraMap.put("currentNum", currentNum);
-			System.out.println("여기까진 오니?");
+			// System.out.println("여기까진 오니?");
 			faqPrevNext = bdao.getPrevNextContent(paraMap);
 			
 			faqVO.setPrev_num(faqPrevNext.getPrev_num());

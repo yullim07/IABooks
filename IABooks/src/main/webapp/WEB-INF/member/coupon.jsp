@@ -44,6 +44,22 @@ function generateCoupon(userid) {
 	
 }; // end of function generateCoupon()
 
+function couponListInfo() {
+	
+	// 모든쿠폰조회
+	const url = "<%= request.getContextPath()%>/member/couponListInfo.book";
+	
+	// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
+	const pop_width = 1200;
+	const pop_height = 600;
+	const pop_left = Math.ceil( ((window.screen.width)-pop_width)/2 ) ; <%-- 정수로 만든다 --%>
+	const pop_top = Math.ceil( ((window.screen.height)-pop_height)/2 ) ;
+	
+	window.open(url, "memberEdit",
+			   	"left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height );
+	
+}
+
 
 function couponCheck() {
 	
@@ -105,6 +121,47 @@ function isExistCouponCheck() {
 };
 
 
+// 모두선택 / 해제
+function selectAll(selectAll)  {
+  const checkbox = document.getElementsByName('delete');
+  
+  checkbox.forEach((checkbox) => {
+    checkbox.checked = selectAll.checked;
+  })
+}
+
+
+	
+// 체크박스 개별 선택
+function checkSelect()  {
+ 	// 전체 체크박스
+  	const all_checkbox 
+    = document.querySelectorAll('input[name="delete"]');
+ 	 // 선택된 체크박스
+ 	 const checked 
+    = document.querySelectorAll('input[name="delete"]:checked');
+ 	 // select all 체크박스
+ 	 const selectAll 
+    = document.querySelector('input#deleteAllChecked');
+  
+  	if(all_checkbox.length == checked.length)  {
+   		selectAll.checked = true;
+ 	} else {
+    	selectAll.checked = false;
+ 	}
+}
+
+// 쿠폰삭제하기 
+
+function couponDelete() {
+	
+	const frm = document.registerFrm;
+	frm.action = "couponDelete.book";
+	frm.method = "post";
+	frm.submit();
+	
+}
+
 </script>
 
 <style type="text/css">
@@ -135,54 +192,66 @@ function isExistCouponCheck() {
 
 <div class="container">
 	<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
-		<a class="admin_coupon" href="javascript:generateCoupon('${(sessionScope.loginuser).userid}');" >coupon 발급하기</a>
+		<a class="admin_coupon" href="javascript:generateCoupon('${(sessionScope.loginuser).userid}');" >쿠폰 발급하기</a>
+		<a class="admin_coupon" href="javascript:couponListInfo('${(sessionScope.loginuser).userid}');" style="margin: 20px;" >모든쿠폰목록보기</a>
 	</c:if>
 	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이쿠폰</strong>
 	<hr style="border: solid 2px #e8e8e8;">
 		<strong>마이 쿠폰 목록</strong><p style="float: right;">사용가능 쿠폰 <span>${requestScope.couponNum}</span> 장</p>
-	<table class="coupon">
-		<thead>
-			<tr>
-				<td>번호</td>
-				<td>쿠폰명</td>
-				<td>쿠폰혜택</td>
-				<td>최소주문금액</td>
-				<td>사용가능기간</td>
-				<td>쿠폰사용여부</td>
-			</tr>
-		</thead>
-		<tbody>		
-			<c:if test="${not empty (requestScope.couponListP)}">
-				<c:forEach var="cvo" items="${requestScope.couponListP}" >
+	
+	<form name="couponDeleteFrm">
+		<table class="coupon">
+			<thead>
+				<tr>
+					<td style="text-align: center;">
+						<input type="checkbox" name="deleteAllChecked" id="deleteAllChecked" onclick='selectAll(this)' />
+					</td>
+					<td>번호</td>
+					<td>쿠폰명</td>
+					<td>쿠폰혜택</td>
+					<td>최소주문금액</td>
+					<td>사용가능기간</td>
+					<td>쿠폰사용여부</td>
+				</tr>
+			</thead>
+			<tbody>		
+				<c:if test="${not empty (requestScope.couponListP)}">
+					<c:forEach var="cvo" items="${requestScope.couponListP}" >
+						<tr>
+							<td style="text-align: center;">
+								<input type="checkbox" name="delete" id="delete" name="couponid" value="${cvo.couponid }"  onclick='checkSelect()' />
+							</td>
+							<td align="center" class="numAsc">${cvo.rno}</td>
+							<td align="center">${cvo.cname }</td>
+							<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cprice }</fmt:formatNumber>원</td>
+							<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cminprice }</fmt:formatNumber>원</td>
+							<td align="center">${cvo.cstartdate }~${cvo.cenddate }</td>
+							<td align="center">
+							<c:choose>
+		   	  	  	  	  		<c:when test="${cvo.ucvo.user_cp_status eq '1' or cvo.cenddate > sysdate}"><!-- 조건변경 -->
+		   	  	  	  	  			<span style="color: blue;">사용가능</span>
+		   	  	  	  	  		</c:when>
+		   	  	  	  	  		<c:otherwise>
+		   	  	  	  	  			<span style="color: red;">사용불가</span>
+		   	  	  	  	  		</c:otherwise>
+		   	  	  	  	  	</c:choose>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:if>
+				<c:if test="${empty (requestScope.couponListP)}">
 					<tr>
-						<td align="center" class="numAsc">${cvo.rno}</td>
-						<td align="center">${cvo.cname }</td>
-						<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cprice }</fmt:formatNumber>원</td>
-						<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cminprice }</fmt:formatNumber>원</td>
-						<td align="center">${cvo.cstartdate }~${cvo.cenddate }</td>
-						<td align="center">
-						<c:choose>
-	   	  	  	  	  		<c:when test="${cvo.ucvo.user_cp_status eq '1' or cvo.cenddate > sysdate}"><!-- 조건변경 -->
-	   	  	  	  	  			<span style="color: blue;">사용가능</span>
-	   	  	  	  	  		</c:when>
-	   	  	  	  	  		<c:otherwise>
-	   	  	  	  	  			<span style="color: red;">사용불가</span>
-	   	  	  	  	  		</c:otherwise>
-	   	  	  	  	  	</c:choose>
-					
+						<td colspan="7" align="center">
+							보유하고 계신 쿠폰내역이 없습니다.
 						</td>
 					</tr>
-				</c:forEach>
-			</c:if>
-			<c:if test="${empty (requestScope.couponListP)}">
-				<tr>
-					<td colspan="7" align="center">
-						보유하고 계신 쿠폰내역이 없습니다.
-					</td>
-				</tr>
-			</c:if>
-		</tbody>	
-	</table>
+				</c:if>
+			</tbody>	
+		</table>
+		
+		<button onclick="couponDelete();" id="btn_delete">쿠폰삭제하기</button>
+		
+	</form>
 	
 	<nav class="my-5">
     	<div style="display: flex; width: 100%;">
