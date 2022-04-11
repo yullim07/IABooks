@@ -589,7 +589,7 @@ where m.pk_userid = 'admin'
 
 
 DISTINCT 
-select DISTINCT odr_totalprice
+select *
 from tbl_orderdetail D
 join tbl_order O
 on D.fk_odrcode = O.pk_odrcode
