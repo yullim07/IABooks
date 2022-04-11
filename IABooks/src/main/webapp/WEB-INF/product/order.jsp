@@ -454,6 +454,7 @@ table.interested_none tr {
 						<td> 
 							<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
 							<img src="<%=ctxPath%>/images/product/${cvo.category.cate_name}/${cvo.product.pro_imgfile_name}" style="width: 100%"/>
+							<input type="hidden" name="fk_pro_num" id="fk_pro_num" value="${cvo.fk_pro_num}" />
 							</a>
 						</td>
 						
@@ -473,11 +474,11 @@ table.interested_none tr {
 						<td>
 							<span class="pqty">${cvo.ck_odr_qty}</span>
 							<input type="hidden" id="pqty" name="pqty" value="${cvo.ck_odr_qty}"/>
-						</td>
 						
 						<%-- 적립금 --%>
 						<td> 
 							<span id="totalPoint">${cvo.totalPoint}p</span>
+							<input type="hidden" id="point" name="point" value="${cvo.totalPoint}"/>
 						</td>
 						 					 
 						<%-- 배송비(주문총액이 5만원 이상이면 무료, 아니면 3000원) --%>
@@ -492,6 +493,7 @@ table.interested_none tr {
 						<%-- 주문총액 --%>
 						<td>
 							<span id="partsaleprice"><fmt:formatNumber value="${cvo.partPrice}" pattern="###,###" />원</span>
+							<input type="hidden" id="partPrice" name="partPrice" value="${cvo.partPrice}"/>
 						</td>
 					</tr>
 				</c:forEach>

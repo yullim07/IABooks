@@ -41,8 +41,6 @@
 <div>우편번호 : ${requestScope.postcode}</div>
 <div>주소 : ${requestScope.address}</div>
 <div>총액 : ${requestScope.finalPrice}</div>
-<div>구매한 카트번호 : ${requestScope.cartno}</div>
-
 
 </div>
 

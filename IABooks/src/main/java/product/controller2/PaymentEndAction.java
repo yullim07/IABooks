@@ -1,5 +1,8 @@
 package product.controller2;
 
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +16,27 @@ import product.model.InterProductDAO;
 import product.model.ProductDAO;
 
 public class PaymentEndAction extends AbstractController{
+	
+	private String getOdrcode() throws SQLException {
+		
+		// 전표(주문코드) 형식 : s+날짜+sequence ==> s20220411-1
+		
+		// 날짜 생성
+		Date now = new Date();
+		SimpleDateFormat smdatefm = new SimpleDateFormat("yyyyMMdd"); 
+		String today = smdatefm.format(now);
+		
+		InterProductDAO pdao = new ProductDAO();
+		
+		int seq = pdao.getSeq_tbl_order();
+		// pdao.getSeq_tbl_order(); 는 시퀀스 seq_tbl_order 값을 채번해오는 것.
+		
+		return "s"+today+"-"+seq;
+		
+	}// end of private String getOdrcode()---------------
+	
+	
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
@@ -26,25 +50,34 @@ public class PaymentEndAction extends AbstractController{
 
 				String userid = loginuser.getUserid();
 	
-				//쿠폰제거 //결제테이블 인설트 //포인트 추가 // 배송내용추가
-				//카트에서 삭제
+				//배송내용추가, 사용한 포인트 차감
+				
 				String email = request.getParameter("email");
 				String name = request.getParameter("name");
 				String phone = request.getParameter("phone");
 				String postcode = request.getParameter("postcode");
 				String address = request.getParameter("address");
 				String finalPrice = request.getParameter("finalPrice");
-				String cartno = request.getParameter("cartno");
 				String useCouponId = request.getParameter("useCouponId");
 				
-				InterProductDAO pdao = new ProductDAO();
-				Map<String, String> paraMap = new HashMap<>();
+				String pk_cartnoJoin = request.getParameter("pk_cartnoJoin");
+				String fk_pro_numJoin = request.getParameter("fk_pro_numJoin");
+				String pqtyJoin = request.getParameter("pqtyJoin");
+				String pointJoin = request.getParameter("pointJoin");
+				String partPriceJoin = request.getParameter("partPriceJoin");
 				
-				paraMap.put("useCouponId", useCouponId);
-				/*
-				  if(!("".equals(useCouponId) || useCouponId == null) ) { int n =
-				  pdao.couponDelete(paraMap); }
-				 */
+				String[] pk_cartnoArr = pk_cartnoJoin.split(",");
+				String[] fk_pro_numArr = fk_pro_numJoin.split(",");
+				String[] pqtyArr = pqtyJoin.split(",");
+				String[] pointArr = pointJoin.split(",");
+				String[] partPriceArr = partPriceJoin.split(",");
+				
+				InterProductDAO pdao = new ProductDAO();
+				Map<String, Object> paraMap = new HashMap<>();
+				
+				String odrcode = getOdrcode();
+
+				paraMap.put("odrcode", odrcode);
 				paraMap.put("userid", userid);
 				paraMap.put("email", email);
 				paraMap.put("name", name);
@@ -52,10 +85,24 @@ public class PaymentEndAction extends AbstractController{
 				paraMap.put("postcode", postcode);
 				paraMap.put("address", address);
 				paraMap.put("finalPrice", finalPrice);
-				paraMap.put("cartno", cartno);
 				
-				int n = pdao.orderInsert(paraMap);
+				paraMap.put("pk_cartnoArr", pk_cartnoArr); //카트삭제
+				paraMap.put("fk_pro_numArr", fk_pro_numArr); //오덭이블 추가 
+				paraMap.put("pqtyArr", pqtyArr); //오더테이블 추가
+				paraMap.put("partPriceArr", partPriceArr); //개당총가격
 				
+				paraMap.put("pointArr", pointArr); //포인트 추가
+				paraMap.put("useCouponId", useCouponId); //쿠폰
+				
+				int totalPoint = 0;
+				for(int i=0; i<pointArr.length; i++) {
+					totalPoint += Integer.parseInt(pointArr[i]);
+				}
+				paraMap.put("totalPoint", totalPoint); 
+				
+				int n  =  pdao.paymentEnd(paraMap);
+
+				/*
 				if(n == 1) {
 					request.setAttribute("userid", userid);
 					request.setAttribute("email", email);
@@ -64,10 +111,9 @@ public class PaymentEndAction extends AbstractController{
 					request.setAttribute("postcode", postcode);
 					request.setAttribute("address", address);
 					request.setAttribute("finalPrice", finalPrice);
-					request.setAttribute("cartno", cartno);
-					
+					request.setAttribute("cartno", cartno);	
 				}
-	
+				*/
 				//super.setRedirect(false);   
 				super.setViewPage("/WEB-INF/product/paymentEnd.jsp");
 				

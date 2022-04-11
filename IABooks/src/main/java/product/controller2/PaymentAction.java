@@ -29,25 +29,33 @@ public class PaymentAction extends AbstractController {
 					
 				String paymentPrice = request.getParameter("paymentPrice");
 				String[] pk_cartnoArr = request.getParameterValues("pk_cartno");
+				String[] fk_pro_numArr = request.getParameterValues("fk_pro_num");
 				String[] pqtyArr = request.getParameterValues("pqty");
+				String[] pointArr = request.getParameterValues("point");
+				String[] partPriceArr = request.getParameterValues("partPrice");
 				String useCouponId = request.getParameter("useCouponId");
+				
+				
+				String pk_cartnoJoin =  String.join(",", pk_cartnoArr);
+				String fk_pro_numJoin = String.join(",", fk_pro_numArr);
+				String pqtyJoin = String.join(",", pqtyArr);
+				String pointJoin = String.join(",", pointArr);
+				String partPriceJoin = String.join(",", partPriceArr);
 				
 				InterProductDAO pdao = new ProductDAO();
 				Map<String, String> paraMap = new HashMap<>();
 					
 				int totalPrice = 0;
 				
-				String cartno = String.join(",", pk_cartnoArr);
-				
 				paraMap.put("userid", userid);
 				paraMap.put("useCouponId", useCouponId);
 				
 				for(int i=0; i<pk_cartnoArr.length; i++) {
-					String pk_cartno = pk_cartnoArr[i];
-					String pqty = pqtyArr[i];
+					String pk_cartno2 = pk_cartnoArr[i];// 변수 수정필요
+					String pqty2 = pqtyArr[i];//
 					
-					paraMap.put("pk_cartno", pk_cartno);
-					paraMap.put("pqty", pqty);
+					paraMap.put("pk_cartno", pk_cartno2);
+					paraMap.put("pqty", pqty2);
 					totalPrice += pdao.totalPriceSelect2(paraMap);
 				}
  
@@ -65,8 +73,7 @@ public class PaymentAction extends AbstractController {
 				
 				if(finalPrice == Integer.parseInt(paymentPrice) ) {
 					
-
-					//배송주소 포인트 빠짐
+					//배송주소 포인트 빠짐 (차감포인 빠짐)
 					String name = request.getParameter("name");
 					String email = request.getParameter("email");
 					String phone = request.getParameter("hp1") +"-"+ request.getParameter("hp2") +"-"+ request.getParameter("hp3");
@@ -79,10 +86,14 @@ public class PaymentAction extends AbstractController {
 					request.setAttribute("postcode", postcode);//우편번호
 					request.setAttribute("address", address);//주소
 					request.setAttribute("finalPrice", finalPrice);//주문금액
-					request.setAttribute("cartno", cartno);//주문한 카트번호 들
 					request.setAttribute("useCouponId", useCouponId);//사용한 쿠폰아이디
 					
-
+					request.setAttribute("pk_cartnoJoin", pk_cartnoJoin); //join
+					request.setAttribute("fk_pro_numJoin", fk_pro_numJoin);//join
+					request.setAttribute("pqtyJoin", pqtyJoin);//join
+					request.setAttribute("pointJoin", pointJoin);//join
+					request.setAttribute("partPriceJoin", partPriceJoin);//join
+					
 					//super.setRedirect(false);
 					super.setViewPage("/WEB-INF/product/paymentGateway.jsp");
 					

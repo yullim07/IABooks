@@ -493,3 +493,27 @@ nomaxvalue
 nominvalue
 nocycle
 nocache;
+
+
+seq_tbl_order
+
+
+create sequence seq_tbl_order
+start with 1
+increment by 1
+nomaxvalue
+nominvalue
+nocycle
+nocache;
+
+
+select a.sid, a.serial# from v$session a, v$lock b, dba_objects c 
+where a.sid = b.sid and b.id1=c.object_id and b.type='TM' and c.object_name='TBL_ORDERDETAIL';
+
+select a.sid, a.serial# 
+from v$session a, v$lock b, dba_objects c 
+where a.sid = b.sid and b.id1=c.object_id and b.type='TM' and c.object_name='tbl_ptoduct';
+
+SELECT A.SID, A.SERIAL#
+FROM V$SESSION A, V$LOCK B, DBA_OBJECTS C
+WHERE A.SID=B.SID AND B.ID1=C.OBJECT_ID AND B.TYPE='TM' AND C.OBJECT_NAME='tbl_ptoduct';

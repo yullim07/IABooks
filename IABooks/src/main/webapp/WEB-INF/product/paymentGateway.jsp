@@ -99,8 +99,15 @@ $(document).ready(function() {
 	<input type="hidden" id="postcode"  name="postcode" value="${requestScope.postcode}" />
 	<input type="hidden" id="address"  name="address" value="${requestScope.address}" />
 	<input type="hidden" id="finalPrice"  name="finalPrice" value="${requestScope.finalPrice}" />
-	<input type="hidden" id="cartno"  name="cartno" value="${requestScope.cartno}" />
 	<input type="hidden" id="useCouponId"  name="useCouponId" value="${requestScope.useCouponId}" />
+	
+	<input type="hidden" id="pk_cartnoJoin"  name="pk_cartnoJoin" value="${requestScope.pk_cartnoJoin}" />
+	<input type="hidden" id="fk_pro_numJoin"  name="fk_pro_numJoin" value="${requestScope.fk_pro_numJoin}" />
+	<input type="hidden" id="pqtyJoin"  name="pqtyJoin" value="${requestScope.pqtyJoin}" />
+	<input type="hidden" id="pointJoin"  name="pointJoin" value="${requestScope.pointJoin}" />
+	<input type="hidden" id="partPriceJoin"  name="partPriceJoin" value="${requestScope.partPriceJoin}" />
+	
+	
 </form>
 <body>
 </body>

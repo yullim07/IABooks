@@ -25,7 +25,7 @@ public interface InterProductDAO {
 	Map<String, Integer> getSearchPage(Map<String, String> paraMap) throws SQLException;
 	//페이징 처리를 위한 검색한 제품 select
 	List<ProductVO> selectPagingSearch(Map<String, String> paraMap) throws SQLException;
-	//주문할 회원 아이디 정보 불러오기 ? 삭제예정
+	//주문할 회원 아이디 정보 불러오기 ? (삭제예정)
 	MemberVO oderUserInfo(String userid) throws SQLException;
 	//인덱스에서 slidesList 띄우기
 	List<ProductVO> selectSlides(Map<String, String> paraMap) throws SQLException;
@@ -71,10 +71,14 @@ public interface InterProductDAO {
 	int totalPriceSelect2(Map<String, String> paraMap) throws SQLException;
 	//선택한 cartNoCheck 조회
 	Map<String, String> cartNoCheck(Map<String, String> paraMap) throws SQLException;
-	//선택한 cartNoCheck 조회
+	//선택한 cpriceCheck 조회
 	String cpriceCheck(Map<String, String> paraMap) throws SQLException;
-	//오더테이블에 결제 정보추가
+	//오더테이블에 결제 정보추가 (삭제예정)
 	int orderInsert(Map<String, String> paraMap) throws SQLException;
+	//결제 마지막 (오더테이블 insert, 제품수량 update, 포인트 insert)
+	int paymentEnd(Map<String, Object> paraMap) throws SQLException;
+	//order테이블 채번
+	int getSeq_tbl_order() throws SQLException;
 	
 	// 카테고리 목록 가져오기
 		// tbl_category 테이블에서 카테고리 대분류 번호(cnum), 카테고리코드(code), 카테고리명(cname)을 조회해오기 
@@ -98,6 +102,11 @@ public interface InterProductDAO {
 
 		// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
 		List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
+		
+		
+		
+		
+		
 		
 		
 		
