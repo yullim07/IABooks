@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String ctxPath = request.getContextPath();
+%>
 
 <!DOCTYPE html>
 <html>
@@ -22,7 +25,7 @@ $(document).ready(function() {
        pay_method : 'card',	// 결제 수단
        merchant_uid : 'merchant_' + new Date().getTime(), // 가맹점에서 생성/관리하는 고유 주문번호
        name : 'in사과_책결제',	 // 코인충전 또는 order 테이블에 들어갈 주문명 혹은 주문 번호. (선택항목)원활한 결제정보 확인을 위해 입력 권장(PG사 마다 차이가 있지만) 16자 이내로 작성하기를 권장
-       amount : '${requestScope.totalprice}',	 // '${requestScope.coinmoney}'써야하는데 테스트로 100원했다. 결제 금액 number 타입. 필수항목. 
+       amount : '100',	 // '${requestScope.coinmoney}'써야하는데 테스트로 100원했다. 결제 금액 number 타입. 필수항목. 
        buyer_email :'${requestScope.email}', //'${requestScope.email}',  // 구매자 email
        buyer_name : '${requestScope.name}',	  // 구매자 이름 
        buyer_tel : '${requestScope.phone}',    // 구매자 전화번호 (필수항목)
@@ -56,14 +59,29 @@ $(document).ready(function() {
 			2. jQuery를 이용한 방법
 			$(opener.location).attr("href", "javascript:부모창스크립트 함수명();");
 		*/
-		//	opener.location.href = "javascript:goCoinUpdate('${requestScope.userid}','${requestScope.coinmoney}');";
-			window.opener.goCoinUpdate('${requestScope.userid}','${requestScope.coinmoney}');
-		//  $(opener.location).attr("href", "javascript:goCoinUpdate('${requestScope.userid}','${requestScope.coinmoney}');");
+			//	opener.location.href = "javascript:goCoinUpdate('${requestScope.userid}','${requestScope.coinmoney}');";
+			///window.opener.goCoinUpdate('${requestScope.userid}','${requestScope.coinmoney}');
+			//  $(opener.location).attr("href", "javascript:goCoinUpdate('${requestScope.userid}','${requestScope.coinmoney}');");
+			/*
+					request.setAttribute("userid", userid);//아이디
+					request.setAttribute("name", name);//이름
+					request.setAttribute("email", email);//이메일
+					request.setAttribute("phone", phone);//전화
+					request.setAttribute("postcode", postcode);//우편번호
+					request.setAttribute("address", address);//주소
+					request.setAttribute("finalPrice", finalPrice);//주문금액
+					request.setAttribute("cartno", cartno);//주문한 카트번호 들
+					request.setAttribute("useCouponId", useCouponId);//사용한 쿠폰아이디
+					
+			*/
 			
-		    self.close();
+			 var frm = document.paymentEndFrm;
+			 frm.action ="<%= ctxPath%>/product/paymentEnd.book";
+			 frm.method="post";
+			 frm.submit(); 
 			
         } else {
-            location.href="/MyMVC/index.up";
+            location.href="/IABooks/index.book";
             alert("결제에 실패하였습니다.");
        }
 
@@ -72,8 +90,18 @@ $(document).ready(function() {
 }); // end of $(document).ready()-----------------------------
 
 </script>
-</head>	
-
+</head>
+<form name=paymentEndFrm>
+	<input type="hidden" id="userid"  name="userid" value="${requestScope.userid}" />
+	<input type="hidden" id="name"  name="name" value="${requestScope.name}" />
+	<input type="hidden" id="email"  name="email" value="${requestScope.email}" />
+	<input type="hidden" id="phone"  name="phone" value="${requestScope.phone}" />
+	<input type="hidden" id="postcode"  name="postcode" value="${requestScope.postcode}" />
+	<input type="hidden" id="address"  name="address" value="${requestScope.address}" />
+	<input type="hidden" id="finalPrice"  name="finalPrice" value="${requestScope.finalPrice}" />
+	<input type="hidden" id="cartno"  name="cartno" value="${requestScope.cartno}" />
+	<input type="hidden" id="useCouponId"  name="useCouponId" value="${requestScope.useCouponId}" />
+</form>
 <body>
 </body>
 </html>

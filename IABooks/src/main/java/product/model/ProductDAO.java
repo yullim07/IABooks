@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import member.model.CouponVO;
 import member.model.MemberVO;
 
 
@@ -1064,10 +1065,10 @@ public class ProductDAO implements InterProductDAO {
 						+ "	from tbl_cart join tbl_product "
 						+ "	on fk_pro_num = pk_pro_num "
 						+ "	where fk_userid = ? ";
-
+	
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("userid"));
-		
+				
 			rs = pstmt.executeQuery();
 			rs.next();
 			result = rs.getInt(1);
@@ -1130,7 +1131,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			if(rs.next()) { 
 			
 				ProductVO pvo = new ProductVO();
 				CategoryVO catevo = new CategoryVO();
@@ -1149,7 +1150,7 @@ public class ProductDAO implements InterProductDAO {
 				int c_status = rs.getInt("c_status");
 				int partPrice = rs.getInt("partPrice");
 				int totalPoint = rs.getInt("totalPoint");
-				System.out.println("totalPoint "+totalPoint);
+				
 				
 				pvo.setPro_name(pro_name);
 				pvo.setFk_cate_num(fk_cate_num);
@@ -1201,7 +1202,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			while (rs.next()) { 
 			
 				CartVO cvo = new CartVO();
 				ProductVO pvo = new ProductVO();
@@ -1221,7 +1222,7 @@ public class ProductDAO implements InterProductDAO {
 				int c_status = rs.getInt("c_status");
 				int partPrice = rs.getInt("partPrice");
 				int totalPoint = rs.getInt("totalPoint");
-				System.out.println("totalPoint "+totalPoint);
+				
 				
 				pvo.setPro_name(pro_name);
 				pvo.setFk_cate_num(fk_cate_num);
@@ -1276,7 +1277,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			if(rs.next()) { 
 				CartVO cvo = new CartVO();
 				ProductVO pvo = new ProductVO();
 				CategoryVO catevo = new CategoryVO();
@@ -1295,7 +1296,7 @@ public class ProductDAO implements InterProductDAO {
 				int c_status = rs.getInt("c_status");
 				int partPrice = rs.getInt("partPrice");
 				int totalPoint = rs.getInt("totalPoint");
-				System.out.println("totalPoint "+totalPoint);
+				
 				
 				pvo.setPro_name(pro_name);
 				pvo.setFk_cate_num(fk_cate_num);
@@ -1325,13 +1326,158 @@ public class ProductDAO implements InterProductDAO {
 		return orderList;
 	}//end of public List<CartVO> orderAll(Map<String, String> paraMap) throws SQLException
 	
-	
-	
-	
+	//로그인한 유저가 사용가능한 쿠폰 
+	@Override
+	public List<CouponVO> userCoupon(Map<String, String> paraMap) throws SQLException {
+		List<CouponVO> couponList = new ArrayList<>();
 
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select cname, cprice, cminprice, pk_coupon_id "
+						+ " from "
+						+ " tbl_user_coupon_status "
+						+ " join tbl_coupon "
+						+ " on coupon_id = pk_coupon_id "
+						+ " where fk_userid = ? and user_cp_status = 1 and cenddate >= sysdate ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				CouponVO cpvo = new CouponVO();
+				cpvo.setCname(rs.getString(1));
+				cpvo.setCprice(rs.getString(2));
+				cpvo.setCminprice(rs.getString(3));
+				cpvo.setCouponid(rs.getString(4));
+				couponList.add(cpvo);
+			}
 	
+		} finally {
+			close();
+		}
+		return couponList;
+	}//end of public List<CouponVO> userCoupon(Map<String, String> paraMap) throws SQLException
 	
+	//선택한 totalPrice조회
+	@Override
+	public int totalPriceSelect2(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select sum(ck_odr_qty*pro_saleprice) "
+						+ "	from tbl_cart join tbl_product "
+						+ "	on fk_pro_num = pk_pro_num "
+						+ "	where fk_userid = ? and pk_cartno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("pk_cartno"));
+	
+			rs = pstmt.executeQuery();
+			rs.next();
+			result = rs.getInt(1);
 
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of public int totalPriceSelect2(Map<String, String> paraMap) throws SQLException
+	
+	//선택한 cartNoCheck 조회
+	@Override
+	public Map<String, String> cartNoCheck(Map<String, String> paraMap) throws SQLException {
+		Map<String, String> cartNoCheck = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pk_cartno "
+						+ " from tbl_cart "
+						+ " join tbl_product "
+						+ " on fk_pro_num = pk_pro_num "
+						+ " where fk_pro_num = ? and fk_userid = ? ";
+
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("pk_pro_num"));
+			pstmt.setString(2, paraMap.get("userid"));
+	
+			rs = pstmt.executeQuery();
+			rs.next();
+			cartNoCheck.put("pk_cartno", rs.getString(1));	
+		
+		} finally {
+			close();
+		}
+		
+		return cartNoCheck;
+	}//end of public Map<String, Integer> cartNoCheck(Map<String, String> paraMap) throws SQLException
+	
+	//선택한 cartNoCheck 조회
+	@Override
+	public String cpriceCheck(Map<String, String> paraMap) throws SQLException {
+		String result = "";
+
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select cprice "
+						+ " from "
+						+ " tbl_user_coupon_status "
+						+ " join tbl_coupon "
+						+ " on coupon_id = pk_coupon_id "
+						+ " where pk_coupon_id = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("useCouponId"));
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+			result = rs.getString(1);
+			
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of public String cpriceCheck(Map<String, String> paraMap) throws SQLException
+	
+	//오더테이블에 결제 정보추가
+	@Override
+	public int orderInsert(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " insert into "
+						+ " tbl_order(pk_odrcode, fk_userid, odr_totalprice, rv_name, rv_zipcode, rv_addr, rv_phone, rv_email, ODR_CARTNO) "
+						+ " values (seq_order_ordercode.nextval, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			
+			//배송, 포인트 추가 ODR_TOTALPOINT, DEL_MSG
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setInt(2, Integer.parseInt(paraMap.get("finalPrice")) );
+			pstmt.setString(3, paraMap.get("name"));
+			pstmt.setString(4, paraMap.get("postcode"));
+			pstmt.setString(5, paraMap.get("address"));
+			pstmt.setString(6, paraMap.get("phone"));
+			pstmt.setString(7, paraMap.get("email"));
+			pstmt.setString(8, paraMap.get("cartno"));
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of 
+	
 	// ============================================================================================
 
 
@@ -1510,6 +1656,19 @@ public class ProductDAO implements InterProductDAO {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 		// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블이니까 주석처리
 		/*
