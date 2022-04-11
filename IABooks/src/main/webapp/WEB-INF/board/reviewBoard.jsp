@@ -136,7 +136,7 @@
 			 <c:forEach var="board" items="${requestScope.reviewList}" >
                    <tr>
                    <td class="tbl_number mycenter">${board.pk_rnum}</td>
-                   <td class="tbl_bookname"> <img src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>${board.product.pro_name}
+                   <td class="tbl_bookname"> <a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${board.fk_pnum}"><img src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>${board.product.pro_name}</a>
                         
                      
                    </td>

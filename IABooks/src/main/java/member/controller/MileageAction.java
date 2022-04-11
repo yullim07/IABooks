@@ -36,7 +36,7 @@ public class MileageAction extends AbstractController {
 			Map<String, String> paraMap = new HashMap<String, String>(); // paraMap 이라는 Map 객체 생성 (파라미터값으로 String)
 			paraMap.put("userid", (String)session.getAttribute("userid")); // 세션에서 userid 값을 받아와서 파라맵에 넣어줌
 			
-			Map<String,String> result  = mdao.mgInfo(paraMap); // sql에서 셀렉된것들이 맵에 담겨서 mgInfo 메소드를 써서 mdao로 가져온 후 그걸 result 라는 맵에 담음
+/*			Map<String,String> result  = mdao.mgInfo(paraMap); // sql에서 셀렉된것들이 맵에 담겨서 mgInfo 메소드를 써서 mdao로 가져온 후 그걸 result 라는 맵에 담음
 			
 			request.setAttribute("all_mg", result.get("all_mg")); 
 			request.setAttribute("used_mg", result.get("used_mg"));
@@ -46,7 +46,7 @@ public class MileageAction extends AbstractController {
 			
 			
 			List<MileageVO> orderMileageInfo = mdao.orderMileageInfo(paraMap);
-			
+*/			
 			
 			
 			
