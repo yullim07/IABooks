@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import member.model.CouponVO;
 import member.model.MemberVO;
 
 
@@ -1064,10 +1065,10 @@ public class ProductDAO implements InterProductDAO {
 						+ "	from tbl_cart join tbl_product "
 						+ "	on fk_pro_num = pk_pro_num "
 						+ "	where fk_userid = ? ";
-
+	
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("userid"));
-		
+				
 			rs = pstmt.executeQuery();
 			rs.next();
 			result = rs.getInt(1);
@@ -1130,7 +1131,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			if(rs.next()) { 
 			
 				ProductVO pvo = new ProductVO();
 				CategoryVO catevo = new CategoryVO();
@@ -1149,7 +1150,7 @@ public class ProductDAO implements InterProductDAO {
 				int c_status = rs.getInt("c_status");
 				int partPrice = rs.getInt("partPrice");
 				int totalPoint = rs.getInt("totalPoint");
-				System.out.println("totalPoint "+totalPoint);
+				
 				
 				pvo.setPro_name(pro_name);
 				pvo.setFk_cate_num(fk_cate_num);
@@ -1201,7 +1202,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			while (rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			while (rs.next()) { 
 			
 				CartVO cvo = new CartVO();
 				ProductVO pvo = new ProductVO();
@@ -1221,7 +1222,7 @@ public class ProductDAO implements InterProductDAO {
 				int c_status = rs.getInt("c_status");
 				int partPrice = rs.getInt("partPrice");
 				int totalPoint = rs.getInt("totalPoint");
-				System.out.println("totalPoint "+totalPoint);
+				
 				
 				pvo.setPro_name(pro_name);
 				pvo.setFk_cate_num(fk_cate_num);
@@ -1276,7 +1277,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) { // 결과값이 1개 이상일 수도 있으니까
+			if(rs.next()) { 
 				CartVO cvo = new CartVO();
 				ProductVO pvo = new ProductVO();
 				CategoryVO catevo = new CategoryVO();
@@ -1295,7 +1296,7 @@ public class ProductDAO implements InterProductDAO {
 				int c_status = rs.getInt("c_status");
 				int partPrice = rs.getInt("partPrice");
 				int totalPoint = rs.getInt("totalPoint");
-				System.out.println("totalPoint "+totalPoint);
+				
 				
 				pvo.setPro_name(pro_name);
 				pvo.setFk_cate_num(fk_cate_num);
@@ -1325,13 +1326,344 @@ public class ProductDAO implements InterProductDAO {
 		return orderList;
 	}//end of public List<CartVO> orderAll(Map<String, String> paraMap) throws SQLException
 	
+	//로그인한 유저가 사용가능한 쿠폰 
+	@Override
+	public List<CouponVO> userCoupon(Map<String, String> paraMap) throws SQLException {
+		List<CouponVO> couponList = new ArrayList<>();
+
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select cname, cprice, cminprice, pk_coupon_id "
+						+ " from "
+						+ " tbl_user_coupon_status "
+						+ " join tbl_coupon "
+						+ " on coupon_id = pk_coupon_id "
+						+ " where fk_userid = ? and user_cp_status = 1 and cenddate >= sysdate ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				CouponVO cpvo = new CouponVO();
+				cpvo.setCname(rs.getString(1));
+				cpvo.setCprice(rs.getString(2));
+				cpvo.setCminprice(rs.getString(3));
+				cpvo.setCouponid(rs.getString(4));
+				couponList.add(cpvo);
+			}
 	
+		} finally {
+			close();
+		}
+		return couponList;
+	}//end of public List<CouponVO> userCoupon(Map<String, String> paraMap) throws SQLException
 	
+	//선택한 totalPrice조회
+	@Override
+	public int totalPriceSelect2(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select sum(ck_odr_qty*pro_saleprice) "
+						+ "	from tbl_cart join tbl_product "
+						+ "	on fk_pro_num = pk_pro_num "
+						+ "	where fk_userid = ? and pk_cartno = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setString(2, paraMap.get("pk_cartno"));
 	
+			rs = pstmt.executeQuery();
+			rs.next();
+			result = rs.getInt(1);
+
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of public int totalPriceSelect2(Map<String, String> paraMap) throws SQLException
+	
+	//선택한 cartNoCheck 조회
+	@Override
+	public Map<String, String> cartNoCheck(Map<String, String> paraMap) throws SQLException {
+		Map<String, String> cartNoCheck = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql = " select pk_cartno "
+						+ " from tbl_cart "
+						+ " join tbl_product "
+						+ " on fk_pro_num = pk_pro_num "
+						+ " where fk_pro_num = ? and fk_userid = ? ";
+
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("pk_pro_num"));
+			pstmt.setString(2, paraMap.get("userid"));
+	
+			rs = pstmt.executeQuery();
+			rs.next();
+			cartNoCheck.put("pk_cartno", rs.getString(1));	
+		
+		} finally {
+			close();
+		}
+		
+		return cartNoCheck;
+	}//end of public Map<String, Integer> cartNoCheck(Map<String, String> paraMap) throws SQLException
+	
+	//선택한 cartNoCheck 조회
+	@Override
+	public String cpriceCheck(Map<String, String> paraMap) throws SQLException {
+		String result = "";
+
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select cprice "
+						+ " from "
+						+ " tbl_user_coupon_status "
+						+ " join tbl_coupon "
+						+ " on coupon_id = pk_coupon_id "
+						+ " where pk_coupon_id = ? ";
+		
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, paraMap.get("useCouponId"));
+			
+			rs = pstmt.executeQuery();
+			rs.next();
+			result = rs.getString(1);
+			
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of public String cpriceCheck(Map<String, String> paraMap) throws SQLException
+	
+	//오더테이블에 결제 정보추가
+	@Override
+	public int orderInsert(Map<String, String> paraMap) throws SQLException {
+		int result = 0;
+		try {
+			conn = ds.getConnection();
+			String sql = " insert into "
+						+ " tbl_order(pk_odrcode, fk_userid, odr_totalprice, rv_name, rv_zipcode, rv_addr, rv_phone, rv_email, ODR_CARTNO) "
+						+ " values (seq_order_ordercode.nextval, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			
+			//배송, 포인트 추가 ODR_TOTALPOINT, DEL_MSG
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			pstmt.setString(1, paraMap.get("userid"));
+			pstmt.setInt(2, Integer.parseInt(paraMap.get("finalPrice")) );
+			pstmt.setString(3, paraMap.get("name"));
+			pstmt.setString(4, paraMap.get("postcode"));
+			pstmt.setString(5, paraMap.get("address"));
+			pstmt.setString(6, paraMap.get("phone"));
+			pstmt.setString(7, paraMap.get("email"));
+			pstmt.setString(8, paraMap.get("cartno"));
+			result = pstmt.executeUpdate();
+			
+		} finally {
+			close();
+		}
+		return result;
+	}//end of 
+	
+	//결제 마지막 (오더테이블 insert, 제품수량 update, 포인트 insert  쿠폰제거)
+	@Override
+	public int paymentEnd(Map<String, Object> paraMap) throws SQLException {
+		
+		int isSuccess = 0;
+		int n1=0, n2=0, n3=0, n4=0, n5=0, n6=0;
+		try {
+			conn = ds.getConnection();
+			
+			conn.setAutoCommit(false); // 수동커밋
+			 
+			String odrcode = (String) paraMap.get("odrcode");
+			String useCouponId = (String) paraMap.get("useCouponId");
+			String totalPoint = String.valueOf(paraMap.get("totalPoint"));
+			
+			//주문테이블 insert
+			String sql = " insert into "
+						+ " tbl_order(pk_odrcode, fk_userid, odr_totalprice, rv_name, rv_zipcode, rv_addr, rv_phone, rv_email) "
+						+ " values (?, ?, ?, ?, ?, ?, ?, ?) ";
+			
+			
+			//배송, DEL_MSG 추가
+			pstmt = conn.prepareStatement(sql);
+
+			pstmt.setString(1, odrcode);
+			pstmt.setString(2, (String) paraMap.get("userid"));
+			pstmt.setInt(3, Integer.parseInt((String) paraMap.get("finalPrice")) );
+			pstmt.setString(4, (String) paraMap.get("name"));
+			pstmt.setString(5, (String) paraMap.get("postcode"));
+			pstmt.setString(6, (String) paraMap.get("address"));
+			pstmt.setString(7, (String) paraMap.get("phone"));
+			pstmt.setString(8, (String) paraMap.get("email"));
+
+			 n1 = pstmt.executeUpdate();
+			
+
+			// 주문상세 테이블에 insert
+			if(n1 == 1) {
+				
+				String[] fk_pro_numArr = (String[]) paraMap.get("fk_pro_numArr");
+				String[] pqtyArr = (String[]) paraMap.get("pqtyArr");
+				String[] partPriceArr = (String[]) paraMap.get("partPriceArr");
+				
+
+				for(int i=0; i<fk_pro_numArr.length; i++) {
+					sql = " insert into tbl_orderdetail(pk_odr_seqnum, fk_odrcode, fk_pro_num, ck_odr_totalqty, odr_price, ck_deliverstatus) "
+						+ " values(seq_tbl_orderdetail.nextval, ?, ?, ?, ?, default)" ; 
+					
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setString(1, odrcode);
+					pstmt.setString(2, fk_pro_numArr[i]);
+					pstmt.setString(3, pqtyArr[i]);
+					pstmt.setString(4,  partPriceArr[i] );
+					
+					n2 = pstmt.executeUpdate();
+					
+					if(n2 != 1) {
+						isSuccess = 0;
+						return isSuccess;
+					}
+						
+				}//end of for
+				
+				//제품 수량 업데이트
+				if(n2 == 1) {
+					
+					for(int i=0; i<fk_pro_numArr.length; i++) {
+						sql = " update tbl_product set pro_qty = pro_qty- ? "
+								+ " where pk_pro_num = ? "; 
+							
+						pstmt = conn.prepareStatement(sql);
+						pstmt.setString(1, pqtyArr[i]);
+						pstmt.setString(2, fk_pro_numArr[i]);
+						
+						n3 = pstmt.executeUpdate();
+					
+						if(n3 != 1) {
+							isSuccess = 0;
+							return isSuccess;
+						}
+						
+					}//end of for
+					
+					//사용 쿠폰 업데이트
+					if(n3 == 1) {
+					
+						if(!("".equals(useCouponId) || useCouponId == null) ){ 
+							sql = " update tbl_user_coupon_status set user_cp_status = 0 "
+									+ " where coupon_id = ? "; 
+								
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setString(1, useCouponId);
+								
+							n4 = pstmt.executeUpdate();
+					
+						}else {
+							n4 = 1;
+						}
+						//포인트 적립
+						if(n4 == 1) {
+							
+							if(!("".equals(totalPoint) || totalPoint == null) ){ 
+							sql = " insert into "
+								+ " tbl_mileage(fk_userid, fk_odrcode, mileageinfo) "
+								+ " values (?, ?, ?) ";
+							
+							pstmt = conn.prepareStatement(sql);
+							pstmt.setString(1, (String) paraMap.get("userid"));
+							pstmt.setString(2, odrcode);
+							pstmt.setString(3, String.valueOf(paraMap.get("totalPoint")) );
+							
+							n5 = pstmt.executeUpdate();
+							}else {
+								n5= 1;
+							}
+							//장바구니 삭제
+							if(n5 == 1) {
+								
+								String[] pk_cartnoArr = (String[]) paraMap.get("pk_cartnoArr");
+								
+								for(int i=0; i<pk_cartnoArr.length; i++) {
+									sql = "delete from tbl_cart where pk_cartno = ? ";
+										
+									pstmt = conn.prepareStatement(sql);
+									pstmt.setString(1, pk_cartnoArr[i]);
+									
+									n6 = pstmt.executeUpdate();
+								
+									if(n6 != 1) {
+										isSuccess = 0;
+										return isSuccess;
+									}
+								}//end of for
+								
+							}//end of 
+							
+						}//end of if(n4 == 1)
+						
+					}//end of if(n3 == 1)
+					
+				}//end of if(n2 == 1)
+				
+			}//end of if(n1 == 1)
+			
+			if(n1==1 && n2==1 && n3==1 && n4==1 && n5==1 && n6==1) {
+				conn.commit();
+			}
+			
+			conn.setAutoCommit(false); // 자동커밋으로 전환 
+			 
+		} finally {
+			close();
+		}
+		return isSuccess ;
+	}//end of public int paymentEnd(Map<String, String> paraMap) throws SQLException
+	
+	//채번
+	@Override
+	public int getSeq_tbl_order() throws SQLException {
+		int seq = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " select seq_tbl_order.nextval "
+			 		    + " from dual ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 			 
+			 rs = pstmt.executeQuery();
+			 rs.next();
+			 
+			 seq = rs.getInt(1);
+			 
+		} finally {
+			close();
+		}
+		
+		return seq;
+	}//end of public int getSeq_tbl_order() throws SQLException 
+
+
 
 	
 	
-
+	
 	// ============================================================================================
 
 
@@ -1510,6 +1842,23 @@ public class ProductDAO implements InterProductDAO {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		
 		// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블이니까 주석처리
 		/*
