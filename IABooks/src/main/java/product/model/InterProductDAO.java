@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.*;
 //import java.util.Map;
 
+import member.model.CouponVO;
 import member.model.MemberVO;
 
 public interface InterProductDAO {
@@ -24,7 +25,7 @@ public interface InterProductDAO {
 	Map<String, Integer> getSearchPage(Map<String, String> paraMap) throws SQLException;
 	//페이징 처리를 위한 검색한 제품 select
 	List<ProductVO> selectPagingSearch(Map<String, String> paraMap) throws SQLException;
-	//주문할 회원 아이디 정보 불러오기 ? 삭제예정
+	//주문할 회원 아이디 정보 불러오기 ? (삭제예정)
 	MemberVO oderUserInfo(String userid) throws SQLException;
 	//인덱스에서 slidesList 띄우기
 	List<ProductVO> selectSlides(Map<String, String> paraMap) throws SQLException;
@@ -62,12 +63,23 @@ public interface InterProductDAO {
 	List<CartVO> orderAll(Map<String, String> paraMap) throws SQLException;
 	//한개 상품 주문하기
 	List<CartVO> orderOne(Map<String, String> paraMap) throws SQLException;
-	////////////////////////////////////////////////////////////
-		
+	//로그인한 유저가 사용가능한 쿠폰 
+	List<CouponVO> userCoupon(Map<String, String> paraMap)throws SQLException;
 	// 장바구니 조회하기 메소드
 	List<CartVO> getCart(String fk_userid) throws SQLException;
-
-
+	//선택한 totalPrice조회
+	int totalPriceSelect2(Map<String, String> paraMap) throws SQLException;
+	//선택한 cartNoCheck 조회
+	Map<String, String> cartNoCheck(Map<String, String> paraMap) throws SQLException;
+	//선택한 cpriceCheck 조회
+	String cpriceCheck(Map<String, String> paraMap) throws SQLException;
+	//오더테이블에 결제 정보추가 (삭제예정)
+	int orderInsert(Map<String, String> paraMap) throws SQLException;
+	//결제 마지막 (오더테이블 insert, 제품수량 update, 포인트 insert)
+	int paymentEnd(Map<String, Object> paraMap) throws SQLException;
+	//order테이블 채번
+	int getSeq_tbl_order() throws SQLException;
+	
 	// 카테고리 목록 가져오기
 		// tbl_category 테이블에서 카테고리 대분류 번호(cnum), 카테고리코드(code), 카테고리명(cname)을 조회해오기 
 		// VO 를 사용하지 않고 Map 으로 처리
@@ -90,6 +102,17 @@ public interface InterProductDAO {
 
 		// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
 		List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 
 		// 장바구니 테이블에 해당 제품이 존재하지 않는 경우에는 tbl_cart 테이블에 insert를 해야 하고,
 		// 장바구니 테이블에 해당 제품이 존재하는 경우에는 또 그 제품을 추가해서 장바구니 담기를 한다면 tbl_cart 테이블에 update를 한다.
