@@ -56,8 +56,14 @@ public interface InterBoardDAO {
 	   // 한 제품에 대한 Qna게시글 갯수 알아오기
 	   int countOneProductQna(Map<String, String> paraMap) throws SQLException;
 	
-	
-	
+	   //댓글 작성하기
+	   int writeCmtBoard(CommentVO cvo) throws SQLException;
+
+	   //비밀글 유무 알아오기
+	   int searchIssecret(int pk_qna_num) throws SQLException;
+
+	   // 댓글 삭제하기 
+	   int deleteComment(CommentVO cVO) throws SQLException;
 	
 	
 	
@@ -167,18 +173,7 @@ public interface InterBoardDAO {
 	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
 
 
-	/*
-	 * // Ajax(JSON)를 사용하여 더보기 방식(페이징처리)으로 상품정보를 8개씩 잘라서(start ~ end) 조회해오기
-	 * List<CommentVO> insertComment(Map<String, String> paraMap);
-	 */
-	
 
-	
-
-
-	
-
-	
 
 	
 
@@ -203,17 +198,11 @@ public interface InterBoardDAO {
 	// FAQ 카테고리 불러오기
 	List<HashMap<String, String>> getFaqCateList() throws SQLException;
 
-	
-	int writeCmtBoard(CommentVO cvo) throws SQLException;
+	// 댓글 정보 알아오기
+	CommentVO getCmtContent(int pk_cmt_num) throws SQLException;
 
-	//비밀글 유무 알아오기
-	int searchIssecret(int pk_qna_num) throws SQLException;
 
-	/*
-	 * // ***** 댓글목록(Comment)을 보여줄 메소드 생성하기 ***** // // VO를 사용하지 않고 Map 으로 처리해보겠습니다.
-	 * List<HashMap<String, String>> getCommentList() throws SQLException;
-	 * 
-	 */
+
 	
 	
 	

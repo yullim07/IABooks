@@ -37,7 +37,7 @@
    		border:1px solid  #e9e9e9; 
    		min-height: 40px;
    }
-   div#cmtlist_header > span {
+   div#cmtlist_header  span {
     	margin-left: 10px; 
     	font-size: 12px;
    }
@@ -89,6 +89,12 @@
 		//댓글쓰기
 		
 		$("button#submitCmt").click( () =>{
+			
+			
+				
+			
+			
+				listComment().hide();
 			 	var commenttext=$("#comment_content").val(); //댓글 내용
 		        var pk_qna_num="${(requestScope.qnaVO).pk_qna_num}"; //게시물 번호
 		        var comment_pwd = $("#comment_pwd").val();
@@ -106,7 +112,7 @@
 		            url: "<%= ctxPath%>/board/commentSubmit.book", 
 		            data: param, //보낼 데이터
 		            dataType:"json",  
-		            traditional : true,
+		          /*   traditional : true, */
 		            /* contentType: "application/x-www-form-urlencoded; charset=UTF-8", */
 
 		            success: function(json){ //데이터를 보내는것이 성공했을시 출력되는 메시지
@@ -159,13 +165,19 @@
 	        				+ "<div> "+item.pk_cmt_num+"</div>"
 	        			 */
 	        			 var loginuserid = "${sessionScope.loginuser.userid}";
+	        			 var loginusername = "${sessionScope.loginuser.name}";
 	        			 var writeuserid = item.fk_userid;
-	        			 html += "<div id='cmtlist_header'>" 
-	        				   + "<div> <strong>"+writeuserid.substr(0,2)+"*****</strong>"
-	        				   + "<span style='margin-left: 3px; font-size: 12px;'>"+item.cmt_date+"</span>";
+	        			 html += "<div id='cmtlist_header'>" ;
+	        			 if( writeuserid == 'admin'){
+	        				 html += "<div> <strong>인디펍("+loginusername+")</strong>";
+	        			 }
+	        			 else{
+	        				  html += "<div> <strong>"+writeuserid.substr(0,2)+"*****</strong>";
+	        			 }
+	        			  html  += "<span>"+item.cmt_date+"</span>";
 	        			  if( loginuserid != "" && writeuserid == loginuserid ) {
-	        					html += "<button class='cmtButton' type='button'>삭제</button>"
-	        				   		  + "<button class='cmtButton' type='button' onclick='delMyReview("+item.pk_cmt_num+")'>수정</button>";
+	        					html += "<button class='cmtButton' type='button' onclick='delMyComment("+item.pk_cmt_num+")'>삭제</button>"
+	        				   		  + "<button class='cmtButton' type='button' >수정</button>";
 	        			  }
 	        			          				   
 	        			  html += "</div> </div>"
@@ -202,7 +214,7 @@
 		
 	    
 	 // 특정 글의 댓글을 삭제하는 함수
-	    function delMyComment(pk_cmt_seq) {
+	    function delMyComment(pk_cmt_num) {
 	       
 	       const bool = confirm("정말로 댓글을 삭제하시겠습니까?");
 	    //  console.log("bool => " + bool); // bool => true , bool => false
@@ -217,6 +229,7 @@
 	             success:function(json) { // {"n":1} 또는 {"n":0}
 	                if(json.n == 1) {
 	                   alert("댓글 삭제가 성공되었습니다.");
+	                   
 	                   listComment();
 	                }
 	                else {

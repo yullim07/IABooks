@@ -484,7 +484,7 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " delete tbl_qna_board  "
+			String sql = " delete from tbl_qna_board  "
 					   + " where pk_qna_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -515,12 +515,8 @@ public class BoardDAO implements InterBoardDAO {
 	@Override
 	public int writeCmtBoard(CommentVO cvo) throws SQLException{
 		
-		System.out.println("하잉");
 		int result = 0;
 	//	int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
-		System.out.println("바잉");
-	//	System.out.println("들어왔니 fkqnanum? : " + fk_qna_num);
-		
 		
 		try {
 		
@@ -542,7 +538,6 @@ public class BoardDAO implements InterBoardDAO {
 		} finally {
 			close();
 		}
-		System.out.println("바잉2");
 		return result;
 	}
 	
@@ -551,8 +546,6 @@ public class BoardDAO implements InterBoardDAO {
 	@Override
 	public List<CommentVO> readCmtContent(String fk_qna_num) throws SQLException {
 		List<CommentVO> cmtList = new ArrayList<>();
-		
-		System.out.println("어퓨ㅣㅣ");
 		
 		try {
 			conn = ds.getConnection();
@@ -578,33 +571,88 @@ public class BoardDAO implements InterBoardDAO {
 				
 				cmtList.add(cVO);
 				
-				/*
-				int pk_cmt_num  = rs.getInt(1);
-				String fk_userid = rs.getString(2);
-				int nfk_qna_num = rs.getInt(3);
-				String cmt_passwd = rs.getString(4);
-				String cmt_contents = rs.getString(5);
-				String cmt_date = rs.getString(6);
-				int isdelete = rs.getInt(7);
-				
-				 cmtVO = new CommentVO();
-				 
-				 cmtVO.setPk_cmt_num(pk_cmt_num);
-				 cmtVO.setFk_userid(fk_userid);
-				 cmtVO.setFk_qna_num(nfk_qna_num);
-				 cmtVO.setCmt_passwd(cmt_passwd);
-				 cmtVO.setCmt_contents(cmt_contents);
-				 cmtVO.setCmt_date(cmt_date);
-				 cmtVO.setIsdelete(isdelete);
-		*/		
-			}//end of while------
+			}//end of while(rs.next()) ------
 			
-		
 		}finally {
 			close();
 		}
 		
 		return cmtList;
+	}
+	
+	// 댓글 정보 알아오기
+	@Override
+	public CommentVO getCmtContent(int pk_cmt_num) throws SQLException{
+
+		CommentVO cVO = null;
+		
+		
+		// System.out.println("몇 번이니? " + pk_qna_num);
+		
+		try {
+			conn = ds.getConnection();
+			
+			String	sql = " select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete \r\n"
+						+ "	from tbl_comment\r\n"
+						+ "	where isdelete = 0 and pk_cmt_num = ? "; //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pk_cmt_num);
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				cVO = new CommentVO();
+				
+				cVO.setPk_cmt_num(rs.getInt(1));
+				cVO.setFk_userid(rs.getString(2));
+				cVO.setFk_qna_num(rs.getInt(3));
+				cVO.setCmt_passwd(rs.getString(4));
+				cVO.setCmt_contents(rs.getString(5));
+				cVO.setCmt_date(rs.getString(6));
+				cVO.setIsdelete(rs.getInt(7));
+				
+				
+			//	System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
+			//	System.out.println("보자구"+qnaVO.getQna_readcount());
+				
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return cVO;
+	}
+	
+	
+	// 댓글 삭제하기 
+	@Override
+	public int deleteComment(CommentVO cVO) throws SQLException {
+		int result = 0;
+			
+		System.out.println("확인해"+cVO.getPk_cmt_num());
+		try {
+		
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_comment "
+					   + " where pk_cmt_num = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			pstmt.setInt(1, cVO.getPk_cmt_num());
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return result;
 	}
 	
 	
@@ -2252,6 +2300,10 @@ public class BoardDAO implements InterBoardDAO {
 			return categoryList;
 			
 		} // end of public List<HashMap<String, String>> getFaqCateList() throws SQLException
+		
+		
+		
+
 
 
 		

@@ -888,3 +888,24 @@ alter table tbl_qna_board add qna_file1 varchar2(200);
 
 alter system set processes=300 scope=spfile;
  set hidden param parseThreshold = 150000;
+ 
+ 
+ 
+ select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete \r\n"
+					+ "			from tbl_comment \r\n"
+					+ "			where isdelete = 0 and fk_qna_num = ?
+ 
+ 
+ 
+ select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete 
+				from tbl_comment
+				where isdelete = 0 and fk_qna_num = '3838';
+ 
+  select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete 
+				from tbl_comment
+				where isdelete = 0 and pk_cmt_num = 85;
+ 
+ delete from tbl_comment 
+ where fk_userid= 'admin';
+ 
+ commit;
