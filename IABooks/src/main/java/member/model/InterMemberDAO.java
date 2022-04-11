@@ -53,9 +53,6 @@ public interface InterMemberDAO {
 	// 회원이 가지고 있는 쿠폰 개수 알아오기
 	int CouponNum(Map<String, String> paraMap) throws SQLException;
 
-	// 쿠폰만료기간 지나면 사용막기 
-	int expireCoupon(Map<String, String> paraMap) throws SQLException;
-	
 	// 쿠폰번호 중복 발행을 막는 메소드
 	String randDuplicateCheck(String couponNumber) throws SQLException;
 	
@@ -65,15 +62,74 @@ public interface InterMemberDAO {
 	// 쿠폰등록시 이상한 쿠폰번호 쓰는 거 막기
 	boolean CPDuplicateCheck(Map<String, String> paraMap) throws SQLException;
   
-/////////////////////////////////////////////// 파일 합치기
+
+	
+	/////////////////////////////////////////////// 파일 합치기
 	
 	
 	// 아이디를 입력받아서 해당 사용자의 마일리지액 조회
-	Map<String, String> mgInfo (Map<String, String> paraMap) throws SQLException;
+//	Map<String, String> mgInfo (Map<String, String> paraMap) throws SQLException;
 
 	// 주문DB에서 데이터를 뽑아서 주문에 대한 상세정보 조회
-	List<MileageVO> orderMileageInfo(Map<String, String> paraMap) throws SQLException;
+//	List<MileageVO> orderMileageInfo(Map<String, String> paraMap) throws SQLException;
+
+
+///////////////////////////////////////////////////////////// 새로시작
 	
+	
+	// == 페이징 처리가 되어진 모든 회원 또는 검색한 회원 목록 보여주기 ==
+	List<MemberVO> selectPagingMember(Map<String, String> paraMap) throws SQLException;
+	
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기. 
+	int getMemberTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	// userid 값을 입력받아서 회원 한명에 대한 상세 정보를 알아오기 
+	MemberVO memberOneDetail(String userid) throws SQLException;
+
+	// 관리자 페이지에서 관리자가 회원의 정보변경 휴면계정	 
+	int userUStatusUpdate(String userid) throws SQLException;
+
+	// 관리자 페이지에서 관리자가 회원의 정보변경 회원탈퇴
+	int userStatusUpdate(String userid) throws SQLException;
+
+	// 관리자 페이지에서 관리자가 회원의 정보변경 일반회원으로 변경
+	int userNormalStatusUpdate(String userid) throws SQLException;
+
+	// 쿠폰삭제하기 
+	int couponDelete(String couponid, String userid) throws SQLException;
+	
+	// 모든 쿠폰 정보 보여주기
+	List<CouponVO> couponListInfo() throws SQLException;
+	
+	// 마이페이지 주문처리현황 1단계
+	int deliverStep1(String userid) throws SQLException;
+
+	// 마이페이지 주문처리현황 2단계
+	int deliverStep2(String userid) throws SQLException;
+
+	// 마이페이지 주문처리현황 3단계
+	int deliverStep3(String userid) throws SQLException;
+
+	// 마이페이지 주문처리현황 4단계
+	int deliverStep4(String userid) throws SQLException;
+	
+	// 마이페이지 지금까지 구매한 내역 조회하기
+	int allPrice(String userid) throws SQLException;
+	
+	// 마이페이지 지금까지 구매한 횟수 조회하기
+	int allOdrCount(String userid) throws SQLException;
+
+	// 마이페이지 사용가능한 마일리지 금액 조회
+	int useMileage(String userid) throws SQLException;
+
+	
+	
+
+
+
+
+	
+
 	
    
    

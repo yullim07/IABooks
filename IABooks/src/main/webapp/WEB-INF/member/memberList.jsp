@@ -15,17 +15,7 @@
 
 </style>
 
-<jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
-
-
-<style type="text/css">
-
-tr.memberInfo:hover {
-	background-color: #e6ffe6;
-	cursor: pointer;
-}
-
-</style>
+<jsp:include page="/WEB-INF/header.jsp"/>
 
 <script type="text/javascript">
 
@@ -45,7 +35,7 @@ tr.memberInfo:hover {
 		
 		$("select#sizePerPage").val("${requestScope.sizePerPage}");
 		
-		
+/* 		
 		$("form[name='memberFrm']").submit(function() {
 			if($("select#searchType").val() == "" ) {
 				alert("검색대상을 선택해주세요");
@@ -58,8 +48,8 @@ tr.memberInfo:hover {
 			}
 			
 		});
-		
-		$("input#searchWord").bind("keyup", function(event) {
+		 */
+		$("input#search").bind("keyup", function(event) {
 			if(event.keyCode == 13) {
 				// 검색어에서 엔터를 치면 검색하러 가도록 한다.
 				goSearch()
@@ -70,7 +60,7 @@ tr.memberInfo:hover {
 		
 		if("${requestScope.searchType}" != "" ){
 			$("select#searchType").val("${requestScope.searchType}");  
-			$("input#searchWord").val("${requestScope.searchWord}"); 
+			$("input#search").val("${requestScope.searchWord}"); 
 		}
 		
 		// 특정 회원을 클릭하면 그 회원의 상세정보를 보여주도록 한다.
@@ -83,7 +73,7 @@ tr.memberInfo:hover {
 			const userid = $target.parent().children(".userid").text();
 		//	alert(userid);
 			
-			location.href="<%= ctxPath%>/member/memberOneDetail.up?userid="+userid+"&goBackURL=${requestScope.goBackURL}";
+			location.href="<%= ctxPath%>/member/memberOneDetail.book?userid="+userid+"&goBackURL=${requestScope.goBackURL}";
 			// 																		&goBackURL=/member/memberList.up?currentShowPageNo=5&sizePerPage=10&searchType=name&searchWord=%EC%9C%A0	
 			
 		}); 
@@ -99,13 +89,13 @@ tr.memberInfo:hover {
 			return; // 함수종료하라는 뜻
 		}
 		
-		if($("input#searchWord").val().trim() == "" ) {
+		if($("input#search").val().trim() == "" ) {
 			alert("검색어를 입력해주세요");
 			return; // 함수종료하라는 뜻 
 		}
 		
 		const frm = document.memberFrm;
-		frm.action = "memberList.up";
+		frm.action = "memberList.book";
 	//	frm.method = "get";
 		frm.submit();
 		
@@ -114,86 +104,123 @@ tr.memberInfo:hover {
 
 </script>
 
-<h2 style="margin: 20px;">::: 회원전체 목록 :::</h2>
+<style type="text/css">
 
-<%--<form name="memberFrm">--%>
-	<form name="memberFrm" action="memberList.up" method="GET">
-		
-		<select id="searchType" name="searchType">
-			<option value="">검색대상</option>
-			<option value="name">회원명</option>
-			<option value="userid">아이디</option>
-			<option value="email">이메일</option>
-		</select>
-		<input type="text" id="searchWord" name="searchWord"  />
-		
-		<%-- form 태그내에서 전송해야할 input 태그가 만약에 1개 밖에 없을 경우에는 유효성검사가 있더라도 
-               유효성 검사를 거치지 않고 막바로 submit()을 하는 경우가 발생한다.
-               이것을 막아주는 방법은 input 태그를 하나 더 만들어 주면 된다. 
-               그래서 아래와 같이 style="display: none;" 해서 1개 더 만든 것이다. 
-       --%>
-     	<input type="text" style="display: none;" /> <%-- 조심할 것은 type="hidden" 이 아니다. --%>
-		
-		
-		
-	<%--<button type="button" onclick="goSearch();" style="margin-right: 30px;">검색</button>--%>
-		<input type="submit" value="검색" style="margin-right: 30px;" />			
-		<span style="color: red; font-weight: bold; font-size: 12pt;">페이지당 회원명수-</span>
-	      <select id="sizePerPage" name="sizePerPage">
-	         <option value="10">10</option>
-	         <option value="5">5</option>
-	         <option value="3">3</option>
-	      </select>
-		
-	</form>
+tr.memberInfo:hover {
+	background-color: #212529;
+	color: white;
+	cursor: pointer;
+}
+
+table#memberTbl {
+	width: 100%;
+	margin : auto;
+	border-bottom: solid 3px grey;
+	border-top: solid 3px grey;
+	margin-top: 20px;
+}
+
+table#memberTbl > tbody > tr > td {
+	padding: 10px;
+	text-align: center;
+}
+
+table#memberTbl th {
+	padding: 15px;
+	background-color: #FBFAFA;
+	text-align: center;
+}
+
+table#memberTbl tr {
+	border-bottom: solid 1px grey;
+	border-top: solid 1px grey;
+}
+
+</style>
+
+<div class="container">
+
+	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;회원전체목록</strong>
+	<hr style="border: solid 2px #e8e8e8;">
 	
-	
-	<table id="memberTbl" class="table table-bordered" style="width: 90%; margin-top: 20px;">
-       <thead>
-          <tr>
-             <th>아이디</th>
-             <th>회원명</th>
-             <th>이메일</th>
-             <th>성별</th>
-          </tr>
-       </thead>
-      
-       <tbody>
-   	  	  <c:if test="${not empty requestScope.memberList}">
-	   	  	  <c:forEach var="mvo" items="${requestScope.memberList}">
+	<%--<form name="memberFrm">--%>
+		<form name="memberFrm" action="memberList.up" method="GET">
+			
+			<select id="searchType" name="searchType">
+				<option value="">검색대상</option>
+				<option value="name">회원명</option>
+				<option value="userid">아이디</option>
+				<option value="email">이메일</option>
+			</select>
+			<input type="text" id="search" name="search"  />
+			
+			<%-- form 태그내에서 전송해야할 input 태그가 만약에 1개 밖에 없을 경우에는 유효성검사가 있더라도 
+	               유효성 검사를 거치지 않고 막바로 submit()을 하는 경우가 발생한다.
+	               이것을 막아주는 방법은 input 태그를 하나 더 만들어 주면 된다. 
+	               그래서 아래와 같이 style="display: none;" 해서 1개 더 만든 것이다. 
+	       --%>
+	     	<input type="text" style="display: none;" /> <%-- 조심할 것은 type="hidden" 이 아니다. --%>
+			
+			
+			
+			<button type="button" onclick="goSearch();" style="margin-right: 30px;">검색</button>
+			<%--<input type="submit" value="검색" style="margin-right: 30px;" />	--%>		
+			<span style="color: red; font-weight: bold; font-size: 12pt;">페이지당 회원명수-</span>
+		      <select id="sizePerPage" name="sizePerPage">
+		         <option value="10">10</option>
+		         <option value="5">5</option>
+		         <option value="3">3</option>
+		      </select>
+			
+		</form>
+		
+		
+		<table id="memberTbl" >
+	       <thead>
+	          <tr>
+	             <th>아이디</th>
+	             <th>회원명</th>
+	             <th>이메일</th>
+	             <th>성별</th>
+	          </tr>
+	       </thead>
+	      
+	       <tbody>
+	   	  	  <c:if test="${not empty requestScope.memberList}">
+		   	  	  <c:forEach var="mvo" items="${requestScope.memberList}">
+		   	  	  	  <tr class="memberInfo">
+		   	  	  	  	  <td class="userid">${mvo.userid}</td>
+		   	  	  	  	  <td>${mvo.name}</td>
+		   	  	  	  	  <td>${mvo.email}</td>
+		   	  	  	  	  <td>
+		   	  	  	  	  	<c:choose>
+		   	  	  	  	  		<c:when test="${mvo.gender eq '1'}">
+		   	  	  	  	  			남
+		   	  	  	  	  		</c:when>
+		   	  	  	  	  		<c:otherwise>
+		   	  	  	  	  			여
+		   	  	  	  	  		</c:otherwise>
+		   	  	  	  	  	</c:choose>
+		   	  	  	  	  </td>
+		   	  	  	  </tr>
+		   	  	  </c:forEach>
+	   	  	  </c:if>
+	   	  	  <c:if test="${empty requestScope.memberList}">
 	   	  	  	  <tr class="memberInfo">
-	   	  	  	  	  <td class="userid">${mvo.userid}</td>
-	   	  	  	  	  <td>${mvo.name}</td>
-	   	  	  	  	  <td>${mvo.email}</td>
-	   	  	  	  	  <td>
-	   	  	  	  	  	<c:choose>
-	   	  	  	  	  		<c:when test="${mvo.gender eq '1'}">
-	   	  	  	  	  			남
-	   	  	  	  	  		</c:when>
-	   	  	  	  	  		<c:otherwise>
-	   	  	  	  	  			여
-	   	  	  	  	  		</c:otherwise>
-	   	  	  	  	  	</c:choose>
-	   	  	  	  	  </td>
-	   	  	  	  </tr>
-	   	  	  </c:forEach>
-   	  	  </c:if>
-   	  	  <c:if test="${empty requestScope.memberList}">
-   	  	  	  <tr class="memberInfo">
-   	  	  	  	<td colspan="4" style="text-align: center; ">검색되어진 데이터가 없습니다!</td>
-   	  	  	  </tr>	  
-   	  	  </c:if>
-   	  	  
-       </tbody>
-    </table>
-    
-    <nav class="my-5">
-    	<div style="display: flex; width: 80%;">
-    		<ul class="pagination" style='margin:auto;'>
-    			${requestScope.pageBar}
-    		</ul>
-    	</div>
-    </nav>    
+	   	  	  	  	<td colspan="4" style="text-align: center; ">검색되어진 데이터가 없습니다!</td>
+	   	  	  	  </tr>	  
+	   	  	  </c:if>
+	   	  	  
+	       </tbody>
+	    </table>
+	    
+	    <nav class="my-5">
+	    	<div style="display: flex; width: 100%;">
+	    		<ul class="pagination" style='margin:auto;'>
+	    			${requestScope.pageBar}
+	    		</ul>
+	    	</div>
+	    </nav>    
+</div>
 
-
-<jsp:include page="<%= ctxPath %>/WEB-INF/footer.jsp"/>
+<jsp:include page="/WEB-INF/footer.jsp"/>
