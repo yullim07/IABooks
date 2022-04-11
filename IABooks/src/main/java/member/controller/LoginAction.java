@@ -46,7 +46,7 @@ public class LoginAction extends AbstractController {
             
                if(loginuser.getU_status() == 1) {
                    String message = "로그인을 한지 1년이 지나서 휴면상태로 되었습니다. 관리자에게 문의 바랍니다.";
-                   String loc = request.getContextPath()+"/index.book";
+                   String loc = request.getContextPath()+"/board/faqAccordion.book";
                    // 원래는 위와 같이 index.up 이 아니라 휴면인 계정을 풀어주는 페이지로 잡아주어야 한다. 
                   
                   request.setAttribute("message", message);
