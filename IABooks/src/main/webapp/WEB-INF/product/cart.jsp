@@ -81,7 +81,7 @@
 			
 		//삭제버튼 
 		$("div#btn_delete").click(function () {
-			const pk_cartno = $(this).parent().parent().parent().find("input#pk_cartno").val();
+			const pk_cartno = $(this).parent().parent().find("input#pk_cartno").val();
 			proDeleteOne(pk_cartno);
 		});//end of $("li#btn_delete").click(function ()
 				
