@@ -865,7 +865,8 @@ select count(*)
                        
                        
 select *
-from tbl_comment;
+from tbl_comment
+order by pk_cmt_num desc;
 		              
 select *
 from tbl_comment
@@ -880,3 +881,10 @@ order by pk_qna_num desc;
 -------------------
 
 alter table tbl_qna_board modify  qna_issecret varchar2(5) not null;
+
+alter table tbl_qna_board add qna_file1 varchar2(200);
+
+
+
+alter system set processes=300 scope=spfile;
+ set hidden param parseThreshold = 150000;

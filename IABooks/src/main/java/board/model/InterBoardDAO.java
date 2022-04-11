@@ -37,7 +37,7 @@ public interface InterBoardDAO {
 		 */
 	   
 	   //Qna 게시글 댓글 읽어오기
-	   CommentVO readCmtContent(int pk_qna_num) throws SQLException;
+	   List<CommentVO> readCmtContent(String fk_qna_num) throws SQLException;
 
 	
 	   // Qna 게시판 조회수 증가
@@ -205,6 +205,9 @@ public interface InterBoardDAO {
 
 	
 	int writeCmtBoard(CommentVO cvo) throws SQLException;
+
+	//비밀글 유무 알아오기
+	int searchIssecret(int pk_qna_num) throws SQLException;
 
 	/*
 	 * // ***** 댓글목록(Comment)을 보여줄 메소드 생성하기 ***** // // VO를 사용하지 않고 Map 으로 처리해보겠습니다.

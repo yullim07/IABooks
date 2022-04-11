@@ -15,7 +15,7 @@ public class QnaBoardAction extends AbstractController {
    @Override
    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
       String method = request.getMethod(); // "GET" 또는 "POST"
-      System.out.println("method : " + method);
+  //    System.out.println("method : " + method);
 
         
       
@@ -25,7 +25,7 @@ public class QnaBoardAction extends AbstractController {
       
       MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
       
-      
+      String fk_pnum = request.getParameter("fk_pnum");
    //   int qna_issecret  = Integer.parseInt(request.getParameter("issecret"));
       
       
@@ -112,7 +112,7 @@ public class QnaBoardAction extends AbstractController {
  			
       // 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
       int totalPage = bdao.getTotalqnaPage(paraMap);
-      System.out.println("~~~확인용 totalPage => " + totalPage);
+  //    System.out.println("~~~확인용 totalPage => " + totalPage);
       // ~~~확인용 totalPage => 21
       
       

@@ -1,4 +1,4 @@
-package board.controller;
+package product.controller;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -10,62 +10,72 @@ import javax.servlet.http.HttpSession;
 
 import board.model.BoardDAO;
 import board.model.InterBoardDAO;
-import board.model.QnABoardVO;
 import common.controller.AbstractController;
 import member.model.MemberVO;
 
-public class QnaUpdateEndAction extends AbstractController {
+public class QnaSubmitAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// TODO Auto-generated method stub
 		
+	//	System.out.println("제품에서 글쓰기?");
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 해야 한다. == //
 		HttpSession session  = request.getSession();
-		
+				
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
+				
+		if( loginuser == null  ) {
 		
-
-		String method = request.getMethod();
-
-		String message = "";
-		String loc = "";
+			String message = "로그인한 회원만 가능합니다.";
+			String loc = "javascript:history.back()";
+			
+			request.setAttribute("message", message);
+			request.setAttribute("loc", loc);
+			
+		//	super.setRedirect(false);
+			super.setViewPage("/WEB-INF/msg.jsp");
+			
+		}
+	//	String userid = request.getParameter("userid");
 		
-		if("POST".equalsIgnoreCase(method) ) {
-			// *** POST 방식으로 넘어온 것 이라면 *** //
+	//	HttpSession session = request.getSession();
+		
+		else {
 			
-			InterBoardDAO bdao = new BoardDAO();
-			QnABoardVO qnaVO = new QnABoardVO();
+		
+			// 글쓰기 버튼을 클릭했을 경우
+			String fk_pnum = request.getParameter("pk_pro_num"); // 제품번호를 받아온다.
+	//		System.out.println(" @@제발 가져와 : " + fk_pnum);
 			
-			String pk_qna_num = request.getParameter("pk_qna_num");
-		//	System.out.println("좀 가져와봐 : " + pk_qna_num);
 			String userid = loginuser.getUserid();
-			String title = request.getParameter("qnaSubject");
+			String subject = request.getParameter("qnaSubject");
 			String content = request.getParameter("qnaContent");
+			String passwd = request.getParameter("qnaPasswd");
 			String issecret = request.getParameter("qnaIssecret");
 			
-		//	System.out.println(" 받아온 번호 : " + pk_qna_num);
+			
+			
 			
 			Map<String, String> paraMap = new HashMap<>();
-			
-			paraMap.put("pk_qna_num", pk_qna_num);
 			paraMap.put("userid", userid);
-			paraMap.put("title", title);
+			paraMap.put("subject",subject);
+			paraMap.put("fk_pnum", fk_pnum);
 			paraMap.put("content", content);
+			paraMap.put("passwd", passwd);
 			paraMap.put("issecret", issecret);
 			
+			
+			String message = "";
+			String loc = "";
+			
 			try {
-				int n = bdao.UpdateQnaBoard(paraMap);
+				InterBoardDAO bdao = new BoardDAO();
+				int n = bdao.writeQnaBoard(paraMap);
+				
 				
 				if(n==1) {
-					qnaVO.setPk_qna_num(Integer.parseInt(paraMap.get("pk_qna_num")));
-					qnaVO.setFk_userid(userid);
-					qnaVO.setQna_title(title);
-					qnaVO.setQna_contents(content);
-					qnaVO.setQna_issecret(Integer.parseInt(paraMap.get("issecret")));
-					
-					message = "글 수정하기 성공!!!";
-					loc = request.getContextPath()+"/board/qnaBoard.book";// qna목록페이지로 이등
+					message = "글쓰기 성공!!!";
+					loc =  request.getContextPath()+"/board/qnaBoard.book";// qna목록페이지로 이동
 				}
 				
 			} catch(SQLException e) {
@@ -74,7 +84,7 @@ public class QnaUpdateEndAction extends AbstractController {
 	            
                 e.printStackTrace();
 			}
-			
+               
 			request.setAttribute("message", message);
             request.setAttribute("loc", loc); 
            
@@ -82,8 +92,11 @@ public class QnaUpdateEndAction extends AbstractController {
             super.setViewPage("/WEB-INF/msg.jsp");
 			
 			
+		 } // end of if~-----------------
+		
 			
-		}
+			
+		
 	}
-	
+
 }
