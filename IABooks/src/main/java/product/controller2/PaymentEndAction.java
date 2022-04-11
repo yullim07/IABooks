@@ -2,8 +2,11 @@ package product.controller2;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -102,18 +105,34 @@ public class PaymentEndAction extends AbstractController{
 				
 				int n  =  pdao.paymentEnd(paraMap);
 
-				/*
+				
 				if(n == 1) {
+					//추후 주문상품정보 보여줄떄 
+					//List<String> list = new ArrayList<>(Arrays.asList(fk_pro_numArr));
+					//list = new ArrayList<>(Arrays.asList(pqtyArr));
+					//list = new ArrayList<>(Arrays.asList(partPriceArr));
+					
+					int totalPrice = 0;
+					for(int i=0; i<partPriceArr.length; i++) {
+						totalPrice += Integer.parseInt(partPriceArr[i]);
+					}
+					
+					String ordDate = pdao.ordDate(paraMap);
+					
+					request.setAttribute("odrcode", odrcode);//주문번호
+					request.setAttribute("ordDate", ordDate);//주문일자
+					
 					request.setAttribute("userid", userid);
 					request.setAttribute("email", email);
 					request.setAttribute("name", name);
 					request.setAttribute("phone", phone);
 					request.setAttribute("postcode", postcode);
 					request.setAttribute("address", address);
+					
+					request.setAttribute("totalPrice", totalPrice);
 					request.setAttribute("finalPrice", finalPrice);
-					request.setAttribute("cartno", cartno);	
 				}
-				*/
+				
 				//super.setRedirect(false);   
 				super.setViewPage("/WEB-INF/product/paymentEnd.jsp");
 				

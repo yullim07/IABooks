@@ -306,8 +306,12 @@
 <div class="container">
 			
 <br>&nbsp;<strong style="font-size: 16pt;">
-<img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;관심상품</strong>
+<img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;장바구니</strong>
 <hr style="border: solid 2px #e8e8e8;">
+
+	<div class="orderImg">
+		<img src="<%= ctxPath %>/images/product/cart.jpg" />
+	</div>
 
 <div class="cartInfo">
 	<form name="cartFrm">
@@ -491,5 +495,8 @@
 	</a>
 </div>
 	
+	
+	<br>
+	<jsp:include page="cart_board.jsp" />
 </div>
 <jsp:include page="/WEB-INF/footer.jsp" />

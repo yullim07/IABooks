@@ -1,18 +1,17 @@
 @charset "UTF-8";
 
+  div.titleArea {
+	min-height: 30px;
+	margin: 10px 0 20px;
+	/* border-bottom: 1px solid #e8e8e8; */
+  }
 
-    div.titleArea {
-    min-height: 30px;
-    margin: 10px 0 20px;
-    border-bottom: 1px solid #e8e8e8;
-    }
-
-table.benefit_info {
+  table.benefit_info {
 	width: 100%;	
 	border: solid 5px #e8e8e8;
 	margin-top: 10px;
 	margin-bottom: 30px;
-}
+  }
 
 table.benefit_info td {
 	height: 50px;
@@ -23,126 +22,296 @@ table.benefit_info span {
 	padding-right: 30px;
 }
 
-table.benefit_info span[name='point'] , table.benefit_info span[name='coupon'] {
+  table.benefit_info span[name='point'] , table.benefit_info span[name='coupon'] {
 	color: blue;
-}
+  }
 
-.floatR {
+  .floatR {
 	float: right;
-}
+  }
 
-table.shipping_info {
+  table.shipping_info {
 	width: 100%;
 	border-bottom: solid 2px #e8e8e8;
 	margin-top: 10px;
 	margin-bottom: 50px;
-}
+  }
 
-table.shipping_info td {
+  table.shipping_info td {
 	padding: 15px;
-}
+  }
 
-table.shipping_info tr {
+  table.shipping_info tr {
 	border-top: solid 2px #e8e8e8;
 	border-bottom: solid 2px #e8e8e8;
-}
+  }
 
-table.shipping_info th {
+  table.shipping_info th {
 	background-color: #FBFAFA;
 	width: 180px; 
 	padding-left: 20px;
-}
+  }
 
 
-table.shipping_info textarea {
+  table.shipping_info textarea {
 	width: 85%;
 	height: 60px;
-}
+  }
 
-table.paymentExpected {
+  table.paymentExpected {
 	width: 100%;
 	border-bottom: solid 1px #e8e8e8;
 	border-top: solid 1px #e8e8e8;
 	margin-top: 10px;
 	margin-bottom: 50px;
-}
+  }
 
-table.paymentExpected tr {
+  table.paymentExpected tr {
 	border-top: solid 1px #e8e8e8;
-}
+  }
 
-table.paymentExpected > thead > tr >  td {
-	padding: 20px 0;;
-	text-align: center;
-	width: 33%;
-}
+  table.paymentExpected > thead > tr >  td {
+	padding: 15px;
+	text-align: left;
+	font-size: 16px;
+	height: 50px;
+  }
 
-table.paymentExpected > thead > tr:first-child{
-	border-top: solid 1px black;
-}
-table.paymentExpected > thead > tr:last-child{
-	border-bottom: solid 1px black;
-}
+  table.paymentExpected > thead > tr >  td input {
+	width: 350px;	
+  }
 
-table.paymentExpected > thead > tr:nth-child(2) > td {
-	font-weight: bold;
-	font-size: 16pt;
-}
+  table.paymentExpected > thead > tr >  td select {
+	width: 350px;	
+  }
 
-table.paymentExpected > thead > tr:first-child > td {
+  table.paymentExpected > thead > tr:first-child{
+	border-top: solid 2px #e8e8e8;
+  }
+  
+  table.paymentExpected > thead > tr:last-child{
+	border-bottom: solid 2px #e8e8e8;
+  }
+
+  table.paymentExpected > thead > tr > td:first-child {
 	background-color: #FBFAFA;
-}
+  }
 
-table.paymentExpected > tbody > tr > td {
+  table.paymentExpected > tbody > tr > td {
 	background-color: #FBFAFA;
 	padding: 20px;
-	font-weight: bold;
-}
+  }
 
-div.btn_order {
+  table.paymentExpected th {
+    background-color: #FBFAFA;
+    width: 180px;
+    padding-left: 20px;
+  }
+
+  #paymentExpected tr td {
+	width: 33%;
+	text-align: center;
+  }
+  
+  #paymentExpected tr:last-child td {
+	font-size: 20px;
+	font-weight: bold;
+	background: white;
+  }
+
+  div.btn_order {
 	cursor: pointer;
 	text-align: center;
 	margin: 30px 0;
+  }
+	
+/* 회원 */
+  table.cartListTbl {
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 10px;
+  }
+
+  table.cartListTbl td {
+	text-align: center;
+	padding-left: 10px;
+	height: 100px;
+	
+  }
+  
+  table.cartListTbl span {
+	color: #212529;
+  }
+
+  table.cartListTbl a:hover {
+	text-decoration-line: none;
+  }
+
+  table.cartListTbl img {
+	cursor: pointer;
+  }
+
+  table.cartListTbl > tfoot > tr:first-child td {
+	height: 70px;
+	background-color: #FBFAFA;
+	padding-right: 10px;
+  }
+
+ table.cartListTbl > tfoot > tr:last-child td {
+	height: 90px;
+	vertical-align: top;
+	padding-right: 10px;
+	padding-top: 10px;
+	font-size: 15px;
+  }
+
+  table.cartListTbl .pqty{
+	width: 50px;
+	height: 26px;
+	padding-left: 2px;
+  }
+
+  table.cartListTbl > thead > tr > td {
+	height: 50px;
+	background-color: #FBFAFA;
+  }
+
+  table.cartListTbl  tr {
+	border-top: solid 2px #e8e8e8;
+  }
+
+  table.cartListTbl tr:last-child {
+	border-bottom: solid 2px #e8e8e8;
+  }
+  
+  table.cartTotalTbl {
+	width: 100%;
+  }
+
+  table.cartTotalTbl tr:first-child td {
+	text-align: left;
+	padding-left:50px;
+	height: 50px;
+	background-color: #FBFAFA;
+  }
+
+  table.cartTotalTbl tr:last-child td {
+	text-align: left;
+	padding-left:50px;
+	height: 70px;
+	font-weight: bold;
+	font-size: 24px;
+  }
+
+  table.cartTotalTbl  tr {
+	border-top: solid 2px #e8e8e8;
+  }
+
+  table.cartTotalTbl tr:last-child {
+	border-bottom: solid 2px #e8e8e8;
+ }
+
+  div.order {
+	 text-align: center;
+	 margin: 20px 0px 200px 0px ;
+  }
+	
+  div.order span:last-child {
+	position: relative;
+	right: 10px;
+	float: right;
+	text-align: right;
+  }
+	
+  div.order img {
+	cursor: pointer;
+  }
+
+/* 상품없음 */
+  table.interested_none { 
+	width: 100%;
+	margin-top: 30px;
+	margin-bottom: 10px;
+  }
+
+  table.interested_none td {
+	text-align: center;
+	height: 100px;
+  }
+
+  table.interested_none tr {
+	border-top: solid 2px #e8e8e8;
+	border-bottom: solid 2px #e8e8e8;
+  }
+
+/*  페이징 CSS 중복   */
+
+  div.pagination {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	margin: 20px 0;
+  }
+	
+  div.pagination a {
+	color: black;
+	text-decoration: none;
+	width: 32px;
+	height: 32px;
+	text-align: center;
+  }
+	
+  div.pagination a.active {
+	border-bottom: solid 2px black;	
+  }
+	
+  div.pagination a img {
+	margin-top: -4px;
+	vertical-align: middle;
+  }
+	
+  div.pagination a:hover {
+	font-weight: bolder;
+	opacity: 0.3;
+  }
+	
+/*  팝업
+  div.deiailOrderBox {
+	display: none;
+	border: solid 1px #495164;
+	width: 300px;
+	height: 187px;
+  }
+
+  div.deiailOrderBox strong {
+	color: white;
+	padding-left: 10px;
+	padding-top: 5px;
+  }
+
+  div.deiailOrderBox button {
+	background-color: rgba( 0, 0, 0, 0 );
+	border: none;
+	color: white;
+	margin-bottom: 20px;
+  }
+
+  div.deiailOrderBox_header {
+	display: flex;
+	background-color: #495164;
+	height: 35px;
+  }
+
+  div.deiailOrderBox span {
+	margin-left: auto;
+	font-size: 24pt;
+	vertical-align: middle;
+  }
+
+div.orderImg{
+	text-align: center;
+	 width: 100%;
+	 margin: 20px 0;
 }
-
-
-	 /*  팝업
-	div.deiailOrderBox {
-		display: none;
-		border: solid 1px #495164;
-		width: 300px;
-		height: 187px;
-	}
 	
-	div.deiailOrderBox strong {
-		color: white;
-		padding-left: 10px;
-		padding-top: 5px;
-	}
-	
-	div.deiailOrderBox button {
-		background-color: rgba( 0, 0, 0, 0 );
-		border: none;
-		color: white;
-		margin-bottom: 20px;
-	}
-	
-	div.deiailOrderBox_header {
-		display: flex;
-		background-color: #495164;
-		height: 35px;
-	}
-	
-	div.deiailOrderBox span {
-  		margin-left: auto;
-  		font-size: 24pt;
-  		vertical-align: middle;
-	}
-	
-	div.orderImg{
-		text-align: center;
-		 width: 100%;
-		 margin: 20px 0;
-	}
-	
-	*/
+*/

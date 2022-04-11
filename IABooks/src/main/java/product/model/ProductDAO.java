@@ -1624,6 +1624,7 @@ public class ProductDAO implements InterProductDAO {
 			
 			if(n1==1 && n2==1 && n3==1 && n4==1 && n5==1 && n6==1) {
 				conn.commit();
+				isSuccess = 1;
 			}
 			
 			conn.setAutoCommit(false); // 자동커밋으로 전환 
@@ -1659,7 +1660,31 @@ public class ProductDAO implements InterProductDAO {
 		return seq;
 	}//end of public int getSeq_tbl_order() throws SQLException 
 
-
+	@Override
+	public String ordDate(Map<String, Object> paraMap) throws SQLException {
+		String result = "";
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " select odr_date "
+			 		    + " from tbl_order "
+			 			+ " where pk_odrcode = ? ";
+			 
+			 pstmt = conn.prepareStatement(sql); 		
+			 pstmt.setString(1, (String) paraMap.get("odrcode"));
+			 	
+			 rs = pstmt.executeQuery();
+			 rs.next();
+			 
+			 result = rs.getString(1);
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	}//end of public String ordDate(Map<String, Object> paraMap) throws SQLException
 
 	
 	
@@ -1842,6 +1867,8 @@ public class ProductDAO implements InterProductDAO {
 			// TODO Auto-generated method stub
 			return null;
 		}
+
+
 
 	
 

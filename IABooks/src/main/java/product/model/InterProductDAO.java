@@ -79,6 +79,8 @@ public interface InterProductDAO {
 	int paymentEnd(Map<String, Object> paraMap) throws SQLException;
 	//order테이블 채번
 	int getSeq_tbl_order() throws SQLException;
+	//주문일자 가져오기
+	String ordDate(Map<String, Object> paraMap) throws SQLException;
 	
 	// 카테고리 목록 가져오기
 		// tbl_category 테이블에서 카테고리 대분류 번호(cnum), 카테고리코드(code), 카테고리명(cname)을 조회해오기 
@@ -102,6 +104,7 @@ public interface InterProductDAO {
 
 		// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
 		List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
+		
 		
 		
 		

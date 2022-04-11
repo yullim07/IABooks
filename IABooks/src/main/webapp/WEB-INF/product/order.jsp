@@ -9,7 +9,7 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<title>주문서작성</title>
+<title>in사과::주문서작성</title>
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css">
@@ -60,6 +60,7 @@
 	        });
 	        if(cnt == 0){
 	            alert("선택된 제품이 없습니다.");
+	            return;
 	        }
 	        const cartNoStr = cartNoArr.join();
 	        
@@ -237,195 +238,21 @@
 <style type="text/css">
 
 	
-/* 회원 */
-
-
- table.cartListTbl {
-	width: 100%;
-	margin-top: 30px;
-	margin-bottom: 10px;
-}
-
-table.cartListTbl td {
-	text-align: center;
-	padding-left: 10px;
-	height: 100px;
-	
-}
-table.cartListTbl span {
-color: #212529;
-}
-
-table.cartListTbl a:hover {
-text-decoration-line: none;
-}
-
-table.cartListTbl img {
-cursor: pointer;
-}
-
-table.cartListTbl > tfoot > tr:first-child td {
-	height: 70px;
-	background-color: #FBFAFA;
-	padding-right: 10px;
-}
-
-table.cartListTbl > tfoot > tr:last-child td {
-	height: 90px;
-	vertical-align: top;
-	padding-right: 10px;
-	padding-top: 10px;
-	font-size: 15px;
-}
-
-table.cartListTbl .pqty{
-width: 50px;
-height: 26px;
-padding-left: 2px;
-
-}
-
-table.cartListTbl > thead > tr > td {
-	height: 50px;
-	background-color: #FBFAFA;
-}
-
-table.cartListTbl  tr {
-	border-top: solid 2px #e8e8e8;
-}
-
-table.cartListTbl tr:last-child {
-	border-bottom: solid 2px #e8e8e8;
-}
-
-
-table.cartTotalTbl {
-width: 100%;
-}
-
-table.cartTotalTbl tr:first-child td {
-	text-align: left;
-	padding-left:50px;
-	height: 50px;
-	background-color: #FBFAFA;
-}
-
-table.cartTotalTbl tr:last-child td {
-	text-align: left;
-	padding-left:50px;
-	height: 70px;
-	font-weight: bold;
-	font-size: 24px;
-}
-
-table.cartTotalTbl  tr {
-	border-top: solid 2px #e8e8e8;
-}
-
-table.cartTotalTbl tr:last-child {
-	border-bottom: solid 2px #e8e8e8;
-}
-
-	div.order {
-	 text-align: center;
-	 margin: 20px 0px 200px 0px ;
-	}
-	
-	div.order span:last-child {
-	position: relative;
-	right: 10px;
-	float: right;
-	text-align: right;
-	}
-	
-	div.order img {
-	cursor: pointer;
-	}
-
-/* 상품없음 */
-table.interested_none { 
-	width: 100%;
-	margin-top: 30px;
-	margin-bottom: 10px;
-}
-
-table.interested_none td {
-	text-align: center;
-	height: 100px;
-}
-
-table.interested_none tr {
-	border-top: solid 2px #e8e8e8;
-	border-bottom: solid 2px #e8e8e8;
-}
-
-
-
-
-/*  페이징 CSS 중복   */
-
-	div.pagination {
-	  display: inline-block;
-	  width: 100%;
-	  text-align: center;
-	  margin: 20px 0;
-	}
-	
-	div.pagination a {
-	  color: black;
-	  text-decoration: none;
-	  width: 32px;
-	  height: 32px;
-	  text-align: center;
-	}
-	
-	div.pagination a.active {
-		border-bottom: solid 2px black;
-	  	
-	}
-	
-	div.pagination a img {
-		margin-top: -4px;
-		vertical-align: middle;
-	
-	}
-	
-	div.pagination a:hover {
-		font-weight: bolder;
-		opacity: 0.3;
-	}
-	
-	
 </style>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
 	<div class="container">
 	<div class="titleArea">
-		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이 쇼핑</strong>
+		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;주문서 작성</strong>
 		<hr style="border: solid 2px #e8e8e8; margin-bottom: 3%;">
     </div>
 	
 	<div class="orderImg">
 		<img src="<%= ctxPath %>/images/product/order.jpg" />
 	</div>
-		
+	
 	<form name="paymentFrm">
-		<table class="benefit_info">
-			<tr>
-				<td>
-					<span style="padding-left: 30px;">혜택정보</span>
-					<img src="<%= ctxPath%>/images/bar_eee.gif" style="width: 2px; height: 20px;" />
-					가용적립금 : <span><a>0</a></span>
-					쿠폰 : <span><a>0</a></span>
-				</td>
-			</tr>
-		</table>
-		
-		<!-- 영준님 테이블 가져오기 -->
-
-
-
 		<table class="cartListTbl">
 			<thead>
 				<tr>
@@ -527,14 +354,14 @@ table.interested_none tr {
 					</td>
 					<td colspan="5" class="text-right">
 						<span>
-							<img src="<%= ctxPath %>/images/product/btn_prev.gif" onclick=""/>
+							<img src="<%= ctxPath %>/images/product/btn_prev.gif" onclick="javascript:history.back();"/>
 						</span>	
 					</td>
 				</tr>	
 			</tfoot>	
 		</table>
 		
-		<hr style="border: solid 1px black;">	
+		
 		
 		<strong style="font-size: 12pt; padding-left: 20px;">배송정보</strong>
 			<p class="floatR"><span id="star">*</span> 필수입력사항</p>
@@ -600,12 +427,12 @@ table.interested_none tr {
 			<table class="paymentExpected">
 				<thead>
 					<tr>
-						<td>적립금사용</td>
+						<th>적립금사용</th>
 						<td colspan="2"><input /><div></div></td>
 					</tr>
 					<tr>
 					
-						<td>쿠폰사용</td>
+						<th>쿠폰사용</th>
 						<td colspan="2">
 							<select id="coupon" name="coupon">
 								<option value="">사용가능한 쿠폰</option>
@@ -620,6 +447,9 @@ table.interested_none tr {
 						
 					</tr>
 				</thead>
+			</table>
+			
+			<table class="paymentExpected" id="paymentExpected">
 				<tbody>
 					<tr>
 						<td>
@@ -650,7 +480,7 @@ table.interested_none tr {
 				</tbody>
 			</table>
 	
-			<div class="btn_order"><img src="<%= ctxPath%>/images/member/btn_place_order.gif" onclick="payment()"  ></div>
+			<div class="btn_order"><img src="<%= ctxPath%>/images/product/btn_place_order.gif" onclick="payment()"  ></div>
 	</form>
 	
 </div><%--<div class="container"> end  --%>
