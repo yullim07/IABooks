@@ -92,4 +92,58 @@ public class TestBoardDAO implements TestInterBoardDAO {
 		
 	} // public int revDeleteSelect(Map<String, String> paraMap) throws SQLException-------
 
+	
+	// 받아온 pk값으로 qna게시판 게시상태 변경
+		@Override
+		public int qnaDisplaySelect(Map<String, String> paraMap) throws SQLException {
+			
+			int n = 0;
+			
+			try {
+				conn = ds.getConnection();
+				String sql = "update tbl_qna_board set isdelete = decode(isdelete, 1, 0, "+
+						"                                                        	  0, 1) "+
+						" where pk_qna_num = ? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(paraMap.get("pk_qna_num")) );
+				
+				n = pstmt.executeUpdate();
+				
+			} finally {
+				close();
+			}
+			
+			return n;
+			
+		} // end of public int revDisplaySelect(Map<String, String> paraMap) throws SQLException
+
+	
+	
+		// 받아온 pk값으로 리뷰게시판 게시글 게시상태 변경
+		@Override
+		public int revDisplaySelect(Map<String, String> paraMap) throws SQLException {
+			
+			int m = 0;
+			
+			try {
+				conn = ds.getConnection();
+				String sql = "update tbl_review_board set isdelete = decode(isdelete, 1, 0, "+
+						"                                                        	  0, 1) "+
+						" where pk_rnum = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(paraMap.get("pk_rnum")) );
+				
+				m = pstmt.executeUpdate();
+				
+			} finally {
+				close();
+			}
+			
+			return m;
+			
+		} // end of public int revDisplaySelect(Map<String, String> paraMap) throws SQLException
+
+	
+	
 }

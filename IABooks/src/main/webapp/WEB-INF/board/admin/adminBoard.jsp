@@ -38,6 +38,21 @@
 	padding-left : 20px;
 }
 
+tr#tr_go {
+	float: left;
+}
+
+button#btn_isdelete, button#btn_delete {
+	padding-top : 10px;
+    width: 100px;
+    height: 24px;
+    background-color: #999;
+    color: white;
+    font-size: 12px;
+    vertical-align: middle; 
+    padding: 0;
+    cursor: pointer;
+}
 </style>
 
 
@@ -76,6 +91,7 @@
             }
         });	//end of $(".test").click(function()
 		
+        		
         // 선택게시글 삭제(delete)	
 		$("span#deleteSelect").click(function () {
 			var qnaCnt = $("input[name='qnaboardCheck']:checked").length;
@@ -99,8 +115,33 @@
 	        
 	        adminBoardDeleteSelect(qnaCnt, qnaNoStr, revCnt, revNoStr);
 		});//end of $("li#btn_delete").click(function ()
+        
+				
+		// 선택게시글 공개/비공개("displaySelect")	
+		$("span#displaySelect").click(function () {
+			var qnaCnt = $("input[name='qnaboardCheck']:checked").length;
+	      	var qnaBoardNoArr = new Array();
+	        $("input[name='qnaboardCheck']:checked").each(function() {
+	        	qnaBoardNoArr.push($(this).val());
+	        });
+	        
+	        var revCnt = $("input[name='revboardCheck']:checked").length;
+	      	var revBoardNoArr = new Array();
+	        $("input[name='revboardCheck']:checked").each(function() {
+	        	revBoardNoArr.push($(this).val());
+	        });
+	        
+	        if(qnaCnt == 0 && revCnt == 0){
+	            alert("선택된 제품이 없습니다.");
+	            return;
+	        }
+	        const qnaNoStr = qnaBoardNoArr.join();
+	        const revNoStr = revBoardNoArr.join();
+	        
+	        adminBoardDisplaySelect(qnaCnt, qnaNoStr, revCnt, revNoStr);
+		});//end of $("span#displaySelect").click(function () {
         		
-        		
+			
 		$("button#btn_mySearch").click(function(){
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
 			
@@ -170,6 +211,39 @@
 			success:function(json) {
 				if(json.adminBoardDeleteSelect == 1) {
 					alert("선택한 게시글이 삭제되었습니다.");
+					location.reload();
+				}else{
+					alert("오류발생"); 
+				}
+
+			},
+			error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+			
+				if(request.responseText.match("로그인")){
+					if(!alert(request.responseText)) document.location = "<%= ctxPath%>/login/join.book";
+				}else{
+					alert(request.responseText);
+					location.reload();
+				}
+				
+			}
+		});//end of $.ajax
+	}//end of function  proDeleteSelect(cnt, cartNoStr) 
+	
+	// 선택 게시글 공개/비공개 처리 함수
+	function  adminBoardDisplaySelect(qnaCnt, qnaNoStr, revCnt, revNoStr) {
+		$.ajax({
+			url:"<%= ctxPath%>/board/adminBoardDisplaySelect.book",
+			type:"POST",
+			data:{"qnaCnt":qnaCnt,
+				  "qnaNoStr":qnaNoStr,
+				  "revCnt":revCnt,
+				  "revNoStr":revNoStr}, 
+			dataType:"JSON",
+			success:function(json) {
+				if(json.adminBoardDisplaySelect == 1) {
+					alert("선택한 게시글의 게시상태가 변경되었습니다.");
 					location.reload();
 				}else{
 					alert("오류발생"); 
@@ -277,10 +351,14 @@
 			  </tbody>
 			</table>
 			<tfoot>
-				<tr style="border-bottom: none;">
+				<tr style="border-bottom: none;" id="tr_go">
 					<td colspan="3" class="text-left">
 						<span id="deleteSelect">
-							선택상품&nbsp;&nbsp;<img src="<%= ctxPath %>/images/product/btn_delete2.gif" />&nbsp;
+							선택상품&nbsp;<button class="btn" name="btn_delete" id="btn_delete" ">삭제</button>
+						</span>
+						
+						<span id="displaySelect">
+							<button class="btn btn_isdelete" name="btn_isdelete" id="btn_isdelete" ">비공개/공개</button>
 						</span>
 				</tr>	
 			</tfoot>
@@ -292,15 +370,14 @@
 			
 			<div class="search_outer" id="tab_center">
 		 		<div class="search_inner">
-			    <select id="mySearchContent" name="mySearchType">
-			    	<option value="">분류</option>
-			    	<option value="all">전체</option>
-			    	<option value="my_title">제목</option>
-			        <option value="my_contents">내용</option>
-			    </select>
-			    <input type="text" name="mySearchWord" id="mySearchWord"></input>
-			    <button class="btn btn_myboard_search" name="btn_mySearch" id="btn_mySearch" onlick="goAdminBoardSearch();">찾기</button>
-			    <button class="btn btn_myboard_reset" name="btn_myReset" id="btn_myReset" onlick="location.href='<%= ctxPath%>/member/myBoard.book'">목록</button>
+				    <select id="mySearchContent" name="mySearchType">
+				    	<option value="">분류</option>
+				    	<option value="all">전체</option>
+				    	<option value="my_title">제목</option>
+				        <option value="my_contents">내용</option>
+				    </select>
+				    <input type="text" name="mySearchWord" id="mySearchWord"></input>
+				    <button class="btn btn_myboard_search" name="btn_mySearch" id="btn_mySearch" onlick="goAdminBoardSearch();">찾기</button>
 			    </div>
 		    
 		  	</div>
