@@ -40,6 +40,12 @@ public interface TestInterProductDAO {
 
 	// 관심상품에 있는 목록의 제품번호 모두 담기
 	void insertWishToCartAll(Map<String, String> paraMap) throws SQLException;
+
+	// 내 관심상품 목록에 있는지 검사
+	int checkInWishList(Map<String, String> paraMap) throws SQLException;
+
+	// 관심상품에 보고있는 상품을 insert
+	int AddWishList(Map<String, String> paraMap) throws SQLException;
 		
 	
 
