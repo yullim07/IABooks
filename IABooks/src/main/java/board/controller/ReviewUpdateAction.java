@@ -25,7 +25,7 @@ public class ReviewUpdateAction extends AbstractController {
 		ReviewBoardVO revVO = new ReviewBoardVO();
 		
 		int pk_rnum = Integer.parseInt(request.getParameter("pk_rnum")); // 프라이머리키를 JSP에서 가져온다.
-		System.out.println(" revUpdateAction 에서 받아온 번호 : " + pk_rnum);
+		// System.out.println(" revUpdateAction 에서 받아온 번호 : " + pk_rnum);
 		revVO.setPk_rnum(pk_rnum); // VO에 PK 값을 넣는다.
 		
 		

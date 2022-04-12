@@ -30,7 +30,7 @@ public class ReviewDeleteAction extends AbstractController {
 		
 		// 이전글, 다음글을 불러오기 위한 글상세보기의 게시판번호 불러오기
 		int pk_rnum = Integer.parseInt(request.getParameter("pk_rnum"));
-		System.out.println(" 삭제하기 위해 ReviewDeleteAction 에서 받아온 번호 : " + pk_rnum);
+		// System.out.println(" 삭제하기 위해 ReviewDeleteAction 에서 받아온 번호 : " + pk_rnum);
 		
 		revVO.setPk_rnum(pk_rnum);
 		revVO = bdao.readReviewContent(pk_rnum);

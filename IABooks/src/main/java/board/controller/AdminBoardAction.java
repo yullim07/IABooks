@@ -88,8 +88,8 @@ public class AdminBoardAction extends AbstractController {
 			paraMap.put("searchType", searchType);
 			paraMap.put("searchWord", searchWord);
 			
-			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
-			int totalPage = bdao.getTotalMyPage(paraMap);
+			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 관리자 게시글관리에 대한 페이지 알아오기
+			int totalPage = bdao.getTotalPageAdminBoard(paraMap);
 			// System.out.println("~~~확인용 totalPage => " + totalPage);
 			
 			if( Integer.parseInt(currentShowPageNo) > totalPage ) {
@@ -100,13 +100,9 @@ public class AdminBoardAction extends AbstractController {
 			
 			MyBoardVO myBoardVO = new MyBoardVO();
 			
-			List<MyBoardVO> myBoardList = bdao.selectPagingMyBoard(paraMap); 
+			// 관리자페이지 게시글관리에에 보여줄 모든 게시글 불러오기
+			List<MyBoardVO> myBoardList = bdao.selectPagingAdminBoard(paraMap); 
 			
-			// ReviewBoardVO revVO = new ReviewBoardVO();
-			// revVO = myBoardVO.getRevBoard();
-			
-			// QnABoardVO qnaVO = new QnABoardVO();
-			// qnaVO = myBoardVO.getQnaBoard();
 			request.setAttribute("myBoardList", myBoardList);
 			
 			String pageBar = "";
@@ -130,8 +126,8 @@ public class AdminBoardAction extends AbstractController {
 			// **** [맨처음][이전] 만들기 **** //
 			if(pageNo != 1) {
 			// if(Integer.parseInt(currentShowPageNo) >= 2) {
-				pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='adminBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='adminBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a></li>";
 			}
 			
 			while( !(loop > blockSize || pageNo > totalPage) ) {
@@ -141,7 +137,7 @@ public class AdminBoardAction extends AbstractController {
 					// 현재페이지 링크 제거
 				}
 				else {
-					pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
+					pageBar += "<li class='page-item'><a class='page-link' href='adminBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
 				}
 				loop++;
 				pageNo++;
@@ -151,8 +147,8 @@ public class AdminBoardAction extends AbstractController {
 			// pageNo ==> 11
 			if(pageNo <= totalPage) {
 				// 마지막 페이지랑 같으면 다음 마지막이 없어져야 됨
-				pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[마지막]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='adminBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a></li>";
+				pageBar += "<li class='page-item'><a class='page-link' href='adminBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[마지막]</a></li>";
 			}
 			
 			request.setAttribute("pageBar", pageBar);

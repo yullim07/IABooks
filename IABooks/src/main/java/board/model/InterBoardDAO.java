@@ -195,6 +195,12 @@ public interface InterBoardDAO {
 	// FAQ 카테고리 불러오기
 	List<HashMap<String, String>> getFaqCateList() throws SQLException;
 
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 관리자 게시글관리에 대한 페이지 알아오기
+	int getTotalPageAdminBoard(Map<String, String> paraMap) throws SQLException;
+
+	// 관리자페이지 게시글관리에에 보여줄 모든 게시글 불러오기
+	List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException;
+
 	
 
 
