@@ -1202,7 +1202,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 			int result = 0;
 			int category = Integer.parseInt(paraMap.get("category"));
-			System.out.println("category : " + category);
+			// System.out.println("category : " + category);
 			
 			try {
 			conn = ds.getConnection();
@@ -1246,8 +1246,8 @@ public class BoardDAO implements InterBoardDAO {
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
-			System.out.println("currentShowPageNo : " + currentShowPageNo);
-			System.out.println("sizePerPage : " + sizePerPage);
+			// System.out.println("currentShowPageNo : " + currentShowPageNo);
+			// System.out.println("sizePerPage : " + sizePerPage);
 			
 			conn = ds.getConnection();
 			
@@ -1877,8 +1877,8 @@ public class BoardDAO implements InterBoardDAO {
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
-			System.out.println("currentShowPageNo : " + currentShowPageNo);
-			System.out.println("sizePerPage : " + sizePerPage);
+			// System.out.println("currentShowPageNo : " + currentShowPageNo);
+			// System.out.println("sizePerPage : " + sizePerPage);
 			
 			conn = ds.getConnection();
 			
@@ -1956,8 +1956,8 @@ public class BoardDAO implements InterBoardDAO {
 
 			int result = 0;
 			int grade = Integer.parseInt(paraMap.get("grade"));
-			System.out.println("grade : " + grade);
-			System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
+			// System.out.println("grade : " + grade);
+			// System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
 			
 			try {
 			conn = ds.getConnection();
@@ -2147,8 +2147,8 @@ public class BoardDAO implements InterBoardDAO {
 				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 				
-				System.out.println("currentShowPageNo : " + currentShowPageNo);
-				System.out.println("sizePerPage : " + sizePerPage);
+				// System.out.println("currentShowPageNo : " + currentShowPageNo);
+				// System.out.println("sizePerPage : " + sizePerPage);
 				
 				String colname = paraMap.get("searchType");
 				String searchWord = paraMap.get("searchWord");
