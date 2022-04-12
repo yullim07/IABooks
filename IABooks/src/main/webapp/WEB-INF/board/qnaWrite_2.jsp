@@ -127,6 +127,7 @@
 		  const frm = document.qnaSubmitFrm;
 		  frm.action = "qnaSubmit.book";
 		  frm.method = "post"; 
+		 
 		  frm.submit();
 		  
 		  
@@ -163,14 +164,14 @@
   
   
 	<div class="table table-responsive">
-		<form name="qnaSubmitFrm" >
+		<form name="qnaSubmitFrm"  enctype="multipart/form-data" >
 		<c:set var="qnaVO" value="${requestScope.qnaVO}" />
 		<c:set var="pk_pro_num" value="${requestScope.pk_pro_num}" />
 		<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pk_pro_num}">
 		<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${qnaVO.fk_pnum}">
 		
 		<table class=" write_review">
-		  	<tbody>
+		  	<%-- <tbody> --%>
 		    <tr>
 		      <th class="col-2" >제목</th>
 		      <td class="col-10" ><input type="text" id="qnaSubject" name="qnaSubject" /></td>
@@ -240,11 +241,19 @@
 		      </td>
 		    </tr> 
 		    --%>
-		    
+		     
+		     <tr>
+		      <th>첨부파일</th>
+		      <td class="" >
+		      	<input type="file"  name="qna_file1" class=" qna_file1"/> 
+		      	
+		      </td>
+		    </tr>
+		     
 		    <tr>
 		      <th>비밀번호</th>
 		      <td>
-		      	<input type="text" id="qnaPasswd" name="qnaPasswd" type="password" class="requiredInfo"/>
+		      	<input id="qnaPasswd" name="qnaPasswd" type="password" class="requiredInfo"/>
 		      </td>
 		    </tr>
 		    <tr>
@@ -253,7 +262,7 @@
 			</tr>
 		   
 		    
-		    </tbody>
+		    <%-- </tbody> --%>
 		  
 		</table>
 		</form>

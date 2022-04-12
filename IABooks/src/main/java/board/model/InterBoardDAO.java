@@ -32,11 +32,12 @@ public interface InterBoardDAO {
 	   int deleteQnaBoard(QnABoardVO qnaVO) throws SQLException;
 	   
 	   
-	   //Qna 게시글에 댓글 작성하기
-	   int writeCmtBoard(Map<String, String> paraMap) throws SQLException;
+		/*
+		 * //Qna 게시글에 댓글 작성하기 int writeCmtBoard(CommentVO cmtVO) throws SQLException;
+		 */
 	   
 	   //Qna 게시글 댓글 읽어오기
-	   QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
+	   List<CommentVO> readCmtContent(String fk_qna_num) throws SQLException;
 
 	
 	   // Qna 게시판 조회수 증가
@@ -55,11 +56,18 @@ public interface InterBoardDAO {
 	   // 한 제품에 대한 Qna게시글 갯수 알아오기
 	   int countOneProductQna(Map<String, String> paraMap) throws SQLException;
 	
+	   //댓글 작성하기
+	   int writeCmtBoard(CommentVO cvo) throws SQLException;
+
+	   //비밀글 유무 알아오기
+	   int searchIssecret(int pk_qna_num) throws SQLException;
+
+	   // 댓글 삭제하기 
+	   int deleteComment(CommentVO cVO) throws SQLException;
 	
 	
-	
-	
-	
+	   // 댓글 정보 알아오기
+	   CommentVO getCmtContent(int pk_cmt_num) throws SQLException;
 	
 	
 	
@@ -165,6 +173,7 @@ public interface InterBoardDAO {
 	// 리뷰게시판 값을 삭제하기
 	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
 
+
 	// 페이징 처리를 위한 하나의 상품에 대한 리뷰게시글 페이지 알아오기
 	int getProductRevPage(Map<String, String> paraMap) throws SQLException;
 
@@ -185,8 +194,11 @@ public interface InterBoardDAO {
 
 	// FAQ 카테고리 불러오기
 	List<HashMap<String, String>> getFaqCateList() throws SQLException;
+
 	
-	
+
+
+
 	
 	
 	

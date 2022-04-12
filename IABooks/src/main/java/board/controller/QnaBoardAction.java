@@ -15,7 +15,7 @@ public class QnaBoardAction extends AbstractController {
    @Override
    public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
       String method = request.getMethod(); // "GET" 또는 "POST"
-      System.out.println("method : " + method);
+  //    System.out.println("method : " + method);
 
         
       
@@ -25,8 +25,8 @@ public class QnaBoardAction extends AbstractController {
       
       MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
       
-      
-   //   String issecret  = request.getParameter("qna_issecret");
+      String fk_pnum = request.getParameter("fk_pnum");
+   //   int qna_issecret  = Integer.parseInt(request.getParameter("issecret"));
       
       
      
@@ -46,6 +46,7 @@ public class QnaBoardAction extends AbstractController {
       //db에 뭔가 실어서 보낸다 Map으로
       
       Map<String, String> paraMap = new HashMap<>();
+     
       
       String currentShowPageNo =  request.getParameter("currentShowPageNo"); // 현재 내가 보고자 하는 페이지가 무엇입니까
       // currentShowPageNo 은 사용자가 보고자 하는 페이지바의 페이지번호이다.
@@ -75,7 +76,6 @@ public class QnaBoardAction extends AbstractController {
       }
       
       paraMap.put("sizePerPage", sizePerPage);
-    
       //== 검색이 있을 경우 시작 == //
       
       if( searchContent != null && !"".equals(searchContent) && !"qna_title".equals(searchContent) 
@@ -112,7 +112,7 @@ public class QnaBoardAction extends AbstractController {
  			
       // 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
       int totalPage = bdao.getTotalqnaPage(paraMap);
-      System.out.println("~~~확인용 totalPage => " + totalPage);
+  //    System.out.println("~~~확인용 totalPage => " + totalPage);
       // ~~~확인용 totalPage => 21
       
       

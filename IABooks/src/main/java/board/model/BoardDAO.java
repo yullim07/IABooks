@@ -98,7 +98,7 @@ public class BoardDAO implements InterBoardDAO {
     			  "        where isdelete = 0 \n";
        
 	          String colname = paraMap.get("searchContent");
-	          System.out.println("searchCOnte"+colname);
+	  
 	          
 			  String searchWord = paraMap.get("searchWord");	
 	    	   
@@ -128,13 +128,13 @@ public class BoardDAO implements InterBoardDAO {
 				  pstmt.setString(1, searchWord);
 				  pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
 				  pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-				  System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
+				//  System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
 					  
 			  }
 			  else {
 				  pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
 				  pstmt.setInt(2, (currentShowPageNo * sizePerPage));
-				  System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
+			//	  System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
 			  
 			  }
 		
@@ -180,7 +180,7 @@ public class BoardDAO implements InterBoardDAO {
 				   
 	               qnaboardList.add(board);
 	               
-	               System.out.println(" 넣어진 제목 : " + board.getFk_pnum());
+	            //   System.out.println(" 넣어진 제목 : " + board.getFk_pnum());
 			  }// end of while(rs.next()) ------------
 			  
 	       
@@ -203,12 +203,12 @@ public class BoardDAO implements InterBoardDAO {
    public int writeQnaBoard(Map<String, String> paraMap) throws SQLException {
 		
 		int result = 0;
-		System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
+	//	System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title,  qna_contents , qna_passwd, qna_issecret ) "
-	                   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?, ?) ";
+			String sql = " insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title,  qna_contents , qna_passwd, qna_issecret, qna_file1 ) "
+	                   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?, ? ,?) ";
 	         
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("fk_pnum"));
@@ -217,6 +217,7 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setString(4, paraMap.get("content"));
 			pstmt.setString(5, paraMap.get("passwd"));
 			pstmt.setString(6, paraMap.get("issecret"));
+			pstmt.setString(7, paraMap.get("qna_file1"));
 			
 			
 			result = pstmt.executeUpdate();
@@ -248,8 +249,8 @@ public class BoardDAO implements InterBoardDAO {
 			
 			String colname = paraMap.get("searchContent");
 			String searchWord = paraMap.get("searchWord");	
-			System.out.println(" 확인용 colname : " + colname);
-			System.out.println(" 확인용 searchWord : " + searchWord);
+		//	System.out.println(" 확인용 colname : " + colname);
+		//	System.out.println(" 확인용 searchWord : " + searchWord);
 			
 			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 				sql += " where " + colname + " like '%'|| ? ||'%' ";
@@ -312,7 +313,7 @@ public class BoardDAO implements InterBoardDAO {
 				
 				
 				
-				System.out.println("보자구"+qnaVO.getQna_readcount());
+			//	System.out.println("보자구"+qnaVO.getQna_readcount());
 				
 				qnaVO = bdao.selectqnaContent(pk_qna_num);
 				
@@ -357,7 +358,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			
 			String	sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') AS qna_date, qna_passwd, qna_readcount "
-				    	+ " ,qna_issecret,  isdelete, pro_name, pro_imgfile_name, pro_price, cate_name "
+				    	+ " ,qna_issecret,  isdelete, pro_name, pro_imgfile_name, pro_price, cate_name ,fk_pnum , nvl(qna_file1,'없음')as qna_file1 "
 						+ " from tbl_member M right JOIN tbl_qna_board Q  \r\n"
 						+ "        ON M.pk_userid = Q.fk_userid \r\n"
 						+ "        left JOIN tbl_product P  \r\n"
@@ -398,7 +399,11 @@ public class BoardDAO implements InterBoardDAO {
 				category.setCate_name(rs.getString(14));
 				qnaVO.setCategory(category);
 				
-				System.out.println("보자구"+qnaVO.getQna_readcount());
+				qnaVO.setFk_pnum(rs.getString(15));
+				qnaVO.setQna_file1(rs.getString(16));
+				
+			//	System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
+			//	System.out.println("보자구"+qnaVO.getQna_readcount());
 				
 			
 		} catch(SQLException e) { 
@@ -447,7 +452,7 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setString(3, paraMap.get("issecret"));
 			pstmt.setInt(4, pk_qna_num);
 			
-			System.out.println("들어왔니 번호야? : " + pk_qna_num);
+		//	System.out.println("들어왔니 번호야? : " + pk_qna_num);
 			
 			int n = pstmt.executeUpdate();
 			
@@ -479,7 +484,7 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " delete tbl_qna_board  "
+			String sql = " delete from tbl_qna_board  "
 					   + " where pk_qna_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -508,14 +513,10 @@ public class BoardDAO implements InterBoardDAO {
 	
 	//Qna 게시글에 댓글 작성하기
 	@Override
-	public int writeCmtBoard(Map<String, String> paraMap) throws SQLException{
+	public int writeCmtBoard(CommentVO cvo) throws SQLException{
 		
-		System.out.println("하잉");
 		int result = 0;
-		int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
-		System.out.println("바잉");
-		System.out.println("들어왔니 fkqnanum? : " + fk_qna_num);
-		
+	//	int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
 		
 		try {
 		
@@ -525,10 +526,10 @@ public class BoardDAO implements InterBoardDAO {
 					+ "values(SEQ_COMMENT.nextval, ?, ?, ?, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, paraMap.get("fk_userid"));
-			pstmt.setInt( 2, fk_qna_num);
-			pstmt.setString(3, paraMap.get("cmtPasswd"));
-			pstmt.setString(4, paraMap.get("cmtContent"));
+			pstmt.setString(1, cvo.getFk_userid());
+			pstmt.setInt( 2, cvo.getFk_qna_num());
+			pstmt.setString(3, cvo.getCmt_passwd());
+			pstmt.setString(4, cvo.getCmt_contents());
 			
 			result = pstmt.executeUpdate();
 			
@@ -537,16 +538,14 @@ public class BoardDAO implements InterBoardDAO {
 		} finally {
 			close();
 		}
-		
 		return result;
 	}
 	
 	
 	//Qna 게시글 댓글 읽어오기
 	@Override
-	public QnABoardVO readCmtContent(int pk_qna_num) throws SQLException {
-		InterBoardDAO bdao = new BoardDAO();
-		QnABoardVO qnaVO = null;
+	public List<CommentVO> readCmtContent(String fk_qna_num) throws SQLException {
+		List<CommentVO> cmtList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
@@ -556,22 +555,104 @@ public class BoardDAO implements InterBoardDAO {
 					+ "			where isdelete = 0 and fk_qna_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			/* pstmt.setInt(1, fk_qna_num); */
+			pstmt.setString(1, fk_qna_num); 
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
+				CommentVO cVO = new CommentVO();
+				cVO.setPk_cmt_num(rs.getInt(1));
+				cVO.setFk_userid(rs.getString(2));
+				cVO.setFk_qna_num(rs.getInt(3));
+				cVO.setCmt_passwd(rs.getString(4));
+				cVO.setCmt_contents(rs.getString(5));
+				cVO.setCmt_date(rs.getString(6));
+				cVO.setIsdelete(rs.getInt(7));
+				
+				cmtList.add(cVO);
+				
+			}//end of while(rs.next()) ------
 			
-			}
+		}finally {
+			close();
+		}
+		
+		return cmtList;
+	}
+	
+	// 댓글 정보 알아오기
+	@Override
+	public CommentVO getCmtContent(int pk_cmt_num) throws SQLException{
+
+		CommentVO cVO = null;
 		
 		
-			} catch(SQLException e) { 
-				e.printStackTrace();
-			}finally {
-				close();
-			}
+		// System.out.println("몇 번이니? " + pk_qna_num);
+		
+		try {
+			conn = ds.getConnection();
 			
-			return qnaVO;
+			String	sql = " select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete \r\n"
+						+ "	from tbl_comment\r\n"
+						+ "	where isdelete = 0 and pk_cmt_num = ? "; //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pk_cmt_num);
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				cVO = new CommentVO();
+				
+				cVO.setPk_cmt_num(rs.getInt(1));
+				cVO.setFk_userid(rs.getString(2));
+				cVO.setFk_qna_num(rs.getInt(3));
+				cVO.setCmt_passwd(rs.getString(4));
+				cVO.setCmt_contents(rs.getString(5));
+				cVO.setCmt_date(rs.getString(6));
+				cVO.setIsdelete(rs.getInt(7));
+				
+				
+			//	System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
+			//	System.out.println("보자구"+qnaVO.getQna_readcount());
+				
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return cVO;
+	}
+	
+	
+	// 댓글 삭제하기 
+	@Override
+	public int deleteComment(CommentVO cVO) throws SQLException {
+		int result = 0;
+			
+		System.out.println("확인해"+cVO.getPk_cmt_num());
+		try {
+		
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_comment "
+					   + " where pk_cmt_num = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			pstmt.setInt(1, cVO.getPk_cmt_num());
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return result;
 	}
 	
 	
@@ -580,7 +661,7 @@ public class BoardDAO implements InterBoardDAO {
 	public QnABoardVO getqnaPrevNextContent(Map<String, String> paraMap) throws SQLException {
 		
 		int currentNum = Integer.parseInt(paraMap.get("currentNum"));
-		System.out.println("잘 갔니? " + currentNum);
+	//	System.out.println("잘 갔니? " + currentNum);
 		QnABoardVO qnaPrevNext = null;
 		
 		try {
@@ -618,10 +699,10 @@ public class BoardDAO implements InterBoardDAO {
 			qnaPrevNext.setNext_title(rs.getString(6));
 			
 			
-			System.out.println("이전글 번호 : " + qnaPrevNext.getPrev_num());
-			System.out.println("이전글 제목 : " + qnaPrevNext.getPrev_title());
-			System.out.println("다음글 번호 : " + qnaPrevNext.getNext_num());
-			System.out.println("다음글 제목 : " + qnaPrevNext.getNext_title());
+		//	System.out.println("이전글 번호 : " + qnaPrevNext.getPrev_num());
+		//	System.out.println("이전글 제목 : " + qnaPrevNext.getPrev_title());
+		//	System.out.println("다음글 번호 : " + qnaPrevNext.getNext_num());
+		//	System.out.println("다음글 제목 : " + qnaPrevNext.getNext_title());
 			
 			
 			}
@@ -693,8 +774,8 @@ public class BoardDAO implements InterBoardDAO {
 		int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 		int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 		
-		System.out.println("currentShowPageNo : " + currentShowPageNo);
-		System.out.println("sizePerPage : " + sizePerPage);
+	//	System.out.println("currentShowPageNo : " + currentShowPageNo);
+	//	System.out.println("sizePerPage : " + sizePerPage);
 		
 		conn = ds.getConnection();
 		
@@ -827,7 +908,7 @@ public class BoardDAO implements InterBoardDAO {
 		cnt = Integer.parseInt(rs.getString(1));
 		board.setQnaCnt(cnt);
 		
-		System.out.println("몇개> " + cnt);
+	//	System.out.println("몇개> " + cnt);
 		
 		productQnaList.add(board);
 		
@@ -848,7 +929,39 @@ public class BoardDAO implements InterBoardDAO {
 
 	
 	
+	//비밀글 유무 알아오기
+	@Override
+	public int searchIssecret(int pk_qna_num) throws SQLException {
+		
 
+    	int result = 0;
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select qna_issecret\r\n"
+						+ " from tbl_qna_board\r\n"
+						+ " where pk_qna_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pk_qna_num);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			result = rs.getInt(1);
+				
+	
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}		
+		
+		return result;
+		
+	}
+	
 
 	
 	
@@ -2189,6 +2302,11 @@ public class BoardDAO implements InterBoardDAO {
 			
 		} // end of public List<HashMap<String, String>> getFaqCateList() throws SQLException
 		
+		
+		
+
+
+
 		
 		
 		

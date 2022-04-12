@@ -165,12 +165,13 @@
 		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
 				    	<td class="tbl_bookname">
 				    		<c:if test="${board.product.pro_name != '-9999'}">
-				    		<a  href="#">
+				    		<a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${board.fk_pnum}">
 		            			 <img  class="goPro"  src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>
 		            			
 								<span class="goPro">${board.product.pro_name}</span>
-								<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${board.fk_pnum}"/>
+								
 							</a>  
+							<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${board.fk_pnum}"/>
 							</c:if>
 				    	</td>
 				    	
@@ -195,7 +196,16 @@
 				    		<span class="hit_tag">HIT</span>
 				    		</c:if>
 
-				    		
+				    		 <input type="hidden" class="qna_issecret" name="qna_issecret" id="qna_issecret" value="${board.qna_issecret}"/>
+				    		  <input type="hidden" class="fk_userid" name="fk_userid" id="fk_userid" value="${board.fk_userid}"/> 
+				    		<input type="hidden" class="qna_passwd" name="qna_passwd" id="qna_passwd" value="${board.qna_passwd}"/>
+	        		   
+	        		    <input type="hidden" class="qna_issecret" name="qna_issecret" id="qna_issecret" value="${requestScope.qna_issecret}"/>
+	        		    <input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${board.fk_pnum}"/>
+	        		    <input type="hidden" class="cate_name" name="cate_name" id="cate_name" value="${requestScope.product.cate_name}"/>
+	        		    <input type="hidden" class="pro_imgfile_name" name="pro_imgfile_name" id="pro_imgfile_name" value="${requestScope.product.pro_imgfile_name}"/>
+	        			
+				    	
 				    	</td>
 				    	
 				    	<%-- 
@@ -214,16 +224,13 @@
 					    		</a>
 				    		</c:if>
 				    	</td> --%>
-				    	<td class="tbl_writer mycenter">${board.member.name}</td>
-				    	<td class="tbl_date mycenter">${board.qna_date}</td>
+				    	<td class="tbl_writer mycenter"> ${board.member.name}</td>
+				    	<td class="tbl_date mycenter"> ${board.qna_date}</td>
 				    	<td class="tbl_viewcount mycenter">${board.qna_readcount}</td>
 	        			
+	        			
 	        		</tr>
-	        		 <input type="hidden" class="qna_passwd" name="qna_passwd" id="qna_passwd" value="${board.qna_passwd}"/>
-	        		 <input type="hidden" class="qna_issecret" name="qna_issecret" id="qna_issecret" value="${board.qna_issecret}"/>
-	        		 <input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${board.fk_pnum}"/>
-	        		 <input type="hidden" class="cate_name" name="cate_name" id="cate_name" value="${requestScope.product.cate_name}"/>
-	        		 <input type="hidden" class="pro_imgfile_name" name="pro_imgfile_name" id="pro_imgfile_name" value="${requestScope.product.pro_imgfile_name}"/>
+	        		 
 	        	</c:forEach>
 	        </c:if>
 	        
