@@ -427,11 +427,11 @@ public class TestProductDAO implements TestInterProductDAO {
 				i++;
 			}
 			
-			System.out.println(" 몇개 들어감? : " + i);
+			// System.out.println(" 몇개 들어감? : " + i);
 			
 			for(int j=0; j<fk_pro_num.size(); j++) {
 				
-				System.out.println("반복문실행" + j);
+				// System.out.println("반복문실행" + j);
 				
 				sql = " select pk_cartno " +
 					  " from tbl_cart "+
@@ -444,13 +444,16 @@ public class TestProductDAO implements TestInterProductDAO {
 				rs = pstmt.executeQuery();
 				
 				if(rs.next()) {
-					System.out.println(" 업데이트 실행");
+					// System.out.println(" 업데이트 실행");
 					sql = " update tbl_cart set ck_odr_qty = ck_odr_qty + 1 "
 							+ " where fk_userid = ? and fk_pro_num = ?  ";
 					
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, paraMap.get("userid"));
 					pstmt.setString(2, fk_pro_num.get(j).toString());
+					
+					n = pstmt.executeUpdate();
+					// System.out.println(" 업데이트 성공? : " + n);
 				}
 				else {
 					sql = " insert into "
@@ -462,7 +465,7 @@ public class TestProductDAO implements TestInterProductDAO {
 					pstmt.setString(2, fk_pro_num.get(j).toString());
 					
 					n = pstmt.executeUpdate();
-					System.out.println(" 성공? : " + n);
+					// System.out.println(" 인서트 성공? : " + n);
 				}
 				
 			} // end of for-------------
