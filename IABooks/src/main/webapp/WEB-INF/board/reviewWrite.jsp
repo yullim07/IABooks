@@ -198,7 +198,7 @@
 		    <tr>
 		      <th>첨부파일</th>
 		      <td class="" >
-		      		<input type="file"  name="rev_file" class=" rev_file"/>  <%--  button으로 할지 input으로 할지 고민고민 --%>
+		      		<input type="file"  name="rev_file" class="rev_file"/>  <%--  button으로 할지 input으로 할지 고민고민 --%>
 		      	
 		      </td>
 		    </tr>

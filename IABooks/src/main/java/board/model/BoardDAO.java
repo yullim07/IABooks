@@ -943,7 +943,73 @@ public class BoardDAO implements InterBoardDAO {
 		
 	}
 	
+	// qna글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
+	@Override
+	public Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException {
+		
+		Map<String, String> map = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select qna_file_system_name, qna_file_original_name "
+						+ " from tbl_qna_board "
+						+ " where pk_qna_num = ? ";
+			
 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_qna_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if( rs.next() ) { //select된게 있다.
+				map.put("qna_file_system_name",rs.getString(1));
+				// 파일서버에 업로드되어지는 실제 제품설명서 파일명
+				
+				map.put("qna_file_original_name",rs.getString(2));
+				//웹클라이언트의 웹브라우저에서 파일을 업로드 할 때 올리는 제품설명서 파일명
+			}//end of if -----------------
+			
+		}finally {
+			close();
+		}
+		return map ;
+		
+	}//end of public Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException-------------
+	
+	
+	// 리뷰 글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
+	@Override
+	public Map<String, String> getRevImgFileName(String pk_rnum) throws SQLException {
+		
+		Map<String, String> map = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select rev_file_system_name, rev_file_original_name "
+						+ " from tbl_review_board "
+						+ " where pk_rnum = ? ";
+			
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_rnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if( rs.next() ) { //select된게 있다.
+				map.put("rev_file_system_name",rs.getString(1));
+				// 파일서버에 업로드되어지는 실제 제품설명서 파일명
+				
+				map.put("rev_file_original_name",rs.getString(2));
+				//웹클라이언트의 웹브라우저에서 파일을 업로드 할 때 올리는 제품설명서 파일명
+			}//end of if -----------------
+			
+		}finally {
+			close();
+		}
+		return map ;
+	}
 	
 	
 	
@@ -1943,6 +2009,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 		} // public List<ReviewBoardVO> selectPagingProductRev(Map<String, String> paraMap) throws SQLException
 
+		// 리뷰게시판에 글 작성하기
 		@Override
 		public int writeRevBoard(Map<String, String> paraMap) throws SQLException {
 
@@ -1954,8 +2021,8 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_review_board (PK_RNUM, FK_USERID, FK_PNUM, RE_TITLE, RE_WRITER, RE_GRADE,  RE_CONTENTS, RE_PASSWD) "
-			+ " values(SEQ_REVIEW_BOARD.nextval, ?, ?, ?, ?, ?, ?, ?) ";
+			String sql = " insert into tbl_review_board (PK_RNUM, FK_USERID, FK_PNUM, RE_TITLE, RE_WRITER, RE_GRADE,  RE_CONTENTS, RE_PASSWD, rev_file_system_name, rev_file_original_name) "
+			+ " values(SEQ_REVIEW_BOARD.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("userid"));
@@ -1965,7 +2032,8 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setInt(5, grade);
 			pstmt.setString(6, paraMap.get("content"));
 			pstmt.setString(7, paraMap.get("passwd"));
-			
+			pstmt.setString(8, "rev_file_system_name");
+			pstmt.setString(9, "rev_file_original_name");
 			
 			result = pstmt.executeUpdate();
 			
@@ -2477,39 +2545,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		
 		
-		// qna글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
-		@Override
-		public Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException {
-			
-			Map<String, String> map = new HashMap<>();
-			
-			try {
-				conn = ds.getConnection();
-				
-				String sql =  " select qna_file_system_name, qna_file_original_name "
-							+ " from tbl_qna_board "
-							+ " where pk_qna_num = ? ";
-				
 
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, pk_qna_num);
-				
-				rs = pstmt.executeQuery();
-				
-				if( rs.next() ) { //select된게 있다.
-					map.put("qna_file_system_name",rs.getString(1));
-					// 파일서버에 업로드되어지는 실제 제품설명서 파일명
-					
-					map.put("qna_file_original_name",rs.getString(2));
-					//웹클라이언트의 웹브라우저에서 파일을 업로드 할 때 올리는 제품설명서 파일명
-				}//end of if -----------------
-				
-			}finally {
-				close();
-			}
-			return map ;
-			
-		}//end of public Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException-------------
 		
 		
 		

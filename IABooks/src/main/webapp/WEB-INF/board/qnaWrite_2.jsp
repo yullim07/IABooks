@@ -245,7 +245,7 @@
 		     <tr>
 		      <th>첨부파일</th>
 		      <td class="" >
-		      	<input type="file"  name="qna_file" class=" qna_file"/> 
+		      	<input type="file"  name="qna_file" class="qna_file"/> 
 		      	
 		      </td>
 		    </tr>
