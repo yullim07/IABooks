@@ -9,7 +9,7 @@
 %>
 
 <meta charset="UTF-8">
-<title>in사과::장바구니</title>
+<title>in사과::관심상품</title>
 
 <!-- 부트스트랩 css -->
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
@@ -338,14 +338,14 @@
 			</thead>
 				
 			<tbody>
-				<%-- 장바구니에 담긴 상품이 없는 경우 --%>
+				<%-- 관심상품에 담긴 상품이 없는 경우 --%>
 				<c:if test="${empty requestScope.wishList}">
 					<tr>
-						<td colspan="9">장바구니에 담긴 상품이 없습니다.</td>
+						<td colspan="9">관심상품에 담긴 상품이 없습니다.</td>
 					</tr>
 				</c:if>
 			
-				<%-- 장바구니에 담긴 상품이 있는 경우 --%>
+				<%-- 관심상품에 담긴 상품이 있는 경우 --%>
 				<c:if test="${not empty requestScope.wishList}">
 					<c:forEach var="wvo" items="${requestScope.wishList}" varStatus="status">
 						<tr>							
@@ -380,35 +380,11 @@
 							<td>
 								기본배송
 							</td>
-							<%-- 주문수량 + 장바구니 번호(숨김) --%> 
+							<%-- 배송료 --%> 
  							<td>
  							3,000원
  							<br>
  							조건
-								<%-- <div>
-									<input type="number" class="pqty" id="pqty" name="pqty" value="${cvo.ck_odr_qty}" min='1' max='100' />
-								</div>
-								
-								<div>
-									<img src="<%= ctxPath %>/images/product/btn_quantity_modify.gif" class="pqty_btn" />
-									<input class="pk_cartno" type="hidden" id="pk_cartno" name="pk_cartno" value="${cvo.pk_cartno}" />
-									<input class="fk_pro_num" type="hidden" id="fk_pro_num" name="fk_pro_num" value="${cvo.fk_pro_num}" />
-									<input class="pro_saleprice" type="hidden" id="pro_saleprice" name="pro_saleprice" value="${cvo.product.pro_saleprice}" />
-								</div> --%>
-							</td>
-							 					 
-							<%-- 배송비(주문총액이 5만원 이상이면 무료, 아니면 3000원) --%>
-							<%-- <c:if test="${status.first}">
-								<td rowspan= "${fn:length(cartList)}" >
-									<span class="shippingFee">
-										<c:choose>
-											<c:when test="${requestScope.totalPrice == 0}">0원</c:when>
-											<c:when test="${requestScope.totalPrice >= 50000}"> 무료 </c:when>
-											<c:when test="${requestScope.totalPrice < 50000}">3,000원</c:when>
-										</c:choose>
-									</span>
-								</td>
-							</c:if>  --%>
 							<td>
 								<span class="totalPrice"><fmt:formatNumber value="${wvo.product.pro_saleprice + 3000}" pattern="###,###" />원</span>
 								<div>
@@ -457,26 +433,7 @@
 		</table>
 	</form>
 	
-	<%-- <span class="interested_choice">
-			<strong>선택상품을</strong><img src="<%= ctxPath %>/images/member/btn_delete2.gif" style="cursor: pointer;" /><img src="<%= ctxPath %>/images/member/btn_basket2.gif"  style="cursor: pointer;"/>
-		</span>
-	<span class="interested_order"><img src="<%= ctxPath %>/images/member/btn_order_empty.gif" style="cursor: pointer;" />&nbsp;&nbsp;<img src="<%= ctxPath %>/images/member/btn_order_all.gif" style="cursor: pointer;" />
-		</span> --%>
-		
 </div>
-
-<%-- <div class="order">
-	<span>
-		<img src="<%= ctxPath %>/images/product/btn_order_all.gif" onclick="orderAll()" />&nbsp;&nbsp;
-		<img src="<%= ctxPath %>/images/product/btn_order_select.gif" onclick="orderSelect()" />
-	</span>
-</div>
-
-<div  class="shoppingContinue">
-	<a href="<%= ctxPath%>/index.book">
-		<img src="<%= ctxPath %>/images/product/btn_order_ing.gif" />
-	</a>
-</div> --%>
 	
 </div>
 <jsp:include page="/WEB-INF/footer.jsp" />

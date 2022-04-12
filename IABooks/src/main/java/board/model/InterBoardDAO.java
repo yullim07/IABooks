@@ -198,6 +198,12 @@ public interface InterBoardDAO {
 	// qna글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
 	Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException;
 
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 관리자 게시글관리에 대한 페이지 알아오기
+	int getTotalPageAdminBoard(Map<String, String> paraMap) throws SQLException;
+
+	// 관리자페이지 게시글관리에에 보여줄 모든 게시글 불러오기
+	List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException;
+
 	
 
 

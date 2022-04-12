@@ -31,7 +31,7 @@ if(super.checkLogin(request)) {//로그인했으면 true
 	
 				//재고량 체크
 				String pk_wnum = request.getParameter("wishnoOne");
-				System.out.println(" 받아온 pk_wnum : "+ pk_wnum );
+				// System.out.println(" 받아온 pk_wnum : "+ pk_wnum );
 				String now_pro_qty = "1";
 				
 				InterProductDAO pdao = new ProductDAO();
