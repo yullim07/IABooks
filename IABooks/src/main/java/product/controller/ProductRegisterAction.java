@@ -23,7 +23,8 @@ public class ProductRegisterAction extends AbstractController {
 
 		// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기 위한 것임.
 		super.goBackURL(request);
-
+	//	super.getCategoryList(request);
+		
 		// 관리자로 로그인하는 경우에만 볼 수 있게 해야 한다!!!
 		HttpSession session = request.getSession();
 		
@@ -73,26 +74,50 @@ public class ProductRegisterAction extends AbstractController {
 				 */
 				
 				MultipartRequest mtrequest = null;
-				/*
-					MultipartRequest mtrequest 은 HttpServletRequest request 가 하던일을 그대로 승계받아서 일처리를 해주고 
-					동시에 파일을 받아서 업로드, 다운로드까지 해주는 기능이 있다. 	  
-				 */
+				// MultipartRequest mtrequest 은 HttpServletRequest request 가 하던일을 그대로 승계받아서 일처리를 해주고 
+				// 동시에 파일을 받아서 업로드, 다운로드까지 해주는 기능이 있다. 	  
 				
+				// 이미지 업로드를 위해 카테고리 이름 받아오기 => form에서 받아오고 싶은데 어떻게? get으로
+				// 근데 이미 set으로 form 으로 보내줬는데 어떻게 가지? => 뭐냐 그거 if문으로 잡아온다고 함
 				
-				// 이미지 업로드를 위해 카테고리 이름 받아오기
-				/*
-				 * String cate_name = mtrequest.getParameter("cate_name");
-				 * CategoryVO catevo = new CategoryVO();
-				 * catevo.setCate_name(cate_name);
-				 */
-								
+				CategoryVO catevo = new CategoryVO();
+				
+				///////////////////////// 강사님이 도와주심 ///////////////////////////////////////////////////////////////////////
+				
+			//	super.getCategoryList(request);
+				
+				String fk_cate_num = request.getParameter("fk_cate_num"); // 뷰단에서 name이 category인 값을 받아온다.
+				System.out.println("확인용 fk_cate_num ㅣ " + fk_cate_num);
+				String cate_name = request.getParameter("cate_name");
+				System.out.println("확인용 cate_name ㅣ " + cate_name);
+				String dir = "";
+				
+			//	if("101".equals(fk_cate_num)) {
+				if("humanities".equals(fk_cate_num)) {
+					dir = "/humanities";
+				}
+			//	else if("102".equals(fk_cate_num)) {
+				else if("society".equals(fk_cate_num)) {
+					dir = "/society";					
+				}
+			//	else if("103".equals(fk_cate_num)) {
+				else if("science".equals(fk_cate_num)) {
+					dir = "/science";
+				}
+			//	else if("104".equals(fk_cate_num)) {
+				else if("other".equals(fk_cate_num)) {	
+					dir = "/other";
+				}
+				System.out.println("~~~ 확인용 dir : " + dir);
+
+				
+				////////////////////////////////////////////////////////////////////////////////////////////////		
+				
 				// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다. 
 				ServletContext svlCtx = session.getServletContext();
-			//	String uploadFileDir = svlCtx.getRealPath("/images/product"+cate_name);
-				String uploadFileDir = svlCtx.getRealPath("/images/product");
-				// images/product/한 다음에 카테고리명을 써줘야 한다.
+				String uploadFileDir = svlCtx.getRealPath("/images/product/"+dir);
 				System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
-				
+				// 가급적이면 하나의 폴더에 넣자!
 				
 				// ==== 파일을 업로드 해준다. 시작 ==== //
 				try {
@@ -110,14 +135,15 @@ public class ProductRegisterAction extends AbstractController {
 				// ==== 파일을 업로드 해준다. 끝 ==== //
 				 
 				// === 첨부 이미지 파일을 올렸으니 그 다음으로 제품정보를 (제품명, 정가, 제품수량,...) DB의 tbl_product 테이블에 insert 를 해주어야 한다.  === 
-
-				// 아래의 변수들은 새로운 제품 등록시 form 태그에서 입력한 값들을 얻어온 것이다!
 				
-				// 재입고 여부 >> 이게 맞나..?
-				String restock_yes = mtrequest.getParameter("restock_yes");
 				
-				String fk_cate_num = mtrequest.getParameter("fk_cate_num");
-				String cate_name = mtrequest.getParameter("cate_name");
+				String restock = mtrequest.getParameter("restock");			// 재입고 여부 >> 이게 맞나..?
+			//	System.out.println("~~~~~ restock : " + restock);
+				
+				fk_cate_num = mtrequest.getParameter("fk_cate_num");
+			//	String fk_cate_num = mtrequest.getParameter("fk_cate_num");
+				cate_name = mtrequest.getParameter("cate_name");
+			//	String cate_name = mtrequest.getParameter("cate_name");
 				String pk_pro_num = mtrequest.getParameter("pk_pro_num");
 				String pro_name = mtrequest.getParameter("pro_name");
 				String fk_wr_code = mtrequest.getParameter("fk_wr_code");
@@ -163,7 +189,7 @@ public class ProductRegisterAction extends AbstractController {
 				InterProductDAO pdao = new ProductDAO();
 				
 				ProductVO pvo = new ProductVO();
-				CategoryVO catevo = new CategoryVO();
+				catevo = new CategoryVO();
 				WriterVO wvo = new WriterVO();
 				
 				/*
@@ -183,9 +209,15 @@ public class ProductRegisterAction extends AbstractController {
 				 */
 				
 				// pro_restock
-				pvo.setPro_restock(Integer.parseInt(restock_yes));
+				pvo.setPro_restock(Integer.parseInt(restock));
 				pvo.setFk_cate_num(Integer.parseInt(fk_cate_num));
+				
+				/////////////////////////////////////////////////////////////////////////////////
+				
 				catevo.setCate_name(cate_name);
+				
+				/////////////////////////////////////////////////////////////////////////////////
+				
 				pvo.setPk_pro_num(pk_pro_num);
 				pvo.setPro_name(pro_name);
 				pvo.setFk_wr_code(Integer.parseInt(fk_wr_code));
@@ -212,7 +244,7 @@ public class ProductRegisterAction extends AbstractController {
 				
 					// === 추가이미지파일이 있다라면 tbl_product_imagefile 테이블에 제품의 추가이미지 파일명 insert 해주기 === // 
 					String str_attachCount = mtrequest.getParameter("attachCount");
-					System.out.println("~~~ 확인용 추가이미지 파일개수 str_attachCount => " + str_attachCount);
+				//	System.out.println("~~~ 확인용 추가이미지 파일개수 str_attachCount => " + str_attachCount);
 					// str_attachCount 이 추가이미지 파일의 개수인데  ""  "0"  ~ "10" 값이 들어온다.
 					
 					int attachCount = 0;

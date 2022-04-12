@@ -109,27 +109,32 @@ public interface InterProductDAO {
 	// VO 를 사용하지 않고 Map 으로 tbl_category 테이블에서 카테고리번호(pk_cate_num), 카테고리명(cate_name)을 조회해오기
 	List<HashMap<String, String>> getCategoryList() throws SQLException;
 
+	// tbl_writer 테이블에 작가정보 insert 하기
+	int writerInsert(WriterVO wvo) throws SQLException;
+	
 	// tbl_product 테이블에 제품정보 insert 하기 
 	int productInsert(ProductVO pvo) throws SQLException;
+	
+	// 작가코드(seq_tbl_writer 값) 중복검사하기
+	public boolean wr_codeDuplicateCheck(String wrcode) throws SQLException;
+
+	// 작가코드 존재하는지 찾기
+	String findWr_code(Map<String, String> paraMap)  throws SQLException;
+	
+	// 작가코드(seq_tbl_writer 값)을 가져오기 
+	int getSeq_tbl_writer() throws SQLException;
+	
+	
+	
 
 	// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블
 	// int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException;
 
 	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
-	ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
+//	ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
 
 	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
-	List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
-
-	// 장바구니 테이블에 해당 제품이 존재하지 않는 경우에는 tbl_cart 테이블에 insert를 해야 하고,
-	// 장바구니 테이블에 해당 제품이 존재하는 경우에는 또 그 제품을 추가해서 장바구니 담기를 한다면 tbl_cart 테이블에 update를 한다.
-//	int addCart(Map<String, String> paraMap) throws SQLException;
-
-	// 로그인한 사용자의 장바구니 목록을 조회하기
-//	List<CartVO> selectProductCart(String userid) throws SQLException;
-	
-	// 매뉴얼 이름 가져오는 건데 필요없음 
-//	Map<String, String> getPrdmanualFileName(String pk_pro_num) throws SQLException;
+//	List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
 		
 	
 

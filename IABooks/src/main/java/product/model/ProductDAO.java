@@ -15,6 +15,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import member.model.MemberVO;
+import oracle.net.aso.r;
 
 
 public class ProductDAO implements InterProductDAO {
@@ -1332,6 +1333,171 @@ public class ProductDAO implements InterProductDAO {
 	
 	
 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// ============================================================================================
 
 
@@ -1354,6 +1520,9 @@ public class ProductDAO implements InterProductDAO {
 		                + "	LEFT OUTER JOIN tbl_category C "
 		                + "	ON B.fk_cate_num = C.pk_cate_num "
 	                	+ "	WHERE A.c_status = 1 AND A.fk_userid = ?";
+			
+			
+			
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fk_userid);
@@ -1409,132 +1578,214 @@ public class ProductDAO implements InterProductDAO {
 		return cartList;
 	}//end of public List<CartVO> getCart(String fk_userid) throws SQLException
 
-
+	/*
+	 * <c:if test="${empty list}">...</c:if> <!-- collection 객체가 비어 있을 경우 --> <c:if
+	 * test="${!empty list}">...</c:if> <!-- collcetion 객체가 비어 있지 않을 경우 -->
+	 */
+	
+	// tbl_writer 테이블에 작가정보 insert 하기
+	@Override
+	public int writerInsert(WriterVO wvo) throws SQLException {
+		
+		int result = 0;
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " INSERT INTO tbl_writer(pk_wr_code, wr_name, wr_info) "+ 
+				          " VALUES(?, ?, ?) ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 pstmt.setInt(1, wvo.getPk_wr_code());
+			 pstmt.setString(2, wvo.getWr_name());
+			 
+			 result = pstmt.executeUpdate();
+			 
+		} finally {
+			close();
+		}
+		
+		return result;
+	}
+			
 	// tbl_product 테이블에 제품정보 insert 하기 
-		@Override
-		public int productInsert(ProductVO pvo) throws SQLException {
-			
-			int result = 0;
-			
-			try {
-				conn = ds.getConnection();
-				 
-				String sql =  " INSERT INTO "
-							+ " tbl_product(fk_cate_num, pro_name, publisher, pro_publish_date, pro_price, pro_saleprice, "
-				 			+ "	pro_index, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, pro_size, pro_bindtype, pro_pages, "
-				 			+ " pro_imgfile_name, fk_wr_code, pro_content, pk_pro_num, pro_soldout, pro_restock, pro_restock, "
-				 			+ " point_rate) " 
-				 			+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-				 
-				pstmt = conn.prepareStatement(sql);
-				 
-				pstmt.setInt(1, pvo.getFk_cate_num());
-				pstmt.setString(2, pvo.getPro_name());
-				pstmt.setString(3, pvo.getPublisher());
-				pstmt.setString(4, pvo.getPro_publish_date());
-				pstmt.setInt(5, pvo.getPro_price());
-				pstmt.setInt(6, pvo.getPro_saleprice());     
-				pstmt.setString(7, pvo.getPro_index()); // CLOB
-				pstmt.setString(8, pvo.getPro_inputdate());
-				pstmt.setInt(9, pvo.getPro_qty());
-				pstmt.setInt(10, pvo.getPro_sales());
-				pstmt.setInt(11, pvo.getPro_viewcnt());
-				pstmt.setString(12, pvo.getPro_size());
-				pstmt.setString(13, pvo.getPro_bindtype());
-				pstmt.setInt(14, pvo.getPro_pages());
-				pstmt.setString(15, pvo.getPro_imgfile_name());
-				// pstmt.setInt(16, wvo.getFk_wr_code());
-				pstmt.setString(17, pvo.getPro_content()); // CLOB
-				pstmt.setInt(18, pvo.getPro_soldout());
-				pstmt.setInt(19, pvo.getPro_restock());
-				pstmt.setInt(20, pvo.getPro_pages());
-				pstmt.setInt(21, pvo.getPoint_rate());
-				
-				result = pstmt.executeUpdate();
-				
-				/*
-				 fk_cate_num      not null number(5)     
-				 
-				 pro_name         not null varchar2(200) 
-				 publisher        not null varchar2(50)  
-				 pro_publish_date not null varchar2(12) 
-				  
-				 pro_price                 number(8)     
-				 pro_saleprice             number(8)   
-				   
-				 pro_index                 clob          
-				 pro_inputdate             date          
-				 pro_qty                   number(20)    
-				 pro_sales                 number(20)    
-				 pro_viewcnt               number(10)    
-				 
-				 pro_size                  varchar2(20)  
-				 pro_bindtype              varchar2(15)  
-				 
-				 pro_pages                 number(5)     
-				 
-				 pro_imgfile_name not null varchar2(30)  
-				 
-				 fk_wr_code                number(10)   
-				  
-				 pro_content               clob         
-				  
-				 pk_pro_num       not null varchar2(20)  
-				 
-				 pro_soldout               number(1)     
-				 pro_restock               number(1)     
-				 point_rate                number(8,2)
-				*/		 
+	@Override
+	public int productInsert(ProductVO pvo) throws SQLException {
+		
+	//	System.out.println("~~~~~ pvo.getFk_wr_code() : " + pvo.getFk_wr_code());
+		
+		int result = 0;
+		
+		try {
+			conn = ds.getConnection();
+			 
+			String sql =  " INSERT INTO "
+						+ " tbl_product(fk_cate_num, pro_name, publisher, pro_publish_date, pro_price, pro_saleprice, "
+			 			+ "	pro_index, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, pro_size, pro_bindtype, pro_pages, "
+			 			+ " pro_imgfile_name, "
+			 			+ " fk_wr_code, "
+			 			+ " pro_content, pk_pro_num, pro_soldout, pro_restock, "
+			 			+ " point_rate) "
+			 			+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					//	+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			 
+			pstmt = conn.prepareStatement(sql);
+			 
+			pstmt.setInt(1, pvo.getFk_cate_num());
+			pstmt.setString(2, pvo.getPro_name());
+			pstmt.setString(3, pvo.getPublisher());
+			pstmt.setString(4, pvo.getPro_publish_date());
+			pstmt.setInt(5, pvo.getPro_price());
+			pstmt.setInt(6, pvo.getPro_saleprice());     
+			pstmt.setString(7, pvo.getPro_index()); // CLOB
+			pstmt.setString(8, pvo.getPro_inputdate());
+			pstmt.setInt(9, pvo.getPro_qty());
+			pstmt.setInt(10, pvo.getPro_sales());
+			pstmt.setInt(11, pvo.getPro_viewcnt());
+			pstmt.setString(12, pvo.getPro_size());
+			pstmt.setString(13, pvo.getPro_bindtype());
+			pstmt.setInt(14, pvo.getPro_pages());
+			pstmt.setString(15, pvo.getPro_imgfile_name());
+			pstmt.setInt(16, pvo.getFk_wr_code());
+			pstmt.setString(17, pvo.getPro_content()); // CLOB
+			pstmt.setString(18, pvo.getPk_pro_num());
+			pstmt.setInt(19, pvo.getPro_soldout());
+			pstmt.setInt(20, pvo.getPro_restock());
+			pstmt.setInt(21, pvo.getPoint_rate());
 
-			} finally {
-				close();
-			}
+			/*
+			pstmt.setString(16, pvo.getPro_content()); // CLOB
+			pstmt.setString(17, pvo.getPk_pro_num());
+			pstmt.setInt(18, pvo.getPro_soldout());
+			pstmt.setInt(19, pvo.getPro_restock());
+			pstmt.setInt(20, pvo.getPoint_rate());
+			*/
 			
-			return result;
-		}
+			result = pstmt.executeUpdate();
+			
+			/*
+			 fk_cate_num      not null number(5)     
+			 
+			 pro_name         not null varchar2(200) 
+			 publisher        not null varchar2(50)  
+			 pro_publish_date not null varchar2(12) 
+			  
+			 pro_price                 number(8)     
+			 pro_saleprice             number(8)   
+			   
+			 pro_index                 clob          
+			 pro_inputdate             date          
+			 pro_qty                   number(20)    
+			 pro_sales                 number(20)    
+			 pro_viewcnt               number(10)    
+			 
+			 pro_size                  varchar2(20)  
+			 pro_bindtype              varchar2(15)  
+			 
+			 pro_pages                 number(5)     
+			 
+			 pro_imgfile_name not null varchar2(30)  
+			 
+			 fk_wr_code                number(10)   
+			  
+			 pro_content               clob         
+			  
+			 pk_pro_num       not null varchar2(20)  
+			 
+			 pro_soldout               number(1)     
+			 pro_restock               number(1)     
+			 point_rate                number(8,2)
+			*/		 
 
-		@Override
-		public List<HashMap<String, String>> getCategoryList() throws SQLException {
-			
-			List<HashMap<String, String>> categoryList = new ArrayList<>();
-			
-			try {
-				 conn = ds.getConnection();
-				 
-				 String sql = " SELECT pk_cate_num, cate_name "+
-						      " FROM tbl_category "+
-						      " ORDER by pk_cate_num asc ";
-				 
-				 pstmt = conn.prepareStatement(sql);
-				 
-				 rs = pstmt.executeQuery();
-				 
-				 while(rs.next()) {
-					 HashMap<String, String> map = new HashMap<>();
-					 map.put("pk_cate_num", rs.getString(1));
-					 map.put("ck_cate_name", rs.getString(2));
-					 
-					 categoryList.add(map);
-				 }// end of while(rs.next())-------------------------------
-				 
-			} finally {
-				close();
-			}
-			
-			return categoryList;
+		} finally {
+			close();
 		}
+		
+		return result;
+	}
 
-		@Override
-		public ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
+	// 카테고리 목록 가져오기
+	@Override
+	public List<HashMap<String, String>> getCategoryList() throws SQLException {
+		
+		List<HashMap<String, String>> categoryList = new ArrayList<>();
+		
+		try {
+			 conn = ds.getConnection();
+			 
+			 String sql = " SELECT pk_cate_num, cate_name "+
+					      " FROM tbl_category "+
+					      " ORDER by pk_cate_num asc ";
+			 
+			 pstmt = conn.prepareStatement(sql);
+			 
+			 rs = pstmt.executeQuery();
+			 
+			 while(rs.next()) {
+				 HashMap<String, String> map = new HashMap<>();
+				 map.put("pk_cate_num", rs.getString(1));
+				 map.put("cate_name", rs.getString(2));
+				 
+				 categoryList.add(map);
+			 }// end of while(rs.next())-------------------------------
+			 
+		} finally {
+			close();
 		}
+		
+		return categoryList;
+	}
 
-		@Override
-		public List<String> getImagesByPnum(String pk_pro_num) throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
+	// 작가시퀀스 값 알아오기 메소드
+	@Override
+	public int getSeq_tbl_writer() throws SQLException {
+
+		int seq = 0;
+		
+		try {
+			String sql =  " SELECT seq_tbl_writer.nextval "
+						+ " FROM dual ";
+			
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			seq = rs.getInt(1);
+			
+		} finally {
+			close();
 		}
+		
+		return seq;
+	}
+
+	// 작가코드 존재하는지 찾기
+	@Override
+	public String findWr_code(Map<String, String> paraMap) throws SQLException {
+		
+		String Wrcode = null;
+		
+		try {
+			
+			conn = ds.getConnection();
+			
+			String sql =  " SELECT pk_wr_code "
+						+ " FROM tbl_writer "
+						+ " WHERE pk_wr_code = ? ";
+		} finally {
+			close();
+		}
+		
+		return Wrcode;
+	}
+
+	@Override
+	public boolean wr_codeDuplicateCheck(String wrcode) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+		
 
 		
 

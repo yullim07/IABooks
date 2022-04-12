@@ -734,3 +734,40 @@ desc TBL_WRITER;
 desc TBL_CATEGORY;
 desc TBL_MAIN_IMAGE; -- 이거 아님!
 
+----------- 테스트용 제품 넣기
+select * from tbl_product;
+
+INSERT INTO 
+tbl_product(fk_cate_num, pro_name, publisher, pro_publish_date, pro_price, pro_saleprice, pro_index, point_rate, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, pro_size, pro_bindtype, pro_pages, pro_imgfile_name, fk_wr_code, pro_content, pk_pro_num, pro_restock, pro_soldout)
+VALUES('104', '해리포터', '문학수첩', sysdate, 12000, 9000, '해리포터와 마법사의 돌', 0.01, sysdate, 100, 0, 0, '128*183 (mm)', '양장제본', 943, '000000000013.jpg', 1943, '어쩌고저쩌고 책내용소개', '0000000000013', 0, 0);
+
+
+desc tbl_writer;
+select * from tbl_writer;
+insert into tbl_writer(pk_wr_code, wr_name, wr_info)
+values(1943, '조앤K.롤링', '해리포터 작가');
+
+commit;
+
+select * from tbl_writer;
+SELECT pk_cate_num, cate_name
+FROM tbl_category;
+
+select pro_name, pro_restock from tbl_product
+order by PRO_INPUTDATE desc;
+
+desc tbl_product;
+desc tbl_writer;
+select * from tbl_writer where pk_wr_code = 1943;
+delete from tbl_product where fk_wr_code = 1943;
+
+select pk_pro_num from tbl_product order by pro_inputdate desc;
+
+select * from tbl_product_imagefile;
+
+select * from user_sequences;
+
+desc SEQ_TBL_WRITER;
+
+select SEQ_TBL_WRITER.nextval
+from dual;

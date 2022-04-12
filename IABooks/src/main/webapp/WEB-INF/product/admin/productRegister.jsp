@@ -43,6 +43,33 @@
 		
 		$("span.error").hide();
 		
+		let restock_yes = 0;
+		
+		// 재입고 여부 확인용 라디오 버튼
+		$("input:radio[name='restock']").bind("click", ()=>{
+			const $target = $(event.target);	// 클릭한 라디오
+			restock_yes = $target.val();		// 라디오를 선택하면 restock_yes 가 얼마인지 잡히게 된다.
+			let index = $("input:radio[name='restock']").index($target); // 전체에서 index하고 2개 중에 실제로 선택한 것
+			console.log("~~~ 확인용 index => " + index);
+			$("span.error").hide();
+		});
+		
+		// 재입고 라디오를 선택했는지 아닌지를 알아오기
+		$("td#purchase").click(function() {
+			const checkedCnt = $("input:radio[name='restock']:checked").length;
+			if(checkedCnt == 0) {
+				// 재입고 여부 선택하지 않았을 경우
+				$("span.error").show();
+				return; // 종료
+			}
+		});
+		
+		
+		// 카테고리명 알아오기 콘솔출력
+		/* $("select[name='fk_cate_num']").change({
+			const catenumSelect = $("select[name='fk_cate_num']").val();
+			console.log("선택된 카테고리명 " + catenumSelect);
+		}); */
 		
 		// 제품 수량에 스피너 달아주기
 		$("input#spinnerPqty").spinner({
@@ -95,11 +122,11 @@
 		
 		// 제품 등록하기
 		$("input#btnRegister").click(function() {
+			
 			let flag = false;
+			
 			$(".infoData").each(function(index, item) { // 필수입력을 채웠는지 검사
-				
 				const val = $(item).val().trim();
-				
 				if(val == "") {
 					$(item).next().show();
 					flag = true;	// 뭔가 잘못된 경우
@@ -108,7 +135,7 @@
 			});
 				
 			if(!flag) { // flag가 바뀌지 않은 경우, 즉 false라면 모든 것을 올바르게 채운 것이다! 
-				var frm = document.prodInputFrm
+				var frm = document.prodInputFrm;
 				frm.submit();
 			}
 		});
@@ -124,10 +151,13 @@
 			$("#datepicker").datepicker();
 		});	
 		
+		
+		
+		
 	}); // end of $(document).ready(function()) --------------------
 	
 	
-	// 재입고 여부 체크 시 반환?
+	// 재입고 여부 체크 시 반환해주기?
 	function getRestock(event) {
 		let result = 0;
 		if(event.target.checked) {
@@ -148,28 +178,34 @@
      enctype="multipart/form-data" 으로 지정해주어야 한다.!! 
      enctype="application/x-www-form-urlencoded" 은 기본값인데, 파일을 업로드할 수 없다!
      --%>
-	<form name="prodInputFrm" action="<%= request.getContextPath()%>/product/admin/productRegister.book" method="POST" enctype="multipart/form-data">
+	<form name="prodInputFrm"
+		  action="<%= request.getContextPath()%>/product/admin/productRegister.book"
+		  method="POST"
+		  enctype="multipart/form-data">
 
 		<table id="tblProdInput" style="width: 80%;">
 			<tbody>
 				<tr>
 					<td><label class="title">재입고 상품 여부</label></td>
 					<td width="30%">
-						<label for="restock_yes" style="margin-left: 2%;"></label>
-						<input type="checkbox" name="restock_yes" value="1" id="restock_yes" onclick="getRestock(event)"/>
-						<input type="checkbox" name="restock_no" value="0" id="restock_no" onclick="getRestock(event)"/>
-						<!-- <input type="radio" name="restock_yes" value="1" id="restock_yes" />
-						<input type="radio" name="restock_yes" value="1" id="restock_yes" /> -->
+						<label for="restock_yes" style="margin-left: 2%;">재입고</label>
+						<input type="radio" name="restock" value="1" id="restock_yes" />
+						
+						<label for="restock_no" style="margin-left: 2%;">신간</label>
+						<input type="radio" name="restock" value="0" id="restock_no" />
+						<span class="error">필수입력</span>
 					</td>
 				</tr>
+				
 				<tr>
 					<td width="25%" class="prodInputName" style="padding-top: 10px;">카테고리</td>
 					<td width="75%" align="left" style="padding-top: 10px;">
-						<select name="fk_cate_num" class="infoData">
+						<select name="fk_cate_num" class="infoData" onchange="alert(this.options[this.selectedIndex].value)">
 						<option value="">카테고리 선택</option>
 						<c:forEach var="map" items="${requestScope.categoryList}">
 							<option value="${map.pk_cate_num}">${map.cate_name}</option>
-							<%-- value에 숫자 쓰면 안됨 --%>
+							<%-- <option value="${map.pk_cate_num}">${map.cate_name}</option> --%>
+							<%-- value에 숫자(0, 1, 2 이런 식으로 안된다는 것이 값이 숫자인 것은 ㄱㅊ) 쓰면 안됨 => 유지보수 어려워서 --%>
 							<%-- var가 vo라면 get변수에서 get다음소문자 / var가 map이라면 put의 키값 --%>
 						</c:forEach>
 						</select>
@@ -186,22 +222,23 @@
 				<tr>
 					<td width="25%" class="prodInputName">도서명</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 300px;" name="pro_name" class="box infoData" /> 
+						<input type="text" style="width: 300px;" name="pro_name" class="box infoData" />
 						<span class="error">필수입력</span>
 					</td>
 				</tr>
-				<tr>
+				
+	 			<tr>
 					<td width="25%" class="prodInputName">저자코드</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 300px;" name="fk_wr_code" class="box infoData" /> 
-						<span class="error">필수입력</span>
+						<input type="text" style="width: 300px;" name="fk_wr_code" class="box" />
 					</td>
 				</tr>
+				
 				<tr>
 					<td width="25%" class="prodInputName">저자명</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 300px;" name="wr_name" class="box infoData" /> 
-						<span class="error">필수입력</span>
+						<input type="text" style="width: 300px;" name="wr_name" class="box" />
+						<!-- <span class="error">필수입력</span> -->
 					</td>
 				</tr>
 				<tr>
@@ -221,23 +258,23 @@
 				<tr>
 					<td width="25%" class="prodInputName">제품정가</td>
 					<td width="35%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 100px;" name="pro_price" class="box infoData" /> 원 
-						<span class="error">필수입력</span>
+						<input type="text" style="width: 100px;" name="pro_price" class="box" /> 원 
+						<!-- <span class="error">필수입력</span> -->
 						<input type="checkbox" id="priceCheck" name="priceCheck">판매가와 동일
 					</td>
 				</tr>
 				<tr>
 					<td width="25%" class="prodInputName">제품판매가</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 100px;" name="pro_saleprice" class="box infoData" /> 원 
-						<span class="error">필수입력</span>
+						<input type="text" style="width: 100px;" name="pro_saleprice" class="box" /> 원 
+						<!-- <span class="error">필수입력</span> -->
 					</td>
 				</tr>
 				<tr>
 					<td width="25%" class="prodInputName">포인트적립율</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 100px;" name="point_rate" class="box infoData" /> 퍼센트 
-						<span class="error">필수입력</span>
+						<input type="text" style="width: 100px;" name="point_rate" class="box" /> 퍼센트 
+						<!-- <span class="error">필수입력</span> -->
 					</td>
 				</tr>
 				<tr>
@@ -252,31 +289,29 @@
 				<tr>
 					<td width="25%" class="prodInputName">규격</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 100px;" name="pro_size" class="box infoData" />
-						<span class="error">필수입력</span>
+						<input type="text" style="width: 100px;" name="pro_size" class="box" />
+						<!-- <span class="error">필수입력</span> -->
 					</td>
 				</tr>
 				
 				<tr>
 					<td width="25%" class="prodInputName">제본형태</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<select name="pro_bindtype" class="infoData">
+						<select name="pro_bindtype" id="pro_bindtype">  <!-- class="infoData"> --> 
 							<option value="">제본형태 선택</option>
-							<option value="">양장제본</option>
-							<option value="">반양장제본</option>
-							<option value="">무선제본</option>
-							<option value="">낱장제본</option>
-							<option value="">기타</option>
+							<option value="양장제본">양장제본</option>
+							<option value="반양장제본">반양장제본</option>
+							<option value="무선제본">무선제본</option>
+							<option value="낱장제본">낱장제본</option>
+							<option value="기타">기타</option>
 						</select>
-						<span class="error">필수입력</span>
 					</td>
 				</tr>
 				
 				<tr>
 					<td width="25%" class="prodInputName">쪽수</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 100px;" name="pro_pages" class="box infoData" /> 쪽
-						<span class="error">필수입력</span>
+						<input type="text" style="width: 100px;" name="pro_pages" class="box" /> 쪽
 					</td>
 				</tr>
 				<%-- ----------------------------------------------------------------- --%>
@@ -285,7 +320,7 @@
 					<td width="25%" class="prodInputName">제품수량</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
 						<input id="spinnerPqty" name="pro_qty" value="1" style="width: 30px; height: 20px;"> 개 
-						<span class="error">필수입력</span>
+						<!-- <span class="error">필수입력</span> -->
 					</td>
 				</tr>
 
@@ -325,7 +360,7 @@
 						<label for="spinnerImgQty">파일갯수 : </label> 
 						<input id="spinnerImgQty" value="0" style="width: 30px; height: 20px;">
 						<div id="divfileattach"></div> 
-						<input type="text" name="attachCount" id="attachCount" />
+						<input type="hidden" name="attachCount" id="attachCount" />
 					</td>
 				</tr>
 
