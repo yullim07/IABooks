@@ -216,7 +216,7 @@
 		      
 		      <td colspan="2">
 		      	
-		      		<textarea class="summernote" id="editordata" name="qnaContent">${qnaVO.fk_pnum} ${pk_pro_num}</textarea>
+		      		<textarea class="summernote" id="editordata" name="qnaContent"></textarea>
                         <script>
                         $('.summernote').summernote({
                         	height: 300,                 // 에디터 높이

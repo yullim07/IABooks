@@ -945,9 +945,115 @@ alter system set processes=300 scope=spfile;
 	   			   	   ) T 
 					   where rno between 11 and 20 
  
+ select *
+ from tbl_product;
+ 
+ 
+ alter table tbl_review_board add rev_file_system_name varchar2(200);
+ alter table tbl_review_board add rev_file_original_name varchar2(200);
  
  
  
  
  
+ select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle 
+				from
+					( 
+				 select   
+				        lag(B.pk_qna_num, 1) over(order by B.pk_qna_num desc) as prevnum
+				      , lag(B.qna_title, 1) over(order by B.pk_qna_num desc) as prevtitle
+				       , B.pk_qna_num as currentnum
+				      , B.qna_title as currenttitle 
+				      , lead(B.pk_qna_num, 1) over(order by B.pk_qna_num desc) as nextnum 
+				     , lead(B.qna_title, 1) over(order by B.pk_qna_num desc) as nexttitle 
+				 from 
+                    (
+                     select pk_qna_num, qna_title
+                        from tbl_qna_board
+                        where isdelete = 0
+                    )B
+                 
+				 ) v
+				 where currentnum = 3839
+ ----------------
+ select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle 
+					 from 
+					 (
+					 select   
+					         lag(B.PK_RNUM, 1) over(order by B.PK_RNUM desc) as prevnum 
+					       , lag(B.RE_TITLE, 1) over(order by B.PK_RNUM desc) as prevtitle 
+					       , B.PK_RNUM as currentnum 
+					       , B.RE_TITLE as currenttitle 
+					       , lead(B.PK_RNUM, 1) over(order by B.PK_RNUM desc) as nextnum 
+					       , lead(B.RE_TITLE, 1) over(order by B.PK_RNUM desc) as nexttitle 
+					 from (
+                            select PK_RNUM, RE_TITLE
+                            from tbl_review_board
+                            where isdelete = 0
+                            )B 
+					 ) v 
+					 where currentnum = ? 
+                     
  
+ 
+ select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle 
+					 from 
+					 ( 
+					 select   
+					         lag(B.pk_faq_board_num, 1) over(order by B.pk_faq_board_num desc) as prevnum 
+					       , lag(B.faq_title, 1) over(order by B.pk_faq_board_num desc) as prevtitle 
+					       , B.pk_faq_board_num as currentnum 
+					       , B.faq_title as currenttitle 
+					       , lead(B.pk_faq_board_num, 1) over(order by B.pk_faq_board_num desc) as nextnum 
+					       , lead(B.faq_title, 1) over(order by B.pk_faq_board_num desc) as nexttitle 
+					 from  (
+                            select pk_faq_board_num, faq_title
+                            from tbl_faq_board
+                            where isdelete = 0
+                            )B 
+					 ) v 
+					 where currentnum = ?
+                     
+-------------------------
+
+select *
+from tbl_qna_board
+where isdelete = 0 
+order by pk_qna_num desc;
+
+delete from tbl_qna_board 
+where pk_qna_num = 3838;
+
+select *
+from tbl_comment;
+
+ALTER TABLE tbl_comment DROP foreign KEY FK_tbl_qn_board_TO_tbl_cmnt;
+
+ALTER TABLE tbl_comment
+	DROP
+		CONSTRAINT FK_tbl_qn_board_TO_tbl_cmnt -- 상품Q&A 게시판 -> 댓글
+		FOREIGN KEY (
+			fk_qna_num -- 문의번호
+		)
+		REFERENCES tbl_qna_board ( -- 상품Q&A 게시판
+			pk_qna_num -- 문의번호
+		);
+        
+ ALTER TABLE tbl_comment ADD CONSTRAINT FK_tbl_qn_board_TO_tbl_cmnt FOREIGN KEY (fk_qna_num) REFERENCES tbl_qna_board(pk_qna_num) ON DELETE CASCADE;       
+ --Table TBL_COMMENT이(가) 변경되었습니다.
+ 
+ ---------------
+ 
+ 
+ select * 
+ from tbl_review_board;
+
+
+select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date 
+			     , RE_GRADE, RE_CONTENTS, RE_PASSWD, RE_WRITER, isdelete, P.pro_name, P.pro_imgfile_name, P.PRO_PRICE , rev_file_system_name, nvl(rev_file_original_name,'없음') as rev_file_original_name
+        		, C.cate_name 
+         from tbl_review_board R JOIN tbl_product P 
+         ON R.FK_PNUM = P.pk_pro_num 
+         JOIN TBL_CATEGORY C 
+         ON P.fk_cate_num = C.pk_cate_num 
+         where isdelete = 0 and PK_RNUM =

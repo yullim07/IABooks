@@ -459,7 +459,7 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " delete from tbl_qna_board  "
+			String sql = " update tbl_qna_board  set  isdelete = 1  "
 					   + " where pk_qna_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -643,19 +643,25 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			
-			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle "+
-					" from "+
-					" ( "+
-					" select   "+
-					"         lag(pk_qna_num, 1) over(order by pk_qna_num desc) as prevnum "+
-					"       , lag(qna_title, 1) over(order by pk_qna_num desc) as prevtitle "+
-					"       , pk_qna_num as currentnum "+
-					"       , qna_title as currenttitle "+
-					"       , lead(pk_qna_num, 1) over(order by pk_qna_num desc) as nextnum "+
-					"       , lead(qna_title, 1) over(order by pk_qna_num desc) as nexttitle "+
-					" from tbl_qna_board "+
-					" ) v " +
-					" where currentnum = ? ";
+			String sql = "  select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle  "
+					+ "				from "
+					+ "					(  "
+					+ "				 select    "
+					+ "				        lag(B.pk_qna_num, 1) over(order by B.pk_qna_num desc) as prevnum "
+					+ "				      , lag(B.qna_title, 1) over(order by B.pk_qna_num desc) as prevtitle "
+					+ "				       , B.pk_qna_num as currentnum "
+					+ "				      , B.qna_title as currenttitle   "
+					+ "				      , lead(B.pk_qna_num, 1) over(order by B.pk_qna_num desc) as nextnum "
+					+ "				     , lead(B.qna_title, 1) over(order by B.pk_qna_num desc) as nexttitle  "
+					+ "				 from "
+					+ "                    ( "
+					+ "                     select pk_qna_num, qna_title "
+					+ "                        from tbl_qna_board "
+					+ "                        where isdelete = 0 "
+					+ "                    )B "
+					+ "                  "
+					+ "				 ) v " 
+					+ " where currentnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, currentNum);
@@ -771,7 +777,7 @@ public class BoardDAO implements InterBoardDAO {
 					+ " 						  order by pk_qna_num desc " 
 					+ "                     	  ) V \r\n"
 					+ "		               ) T \r\n"
-					+ "		              where rno between ? and ? ";
+					+ "		   where rno between ? and ? ";
 		
 		pstmt = conn.prepareStatement(sql);
 		
@@ -1498,7 +1504,7 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " delete tbl_faq_board " 
+			String sql = " update tbl_faq_board set isdelete = 1 " 
 			+ " where pk_faq_board_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -1535,19 +1541,23 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			
-			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle "+
-					" from "+
-					" ( "+
-					" select   "+
-					"         lag(pk_faq_board_num, 1) over(order by pk_faq_board_num desc) as prevnum "+
-					"       , lag(faq_title, 1) over(order by pk_faq_board_num desc) as prevtitle "+
-					"       , pk_faq_board_num as currentnum "+
-					"       , faq_title as currenttitle "+
-					"       , lead(pk_faq_board_num, 1) over(order by pk_faq_board_num desc) as nextnum "+
-					"       , lead(faq_title, 1) over(order by pk_faq_board_num desc) as nexttitle "+
-					" from tbl_faq_board "+
-					" ) v " +
-					" where currentnum = ? ";
+			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle  "
+					+ "					 from "
+					+ "					 ( "
+					+ "					 select   "
+					+ "					         lag(B.pk_faq_board_num, 1) over(order by B.pk_faq_board_num desc) as prevnum  "
+					+ "					       , lag(B.faq_title, 1) over(order by B.pk_faq_board_num desc) as prevtitle  "
+					+ "					       , B.pk_faq_board_num as currentnum  "
+					+ "					       , B.faq_title as currenttitle  "
+					+ "					       , lead(B.pk_faq_board_num, 1) over(order by B.pk_faq_board_num desc) as nextnum  "
+					+ "					       , lead(B.faq_title, 1) over(order by B.pk_faq_board_num desc) as nexttitle  "
+					+ "					 from  ( "
+					+ "                            select pk_faq_board_num, faq_title "
+					+ "                            from tbl_faq_board "
+					+ "                            where isdelete = 0 "
+					+ "                            )B  "
+					+ "					 ) v "
+					+ "					 where currentnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, currentNum);
@@ -1612,12 +1622,12 @@ public class BoardDAO implements InterBoardDAO {
 			
 			String sql = " select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date "+
 			"      , RE_GRADE, RE_CONTENTS, RE_PASSWD, RE_WRITER, isdelete, P.pro_name, P.pro_imgfile_name, P.PRO_PRICE " +
-			"		, C.cate_name " +
+			"		, C.cate_name , rev_file_system_name, nvl(rev_file_original_name,'없음') as rev_file_original_name " +
 			" from tbl_review_board R JOIN tbl_product P " +
 			" ON R.FK_PNUM = P.pk_pro_num " +
 			" JOIN TBL_CATEGORY C " +
 			" ON P.fk_cate_num = C.pk_cate_num " +
-			" where PK_RNUM = ? ";
+			" where isdelete = 0 and PK_RNUM = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, pk_rnum);
@@ -1648,6 +1658,9 @@ public class BoardDAO implements InterBoardDAO {
 			category.setCate_name(rs.getString(14));
 			revVO.setCategory(category);
 			
+			revVO.setRev_file_system_name(rs.getString(15));
+			revVO.setRev_file_original_name(rs.getString(16));
+			
 			// System.out.println("받아왔니? " + faqVO.getFaq_contents());
 			}
 			
@@ -1670,19 +1683,23 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle "+
-					" from "+
-					" ( "+
-					" select   "+
-					"         lag(PK_RNUM, 1) over(order by PK_RNUM desc) as prevnum "+
-					"       , lag(RE_TITLE, 1) over(order by PK_RNUM desc) as prevtitle "+
-					"       , PK_RNUM as currentnum "+
-					"       , RE_TITLE as currenttitle "+
-					"       , lead(PK_RNUM, 1) over(order by PK_RNUM desc) as nextnum "+
-					"       , lead(RE_TITLE, 1) over(order by PK_RNUM desc) as nexttitle "+
-					" from tbl_review_board "+
-					" ) v " +
-					" where currentnum = ? ";
+			String sql = "  select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle  "
+					+ "					 from "
+					+ "					 ( "
+					+ "					 select   "
+					+ "					         lag(B.PK_RNUM, 1) over(order by B.PK_RNUM desc) as prevnum  "
+					+ "					       , lag(B.RE_TITLE, 1) over(order by B.PK_RNUM desc) as prevtitle  "
+					+ "					       , B.PK_RNUM as currentnum  "
+					+ "					       , B.RE_TITLE as currenttitle  "
+					+ "					       , lead(B.PK_RNUM, 1) over(order by B.PK_RNUM desc) as nextnum  "
+					+ "					       , lead(B.RE_TITLE, 1) over(order by B.PK_RNUM desc) as nexttitle  "
+					+ "					 from ( "
+					+ "                            select PK_RNUM, RE_TITLE "
+					+ "                            from tbl_review_board  "
+					+ "                            where isdelete = 0 "
+					+ "                            )B  "
+					+ "					 ) v  "
+					+ "					 where currentnum = ? ";
 	
 			
 			pstmt = conn.prepareStatement(sql);
@@ -1773,7 +1790,7 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " delete tbl_review_board " 
+			String sql = " update tbl_review_board  set isdelete = 1 " 
 			+ " where pk_rnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);

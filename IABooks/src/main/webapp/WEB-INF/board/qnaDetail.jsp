@@ -2,15 +2,11 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-
-
 <%
 	String ctxPath = request.getContextPath();
 	
 %>
 
-
-	  
 <%-- <meta charset="UTF-8"> --%>
 <title>${qnaVO.qna_title} | 상품Q&A</title>
 
@@ -55,8 +51,6 @@
    		min-height: 60px;
    }
    
-   
-   
    span.markColor {color: #ff0000; }
    
    div.customDisplay {display: inline-block;
@@ -90,11 +84,6 @@
 		
 		$("button#submitCmt").click( () =>{
 			
-			
-				
-			
-			
-				
 			 	var commenttext=$("#comment_content").val(); //댓글 내용
 		        var pk_qna_num="${(requestScope.qnaVO).pk_qna_num}"; //게시물 번호
 		        var comment_pwd = $("#comment_pwd").val();
@@ -319,6 +308,8 @@
 			      		
 			      		<div class="content">
 			      		${qnaVO.qna_contents}
+			      		<br/>
+		      			<br/>
 			      		<c:if test="${qnaVO.qna_file_original_name ne '없음'}">
 			      		 <img src="/IABooks/images/${qnaVO.qna_file_system_name}" class="img-fluid" style="width:100%;" />
 			      		</c:if>
@@ -333,20 +324,7 @@
 			    </tr>
 			    <tr>
 			      <th>첨부파일</th>
-			      
-			      
-			      
 			      <td>
-			      	 <%--  <c:if test="${qnaVO.qna_file1_originFileName ne '없음'}">
-		                 <a href="<%= ctxPath%>/board/fileDownload.up?pnum=${pvo.pnum}">${pvo.prdmanual_orginFileName}</a>
-		              </c:if>
-		              <c:if test="${qnaVO.qna_file1_originFileName eq '없음'}">
-		                 첨부파일없음
-		              </c:if> --%>
-			      	
-			      
-			      
-				      	
 				      	<c:if test="${qnaVO.qna_file_original_name ne '없음'}">
 				      		<img id="file_attach_2" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
 		                    <a class="file_attach" href="<%= ctxPath%>/board/fileDownload.book?pk_qna_num=${qnaVO.pk_qna_num}">${qnaVO.qna_file_original_name}</a>
@@ -354,7 +332,6 @@
 		                <c:if test="${qnaVO.qna_file_original_name eq '없음'}">
 		                   첨부파일없음
 		                </c:if>
-				      	
 			      </td>
 			     
 			    </tr>

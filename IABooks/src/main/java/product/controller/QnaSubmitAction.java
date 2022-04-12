@@ -67,7 +67,6 @@ public class QnaSubmitAction extends AbstractController {
 	            super.setViewPage("/WEB-INF/msg.jsp");
 	            return; // 종료
 			}
-			
 			// === 파일을 업로드 해준다. 끝 === //
 		
 			// 글쓰기 버튼을 클릭했을 경우
