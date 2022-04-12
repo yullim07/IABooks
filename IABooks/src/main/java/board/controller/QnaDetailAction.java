@@ -29,6 +29,8 @@ public class QnaDetailAction extends AbstractController {
 		//	int qna_issecret = Integer.parseInt(request.getParameter("qna_issecret"));	//	MemberVO issecret = (MemberVO) session.getAttribute("issecret");
 			InterBoardDAO bdao = new BoardDAO();
 			
+			
+			
 		//	int qna_issecret  = bdao.searchIssecret(pk_qna_num);
 			
 		//	System.out.println("찾@@자"+qna_issecret);
@@ -52,22 +54,32 @@ public class QnaDetailAction extends AbstractController {
 	//		System.out.println("idid "+ qnaVO.getFk_userid());
 			
 			qnaVO.setPk_qna_num(pk_qna_num);
+			
 			qnaVO = bdao.readqnaContent(pk_qna_num);
 	
 		
+			if( loginuser == null || !( loginuser.getUserid().equals(qnaVO.getFk_userid()) )){
+				bdao.qnaReadCountUp(pk_qna_num);
+			}
+			
+			
 			String message  ="";
 			String loc = "";
 			
-			if(qnaVO == null) {
-				message = "게시글이 없습니다.";
-				loc = "javascript:history.back()";
-				
-				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
-				
-			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/msg.jsp");
+			
+			
+			
+			
+			 if(qnaVO == null) { 
+				 message = "게시글이 없습니다."; 
+				 loc ="javascript:history.back()";
+			  
+			  	request.setAttribute("message", message); request.setAttribute("loc", loc);
+			  
+			  // super.setRedirect(false); super.setViewPage("/WEB-INF/msg.jsp");
 			}
+			 
+			
 			
 			if( qnaVO.getQna_issecret() == 1 ){ //비밀글인 경우
 		
@@ -131,6 +143,8 @@ public class QnaDetailAction extends AbstractController {
 				super.setViewPage("/WEB-INF/board/qnaDetail.jsp");
 
 			}//end of else---------------
+			
+			
 	}
 
 }

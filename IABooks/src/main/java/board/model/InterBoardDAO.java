@@ -194,6 +194,9 @@ public interface InterBoardDAO {
 
 	// FAQ 카테고리 불러오기
 	List<HashMap<String, String>> getFaqCateList() throws SQLException;
+	
+	// qna글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
+	Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException;
 
 	
 

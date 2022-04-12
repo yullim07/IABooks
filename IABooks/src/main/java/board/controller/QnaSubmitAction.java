@@ -23,13 +23,13 @@ public class QnaSubmitAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-		System.out.println("제품에서 글쓰기?");
+	//	System.out.println("제품에서 글쓰기?");
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 해야 한다. == //
 		HttpSession session  = request.getSession();
 				
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		String method = request.getMethod();
-		System.out.println("메소드는?"+method);
+	//	System.out.println("메소드는?"+method);
 		
 		if( loginuser == null  ) {
 		
@@ -55,7 +55,7 @@ public class QnaSubmitAction extends AbstractController {
 			// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다.
 			ServletContext svlCtx = session.getServletContext();
 			String uploadFileDir = svlCtx.getRealPath("/images");
-			System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
+		//	System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
 			
 			
 
@@ -78,7 +78,7 @@ public class QnaSubmitAction extends AbstractController {
 			
 			// 글쓰기 버튼을 클릭했을 경우
 			String fk_pnum = request.getParameter("pk_pro_num"); // 제품번호를 받아온다.
-			System.out.println(" @@제발 가져와 : " + fk_pnum);
+		//	System.out.println(" @@제발 가져와 : " + fk_pnum);
 			
 			String userid = loginuser.getUserid();
 			String subject = mtrequest.getParameter("qnaSubject");
@@ -91,14 +91,10 @@ public class QnaSubmitAction extends AbstractController {
 			String passwd = mtrequest.getParameter("qnaPasswd");
 			String issecret = mtrequest.getParameter("qnaIssecret");
 			
+		//	String  qna_file1 = mtrequest.getFilesystemName("qna_file1");
 			
-			String  qna_file1 = mtrequest.getFilesystemName("qna_file1");
-			// qna_file1는 보여만 주지 파일을 다운받을 일은 없다.
-			//그래서 오리진이 필요없다.
-			
-			String qna_file1_systemFileName = mtrequest.getFilesystemName("qna_file1");
-			
-			String qna_file1_originFileName = mtrequest.getOriginalFileName("qna_file1");
+			String qna_file_system_name = mtrequest.getFilesystemName("qna_file");
+			String qna_file_original_name = mtrequest.getOriginalFileName("qna_file");
 			
 			
 			
@@ -110,9 +106,9 @@ public class QnaSubmitAction extends AbstractController {
 			paraMap.put("content", content);
 			paraMap.put("passwd", passwd);
 			paraMap.put("issecret", issecret);
-			paraMap.put("qna_file1", qna_file1);
-			paraMap.put("qna_file1_originFileName",qna_file1_originFileName);
-			paraMap.put("qna_file1_systemFileName", qna_file1_systemFileName);
+			paraMap.put("qna_file_system_name", qna_file_system_name);
+			paraMap.put("qna_file_original_name",qna_file_original_name);
+			
 			
 			
 			String message = "";

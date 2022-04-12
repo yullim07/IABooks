@@ -163,6 +163,7 @@
 	        		<tr class="qnaboardInfo">
 	        			
 		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
+				    	
 				    	<td class="tbl_bookname">
 				    		<c:if test="${board.product.pro_name != '-9999'}">
 				    		<a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${board.fk_pnum}">

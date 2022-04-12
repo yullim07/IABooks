@@ -625,6 +625,9 @@ select *
 from tbl_qna_board
 
 
+
+
+
 update tbl_qna_board set qna_title = '도넛', qna_contents= '은 맛있어', qna_issecret = 1
 where pk_qna_num = '3081';  
 commit;
@@ -884,7 +887,11 @@ alter table tbl_qna_board modify  qna_issecret varchar2(5) not null;
 
 alter table tbl_qna_board add qna_file1 varchar2(200);
 
+alter table tbl_qna_board rename column qna_file1 to qna_file_system_name;
+--Table TBL_QNA_BOARD이(가) 변경되었습니다.
 
+alter table tbl_qna_board add qna_file_original_name varchar2(200);
+--Table TBL_QNA_BOARD이(가) 변경되었습니다.
 
 alter system set processes=300 scope=spfile;
  set hidden param parseThreshold = 150000;
@@ -909,3 +916,38 @@ alter system set processes=300 scope=spfile;
  where fk_userid= 'admin';
  
  commit;
+ 
+ select *
+ from tbl_member;
+ 
+ 
+ 
+ 
+ 
+ 
+ select qnarno, fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name
+    			  from 
+    			      ( 
+    			     select rownum AS qnarno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name
+    			      from 
+    			      ( 
+                          select  nvl(fk_pnum,-9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,-9999) as pro_name, nvl(pro_imgfile_name,-9999) as pro_imgfile_name ,nvl(C.cate_name,-9999) AS cate_name
+    			          from tbl_member M right JOIN tbl_qna_board Q  
+    			          ON M.pk_userid = Q.fk_userid 
+    			          left JOIN tbl_product P 
+    			          ON Q.fk_pnum = P.pk_pro_num
+    			          left JOIN TBL_CATEGORY C
+    			  		ON P.fk_cate_num = C.pk_cate_num
+    			          where isdelete = 0
+                 
+                    		order by pk_qna_num desc 
+					   	) V 
+	   			   	   ) T 
+					   where rno between 11 and 20 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
