@@ -66,7 +66,8 @@ public interface InterBoardDAO {
 	   int deleteComment(CommentVO cVO) throws SQLException;
 	
 	
-	
+	   // 댓글 정보 알아오기
+	   CommentVO getCmtContent(int pk_cmt_num) throws SQLException;
 	
 	
 	
@@ -198,8 +199,7 @@ public interface InterBoardDAO {
 	// FAQ 카테고리 불러오기
 	List<HashMap<String, String>> getFaqCateList() throws SQLException;
 
-	// 댓글 정보 알아오기
-	CommentVO getCmtContent(int pk_cmt_num) throws SQLException;
+	
 
 
 

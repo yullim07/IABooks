@@ -94,7 +94,7 @@
 				
 			
 			
-				listComment().hide();
+				
 			 	var commenttext=$("#comment_content").val(); //댓글 내용
 		        var pk_qna_num="${(requestScope.qnaVO).pk_qna_num}"; //게시물 번호
 		        var comment_pwd = $("#comment_pwd").val();
@@ -155,6 +155,7 @@
 	        		
 	        success: function(json){ //자료를 보내는것이 성 공했을때 출력되는 메시지
 	        	
+	        	
 	        	console.log("json : ", json);
 	        	let html = "";
 	        	console.log("출력");
@@ -169,7 +170,7 @@
 	        			 var writeuserid = item.fk_userid;
 	        			 html += "<div id='cmtlist_header'>" ;
 	        			 if( writeuserid == 'admin'){
-	        				 html += "<div> <strong>인디펍("+loginusername+")</strong>";
+	        				 html += "<div> <strong>인디펍</strong>";
 	        			 }
 	        			 else{
 	        				  html += "<div> <strong>"+writeuserid.substr(0,2)+"*****</strong>";
@@ -198,7 +199,7 @@
 	                 html += "<div>등록된 댓글이 없습니다.</div>";
 	              }// end of else ---------------------
 	              
-	              $("div#listComment").append(html);
+	              $("div#listComment").html(html);
 	        	
 	        	
 	        },
