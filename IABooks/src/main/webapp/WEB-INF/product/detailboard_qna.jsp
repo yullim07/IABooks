@@ -214,11 +214,11 @@
 
 
 
-		<nav class="my-5">
+		<%-- <nav class="my-5">
 				<div  class="pagination2 justify-content-center" style="display: flex; width: 100%;">
 					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 				</div>	
-		</nav>
+		</nav> --%>
 
 </div>
 
