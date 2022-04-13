@@ -89,7 +89,7 @@
   <p class="mb-3"></p>
   
   <c:set var="revVO" value="${revVO}" />
-  <form name="editFrm">
+  <form name="editFrm" enctype="multipart/form-data">
 	<div class="table table-responsive">
 		<table class=" write_review">
 		  	<tbody>
@@ -124,8 +124,8 @@
 		    <tr>
 		      <th>첨부파일1</th>
 		      <td class="" >
-		      	<button  name="file_attach" id="file_attach" type="button">파일 선택</button> <%--  button으로 할지 input으로 할지 고민고민 --%>
-		      	<span>선택된 파일 없음</span>
+		      	<input  name="rev_file" id="rev_file" type="file" value="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}"/> <%--  button으로 할지 input으로 할지 고민고민 --%>
+		      	<%-- <a class="file_attach" href="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}">${revVO.rev_file_original_name}</a> --%>
 		      </td>
 		    </tr>
 		    
