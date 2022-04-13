@@ -22,5 +22,8 @@ public interface TestInterBoardDAO {
 
 	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 FAQ게시판에 대한 페이지 알아오기
 	int getTotalMyPage(Map<String, String> paraMap) throws SQLException;
+	
+	// 게시글 번호 표시를 위한 검색이 있는 또는 검색이 없는 전체 리뷰 게시판에 대한 페이지 알아오기
+	ReviewBoardVO getTotalReviewCnt(Map<String, String> paraMap) throws SQLException;
 
 }
