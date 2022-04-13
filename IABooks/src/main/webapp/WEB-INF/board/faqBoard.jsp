@@ -11,7 +11,11 @@
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
-<!-- 직접 만든 CSS -->
+<%-- Bootstrap CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
+
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
 
 <!-- Font Awesome 5 Icons -->
@@ -27,6 +31,17 @@
 	select#faqsearchContent, select#faqsearchCate {
 		font-size:14px;
 	}
+	a {
+	  	color: #333333;
+	  	text-decoration: none;
+	}
+	a:hover {
+  		color: #333333;
+ 	}
+ 	
+ 	a.page-num{
+ 		padding: 10px 12px 6px 12px;
+ 	}
 	
 </style>
 
@@ -118,7 +133,7 @@
 	    <div class="container">
 	    <form name="faqBoardFrm" method="get">
 			    <div class="title" >
-				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
+				  	<div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /> --%></div>
 				  	<h2>FAQ</h2>
 				  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 				  	<span >이용안내 FAQ입니다.</span>
@@ -170,11 +185,14 @@
 			
 			</table>
 			
-			<nav class="my-5">
-				<div style="display: flex; width: 100%;">
-					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
-				</div>	
-			</nav>
+			<div <%-- style="display: inline-block; vertical-align: middle; min-height: 40px; padding: auto; width: 100%;" --%>>
+				<%--페이지 네비게이션 --%>
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center ">
+						${requestScope.pageBar}
+				  	</ul>
+				</nav>
+			</div>
 			
 			<div class="search_outer" >
 		 		<div class="search_inner">

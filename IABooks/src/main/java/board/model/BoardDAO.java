@@ -1817,7 +1817,7 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			String sql = " update tbl_review_board set re_title = ?, re_contents= ?, re_writer = ? "+
-			" where pk_rnum = ? ";
+						 " where pk_rnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("title"));

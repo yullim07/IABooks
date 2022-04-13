@@ -26,6 +26,11 @@
 <meta charset="UTF-8">
 <title>타인의 책장</title>
 
+
+<%-- Bootstrap CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 <jsp:include page="/WEB-INF/header.jsp"/>
@@ -108,7 +113,7 @@
 
   
   <div class="title" >
-     <div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
+     <div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /> --%></div>
      <h2 >타인의 책장</h2>
      <div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
      <span >후기를 작성하는 공간입니다.</span>
@@ -187,11 +192,12 @@
         </div>
    
 
-   <nav class="my-5">
-      <div style="display: flex; width: 100%;">
-         <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
-      </div>   
-   </nav>
+  	<%--페이지 네비게이션 --%>
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center ">
+			${requestScope.pageBar}
+	  	</ul>
+	</nav>
      
     
     <div class="search_outer" >
