@@ -100,9 +100,6 @@ $(document).ready(function() {
 	<input type="hidden" id="address"  name="address" value="${requestScope.address}" />
 	<input type="hidden" id="finalPrice"  name="finalPrice" value="${requestScope.finalPrice}" />
 	<input type="hidden" id="useCouponId"  name="useCouponId" value="${requestScope.useCouponId}" />
-	<input type="hidden" id="deliveryMsg"  name="deliveryMsg" value="${requestScope.deliveryMsg}" />
-	<input type="hidden" id="usePoint"  name="usePoint" value="${requestScope.usePoint}" />
-	<input type="hidden" id="totalSale"  name="totalSale" value="${requestScope.totalSale}" />
 	
 	<input type="hidden" id="pk_cartnoJoin"  name="pk_cartnoJoin" value="${requestScope.pk_cartnoJoin}" />
 	<input type="hidden" id="fk_pro_numJoin"  name="fk_pro_numJoin" value="${requestScope.fk_pro_numJoin}" />
