@@ -190,6 +190,83 @@ public class TestBoardDAO implements TestInterBoardDAO {
 			return qvo;
 		}
 
+		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 FAQ게시판에 대한 페이지 알아오기
+		@Override
+		public int getTotalMyPage(Map<String, String> paraMap) throws SQLException {
+
+			int totalPage = 0;
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
+			String searchCate = paraMap.get("searchCate");	
+			String re_option = "";
+			String qna_option = "";
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select ceil( (revCnt + qnaCnt) / ? ) AS myCnt ";
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					re_option = "re_title";
+					qna_option = "qna_title";
+					sql +=  " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						    " where "+re_option+" like '%'|| ? ||'%' ) R "+
+						    " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						    " where "+qna_option+" like '%'|| ? ||'%' ) Q ";
+				}
+				else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					re_option = "re_contents";
+					qna_option = "qna_contents";
+					sql +=  " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						    " where "+re_option+" like '%'|| ? ||'%' ) R "+
+						    " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						    " where "+qna_option+" like '%'|| ? ||'%' ) Q ";
+				}
+				else { // 검색조건이 없을 때
+					sql += " from ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS revCnt, re_title, re_contents from tbl_review_board " +
+						   " ) R "+
+						   " , ( select COUNT(CASE WHEN fk_userid= ? THEN 1 END) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						   " ) Q ";
+				}
+				// System.out.println(" 확인용 colname : " + colname);
+				// System.out.println(" 확인용 searchWord : " + searchWord);
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("sizePerPage"));
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, searchWord);
+					pstmt.setString(4, paraMap.get("userid"));
+					pstmt.setString(5, searchWord);
+				}
+				else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, searchWord);
+					pstmt.setString(4, paraMap.get("userid"));
+					pstmt.setString(5, searchWord);
+					
+				}
+				else { // 검색조건이 없을 때
+					pstmt.setString(2, paraMap.get("userid"));
+					pstmt.setString(3, paraMap.get("userid"));
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				totalPage = rs.getInt(1);
+			
+			} finally {
+			close();
+			}
+			
+			return totalPage;
+			
+		} // public int getTotalfaqPage(Map<String, String> paraMap) throws SQLException 
+
 	
 	
 }
