@@ -311,7 +311,7 @@
 			      		<br/>
 		      			<br/>
 			      		<c:if test="${qnaVO.qna_file_original_name ne '없음'}">
-			      		 <img src="/IABooks/images/${qnaVO.qna_file_system_name}" class="img-fluid" style="width:100%;" />
+			      		 	<img src="/IABooks/images/${qnaVO.qna_file_system_name}" class="img-fluid" style="width:100%;" />
 			      		</c:if>
 			      		
 			      		

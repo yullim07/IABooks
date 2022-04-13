@@ -126,14 +126,7 @@
 			   </div>
 			  <!-- <p class="mb-3"></p> -->
 			
-			  	
-			    <%-- <select id="faqsearchCate" class="cateDropdown" name="faqsearchCate">
-			    <option value="">분류</option>
-			    <c:forEach var="map" items="${requestScope.faqCateList}">
-	            	<option value="${map.faq_c_ename}">${map.faq_c_name}</option>
-	            </c:forEach> --%>
-	            
-	            <select class="cateDropdown" id="faqsearchCate" name="faqsearchCate" onchange="">
+			  	<select class="cateDropdown" id="faqsearchCate" name="faqsearchCate" onchange="">
 				    <option value="">분류</option>
 				    <c:forEach items="${requestScope.faqCateList}" var="map">
 				      <option value="${map.faq_c_ename}" ${map.faq_c_ename == 'all' ? 'selected="selected"' : ''}>${map.faq_c_name}</option>
