@@ -121,7 +121,7 @@
 		      	<div class="detail " >
 		      		<%-- <img style="max-width:100%; height:auto;"  src="<%= ctxPath%>/images/board/leejh_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg"/> --%>
 		      		<div>
-		      		<p>${revVO.re_contents}</p>
+		      		${revVO.re_contents}
 		      		<br/>
 		      		<br/>
 		      		<c:if test="${revVO.rev_file_original_name ne '없음'}">

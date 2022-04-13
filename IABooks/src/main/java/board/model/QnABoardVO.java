@@ -20,9 +20,33 @@ public class QnABoardVO {
 	private String qna_file_system_name;       //파일 시스템 네임
 	private String qna_file_original_name; // 파일 오리지널 네임
 	private int qnaCnt;             // 한 제품에 대한 qna게시글 수 
-	
-	
-	
+	private int totalCnt;			// 게시판 총 개시글 개수
+	private int currentShowPageNo;			// 현재 페이지
+	private int sizePerPage;			// 페이지당 개수
+
+	public int getTotalCnt() {
+		return totalCnt;
+	}
+
+	public void setTotalCnt(int totalCnt) {
+		this.totalCnt = totalCnt;
+	}
+
+	public int getCurrentShowPageNo() {
+		return currentShowPageNo;
+	}
+
+	public void setCurrentShowPageNo(int currentShowPageNo) {
+		this.currentShowPageNo = currentShowPageNo;
+	}
+
+	public int getSizePerPage() {
+		return sizePerPage;
+	}
+
+	public void setSizePerPage(int sizePerPage) {
+		this.sizePerPage = sizePerPage;
+	}
 
 	public String getQna_file_original_name() {
 		return qna_file_original_name;
