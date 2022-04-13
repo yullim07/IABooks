@@ -92,11 +92,6 @@ function halfYear() {
 
 
 
-const frm = document.orderInfofrm;
-frm.action = "<%=request.getContextPath()%>/member/orderInfo.book"
-frm.method = "post"; 
-frm.submit();
-
 
 
 </script>
@@ -202,27 +197,26 @@ div.pagination {
 	           <li class="nav-item">
 	             <a class="nav-link active" data-toggle="tab" href="#menu1">주문내역조회</a>
 	           </li>
-	           <li class="nav-item">
-	             <a class="nav-link" data-toggle="tab" href="#menu2">취소/반품/교환내역</a>
-	           </li>
+	          
          </ul>
 
       <div class="tab-content py-3">
            
            <div class="tab-pane container active"  id="menu1">
-             <form name="orderInfofrm">
+             <form action="<%=request.getContextPath()%>/member/orderInfo.book" method="post">
               <table>
                  <tr class = "option">
 	                 <td >
-	                     <select name="전체주문처리상태">
-	                       <option value = "0" selected>전체</option>
-	                       <option value = "1">주문완료</option>
+	                     <select name="orderstatus">
+	                       <option value = "null" >전체</option>
+	                       <option value = "1" >주문완료</option>
 	                       <option value = "2">배송준비중</option>
 	                       <option value = "3">배송중</option>
 	                       <option value = "4">배송완료</option>
 	                       <option value = "5">주문취소</option>
 	                     </select>
 	                 </td>
+	                 </form>
 	                 <td>
 	                 	 <input class="orderDay" type = "button" value = "오늘" onclick="today();">
 		                 <input class="orderDay" type = "button" value = "일주일" onclick="week();">
@@ -234,11 +228,11 @@ div.pagination {
 					 <td>
 			            From: <input type="text" id="fromDate">&nbsp;&nbsp; 
 			            To: <input type="text" id="toDate">  
-			            <input type = "button" id="goOrderInfo" value="조회">
+			            <input type = "submit" id="goOrderInfo" value="조회">
 	       			 </td>	                 
                  </tr>
               </table>
-	         </form>
+	         
 	            	<ul style= "margin-bottom: 5%;">
 						<li class="sm">기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
 				        <li class="sm">주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
@@ -276,45 +270,7 @@ div.pagination {
          
        
 	       <div class="tab-pane container" id="menu2">
-	            <table>
-	                <tr class = "option">
-	                   <td>
-		                   <input class="orderDay" type = "button" value = "오늘" onclick="today();">
-		                   <input class="orderDay" type = "button" value = "일주일" onclick="week();">
-		                   <input class="orderDay" type = "button" value = "1개월" onclick="month();">
-		                   <input class="orderDay" type = "button" value = "3개월" onclick="threeMonth();">
-		                   <input class="orderDay" type = "button" value = "6개월" onclick="halfYear();">
-	                   </td>
-	                   <td>
-				            From: <input type="text" id="fromDate">&nbsp;&nbsp; 
-				            To: <input type="text" id="toDate">  
-				            <input type = "button" value="조회">
-	       			   </td>	     
-	                </tr>
-	            </table>
-	            	<ul style= "margin-bottom: 5%;">
-						<li class="sm">기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
-				        <li class="sm">주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
-	    			</ul>
-		        <table class = "tbl_bottm">
-	              <tr>
-	                 <td style="font-weight:bold; padding: 1%;" >취소/반품/교환내역</td>
-	              </tr>
-	              <tr class = "tbl_bottom_line">
-	                 <td style = "width: 16%;">주문일자</td><td>이미지</td><td>상품정보</td><td>수량</td><td>상품구매금액</td><td>주문처리상태</td>
-	              </tr>
-	              <c:forEach var="map" items="${requestScope.orderInfoList}">
-	              <tr>
-	                 <td style = "text-align : center; height: 80px;"><strong>${map.userid}</strong></td>
-	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
-	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
-	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
-	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
-	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
-	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
-	              </tr>
-	              </c:forEach>
-              </table>		        
+	                   
               	<div style="text-align:center;">
 			        <span>
 				       <div class="pagination pagination-sm justify-content-center">

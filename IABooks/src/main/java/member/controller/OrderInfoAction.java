@@ -30,8 +30,12 @@ public class OrderInfoAction extends AbstractController {
 			today = today.plusDays(1);
 			LocalDate lastmonth_three = today.minusMonths(3);
 			
-			int status = 1;
-			
+		String status =  request.getParameter("orderstatus");	
+		
+		if(status == null) {
+			status = "0";
+		}
+		
 		String userid = "";
 		
 		userid = (String) session.getAttribute("userid");

@@ -1947,9 +1947,21 @@ public class MemberDAO implements InterMemberDAO {
 								+ " join tbl_deliverstatus D "
 								+ " on G.ck_deliverstatus = D.deliverstatus "
 								+ " where O.fk_userid = ? "
-								+ " and O.odr_date  between ? and ? "
-								+ " and d.deliverstatus = ? "
-								+ " order by odr_date DESC ";
+								+ " and O.odr_date  between ? and ? ";
+						
+								if( paraMap.get("status").toString() == "0") {
+									sql += "and d.deliverstatus between '0' and '6'"
+										+ " order by odr_date DESC ";
+								}
+								else {
+									sql += "and d.deliverstatus = ? "
+										+ " order by odr_date DESC ";
+								}
+								
+								
+								
+							//	+ " and d.deliverstatus = ? "
+							//	+ " order by odr_date DESC ";
 						
 									
 					         
@@ -1958,7 +1970,12 @@ public class MemberDAO implements InterMemberDAO {
 				        pstmt.setString(1, paraMap.get("userid").toString());
 				        pstmt.setString(2, paraMap.get("lastmonth_three").toString());
 				        pstmt.setString(3, paraMap.get("today").toString());
-				        pstmt.setString(4, paraMap.get("status").toString());
+				        
+				        if( paraMap.get("status").toString() != "0") {
+				        	pstmt.setString(4, paraMap.get("status").toString());
+						}
+						
+				        
 				        
 						
 				        rs = pstmt.executeQuery();
