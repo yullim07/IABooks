@@ -338,20 +338,6 @@ tr.pointTable{
 	border: solid 1px red;
 }
 
-li.pointTable {
-	height: 70px;
-	padding-top: 20px;
-}
-
-ul.pointTable {
-	list-style-type: none;
-	
-}
-
-td.pointTable {
-	padding-left: 5px;
-}
-
 table.point_menu > thead > tr {
 	background-color: #FBFAFA;
 }

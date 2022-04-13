@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
-import member.model.CouponVO;
 import member.model.InterMemberDAO;
 import member.model.MemberDAO;
 

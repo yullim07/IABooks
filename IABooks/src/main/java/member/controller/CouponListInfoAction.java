@@ -42,6 +42,8 @@ public class CouponListInfoAction extends AbstractController {
 			
 			List<CouponVO> couponListInfo = mdao.couponListInfo();
 			
+			mdao.couponDelete();
+			
 			request.setAttribute("couponListInfo", couponListInfo);
 			
 			super.setRedirect(false);
