@@ -8,7 +8,6 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-
 <jsp:include page="/WEB-INF/header.jsp"/>
 
 <script type="text/javascript">
@@ -281,15 +280,29 @@ button#btn_userStatus {
 		   	  	<td><a onclick="userCouponList(userid);" id="btn_coupon">${requestScope.mvo.name}님의 쿠폰</a></td>
 		   	  </tr>
 		   	  <tr>
-		   	  	<td><span class="myli"> 회원상태변경</span></td>
+		   	  	<td><span class="myli"> 회원상태</span></td>
 		   	  	<td>
+		   	  		
+		   	  		
 					<form name="userStatusFrm">
 						<select name="userStatus">
-							<option value="normal">일반회원</option>
-							<option value="u_status">휴면계정전환</option>
-							<option value="status">회원탈퇴</option>
+							<c:if test="${requestScope.mvo.status eq '1' and requestScope.mvo.u_status eq '0'  }">
+				   	  			<option value="normal" selected="selected">일반회원</option>
+				   	  			<option value="u_status">휴면계정전환</option>
+								<option value="status">회원탈퇴</option>
+				   	  		</c:if>
+				   	  		<c:if test="${requestScope.mvo.u_status eq '1' and  requestScope.mvo.status eq '1'  }">
+				   	  			<option value="normal" >일반회원</option>
+				   	  			<option value="u_status" selected="selected">휴면계정전환</option>
+								<option value="status">회원탈퇴</option>
+				   	  		</c:if>
+				   	  		<c:if test="${requestScope.mvo.status eq '0' and requestScope.mvo.u_status eq '0'}">
+				   	  			<option value="normal" >일반회원</option>
+				   	  			<option value="u_status">휴면계정전환</option>
+								<option value="status" selected="selected">회원탈퇴</option>
+				   	  		</c:if>
 						</select>	
-							<input type="hidden" value="${requestScope.mvo.userid}"  name="userid"/>
+						<input type="hidden" value="${requestScope.mvo.userid}"  name="userid"/>
 						<button onclick="userStatusUpdate(userid);" id="btn_userStatus" >변경하기</button>
 					</form>			   	  	
 		   	  	</td>

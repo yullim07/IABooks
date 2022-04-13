@@ -3,6 +3,9 @@ from tbl_member;
 
 alter table tbl_user_coupon_status add coupon number default 0;
 
+
+
+
 select *
 from tbl_coupon
 where pk_coupon_id = 267740114188324;
@@ -570,10 +573,8 @@ on M.pk_userid = O.fk_userid
 where M.pk_userid='admin';
 
 -- 주문 횟수 조회 
-select count(*)
-from tbl_orderdetail D
-join tbl_order O
-on D.fk_odrcode = O.pk_odrcode
+select *
+from tbl_order O
 join tbl_member M
 on M.pk_userid = O.fk_userid
 where M.pk_userid='admin';
@@ -622,6 +623,89 @@ select rownum, PK_COUPON_ID, CNAME, CPRICE, CDATE, CSTARTDATE, CENDDATE, CPSTATU
 from tbl_coupon
 order by CENDDATE desc;
 
+commit;
+rollback;
 
-from tbl_
-        
+select *
+from tbl_deliverstatus
+
+select  PK_COUPON_ID, CNAME, CPRICE, CDATE, CSTARTDATE, CENDDATE, CPSTATUS, CMINPRICE 
+from tbl_coupon 
+ order by CPSTATUS desc , CENDDATE 
+
+insert into tbl_DELIVERSTATUS (DELIVERSTATUS, DELIVERNAME  )
+values ( 5, '주문취소' )
+     
+select *     
+from tbl_orderdetail 
+ 
+
+ -- 특정 유저의 마일리지 적립내역 조회     
+select rno, MILEAGEINFO, FK_ODRCODE, PRO_NAME, ODR_DATE
+from 
+(
+select row_number() over(order by ODR_DATE  desc) AS RNO,
+MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE
+from tbl_mileage A join tbl_order B
+on A.FK_ODRCODE = B.PK_ODRCODE
+join tbl_orderdetail C
+on B.PK_ODRCODE = C.FK_ODRCODE
+join TBL_PRODUCT D
+on D.PK_PRO_NUM = C.FK_PRO_NUM
+where B.fk_userid= 'admin'
+)V
+where V.RNO between 6 and 10
+
+-- 특정유저의 마일리지 적립내역 총 개수 
+select count(*)
+from tbl_mileage A join tbl_order B
+on A.FK_ODRCODE = B.PK_ODRCODE
+join tbl_orderdetail C
+on B.PK_ODRCODE = C.FK_ODRCODE
+join TBL_PRODUCT D
+on D.PK_PRO_NUM = C.FK_PRO_NUM
+where B.fk_userid= 'admin'
+
+-- 총 페이지 개수 
+select ceil(count(*)/10)
+from tbl_mileage A join tbl_order B
+on A.FK_ODRCODE = B.PK_ODRCODE
+join tbl_orderdetail C
+on B.PK_ODRCODE = C.FK_ODRCODE
+join TBL_PRODUCT D
+on D.PK_PRO_NUM = C.FK_PRO_NUM
+where B.fk_userid= 'admin'    
+     
+ 
+ -- 페이징 처리한 마일리지 조회
+select rno, MILEAGEINFO, FK_ODRCODE, PRO_NAME, ODR_DATE
+from 
+(
+select row_number() over(order by ODR_DATE  desc) AS RNO,
+MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE
+from tbl_mileage A join tbl_order B
+on A.FK_ODRCODE = B.PK_ODRCODE
+join tbl_orderdetail C
+on B.PK_ODRCODE = C.FK_ODRCODE
+join TBL_PRODUCT D
+on D.PK_PRO_NUM = C.FK_PRO_NUM
+where B.fk_userid= 'admin' and MILEAGEINFO < 0
+)V
+where V.RNO between 1 and 10 
+       
+       
+       
+       
+       
+       
+select ceil(count(*)/10) 
+ from tbl_mileage A join tbl_order B 
+ on A.FK_ODRCODE = B.PK_ODRCODE 
+ join tbl_orderdetail C 
+ on B.PK_ODRCODE = C.FK_ODRCODE 
+ join TBL_PRODUCT D 
+ on D.PK_PRO_NUM = C.FK_PRO_NUM 
+ where B.fk_userid= 'admin' and MILEAGEINFO < 0 
+ 
+ 
+ 

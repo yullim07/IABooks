@@ -574,7 +574,7 @@ public class MemberDAO implements InterMemberDAO {
 	  			
 	  			String sql = " select ceil(count(*)/?) "
 	  					   + " from tbl_user_coupon_status "
-	  					   + " where fk_userid = ? ";
+	  					   + " where fk_userid = ? and user_cp_status='1' ";
 	  			
 	  			pstmt = conn.prepareStatement(sql);
 	  			pstmt.setString(1, paraMap.get("sizePerPage"));
@@ -616,7 +616,7 @@ public class MemberDAO implements InterMemberDAO {
 		  					+ "         on M.pk_userid = U.fk_userid   "
 		  					+ "         join tbl_coupon C  "
 		  					+ "         on C.pk_coupon_id = U.coupon_id  "
-		  					+ "         where pk_userid=? and CPSTATUS='1'    "
+		  					+ "         where pk_userid=? and CPSTATUS='1' and user_cp_status='1'   "
 		  					+ "         order by C.cenddate "
 		  					+ "         )V  "
 		  					+ "     )v2 "
@@ -719,7 +719,7 @@ public class MemberDAO implements InterMemberDAO {
 						
 						 String sql = " select count(*) "
 							 		+ " from tbl_user_coupon_status "
-							 		+ " where fk_userid = ? ";
+							 		+ " where fk_userid = ? and USER_CP_STATUS = '1' ";
 				         
 				         pstmt = conn.prepareStatement(sql);
 				        
@@ -1047,7 +1047,8 @@ public class MemberDAO implements InterMemberDAO {
 						 conn = ds.getConnection();
 						 
 						 String sql = " select pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, birthday, "+
-								 	 " to_char(sysdate, 'yyyy')- substr(birthday,1,4)+1 as age , to_char(registerday, 'yyyy-mm-dd') as registerday " +
+								 	 " to_char(sysdate, 'yyyy')- substr(birthday,1,4)+1 as age , to_char(registerday, 'yyyy-mm-dd') as registerday,"
+								 	 + "CK_STATUS, CK_U_STATUS " +
 									 	" from tbl_member "+
 									 	" where pk_userid = ? ";
 						 
@@ -1071,6 +1072,8 @@ public class MemberDAO implements InterMemberDAO {
 							 mvo.setBirthday(rs.getString(10));
 							 mvo.setAge(rs.getInt(11));
 							 mvo.setRegisterday(rs.getString(12));
+							 mvo.setStatus(rs.getInt(13));
+							 mvo.setU_status(rs.getInt(14));
 							 
 						 }
 					
@@ -1094,7 +1097,7 @@ public class MemberDAO implements InterMemberDAO {
 				         conn =ds.getConnection();
 				         
 				         // 휴면계정일때 기본값 0 휴면계정일 때 1  
-				         String sql = " UPDATE tbl_member SET ck_u_status=1 "
+				         String sql = " UPDATE tbl_member SET ck_u_status=1 , ck_status = 1 "
 				        			+ " WHERE pk_userid = ? ";
 				         
 				         
@@ -1123,7 +1126,7 @@ public class MemberDAO implements InterMemberDAO {
 				         conn =ds.getConnection();
 				        	
 				         // 회원탈퇴일때
-				         String sql = " UPDATE tbl_member SET ck_status = 0 WHERE pk_userid = ? ";
+				         String sql = " UPDATE tbl_member SET ck_u_status = 0, ck_status = 0 WHERE pk_userid = ? ";
 				         
 				         pstmt = conn.prepareStatement(sql);
 				         pstmt.setString(1, userid);
@@ -1169,7 +1172,7 @@ public class MemberDAO implements InterMemberDAO {
 				
 				// 쿠폰삭제하기
 				@Override
-				public int couponDelete(String couponid, String userid) throws SQLException {
+				public int couponDelete() throws SQLException {
 					
 					int result = 0;
 					
@@ -1178,11 +1181,11 @@ public class MemberDAO implements InterMemberDAO {
 				         conn =ds.getConnection();
 				        	
 			        	 // 쿠폰삭제하기
-				         String sql = " delete from tbl_member "
-				         		    + " WHERE pk_userid = ? ";
+				         String sql = " update tbl_coupon set CPSTATUS=0 "
+				         		    + " where TO_DATE(CENDDATE,'YYYY-MM-DD') < TO_DATE( TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD')  ";
 				         
 				         pstmt = conn.prepareStatement(sql);
-				         pstmt.setString(1, userid);
+				         
 				         
 				         result = pstmt.executeUpdate();
 				      
@@ -1205,8 +1208,8 @@ public class MemberDAO implements InterMemberDAO {
 				         conn =ds.getConnection();
 				         
 				         String sql = " select rownum, PK_COUPON_ID, CNAME, CPRICE, CDATE, CSTARTDATE, CENDDATE, CPSTATUS, CMINPRICE "
-					         		+ " from tbl_coupon "
-					         		+ " order by CENDDATE desc ";
+			         		 + " from tbl_coupon "
+			         		 + "  order by CPSTATUS desc , CENDDATE  ";
 					         		
 					         		
 				         pstmt = conn.prepareStatement(sql);
@@ -1382,6 +1385,41 @@ public class MemberDAO implements InterMemberDAO {
 					return step4;
 				}
 
+				// 마이페이지 주문처리현황 5단계
+				@Override
+				public int deliverStep5(String userid) throws SQLException {
+					int step5 = 0;
+					
+					try {
+						conn = ds.getConnection();
+						
+						 String sql = " select count(*) "
+							 		+ "from tbl_orderdetail D "
+							 		+ "join tbl_order O "
+							 		+ "on D.fk_odrcode = O.pk_odrcode "
+							 		+ "join tbl_member M "
+							 		+ "on M.pk_userid = O.fk_userid "
+							 		+ "where D.CK_DELIVERSTATUS = '5' and M.pk_userid=?  ";
+				         
+				         pstmt = conn.prepareStatement(sql);
+				        
+				         pstmt.setString(1, userid);
+						
+				         rs = pstmt.executeQuery();
+				         
+				         if( rs.next()) {
+				        	 step5 = rs.getInt(1);
+				         }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					return step5;
+				}
+				
+				
 				
 				// 마이페이지 지금까지 구매한 내역 조회하기
 				@Override
@@ -1428,9 +1466,7 @@ public class MemberDAO implements InterMemberDAO {
 						conn = ds.getConnection();
 						
 						 String sql = " select count(*) "
-							 		+ " from tbl_orderdetail D "
-							 		+ " join tbl_order O "
-							 		+ " on D.fk_odrcode = O.pk_odrcode "
+							 		+ " from tbl_order O "
 							 		+ " join tbl_member M "
 							 		+ " on M.pk_userid = O.fk_userid "
 							 		+ " where M.pk_userid=? ";
@@ -1489,7 +1525,411 @@ public class MemberDAO implements InterMemberDAO {
 					
 					return mileage;
 				}
+
 				
+				// 마일리지조회를 페이징처리 해주기 전체개수 알아오기 //
+				@Override
+				public int totalMileageCount(Map<String, String> paraMap) throws SQLException {
+					
+					int totalCount = 0;
+					
+					try {
+						 conn = ds.getConnection();
+						 
+						 String sql = " select count(*) "
+							 		+ " from tbl_mileage A join tbl_order B "
+							 		+ " on A.FK_ODRCODE = B.PK_ODRCODE "
+							 		+ " join tbl_orderdetail C "
+							 		+ " on B.PK_ODRCODE = C.FK_ODRCODE "
+							 		+ " join TBL_PRODUCT D "
+							 		+ " on D.PK_PRO_NUM = C.FK_PRO_NUM "
+							 		+ " where B.fk_userid= ? ";
+						 
+						 
+						 
+						 pstmt = conn.prepareStatement(sql);
+						 pstmt.setString(1, paraMap.get("userid"));
+						 
+						 rs = pstmt.executeQuery();
+						 
+						 rs.next();
+						 
+						 totalCount = rs.getInt(1);
+						 
+					} finally {
+						close();
+					}
+					
+					return totalCount;
+				}
+
+				
+				// 마일리지사용내역 전체조회
+				@Override
+				public List<Map<String, String>> selectMileageListAll(Map<String, String> paraMap) throws SQLException {
+					
+					List<Map<String, String>> mileageList = new ArrayList<>();
+					
+					try {
+						 conn = ds.getConnection();
+						 
+						 String sql = " select MILEAGEINFO, FK_ODRCODE, PRO_NAME, ODR_DATE "
+							 		+ " from  "
+							 		+ " ( "
+							 		+ " select row_number() over(order by ODR_DATE  desc) AS RNO, "
+							 		+ " MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE "
+							 		+ " from tbl_mileage A join tbl_order B "
+							 		+ " on A.FK_ODRCODE = B.PK_ODRCODE "
+							 		+ " join tbl_orderdetail C "
+							 		+ " on B.PK_ODRCODE = C.FK_ODRCODE "
+							 		+ " join TBL_PRODUCT D "
+							 		+ " on D.PK_PRO_NUM = C.FK_PRO_NUM "
+							 		+ " where B.fk_userid= ? "
+							 		+ " )V "
+							 		+ " where V.RNO between ? and ? ";
+							 
+						 pstmt = conn.prepareStatement(sql);
+						 
+						 pstmt.setString(1, paraMap.get("userid"));
+						 pstmt.setString(2, paraMap.get("start"));
+						 pstmt.setString(3, paraMap.get("end"));
+						 
+						 rs = pstmt.executeQuery();
+						 
+						 while(rs.next()) {
+							 
+							 Map<String, String> map = new HashMap<>();
+							 
+							 map.put("MILEAGEINFO", rs.getString(1));
+							 map.put("ODRCODE", rs.getString(2));
+							 map.put("PRO_NAME", rs.getString(3));
+							 map.put("ODR_DATE", rs.getString(4));
+							 
+							 mileageList.add(map);
+						
+						 }// end of while(rs.next())-------------------------------
+						 
+					} finally {
+						close();
+					}
+					
+					return mileageList;
+					
+				}
+
+				
+				// 페이징되어진 전체 마일리지 내역 조회
+				@Override
+				public List<Map<String, String>> selectPagingmileage(Map<String, String> paraMap) throws SQLException {
+					
+					List<Map<String, String>> mileageList = new ArrayList<>();
+			  		
+			  		try {
+			  			conn = ds.getConnection();
+			  			
+			  			String sql = " select MILEAGEINFO, FK_ODRCODE, PRO_NAME, to_char(ODR_DATE, 'yyyy-MM-dd') "
+				  				   + " from  "
+				  				   + " ( "
+				  				   + " select row_number() over(order by ODR_DATE  desc) AS RNO, "
+			  					   + " MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE "
+			  					   + " from tbl_mileage A join tbl_order B "
+			  					   + " on A.FK_ODRCODE = B.PK_ODRCODE "
+			  					   + " join tbl_orderdetail C "
+			  					   + " on B.PK_ODRCODE = C.FK_ODRCODE "
+			  					   + " join TBL_PRODUCT D "
+			  					   + " on D.PK_PRO_NUM = C.FK_PRO_NUM "
+			  					   + " where B.fk_userid= ? "
+			  					   + " )V "
+			  					   + " where V.RNO between ? and ? ";
+			  						
+			  							
+			  			pstmt = conn.prepareStatement(sql);
+			  			
+			  			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo") );
+			  			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage") );
+			  			
+			  			/*
+			  			  	where rno between A and B
+			  	            >>> A 와 B를 구하는 공식 <<<
+			  	            
+			  	            currentShowPageNo 은 보고자하는 페이지 번호이다. 즉, 1페이지, 2페이지, 3페이지.... 를 말한다.
+			  	            sizePerPage는 한페이지당 보여줄 행의 개수를 말한다. 즉, 3개, 5개, 10개를 보여줄때의 개수를 말한다.
+			  	            
+			  	            
+			  	            A는 (currentShowPageNo * sizePerPage) - (sizePerPage - 1); 이다.
+			  	            B는 (currentShowPageNo * sizePerPage); 이다.
+			  			*/
+			  		
+			  				pstmt.setString(1, paraMap.get("userid"));
+			  				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			  				pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			  			
+			  				rs = pstmt.executeQuery();
+			  			
+			  				while(rs.next()){
+			  					
+			  					Map<String,String> map = new HashMap<>();
+			  					
+			  					map.put("MILEAGEINFO", rs.getString(1));
+			  					map.put("ODRCODE", rs.getString(2));
+			  					map.put("PRO_NAME", rs.getString(3));
+			  					map.put("ODR_DATE", rs.getString(4));
+			  					
+			  					mileageList.add(map);
+			  					
+			  				} // end of while
+			  		
+			  			} catch(Exception  e) { 
+			  			    e.printStackTrace();	
+			  			} finally {
+			  				close();
+			  			}
+			  				return mileageList;
+			  		}
+				
+				// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기. 
+				@Override
+				public int getMileageTotalPage(Map<String, String> paraMap) throws SQLException {
+					
+					int totalPage = 0;
+			  		
+			  		try {
+			  			conn = ds.getConnection();
+			  			
+			  			String sql  = " select ceil(count(*)/?) "
+				  					+ " from tbl_mileage A join tbl_order B "
+				  					+ " on A.FK_ODRCODE = B.PK_ODRCODE "
+				  					+ " join tbl_orderdetail C "
+				  					+ " on B.PK_ODRCODE = C.FK_ODRCODE "
+				  					+ " join TBL_PRODUCT D "
+				  					+ " on D.PK_PRO_NUM = C.FK_PRO_NUM "
+				  					+ " where B.fk_userid= ?    ";
+			  			
+			  			pstmt = conn.prepareStatement(sql);
+			  			pstmt.setString(1, paraMap.get("sizePerPage"));
+			  			pstmt.setString(2, paraMap.get("userid"));
+			  			
+			  			rs = pstmt.executeQuery();
+			  			
+			  			if(rs.next()) {
+			  				totalPage = rs.getInt(1);
+			  			}
+			  			
+			  		} catch (SQLException e) {
+			  				e.printStackTrace();
+			  		} finally {
+			  			close();
+			  		}
+			  		return totalPage;
+			  	}
+
+				// 페이징되어진 전체 마일리지 내역 조회2
+				@Override
+				public List<Map<String, String>> selectPagingmileage2(Map<String, String> paraMap) throws SQLException {
+					List<Map<String, String>> mileageList = new ArrayList<>();
+			  		
+			  		try {
+			  			conn = ds.getConnection();
+			  			
+			  			String sql = " select MILEAGEINFO, FK_ODRCODE, PRO_NAME, to_char(ODR_DATE, 'yyyy-MM-dd') "
+				  				   + " from  "
+				  				   + " ( "
+				  				   + " select row_number() over(order by ODR_DATE  desc) AS RNO, "
+			  					   + " MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE "
+			  					   + " from tbl_mileage A join tbl_order B "
+			  					   + " on A.FK_ODRCODE = B.PK_ODRCODE "
+			  					   + " join tbl_orderdetail C "
+			  					   + " on B.PK_ODRCODE = C.FK_ODRCODE "
+			  					   + " join TBL_PRODUCT D "
+			  					   + " on D.PK_PRO_NUM = C.FK_PRO_NUM "
+			  					   + " where B.fk_userid= ? and MILEAGEINFO > 0 "
+			  					   + " )V "
+			  					   + " where V.RNO between ? and ? ";
+			  						
+			  							
+			  			pstmt = conn.prepareStatement(sql);
+			  			
+			  			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo2") );
+			  			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage2") );
+			  			
+			  			/*
+			  			  	where rno between A and B
+			  	            >>> A 와 B를 구하는 공식 <<<
+			  	            
+			  	            currentShowPageNo 은 보고자하는 페이지 번호이다. 즉, 1페이지, 2페이지, 3페이지.... 를 말한다.
+			  	            sizePerPage는 한페이지당 보여줄 행의 개수를 말한다. 즉, 3개, 5개, 10개를 보여줄때의 개수를 말한다.
+			  	            
+			  	            
+			  	            A는 (currentShowPageNo * sizePerPage) - (sizePerPage - 1); 이다.
+			  	            B는 (currentShowPageNo * sizePerPage); 이다.
+			  			*/
+			  		
+			  				pstmt.setString(1, paraMap.get("userid"));
+			  				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			  				pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			  			
+			  				rs = pstmt.executeQuery();
+			  			
+			  				while(rs.next()){
+			  					
+			  					Map<String,String> map = new HashMap<>();
+			  					
+			  					map.put("MILEAGEINFO", rs.getString(1));
+			  					map.put("ODRCODE", rs.getString(2));
+			  					map.put("PRO_NAME", rs.getString(3));
+			  					map.put("ODR_DATE", rs.getString(4));
+			  					
+			  					mileageList.add(map);
+			  					
+			  				} // end of while
+			  		
+			  			} catch(Exception  e) { 
+			  			    e.printStackTrace();	
+			  			} finally {
+			  				close();
+			  			}
+			  				return mileageList;
+				}
+
+				// 페이징되어진 전체 마일리지 내역 조회3
+				@Override
+				public List<Map<String, String>> selectPagingmileage3(Map<String, String> paraMap) throws SQLException {
+					List<Map<String, String>> mileageList = new ArrayList<>();
+			  		
+			  		try {
+			  			conn = ds.getConnection();
+			  			
+			  			String sql = " select MILEAGEINFO, FK_ODRCODE, PRO_NAME, to_char(ODR_DATE, 'yyyy-MM-dd') "
+				  				   + " from  "
+				  				   + " ( "
+				  				   + " select row_number() over(order by ODR_DATE  desc) AS RNO, "
+			  					   + " MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE "
+			  					   + " from tbl_mileage A join tbl_order B "
+			  					   + " on A.FK_ODRCODE = B.PK_ODRCODE "
+			  					   + " join tbl_orderdetail C "
+			  					   + " on B.PK_ODRCODE = C.FK_ODRCODE "
+			  					   + " join TBL_PRODUCT D "
+			  					   + " on D.PK_PRO_NUM = C.FK_PRO_NUM "
+			  					   + " where B.fk_userid= ? and MILEAGEINFO < 0 "
+			  					   + " )V "
+			  					   + " where V.RNO between ? and ? ";
+			  						
+			  							
+			  			pstmt = conn.prepareStatement(sql);
+			  			
+			  			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo3") );
+			  			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage3") );
+			  			
+			  			/*
+			  			  	where rno between A and B
+			  	            >>> A 와 B를 구하는 공식 <<<
+			  	            
+			  	            currentShowPageNo 은 보고자하는 페이지 번호이다. 즉, 1페이지, 2페이지, 3페이지.... 를 말한다.
+			  	            sizePerPage는 한페이지당 보여줄 행의 개수를 말한다. 즉, 3개, 5개, 10개를 보여줄때의 개수를 말한다.
+			  	            
+			  	            
+			  	            A는 (currentShowPageNo * sizePerPage) - (sizePerPage - 1); 이다.
+			  	            B는 (currentShowPageNo * sizePerPage); 이다.
+			  			*/
+			  		
+			  				pstmt.setString(1, paraMap.get("userid"));
+			  				pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+			  				pstmt.setInt(3, (currentShowPageNo * sizePerPage));
+			  			
+			  				rs = pstmt.executeQuery();
+			  			
+			  				while(rs.next()){
+			  					
+			  					Map<String,String> map = new HashMap<>();
+			  					
+			  					map.put("MILEAGEINFO", rs.getString(1));
+			  					map.put("ODRCODE", rs.getString(2));
+			  					map.put("PRO_NAME", rs.getString(3));
+			  					map.put("ODR_DATE", rs.getString(4));
+			  					
+			  					mileageList.add(map);
+			  					
+			  				} // end of while
+			  		
+			  			} catch(Exception  e) { 
+			  			    e.printStackTrace();	
+			  			} finally {
+			  				close();
+			  			}
+			  				return mileageList;
+				}
+
+				@Override
+				public int getMileageTotalPage2(Map<String, String> paraMap) throws SQLException {
+					int totalPage = 0;
+			  		
+			  		try {
+			  			conn = ds.getConnection();
+			  			
+			  			String sql  = " select ceil(count(*)/?) "
+				  					+ " from tbl_mileage A join tbl_order B "
+				  					+ " on A.FK_ODRCODE = B.PK_ODRCODE "
+				  					+ " join tbl_orderdetail C "
+				  					+ " on B.PK_ODRCODE = C.FK_ODRCODE "
+				  					+ " join TBL_PRODUCT D "
+				  					+ " on D.PK_PRO_NUM = C.FK_PRO_NUM "
+				  					+ " where B.fk_userid= ?  and MILEAGEINFO > 0  ";
+			  			
+			  			pstmt = conn.prepareStatement(sql);
+			  			pstmt.setString(1, paraMap.get("sizePerPage2"));
+			  			pstmt.setString(2, paraMap.get("userid"));
+			  			
+			  			rs = pstmt.executeQuery();
+			  			
+			  			if(rs.next()) {
+			  				totalPage = rs.getInt(1);
+			  			}
+			  			
+			  		} catch (SQLException e) {
+			  				e.printStackTrace();
+			  		} finally {
+			  			close();
+			  		}
+			  		return totalPage;				}
+
+				@Override
+				public int getMileageTotalPage3(Map<String, String> paraMap) throws SQLException {
+					int totalPage = 0;
+			  		
+			  		try {
+			  			conn = ds.getConnection();
+			  			
+			  			String sql  = " select ceil(count(*)/?) "
+				  					+ " from tbl_mileage A join tbl_order B "
+				  					+ " on A.FK_ODRCODE = B.PK_ODRCODE "
+				  					+ " join tbl_orderdetail C "
+				  					+ " on B.PK_ODRCODE = C.FK_ODRCODE "
+				  					+ " join TBL_PRODUCT D "
+				  					+ " on D.PK_PRO_NUM = C.FK_PRO_NUM "
+				  					+ " where B.fk_userid= ? and MILEAGEINFO < 0   ";
+			  			
+			  			pstmt = conn.prepareStatement(sql);
+			  			pstmt.setString(1, paraMap.get("sizePerPage3"));
+			  			pstmt.setString(2, paraMap.get("userid"));
+			  			
+			  			rs = pstmt.executeQuery();
+			  			
+			  			if(rs.next()) {
+			  				totalPage = rs.getInt(1);
+			  			}
+			  			
+			  		} catch (SQLException e) {
+			  				e.printStackTrace();
+			  		} finally {
+			  			close();
+			  		}
+			  		return totalPage;
+				}
+			
+					
+					
+			
+		
 					
 			
 
