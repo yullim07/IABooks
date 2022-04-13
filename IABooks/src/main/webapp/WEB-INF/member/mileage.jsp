@@ -24,9 +24,40 @@
 	<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript">
-
-
+$(document).ready(function() {
 	
+	$("div#menu2").hide();
+	$("div#menu3").hide();
+	
+	
+	// >>> === 클릭한 탭(버튼)만 보이도록 하는 첫번째 방법 === <<<
+	$("a#menu1").click( (event)=>{
+		
+		$("div#menu1").show();
+		$("div#menu2").hide();
+		$("div#menu3").hide();
+		
+		
+	} );
+	$("a#menu2").click( (event)=>{
+		
+		$("div#menu1").hide();
+		$("div#menu2").show();
+		$("div#menu3").hide();
+		
+		
+	} );
+	$("a#menu3").click( (event)=>{
+		
+		$("div#menu1").hide();
+		$("div#menu2").hide();
+		$("div#menu3").show();
+		
+		
+	} );
+	
+	
+});	
 </script>
 
 <style type="text/css">
@@ -52,7 +83,7 @@ span.pointTable {
 <div class="container">
 	<br>
 	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  /> 적립금 </strong> &nbsp;
-	<img src="<%= ctxPath%>/images/bar_eee.gif" style="width: 2px; height: 20px;" /> &nbsp; 고객님의 사용가능한 적립금 입니다.
+	<img src="<%= ctxPath%>/images/member/bar_eee.gif" style="width: 2px; height: 20px;" /> &nbsp; 고객님의 사용가능한 적립금 입니다.
 	<hr style="border: solid 2px #e8e8e8;">
 	
 	<table class="pointTable">
@@ -72,21 +103,23 @@ span.pointTable {
 		<!-- 탭을 토글 가능하게 만들려면 각 링크에 data-toggle="tab" 속성을 추가하십시오. 
 		         그런 다음 모든 탭에 대해 고유한 ID가 있는 .tab-pane 클래스를 추가하고 .tab-content 클래스가 있는 <div> 요소 안에 래핑합니다.
         -->
+		<div id="test"></div>
+		
 		
 		<ul class="nav nav-tabs navbar-expand-sm bg-light navbar-light">
 		  <li class="nav-item">
-		    <a class="nav-link active" data-toggle="tab" href="#menu1">전체</a>
+		    <a id="menu1" class="nav-link active" data-toggle="tab" href="#menu1">전체</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" data-toggle="tab" href="#menu2">적립</a>
+		    <a id="menu2" class="nav-link" data-toggle="tab" href="#menu2">적립</a>
 		  </li>
 		  <li class="nav-item">
-		    <a class="nav-link" data-toggle="tab" href="#menu3">사용</a>
+		    <a id="menu3" class="nav-link" data-toggle="tab" href="#menu3">사용</a>
 		  </li>
 		</ul>
 		
 		<!-- Tab panes -->
-		<div class="tab-content py-3">
+	<!-- <div class="tab-content py-3"> -->
 		  <!-- 적립내역보기 -->
 		  <div class="tab-pane container active" id="menu1">
 		    <table class="point_menu">
