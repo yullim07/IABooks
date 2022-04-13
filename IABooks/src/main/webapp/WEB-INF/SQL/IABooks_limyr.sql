@@ -771,3 +771,71 @@ desc SEQ_TBL_WRITER;
 
 select SEQ_TBL_WRITER.nextval
 from dual;
+
+desc tbl_product;
+
+
+delete from tbl_product where pk_pro_num='9791167470416';
+
+commit;
+
+
+
+select * from tbl_category;
+desc tbl_category;
+---------------
+
+select SEQ_TBL_WRITER.nextval
+from dual;
+
+-- 책 삽입 실험
+INSERT INTO tbl_product(fk_cate_num, pro_name, publisher, pro_publish_date, pro_price, pro_saleprice, 
+                        pro_index, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, pro_size, pro_bindtype, pro_pages,
+			 			pro_imgfile_name,
+			 			fk_wr_code,
+			 			pro_content, pk_pro_num, pro_soldout, pro_restock,
+			 			point_rate)
+VALUES(102, '빨간망토차차차', '하모니북', sysdate, 16000, 9000, '목차입니다', sysdate, 10, default, default, '123 * 129', '기타', 233, 
+        'book5.jpg', '4000', '책 내용입니다', '9791167470416', 0, 0, 1);
+        
+        
+delete from tbl_product where pk_pro_num='9791167470416';
+select pro_name, fk_wr_code, pk_pro_num, fk_wr_code from tbl_product order by pro_inputdate desc;
+
+desc TBL_WRITER;
+
+select * from tbl_writer;
+insert into tbl_writer(pk_wr_code, wr_name, wr_info)
+values(4000, '테스트', '유령작가');
+
+
+
+-- 테이블에 락 걸린 건지 확인(sys로 접속)
+SELECT  DO.OBJECT_NAME
+      , DO.OWNER
+      , DO.OBJECT_TYPE
+      , VO.XIDUSN
+      , VO.SESSION_ID
+      , VO.LOCKED_MODE
+   FROM V$LOCKED_OBJECT VO
+      , DBA_OBJECTS DO
+  WHERE VO.OBJECT_ID = DO.OBJECT_ID;
+  
+  select * from desc tbl_category;
+  
+select * from tbl_product;
+
+9791185428673
+9791167470416
+9791191347685
+9791155814673
+9791167470417
+9791195182444
+9791167479494
+9791160808261
+9791170400523
+
+delete from tbl_product where pk_pro_num = '9791185428673';
+
+commit;
+

@@ -64,12 +64,18 @@
 			}
 		});
 		
-		
 		// 카테고리명 알아오기 콘솔출력
 		/* $("select[name='fk_cate_num']").change({
 			const catenumSelect = $("select[name='fk_cate_num']").val();
 			console.log("선택된 카테고리명 " + catenumSelect);
 		}); */
+		
+		// 카레고리 선택값 받아오기
+		$("select#cateSel").on("change", function() {   
+	         const catesel = $(this).val();
+	         $("input#cateselhide").val(catesel);
+	        // alert(catesel);
+	      });
 		
 		// 제품 수량에 스피너 달아주기
 		$("input#spinnerPqty").spinner({
@@ -139,7 +145,7 @@
 				frm.submit();
 			}
 		});
-			
+
 		// 제품 등록 취소하기
 		$("input[type='reset']").click(function() {
 			$("span.error").hide();			// 다시 에러 메시지를 숨겨준다.
@@ -170,14 +176,53 @@
 		}
 	}
 	
+	// 제품 중복검사
+	$("button#btn_duplChk").click(function(){
+		
+		b_flagIdDuplicatClick = true;
+
+        $.ajax({
+			url:"<%= ctxPath%>/product/admin/pnumDuplicateCheck.up",
+			    data:{"pk_pro_num":$("input#isbnNo").val()},
+			    type:"post",
+			//  async:false,  // 동기처리(지도는 동기처리로 해야 한다)
+			    async:true,   // 비동기처리(기본값임)
+			    success:function(text){
+			    //	console.log("확인용 : text => " + text);
+			    //	console.log("확인용 typeof(text) => " + typeof(text));\
+			    
+			    	const json = JSON.parse(text);
+			    //	console.log("확인용 : json => " + json);
+			    //	확인용 : json => [object Object]
+			    //	console.log("확인용 typeof(json) => " + typeof(json));
+			    //	확인용 typeof(json) => object
+			    
+			    //	console.log("확인용 => " + json.isExist);
+			    //	확인용 => false
+      	    	  
+      	    	  
+      	    	  if(json.isExist) {
+      	    		  // 입력한 $("input#isbnNo").val() 값이 이미 사용중이라면 
+      	    		  $("span#pro_numcheckResult").html($("input#isbnNo").val()+" 은 중복된 ID 이므로 사용불가 합니다.").css("color","orange");
+      	    		  $("input#isbnNo").val(""); // 존재하는 아이디일 경우 비워준다.
+      	    	  }
+      	    	  else {
+      	    		  // 입력한 $("input#isbnNo").val() 값이 DB의 tbl_product 테이블에 존재하지 않는 경우라면 
+      	    		  $("span#pro_numcheckResult").html($("input#isbnNo").val()+" 은 사용가능합니다.").css("color","green");
+      	    	  }
+      	    	  
+      	      },
+      	      error:function(request, status, error){
+      	    	  alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+      	      }
+        });
+	});
+	
+	
+	
 </script>
 
 <div class="container">
-	<%-- !!!!! ==== 중요 ==== !!!!! --%>
-	<%-- 폼에서 파일을 업로드 하려면 반드시 method 는 POST 이어야 하고 
-     enctype="multipart/form-data" 으로 지정해주어야 한다.!! 
-     enctype="application/x-www-form-urlencoded" 은 기본값인데, 파일을 업로드할 수 없다!
-     --%>
 	<form name="prodInputFrm"
 		  action="<%= request.getContextPath()%>/product/admin/productRegister.book"
 		  method="POST"
@@ -200,25 +245,25 @@
 				<tr>
 					<td width="25%" class="prodInputName" style="padding-top: 10px;">카테고리</td>
 					<td width="75%" align="left" style="padding-top: 10px;">
-						<select name="fk_cate_num" class="infoData" onchange="alert(this.options[this.selectedIndex].value)">
+						<select name="fk_cate_num" class="infoData" id="cateSel">
 						<option value="">카테고리 선택</option>
 						<c:forEach var="map" items="${requestScope.categoryList}">
 							<option value="${map.pk_cate_num}">${map.cate_name}</option>
-							<%-- <option value="${map.pk_cate_num}">${map.cate_name}</option> --%>
-							<%-- value에 숫자(0, 1, 2 이런 식으로 안된다는 것이 값이 숫자인 것은 ㄱㅊ) 쓰면 안됨 => 유지보수 어려워서 --%>
-							<%-- var가 vo라면 get변수에서 get다음소문자 / var가 map이라면 put의 키값 --%>
 						</c:forEach>
 						</select>
+						<input type="text" id="cateselhide" name="cateselhide" value="">
 						<span class="error">필수입력</span>
 					</td>
 				</tr>
 				<tr>
-					<td width="25%" class="prodInputName">국제표준도서번호(ISBN번호)</td>
+					<td width="25%" class="prodInputName" id="isbnNo">국제표준도서번호(ISBN번호)</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 300px;" name="pk_pro_num" class="box infoData" /> 
+						<input type="text" style="width: 300px;" name="pk_pro_num" class="box infoData" />
+						<button type="button" id="btn_duplChk" style="vertical-align: middle;">제품 중복검사</button>
+						<span id="pro_numcheckResult"></span>
 						<span class="error">필수입력</span>
 					</td>
-				</tr>
+				</tr>				
 				<tr>
 					<td width="25%" class="prodInputName">도서명</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
@@ -226,11 +271,10 @@
 						<span class="error">필수입력</span>
 					</td>
 				</tr>
-				
 	 			<tr>
 					<td width="25%" class="prodInputName">저자코드</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 300px;" name="fk_wr_code" class="box" />
+						<input type="text" style="width: 300px;" name="fk_wr_code" class="box" value="4000"/>
 					</td>
 				</tr>
 				
@@ -260,7 +304,6 @@
 					<td width="35%" align="left" style="border-top: hidden; border-bottom: hidden;">
 						<input type="text" style="width: 100px;" name="pro_price" class="box" /> 원 
 						<!-- <span class="error">필수입력</span> -->
-						<input type="checkbox" id="priceCheck" name="priceCheck">판매가와 동일
 					</td>
 				</tr>
 				<tr>
@@ -284,16 +327,6 @@
 						<span class="error">필수입력</span>
 					</td>
 				</tr>
-
-
-				<tr>
-					<td width="25%" class="prodInputName">규격</td>
-					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
-						<input type="text" style="width: 100px;" name="pro_size" class="box" />
-						<!-- <span class="error">필수입력</span> -->
-					</td>
-				</tr>
-				
 				<tr>
 					<td width="25%" class="prodInputName">제본형태</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
@@ -307,14 +340,24 @@
 						</select>
 					</td>
 				</tr>
-				
+				<tr>
+					<td width="25%" class="prodInputName">규격</td>
+					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
+						<input type="text" style="width: 100px;" name="pro_size" class="box" />
+						<!-- <span class="error">필수입력</span> -->
+					</td>
+				</tr>
 				<tr>
 					<td width="25%" class="prodInputName">쪽수</td>
 					<td width="75%" align="left" style="border-top: hidden; border-bottom: hidden;">
 						<input type="text" style="width: 100px;" name="pro_pages" class="box" /> 쪽
 					</td>
 				</tr>
+
+
+
 				<%-- ----------------------------------------------------------------- --%>
+
 
 				<tr>
 					<td width="25%" class="prodInputName">제품수량</td>
@@ -354,6 +397,7 @@
 				--%>
 
 				<%--====첨부파일 타입 추가하기====--%>
+
 				<tr>
 					<td width="25%" class="prodInputName" style="padding-bottom: 10px;">추가이미지파일(선택)</td>
 					<td>
@@ -363,7 +407,6 @@
 						<input type="hidden" name="attachCount" id="attachCount" />
 					</td>
 				</tr>
-
 				<tr style="height: 70px;">
 					<td colspan="2" align="center" style="border-left: hidden; border-bottom: hidden; border-right: hidden;">
 						<input type="button" value="제품등록" id="btnRegister" style="width: 80px;" /> &nbsp; 

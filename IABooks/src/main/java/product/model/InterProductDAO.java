@@ -101,6 +101,72 @@ public interface InterProductDAO {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	////////////////////////////////////////////////////////////
 	
 	// 장바구니 조회하기 메소드
@@ -115,6 +181,9 @@ public interface InterProductDAO {
 	// tbl_product 테이블에 제품정보 insert 하기 
 	int productInsert(ProductVO pvo) throws SQLException;
 	
+	// tbl_product 테이블에 카테고리를 가져오기 위해 select 해오기
+	List<HashMap<String, String>> getCategoryListSelect() throws SQLException;
+	
 	// 작가코드(seq_tbl_writer 값) 중복검사하기
 	public boolean wr_codeDuplicateCheck(String wrcode) throws SQLException;
 
@@ -124,17 +193,14 @@ public interface InterProductDAO {
 	// 작가코드(seq_tbl_writer 값)을 가져오기 
 	int getSeq_tbl_writer() throws SQLException;
 	
-	
-	
-
 	// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블
-	// int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException;
-
+	int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException;
+	
 	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
-//	ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
+	//ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
 
 	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
-//	List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
+	//List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
 		
 	
 

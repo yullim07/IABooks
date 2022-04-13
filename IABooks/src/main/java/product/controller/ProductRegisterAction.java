@@ -18,12 +18,24 @@ import product.model.*;
 
 public class ProductRegisterAction extends AbstractController {
 
+	/*
+	 * else 에만 getCate~ 하면 cate_name은 잡히고 fk_cate_num이 널이 나와서 등록이 안되고 이 작가코드란 놈은 갑자기 무결성ㅈ ㅔ약을 따지고 앉아있다
+다시 원상복구 했는데 어떻게 했는지 ㄲ먹기 전에 커밋하기 그리고 getCate눈 else에만 하고, 작가코드는 이미 존재하는 거  그냥 넣자.. => 그리고 이미지 경로 잡기 
+코드를 바꿨더니 안됨 => "humaniryty" 을 "101"로 바꾼 거임
+else 문의 !POST에만 getCate~ 넣기? 이렇게 하면 이미지 빼고 다 잡아옴 / POST에 넣으면 어떻게 되나 해보기
+카테고리 못 잡아옴=> 결론. else문의 !POST에만 넣자! if문에 넣으면  어떻게 되지? 얘도 못 잡아옴 // 맨 위에 넣으면? 잡아오네? 얘도 test해보기
+	 * */
+	
+	
+	
+	
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기 위한 것임.
 		super.goBackURL(request);
-	//	super.getCategoryList(request);
+		super.getCategoryList(request); // 필요없다
 		
 		// 관리자로 로그인하는 경우에만 볼 수 있게 해야 한다!!!
 		HttpSession session = request.getSession();
@@ -32,6 +44,8 @@ public class ProductRegisterAction extends AbstractController {
 		
 		// 로그인을 하지 않았거나 일반사용자로 로그인 한 경우 => 이미 링크에서 막아줬기 때문에 필요없다? 모르겠다.. 왜 막는 거지?
 		if(loginuser == null || !"admin".equals(loginuser.getUserid()) ) { // 애초에 들어갈 수가 없는데... get 부터 막아야 하는 거 아닌가?
+			
+		//	super.getCategoryList(request); // 굳이 보여줄 필요 없다!
 			
 			String message = "관리자로 로그인하세요!";
 			String loc = "javascript:history.back()";
@@ -52,7 +66,7 @@ public class ProductRegisterAction extends AbstractController {
 			if(!"POST".equalsIgnoreCase(method)) {			
 	
 				// 카테고리 목록을 조회해오기
-				super.getCategoryList(request);
+			//	super.getCategoryList(request);
 				
 				// spec 목록을 보여주고자 한다.
 			/*	InterProductDAO pdao = new ProductDAO();
@@ -84,33 +98,50 @@ public class ProductRegisterAction extends AbstractController {
 				
 				///////////////////////// 강사님이 도와주심 ///////////////////////////////////////////////////////////////////////
 				
-			//	super.getCategoryList(request);
+				/*
+				 * select 문으로 받아왔을 때
+				 * String dir = "";
+				 * if("A".equals(fk_cate_num)) {
+				 * 	   dir = "/file_a";
+				 * }
+				 * else if("B".equals(fk_cate_num)) {
+				 * 	   dir = "/file_b";
+				 * }
+				 * else if("C".equals(fk_cate_num)) {
+				 * 	   dir = "/file_c";
+				 * }
+				 */
 				
-				String fk_cate_num = request.getParameter("fk_cate_num"); // 뷰단에서 name이 category인 값을 받아온다.
-				System.out.println("확인용 fk_cate_num ㅣ " + fk_cate_num);
-				String cate_name = request.getParameter("cate_name");
-				System.out.println("확인용 cate_name ㅣ " + cate_name);
+				// 코드가 더럽다 => category select 해와서 where 절 넣으면 되는데
+				// 그냥 select문 써서 우선 이걸로 하려면 -> 뷰단에서 input type="hidden"을 만들고
+				// 얘를 넘거주는 jquery문이 없으니까 버튼 이벤트에 어떻게 넘겨주는 뭔가를 만들어서 어떻게 어떻게 한다
+				// 근데 안 됨 그냥 DAO 만들자.
+				
+			//	String fk_cate_num = request.getParameter("cateselhide"); // 안됨
+				String fk_cate_num = request.getParameter("fk_cate_num"); // 안됨
+				// 뷰단에서 name이 category인 값을 받아온다. 이거 int로 잡으면 null 값 뜸
+				System.out.println("확인용 fk_cate_num : " + fk_cate_num);
+				
 				String dir = "";
-				
-			//	if("101".equals(fk_cate_num)) {
-				if("humanities".equals(fk_cate_num)) {
+			
+				if("101".equals(fk_cate_num)) {
+			//	if("humanities".equals(fk_cate_num)) {
 					dir = "/humanities";
 				}
-			//	else if("102".equals(fk_cate_num)) {
-				else if("society".equals(fk_cate_num)) {
+				else if("102".equals(fk_cate_num)) {
+			//	else if("society".equals(fk_cate_num)) {
 					dir = "/society";					
 				}
-			//	else if("103".equals(fk_cate_num)) {
-				else if("science".equals(fk_cate_num)) {
+				else if("103".equals(fk_cate_num)) {
+			//	else if("science".equals(fk_cate_num)) {
 					dir = "/science";
 				}
-			//	else if("104".equals(fk_cate_num)) {
-				else if("other".equals(fk_cate_num)) {	
+				else if("104".equals(fk_cate_num)) {
+			//	else if("other".equals(fk_cate_num)) {	
 					dir = "/other";
 				}
 				System.out.println("~~~ 확인용 dir : " + dir);
 
-				
 				////////////////////////////////////////////////////////////////////////////////////////////////		
 				
 				// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다. 
@@ -141,9 +172,7 @@ public class ProductRegisterAction extends AbstractController {
 			//	System.out.println("~~~~~ restock : " + restock);
 				
 				fk_cate_num = mtrequest.getParameter("fk_cate_num");
-			//	String fk_cate_num = mtrequest.getParameter("fk_cate_num");
-				cate_name = mtrequest.getParameter("cate_name");
-			//	String cate_name = mtrequest.getParameter("cate_name");
+				String cate_name = mtrequest.getParameter("cate_name");
 				String pk_pro_num = mtrequest.getParameter("pk_pro_num");
 				String pro_name = mtrequest.getParameter("pro_name");
 				String fk_wr_code = mtrequest.getParameter("fk_wr_code");
