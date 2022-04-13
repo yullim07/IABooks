@@ -1042,6 +1042,28 @@ ALTER TABLE tbl_comment
  ALTER TABLE tbl_comment ADD CONSTRAINT FK_tbl_qn_board_TO_tbl_cmnt FOREIGN KEY (fk_qna_num) REFERENCES tbl_qna_board(pk_qna_num) ON DELETE CASCADE;       
  --Table TBL_COMMENT이(가) 변경되었습니다.
  
+  ALTER TABLE tbl_comment ADD CONSTRAINT FK_tbl_qn_board_TO_tbl_cmnt FOREIGN KEY (pk_qna_num) REFERENCES tbl_qna_board(pk_qna_num) ON DELETE CASCADE;   
+ desc tbl_comment;
+ -----------
+ ALTER TABLE tbl_comment
+	DROP
+		CONSTRAINT FK_tbl_member_TO_tbl_comment -- 회원 -> 댓글
+		FOREIGN KEY (
+			fk_userid -- 회원아이디
+		)
+		REFERENCES tbl_member ( -- 회원
+			pk_userid -- 회원아이디
+		);
+--Table TBL_COMMENT이(가) 변경되었습니다.
+ 
+ ALTER TABLE tbl_comment ADD CONSTRAINT FK_tbl_member_TO_tbl_comment FOREIGN KEY (fk_userid) REFERENCES tbl_member(pk_userid) ON DELETE CASCADE;    
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  ---------------
  
  
