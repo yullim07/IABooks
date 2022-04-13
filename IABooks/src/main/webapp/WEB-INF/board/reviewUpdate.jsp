@@ -4,7 +4,13 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
+<%@ page import="board.model.BoardDAO" %>
+<%@ page import="board.model.QnABoardVO" %>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 <%
 	String ctxPath = request.getContextPath();
 	
@@ -88,7 +94,7 @@
   </div>
   <p class="mb-3"></p>
   
-  <c:set var="revVO" value="${revVO}" />
+  <c:set var="revVO" value="${requestScope.revVO}" />
   <form name="editFrm">
 	<div class="table table-responsive">
 		<table class=" write_review">
@@ -107,7 +113,7 @@
 		      
 		      <td colspan="2">
 		      	
-		      		<textarea class="summernote" name="reviewBoardContent" id="reviewBoardContent">${(requestScope.revVO).re_contents}</textarea>
+		      		<textarea class="summernote" name="revBoardContent" id="revBoardContent">${(requestScope.revVO).re_contents}</textarea>
                         <script>
 	                        $('.summernote').summernote({
 	                        	height: 300,                 // 에디터 높이
@@ -130,8 +136,6 @@
 		      </td>
 		    </tr>
 		     --%>
-		    
-		    
 		    
 		  
 		</table>

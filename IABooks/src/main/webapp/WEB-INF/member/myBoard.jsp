@@ -13,7 +13,10 @@
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
-<!-- 직접 만든 CSS -->
+<%-- Bootstrap CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
 
 <!-- Font Awesome 5 Icons -->
@@ -22,13 +25,25 @@
 
 <style type="text/css">
 
-#my_tbody > tr > td:nth-child(2), td:nth-child(4) {
-	text-align: center;
-}
-
- #mySearchContent, #mysearchCate {
-		font-size:14px;
-}
+	#my_tbody > tr > td:nth-child(2), td:nth-child(4) {
+		text-align: center;
+	}
+	
+	#mySearchContent, #mysearchCate {
+			font-size:14px;
+	}
+	
+	a {
+	  	color: #333333;
+	  	text-decoration: none;
+	}
+	a:hover {
+  		color: #333333;
+ 	}
+ 	
+ 	a.page-num{
+ 		padding: 10px 12px 6px 12px;
+ 	}
 
 </style>
 
@@ -120,7 +135,7 @@
 	    <div class="container">
 	    <form name="myBoardFrm" method="get">
 			    <div class="title" >
-				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
+				  	<div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /> --%></div>
 				  	<h2>내가 쓴 글</h2>
 				  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 				  	<span >내가 작성했던 글들을 볼 수 있습니다.</span>
@@ -191,10 +206,11 @@
 			  </tbody>
 			</table>
 			
-			<nav class="my-5">
-				<div style="display: flex; width: 100%;">
-					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
-				</div>	
+		  	<%--페이지 네비게이션 --%>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center ">
+					${requestScope.pageBar}
+			  	</ul>
 			</nav>
 			
 			<div class="search_outer" id="tab_center">

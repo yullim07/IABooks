@@ -169,45 +169,8 @@
 		      <td class="col-10" ><input type="text" id="qnaSubject" name="qnaSubject" value="${qnaVO.qna_title}" /></td>
 		    </tr>
 		  	
-		  	 <%--
-		    <tr class="notMember hidden">
-		      <th>작성자</th>
-		      <td> <input type="text" id="writer" name="writer" /></td> 
-		      	<input type="hidden" id="qnaUserid" name="qnaUserid" />
-               <input type="text" name="qnaWriter" id="name" class="requiredInfo" required /> 
-		    </tr>
-		    --%>
-		    
-		    <%--
-		    <tr class="hidden" >
-		      <th>이메일</th>
-		      <td>
-		      	<input type="text" id="email1" name="email1" />
-		      	@
-		      	<input type="text" id="email2" name="email2" />
-		      	<select id="email3">
-		      		<option selected="selected">-이메일선택-</option>
-		      		<option>naver.com</option>
-		      		<option>daum.net</option>
-		      		<option>nate.com</option>
-		      		<option>hotmail.com</option>
-		      		<option>yahoo.com</option>
-		      		<option>empas.com</option>
-		      		<option>korea.com</option>
-		      		<option>dreamwiz.com</option>
-		      		<option>gmail.com</option>
-		      		<option>직접입력</option>
-		      	</select>
-		      </td>
-		    </tr>
-		    --%>
-		    
-		    
-		    
 		    <tr>
-		      
 		      <td colspan="2">
-		      	
 		      		<textarea class="summernote" id="editordata" name="qnaContent">${qnaVO.qna_contents}</textarea>
                         <script>
                         $('.summernote').summernote({
@@ -219,11 +182,7 @@
                             placeholder: '최대 2048자까지 쓸 수 있습니다'   //placeholder 설정
                            });
                         </script>
-		      	
-		      	
 		      </td>
-		    
-		    
 		    </tr>
 		    
 		    <%--

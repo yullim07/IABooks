@@ -27,7 +27,10 @@
 <meta charset="UTF-8">
 <title>상품 Q&A</title>
 
-<!-- 직접 만든 CSS -->
+<%-- Bootstrap CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -129,9 +132,9 @@
 
 <div class="container">
 <div class="contents">
-  <p><br></p>
+  
   <div class="title" >
-  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
+  	<div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /> --%></div>
   	<h2 >상품 Q&A</h2>
   	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
   	<span >상품 Q&A입니다. 상품에 관해서 궁금하신 점을 질문해주세요.</span>
@@ -275,7 +278,15 @@
   	
   	</div>
   	
-  	
+  	<%--페이지 네비게이션 --%>
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center ">
+		<%--ShowBookListAction 작성 --%>
+			${requestScope.pageBar}
+	  	</ul>
+	</nav>
+	
+	 <%-- 
   	<div class="pagination2 justify-content-center" style="display:flex; width: 100%;">
 	    <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 	    <%-- 
@@ -289,9 +300,9 @@
 		   
 		    <li><a href="#"><img src="<%= ctxPath%>/images/board/leejh_images/btn_page_last.gif" /></a></li>
 	    </ul>
-	    --%>
+	    
 	</div>
- 	
+ 	--%>
 	<form name="qnaSearchFrm" action="qnaBoard.book" method="get" >
 	 	<div class="search_outer" >
 	 		<div class="search_inner">
