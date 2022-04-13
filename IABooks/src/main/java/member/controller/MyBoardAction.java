@@ -122,6 +122,27 @@ public class MyBoardAction extends AbstractController {
 			// qnaVO = myBoardVO.getQnaBoard();
 			request.setAttribute("myBoardList", myBoardList);
 			
+			
+			// 게시글 수 불러오기 시작
+	        String needid = "myboard";
+	        paraMap.put("needid", needid);
+			
+			ReviewBoardVO rvo = new ReviewBoardVO();
+	        rvo = tbdao.getTotalReviewCnt(paraMap);
+	        rvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+	        rvo.setSizePerPage(Integer.parseInt(sizePerPage));
+	      
+	        request.setAttribute("rvo", rvo);
+	        
+	        QnABoardVO qvo = new QnABoardVO();
+	        qvo = tbdao.getTotalQnaCnt(paraMap);
+	        qvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+	        qvo.setSizePerPage(Integer.parseInt(sizePerPage));
+	        
+	        request.setAttribute("qvo", qvo);
+	       
+	      // 게시글 수 불러오기 끝
+			
 			String pageBar = "";
 			
 			int blockSize = 10;

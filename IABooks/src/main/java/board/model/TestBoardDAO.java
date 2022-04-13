@@ -152,6 +152,7 @@ public class TestBoardDAO implements TestInterBoardDAO {
 		public QnABoardVO getTotalQnaCnt(Map<String, String> paraMap) throws SQLException {
 			
 			QnABoardVO qvo = new QnABoardVO();
+			String userid = "";
 			
 			try {
 				conn = ds.getConnection();
@@ -159,6 +160,11 @@ public class TestBoardDAO implements TestInterBoardDAO {
 				String sql = " select count(*) "
 						   + " from tbl_qna_board"
 						   + " where isdelete = 0 ";
+				
+				if( "myboard".equalsIgnoreCase(paraMap.get("needid")) ) {
+					sql += " and fk_userid = ? ";
+					userid = paraMap.get("userid");
+				}
 				
 				String colname = paraMap.get("searchContent");
 				String searchWord = paraMap.get("searchWord");	
@@ -174,7 +180,16 @@ public class TestBoardDAO implements TestInterBoardDAO {
 				
 				pstmt = conn.prepareStatement(sql);
 				
-				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+				if( "myboard".equalsIgnoreCase(paraMap.get("needid")) ) { // 내 게시물 보기에서 접근했을 때
+					
+					pstmt.setString(1, userid);
+				
+					if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+						// 검색종류와 검색어가 있으면	
+						pstmt.setString(2, searchWord);
+					}
+				}
+				else if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ){ // 내 게시물 보기가 아니며
 					// 검색종류와 검색어가 있으면	
 					pstmt.setString(1, searchWord);
 				}
@@ -324,13 +339,19 @@ public class TestBoardDAO implements TestInterBoardDAO {
 		@Override
 		public ReviewBoardVO getTotalReviewCnt(Map<String, String> paraMap) throws SQLException {
 			ReviewBoardVO rvo = new ReviewBoardVO();
-			
+			String userid = "";
 			try {
 				conn = ds.getConnection();
 				
 				String sql = " select count(*) "
 						   + " from tbl_review_board"
 						   + " where isdelete = 0 ";
+				
+				if( "myboard".equalsIgnoreCase(paraMap.get("needid")) ) {
+					sql += " and fk_userid = ? ";
+					userid = paraMap.get("userid");
+				}
+				
 				
 				String colname = paraMap.get("searchContent");
 				String searchWord = paraMap.get("searchWord");	
@@ -343,10 +364,18 @@ public class TestBoardDAO implements TestInterBoardDAO {
 					// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 				}
 				
-				
 				pstmt = conn.prepareStatement(sql);
 				
-				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+				if( "myboard".equalsIgnoreCase(paraMap.get("needid")) ) { // 내 게시물 보기에서 접근했을 때
+					
+					pstmt.setString(1, userid);
+				
+					if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+						// 검색종류와 검색어가 있으면	
+						pstmt.setString(2, searchWord);
+					}
+				}
+				else if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ){ // 내 게시물 보기가 아니며
 					// 검색종류와 검색어가 있으면	
 					pstmt.setString(1, searchWord);
 				}
@@ -406,7 +435,7 @@ public class TestBoardDAO implements TestInterBoardDAO {
 							"        from tbl_qna_board A "+
 							"        FULL OUTER JOIN tbl_review_board B "+
 							"        ON A.qna_title = B.re_title "+
-							"        where A.fk_userid = ? and A.isdelete = 0 "+
+							"        where A.fk_userid = ? and A.isdelete = 0 order by qna_date desc "+
 							"        ) Q\n"+
 							"    FULL OUTER JOIN\n"+
 							"        (\n"+
@@ -414,7 +443,7 @@ public class TestBoardDAO implements TestInterBoardDAO {
 							"        from tbl_qna_board A "+
 							"        FULL OUTER JOIN tbl_review_board B "+
 							"        ON A.qna_title = B.re_title "+
-							"        where B.fk_userid = ? and B.isdelete = 0  "+
+							"        where B.fk_userid = ? and B.isdelete = 0 order by re_date desc "+
 							"        ) R "+
 							"    ON Q.qna_title = R.re_title " +
 							"    ) V "+

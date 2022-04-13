@@ -145,26 +145,36 @@
 			    </tr>
 			  </thead>
 			  <tbody id="my_tbody">
-			  	<c:if test="${not empty requestScope.myBoardList}">
+			  	<c:set var="rnum" value="${requestScope.rvo.totalCnt - ( (requestScope.rvo.currentShowPageNo-1) *10 ) }" />
+			  	<c:set var="qnum" value="${requestScope.qvo.totalCnt - ( (requestScope.qvo.currentShowPageNo-1) *10 ) }" />
+			    <c:if test="${not empty requestScope.myBoardList}">
 			    <c:forEach var="board" items="${requestScope.myBoardList}" >
 			    	<c:if test="${not empty board.revBoard.pk_rnum }">
 			    	<c:if test="${board.revBoard.pk_rnum ne 0}">
 				    <tr>
-				      	<td>${board.revBoard.pk_rnum}</td>
+				      	<td>
+							R-${rnum}
+							<input type="hidden" value="${board.revBoard.pk_rnum}" name="pk_rnum" id="pk_rnum" />
+						</td>
 				      	<td id="cate_"><a href="<%= ctxPath%>/board/reviewBoard.book">타인의 책장</a></td>
 				      	<td><a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.revBoard.pk_rnum}">${board.revBoard.re_title}</a></td>
 				      	<td>${board.revBoard.re_date}</td>
 				    </tr>
+				    <c:set var="rnum" value="${rnum-1 }"></c:set>
 				    </c:if>
 			    	</c:if>
 			    	<c:if test="${not empty board.qnaBoard.pk_qna_num}">
 			    	<c:if test="${board.qnaBoard.pk_qna_num ne 0}">
 				    <tr>
-				      	<td>${board.qnaBoard.pk_qna_num}</td>
+				      	<td>
+				      		Q-${qnum}
+				      		<input type="hidden" value="${board.qnaBoard.pk_qna_num}" name="pk_qna_num" id="pk_qna_num" />
+				      	</td>
 				      	<td id="cate_qna"><a href="<%= ctxPath%>/board/qnaBoard.book">상품문의</a></td>
 				      	<td><a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.qnaBoard.pk_qna_num}">${board.qnaBoard.qna_title}</a></td>
 				      	<td>${board.qnaBoard.qna_date}</td>
 				    </tr>
+				    <c:set var="qnum" value="${qnum-1 }"></c:set>
 				    </c:if>
 				    </c:if>
 			    </c:forEach> 
@@ -201,6 +211,8 @@
 			    </div>
 		    
 		  	</div>
+		  	
+		  	
 		</form>	
 		</div> <!-- container 끝 -->
 		
