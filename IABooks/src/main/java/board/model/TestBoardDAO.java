@@ -144,6 +144,52 @@ public class TestBoardDAO implements TestInterBoardDAO {
 			
 		} // end of public int revDisplaySelect(Map<String, String> paraMap) throws SQLException
 
+		
+		// 게시글 번호 표시를 위한 검색이 있는 또는 검색이 없는 전체 Qna게시판에 대한 페이지 알아오기
+		@Override
+		public QnABoardVO getTotalQnaCnt(Map<String, String> paraMap) throws SQLException {
+			
+			QnABoardVO qvo = new QnABoardVO();
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select count(*) "
+						   + " from tbl_qna_board"
+						   + " where isdelete = 0 ";
+				
+				String colname = paraMap.get("searchContent");
+				String searchWord = paraMap.get("searchWord");	
+			//	System.out.println(" 확인용 colname : " + colname);
+			//	System.out.println(" 확인용 searchWord : " + searchWord);
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					sql += " and " + colname + " like '%'|| ? ||'%' ";
+					// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
+					// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
+				}
+				
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
+					// 검색종류와 검색어가 있으면	
+					pstmt.setString(1, searchWord);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				qvo.setTotalCnt(rs.getInt(1));
+				
+			} finally {
+				close();
+			}
+			
+			return qvo;
+		}
+
 	
 	
 }
