@@ -98,7 +98,7 @@
 	});
 	
 	function goReviewWrite(){
-		var form = document.test;
+		var form = document.test3;
 		form.action = "reviewProduct.book";
 		form.submit();
 	}
@@ -150,11 +150,11 @@
 						</c:forEach> 
 			    		</c:if> 
 						
-						<c:if test="${board.productRevList eq null}">
+						<c:if test="${empty requestScope.productRevList}">
 		        		<tr id="notExist">
 					      	<td colspan="6">
 					      		<div>
-					      		<span style="color: #555555; font-weight:bold;">표시할 내용이 없습니다.</span>
+					      		<span style="color: #555555; font-weight:bold;">게시글이 없습니다.</span>
 					      		</div>
 					      	</td>
 					    </tr>
@@ -164,7 +164,7 @@
 
 					</tbody>
 				</table>
-				<form name="test" id="test" method="post">
+				<form name="test3" id="test3" method="post">
 				<c:set var="pvo" value="${requestScope.pvo}" />
 				<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pvo.pk_pro_num}">
 				<div class="view_btn_zone">

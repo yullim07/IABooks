@@ -356,14 +356,14 @@
 							
 							<%-- 이미지 --%>
 							<td> 
-								<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${wvo.pk_wnum}">
+								<a href="<%=ctxPath%>/product/ShowBookDetail.book?pk_pro_num=${wvo.pk_wnum}">
 								<img src="<%=ctxPath%>/images/product/${wvo.category.cate_name}/${wvo.product.pro_imgfile_name}" style="width: 100%"/>
 								</a>
 							</td>
 							
 							<%-- 상품정보 --%>
 							<td> 
-								<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${wvo.fk_pnum}">
+								<a href="<%=ctxPath%>/product/ShowBookDetail.book?pk_pro_num=${wvo.fk_pnum}">
 									<span class="cartPname">${wvo.product.pro_name}</span>
 								</a>
 							</td>
