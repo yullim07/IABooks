@@ -15,6 +15,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import product.model.CategoryVO;
+import product.model.OrderVO;
+import product.model.ProductVO;
 import util.security.AES256;
 import util.security.SecretMyKey;
 import util.security.Sha256;
@@ -1490,7 +1493,70 @@ public class MemberDAO implements InterMemberDAO {
 					return mileage;
 				}
 				
+				
+				// 주문내역조회
+				@Override
+				public List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException {
 					
-			
+					List<Map<String, String>> orderInfoList = new ArrayList<>(); 
+					
+					try {
+						
+						conn = ds.getConnection();
+						
+						String sql = " select O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
+								+ " from tbl_order O "
+								+ " join tbl_orderdetail G "
+								+ " on o.pk_odrcode = g.fk_odrcode "
+								+ " join tbl_product P "
+								+ " on G.fk_pro_num = P.pk_pro_num "
+								+ " join tbl_category C "
+								+ " on C.pk_cate_num = P.fk_cate_num "
+								+ " join tbl_deliverstatus D "
+								+ " on G.ck_deliverstatus = D.deliverstatus "
+								+ " where O.fk_userid = ? "
+								+ " and O.odr_date  between ? and ? "
+								+ " and d.deliverstatus = ? "
+								+ " order by odr_date DESC ";
+						
+									
+					         
+				        pstmt = conn.prepareStatement(sql);
+				        
+				        pstmt.setString(1, paraMap.get("userid").toString());
+				        pstmt.setString(2, paraMap.get("lastmonth_three").toString());
+				        pstmt.setString(3, paraMap.get("today").toString());
+				        pstmt.setString(4, paraMap.get("status").toString());
+				        
+						
+				        rs = pstmt.executeQuery();
+				        
+				        while( rs.next()) {
+				        	Map<String, String> map = new HashMap<>();
+				        	
+				        	map.put("userid" , rs.getString(1));
+				        	map.put("odr_date" , rs.getString(2));
+				        	map.put("cate_name" , rs.getString(3));
+				        	map.put("pro_imgfile_name" , rs.getString(4));
+				        	map.put("pro_name" , rs.getString(5));
+				        	map.put("ck_odr_totalqty" , rs.getString(6));
+				        	map.put("odr_totalprice" , rs.getString(7));
+				        	map.put("delivername" , rs.getString(8));
+				        	
+				        	
+				        	orderInfoList.add(map);
+				        	
+				        	
+				        	
+				        }
+						
+					} catch(Exception e) { 
+					    e.printStackTrace();	
+					} finally {
+						close();
+					}
+					
+					return orderInfoList;
+				}
 
 }

@@ -122,6 +122,10 @@ public interface InterMemberDAO {
 	// 마이페이지 사용가능한 마일리지 금액 조회
 	int useMileage(String userid) throws SQLException;
 
+////////////////////////////////////////////////////////////////
+	
+	// 주문내역조회
+	List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException;
 	
 	
 
