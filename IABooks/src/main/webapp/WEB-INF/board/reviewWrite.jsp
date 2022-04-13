@@ -3,8 +3,12 @@
 
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
-
+<%@ page import="board.model.BoardDAO" %>
+<%@ page import="board.model.QnABoardVO" %>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 <%
 	String ctxPath = request.getContextPath();
 	

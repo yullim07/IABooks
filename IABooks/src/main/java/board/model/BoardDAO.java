@@ -2032,8 +2032,8 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setInt(5, grade);
 			pstmt.setString(6, paraMap.get("content"));
 			pstmt.setString(7, paraMap.get("passwd"));
-			pstmt.setString(8, "rev_file_system_name");
-			pstmt.setString(9, "rev_file_original_name");
+			pstmt.setString(8, paraMap.get("rev_file_system_name"));
+			pstmt.setString(9, paraMap.get("rev_file_original_name"));
 			
 			result = pstmt.executeUpdate();
 			
