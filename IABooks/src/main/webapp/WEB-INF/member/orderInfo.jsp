@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.util.*"%>
 
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -58,7 +60,9 @@ $(document).ready(function(){
         //To의 초기값을 3일후로 설정
         $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
     });
-		
+	
+	
+	
 }); // end of $(document).ready(function()
 
 function today() {
@@ -86,6 +90,12 @@ function halfYear() {
 	 $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 }
 
+
+
+const frm = document.orderInfofrm;
+frm.action = "<%=request.getContextPath()%>/member/orderInfo.book"
+frm.method = "post"; 
+frm.submit();
 
 
 
@@ -200,18 +210,17 @@ div.pagination {
       <div class="tab-content py-3">
            
            <div class="tab-pane container active"  id="menu1">
+             <form name="orderInfofrm">
               <table>
                  <tr class = "option">
 	                 <td >
 	                     <select name="전체주문처리상태">
-	                       <option value = " ">전체주문처리상태</option>
-	                       <option value = " ">입금전</option>
-	                       <option value = " ">배송준비중</option>
-	                       <option value = " ">배송중</option>
-	                       <option value = " ">배송완료</option>
-	                       <option value = " ">취소</option>
-	                       <option value = " ">교환</option>
-	                       <option value = " ">반품</option>
+	                       <option value = "0" selected>전체</option>
+	                       <option value = "1">주문완료</option>
+	                       <option value = "2">배송준비중</option>
+	                       <option value = "3">배송중</option>
+	                       <option value = "4">배송완료</option>
+	                       <option value = "5">주문취소</option>
 	                     </select>
 	                 </td>
 	                 <td>
@@ -225,10 +234,11 @@ div.pagination {
 					 <td>
 			            From: <input type="text" id="fromDate">&nbsp;&nbsp; 
 			            To: <input type="text" id="toDate">  
-			            <input type = "button" value="조회">
+			            <input type = "button" id="goOrderInfo" value="조회">
 	       			 </td>	                 
                  </tr>
               </table>
+	         </form>
 	            	<ul style= "margin-bottom: 5%;">
 						<li class="sm">기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
 				        <li class="sm">주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
@@ -238,11 +248,18 @@ div.pagination {
 	                 <td style="font-weight:bold; padding: 1%;" >주문 상품 정보</td>
 	              </tr>
 	              <tr class = "tbl_bottom_line">
-	                 <td style = "width: 16%;">주문일자<br>[주문번호]</td><td>이미지</td><td>상품정보</td><td>수량</td><td>상품구매금액</td><td>주문처리상태</td><td>취소/교환/반품</td>
+	                 <td style = "width: 16%;">주문일자</td><td style=width:20%;>이미지</td><td>상품정보</td><td>수량</td><td>상품구매금액</td><td>주문처리상태</td>
 	              </tr>
+	              <c:forEach var="map" items="${requestScope.orderInfoList}">
 	              <tr>
-	                 <td colspan="7" style = "text-align : center; height: 80px;"><strong>주문 내역이 없습니다</strong></td>
+	                 <td style="text-align:center;"><strong>${map.odr_date}</strong></td>
+	                 <td style="text-align:center;"><strong><img style="width: 60%;" src="<%= ctxPath %>/images/product/${map.cate_name}/${map.pro_imgfile_name}" /></strong></td>
+	              	 <td style="text-align:center;"><strong>${map.pro_name}</strong></td>
+	              	 <td style="text-align:center;"><strong>${map.ck_odr_totalqty}</strong></td>
+	              	 <td style="text-align:center;"><strong><fmt:formatNumber type="number" pattern="###,###">${map.odr_totalprice}</fmt:formatNumber>원</strong></td>
+	              	 <td style="text-align:center;"><strong>${map.delivername}</strong></td>
 	              </tr>
+	              </c:forEach>
               </table>
               	 <div style="text-align:center;">
 			        <span>
@@ -284,11 +301,19 @@ div.pagination {
 	                 <td style="font-weight:bold; padding: 1%;" >취소/반품/교환내역</td>
 	              </tr>
 	              <tr class = "tbl_bottom_line">
-	                 <td style = "width: 16%;">주문일자<br>[주문번호]</td><td>이미지</td><td>상품정보</td><td>수량</td><td>상품구매금액</td><td>주문처리상태</td><td>취소/교환/반품</td>
+	                 <td style = "width: 16%;">주문일자</td><td>이미지</td><td>상품정보</td><td>수량</td><td>상품구매금액</td><td>주문처리상태</td>
 	              </tr>
+	              <c:forEach var="map" items="${requestScope.orderInfoList}">
 	              <tr>
-	                 <td colspan="7" style = "text-align : center; height: 80px;"><strong>주문 내역이 없습니다</strong></td>
+	                 <td style = "text-align : center; height: 80px;"><strong>${map.userid}</strong></td>
+	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
+	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
+	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
+	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
+	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
+	                 <td style = "text-align : center; height: 80px;"><strong></strong></td>
 	              </tr>
+	              </c:forEach>
               </table>		        
               	<div style="text-align:center;">
 			        <span>

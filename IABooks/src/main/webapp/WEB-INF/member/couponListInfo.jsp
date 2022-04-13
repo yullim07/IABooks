@@ -7,6 +7,8 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<title>쿠폰조회</title>
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -85,11 +87,11 @@ table.coupon td {
 						<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cprice }</fmt:formatNumber>원</td>
 						<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cminprice }</fmt:formatNumber>원</td>
 						<td align="center">${cvo.cstartdate }~${cvo.cenddate }</td>
-						<td align="center">${cvo.cdate }</td>
+						<td align="center">${cvo.cdate}</td>
 						<td align="center">
 						<c:choose>
-	   	  	  	  	  		<c:when test="${cvo.cpstatus eq '1'}"><!-- 조건변경 -->
-	   	  	  	  	  			<span style="color: blue;">쿠폰사용가능</span>
+	   	  	  	  	  		<c:when test="${cvo.cpstatus eq '1'}">
+	   	  	  	  	  			<span style="color: blue;">사용가능</span>
 	   	  	  	  	  		</c:when>
 	   	  	  	  	  		<c:otherwise>
 	   	  	  	  	  			<span style="color: red;">사용불가</span>

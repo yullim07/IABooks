@@ -54,6 +54,7 @@ public class MyPageAction extends AbstractController {
 			int step2 = mdao.deliverStep2(userid);
 			int step3 = mdao.deliverStep3(userid);
 			int step4 = mdao.deliverStep4(userid);
+			int step5 = mdao.deliverStep5(userid);
 			
 			// 이제까지 구매한 주문 금액 조회
 			int allPrice = mdao.allPrice(userid);
@@ -69,6 +70,7 @@ public class MyPageAction extends AbstractController {
 			request.setAttribute("step2", step2);
 			request.setAttribute("step3", step3);
 			request.setAttribute("step4", step4);
+			request.setAttribute("step5", step5);
 			request.setAttribute("allPrice", allPrice);
 			request.setAttribute("ordcount", ordcount);
 			request.setAttribute("mileage", mileage);
