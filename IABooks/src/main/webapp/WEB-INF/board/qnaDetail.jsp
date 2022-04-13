@@ -241,7 +241,7 @@
 	       
 	       const bool = confirm("댓글 수정할려구?");
 	    //  console.log("bool => " + bool); // bool => true , bool => false
-	       
+	       const queryString = $("form[name=commentFrm]").serialize();
 	       if(bool) {
 	       
 	          $.ajax({
