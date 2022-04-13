@@ -120,6 +120,7 @@ public class QnaBoardAction extends AbstractController {
       // ~~~확인용 totalPage => 21
       
       
+      
       // === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 토탈페이지수 보다 큰 값을 입력하여
       //     장난친 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== //
 		
@@ -135,6 +136,17 @@ public class QnaBoardAction extends AbstractController {
       
       request.setAttribute("qnaboardList", qnaboardList);
       request.setAttribute("sizePerPage", sizePerPage);
+      
+      // 개시글 수 불러오기 시작
+      TestInterBoardDAO tbdao = new TestBoardDAO();
+      QnABoardVO qvo = new QnABoardVO();
+      qvo = tbdao.getTotalQnaCnt(paraMap);
+      qvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+      qvo.setSizePerPage(Integer.parseInt(sizePerPage));
+      
+      request.setAttribute("qvo", qvo);
+      
+      // 게시글 수 불러오기 끝
       
       
       // *** ======== 페이지바 만들기 시작 ========= *** //

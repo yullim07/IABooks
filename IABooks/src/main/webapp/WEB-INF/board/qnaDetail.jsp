@@ -167,7 +167,7 @@
 	        			  html  += "<span>"+item.cmt_date+"</span>";
 	        			  if( loginuserid != "" && writeuserid == loginuserid ) {
 	        					html += "<button class='cmtButton' type='button' onclick='delMyComment("+item.pk_cmt_num+")'>삭제</button>"
-	        				   		  + "<button class='cmtButton' type='button' >수정</button>";
+	        				   		  + "<button class='cmtButton' type='button' onclick='UpdateMyComment("+item.pk_cmt_num+")'>수정</button>";
 	        			  }
 	        			          				   
 	        			  html += "</div> </div>"
@@ -235,7 +235,38 @@
 	       
 	    }// end of function delMyReview(review_seq) {}--------------------------  
 	    
-	    
+		 // 특정 글의 댓글을 수정버튼 클릭 시 
+		 
+	    function UpdateMyComment(pk_cmt_num) {
+	       
+	       const bool = confirm("댓글 수정할려구?");
+	    //  console.log("bool => " + bool); // bool => true , bool => false
+	       const queryString = $("form[name=commentFrm]").serialize();
+	       if(bool) {
+	       
+	          $.ajax({
+	             url:"<%= ctxPath%>/board/commentUpdateStart.book",
+	             type:"POST",
+	             data:{"pk_cmt_num":pk_cmt_num},
+	             dataType:"JSON",
+	             success:function(json) { // {"n":1} 또는 {"n":0}
+	                if(json.n == 1) {
+	                   alert("댓글 삭제가 성공되었습니다.");
+	                   
+	                   listComment();
+	                }
+	                else {
+	                   alert("댓글 삭제가 실패했습니다.");
+	                }
+	             },
+	             error: function(request, status, error){
+	                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	             }
+	          });
+	       
+	       }
+	       
+	    }// end of function delMyReview(review_seq) {}--------------------------  	    
 	
 	
 

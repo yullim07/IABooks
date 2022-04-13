@@ -1079,3 +1079,55 @@ select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, to_char(re_date,'yyyy-mm-dd hh24:m
          JOIN TBL_CATEGORY C 
          ON P.fk_cate_num = C.pk_cate_num 
          where isdelete = 0 and PK_RNUM =
+         
+         
+         
+         
+         select   fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name
+    			  from 
+    			      ( 
+    			      select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name
+    			      from 
+    			      ( 
+    			          select  nvl(fk_pnum,-9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,-9999) as pro_name, nvl(pro_imgfile_name,-9999) as pro_imgfile_name ,nvl(C.cate_name,-9999) AS cate_name
+    			          from tbl_member M right JOIN tbl_qna_board Q 
+    			          ON M.pk_userid = Q.fk_userid 
+    			          left JOIN tbl_product P  
+    			          ON Q.fk_pnum = P.pk_pro_num
+    			          left JOIN TBL_CATEGORY C
+    			  		ON P.fk_cate_num = C.pk_cate_num
+    			          where isdelete = 0 
+         		order by pk_qna_num desc
+					   	) V
+	   			   	   ) T 
+					   where rno between ? and ? 
+         
+         
+         
+         
+ select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') AS qna_date, qna_passwd, qna_readcount, \r\n"
+					+ "				    qna_issecret,  isdelete, pro_name, pro_imgfile_name, pro_price, cate_name ,fk_pnum,   qna_file_system_name, nvl(qna_file_original_name,'없음') as qna_file_original_name \r\n"
+					+ "					 from tbl_member M right JOIN tbl_qna_board Q  \r\n"
+					+ "					       ON M.pk_userid = Q.fk_userid \r\n"
+					+ "					       left JOIN tbl_product P  \r\n"
+					+ "					       ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999)\r\n"
+					+ "					       left JOIN TBL_CATEGORY C\r\n"
+					+ "							   ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)"
+						+ "        where isdelete = 0  and pk_qna_num = ?        
+         
+         
+  select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date "+
+			"      , RE_GRADE, RE_CONTENTS, RE_PASSWD, RE_WRITER, isdelete, P.pro_name, P.pro_imgfile_name, P.PRO_PRICE " +
+			"		, C.cate_name , rev_file_system_name, nvl(rev_file_original_name,'없음') as rev_file_original_name " +
+			" from tbl_review_board R JOIN tbl_product P " +
+			" ON R.FK_PNUM = P.pk_pro_num " +
+			" JOIN TBL_CATEGORY C " +
+			" ON P.fk_cate_num = C.pk_cate_num " +
+			" where isdelete = 0 and PK_RNUM = ?       
+         
+select *
+from tbl_review_board;
+
+
+update tbl_review_board set re_title = 'wow', re_contents= 'wow', re_writer = '김재희'
+	where pk_rnum = 64 

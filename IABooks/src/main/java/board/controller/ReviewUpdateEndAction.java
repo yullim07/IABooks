@@ -1,16 +1,11 @@
 package board.controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.oreilly.servlet.MultipartRequest;
-import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import board.model.BoardDAO;
 
@@ -40,48 +35,14 @@ public class ReviewUpdateEndAction extends AbstractController {
 			InterBoardDAO bdao = new BoardDAO();
 			ReviewBoardVO revVO = new ReviewBoardVO();
 			
-			
-			
-			MultipartRequest mtrequest = null;
-			
-			// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다.
-			ServletContext svlCtx = session.getServletContext();
-			String uploadFileDir = svlCtx.getRealPath("/images");
-			//	System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
-			
-			// === 파일을 업로드 해준다. 시작 === //
-			try {
-				mtrequest = new MultipartRequest( request, uploadFileDir, 10*1024*1024 ,  "UTF-8",  new DefaultFileRenamePolicy() );
-				//IOException
-			}catch(IOException e) {
-				e.printStackTrace();
-				
-				request.setAttribute("message", "업로드 되어질 경로가 잘못되었거나 또는 최대용량 10MB를 초과했으므로 파일업로드 실패함!!");
-	            request.setAttribute("loc", request.getContextPath()+"/product/reviewSubmit.book"); 
-	              
-	            super.setViewPage("/WEB-INF/msg.jsp");
-	            return; // 종료
-			}
-			// === 파일을 업로드 해준다. 끝 === //
-			
-			// 글쓰기 버튼을 클릭했을 경우
-			
-			//String cda = (String)session.getAttribute("pk_pro_num");
-			//System.out.println(" 제발 가져와 : " + cda);
-			
-			
-			String pk_rnum = mtrequest.getParameter("pk_rnum");
-			// System.out.println("좀 가져와봐 : " + pk_rnum);
+			String pk_rnum = request.getParameter("pk_rnum");
+			System.out.println("좀 가져와봐 : " + pk_rnum);
 			String userid = loginuser.getUserid();
-			String title = mtrequest.getParameter("revBoardTitle");
-			String writer = mtrequest.getParameter("revBoardWriter");
-			String content = mtrequest.getParameter("faqBoardContent");
+			String title = request.getParameter("revBoardTitle");
+			String writer = request.getParameter("revBoardWriter");
+			String content = request.getParameter("revBoardContent");
 			
-			String rev_file_system_name = mtrequest.getFilesystemName("rev_file");
-			String rev_file_original_name = mtrequest.getOriginalFileName("rev_file");
-			
-			
-			// System.out.println(" 받아온 번호 : " + pk_rnum);
+			System.out.println(" 받아온 번호 : " + pk_rnum);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			
@@ -90,8 +51,6 @@ public class ReviewUpdateEndAction extends AbstractController {
 			paraMap.put("title", title);
 			paraMap.put("writer", writer);
 			paraMap.put("content", content);
-			paraMap.put("rev_file_system_name", rev_file_system_name);
-			paraMap.put("rev_file_original_name", rev_file_original_name);
 			
 			try {
 				int n = bdao.UpdateReviewBoard(paraMap);

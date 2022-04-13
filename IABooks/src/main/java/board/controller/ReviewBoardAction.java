@@ -87,6 +87,19 @@ public class ReviewBoardAction extends AbstractController {
 		List<ReviewBoardVO> reviewList = bdao.selectPagingRevBoard(paraMap); 
 		
 		request.setAttribute("reviewList", reviewList);
+		request.setAttribute("sizePerPage", sizePerPage);
+		
+		// 게시글 수 불러오기 시작
+	      TestInterBoardDAO tbdao = new TestBoardDAO();
+	      ReviewBoardVO rvo = new ReviewBoardVO();
+	      rvo = tbdao.getTotalReviewCnt(paraMap);
+	      rvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+	      rvo.setSizePerPage(Integer.parseInt(sizePerPage));
+	      
+	      request.setAttribute("rvo", rvo);
+	      
+	      // 게시글 수 불러오기 끝
+		
 		
 		String pageBar = "";
 		
