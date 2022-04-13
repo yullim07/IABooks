@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -279,18 +279,17 @@
 			<br><br>
 				
 			<p><span class="majorheading">책소개</span></p>
-			<%-- <p class="subheading">${requestScope.pvo.pro_content}</p> --%>
+			<p class="subheading">${fn:replace(requestScope.pvo.pro_content, replaceChar, "<br/>")}</p>
 		
 			<br><br>
 				
 			<p><span class="majorheading">저자소개</span></p>
-			<%-- <p class="subheading">${requestScope.wvo.wr_name}</p> --%>
-		
+			<p class="subheading">${fn:replace(requestScope.pvo.writer.wr_info, replaceChar, "<br/>")}</p>
+			
 			<br><br>
 				
 			<p><span class="majorheading">목차</span></p>
-			<%-- <p class="subheading">${requestScope.pvo.pro_index}</p> --%>
-	
+			<p class="subheading">${fn:replace(requestScope.pvo.pro_index, replaceChar, "<br/>")}</p>
 			<br><br>
 
 		</div>

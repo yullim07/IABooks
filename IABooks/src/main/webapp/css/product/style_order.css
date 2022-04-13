@@ -78,9 +78,20 @@ table.benefit_info span {
   }
 
   table.paymentExpected > thead > tr >  td input {
-	width: 350px;	
+	width: 120px;	
   }
-
+  
+  button#pointBtn{
+  	border: solid 1px #DEE2E6;
+	background-color: white;
+	font-size: 14px;
+	color: #333333;
+	background-color: #fbfbfb;
+	width: 45px;
+	height: 28px;
+	margin-left: 10px;
+  }
+  
   table.paymentExpected > thead > tr >  td select {
 	width: 350px;	
   }

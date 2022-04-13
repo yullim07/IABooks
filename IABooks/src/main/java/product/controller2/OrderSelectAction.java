@@ -33,10 +33,13 @@ public class OrderSelectAction extends AbstractController {
 				InterProductDAO pdao = new ProductDAO();
 				Map<String, String> paraMap = new HashMap<>();
 				
+				paraMap.put("userid", userid);
 				List<CartVO> order = new ArrayList<>();
 				List<CouponVO> userCoupon = pdao.userCoupon(paraMap);
+				String userPoint = pdao.userPoint(paraMap);
+				
 				int totalPrice = 0;
-				paraMap.put("userid", userid);
+				
 				for(int i=0; i<proCheck.length; i++) {
 					String pk_cartno = proCheck[i];
 					paraMap.put("pk_cartno", pk_cartno);
@@ -57,6 +60,7 @@ public class OrderSelectAction extends AbstractController {
 				request.setAttribute("fk_userid", userid);
 				request.setAttribute("totalPrice", totalPrice);
 				request.setAttribute("finalPrice", finalPrice);
+				request.setAttribute("userPoint", userPoint);
 		
 				super.setViewPage("/WEB-INF/product/order.jsp");
 				

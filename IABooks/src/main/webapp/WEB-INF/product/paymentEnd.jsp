@@ -29,6 +29,11 @@
 .shipping_info tr {
 	height: 80px;
 }
+
+#paymentExpected tr td {
+    width: 20%;
+    text-align: center;
+}
 </style>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
@@ -43,7 +48,7 @@
 		<img src="<%= ctxPath %>/images/product/orderEnd.jpg" />
 	</div>
 		
-		<div style="margin: 100px 20%;">
+		<div style="margin: 100px 20%; text-align: center;">
 			<div style="font-size: 35px; font-weight: bold; line-height: 100px;">고객님 의 주문이 완료 되었습니다.</div>
 			<div style="font-size: 20px;">주문내역 및 배송에 관한 안내는 주문조회를 통해서 확인 가능합니다.</div>
 			<div style="font-size: 20px;">주문자번호 : ${requestScope.odrcode}</div>
@@ -153,6 +158,12 @@
 							<strong>총 주문 금액</strong>
 						</td>
 						<td>
+							<strong>배송비</strong>
+						</td>
+						<td>
+							<strong>할인</strong>
+						</td>
+						<td>
 							<strong>총 결제 금액</strong>
 						</td>
 					</tr>
@@ -161,7 +172,13 @@
 						<td>
 							<span class="finalPrice"><fmt:formatNumber value="${requestScope.totalPrice}" pattern="###,###" />원</span>
 						</td>
-
+						<td>
+							<c:if test="${requestScope.totalPrice >= 50000}">무료</c:if>
+							<c:if test="${requestScope.totalPrice < 50000}">3,000원</c:if>
+						</td>
+						<td>
+							<span class="finalPrice"><fmt:formatNumber value="${requestScope.totalSale}" pattern="###,###" />원</span>
+						</td>
 						<td>
 							<span class="finalPrice" id="lastPrice" ><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>	
 						</td>
@@ -195,7 +212,7 @@
 				            
 				<tr>
 			        <th>배송메세지</th>
-			        <td></td>
+			        <td>${requestScope.deliveryMsg}</td>
 			    </tr>
 			</table>
 	

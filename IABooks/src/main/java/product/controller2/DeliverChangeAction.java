@@ -1,21 +1,20 @@
 package product.controller2;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
+
 import common.controller.AbstractController;
-import member.model.CouponVO;
 import member.model.MemberVO;
-import product.model.CartVO;
 import product.model.InterProductDAO;
 import product.model.ProductDAO;
 
-public class OrderAllAction extends AbstractController {
+public class DeliverChangeAction extends AbstractController  {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -26,56 +25,58 @@ public class OrderAllAction extends AbstractController {
 				HttpSession session = request.getSession();;
 				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 				
-				String userid = loginuser.getUserid();
-				
+				//String delivername = request.getParameter("delivername");
+				String deliverstatus = request.getParameter("deliverstatus");
+				String pk_odr_seqnum = request.getParameter("pk_odr_seqnum");
 				InterProductDAO pdao = new ProductDAO();
 				Map<String, String> paraMap = new HashMap<>();
+
+				paraMap.put("userid", loginuser.getUserid());
+				paraMap.put("deliverstatus", deliverstatus);
+				paraMap.put("pk_odr_seqnum", pk_odr_seqnum);
+				//paraMap.put("delivername", delivername);
 				
-				paraMap.put("userid", userid);
-				List<CartVO> order = pdao.orderAll(paraMap);
-				List<CouponVO> userCoupon = pdao.userCoupon(paraMap);
-				String userPoint = pdao.userPoint(paraMap);
+				 int n = pdao.deliverChange(paraMap); 
 				
-				int totalPrice = pdao.totalPriceSelect(paraMap);
-				int shippingFee = 3000;
-				int finalPrice = totalPrice;
-				if(totalPrice < 50000) {
-					finalPrice = totalPrice + shippingFee;
-				}
 				
-				request.setAttribute("userCoupon", userCoupon);
-				request.setAttribute("order", order);
-				request.setAttribute("fk_userid", userid);
-				request.setAttribute("totalPrice", totalPrice);
-				request.setAttribute("finalPrice", finalPrice);
-				request.setAttribute("userPoint", userPoint);
-		
-				super.setViewPage("/WEB-INF/product/order.jsp");
+				 if(n==1 && Integer.parseInt(deliverstatus) == 4) {
+					 n = pdao.deliverdateInsert(paraMap);
+					 
+				  }
+					
 				
-			}else{
+				
+				JSONObject jsonObj = new JSONObject(); 
+				jsonObj.put("n", n); 
+
+				String json = jsonObj.toString();
+				
+				request.setAttribute("json", json);
+				super.setViewPage("/WEB-INF/jsonview.jsp");
+				
+			}else {
 				String message = "비정상적인 경로로 들어왔습니다";
-				String loc = "javascript:history.back()";
+				//String loc = "javascript:history.back()";
    
 				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
+				//request.setAttribute("loc", loc);
    
 				//super.setRedirect(false);   
-				super.setViewPage("/WEB-INF/msg.jsp");
+				super.setViewPage("/WEB-INF/jsonMsg.jsp");
 			}
 			
 		}else {//비로그인으로 장바구니 추가할경우
 			String message = "장바구니는 로그인하신후 이용가능합니다.";
-			String loc = "javascript:history.back()";
-			//String loc = "<%= ctxPath%>/login/join.book";
+			//String loc = "javascript:history.back()";
 			
 			request.setAttribute("message", message);
-			request.setAttribute("loc", loc);
+			//request.setAttribute("loc", loc);
 			
 			//super.setRedirect(false);
-			super.setViewPage("/WEB-INF/msg.jsp");
-				
+			super.setViewPage("/WEB-INF/jsonMsg.jsp");
+			
 		}
 		
 	}
-	
+
 }

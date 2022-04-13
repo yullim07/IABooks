@@ -34,7 +34,7 @@ public class PaymentAction extends AbstractController {
 				String[] pointArr = request.getParameterValues("point");
 				String[] partPriceArr = request.getParameterValues("partPrice");
 				String useCouponId = request.getParameter("useCouponId");
-				
+				String usePoint = request.getParameter("usePoint");
 				
 				String pk_cartnoJoin =  String.join(",", pk_cartnoArr);
 				String fk_pro_numJoin = String.join(",", fk_pro_numArr);
@@ -63,7 +63,10 @@ public class PaymentAction extends AbstractController {
 				if(! (useCouponId == null || "".equals(useCouponId)) ) {
 					cprice = Integer.parseInt(pdao.cpriceCheck(paraMap) ); 
 				}
-				totalPrice = totalPrice-cprice;
+				int totalSale = cprice + Integer.parseInt(usePoint);
+				totalPrice = totalPrice - totalSale;
+				
+				
 				
 				int shippingFee = 3000;
 				int finalPrice = totalPrice;
@@ -73,12 +76,23 @@ public class PaymentAction extends AbstractController {
 				
 				if(finalPrice == Integer.parseInt(paymentPrice) ) {
 					
-					//배송주소 포인트 빠짐 (차감포인 빠짐)
+					
 					String name = request.getParameter("name");
 					String email = request.getParameter("email");
 					String phone = request.getParameter("hp1") +"-"+ request.getParameter("hp2") +"-"+ request.getParameter("hp3");
 					String postcode = request.getParameter("postcode");
 					String address = request.getParameter("address") +" "+ request.getParameter("detailAddress") +" "+ request.getParameter("extraAddress");
+					String deliveryMsg = request.getParameter("deliveryMsg");
+					
+					
+					//크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어드) 작성하기
+					deliveryMsg = deliveryMsg.replaceAll("<","&lt;");
+					deliveryMsg = deliveryMsg.replaceAll(">","&gt;");
+					//<> -> &lt; &gt; 로바꿔서 스크립트 실행 불가능하게한다.
+					
+					//입력한 내용에서 엔터는 <br>로 변환시키기
+					deliveryMsg = deliveryMsg.replaceAll("\r\n","<br>");
+					
 					request.setAttribute("userid", userid);//아이디
 					request.setAttribute("name", name);//이름
 					request.setAttribute("email", email);//이메일
@@ -87,6 +101,9 @@ public class PaymentAction extends AbstractController {
 					request.setAttribute("address", address);//주소
 					request.setAttribute("finalPrice", finalPrice);//주문금액
 					request.setAttribute("useCouponId", useCouponId);//사용한 쿠폰아이디
+					request.setAttribute("deliveryMsg", deliveryMsg);//배송메세지
+					request.setAttribute("usePoint", usePoint);//사용한 포인트
+					request.setAttribute("totalSale", totalSale);//총세일
 					
 					request.setAttribute("pk_cartnoJoin", pk_cartnoJoin); //join
 					request.setAttribute("fk_pro_numJoin", fk_pro_numJoin);//join
