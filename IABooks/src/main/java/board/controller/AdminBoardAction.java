@@ -11,6 +11,10 @@ import javax.servlet.http.HttpSession;
 import board.model.BoardDAO;
 import board.model.InterBoardDAO;
 import board.model.MyBoardVO;
+import board.model.QnABoardVO;
+import board.model.ReviewBoardVO;
+import board.model.TestBoardDAO;
+import board.model.TestInterBoardDAO;
 import common.controller.AbstractController;
 import member.model.MemberVO;
 
@@ -40,11 +44,17 @@ public class AdminBoardAction extends AbstractController {
 			
 			
 			// 검색조건이 있을 경우 시작
+			String searchCate = request.getParameter("mysearchCate");
+			if( searchCate == "" || searchCate == null ) {
+				searchCate = "all";
+			}
+			
 			String searchType = request.getParameter("mySearchType");
 			String searchWord = request.getParameter("mySearchWord");
 			// 검색조건이 있을 경우 끝
 			
 			InterBoardDAO bdao = new BoardDAO();
+			TestInterBoardDAO tbdao = new TestBoardDAO();
 			// 기능을 수행할 DAO 객체화
 			Map<String, String> paraMap = new HashMap<>();
 			
@@ -87,9 +97,12 @@ public class AdminBoardAction extends AbstractController {
 			
 			paraMap.put("searchType", searchType);
 			paraMap.put("searchWord", searchWord);
+			paraMap.put("searchCate", searchCate);
 			
 			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 관리자 게시글관리에 대한 페이지 알아오기
-			int totalPage = bdao.getTotalPageAdminBoard(paraMap);
+			//int totalPage = bdao.getTotalPageAdminBoard(paraMap);
+			int totalPage = tbdao.getTotalAdminPage(paraMap); // 카테고리 삽입버전
+			
 			// System.out.println("~~~확인용 totalPage => " + totalPage);
 			
 			if( Integer.parseInt(currentShowPageNo) > totalPage ) {
@@ -101,9 +114,29 @@ public class AdminBoardAction extends AbstractController {
 			MyBoardVO myBoardVO = new MyBoardVO();
 			
 			// 관리자페이지 게시글관리에에 보여줄 모든 게시글 불러오기
-			List<MyBoardVO> myBoardList = bdao.selectPagingAdminBoard(paraMap); 
+			// List<MyBoardVO> myBoardList = bdao.selectPagingAdminBoard(paraMap); 
+			List<MyBoardVO> adminBoardList = tbdao.selectPagingAdminBoard(paraMap); // 카테고리 삽입버전
 			
-			request.setAttribute("myBoardList", myBoardList);
+			request.setAttribute("myBoardList", adminBoardList);
+			// 게시글 수 불러오기 시작
+	        // String needid = "myboard"; // 내 게시판 전용 식별도구
+	        // paraMap.put("needid", needid);
+			
+			ReviewBoardVO rvo = new ReviewBoardVO();
+	        rvo = tbdao.getTotalReviewCnt(paraMap);
+	        rvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+	        rvo.setSizePerPage(Integer.parseInt(sizePerPage));
+	      
+	        request.setAttribute("rvo", rvo);
+	        
+	        QnABoardVO qvo = new QnABoardVO();
+	        qvo = tbdao.getTotalQnaCnt(paraMap);
+	        qvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+	        qvo.setSizePerPage(Integer.parseInt(sizePerPage));
+	        
+	        request.setAttribute("qvo", qvo);
+	       
+	      // 게시글 수 불러오기 끝
 			
 			String pageBar = "";
 			
