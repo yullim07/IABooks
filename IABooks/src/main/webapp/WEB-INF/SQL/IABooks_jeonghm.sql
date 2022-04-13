@@ -821,3 +821,32 @@ from tbl_product
 where pk_pro_num = '9791196418335'
 
 9791196418335
+
+
+select count(*)
+from tbl_review_board
+
+
+
+SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade
+FROM
+(
+    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade
+    from 
+        (
+        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date
+        from tbl_qna_board A
+        FULL OUTER JOIN tbl_review_board B
+        ON A.qna_title = B.re_title
+        where A.fk_userid is not null and B.re_title is null 
+        ) Q
+    FULL OUTER JOIN
+        (
+        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade
+        from tbl_qna_board A
+        FULL OUTER JOIN tbl_review_board B
+        ON A.qna_title = B.re_title
+        where B.fk_userid is not null and A.qna_title is null
+        ) R
+    ON Q.qna_title = R.re_title
+) V

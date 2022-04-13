@@ -87,7 +87,7 @@
 		}
 		
 		
-	});
+	}); // end of $(document).ready(function(){})----------------
 
 	// Function Declaration
 	function goMyBoardSearch(){
@@ -207,7 +207,6 @@
 			    </select>
 			    <input type="text" name="mySearchWord" id="mySearchWord"></input>
 			    <button class="btn btn_myboard_search" name="btn_mySearch" id="btn_mySearch" onlick="goMyBoardSearch();">찾기</button>
-			    <button class="btn btn_myboard_reset" name="btn_myReset" id="btn_myReset" onlick="location.href='<%= ctxPath%>/member/myBoard.book'">목록</button>
 			    </div>
 		    
 		  	</div>

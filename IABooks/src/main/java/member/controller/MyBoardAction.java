@@ -124,7 +124,7 @@ public class MyBoardAction extends AbstractController {
 			
 			
 			// 게시글 수 불러오기 시작
-	        String needid = "myboard";
+	        String needid = "myboard"; // 내 게시판 전용 식별도구
 	        paraMap.put("needid", needid);
 			
 			ReviewBoardVO rvo = new ReviewBoardVO();
