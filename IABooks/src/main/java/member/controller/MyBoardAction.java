@@ -97,11 +97,11 @@ public class MyBoardAction extends AbstractController {
 			 * myCateMap.put("ename", "qna"); myCateMap.put("name", "상품 Q&A");
 			 * myCateList.add(myCateMap);
 			 */
-			
+			// System.out.println("카테고리 : " + searchCate);
 			
 			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
-			int totalPage = bdao.getTotalMyPage(paraMap);
-			int totalPage2 = tbdao.getTotalMyPage(paraMap);
+			// int totalPage = bdao.getTotalMyPage(paraMap);
+			int totalPage = tbdao.getTotalMyPage(paraMap); // 카테고리 삽입버전
 			// System.out.println("~~~확인용 totalPage => " + totalPage);
 			
 			if( Integer.parseInt(currentShowPageNo) > totalPage ) {
@@ -110,9 +110,10 @@ public class MyBoardAction extends AbstractController {
 			
 			paraMap.put("currentShowPageNo", currentShowPageNo);
 			
-			MyBoardVO myBoardVO = new MyBoardVO();
+			MyBoardVO myBoardVO = new MyBoardVO(); 
 			
-			List<MyBoardVO> myBoardList = bdao.selectPagingMyBoard(paraMap); 
+			// List<MyBoardVO> myBoardList = bdao.selectPagingMyBoard(paraMap); 
+			List<MyBoardVO> myBoardList = tbdao.selectPagingMyBoard(paraMap); // 카테고리 삽입버전
 			
 			// ReviewBoardVO revVO = new ReviewBoardVO();
 			// revVO = myBoardVO.getRevBoard();

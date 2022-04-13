@@ -38,17 +38,19 @@
 	
 	$(document).ready(function(){
 		
-		/*
+		// **** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ****//
+		$("select#mysearchCate").bind("change", function(){
+			
+			const frm = document.myBoardFrm;
+			frm.action = "myBoard.book";
+			frm.method = "get";
+			frm.submit();
+			
+		});
 		
-		if( "${sessionScope.loginuser.userid}" == "admin" ) {
-			$("button#btn_write").show();
+		if( "${requestScope.mysearchCate}" != "" ) {
+			$("select#mysearchCate").val("${requestScope.mysearchCate}");
 		}
-		else {
-			$("button#btn_write").hide();
-		}
-		 
-		*** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ***
-		*/
 		
 		
 		$("button#btn_mySearch").click(function(){
@@ -145,22 +147,25 @@
 			  <tbody id="my_tbody">
 			  	<c:if test="${not empty requestScope.myBoardList}">
 			    <c:forEach var="board" items="${requestScope.myBoardList}" >
-			    	<c:if test="${board.revBoard.pk_rnum ne 0 }">
+			    	<c:if test="${not empty board.revBoard.pk_rnum }">
+			    	<c:if test="${board.revBoard.pk_rnum ne 0}">
 				    <tr>
 				      	<td>${board.revBoard.pk_rnum}</td>
-				      	<td><a href="<%= ctxPath%>/board/reviewBoard.book">타인의 책장</a></td>
+				      	<td id="cate_"><a href="<%= ctxPath%>/board/reviewBoard.book">타인의 책장</a></td>
 				      	<td><a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.revBoard.pk_rnum}">${board.revBoard.re_title}</a></td>
 				      	<td>${board.revBoard.re_date}</td>
 				    </tr>
 				    </c:if>
-			    
-			    	<c:if test="${board.qnaBoard.pk_qna_num ne 0 }">
+			    	</c:if>
+			    	<c:if test="${not empty board.qnaBoard.pk_qna_num}">
+			    	<c:if test="${board.qnaBoard.pk_qna_num ne 0}">
 				    <tr>
 				      	<td>${board.qnaBoard.pk_qna_num}</td>
-				      	<td><a href="<%= ctxPath%>/board/qnaBoard.book">상품 Q&A</a></td>
+				      	<td id="cate_qna"><a href="<%= ctxPath%>/board/qnaBoard.book">상품문의</a></td>
 				      	<td><a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.qnaBoard.pk_qna_num}">${board.qnaBoard.qna_title}</a></td>
 				      	<td>${board.qnaBoard.qna_date}</td>
 				    </tr>
+				    </c:if>
 				    </c:if>
 			    </c:forEach> 
 			    </c:if> 
