@@ -105,11 +105,11 @@ public class MileageAction extends AbstractController {
 			int pageNo = ( ( Integer.parseInt(currentShowPageNo) - 1)/blockSize ) * blockSize + 1;
 			// pageNo 는 페이지바에서 보여지는 첫번째 번호이다. 
 			
-			
+			int index = 0;
 			// **** [맨처음][이전] 만들기 **** //
 			if( pageNo != 1 ) {
-				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"'>[맨처음]</a></li>"; 
-				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"'>[이전]</a></li>";  
+				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&index="+index+"'>[맨처음]</a></li>"; 
+				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&index="+index+"'>[이전]</a></li>";  
 			}
 						
 			while( !(loop > blockSize || pageNo > totalPage) ) {
@@ -128,8 +128,8 @@ public class MileageAction extends AbstractController {
 			// **** [다음][마지막] 만들기 **** //
 			// pageNo ==> 11
 			if( pageNo <= totalPage ) {
-				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>[다음]</a></li>";  
-				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"'>[마지막]</a></li>"; 
+				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&index="+index+"'>[다음]</a></li>";  
+				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&index="+index+"'>[마지막]</a></li>"; 
 			}
 			
 			request.setAttribute("pageBar", pageBar); 
@@ -152,10 +152,11 @@ public class MileageAction extends AbstractController {
 			
 			request.setAttribute("goBackURL", currentURL);
 			
+			request.setAttribute("index", index);
 			/////////////////////////////////////////////////////////////////////////////////////////// 전체조회 끝
 			
 			/////////////////////////////////////////////////////////////////////////////////////////// 전체조회 시작
-			
+			index = 1;
 			String currentShowPageNo2 = request.getParameter("currentShowPageNo");
 			// currentShowPageNo 은 사용자가 보고자 하는 페이지바의 페이지번호 이다.
 			// 메뉴에서 회원목록 만을 클릭했을 경우에는 currentShowPageNo 은 null 이 된다.
@@ -220,8 +221,8 @@ public class MileageAction extends AbstractController {
 			
 			// **** [맨처음][이전] 만들기 **** //
 			if( pageNo2 != 1 ) {
-				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo2=1&sizePerPag2e="+sizePerPage2+"'>[맨처음]</a></li>"; 
-				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo2="+(pageNo2-1)+"&sizePerPag2e="+sizePerPage2+"'>[이전]</a></li>";  
+				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage2+"&index="+index+"'>[맨처음]</a></li>"; 
+				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo2-1)+"&sizePerPage="+sizePerPage2+"&index="+index+"'>[이전]</a></li>";  
 			}
 			
 			while( !(loop2 > blockSize2 || pageNo2 > totalPage2) ) {
@@ -230,7 +231,7 @@ public class MileageAction extends AbstractController {
 					pageBar2 += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo2+"</a></li>"; 
 				}
 				else {
-					pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo2="+pageNo2+"&sizePerPage2="+sizePerPage2+"'>"+pageNo2+"</a></li>";   
+					pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo2+"&sizePerPage="+sizePerPage2+"&index="+index+"'>"+pageNo2+"</a></li>";   
 				}
 				
 				loop2++;
@@ -240,8 +241,8 @@ public class MileageAction extends AbstractController {
 			// **** [다음][마지막] 만들기 **** //
 			// pageNo ==> 11
 			if( pageNo2 <= totalPage2 ) {
-				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo2="+pageNo2+"&sizePerPage2="+sizePerPage2+"'>[다음]</a></li>";  
-				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo2="+totalPage2+"&sizePerPage2="+sizePerPage2+"'>[마지막]</a></li>"; 
+				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo2+"&sizePerPage="+sizePerPage2+"&index="+index+"'>[다음]</a></li>";  
+				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage2+"&sizePerPage="+sizePerPage2+"&index="+index+"'>[마지막]</a></li>"; 
 			}
 			
 			request.setAttribute("pageBar2", pageBar2); 
@@ -263,11 +264,11 @@ public class MileageAction extends AbstractController {
 			// 확인용 currentURL =>/member/memberList.up?currentShowPageNo=5 sizePerPage=10 searchType=name searchWord=%EC%9C%A0
 			
 			request.setAttribute("goBackURL2", currentURL2);
-			
+			request.setAttribute("index", index);
 			/////////////////////////////////////////////////////////////////////////////////////////// 전체조회 끝
 			
 			/////////////////////////////////////////////////////////////////////////////////////////// 전체조회 시작
-			
+			index = 2;
 			String currentShowPageNo3 = request.getParameter("currentShowPageNo3");
 			// currentShowPageNo 은 사용자가 보고자 하는 페이지바의 페이지번호 이다.
 			// 메뉴에서 회원목록 만을 클릭했을 경우에는 currentShowPageNo 은 null 이 된다.
@@ -332,8 +333,8 @@ public class MileageAction extends AbstractController {
 			
 			// **** [맨처음][이전] 만들기 **** //
 			if( pageNo3 != 1 ) {
-				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo3=1&sizePerPage3="+sizePerPage3+"'>[맨처음]</a></li>"; 
-				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo3="+(pageNo3-1)+"&sizePerPage3="+sizePerPage3+"'>[이전]</a></li>";  
+				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage3+"&index="+index+"'>[맨처음]</a></li>"; 
+				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo3-1)+"&sizePerPage="+sizePerPage3+"&index="+index+"'>[이전]</a></li>";  
 			}
 			
 			while( !(loop3 > blockSize3 || pageNo3 > totalPage3) ) {
@@ -342,7 +343,7 @@ public class MileageAction extends AbstractController {
 					pageBar3 += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo3+"</a></li>"; 
 				}
 				else {
-					pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo3="+pageNo3+"&sizePerPage3="+sizePerPage3+"'>"+pageNo3+"</a></li>";   
+					pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo3+"&sizePerPage="+sizePerPage3+"&index="+index+"'>"+pageNo3+"</a></li>";   
 				}
 				
 				loop3++;
@@ -352,8 +353,8 @@ public class MileageAction extends AbstractController {
 			// **** [다음][마지막] 만들기 **** //
 			// pageNo ==> 11
 			if( pageNo3 <= totalPage3 ) {
-				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo3="+pageNo3+"&sizePerPage3="+sizePerPage3+"'>[다음]</a></li>";  
-				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo3="+totalPage3+"&sizePerPage3="+sizePerPage3+"'>[마지막]</a></li>"; 
+				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo3+"&sizePerPage="+sizePerPage3+"&index="+index+"'>[다음]</a></li>";  
+				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage3+"&sizePerPage="+sizePerPage3+"&index="+index+"'>[마지막]</a></li>"; 
 			}
 			
 			request.setAttribute("pageBar3", pageBar3); 
@@ -375,10 +376,10 @@ public class MileageAction extends AbstractController {
 			// 확인용 currentURL =>/member/memberList.up?currentShowPageNo=5 sizePerPage=10 searchType=name searchWord=%EC%9C%A0
 			
 			request.setAttribute("goBackURL3", currentURL3);
-			
+			request.setAttribute("index", index);
 			/////////////////////////////////////////////////////////////////////////////////////////// 전체조회 끝
 			
-			
+			request.setAttribute("index", index);
 			request.setAttribute("mileage", mileage);
 			
 		//	super.setRedirect(false);
