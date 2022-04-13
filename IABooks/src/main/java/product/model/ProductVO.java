@@ -25,6 +25,7 @@ public class ProductVO {
     private int pro_restock; 			//재입고 유무 디폴트 0
     private int pro_soldout; 			//품절유무
     
+    
     private CategoryVO category;
     private WriterVO writer;
  // private ImagefileVO imagefile;  

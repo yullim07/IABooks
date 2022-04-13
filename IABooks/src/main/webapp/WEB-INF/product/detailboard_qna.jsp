@@ -193,13 +193,13 @@
 						<hr>
 					</div>
 				      	
-	        	</c:if>
+	        		</c:if>
 				
 				
 				<form name="test2" id="test2" method="post">
 				<c:set var="pvo" value="${requestScope.pvo}" />
 				<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pvo.pk_pro_num}">
-				<div class="view_btn_zone" style="background-color: white;">
+				<div class="view_btn_zone">
 					<button type="button" class="btn btn-dark" id="write_btn" onclick="goQnaWrite()">상품문의하기</button>
 					<button type="button" class="btn btn-dark" id="view_btn" onclick="location.href='<%= ctxPath%>/board/qnaBoard.book'">모두보기</button>
 				</div>
@@ -213,12 +213,12 @@
 
 
 
-		<%-- 
+
 		<nav class="my-5">
 				<div  class="pagination2 justify-content-center" style="display: flex; width: 100%;">
 					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 				</div>	
 		</nav>
-		--%>
+
 </div>
 

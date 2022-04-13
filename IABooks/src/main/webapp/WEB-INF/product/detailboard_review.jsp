@@ -111,7 +111,6 @@
 		<p class="mb-3"></p>
 		<div class="table_all tbl_small_board">
 			<div class="table">
-				<c:if test="${not empty requestScope.productRevList}">
 				<table class="table" id="faq_table_all">
 					<thead class="thead-light" id="faq_thead">
 						<tr class="tblHeader">
@@ -123,7 +122,7 @@
 						</tr>
 					</thead>
 					<tbody id="faq_tbody">
-						
+						<c:if test="${not empty requestScope.productRevList}">
 				    	<c:forEach var="board" items="${requestScope.productRevList}" >
 						<tr id="review_content">
 							<td class="tbl_number mycenter">${board.pk_rnum}</td>
@@ -149,8 +148,8 @@
 						    </c:if>	
 						</tr>
 						</c:forEach> 
-			    		
-						<%-- 
+			    		</c:if> 
+						
 						<c:if test="${board.productRevList eq null}">
 		        		<tr id="notExist">
 					      	<td colspan="6">
@@ -160,29 +159,15 @@
 					      	</td>
 					    </tr>
 		        		</c:if>
-						--%>
+
 
 
 					</tbody>
 				</table>
-				</c:if>
-				<c:if test="${empty requestScope.productRevList}">
-	        		
-		      		<div>
-						<br>
-						<div style="text-align: center;">
-							게시글이 없습니다.
-						</div>
-						<hr>
-					</div>
-				      	
-	        	</c:if>
-				
-				
 				<form name="test" id="test" method="post">
 				<c:set var="pvo" value="${requestScope.pvo}" />
 				<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pvo.pk_pro_num}">
-				<div class="view_btn_zone" style="background-color: white;">
+				<div class="view_btn_zone">
 					<button type="button" class="btn btn-dark" id="write_review" onclick="goReviewWrite()">후기작성하기</button>
 					<button type="button" class="btn btn-dark" id="view_review" onclick="location.href='<%= ctxPath%>/board/reviewBoard.book'">모두보기</button>
 				</div>

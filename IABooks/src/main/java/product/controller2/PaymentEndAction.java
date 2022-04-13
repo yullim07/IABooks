@@ -53,7 +53,7 @@ public class PaymentEndAction extends AbstractController{
 
 				String userid = loginuser.getUserid();
 	
-				//배송내용추가, 사용한 포인트 차감
+				// 사용한 포인트 차감
 				
 				String email = request.getParameter("email");
 				String name = request.getParameter("name");
@@ -62,6 +62,9 @@ public class PaymentEndAction extends AbstractController{
 				String address = request.getParameter("address");
 				String finalPrice = request.getParameter("finalPrice");
 				String useCouponId = request.getParameter("useCouponId");
+				String deliveryMsg = request.getParameter("deliveryMsg");
+				String usePoint = request.getParameter("usePoint");
+				String totalSale = request.getParameter("totalSale");
 				
 				String pk_cartnoJoin = request.getParameter("pk_cartnoJoin");
 				String fk_pro_numJoin = request.getParameter("fk_pro_numJoin");
@@ -88,6 +91,8 @@ public class PaymentEndAction extends AbstractController{
 				paraMap.put("postcode", postcode);
 				paraMap.put("address", address);
 				paraMap.put("finalPrice", finalPrice);
+				paraMap.put("usePoint", usePoint);
+				
 				
 				paraMap.put("pk_cartnoArr", pk_cartnoArr); //카트삭제
 				paraMap.put("fk_pro_numArr", fk_pro_numArr); //오덭이블 추가 
@@ -128,6 +133,8 @@ public class PaymentEndAction extends AbstractController{
 					request.setAttribute("phone", phone);
 					request.setAttribute("postcode", postcode);
 					request.setAttribute("address", address);
+					request.setAttribute("deliveryMsg", deliveryMsg);//배송메세지
+					request.setAttribute("totalSale", totalSale);//배송메세지
 					
 					request.setAttribute("totalPrice", totalPrice);
 					request.setAttribute("finalPrice", finalPrice);
