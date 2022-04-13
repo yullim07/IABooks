@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -66,6 +66,7 @@
 			success:function(json) {
 				 if(json.addCart == 1) {
 					// alert("장바구니 추가");
+					
 					 $("#cartModal").modal("show");
 				 }
 	
@@ -93,6 +94,13 @@
 		frm.submit();
 	};
 	
+	function goBuy() {
+		const frm = document.buy;
+		frm.action = "<%= ctxPath%>/product/buy.book";
+		frm.method = "post";
+		frm.submit();
+	};
+	
 </script>
 
 <jsp:include page="/WEB-INF/header.jsp" />
@@ -101,7 +109,7 @@
 <div class="container d-none d-lg-block">	
 	<%--  상세보기 상단 컨텐츠(detail_top) 시작 --%>
 	<div class="detail_top">	
-	
+	<form name= "buy">
 	<table>
 		<%--상세보기 상단 그림영역(detail_top_img) 시작 --%>
 		<tr>
@@ -115,7 +123,7 @@
 				<table>
 					<tr>
 						<td colspan="3" class="pro_title">
-							<div id="pro_name" name="pro_name">${requestScope.pvo.pro_name}
+							<div id="pro_name">${requestScope.pvo.pro_name}
 							<c:choose>
 								<c:when test="${requestScope.pvo.pro_restock eq 1}">
 									<a style="color: red; font-size: 15px; margin-left: 10px; position: relative;bottom: 3px;">재입고</a>
@@ -128,7 +136,7 @@
 					</tr>
 					<tr>
 						<td class="pro_list">판매가</td>
-						<td colspan="2" class="pro_list_val" id="pro_saleprice" name="pro_saleprice">
+						<td colspan="2" class="pro_list_val" id="pro_saleprice">
 							<span><strong><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" /></strong>원</span>
 						</td>
 					</tr>
@@ -154,10 +162,11 @@
 							</c:when>
 							<c:when test="${requestScope.pvo.pro_soldout eq 0}">
 								<td class="pro_list_val2" style="width: 50%">
-									<div id="pro_name" name="pro_name">${requestScope.pvo.pro_name}</div>
+									<div id="pro_name">${requestScope.pvo.pro_name}</div>
 								</td>
 								<td class="pro_list_val2 pro_qty" style="width: 25%">
 									<input type='number' name="odr_qty" min='1' max='100' value='1'/>
+									<input type="hidden" value="${requestScope.pvo.pk_pro_num}" name="pk_pro_num">
 								</td>
 								<td class="pro_list_val2 pro_price">
 									<span> <strong><fmt:formatNumber value="${requestScope.pvo.pro_saleprice}" pattern="###,###" />원</strong></span> 						
@@ -191,7 +200,7 @@
 					</tr>
 					<tr>
 						<td class="button">
-							<button type="button" id="btn_buy" class="btn1" onclick="productPurchase()" >
+							<button type="button" id="btn_buy" class="btn1" onclick="goBuy()" >
 								구매하기
 							</button>
 						</td>
@@ -211,6 +220,7 @@
 			</td>
 		</tr>
 	</table>
+	</form>
 	</div>
 	
 	
@@ -269,18 +279,17 @@
 			<br><br>
 				
 			<p><span class="majorheading">책소개</span></p>
-			<%-- <p class="subheading">${requestScope.pvo.pro_content}</p> --%>
+			<p class="subheading">${fn:replace(requestScope.pvo.pro_content, replaceChar, "<br/>")}</p>
 		
 			<br><br>
 				
 			<p><span class="majorheading">저자소개</span></p>
-			<%-- <p class="subheading">${requestScope.wvo.wr_name}</p> --%>
-		
+			<p class="subheading">${fn:replace(requestScope.pvo.writer.wr_info, replaceChar, "<br/>")}</p>
+			
 			<br><br>
 				
 			<p><span class="majorheading">목차</span></p>
-			<%-- <p class="subheading">${requestScope.pvo.pro_index}</p> --%>
-	
+			<p class="subheading">${fn:replace(requestScope.pvo.pro_index, replaceChar, "<br/>")}</p>
 			<br><br>
 
 		</div>
@@ -304,7 +313,7 @@
 			확인과정에서 도난 카드의 사용이나 타인 명의의 주문 등 정상적인 주문이 아니라고 판단될 경우 임의로 주문을 보류 또는 취소할 수 있습니다.<br>
 			무통장 입금은 상품 구매 대금은 PC뱅킹, 인터넷뱅킹, 텔레뱅킹 혹은 가까운 은행에서 직접 입금하시면 됩니다.<br>
 			주문시 입력한 입금자명과 실제입금자의 성명이 반드시 일치하여야 하며, 7일 이내로 입금을 하셔야 하며 입금되지 않은 주문은 자동취소 됩니다.<br>
-			</p>
+			
 			
 			<br><br>
 			<p><span class="majorheading2">배송정보</span></p>
@@ -463,6 +472,5 @@
     	</div>
 	</div>
 	<!-- Modal end -->
-	
-	
+
 <jsp:include page="/WEB-INF/footer.jsp" />

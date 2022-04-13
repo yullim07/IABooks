@@ -33,7 +33,7 @@ public class CartAction extends AbstractController {
 				int totalPrice = pdao.totalPriceSelect(paraMap);
 				int shippingFee = 3000;
 				int finalPrice = totalPrice;
-				if(totalPrice < 50000) {
+				if(totalPrice < 50000 && totalPrice != 0 ) {
 					finalPrice = totalPrice + shippingFee;
 				}
 				

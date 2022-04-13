@@ -17,11 +17,32 @@ public class QnABoardVO {
 	private String qna_passwd;		// 글비밀번호
 	private int qna_issecret;		// 비밀유무(0:공개글 1:비밀글)
 	private int isdelete;			// 삭제유무(0:삭제안함, 1:삭제함)
-	
+	private String qna_file_system_name;       //파일 시스템 네임
+	private String qna_file_original_name; // 파일 오리지널 네임
 	private int qnaCnt;             // 한 제품에 대한 qna게시글 수 
 	
 	
+	
+
+	public String getQna_file_original_name() {
+		return qna_file_original_name;
+	}
+
+	public void setQna_file_original_name(String qna_file_original_name) {
+		this.qna_file_original_name = qna_file_original_name;
+	}
+
+	public int qna_total_count;
+	
 	// 1. 게시판마다 DAO, VO를 나눠야 하는지? 아니면 하나에 다 몰아넣어도 되는지?
+
+	public String getQna_file_system_name() {
+		return qna_file_system_name;
+	}
+
+	public void setQna_file_system_name(String qna_file_system_name) {
+		this.qna_file_system_name = qna_file_system_name;
+	}
 
 	private MemberVO member;
 	// private MemberDTO member; // @@@  부모  ,,   // 초기치 null
@@ -191,6 +212,8 @@ public class QnABoardVO {
 	public void setQnaCnt(int qnaCnt) {
 		this.qnaCnt = qnaCnt;
 	}
+
+	
 
 	
 	

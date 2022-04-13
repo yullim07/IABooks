@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import member.model.CouponVO;
 import member.model.MemberVO;
 import product.model.CartVO;
 import product.model.InterProductDAO;
@@ -32,28 +33,34 @@ public class OrderSelectAction extends AbstractController {
 				InterProductDAO pdao = new ProductDAO();
 				Map<String, String> paraMap = new HashMap<>();
 				
-				List<CartVO> order = new ArrayList<>();
-				
 				paraMap.put("userid", userid);
+				List<CartVO> order = new ArrayList<>();
+				List<CouponVO> userCoupon = pdao.userCoupon(paraMap);
+				String userPoint = pdao.userPoint(paraMap);
+				
+				int totalPrice = 0;
+				
 				for(int i=0; i<proCheck.length; i++) {
 					String pk_cartno = proCheck[i];
 					paraMap.put("pk_cartno", pk_cartno);
 					CartVO orderSelect = pdao.orderSelect(paraMap);
-					
+					totalPrice += pdao.totalPriceSelect2(paraMap);
 					order.add(orderSelect);
 				}
 				
-				int totalPrice = pdao.totalPriceSelect(paraMap);
+				
 				int shippingFee = 3000;
 				int finalPrice = totalPrice;
 				if(totalPrice < 50000) {
 					finalPrice = totalPrice + shippingFee;
 				}
 				
+				request.setAttribute("userCoupon", userCoupon);
 				request.setAttribute("order", order);
 				request.setAttribute("fk_userid", userid);
 				request.setAttribute("totalPrice", totalPrice);
 				request.setAttribute("finalPrice", finalPrice);
+				request.setAttribute("userPoint", userPoint);
 		
 				super.setViewPage("/WEB-INF/product/order.jsp");
 				

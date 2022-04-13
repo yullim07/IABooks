@@ -1,5 +1,6 @@
 package board.model;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,25 @@ public class CommentVO {
 	private String cmt_date; 		// 작성일자
 	private int isdelete; 			// 삭제유무(0:삭제안함, 1:삭제함)
     
+/////////////////
+	
+	public CommentVO() {}
+	
+	public CommentVO(int pk_cmt_num, String fk_userid, int fk_qna_num, String cmt_passwd,
+			String cmt_contents, String cmt_date, int isdelete) {
+		
+		this.pk_cmt_num = pk_cmt_num;
+		this.fk_userid = fk_userid;
+		this.fk_qna_num = fk_qna_num;
+		this.cmt_passwd = cmt_passwd;
+		this.cmt_contents = cmt_contents;
+		this.cmt_date = cmt_date;
+		this.isdelete = isdelete;
+	}
+	
+	
+	///////////////////////////
+	
     private MemberVO member;
     
     private QnABoardVO qnaBoard;

@@ -32,11 +32,12 @@ public interface InterBoardDAO {
 	   int deleteQnaBoard(QnABoardVO qnaVO) throws SQLException;
 	   
 	   
-	   //Qna 게시글에 댓글 작성하기
-	   int writeCmtBoard(Map<String, String> paraMap) throws SQLException;
+		/*
+		 * //Qna 게시글에 댓글 작성하기 int writeCmtBoard(CommentVO cmtVO) throws SQLException;
+		 */
 	   
 	   //Qna 게시글 댓글 읽어오기
-	   QnABoardVO readCmtContent(int pk_qna_num) throws SQLException;
+	   List<CommentVO> readCmtContent(String fk_qna_num) throws SQLException;
 
 	
 	   // Qna 게시판 조회수 증가
@@ -55,14 +56,24 @@ public interface InterBoardDAO {
 	   // 한 제품에 대한 Qna게시글 갯수 알아오기
 	   int countOneProductQna(Map<String, String> paraMap) throws SQLException;
 	
+	   //댓글 작성하기
+	   int writeCmtBoard(CommentVO cvo) throws SQLException;
+
+	   //비밀글 유무 알아오기
+	   int searchIssecret(int pk_qna_num) throws SQLException;
+
+	   // 댓글 삭제하기 
+	   int deleteComment(CommentVO cVO) throws SQLException;
 	
 	
+	   // 댓글 정보 알아오기
+	   CommentVO getCmtContent(int pk_cmt_num) throws SQLException;
 	
-	
-	
-	
-	
-	
+	   // qna글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
+	   Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException;
+	   
+	   // 리뷰 글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
+	   Map<String, String> getRevImgFileName(String pk_rnum) throws SQLException;
 	
 	
 	
@@ -166,21 +177,6 @@ public interface InterBoardDAO {
 	int deleteReviewBoard(ReviewBoardVO revVO) throws SQLException;
 
 
-	/*
-	 * // Ajax(JSON)를 사용하여 더보기 방식(페이징처리)으로 상품정보를 8개씩 잘라서(start ~ end) 조회해오기
-	 * List<CommentVO> insertComment(Map<String, String> paraMap);
-	 */
-	
-
-	
-
-
-	
-
-	
-
-	
-
 	// 페이징 처리를 위한 하나의 상품에 대한 리뷰게시글 페이지 알아오기
 	int getProductRevPage(Map<String, String> paraMap) throws SQLException;
 
@@ -203,6 +199,19 @@ public interface InterBoardDAO {
 	List<HashMap<String, String>> getFaqCateList() throws SQLException;
 	
 	
+
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 관리자 게시글관리에 대한 페이지 알아오기
+	int getTotalPageAdminBoard(Map<String, String> paraMap) throws SQLException;
+
+	// 관리자페이지 게시글관리에에 보여줄 모든 게시글 불러오기
+	List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException;
+
+	
+
+	
+
+
+
 	
 	
 	

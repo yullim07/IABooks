@@ -53,9 +53,6 @@ public interface InterMemberDAO {
 	// 회원이 가지고 있는 쿠폰 개수 알아오기
 	int CouponNum(Map<String, String> paraMap) throws SQLException;
 
-	// 쿠폰만료기간 지나면 사용막기 
-	int expireCoupon(Map<String, String> paraMap) throws SQLException;
-	
 	// 쿠폰번호 중복 발행을 막는 메소드
 	String randDuplicateCheck(String couponNumber) throws SQLException;
 	
@@ -65,15 +62,99 @@ public interface InterMemberDAO {
 	// 쿠폰등록시 이상한 쿠폰번호 쓰는 거 막기
 	boolean CPDuplicateCheck(Map<String, String> paraMap) throws SQLException;
   
-/////////////////////////////////////////////// 파일 합치기
-	
-	
-	// 아이디를 입력받아서 해당 사용자의 마일리지액 조회
-	Map<String, String> mgInfo (Map<String, String> paraMap) throws SQLException;
 
-	// 주문DB에서 데이터를 뽑아서 주문에 대한 상세정보 조회
-	List<MileageVO> orderMileageInfo(Map<String, String> paraMap) throws SQLException;
 	
+	/////////////////////////////////////////////// 파일 합치기
+	
+	
+	// 주문내역조회
+	List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException;
+
+
+///////////////////////////////////////////////////////////// 새로시작
+	
+	
+	// == 페이징 처리가 되어진 모든 회원 또는 검색한 회원 목록 보여주기 ==
+	List<MemberVO> selectPagingMember(Map<String, String> paraMap) throws SQLException;
+	
+	// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체회원에 대한 총페이지 알아오기. 
+	int getMemberTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	// userid 값을 입력받아서 회원 한명에 대한 상세 정보를 알아오기 
+	MemberVO memberOneDetail(String userid) throws SQLException;
+
+	// 관리자 페이지에서 관리자가 회원의 정보변경 휴면계정	 
+	int userUStatusUpdate(String userid) throws SQLException;
+
+	// 관리자 페이지에서 관리자가 회원의 정보변경 회원탈퇴
+	int userStatusUpdate(String userid) throws SQLException;
+
+	// 관리자 페이지에서 관리자가 회원의 정보변경 일반회원으로 변경
+	int userNormalStatusUpdate(String userid) throws SQLException;
+
+	// 쿠폰삭제하기 
+	int couponDelete() throws SQLException;
+	
+	// 모든 쿠폰 정보 보여주기
+	List<CouponVO> couponListInfo() throws SQLException;
+	
+	// 마이페이지 주문처리현황 1단계
+	int deliverStep1(String userid) throws SQLException;
+
+	// 마이페이지 주문처리현황 2단계
+	int deliverStep2(String userid) throws SQLException;
+
+	// 마이페이지 주문처리현황 3단계
+	int deliverStep3(String userid) throws SQLException;
+
+	// 마이페이지 주문처리현황 4단계
+	int deliverStep4(String userid) throws SQLException;
+	
+	// 마이페이지 주문처리현황 5단계
+	int deliverStep5(String userid) throws SQLException;
+
+	// 마이페이지 지금까지 구매한 내역 조회하기
+	int allPrice(String userid) throws SQLException;
+	
+	// 마이페이지 지금까지 구매한 횟수 조회하기
+	int allOdrCount(String userid) throws SQLException;
+
+	// 마이페이지 사용가능한 마일리지 금액 조회
+	int useMileage(String userid) throws SQLException;
+
+	// Ajax(JSON)를 사용하여 마일리지조회를 "더보기" 방식으로 페이징처리 해주기 전체개수 알아오기 // 
+	int totalMileageCount(Map<String, String> paraMap) throws SQLException;
+	
+	// 마일리지사용내역 전체조회
+	List<Map<String, String>> selectMileageListAll(Map<String, String> paraMap) throws SQLException;
+	
+	// 페이징되어진 마일리지 내역 조회
+	List<Map<String, String>> selectPagingmileage(Map<String, String> paraMap) throws SQLException;
+	
+	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기. 
+	int getMileageTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징되어진 마일리지 내역 조회2
+	List<Map<String, String>> selectPagingmileage2(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징되어진 마일리지 내역 조회3
+	List<Map<String, String>> selectPagingmileage3(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기 2
+	int getMileageTotalPage2(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기 3
+	int getMileageTotalPage3(Map<String, String> paraMap) throws SQLException;
+
+
+	
+	
+
+
+
+
+	
+
 	
    
    

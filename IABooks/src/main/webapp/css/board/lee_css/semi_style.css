@@ -266,7 +266,7 @@
   		cursor: pointer;
 	}
 	div.pdt_info > h3 > a:hover{
-		text-decoration: underline;
+		 text-decoration: underline; 
 	}
 	
 	
@@ -518,11 +518,11 @@
   	
   	
 	table.prev_next > tbody > tr> td > a:hover{
-	  	text-decoration: underline;
+	 	text-decoration: underline;
 	}
 	
 	td.tbl_subject > a:hover{
-		text-decoration: underline;
+		 text-decoration: underline;
 	}
 	
 	li.li_header {
@@ -596,21 +596,7 @@
   	/* 정환모 작성 css! 
   	   faq_accordion
   	*/
-  	
-  	a:link { color: black; text-decoration: none;}
- 	a:visited { color: black; text-decoration: none;}
- 	a:hover { color: black; text-decoration: underline;}
 
-	html, body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, img {
-	    list-style: none;
-	    margin: 0;
-	    padding: 0;
-	}
-	
-	div#contents {
-		margin : 0 auto;
-	}
-	
 	div#faqTitle {
 	    background: #f4f4f4;
     	border-bottom: solid 1px #ddd;

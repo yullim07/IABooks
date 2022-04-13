@@ -23,7 +23,7 @@ public class CouponVO {
 
 
 	// 기본생성자
-	CouponVO() {}
+	public CouponVO() {}
 	
 	
 	public CouponVO(String rno, String couponid, String cname, String cprice, String cminprice, String cstartdate,

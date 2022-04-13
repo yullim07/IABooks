@@ -44,6 +44,22 @@ function generateCoupon(userid) {
 	
 }; // end of function generateCoupon()
 
+function couponListInfo() {
+	
+	// 모든쿠폰조회
+	const url = "<%= request.getContextPath()%>/member/couponListInfo.book";
+	
+	// 너비 800, 높이 600 인 팝업창을 화면 가운데 위치시키기
+	const pop_width = 1200;
+	const pop_height = 600;
+	const pop_left = Math.ceil( ((window.screen.width)-pop_width)/2 ) ; <%-- 정수로 만든다 --%>
+	const pop_top = Math.ceil( ((window.screen.height)-pop_height)/2 ) ;
+	
+	window.open(url, "memberEdit",
+			   	"left="+pop_left+", top="+pop_top+", width="+pop_width+", height="+pop_height );
+	
+}
+
 
 function couponCheck() {
 	
@@ -135,11 +151,14 @@ function isExistCouponCheck() {
 
 <div class="container">
 	<c:if test="${sessionScope.loginuser.userid eq 'admin'}">
-		<a class="admin_coupon" href="javascript:generateCoupon('${(sessionScope.loginuser).userid}');" >coupon 발급하기</a>
+		<a class="admin_coupon" href="javascript:generateCoupon('${(sessionScope.loginuser).userid}');" >쿠폰 발급하기</a>
+		<a class="admin_coupon" href="javascript:couponListInfo('${(sessionScope.loginuser).userid}');" style="margin: 20px;" >모든쿠폰목록보기</a>
 	</c:if>
 	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이쿠폰</strong>
 	<hr style="border: solid 2px #e8e8e8;">
 		<strong>마이 쿠폰 목록</strong><p style="float: right;">사용가능 쿠폰 <span>${requestScope.couponNum}</span> 장</p>
+	
+	
 	<table class="coupon">
 		<thead>
 			<tr>
@@ -148,7 +167,6 @@ function isExistCouponCheck() {
 				<td>쿠폰혜택</td>
 				<td>최소주문금액</td>
 				<td>사용가능기간</td>
-				<td>쿠폰사용여부</td>
 			</tr>
 		</thead>
 		<tbody>		
@@ -160,17 +178,7 @@ function isExistCouponCheck() {
 						<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cprice }</fmt:formatNumber>원</td>
 						<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cminprice }</fmt:formatNumber>원</td>
 						<td align="center">${cvo.cstartdate }~${cvo.cenddate }</td>
-						<td align="center">
-						<c:choose>
-	   	  	  	  	  		<c:when test="${cvo.ucvo.user_cp_status eq '1' or cvo.cenddate > sysdate}"><!-- 조건변경 -->
-	   	  	  	  	  			<span style="color: blue;">사용가능</span>
-	   	  	  	  	  		</c:when>
-	   	  	  	  	  		<c:otherwise>
-	   	  	  	  	  			<span style="color: red;">사용불가</span>
-	   	  	  	  	  		</c:otherwise>
-	   	  	  	  	  	</c:choose>
-					
-						</td>
+						
 					</tr>
 				</c:forEach>
 			</c:if>
@@ -184,6 +192,8 @@ function isExistCouponCheck() {
 		</tbody>	
 	</table>
 	
+
+	
 	<nav class="my-5">
     	<div style="display: flex; width: 100%;">
     		<ul class="pagination" style='margin:auto;'>
@@ -191,18 +201,8 @@ function isExistCouponCheck() {
     		</ul>
     	</div>
     </nav>
-        
 
 
-<!--  
-	<div class="pagination pagination-sm justify-content-center">
-	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a>
-	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a>
-	  <a class="active" href="#">1</a>
-	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a>
-	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
-	</div>
--->		
 	<br><br>
 	<strong>쿠폰인증번호 등록하기</strong>
 	<form name="userCouponRegisterFrm">

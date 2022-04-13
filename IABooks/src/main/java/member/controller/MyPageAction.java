@@ -37,9 +37,9 @@ public class MyPageAction extends AbstractController {
 			
 			InterMemberDAO mdao = new MemberDAO();
 			//////////////////////////////////////////////////////////////
-			
+			// 쿠폰의 개수 알아오기 
 			int couponNum = mdao.CouponNum(paraMap);
-			
+/*			
 			Map<String,String> result  = mdao.mgInfo(paraMap);
 			
 			request.setAttribute("all_mg", result.get("all_mg"));
@@ -47,9 +47,34 @@ public class MyPageAction extends AbstractController {
 			request.setAttribute("available_mg", result.get("available_mg"));
 			request.setAttribute("refund_mg", result.get("refund_mg"));
 			request.setAttribute("unsecured_mg", result.get("unsecured_mg"));
+ */			
+			
+			// 배송단계 조회 하는 메소드
+			int step1 = mdao.deliverStep1(userid);
+			int step2 = mdao.deliverStep2(userid);
+			int step3 = mdao.deliverStep3(userid);
+			int step4 = mdao.deliverStep4(userid);
+			int step5 = mdao.deliverStep5(userid);
+			
+			// 이제까지 구매한 주문 금액 조회
+			int allPrice = mdao.allPrice(userid);
+			
+			// 이제까지 주문한 구매 회수 조회
+			int ordcount = mdao.allOdrCount(userid);
+			
+			// 적립금 조회
+			int mileage = mdao.useMileage(userid);
 			
 			request.setAttribute("couponNum", couponNum);
-			
+			request.setAttribute("step1", step1);
+			request.setAttribute("step2", step2);
+			request.setAttribute("step3", step3);
+			request.setAttribute("step4", step4);
+			request.setAttribute("step5", step5);
+			request.setAttribute("allPrice", allPrice);
+			request.setAttribute("ordcount", ordcount);
+			request.setAttribute("mileage", mileage);
+
 			setRedirect(false);
 			setViewPage("/WEB-INF/member/myPage.jsp");
 			

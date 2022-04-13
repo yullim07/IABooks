@@ -11,184 +11,18 @@
 <meta charset="UTF-8">
 <title>in사과::장바구니</title>
 
-<jsp:include page="../header.jsp" />
-
 <!-- 부트스트랩 css -->
 <link rel="stylesheet" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/cart_list.css" />
-
-<!-- Spinner -->
-<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.js"></script>
+<%-- <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/cart_list.css" /> --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_cart.css" /> 
 
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css">
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 
-
-<style type="text/css">
-
-/* 회원 */
-
-
- table.cartListTbl {
-	width: 100%;
-	margin-top: 30px;
-	margin-bottom: 10px;
-}
-
-table.cartListTbl td {
-	text-align: center;
-	padding-left: 10px;
-	height: 100px;
-	
-}
-table.cartListTbl span {
-color: #212529;
-}
-
-table.cartListTbl a:hover {
-text-decoration-line: none;
-}
-
-table.cartListTbl img {
-cursor: pointer;
-}
-
-table.cartListTbl > tfoot > tr:first-child td {
-	height: 70px;
-	background-color: #FBFAFA;
-	padding-right: 10px;
-}
-
-table.cartListTbl > tfoot > tr:last-child td {
-	height: 90px;
-	vertical-align: top;
-	padding-right: 10px;
-	padding-top: 10px;
-	font-size: 15px;
-}
-
-table.cartListTbl .pqty{
-width: 50px;
-height: 26px;
-padding-left: 2px;
-
-}
-
-table.cartListTbl > thead > tr > td {
-	height: 50px;
-	background-color: #FBFAFA;
-}
-
-table.cartListTbl  tr {
-	border-top: solid 2px #e8e8e8;
-}
-
-table.cartListTbl tr:last-child {
-	border-bottom: solid 2px #e8e8e8;
-}
-
-
-table.cartTotalTbl {
-width: 100%;
-}
-
-table.cartTotalTbl tr:first-child td {
-	text-align: left;
-	padding-left:50px;
-	height: 50px;
-	background-color: #FBFAFA;
-}
-
-table.cartTotalTbl tr:last-child td {
-	text-align: left;
-	padding-left:50px;
-	height: 70px;
-	font-weight: bold;
-	font-size: 24px;
-}
-
-table.cartTotalTbl  tr {
-	border-top: solid 2px #e8e8e8;
-}
-
-table.cartTotalTbl tr:last-child {
-	border-bottom: solid 2px #e8e8e8;
-}
-
-	div.order {
-	 text-align: center;
-	 margin: 20px 0px 200px 0px ;
-	}
-	
-	div.order span:last-child {
-	position: relative;
-	right: 10px;
-	float: right;
-	text-align: right;
-	}
-	
-	div.order img {
-	cursor: pointer;
-	}
-
-/* 상품없음 */
-table.interested_none { 
-	width: 100%;
-	margin-top: 30px;
-	margin-bottom: 10px;
-}
-
-table.interested_none td {
-	text-align: center;
-	height: 100px;
-}
-
-table.interested_none tr {
-	border-top: solid 2px #e8e8e8;
-	border-bottom: solid 2px #e8e8e8;
-}
-
-
-
-
-/*  페이징 CSS 중복   */
-
-	div.pagination {
-	  display: inline-block;
-	  width: 100%;
-	  text-align: center;
-	  margin: 20px 0;
-	}
-	
-	div.pagination a {
-	  color: black;
-	  text-decoration: none;
-	  width: 32px;
-	  height: 32px;
-	  text-align: center;
-	}
-	
-	div.pagination a.active {
-		border-bottom: solid 2px black;
-	  	
-	}
-	
-	div.pagination a img {
-		margin-top: -4px;
-		vertical-align: middle;
-	
-	}
-	
-	div.pagination a:hover {
-		font-weight: bolder;
-		opacity: 0.3;
-	}
-	
- 
-</style>
-
+<script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>	
 <script type="text/javascript">
 	
 	$(document).ready(function() {
@@ -247,7 +81,7 @@ table.interested_none tr {
 			
 		//삭제버튼 
 		$("div#btn_delete").click(function () {
-			const pk_cartno = $(this).parent().parent().parent().find("input#pk_cartno").val();
+			const pk_cartno = $(this).parent().parent().find("input#pk_cartno").val();
 			proDeleteOne(pk_cartno);
 		});//end of $("li#btn_delete").click(function ()
 				
@@ -260,6 +94,7 @@ table.interested_none tr {
 	        });
 	        if(cnt == 0){
 	            alert("선택된 제품이 없습니다.");
+	            return;
 	        }
 	        const cartNoStr = cartNoArr.join();
 	        
@@ -282,7 +117,13 @@ table.interested_none tr {
                 $("input#selectAll").prop("checked", false);
             }
         });	//end of $(".test").click(function()
-						
+					
+        $("div#btn_order").click(function() {
+        	const pk_cartno = $(this).parent().find("input#pk_cartno").val();
+        	$("input#cartnoOne").val(pk_cartno);
+        	orderOne();
+        });//end of  $("div#btn_order").click(function() 
+        		
 	});// end of $(document).ready()
  
 	//수량변경함수
@@ -387,6 +228,12 @@ table.interested_none tr {
 	
 	//장바구니 모두 비우기
 	function  cartDeleteAll() {
+		const pk_cartno =  $("input.pk_cartno").length;
+		if(pk_cartno == 0){
+            alert("제품이 없습니다.");
+            return;
+		}
+		
 		$.ajax({
 			url:"<%= ctxPath%>/product/cartDeleteAll.book",
 			type:"POST",
@@ -429,6 +276,11 @@ table.interested_none tr {
 	}//end of function orderSelect() 
 	
 	function orderAll() {
+		const pk_cartno =  $("input.pk_cartno").length;
+		if(pk_cartno == 0){
+            alert("제품이 없습니다.");
+            return;
+		}
 		const frm = document.cartFrm;
 		frm.action = "<%= ctxPath%>/product/orderAll.book";
 		frm.method = "post";
@@ -446,12 +298,20 @@ table.interested_none tr {
 	
 </script>
 
-	
+<style type="text/css">
+
+</style>
+
+<jsp:include page="../header.jsp" />
 <div class="container">
 			
 <br>&nbsp;<strong style="font-size: 16pt;">
-<img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;관심상품</strong>
+<img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;장바구니</strong>
 <hr style="border: solid 2px #e8e8e8;">
+
+	<div class="orderImg">
+		<img src="<%= ctxPath %>/images/product/cart.jpg" />
+	</div>
 
 <div class="cartInfo">
 	<form name="cartFrm">
@@ -488,14 +348,14 @@ table.interested_none tr {
 							
 							<%-- 이미지 --%>
 							<td> 
-								<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
+								<a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${cvo.fk_pro_num}">
 								<img src="<%=ctxPath%>/images/product/${cvo.category.cate_name}/${cvo.product.pro_imgfile_name}" style="width: 100%"/>
 								</a>
 							</td>
 							
 							<%-- 상품정보 --%>
 							<td> 
-								<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
+								<a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${cvo.fk_pro_num}">
 									<span class="cartPname">${cvo.product.pro_name}</span>
 								</a>
 							</td>
@@ -523,8 +383,11 @@ table.interested_none tr {
 							<c:if test="${status.first}">
 								<td rowspan= "${fn:length(cartList)}" >
 									<span class="shippingFee">
-										<c:if test="${requestScope.totalPrice >= 50000}">무료</c:if>
-										<c:if test="${requestScope.totalPrice < 50000}">3,000원</c:if>
+										<c:choose>
+											<c:when test="${requestScope.totalPrice == 0}">0원</c:when>
+											<c:when test="${requestScope.totalPrice >= 50000}"> 무료 </c:when>
+											<c:when test="${requestScope.totalPrice < 50000}">3,000원</c:when>
+										</c:choose>
 									</span>
 								</td>
 							</c:if>
@@ -535,14 +398,16 @@ table.interested_none tr {
 							
 							<%-- 선택 --%>
 							<td style="vertical-align: middle">
-								<div id="btn_order"><img src="<%= ctxPath %>/images/product/btn_order.gif" onclick="orderOne()" /></div>
+								<div id="btn_order"><img src="<%= ctxPath %>/images/product/btn_order.gif"/></div>
+								<input class="pk_cartno" type="hidden" id="pk_cartno" name="pk_cartno" value="${cvo.pk_cartno}" />
 								<div id="btn_wish"><img src="<%= ctxPath %>/images/product/btn_wish.gif" /></div>
 								<div id="btn_delete"><img src="<%= ctxPath %>/images/product/btn_delete.gif" /></div>
 							</td>
 						</tr>
 					</c:forEach>
+					<input class="pk_cartno" type="hidden" id="cartnoOne" name="cartnoOne" value="" />
 				</c:if>
-			
+				
 			</tbody>
 			
 			<tfoot>
@@ -555,9 +420,12 @@ table.interested_none tr {
 						<span>상품구매금액&nbsp;</span>
 						<span class="totalPrice" id="totalPrice"><fmt:formatNumber value="${requestScope.totalPrice}" pattern="###,###" />원</span>
 						<span>&nbsp;+&nbsp;배송비</span>
-						<span class="shippingFee">
-							<c:if test="${requestScope.totalPrice >= 50000}">무료</c:if>
-							<c:if test="${requestScope.totalPrice < 50000}">3,000원</c:if>
+						<span class="shippingFee">	
+							<c:choose>
+								<c:when test="${requestScope.totalPrice == 0}">0원</c:when>
+								<c:when test="${requestScope.totalPrice >= 50000}"> 무료 </c:when>
+								<c:when test="${requestScope.totalPrice < 50000}">3,000원</c:when>
+							</c:choose>
 						</span>
 						<span>&nbsp;=&nbsp;합계&nbsp;:&nbsp;</span>
 						<span class="finalPrice"><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
@@ -597,8 +465,11 @@ table.interested_none tr {
 					</td>
 					<td>
 						<span class="shippingFee">
-							<c:if test="${requestScope.totalPrice >= 50000}">무료</c:if>
-							<c:if test="${requestScope.totalPrice < 50000}">3,000원</c:if>
+							<c:choose>
+								<c:when test="${requestScope.totalPrice == 0}">0원</c:when>
+								<c:when test="${requestScope.totalPrice >= 50000}"> 무료 </c:when>
+								<c:when test="${requestScope.totalPrice < 50000}">3,000원</c:when>
+							</c:choose>
 						</span>
 					</td>
 					<td>
@@ -616,13 +487,16 @@ table.interested_none tr {
 		<img src="<%= ctxPath %>/images/product/btn_order_all.gif" onclick="orderAll()" />&nbsp;&nbsp;
 		<img src="<%= ctxPath %>/images/product/btn_order_select.gif" onclick="orderSelect()" />
 	</span>
+</div>
 
-	<span>
-		<a href="<%= ctxPath%>/index.book">
-			<img src="<%= ctxPath %>/images/product/btn_order_ing.gif" />
-		</a>
-	</span>
+<div  class="shoppingContinue">
+	<a href="<%= ctxPath%>/index.book">
+		<img src="<%= ctxPath %>/images/product/btn_order_ing.gif" />
+	</a>
 </div>
 	
+	
+	<br>
+	<jsp:include page="cart_board.jsp" />
 </div>
 <jsp:include page="/WEB-INF/footer.jsp" />

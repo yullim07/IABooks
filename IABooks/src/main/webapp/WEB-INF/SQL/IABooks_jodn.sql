@@ -3,6 +3,9 @@ from tbl_member;
 
 alter table tbl_user_coupon_status add coupon number default 0;
 
+
+
+
 select *
 from tbl_coupon
 where pk_coupon_id = 267740114188324;
@@ -72,14 +75,20 @@ on C.pk_coupon_id = U.coupon_id
 )V
 where pk_userid='deokno' and CPSTATUS='1'
 
+-- 아이디값으로 개인상세페이지 보여주기
+select pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, birthday
+from tbl_member 
+ where pk_userid = 'deokno' 
 
 
 
+select pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, birthday, to_char(sysdate, 'yyyy')- substr(birthday,1,4)+1 as age
+from tbl_member
+ where pk_userid = 'moonby'
 
-
-
-
-
+select  to_char(registerday, 'yyyy-mm-dd') as registerday
+from tbl_member
+ where pk_userid = 'moonby'
 
 select count(*)
 from tbl_user_coupon_status
@@ -164,6 +173,30 @@ insert into tbl_coupon(PK_COUPON_ID, CNAME, CPRICE,  CSTARTDATE, CENDDATE, CMINP
 UPDATE tbl_user_coupon_status SET user_cp_status='1' 
 commit;
 
+select * 
+ from tbl_user_coupon_status 
+ 
+ 
+ select ceil(count(*)/5) 
+ from tbl_member 
+ where pk_userid != 'admin' 
+ and mname like '%'|| '덕' ||'%'
+ 
+ select pk_userid, mname, uq_email, ck_gender 
+ from 
+ (  
+ select rownum as rno, pk_userid, mname, uq_email, ck_gender 
+ from 
+ ( 
+ select pk_userid, mname, uq_email, ck_gender 
+ from tbl_member 
+ where pk_userid != 'admin' 
+ and mname like '%'|| '덕' ||'%' 
+order by registerday desc
+ ) V 
+ ) T 
+ where rno between 1 and 5  
+ 
 
 -- 유저 쿠폰 등록시 중복확인 
 
@@ -244,6 +277,37 @@ create table tbl_member (
 	ck_status         varchar2(20)  default 1,          -- 회원탈퇴유무
 	ck_u_status       varchar2(20)  default 0            -- 휴면상태
 );
+
+select *
+from tbl_member
+
+
+SELECT pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, 
+ birthday, registerday, pwdchangegap, tel, ck_u_status, ck_status ,
+nvl(lastlogingap, trunc( months_between(sysdate, registerday) ) ) AS lastlogingap 
+ FROM 
+ ( 
+ select pk_userid, mname, uq_email, uq_phone, postcode, address, detailaddress, extraaddress, ck_gender, ck_u_status, ck_status 
+    , birthday , tel, to_char(registerday, 'yyyy-mm-dd') AS registerday 
+    , trunc( months_between(sysdate, lastpwdchangedate) ) AS pwdchangegap 
+ from tbl_member
+ where ck_status = 1 and pk_userid = 'deokno' and pwd = '9695b88a59a1610320897fa84cb7e144cc51f2984520efb77111d94b402a8382'
+ ) M 
+ CROSS JOIN 
+ (
+ select trunc( months_between(sysdate, max(logindate)) ) AS lastlogingap 
+ from tbl_loginhistory 
+ where fk_userid = 'deokno' 
+ ) H
+
+UPDATE tbl_member SET ck_status = 1 WHERE pk_userid = 'deokno'
+
+UPDATE tbl_member SET ck_u_status=1 
+ WHERE pk_userid = 'deokno' 
+
+UPDATE tbl_member SET ck_u_status = 0 , ck_status = 1 WHERE pk_userid = 'deokno'
+
+commit
 
 ALTER TABLE tbl_member MODIFY tel INVISIBLE;
 ALTER TABLE tbl_member MODIFY uq_phone INVISIBLE;
@@ -385,4 +449,263 @@ on pk_userid = fk_userid
 join tbl_order
 on pk_odrcode = fk_odrcode
 where pk_userid = 'moonby'
-        
+
+drop table test_mileage purge;
+
+delete test_mileage
+
+-- 마일리지 테이블 조회
+select *
+from test_mileage
+
+select *
+from tbl_order
+
+-- 마일리지가 적립되어질 때
+INSERT INTO test_mileage (USERID, INFOMILEAGE, USEDDATE, status, odr_code )
+VALUES ('moonby', 5000, sysdate, '0', 'by0225' );
+
+INSERT INTO test_mileage (USERID, INFOMILEAGE, USEDDATE, status, odr_code )
+VALUES ('moonby', 2000, sysdate, '0', 'by0225' );
+
+-- 조건이 확정되어서 적립이 완전히 되어질때 
+update test_mileage set status = '1'
+where userid = 'moonby' and odr_code = 'by0225'
+
+
+-- 마일리지가 사용될 때
+INSERT INTO test_mileage (USERID, INFOMILEAGE, USEDDATE, status, odr_code )
+VALUES ('moonby', -1000, sysdate, '1', 'by0225' );
+
+
+-- 누군가의 마일리지 내역검색
+select *
+from test_mileage
+where userid = 'moonby' 
+
+-- 마일리지 사용내역
+select *
+from test_mileage
+where userid = 'moonby' and INFOMILEAGE<0
+
+-- 마일리지 적립내역
+select *
+from test_mileage
+where userid = 'moonby' and INFOMILEAGE>0
+
+-- 총적립금
+select sum(INFOMILEAGE) as all_mg
+from test_mileage
+where userid = 'moonby'
+
+-- 사용할 수 있는 적립금 
+select sum(INFOMILEAGE) as all_mg
+from test_mileage
+where userid = 'moonby' and status = '1'
+
+--미가용적립금
+select nvl(sum(INFOMILEAGE), 0) as 미가용적립금
+from test_mileage
+where userid = 'moonby' and status = '0'
+
+-- 물건 환불 시 
+INSERT INTO test_mileage (USERID, INFOMILEAGE, USEDDATE, status, odr_code )
+VALUES ('moonby', -2000, sysdate, '0', 'by0225' );
+
+-- 환불예정적립금
+select nvl(sum(INFOMILEAGE), 0) as 환불예정적립금
+from test_mileage
+where userid = 'moonby' and odr_code = 'by0225' and status='0'
+
+
+select M.pk_userid, C.pk_coupon_id, CENDDATE, user_cp_status 
+from tbl_member M  
+ join tbl_user_coupon_status U 
+ on M.pk_userid = U.fk_userid  
+ join tbl_coupon C 
+ on C.pk_coupon_id = U.coupon_id  
+ where pk_userid='admin' and user_cp_status='1' 
+ AND TO_DATE(C.CENDDATE,'YYYY-MM-DD') < TO_DATE( TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD'); 
+ 
+ select M.pk_userid, C.pk_coupon_id
+from tbl_member M  
+ join tbl_user_coupon_status U 
+ on M.pk_userid = U.fk_userid  
+ join tbl_coupon C 
+ on C.pk_coupon_id = U.coupon_id  
+ where pk_userid='admin' and user_cp_status='1' 
+ AND TO_DATE(C.CENDDATE,'YYYY-MM-DD') < TO_DATE( TO_CHAR(SYSDATE, 'YYYY-MM-DD'), 'YYYY-MM-DD');
+ 
+ select *
+ from tbl_orderdetail
+ 
+ 
+ 
+ 
+ select M.pk_userid, C.pk_coupon_id, CENDDATE, user_cp_status 
+from tbl_member M  
+ join tbl_user_coupon_status U 
+ on M.pk_userid = U.fk_userid  
+ join tbl_coupon C 
+ on C.pk_coupon_id = U.coupon_id  
+ where pk_userid='deokno' and user_cp_status='1' 
+
+select *
+from tbl_order
+
+-- 주문배송 단계 조회 
+select count(*)
+from tbl_orderdetail D
+join tbl_order O
+on D.fk_odrcode = O.pk_odrcode
+join tbl_member M
+on M.pk_userid = O.fk_userid
+where D.CK_DELIVERSTATUS = '1' and M.pk_userid='admin';
+
+
+-- 주문 금액 조회
+select sum(odr_price)
+from tbl_orderdetail D
+join tbl_order O
+on D.fk_odrcode = O.pk_odrcode
+join tbl_member M
+on M.pk_userid = O.fk_userid
+where M.pk_userid='admin';
+
+-- 주문 횟수 조회 
+select *
+from tbl_order O
+join tbl_member M
+on M.pk_userid = O.fk_userid
+where M.pk_userid='admin';
+
+-- 적립금 조회 
+select sum(mileageInfo)
+from tbl_mileage I
+join tbl_member M
+on M.pk_userid = I.fk_userid
+join tbl_order O
+on I.fk_odrcode = O.pk_odrcode
+where m.pk_userid = 'admin'
+
+
+DISTINCT 
+select *
+from tbl_orderdetail D
+join tbl_order O
+on D.fk_odrcode = O.pk_odrcode
+join tbl_member M
+on M.pk_userid = O.fk_userid
+where M.pk_userid='admin';
+
+
+
+
+select *
+from tbl_orderdetail D
+join tbl_order O
+on D.fk_odrcode = O.pk_odrcode
+join tbl_member M
+on M.pk_userid = O.fk_userid
+join tbl_mileage I
+on I.fk_userid = m.pk_userid
+
+where M.pk_userid='admin' and 
+
+
+
+
+select *
+from tbl_mileage
+
+
+select rownum, PK_COUPON_ID, CNAME, CPRICE, CDATE, CSTARTDATE, CENDDATE, CPSTATUS, CMINPRICE 
+from tbl_coupon
+order by CENDDATE desc;
+
+commit;
+rollback;
+
+select *
+from tbl_deliverstatus
+
+select  PK_COUPON_ID, CNAME, CPRICE, CDATE, CSTARTDATE, CENDDATE, CPSTATUS, CMINPRICE 
+from tbl_coupon 
+ order by CPSTATUS desc , CENDDATE 
+
+insert into tbl_DELIVERSTATUS (DELIVERSTATUS, DELIVERNAME  )
+values ( 5, '주문취소' )
+     
+select *     
+from tbl_orderdetail 
+ 
+
+ -- 특정 유저의 마일리지 적립내역 조회     
+select rno, MILEAGEINFO, FK_ODRCODE, PRO_NAME, ODR_DATE
+from 
+(
+select row_number() over(order by ODR_DATE  desc) AS RNO,
+MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE
+from tbl_mileage A join tbl_order B
+on A.FK_ODRCODE = B.PK_ODRCODE
+join tbl_orderdetail C
+on B.PK_ODRCODE = C.FK_ODRCODE
+join TBL_PRODUCT D
+on D.PK_PRO_NUM = C.FK_PRO_NUM
+where B.fk_userid= 'admin'
+)V
+where V.RNO between 6 and 10
+
+-- 특정유저의 마일리지 적립내역 총 개수 
+select count(*)
+from tbl_mileage A join tbl_order B
+on A.FK_ODRCODE = B.PK_ODRCODE
+join tbl_orderdetail C
+on B.PK_ODRCODE = C.FK_ODRCODE
+join TBL_PRODUCT D
+on D.PK_PRO_NUM = C.FK_PRO_NUM
+where B.fk_userid= 'admin'
+
+-- 총 페이지 개수 
+select ceil(count(*)/10)
+from tbl_mileage A join tbl_order B
+on A.FK_ODRCODE = B.PK_ODRCODE
+join tbl_orderdetail C
+on B.PK_ODRCODE = C.FK_ODRCODE
+join TBL_PRODUCT D
+on D.PK_PRO_NUM = C.FK_PRO_NUM
+where B.fk_userid= 'admin'    
+     
+ 
+ -- 페이징 처리한 마일리지 조회
+select rno, MILEAGEINFO, FK_ODRCODE, PRO_NAME, ODR_DATE
+from 
+(
+select row_number() over(order by ODR_DATE  desc) AS RNO,
+MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE
+from tbl_mileage A join tbl_order B
+on A.FK_ODRCODE = B.PK_ODRCODE
+join tbl_orderdetail C
+on B.PK_ODRCODE = C.FK_ODRCODE
+join TBL_PRODUCT D
+on D.PK_PRO_NUM = C.FK_PRO_NUM
+where B.fk_userid= 'admin' and MILEAGEINFO < 0
+)V
+where V.RNO between 1 and 10 
+       
+       
+       
+       
+       
+       
+select ceil(count(*)/10) 
+ from tbl_mileage A join tbl_order B 
+ on A.FK_ODRCODE = B.PK_ODRCODE 
+ join tbl_orderdetail C 
+ on B.PK_ODRCODE = C.FK_ODRCODE 
+ join TBL_PRODUCT D 
+ on D.PK_PRO_NUM = C.FK_PRO_NUM 
+ where B.fk_userid= 'admin' and MILEAGEINFO < 0 
+ 
+ 
+ 

@@ -36,13 +36,13 @@ public class ReviewUpdateEndAction extends AbstractController {
 			ReviewBoardVO revVO = new ReviewBoardVO();
 			
 			String pk_rnum = request.getParameter("pk_rnum");
-			System.out.println("좀 가져와봐 : " + pk_rnum);
+			// System.out.println("좀 가져와봐 : " + pk_rnum);
 			String userid = loginuser.getUserid();
 			String title = request.getParameter("revBoardTitle");
 			String writer = request.getParameter("revBoardWriter");
 			String content = request.getParameter("faqBoardContent");
 			
-			System.out.println(" 받아온 번호 : " + pk_rnum);
+			// System.out.println(" 받아온 번호 : " + pk_rnum);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			

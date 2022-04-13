@@ -45,7 +45,7 @@ public class AddCartAction extends AbstractController  {
 				int pro_qty = qtyCheck.get("pro_qty");
 
 				int n = 0;
-				if(pro_qty >= (ck_odr_qty+Integer.parseInt(now_pro_qty)) ) {
+				if(pro_qty >= (ck_odr_qty+Integer.parseInt(now_pro_qty)) && (Integer.parseInt(now_pro_qty) != 0) )  {
 					//재고량과 같거나 재고가 더많은경우
 					
 					//카드에 현재 제품이 있는지 없는지 체크 insert or update
@@ -58,6 +58,18 @@ public class AddCartAction extends AbstractController  {
 						n = pdao.insertAddCart(paraMap);
 					}
 					
+				}else if(Integer.parseInt(now_pro_qty) == 0) {
+					//재고량보다 더적은경우
+					String message = "주문은 1개이상 가능합니다.";
+					//String loc = "javascript:history.back()";//
+					
+					request.setAttribute("message", message);
+					//request.setAttribute("loc", loc);
+					
+					//super.setRedirect(false);
+					super.setViewPage("/WEB-INF/jsonMsg.jsp");
+					
+					return;
 				}else {
 					//재고량보다 더적은경우
 					String message = "주문하신 상품은 현재재고량보다 많습니다.";
@@ -75,6 +87,7 @@ public class AddCartAction extends AbstractController  {
 				
 				JSONObject jsonObj = new JSONObject(); 
 				jsonObj.put("addCart", n); 
+				jsonObj.put("pk_pro_num", pk_pro_num); 
 				String json = jsonObj.toString();
 				
 				request.setAttribute("json", json);

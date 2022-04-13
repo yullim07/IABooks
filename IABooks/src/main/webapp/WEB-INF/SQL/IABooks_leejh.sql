@@ -625,6 +625,9 @@ select *
 from tbl_qna_board
 
 
+
+
+
 update tbl_qna_board set qna_title = '도넛', qna_contents= '은 맛있어', qna_issecret = 1
 where pk_qna_num = '3081';  
 commit;
@@ -865,9 +868,214 @@ select count(*)
                        
                        
 select *
-from tbl_comment;
+from tbl_comment
+order by pk_cmt_num desc;
 		              
 select *
 from tbl_comment
 where fk_qna_num = 3237;
+
+
+select *
+from tbl_qna_board
+order by pk_qna_num desc;
                       
+                      
+-------------------
+
+alter table tbl_qna_board modify  qna_issecret varchar2(5) not null;
+
+alter table tbl_qna_board add qna_file1 varchar2(200);
+
+alter table tbl_qna_board rename column qna_file1 to qna_file_system_name;
+--Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+alter table tbl_qna_board add qna_file_original_name varchar2(200);
+--Table TBL_QNA_BOARD이(가) 변경되었습니다.
+
+alter system set processes=300 scope=spfile;
+ set hidden param parseThreshold = 150000;
+ 
+ 
+ 
+ select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete \r\n"
+					+ "			from tbl_comment \r\n"
+					+ "			where isdelete = 0 and fk_qna_num = ?
+ 
+ 
+ 
+ select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete 
+				from tbl_comment
+				where isdelete = 0 and fk_qna_num = '3838';
+ 
+  select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete 
+				from tbl_comment
+				where isdelete = 0 and pk_cmt_num = 85;
+ 
+ delete from tbl_comment 
+ where fk_userid= 'admin';
+ 
+ commit;
+ 
+ select *
+ from tbl_member;
+ 
+ 
+ 
+ 
+ 
+ 
+ select qnarno, fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name
+    			  from 
+    			      ( 
+    			     select rownum AS qnarno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name
+    			      from 
+    			      ( 
+                          select  nvl(fk_pnum,-9999) as fk_pnum , pk_qna_num, qna_title, M.mname as mname, to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') as  qna_date, qna_readcount , Q.fk_userid as fk_userid , qna_issecret , qna_contents ,nvl(pro_name,-9999) as pro_name, nvl(pro_imgfile_name,-9999) as pro_imgfile_name ,nvl(C.cate_name,-9999) AS cate_name
+    			          from tbl_member M right JOIN tbl_qna_board Q  
+    			          ON M.pk_userid = Q.fk_userid 
+    			          left JOIN tbl_product P 
+    			          ON Q.fk_pnum = P.pk_pro_num
+    			          left JOIN TBL_CATEGORY C
+    			  		ON P.fk_cate_num = C.pk_cate_num
+    			          where isdelete = 0
+                 
+                    		order by pk_qna_num desc 
+					   	) V 
+	   			   	   ) T 
+					   where rno between 11 and 20 
+ 
+ select *
+ from tbl_product;
+ 
+ 
+ alter table tbl_review_board add rev_file_system_name varchar2(200);
+ alter table tbl_review_board add rev_file_original_name varchar2(200);
+ 
+ 
+ 
+ 
+ 
+ select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle 
+				from
+					( 
+				 select   
+				        lag(B.pk_qna_num, 1) over(order by B.pk_qna_num desc) as prevnum
+				      , lag(B.qna_title, 1) over(order by B.pk_qna_num desc) as prevtitle
+				       , B.pk_qna_num as currentnum
+				      , B.qna_title as currenttitle 
+				      , lead(B.pk_qna_num, 1) over(order by B.pk_qna_num desc) as nextnum 
+				     , lead(B.qna_title, 1) over(order by B.pk_qna_num desc) as nexttitle 
+				 from 
+                    (
+                     select pk_qna_num, qna_title
+                        from tbl_qna_board
+                        where isdelete = 0
+                    )B
+                 
+				 ) v
+				 where currentnum = 3839
+ ----------------
+ select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle 
+					 from 
+					 (
+					 select   
+					         lag(B.PK_RNUM, 1) over(order by B.PK_RNUM desc) as prevnum 
+					       , lag(B.RE_TITLE, 1) over(order by B.PK_RNUM desc) as prevtitle 
+					       , B.PK_RNUM as currentnum 
+					       , B.RE_TITLE as currenttitle 
+					       , lead(B.PK_RNUM, 1) over(order by B.PK_RNUM desc) as nextnum 
+					       , lead(B.RE_TITLE, 1) over(order by B.PK_RNUM desc) as nexttitle 
+					 from (
+                            select PK_RNUM, RE_TITLE
+                            from tbl_review_board
+                            where isdelete = 0
+                            )B 
+					 ) v 
+					 where currentnum = ? 
+                     
+ 
+ 
+ select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle 
+					 from 
+					 ( 
+					 select   
+					         lag(B.pk_faq_board_num, 1) over(order by B.pk_faq_board_num desc) as prevnum 
+					       , lag(B.faq_title, 1) over(order by B.pk_faq_board_num desc) as prevtitle 
+					       , B.pk_faq_board_num as currentnum 
+					       , B.faq_title as currenttitle 
+					       , lead(B.pk_faq_board_num, 1) over(order by B.pk_faq_board_num desc) as nextnum 
+					       , lead(B.faq_title, 1) over(order by B.pk_faq_board_num desc) as nexttitle 
+					 from  (
+                            select pk_faq_board_num, faq_title
+                            from tbl_faq_board
+                            where isdelete = 0
+                            )B 
+					 ) v 
+					 where currentnum = ?
+                     
+-------------------------
+
+select *
+from tbl_qna_board
+where isdelete = 0 
+order by pk_qna_num desc;
+
+delete from tbl_qna_board 
+where pk_qna_num = 3838;
+
+select *
+from tbl_comment;
+
+ALTER TABLE tbl_comment DROP foreign KEY FK_tbl_qn_board_TO_tbl_cmnt;
+
+ALTER TABLE tbl_comment
+	DROP
+		CONSTRAINT FK_tbl_qn_board_TO_tbl_cmnt -- 상품Q&A 게시판 -> 댓글
+		FOREIGN KEY (
+			fk_qna_num -- 문의번호
+		)
+		REFERENCES tbl_qna_board ( -- 상품Q&A 게시판
+			pk_qna_num -- 문의번호
+		);
+        
+ ALTER TABLE tbl_comment ADD CONSTRAINT FK_tbl_qn_board_TO_tbl_cmnt FOREIGN KEY (fk_qna_num) REFERENCES tbl_qna_board(pk_qna_num) ON DELETE CASCADE;       
+ --Table TBL_COMMENT이(가) 변경되었습니다.
+ 
+  ALTER TABLE tbl_comment ADD CONSTRAINT FK_tbl_qn_board_TO_tbl_cmnt FOREIGN KEY (pk_qna_num) REFERENCES tbl_qna_board(pk_qna_num) ON DELETE CASCADE;   
+ desc tbl_comment;
+ -----------
+ ALTER TABLE tbl_comment
+	DROP
+		CONSTRAINT FK_tbl_member_TO_tbl_comment -- 회원 -> 댓글
+		FOREIGN KEY (
+			fk_userid -- 회원아이디
+		)
+		REFERENCES tbl_member ( -- 회원
+			pk_userid -- 회원아이디
+		);
+--Table TBL_COMMENT이(가) 변경되었습니다.
+ 
+ ALTER TABLE tbl_comment ADD CONSTRAINT FK_tbl_member_TO_tbl_comment FOREIGN KEY (fk_userid) REFERENCES tbl_member(pk_userid) ON DELETE CASCADE;    
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ ---------------
+ 
+ 
+ select * 
+ from tbl_review_board;
+
+
+select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date 
+			     , RE_GRADE, RE_CONTENTS, RE_PASSWD, RE_WRITER, isdelete, P.pro_name, P.pro_imgfile_name, P.PRO_PRICE , rev_file_system_name, nvl(rev_file_original_name,'없음') as rev_file_original_name
+        		, C.cate_name 
+         from tbl_review_board R JOIN tbl_product P 
+         ON R.FK_PNUM = P.pk_pro_num 
+         JOIN TBL_CATEGORY C 
+         ON P.fk_cate_num = C.pk_cate_num 
+         where isdelete = 0 and PK_RNUM =

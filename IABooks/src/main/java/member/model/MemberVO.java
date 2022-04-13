@@ -18,11 +18,14 @@ public class MemberVO {
    private String gender;              // 성별   남자:1  / 여자:2
    private int status;                // 회원탈퇴유무   1: 사용가능(가입중) / 0:사용불능(탈퇴) 
    private int u_status;               // 휴면유무      0 : 활동중  /  1 : 휴면중 
-                              // 마지막으로 로그인한 날짜 시간이 현재시각으로 부터 1년이 (초과)지났으면 휴면으로 지정   
+   private int age;
+                             // 마지막으로 로그인한 날짜 시간이 현재시각으로 부터 1년이 (초과)지났으면 휴면으로 지정   
 
    /////////////////////////////////////////////////////////////////////
          
-   private boolean requirePwdChange = false;
+
+
+private boolean requirePwdChange = false;
    // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지났으면 true
    // 마지막으로 암호를 변경한 날짜가 현재시각으로 부터 3개월이 지나지 않았으면 false
    
@@ -33,7 +36,7 @@ public class MemberVO {
    public MemberVO() {}
    
    public MemberVO(String userid, String pwd, String name, String email, String postcode, 
-         String address, String detailaddress, String extraaddress, String gender, String birthday, String tel, String phone) {
+         String address, String detailaddress, String extraaddress, String gender, String birthday, String tel, String phone, int age, String registerday) {
       super();
       this.userid = userid;
       this.pwd = pwd;
@@ -47,6 +50,8 @@ public class MemberVO {
       this.birthday = birthday;
       this.tel = tel;
       this.phone = phone;
+      this.age=age;
+      this.registerday=registerday;
    }
    
    public MemberVO(String userid, String name, String pwd, String email, String tel , String phone, String postcode, String address, 
@@ -62,6 +67,24 @@ public class MemberVO {
       this.detailaddress = detailaddress;
       this.extraaddress = extraaddress;
    }
+   
+   public MemberVO(String userid, String pwd, String name, String email, String postcode, 
+	         String address, String detailaddress, String extraaddress, String gender, String birthday, String tel, String phone) {
+	      super();
+	      this.userid = userid;
+	      this.pwd = pwd;
+	      this.name = name;
+	      this.email = email;
+	      this.postcode = postcode;
+	      this.address = address;
+	      this.detailaddress = detailaddress;
+	      this.extraaddress = extraaddress;
+	      this.gender = gender;
+	      this.birthday = birthday;
+	      this.tel = tel;
+	      this.phone = phone;
+	     
+	   }
    	
 
    public MemberVO(String userid) {
@@ -204,8 +227,14 @@ public class MemberVO {
       this.requirePwdChange = requirePwdChange;
    }
 
-
-   
+   public int getAge() {
+	  return age;
+   }
+	
+   public void setAge(int age) {
+      this.age = age;
+   }
+	   
 
 
 
