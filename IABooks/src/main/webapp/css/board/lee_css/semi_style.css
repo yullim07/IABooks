@@ -266,7 +266,7 @@
   		cursor: pointer;
 	}
 	div.pdt_info > h3 > a:hover{
-		text-decoration: underline;
+		 text-decoration: underline; 
 	}
 	
 	
@@ -518,11 +518,11 @@
   	
   	
 	table.prev_next > tbody > tr> td > a:hover{
-	  	text-decoration: underline;
+	 	text-decoration: underline;
 	}
 	
 	td.tbl_subject > a:hover{
-		text-decoration: underline;
+		 text-decoration: underline;
 	}
 	
 	li.li_header {

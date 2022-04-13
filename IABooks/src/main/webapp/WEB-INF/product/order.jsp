@@ -24,6 +24,54 @@
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>	
 <script type="text/javascript">
 	$(document).ready(function(){
+		let backupPoint = 0;
+		let backupCoupon = 0;
+		
+		$("button#pointBtn").click(function() {
+			const userPoint = Number($("input#userPoint").val());
+			let usePoint = Number($("input#usePoint").val() );
+			//let finalPrice = Number($("input#finalPrice").val() );
+			let totalprice = Number($("input#totalprice").val() );
+			let totalSale = Number($("input#totalSale").val() );
+			if(userPoint < usePoint) {
+				alert("보유중인 포인트가 부족합니다.");
+				
+				totalSale -= backupPoint;
+				totalprice -= totalSale;
+				backupPoint = 0;
+				
+				$("input#usePoint").val('');
+				$("input#totalSale").val(totalSale);
+				$("input#paymentPrice").val(totalprice);
+				
+				totalprice = totalprice.toLocaleString('en');
+				totalSale = totalSale.toLocaleString('en');
+				
+				$("span#lastPrice").text(totalprice+"원");
+				$("span#discount").text(totalSale+"원");
+				
+				
+
+			}else{
+				alert("포인트가 적용되었습니다.");
+				totalSale -= backupPoint;
+				totalSale += usePoint;
+				backupPoint = usePoint;
+				
+				totalprice = totalprice - totalSale;
+				
+				$("input#totalSale").val(totalSale);
+				$("input#usePoint").val(usePoint);
+				$("input#paymentPrice").val(totalprice);
+				
+				totalprice = totalprice.toLocaleString('en');
+				totalSale = totalSale.toLocaleString('en');
+				
+				$("span#lastPrice").text(totalprice+"원");
+				$("span#discount").text(totalSale+"원");
+				
+			}
+		});
 		
 		//회원정보동일 버튼클릭시 발생
 		$("input#user_address").click(function() {
@@ -72,26 +120,57 @@
 			let cprice = Number($("select#coupon > option:selected").attr("value2") );
 			const cminprice = Number($("select#coupon > option:selected").attr("value3") );
 			let totalprice = Number($("input#totalprice").val() );
+			
+			let totalSale = Number($("input#totalSale").val() );
+			
 			if(cminprice <= totalprice){
-				totalprice = totalprice - cprice;
+				
+				totalSale -= backupCoupon;
+				totalSale += cprice;
+				backupCoupon = cprice;
+			
+				totalprice = totalprice - totalSale;
+				
+				$("input#totalSale").val(totalSale);
 				$("input#paymentPrice").val(totalprice);
 				$("input#useCouponId").val(couponid);
+				
 				totalprice = totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-				cprice = cprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				totalSale = totalSale.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				
 				$("span#lastPrice").text(totalprice+"원");
-				$("span#discount").text(cprice+"원");
+				$("span#discount").text(totalSale+"원");
 				
 			}else if(couponid == "") {
+				
+				totalSale -= backupCoupon;
+				totalprice -= totalSale;
+				backupCoupon = 0;
+				
+				$("input#totalSale").val(totalSale);
+				$("input#useCouponId").val(couponid);
 				$("input#paymentPrice").val(totalprice);
+				
 				totalprice = totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				totalSale = totalSale.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				
 				$("span#lastPrice").text(totalprice+"원");
-				$("span#discount").text(0+"원");
+				$("span#discount").text(totalSale+"원");
 			}else{
 				alert("최소사용금액보다 주문금액이 낮습니다.");
+				
+				totalSale -= backupCoupon;
+				totalprice -= totalSale;
+				backupCoupon = 0;
+				
+				$("input#totalSale").val(totalSale);
+				$("input#useCouponId").val(couponid);
 				$("input#paymentPrice").val(totalprice);
+				
 				totalprice = totalprice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+				totalSale = totalSale.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 				$("span#lastPrice").text(totalprice+"원");
-				$("span#discount").text(0+"원");
+				$("span#discount").text(totalSale+"원");
 				
 			}
 			
@@ -279,7 +358,7 @@
 						
 						<%-- 이미지 --%>
 						<td> 
-							<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
+							<a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${cvo.fk_pro_num}">
 							<img src="<%=ctxPath%>/images/product/${cvo.category.cate_name}/${cvo.product.pro_imgfile_name}" style="width: 100%"/>
 							<input type="hidden" name="fk_pro_num" id="fk_pro_num" value="${cvo.fk_pro_num}" />
 							</a>
@@ -287,7 +366,7 @@
 						
 						<%-- 상품정보 --%>
 						<td> 
-							<a href="<%=ctxPath%>/product/ShowBookDetail.up?pk_pro_num=${cvo.fk_pro_num}">
+							<a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${cvo.fk_pro_num}">
 								<span class="cartPname">${cvo.product.pro_name}</span>
 							</a>
 						</td>
@@ -301,7 +380,7 @@
 						<td>
 							<span class="pqty">${cvo.ck_odr_qty}</span>
 							<input type="hidden" id="pqty" name="pqty" value="${cvo.ck_odr_qty}"/>
-						
+						</td>
 						<%-- 적립금 --%>
 						<td> 
 							<span id="totalPoint">${cvo.totalPoint}p</span>
@@ -418,7 +497,7 @@
 				<tr>
 			        <th>배송메세지</th>
 			        <td>
-			        	<textarea maxlength="255"></textarea>
+			        	<textarea maxlength="255" name="deliveryMsg"></textarea>
 			        </td>
 			    </tr>
 			</table>
@@ -428,21 +507,26 @@
 				<thead>
 					<tr>
 						<th>적립금사용</th>
-						<td colspan="2"><input /><div></div></td>
+						<td colspan="2"><input type="text" class="usePoint" id="usePoint" name="usePoint" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+						<span>  &nbsp;사용가능한 포인트 : ${requestScope.userPoint}</span>
+						<input type="hidden" class="userPoint" id="userPoint" name="userPoint" value="${requestScope.userPoint}">
+						<button type="button" id="pointBtn" >적용</button>
+						</td>
+						
 					</tr>
 					<tr>
 					
 						<th>쿠폰사용</th>
 						<td colspan="2">
 							<select id="coupon" name="coupon">
-								<option value="">사용가능한 쿠폰</option>
+								<option value= "" >사용가능한 쿠폰</option>
 								<c:forEach var="cpvo" items="${requestScope.userCoupon}" varStatus="status">
 									<option value="${cpvo.couponid}" value2="${cpvo.cprice}" value3="${cpvo.cminprice}">
 										${cpvo.cname} : <fmt:formatNumber value="${cpvo.cprice}" pattern="###,###" />원&nbsp;
 										최소사용금액 : <fmt:formatNumber value="${cpvo.cminprice}" pattern="###,###" />원
 									</option>
 								</c:forEach>
-							</select>		
+							</select>	
 						</td>
 						
 					</tr>
@@ -471,10 +555,12 @@
 						<td>
 							- <span id="discount">0원</span>
 							<input type="hidden" name="useCouponId" id="useCouponId" value="" />
+							<input type="hidden" name="totalSale" id="totalSale" value="" />
 						</td>
 						<td>
 							= <span class="finalPrice" id="lastPrice" ><fmt:formatNumber value="${requestScope.finalPrice}" pattern="###,###" />원</span>
 							<input type="hidden" name="paymentPrice" id="paymentPrice" value="${requestScope.finalPrice}" />
+							
 						</td>
 					</tr>
 				</tbody>

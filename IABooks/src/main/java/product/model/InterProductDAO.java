@@ -1,5 +1,6 @@
 package product.model;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 //import java.util.Map;
@@ -25,8 +26,6 @@ public interface InterProductDAO {
 	Map<String, Integer> getSearchPage(Map<String, String> paraMap) throws SQLException;
 	//페이징 처리를 위한 검색한 제품 select
 	List<ProductVO> selectPagingSearch(Map<String, String> paraMap) throws SQLException;
-	//주문할 회원 아이디 정보 불러오기 ? (삭제예정)
-	MemberVO oderUserInfo(String userid) throws SQLException;
 	//인덱스에서 slidesList 띄우기
 	List<ProductVO> selectSlides(Map<String, String> paraMap) throws SQLException;
 	//인덱스에서 best책띄우기
@@ -36,7 +35,7 @@ public interface InterProductDAO {
 	//인덱스에서 이책어때요 띄우기
 	List<ProductVO> selectIndexRandom() throws SQLException;
 	// 제품번호를 입력받아서 제품의 상세정보를 출력해주는 메소드 구현하기
-	ProductVO showBookDetail(String pk_pro_num) throws SQLException;
+	ProductVO showBookDetail(String pk_pro_num) throws SQLException, IOException;
 	//장바구니에 추가할 상품개수랑 재고량비교
 	Map<String, Integer> qtyCheck(Map<String, String> paraMap) throws SQLException;
 	//현재 장바구니에 추가할 제품이 장바구니에 있는지 중복체크
@@ -66,72 +65,79 @@ public interface InterProductDAO {
 	//로그인한 유저가 사용가능한 쿠폰 
 	List<CouponVO> userCoupon(Map<String, String> paraMap)throws SQLException;
 	// 장바구니 조회하기 메소드
-	List<CartVO> getCart(String fk_userid) throws SQLException;
+	//List<CartVO> getCart(String fk_userid) throws SQLException;
 	//선택한 totalPrice조회
 	int totalPriceSelect2(Map<String, String> paraMap) throws SQLException;
 	//선택한 cartNoCheck 조회
 	Map<String, String> cartNoCheck(Map<String, String> paraMap) throws SQLException;
 	//선택한 cpriceCheck 조회
 	String cpriceCheck(Map<String, String> paraMap) throws SQLException;
-	//오더테이블에 결제 정보추가 (삭제예정)
-	int orderInsert(Map<String, String> paraMap) throws SQLException;
 	//결제 마지막 (오더테이블 insert, 제품수량 update, 포인트 insert)
 	int paymentEnd(Map<String, Object> paraMap) throws SQLException;
 	//order테이블 채번
 	int getSeq_tbl_order() throws SQLException;
 	//주문일자 가져오기
 	String ordDate(Map<String, Object> paraMap) throws SQLException;
+	//사용가능한 포인트 보기
+	String userPoint(Map<String, String> paraMap)throws SQLException;
+	//관리자 전용 구매리스트 출력
+	List<HashMap<String, String>> orderList(Map<String, String> paraMap) throws SQLException;
+	//관리자 전용 구매내역 배송상태 변경
+	int deliverChange(Map<String, String> paraMap) throws SQLException;
+	//관리자 전용 배송상태 배송완료시 배송완료 날짜 등록
+	int deliverdateInsert(Map<String, String> paraMap) throws SQLException;
+	//관리자 전용 배송상태 리스트
+	List<HashMap<String, String>> deliverstatusList() throws SQLException;
+	//관리자 전용 구매내역 회원정보
+	Map<String, String> orderMemberInfo(Map<String, String> paraMap)throws SQLException;
 	
-	// 카테고리 목록 가져오기
-		// tbl_category 테이블에서 카테고리 대분류 번호(cnum), 카테고리코드(code), 카테고리명(cname)을 조회해오기 
-		// VO 를 사용하지 않고 Map 으로 처리
-		List<HashMap<String, String>> getCategoryList() throws SQLException;
-
-		// spec 목록을 보여주고자 한다. 
-		// List<SpecVO> selectSpecList() throws SQLException;
-
-		// 제품번호 채번 해오기
-		// int getPnumOfProduct() throws SQLException;
-
-		// tbl_product 테이블에 제품정보 insert 하기 
-		int productInsert(ProductVO pvo) throws SQLException;
-
-		// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블
-//		int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException;
-
-		// 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
-		ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
-
-		// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
-		List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-		// 장바구니 테이블에 해당 제품이 존재하지 않는 경우에는 tbl_cart 테이블에 insert를 해야 하고,
-		// 장바구니 테이블에 해당 제품이 존재하는 경우에는 또 그 제품을 추가해서 장바구니 담기를 한다면 tbl_cart 테이블에 update를 한다.
-//		int addCart(Map<String, String> paraMap) throws SQLException;
-
-		// 로그인한 사용자의 장바구니 목록을 조회하기
-//		List<CartVO> selectProductCart(String userid) throws SQLException;
-		
-		// 매뉴얼 이름 가져오는 건데 필요없음 
-//		Map<String, String> getPrdmanualFileName(String pk_pro_num) throws SQLException;
-			
 	
-
 	
+	////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
+	ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
 	
+	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
+	List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
+
+	// 장바구니 조회하기 메소드
+	List<CartVO> getCart(String fk_userid) throws SQLException;
+
+	// VO 를 사용하지 않고 Map 으로 tbl_category 테이블에서 카테고리번호(pk_cate_num), 카테고리명(cate_name)을 조회해오기
+	List<HashMap<String, String>> getCategoryList() throws SQLException;
+
+	// tbl_writer 테이블에 작가정보 insert 하기
+	int writerInsert(WriterVO wvo) throws SQLException;
+	
+	// tbl_product 테이블에 제품정보 insert 하기 
+	int productInsert(ProductVO pvo) throws SQLException;
+	
+	// tbl_product 테이블에 카테고리를 가져오기 위해 select 해오기
+	List<HashMap<String, String>> getCategoryListSelect() throws SQLException;
+	
+	// 작가코드(seq_tbl_writer 값) 중복검사하기
+	public boolean wr_codeDuplicateCheck(String wrcode) throws SQLException;
+
+	// 작가코드 존재하는지 찾기
+	String findWr_code(Map<String, String> paraMap)  throws SQLException;
+	
+	// 작가코드(seq_tbl_writer 값)을 가져오기 
+	int getSeq_tbl_writer() throws SQLException;
+	
+	
+	// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블
+	// int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException;
+
+	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
+	//ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
+
+	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
+	//List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
+
+
+
+
 	
 	
 	

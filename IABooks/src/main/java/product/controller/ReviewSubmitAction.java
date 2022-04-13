@@ -15,7 +15,6 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import board.model.BoardDAO;
 import board.model.InterBoardDAO;
-import board.model.ReviewBoardVO;
 import common.controller.AbstractController;
 import member.model.MemberVO;
 
@@ -29,7 +28,7 @@ public class ReviewSubmitAction extends AbstractController {
 		
 		MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 		
-		// if( loginuser == null || !"admin".equals(loginuser.getUserid()) ) {
+
 		if( loginuser == null ) {
 			// 로그인을 안했거나 일반사용자로 로그인 한 경우
 			String message = " 로그인 후 접근이 가능합니다.";
@@ -71,7 +70,7 @@ public class ReviewSubmitAction extends AbstractController {
 			//String cda = (String)session.getAttribute("pk_pro_num");
 			//System.out.println(" 제발 가져와 : " + cda);
 			
-			String fk_pnum = mtrequest.getParameter("fk_pnum"); // 제품번호를 받아온다.
+			String fk_pnum = mtrequest.getParameter("pk_pro_num"); // 제품번호를 받아온다.
 			// System.out.println(" 제발 가져와 : " + fk_pnum);
 			
 			
@@ -80,6 +79,11 @@ public class ReviewSubmitAction extends AbstractController {
 			String writer = mtrequest.getParameter("reviewBoardWriter");
 			String grade = mtrequest.getParameter("grade");
 			String content = mtrequest.getParameter("reviewBoardContent");
+			/*
+			content = content.replaceAll("<", "&lt;");		
+			content = content.replaceAll(">", "&gt;");
+			content = content.replaceAll("\r\n", "<br>");
+			*/
 			String passwd = mtrequest.getParameter("reviewBoardPasswd");
 			
 			String rev_file_system_name = mtrequest.getFilesystemName("rev_file");

@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <%
     String ctxPath = request.getContextPath();
 %>
@@ -52,21 +52,8 @@
 			<%-- location.href="<%= ctxPath%>/product/cart.book"; --%>
 			goCart();
 		});
-		
-		/// 정환모 관심상품 작업 /////////////////////////
-		
-		// 관심상품 추가
-		$("button#btn_wish").click(function() {
-			addWishList();
-		});
-
-		// 모달 관심상품
-		$("div#wishModal button.btn2").click(function() {
-			goWishList();
-		});
-		
 				
-	}); // end of $(document).ready(function () {})-----------------
+	});
 		
 	function addCart() {
 		$.ajax({
@@ -113,47 +100,6 @@
 		frm.method = "post";
 		frm.submit();
 	};
-	
-	/// 정환모 관심상품 함수 작업 ///////////////////////////
-	
-	// addWishList() 함수
-	function addWishList() {
-		$.ajax({
-			url:"<%= ctxPath%>/product/addWishList.book",
-			type:"POST",
-			data:{"pk_pro_num":${requestScope.pvo.pk_pro_num},
-				 "userid":"${sessionScope.loginuser.userid}" }, 
-			dataType:"JSON",
-			success:function(json) {
-				 if(json.addWishList == 1) {
-					// alert("관심상품 추가");
-					
-					 $("#wishModal").modal("show");
-				 }
-	
-			},
-			error: function(request, status, error){
-			//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-				if(request.responseText.match("로그인")){
-					if(!alert(request.responseText)) document.location = "<%= ctxPath%>/login/join.book";
-				}else{
-					alert(request.responseText);
-					location.reload();
-				}
-				
-			}
-		
-		});//end of $.ajax
-			
-	}//end of function addWishList()----------------------
-	
-	function goWishList() {
-		const frm = document.createElement('form');
-		document.body.appendChild(frm);
-		frm.action = "<%= ctxPath%>/product/wishList.book";
-		frm.method = "post";
-		frm.submit();
-	}; //  end of function goWishList()---------------
 	
 </script>
 
@@ -264,7 +210,7 @@
 							</button>
 						</td>
 						<td class="button">
-							<button type="button" id="btn_wish" class="btn2" data-toggle="modal" data-target="#wishModal">
+							<button type="button" id="btn_like" class="btn2" data-toggle="modal" data-target="#wishModal">
 					    		관심상품
 							</button>
 						</td>
@@ -333,18 +279,17 @@
 			<br><br>
 				
 			<p><span class="majorheading">책소개</span></p>
-			<%-- <p class="subheading">${requestScope.pvo.pro_content}</p> --%>
+			<p class="subheading">${fn:replace(requestScope.pvo.pro_content, replaceChar, "<br/>")}</p>
 		
 			<br><br>
 				
 			<p><span class="majorheading">저자소개</span></p>
-			<%-- <p class="subheading">${requestScope.wvo.wr_name}</p> --%>
-		
+			<p class="subheading">${fn:replace(requestScope.pvo.writer.wr_info, replaceChar, "<br/>")}</p>
+			
 			<br><br>
 				
 			<p><span class="majorheading">목차</span></p>
-			<%-- <p class="subheading">${requestScope.pvo.pro_index}</p> --%>
-	
+			<p class="subheading">${fn:replace(requestScope.pvo.pro_index, replaceChar, "<br/>")}</p>
 			<br><br>
 
 		</div>

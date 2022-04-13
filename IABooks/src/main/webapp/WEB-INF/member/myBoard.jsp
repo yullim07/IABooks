@@ -26,7 +26,7 @@
 	text-align: center;
 }
 
- #mySearchContent {
+ #mySearchContent, #mysearchCate {
 		font-size:14px;
 }
 
@@ -125,6 +125,13 @@
 			    
 			   </div>
 			  <p class="mb-3"></p>
+			
+				<select class="cateDropdown" id="mysearchCate" name="mysearchCate" onchange="">
+				    <option value="">분류</option>
+				    <option value="all">전체</option>
+				    <option value="review">후기</option>
+				    <option value="qna">문의</option>
+	            </select>
 			
 			  <table class="table" id="faq_table_all">
 			  <thead class="thead-light" id="faq_thead">

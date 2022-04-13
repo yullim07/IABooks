@@ -56,8 +56,10 @@ public class AddWishListAction extends AbstractController {
 					
 					super.setViewPage("/WEB-INF/jsonview.jsp");
 
-				}else { //내 관심상품 목록에 있는 경우
+				}
+				else { //내 관심상품 목록에 있는 경우
 					
+					n = 2;
 					String message = "현재 관심상품 목록에 있는 상품입니다.";
 					//String loc = "javascript:history.back()";//
 					

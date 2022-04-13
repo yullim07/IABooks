@@ -1,18 +1,12 @@
 package member.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import board.model.BoardDAO;
-import board.model.InterBoardDAO;
-import board.model.MyBoardVO;
-import board.model.QnABoardVO;
-import board.model.ReviewBoardVO;
+import board.model.*;
 import common.controller.AbstractController;
 import member.model.MemberVO;
 
@@ -34,17 +28,19 @@ public class MyBoardAction extends AbstractController {
 		} else {
 			
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
-			// 페이징 처리가 되어진 모든 리뷰 게시글 목록 보여주기
-			
-			// 페이징 처리가 되어진 모든 리뷰 게시글 목록 보여주기
 			
 			// 검색조건이 있을 경우 시작
+			String searchCate = request.getParameter("mysearchCate");
+			if( searchCate == "" || searchCate == null ) {
+				searchCate = "all";
+			}
 			
 			String searchType = request.getParameter("mySearchType");
 			String searchWord = request.getParameter("mySearchWord");
 			// 검색조건이 있을 경우 끝
 			
 			InterBoardDAO bdao = new BoardDAO();
+			TestInterBoardDAO tbdao = new TestBoardDAO();
 			// 기능을 수행할 DAO 객체화
 			Map<String, String> paraMap = new HashMap<>();
 			
@@ -87,9 +83,25 @@ public class MyBoardAction extends AbstractController {
 			
 			paraMap.put("searchType", searchType);
 			paraMap.put("searchWord", searchWord);
+			paraMap.put("searchCate", searchCate);
+			
+			// 카테고리 불러오기
+			/*
+			 * List<HashMap<String, String>> myCateList = new ArrayList<>(); HashMap<String,
+			 * String> myCateMap = new HashMap<>(); myCateMap.put("ename", "all");
+			 * myCateMap.put("name", "전체"); myCateList.add(myCateMap);
+			 * 
+			 * myCateMap.put("ename", "review"); myCateMap.put("name", "타인의 책장");
+			 * myCateList.add(myCateMap);
+			 * 
+			 * myCateMap.put("ename", "qna"); myCateMap.put("name", "상품 Q&A");
+			 * myCateList.add(myCateMap);
+			 */
+			
 			
 			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
 			int totalPage = bdao.getTotalMyPage(paraMap);
+			int totalPage2 = tbdao.getTotalMyPage(paraMap);
 			// System.out.println("~~~확인용 totalPage => " + totalPage);
 			
 			if( Integer.parseInt(currentShowPageNo) > totalPage ) {

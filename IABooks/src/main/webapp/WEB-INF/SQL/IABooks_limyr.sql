@@ -709,3 +709,133 @@ FROM tbl_product A
 LEFT OUTER JOIN tbl_writer B ON A.fk_wr_code = B.pk_wr_code "
 LEFT OUTER JOIN tbl_category C ON A.fk_cate_num = C.pk_cate_num "
 WHERE pk_pro_num = ;
+
+desc tbl_member;
+
+select * from tbl_product;
+-------------------------------
+-- 20220410
+
+desc tbl_category;
+select * from tbl_category;
+
+
+SELECT pk_cate_num, CATE_NAME
+FROM tbl_category
+ORDER by pk_cate_num asc;
+
+
+
+select * from tabs;
+
+desc TBL_PRODUCT_IMAGEFILE;
+desc TBL_PRODUCT;
+desc TBL_WRITER;
+desc TBL_CATEGORY;
+desc TBL_MAIN_IMAGE; -- 이거 아님!
+
+----------- 테스트용 제품 넣기
+select * from tbl_product;
+
+INSERT INTO 
+tbl_product(fk_cate_num, pro_name, publisher, pro_publish_date, pro_price, pro_saleprice, pro_index, point_rate, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, pro_size, pro_bindtype, pro_pages, pro_imgfile_name, fk_wr_code, pro_content, pk_pro_num, pro_restock, pro_soldout)
+VALUES('104', '해리포터', '문학수첩', sysdate, 12000, 9000, '해리포터와 마법사의 돌', 0.01, sysdate, 100, 0, 0, '128*183 (mm)', '양장제본', 943, '000000000013.jpg', 1943, '어쩌고저쩌고 책내용소개', '0000000000013', 0, 0);
+
+
+desc tbl_writer;
+select * from tbl_writer;
+insert into tbl_writer(pk_wr_code, wr_name, wr_info)
+values(1943, '조앤K.롤링', '해리포터 작가');
+
+commit;
+
+select * from tbl_writer;
+SELECT pk_cate_num, cate_name
+FROM tbl_category;
+
+select pro_name, pro_restock from tbl_product
+order by PRO_INPUTDATE desc;
+
+desc tbl_product;
+desc tbl_writer;
+select * from tbl_writer where pk_wr_code = 1943;
+delete from tbl_product where fk_wr_code = 1943;
+
+select pk_pro_num from tbl_product order by pro_inputdate desc;
+
+select * from tbl_product_imagefile;
+
+select * from user_sequences;
+
+desc SEQ_TBL_WRITER;
+
+select SEQ_TBL_WRITER.nextval
+from dual;
+
+desc tbl_product;
+
+
+delete from tbl_product where pk_pro_num='9791167470416';
+
+commit;
+
+
+
+select * from tbl_category;
+desc tbl_category;
+---------------
+
+select SEQ_TBL_WRITER.nextval
+from dual;
+
+-- 책 삽입 실험
+INSERT INTO tbl_product(fk_cate_num, pro_name, publisher, pro_publish_date, pro_price, pro_saleprice, 
+                        pro_index, pro_inputdate, pro_qty, pro_sales, pro_viewcnt, pro_size, pro_bindtype, pro_pages,
+			 			pro_imgfile_name,
+			 			fk_wr_code,
+			 			pro_content, pk_pro_num, pro_soldout, pro_restock,
+			 			point_rate)
+VALUES(102, '빨간망토차차차', '하모니북', sysdate, 16000, 9000, '목차입니다', sysdate, 10, default, default, '123 * 129', '기타', 233, 
+        'book5.jpg', '4000', '책 내용입니다', '9791167470416', 0, 0, 1);
+        
+        
+delete from tbl_product where pk_pro_num='9791167470416';
+select pro_name, fk_wr_code, pk_pro_num, fk_wr_code from tbl_product order by pro_inputdate desc;
+
+desc TBL_WRITER;
+
+select * from tbl_writer;
+insert into tbl_writer(pk_wr_code, wr_name, wr_info)
+values(4000, '테스트', '유령작가');
+
+
+
+-- 테이블에 락 걸린 건지 확인(sys로 접속)
+SELECT  DO.OBJECT_NAME
+      , DO.OWNER
+      , DO.OBJECT_TYPE
+      , VO.XIDUSN
+      , VO.SESSION_ID
+      , VO.LOCKED_MODE
+   FROM V$LOCKED_OBJECT VO
+      , DBA_OBJECTS DO
+  WHERE VO.OBJECT_ID = DO.OBJECT_ID;
+  
+  select * from desc tbl_category;
+  
+select * from tbl_product;
+
+9791185428673
+9791167470416
+9791191347685
+9791155814673
+9791167470417
+9791195182444
+9791167479494
+9791160808261
+9791170400523
+
+delete from tbl_product where pk_pro_num = '9791185428673';
+
+commit;
+

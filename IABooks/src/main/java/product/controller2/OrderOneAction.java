@@ -36,6 +36,8 @@ public class OrderOneAction extends AbstractController  {
 				paraMap.put("pk_cartno", pk_cartno);
 				List<CartVO> order  = pdao.orderOne(paraMap);
 				List<CouponVO> userCoupon = pdao.userCoupon(paraMap);
+				String userPoint = pdao.userPoint(paraMap);
+				
 				int totalPrice = pdao.totalPriceSelect2(paraMap);
 				int shippingFee = 3000;
 				int finalPrice = totalPrice;
@@ -48,6 +50,7 @@ public class OrderOneAction extends AbstractController  {
 				request.setAttribute("fk_userid", userid);
 				request.setAttribute("totalPrice", totalPrice);
 				request.setAttribute("finalPrice", finalPrice);
+				request.setAttribute("userPoint", userPoint);
 		
 				super.setViewPage("/WEB-INF/product/order.jsp");
 				

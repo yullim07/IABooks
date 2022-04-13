@@ -42,9 +42,7 @@ public class QnaSubmitAction extends AbstractController {
 			super.setViewPage("/WEB-INF/msg.jsp");
 			
 		}
-	//	String userid = request.getParameter("userid");
-		
-	//	HttpSession session = request.getSession();
+	
 		
 		else {
 			MultipartRequest mtrequest = null;

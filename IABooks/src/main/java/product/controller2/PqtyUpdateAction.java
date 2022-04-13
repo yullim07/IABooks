@@ -55,8 +55,8 @@ public class PqtyUpdateAction extends AbstractController {
 					if(totalPrice < 50000) {
 						finalPrice = totalPrice + shippingFee;
 					}
-					System.out.println("finalPrice "+finalPrice);
-					System.out.println("totalPrice "+totalPrice);
+					
+				
 					JSONObject jsonObj = new JSONObject(); 
 					jsonObj.put("pqty_update", n);
 					jsonObj.put("partPrice", partPrice);
