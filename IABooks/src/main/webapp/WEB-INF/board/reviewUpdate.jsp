@@ -89,15 +89,15 @@
   <p class="mb-3"></p>
   
   <c:set var="revVO" value="${revVO}" />
-  <form name="editFrm" enctype="multipart/form-data">
+  <form name="editFrm">
 	<div class="table table-responsive">
 		<table class=" write_review">
-		  	<tbody>
+		  	
 		    <tr>
 		      <th class="col-2" >제목</th>
 		      <td class="col-10" ><input type="text" id="revBoardTitle" name="revBoardTitle" value="${(requestScope.revVO).re_title}"/></td>
 		    </tr>
-		  	</tr>
+		  	
 		    <tr class="notMember">
 		      <th>작성자</th>
 		      <td><input type="text" id="revBoardWriter" name="revBoardWriter" value="${(requestScope.revVO).re_writer}" /></td>
@@ -121,17 +121,18 @@
 		  
 		      </td>
 		    </tr>
+		    <%-- 
 		    <tr>
 		      <th>첨부파일1</th>
 		      <td class="" >
-		      	<input  name="rev_file" id="rev_file" type="file" value="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}"/> <%--  button으로 할지 input으로 할지 고민고민 --%>
-		      	<%-- <a class="file_attach" href="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}">${revVO.rev_file_original_name}</a> --%>
+		      	<input  name="rev_file" id="rev_file" type="file" value="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}"/>  button으로 할지 input으로 할지 고민고민
+		      	<a class="file_attach" href="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}">${revVO.rev_file_original_name}</a>
 		      </td>
 		    </tr>
+		     --%>
 		    
 		    
 		    
-		    </tbody>
 		  
 		</table>
 		<input type="hidden" name="pk_rnum" id="pk_rnum" value="${(requestScope.revVO).pk_rnum}">

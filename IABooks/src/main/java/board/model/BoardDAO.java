@@ -1816,16 +1816,15 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " update tbl_review_board set re_title = ?, re_contents= ?, re_writer = ? ,rev_file_system_name = ?, rev_file_original_name = ?"+
+			String sql = " update tbl_review_board set re_title = ?, re_contents= ?, re_writer = ? "+
 			" where pk_rnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("title"));
 			pstmt.setString(2, paraMap.get("content"));
 			pstmt.setString(3, paraMap.get("writer"));
-			pstmt.setInt(4, pk_rnum);
-			pstmt.setString(5, paraMap.get("rev_file_system_name"));
-			pstmt.setString(6, paraMap.get("rev_file_original_name"));
+			pstmt.setInt(4,  pk_rnum);
+			
 			// System.out.println("들어왔니 번호야? : " + pk_rnum);
 			
 			int n = pstmt.executeUpdate();

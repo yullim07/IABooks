@@ -157,12 +157,12 @@
 	    
 	    
 	    <tbody>
-	    <c:set var="qnaVO" value="${requestScope.qnaVO}" />
+	    <c:set var="num" value="${requestScope.qvo.totalCnt - ( (requestScope.qvo.currentShowPageNo-1) *10 ) }" />
 	    	<c:if test="${not empty requestScope.qnaboardList}">
 	    		<c:forEach var="board" items="${requestScope.qnaboardList}">
 	        		<tr class="qnaboardInfo">
 	        			
-		        		<td class="tbl_number mycenter">${board.pk_qna_num}</td>
+		        		<td class="tbl_number mycenter">${num}</td>
 				    	
 				    	<td class="tbl_bookname">
 				    		<c:if test="${board.product.pro_name != '-9999'}">
@@ -231,7 +231,7 @@
 	        			
 	        			
 	        		</tr>
-	        		 
+	        		 <c:set var="num" value="${num-1 }"></c:set>
 	        	</c:forEach>
 	        </c:if>
 	        
