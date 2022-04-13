@@ -18,7 +18,11 @@ public class ReviewBoardVO {
 		private String re_passwd; 	 // 글비밀번호
 		private String re_writer;    // 작성자
 		private int isdelete; 		 // 삭제유무(0:삭제안함, 1:삭제함)
+		private String rev_file_system_name;    // 파일 시스템 네임
+		private String rev_file_original_name;  // 파일 오리지널 네임
 		
+		
+
 		private int reviewCnt;		// 한 제품에 대한 리뷰게시글 수
 		
 //		-----------------------------------------	
@@ -206,5 +210,20 @@ public class ReviewBoardVO {
 			this.next_title = next_title;
 		}
 		
-		
+		public String getRev_file_system_name() {
+			return rev_file_system_name;
+		}
+
+		public void setRev_file_system_name(String rev_file_system_name) {
+			this.rev_file_system_name = rev_file_system_name;
+		}
+
+		public String getRev_file_original_name() {
+			return rev_file_original_name;
+		}
+
+		public void setRev_file_original_name(String rev_file_original_name) {
+			this.rev_file_original_name = rev_file_original_name;
+		}
+
 }

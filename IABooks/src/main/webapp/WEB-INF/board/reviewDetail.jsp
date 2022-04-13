@@ -124,7 +124,9 @@
 		      		<p>${revVO.re_contents}</p>
 		      		<br/>
 		      		<br/>
-		      		
+		      		<c:if test="${revVO.rev_file_original_name ne '없음'}">
+			      		 <img src="/IABooks/images/${revVO.rev_file_system_name}" class="img-fluid" style="width:100%;" />
+			      	</c:if>
 		      		</div>
 		      	</div>
 		      
@@ -135,8 +137,13 @@
 		    <tr>
 		      <th>첨부파일</th>
 		      <td>
-			      	<img id="file_attach_2" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
-			      	<a class="file_attach" href="#">review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg</a>
+			      	<c:if test="${revVO.rev_file_original_name ne '없음'}">
+			      		<img id="file_attach_2" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
+	                    <a class="file_attach" href="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}">${revVO.rev_file_original_name}</a>
+	                </c:if>
+	                <c:if test="${revVO.rev_file_original_name eq '없음'}">
+	                   첨부파일없음
+	                </c:if>
 		      </td>
 		     
 		    </tr>

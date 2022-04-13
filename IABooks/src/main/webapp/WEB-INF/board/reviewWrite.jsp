@@ -118,13 +118,13 @@
   
   
 	<div class="table table-responsive">
-		<form name="reviewSubmitFrm">
+		<form name="reviewSubmitFrm" enctype="multipart/form-data">
 		<c:set var="revVO" value="${requestScope.revVO}" />
 		<c:set var="pk_pro_num" value="${requestScope.pk_pro_num}" />
 		<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pk_pro_num}">
 		<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${revVO.fk_pnum}">
 		<table class=" write_review">
-		  	<tbody>
+		  	<%-- <tbody> --%>
 		    <tr>
 		      <th class="col-2" >제목</th>
 		      <td class="col-10" ><input type="text" id="reviewBoardTitle" name="reviewBoardTitle" /></td>
@@ -196,10 +196,10 @@
 		    
 		    </tr>
 		    <tr>
-		      <th>첨부파일1</th>
+		      <th>첨부파일</th>
 		      <td class="" >
-		      	<button  name="file_attach" type="button">파일 선택</button> <%--  button으로 할지 input으로 할지 고민고민 --%>
-		      	<span>선택된 파일 없음</span>
+		      		<input type="file"  name="rev_file" class="rev_file"/>  <%--  button으로 할지 input으로 할지 고민고민 --%>
+		      	
 		      </td>
 		    </tr>
 		    <tr>
@@ -208,7 +208,7 @@
 		      	<input type="password" id="reviewBoardPasswd" name="reviewBoardPasswd" size="20" maxlength="20" required />
 		      </td>
 		    </tr>
-		    </tbody>
+		    <%-- </tbody> --%>
 		  
 		</table>
 		

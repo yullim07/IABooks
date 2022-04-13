@@ -26,16 +26,9 @@ public class QnaDetailAction extends AbstractController {
 			// 이전글, 다음글을 불러오기 위한 글상세보기의 게시판번호 불러오기
 			
 			int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num"));
-		//	int qna_issecret = Integer.parseInt(request.getParameter("qna_issecret"));	//	MemberVO issecret = (MemberVO) session.getAttribute("issecret");
 			InterBoardDAO bdao = new BoardDAO();
 			
-		//	int qna_issecret  = bdao.searchIssecret(pk_qna_num);
-			
-		//	System.out.println("찾@@자"+qna_issecret);
-			
-		//	System.out.println("받아온 글번호 : " + pk_qna_num);
 			String currentNum = request.getParameter("pk_qna_num");
-		//	System.out.println("받아온 글번호2 : " + currentNum);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			
@@ -47,27 +40,31 @@ public class QnaDetailAction extends AbstractController {
 			
 			QnABoardVO qnaVO = new QnABoardVO();
 			
-	//		System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
-	//		System.out.println("너닌?"+ qnaVO.getQna_issecret());
-	//		System.out.println("idid "+ qnaVO.getFk_userid());
-			
 			qnaVO.setPk_qna_num(pk_qna_num);
+			
+			if( loginuser == null || !( loginuser.getUserid().equals(qnaVO.getFk_userid()) )){
+				bdao.qnaReadCountUp(pk_qna_num);
+			}
+			
 			qnaVO = bdao.readqnaContent(pk_qna_num);
 	
 		
+			
+			
 			String message  ="";
 			String loc = "";
 			
-			if(qnaVO == null) {
-				message = "게시글이 없습니다.";
-				loc = "javascript:history.back()";
-				
-				request.setAttribute("message", message);
-				request.setAttribute("loc", loc);
-				
-			//	super.setRedirect(false);
-				super.setViewPage("/WEB-INF/msg.jsp");
+			
+			 if(qnaVO == null) { 
+				 message = "게시글이 없습니다."; 
+				 loc ="javascript:history.back()";
+			  
+			  	request.setAttribute("message", message); request.setAttribute("loc", loc);
+			  
+			  // super.setRedirect(false); super.setViewPage("/WEB-INF/msg.jsp");
 			}
+			 
+			
 			
 			if( qnaVO.getQna_issecret() == 1 ){ //비밀글인 경우
 		
@@ -86,8 +83,8 @@ public class QnaDetailAction extends AbstractController {
 						QnABoardVO qnaPrevNext = new QnABoardVO(); // 이전글 다음글을 받아옴.
 			
 							if( qnaVO.getPk_qna_num() != 0 ) {
-								paraMap.put("currentNum", currentNum);
-							//	System.out.println("여기까진 오니?");
+								 paraMap.put("currentNum", currentNum);
+							//	 System.out.println("여기까진 오니?");
 								
 								 qnaPrevNext = bdao.getqnaPrevNextContent(paraMap);
 								 
@@ -131,6 +128,8 @@ public class QnaDetailAction extends AbstractController {
 				super.setViewPage("/WEB-INF/board/qnaDetail.jsp");
 
 			}//end of else---------------
+			
+			
 	}
 
 }

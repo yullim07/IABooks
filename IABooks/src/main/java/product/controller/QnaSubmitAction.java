@@ -1,12 +1,17 @@
 package product.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import board.model.BoardDAO;
 import board.model.InterBoardDAO;
@@ -18,7 +23,8 @@ public class QnaSubmitAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		
-	//	System.out.println("제품에서 글쓰기?");
+		
+	//	System.out.println("제품에서 글쓰기?"+fk_pnum);
 		// == 관리자(admin)로 로그인 했을 때만 조회가 가능하도록 해야 한다. == //
 		HttpSession session  = request.getSession();
 				
@@ -41,19 +47,46 @@ public class QnaSubmitAction extends AbstractController {
 	//	HttpSession session = request.getSession();
 		
 		else {
+			MultipartRequest mtrequest = null;
 			
+			// 1. 첨부되어진 파일을 디스크의 어느경로에 업로드 할 것인지 그 경로를 설정해야 한다.
+			ServletContext svlCtx = session.getServletContext();
+			String uploadFileDir = svlCtx.getRealPath("/images");
+		//	System.out.println("=== 첨부되어지는 이미지 파일이 올라가는 절대경로 uploadFileDir ==> " + uploadFileDir);
+			
+			// === 파일을 업로드 해준다. 시작 === //
+			try {
+				mtrequest = new MultipartRequest( request, uploadFileDir, 10*1024*1024 ,  "UTF-8",  new DefaultFileRenamePolicy() );
+				//IOException
+			}catch(IOException e) {
+				e.printStackTrace();
+				
+				request.setAttribute("message", "업로드 되어질 경로가 잘못되었거나 또는 최대용량 10MB를 초과했으므로 파일업로드 실패함!!");
+	            request.setAttribute("loc", request.getContextPath()+"/product/qnaSubmit.book"); 
+	              
+	            super.setViewPage("/WEB-INF/msg.jsp");
+	            return; // 종료
+			}
+			// === 파일을 업로드 해준다. 끝 === //
 		
 			// 글쓰기 버튼을 클릭했을 경우
-			String fk_pnum = request.getParameter("pk_pro_num"); // 제품번호를 받아온다.
-	//		System.out.println(" @@제발 가져와 : " + fk_pnum);
+			String fk_pnum = mtrequest.getParameter("pk_pro_num"); // 제품번호를 받아온다.
+		//	System.out.println(" @@제발 가져와 : " + fk_pnum);
 			
 			String userid = loginuser.getUserid();
-			String subject = request.getParameter("qnaSubject");
-			String content = request.getParameter("qnaContent");
-			String passwd = request.getParameter("qnaPasswd");
-			String issecret = request.getParameter("qnaIssecret");
+			String subject = mtrequest.getParameter("qnaSubject");
+			String content = mtrequest.getParameter("qnaContent");
+			
+			content = content.replaceAll("<", "&lt;");		
+			content = content.replaceAll(">", "&gt;");
+			content = content.replaceAll("\r\n", "<br>");
+			
+			String passwd = mtrequest.getParameter("qnaPasswd");
+			String issecret = mtrequest.getParameter("qnaIssecret");
 			
 			
+			String qna_file_system_name = mtrequest.getFilesystemName("qna_file");
+			String qna_file_original_name = mtrequest.getOriginalFileName("qna_file");
 			
 			
 			Map<String, String> paraMap = new HashMap<>();
@@ -63,7 +96,8 @@ public class QnaSubmitAction extends AbstractController {
 			paraMap.put("content", content);
 			paraMap.put("passwd", passwd);
 			paraMap.put("issecret", issecret);
-			
+			paraMap.put("qna_file_system_name", qna_file_system_name);
+			paraMap.put("qna_file_original_name",qna_file_original_name);
 			
 			String message = "";
 			String loc = "";

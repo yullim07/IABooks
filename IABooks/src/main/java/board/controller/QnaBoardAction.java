@@ -59,12 +59,16 @@ public class QnaBoardAction extends AbstractController {
       // sizePerPage 가 null 이라면 sizePerPage 를 10 으로 바꾸어야 한다.
       // "10" 또는 "5" 또는 "3"
       
+  //    String totalQnaPosts = request.getParameter("totalQnaPosts");
+      
       if(currentShowPageNo == null) {
          currentShowPageNo = "1";
       }
       if( sizePerPage == null || !(  "10".equals(sizePerPage))  ) {
          sizePerPage = "10";
       }
+      
+      
      
       
       try{  //장난쳐도 막는거야
