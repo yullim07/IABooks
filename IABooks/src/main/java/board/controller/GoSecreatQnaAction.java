@@ -15,10 +15,10 @@ public class GoSecreatQnaAction extends AbstractController {
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String method = request.getMethod(); // "GET" 또는 "POST"
-	    System.out.println("method : " + method);
+	 //   System.out.println("method : " + method);
 		
 	 // == 관리자(admin)나 작성한 아이디로 로그인 했을 때만 수정 가능하도록 해야 한다. == //
-		System.out.println("나와라");
+	//	System.out.println("나와라");
 		
 	//	int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num")); // 프라이머리키를 JSP에서 가져온다.
 		HttpSession session  = request.getSession();
@@ -31,9 +31,9 @@ public class GoSecreatQnaAction extends AbstractController {
 		
 	 int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num")); // 프라이머리키를 JSP에서 가져온다.
 		
-		System.out.println("여기다");
+	//	System.out.println("여기다");
 		
-		System.out.println(" QnaUpdateAction 에서 받아온 번호 : " + pk_qna_num);
+	//	System.out.println(" QnaUpdateAction 에서 받아온 번호 : " + pk_qna_num);
 		qnaVO.setPk_qna_num(pk_qna_num); // VO에 PK 값을 넣는다.
 		
 		

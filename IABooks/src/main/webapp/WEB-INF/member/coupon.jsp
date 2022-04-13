@@ -121,47 +121,6 @@ function isExistCouponCheck() {
 };
 
 
-// 모두선택 / 해제
-function selectAll(selectAll)  {
-  const checkbox = document.getElementsByName('delete');
-  
-  checkbox.forEach((checkbox) => {
-    checkbox.checked = selectAll.checked;
-  })
-}
-
-
-	
-// 체크박스 개별 선택
-function checkSelect()  {
- 	// 전체 체크박스
-  	const all_checkbox 
-    = document.querySelectorAll('input[name="delete"]');
- 	 // 선택된 체크박스
- 	 const checked 
-    = document.querySelectorAll('input[name="delete"]:checked');
- 	 // select all 체크박스
- 	 const selectAll 
-    = document.querySelector('input#deleteAllChecked');
-  
-  	if(all_checkbox.length == checked.length)  {
-   		selectAll.checked = true;
- 	} else {
-    	selectAll.checked = false;
- 	}
-}
-
-// 쿠폰삭제하기 
-
-function couponDelete() {
-	
-	const frm = document.registerFrm;
-	frm.action = "couponDelete.book";
-	frm.method = "post";
-	frm.submit();
-	
-}
-
 </script>
 
 <style type="text/css">
@@ -199,59 +158,41 @@ function couponDelete() {
 	<hr style="border: solid 2px #e8e8e8;">
 		<strong>마이 쿠폰 목록</strong><p style="float: right;">사용가능 쿠폰 <span>${requestScope.couponNum}</span> 장</p>
 	
-	<form name="couponDeleteFrm">
-		<table class="coupon">
-			<thead>
-				<tr>
-					<td style="text-align: center;">
-						<input type="checkbox" name="deleteAllChecked" id="deleteAllChecked" onclick='selectAll(this)' />
-					</td>
-					<td>번호</td>
-					<td>쿠폰명</td>
-					<td>쿠폰혜택</td>
-					<td>최소주문금액</td>
-					<td>사용가능기간</td>
-					<td>쿠폰사용여부</td>
-				</tr>
-			</thead>
-			<tbody>		
-				<c:if test="${not empty (requestScope.couponListP)}">
-					<c:forEach var="cvo" items="${requestScope.couponListP}" >
-						<tr>
-							<td style="text-align: center;">
-								<input type="checkbox" name="delete" id="delete" name="couponid" value="${cvo.couponid }"  onclick='checkSelect()' />
-							</td>
-							<td align="center" class="numAsc">${cvo.rno}</td>
-							<td align="center">${cvo.cname }</td>
-							<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cprice }</fmt:formatNumber>원</td>
-							<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cminprice }</fmt:formatNumber>원</td>
-							<td align="center">${cvo.cstartdate }~${cvo.cenddate }</td>
-							<td align="center">
-							<c:choose>
-		   	  	  	  	  		<c:when test="${cvo.ucvo.user_cp_status eq '1' or cvo.cenddate > sysdate}"><!-- 조건변경 -->
-		   	  	  	  	  			<span style="color: blue;">사용가능</span>
-		   	  	  	  	  		</c:when>
-		   	  	  	  	  		<c:otherwise>
-		   	  	  	  	  			<span style="color: red;">사용불가</span>
-		   	  	  	  	  		</c:otherwise>
-		   	  	  	  	  	</c:choose>
-							</td>
-						</tr>
-					</c:forEach>
-				</c:if>
-				<c:if test="${empty (requestScope.couponListP)}">
+	
+	<table class="coupon">
+		<thead>
+			<tr>
+				<td>번호</td>
+				<td>쿠폰명</td>
+				<td>쿠폰혜택</td>
+				<td>최소주문금액</td>
+				<td>사용가능기간</td>
+			</tr>
+		</thead>
+		<tbody>		
+			<c:if test="${not empty (requestScope.couponListP)}">
+				<c:forEach var="cvo" items="${requestScope.couponListP}" >
 					<tr>
-						<td colspan="7" align="center">
-							보유하고 계신 쿠폰내역이 없습니다.
-						</td>
+						<td align="center" class="numAsc">${cvo.rno}</td>
+						<td align="center">${cvo.cname }</td>
+						<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cprice }</fmt:formatNumber>원</td>
+						<td align="center"><fmt:formatNumber type="number" pattern="###,###" >${cvo.cminprice }</fmt:formatNumber>원</td>
+						<td align="center">${cvo.cstartdate }~${cvo.cenddate }</td>
+						
 					</tr>
-				</c:if>
-			</tbody>	
-		</table>
-		
-		<button onclick="couponDelete();" id="btn_delete">쿠폰삭제하기</button>
-		
-	</form>
+				</c:forEach>
+			</c:if>
+			<c:if test="${empty (requestScope.couponListP)}">
+				<tr>
+					<td colspan="7" align="center">
+						보유하고 계신 쿠폰내역이 없습니다.
+					</td>
+				</tr>
+			</c:if>
+		</tbody>	
+	</table>
+	
+
 	
 	<nav class="my-5">
     	<div style="display: flex; width: 100%;">
@@ -260,18 +201,8 @@ function couponDelete() {
     		</ul>
     	</div>
     </nav>
-        
 
 
-<!--  
-	<div class="pagination pagination-sm justify-content-center">
-	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a>
-	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a>
-	  <a class="active" href="#">1</a>
-	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a>
-	  <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
-	</div>
--->		
 	<br><br>
 	<strong>쿠폰인증번호 등록하기</strong>
 	<form name="userCouponRegisterFrm">

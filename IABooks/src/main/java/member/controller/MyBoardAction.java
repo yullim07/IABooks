@@ -90,7 +90,7 @@ public class MyBoardAction extends AbstractController {
 			
 			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
 			int totalPage = bdao.getTotalMyPage(paraMap);
-			System.out.println("~~~확인용 totalPage => " + totalPage);
+			// System.out.println("~~~확인용 totalPage => " + totalPage);
 			
 			if( Integer.parseInt(currentShowPageNo) > totalPage ) {
 				currentShowPageNo = "1";

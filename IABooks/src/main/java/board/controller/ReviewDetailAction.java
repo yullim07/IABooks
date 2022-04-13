@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import board.model.*;
 import board.model.ReviewBoardVO;
 import common.controller.AbstractController;
+import product.model.ProductVO;
 
 public class ReviewDetailAction extends AbstractController {
 
@@ -17,11 +18,17 @@ public class ReviewDetailAction extends AbstractController {
 
 		// 이전글, 다음글을 불러오기 위한 글상세보기의 게시판번호 불러오기
 		int pk_rnum = Integer.parseInt(request.getParameter("pk_rnum"));
-		System.out.println("받아온 글번호 : " + pk_rnum);
+		// System.out.println("받아온 글번호 : " + pk_rnum);
 		String currentNum = request.getParameter("pk_rnum");
-		System.out.println("받아온 글번호2 : " + currentNum);
+		// System.out.println("받아온 글번호2 : " + currentNum);
 		
 		Map<String, String> paraMap = new HashMap<>();
+		
+		ProductVO proVO = new ProductVO();
+		
+		proVO.getPro_imgfile_name();
+		proVO.getPro_name();
+		proVO.getCategory();
 		
 		ReviewBoardVO revVO = new ReviewBoardVO();
 		ReviewBoardVO revPrevNext = new ReviewBoardVO(); // 이전글 다음글을 받아옴.
@@ -45,7 +52,7 @@ public class ReviewDetailAction extends AbstractController {
 		
 		if( revVO.getPk_rnum() != 0 ) {
 			paraMap.put("currentNum", currentNum);
-			System.out.println("여기까진 오니?");
+			// System.out.println("여기까진 오니?");
 			revPrevNext = bdao.getPrevNextReviewContent(paraMap);
 			
 			revVO.setPrev_num(revPrevNext.getPrev_num());

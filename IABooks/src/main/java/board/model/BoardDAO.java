@@ -80,9 +80,7 @@ public class BoardDAO implements InterBoardDAO {
       try {
     	  conn = ds.getConnection();
 
-	
-    		
-    	  String sql = "select fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\n"+
+    	  String sql = "select  fk_pnum, pk_qna_num,  qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents , pro_name, pro_imgfile_name ,cate_name\n"+
     			  "from \n"+
     			  "    ( \n"+
     			  "    select rownum AS rno, fk_pnum, pk_qna_num, qna_title, mname, qna_date , qna_readcount , fk_userid , qna_issecret , qna_contents ,pro_name, pro_imgfile_name ,cate_name\n"+
@@ -98,15 +96,12 @@ public class BoardDAO implements InterBoardDAO {
     			  "        where isdelete = 0 \n";
        
 	          String colname = paraMap.get("searchContent");
-	          System.out.println("searchCOnte"+colname);
-	          
 			  String searchWord = paraMap.get("searchWord");	
 	    	   
 			  if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 						sql += " and " + colname + " like '%'|| ? ||'%' ";
 						// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
 						// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
-					
 			  } 		
 		  
 			  sql +=  " 		order by pk_qna_num desc " +
@@ -114,49 +109,34 @@ public class BoardDAO implements InterBoardDAO {
 	   			   	  " ) T " +
 					  " where rno between ? and ? ";
          
-         
-         
 	          pstmt = conn.prepareStatement(sql);
 	
 	          int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			  int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
-				
-		
 				
 			  if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 					// 검색종류와 검색어가 있으면	
 				  pstmt.setString(1, searchWord);
 				  pstmt.setInt(2, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
 				  pstmt.setInt(3, (currentShowPageNo * sizePerPage));
-				  System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
-					  
+				//  System.out.println("검색어 있을때 : " + currentShowPageNo + "," + sizePerPage);
 			  }
 			  else {
 				  pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
 				  pstmt.setInt(2, (currentShowPageNo * sizePerPage));
-				  System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
-			  
+			//	  System.out.println("검색종류 없을 때 변수들 : " + currentShowPageNo + "," + sizePerPage);
 			  }
 		
 			  rs = pstmt.executeQuery();
 
 			  while (rs.next()) {
 
-				  board = new QnABoardVO();
-       
-				  board.setFk_pnum(rs.getString(1));
-       
-				  board.setPk_qna_num(rs.getInt(2));
-				           /*
-				   ProductVO product = new ProductVO(); 
-				   product.setPro_name(rs.getString(2));
-				   product.setPro_imgfile_name(rs.getString(3)); 
-				   board.setProduct(product);
-				   */
+				   board = new QnABoardVO();
+				  
+				   board.setFk_pnum(rs.getString(1));
+				   board.setPk_qna_num(rs.getInt(2));
 				   board.setQna_title(rs.getString(3)); 
 
-
-				   // **중요한 부분 
 				   MemberVO member = new MemberVO();
 				   member.setName(rs.getString("mname")); 
 				   board.setMember(member); // 보드에 멤버를 넣어줌.
@@ -171,21 +151,15 @@ public class BoardDAO implements InterBoardDAO {
                    product.setPro_name(rs.getString(10));
                    product.setPro_imgfile_name(rs.getString(11)); 
                    board.setProduct(product);
-	               
                    
                    CategoryVO category = new CategoryVO();
                    category.setCate_name(rs.getString(12)); 
 				   board.setCategory(category);
 				   
-				   
 	               qnaboardList.add(board);
 	               
-	               System.out.println(" 넣어진 제목 : " + board.getFk_pnum());
 			  }// end of while(rs.next()) ------------
 			  
-	       
- 
-     
      } catch (SQLException e) {
         e.printStackTrace();
      } finally {
@@ -203,12 +177,12 @@ public class BoardDAO implements InterBoardDAO {
    public int writeQnaBoard(Map<String, String> paraMap) throws SQLException {
 		
 		int result = 0;
-		System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
+	//	System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title,  qna_contents , qna_passwd, qna_issecret ) "
-	                   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?, ?) ";
+			String sql = " insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title,  qna_contents , qna_passwd, qna_issecret, qna_file_system_name, qna_file_original_name ) "
+	                   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?, ? ,?, ?) ";
 	         
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("fk_pnum"));
@@ -217,6 +191,8 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setString(4, paraMap.get("content"));
 			pstmt.setString(5, paraMap.get("passwd"));
 			pstmt.setString(6, paraMap.get("issecret"));
+			pstmt.setString(7, paraMap.get("qna_file_system_name"));
+			pstmt.setString(8, paraMap.get("qna_file_original_name"));
 			
 			
 			result = pstmt.executeUpdate();
@@ -232,7 +208,7 @@ public class BoardDAO implements InterBoardDAO {
 	
    
    
-// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 Qna게시판에 대한 페이지 알아오기
+   // 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 Qna게시판에 대한 페이지 알아오기
     @Override
 	public int getTotalqnaPage(Map<String, String> paraMap) throws SQLException {
     	int totalPage = 0;
@@ -248,8 +224,8 @@ public class BoardDAO implements InterBoardDAO {
 			
 			String colname = paraMap.get("searchContent");
 			String searchWord = paraMap.get("searchWord");	
-			System.out.println(" 확인용 colname : " + colname);
-			System.out.println(" 확인용 searchWord : " + searchWord);
+		//	System.out.println(" 확인용 colname : " + colname);
+		//	System.out.println(" 확인용 searchWord : " + searchWord);
 			
 			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 				sql += " where " + colname + " like '%'|| ? ||'%' ";
@@ -312,7 +288,7 @@ public class BoardDAO implements InterBoardDAO {
 				
 				
 				
-				System.out.println("보자구"+qnaVO.getQna_readcount());
+			//	System.out.println("보자구"+qnaVO.getQna_readcount());
 				
 				qnaVO = bdao.selectqnaContent(pk_qna_num);
 				
@@ -356,14 +332,14 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			
-			String	sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') AS qna_date, qna_passwd, qna_readcount "
-				    	+ " ,qna_issecret,  isdelete, pro_name, pro_imgfile_name, pro_price, cate_name "
-						+ " from tbl_member M right JOIN tbl_qna_board Q  \r\n"
-						+ "        ON M.pk_userid = Q.fk_userid \r\n"
-						+ "        left JOIN tbl_product P  \r\n"
-						+ "        ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999) \r\n"
-						+ "        left JOIN TBL_CATEGORY C\r\n"
-						+ "		   ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)\r\n"
+			String	sql =  " select pk_qna_num, mname, qna_title, qna_contents, fk_userid ,to_char(qna_date,'yyyy-mm-dd hh24:mi:ss') AS qna_date, qna_passwd, qna_readcount, \r\n"
+					+ "				    qna_issecret,  isdelete, pro_name, pro_imgfile_name, pro_price, cate_name ,fk_pnum,   qna_file_system_name, nvl(qna_file_original_name,'없음') as qna_file_original_name \r\n"
+					+ "					 from tbl_member M right JOIN tbl_qna_board Q  \r\n"
+					+ "					       ON M.pk_userid = Q.fk_userid \r\n"
+					+ "					       left JOIN tbl_product P  \r\n"
+					+ "					       ON nvl(Q.fk_pnum,-9999) = nvl(P.pk_pro_num,-9999)\r\n"
+					+ "					       left JOIN TBL_CATEGORY C\r\n"
+					+ "							   ON nvl(P.fk_cate_num,-9999) = nvl(C.pk_cate_num,-9999)"
 						+ "        where isdelete = 0  and pk_qna_num = ? "; //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, pk_qna_num);
@@ -398,7 +374,11 @@ public class BoardDAO implements InterBoardDAO {
 				category.setCate_name(rs.getString(14));
 				qnaVO.setCategory(category);
 				
-				System.out.println("보자구"+qnaVO.getQna_readcount());
+				qnaVO.setFk_pnum(rs.getString(15));
+				qnaVO.setQna_file_system_name(rs.getString(16));
+				qnaVO.setQna_file_original_name(rs.getString(17));
+			//	System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
+			//	System.out.println("보자구"+qnaVO.getQna_readcount());
 				
 			
 		} catch(SQLException e) { 
@@ -447,7 +427,7 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setString(3, paraMap.get("issecret"));
 			pstmt.setInt(4, pk_qna_num);
 			
-			System.out.println("들어왔니 번호야? : " + pk_qna_num);
+		//	System.out.println("들어왔니 번호야? : " + pk_qna_num);
 			
 			int n = pstmt.executeUpdate();
 			
@@ -479,7 +459,7 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " delete tbl_qna_board  "
+			String sql = " update tbl_qna_board  set  isdelete = 1  "
 					   + " where pk_qna_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -508,14 +488,10 @@ public class BoardDAO implements InterBoardDAO {
 	
 	//Qna 게시글에 댓글 작성하기
 	@Override
-	public int writeCmtBoard(Map<String, String> paraMap) throws SQLException{
+	public int writeCmtBoard(CommentVO cvo) throws SQLException{
 		
-		System.out.println("하잉");
 		int result = 0;
-		int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
-		System.out.println("바잉");
-		System.out.println("들어왔니 fkqnanum? : " + fk_qna_num);
-		
+	//	int fk_qna_num = Integer.parseInt(paraMap.get("pk_qna_num"));
 		
 		try {
 		
@@ -525,10 +501,10 @@ public class BoardDAO implements InterBoardDAO {
 					+ "values(SEQ_COMMENT.nextval, ?, ?, ?, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, paraMap.get("fk_userid"));
-			pstmt.setInt( 2, fk_qna_num);
-			pstmt.setString(3, paraMap.get("cmtPasswd"));
-			pstmt.setString(4, paraMap.get("cmtContent"));
+			pstmt.setString(1, cvo.getFk_userid());
+			pstmt.setInt( 2, cvo.getFk_qna_num());
+			pstmt.setString(3, cvo.getCmt_passwd());
+			pstmt.setString(4, cvo.getCmt_contents());
 			
 			result = pstmt.executeUpdate();
 			
@@ -537,16 +513,14 @@ public class BoardDAO implements InterBoardDAO {
 		} finally {
 			close();
 		}
-		
 		return result;
 	}
 	
 	
 	//Qna 게시글 댓글 읽어오기
 	@Override
-	public QnABoardVO readCmtContent(int pk_qna_num) throws SQLException {
-		InterBoardDAO bdao = new BoardDAO();
-		QnABoardVO qnaVO = null;
+	public List<CommentVO> readCmtContent(String fk_qna_num) throws SQLException {
+		List<CommentVO> cmtList = new ArrayList<>();
 		
 		try {
 			conn = ds.getConnection();
@@ -556,22 +530,104 @@ public class BoardDAO implements InterBoardDAO {
 					+ "			where isdelete = 0 and fk_qna_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
-			/* pstmt.setInt(1, fk_qna_num); */
+			pstmt.setString(1, fk_qna_num); 
 			
 			rs = pstmt.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
+				CommentVO cVO = new CommentVO();
+				cVO.setPk_cmt_num(rs.getInt(1));
+				cVO.setFk_userid(rs.getString(2));
+				cVO.setFk_qna_num(rs.getInt(3));
+				cVO.setCmt_passwd(rs.getString(4));
+				cVO.setCmt_contents(rs.getString(5));
+				cVO.setCmt_date(rs.getString(6));
+				cVO.setIsdelete(rs.getInt(7));
+				
+				cmtList.add(cVO);
+				
+			}//end of while(rs.next()) ------
 			
-			}
+		}finally {
+			close();
+		}
+		
+		return cmtList;
+	}
+	
+	// 댓글 정보 알아오기
+	@Override
+	public CommentVO getCmtContent(int pk_cmt_num) throws SQLException{
+
+		CommentVO cVO = null;
 		
 		
-			} catch(SQLException e) { 
-				e.printStackTrace();
-			}finally {
-				close();
-			}
+		// System.out.println("몇 번이니? " + pk_qna_num);
+		
+		try {
+			conn = ds.getConnection();
 			
-			return qnaVO;
+			String	sql = " select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete \r\n"
+						+ "	from tbl_comment\r\n"
+						+ "	where isdelete = 0 and pk_cmt_num = ? "; //남이쓴글이든 내가 쓴 글이든 무조건 보여야 한다. 
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, pk_cmt_num);
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				cVO = new CommentVO();
+				
+				cVO.setPk_cmt_num(rs.getInt(1));
+				cVO.setFk_userid(rs.getString(2));
+				cVO.setFk_qna_num(rs.getInt(3));
+				cVO.setCmt_passwd(rs.getString(4));
+				cVO.setCmt_contents(rs.getString(5));
+				cVO.setCmt_date(rs.getString(6));
+				cVO.setIsdelete(rs.getInt(7));
+				
+				
+			//	System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
+			//	System.out.println("보자구"+qnaVO.getQna_readcount());
+				
+			
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		
+		return cVO;
+	}
+	
+	
+	// 댓글 삭제하기 
+	@Override
+	public int deleteComment(CommentVO cVO) throws SQLException {
+		int result = 0;
+			
+		System.out.println("확인해"+cVO.getPk_cmt_num());
+		try {
+		
+			conn = ds.getConnection();
+			
+			String sql = " delete from tbl_comment "
+					   + " where pk_cmt_num = ? ";
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			pstmt.setInt(1, cVO.getPk_cmt_num());
+			
+			result = pstmt.executeUpdate();
+			
+			
+		} catch (SQLException e) { 
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return result;
 	}
 	
 	
@@ -580,26 +636,32 @@ public class BoardDAO implements InterBoardDAO {
 	public QnABoardVO getqnaPrevNextContent(Map<String, String> paraMap) throws SQLException {
 		
 		int currentNum = Integer.parseInt(paraMap.get("currentNum"));
-		System.out.println("잘 갔니? " + currentNum);
+	//	System.out.println("잘 갔니? " + currentNum);
 		QnABoardVO qnaPrevNext = null;
 		
 		try {
 			conn = ds.getConnection();
 			
 			
-			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle "+
-					" from "+
-					" ( "+
-					" select   "+
-					"         lag(pk_qna_num, 1) over(order by pk_qna_num desc) as prevnum "+
-					"       , lag(qna_title, 1) over(order by pk_qna_num desc) as prevtitle "+
-					"       , pk_qna_num as currentnum "+
-					"       , qna_title as currenttitle "+
-					"       , lead(pk_qna_num, 1) over(order by pk_qna_num desc) as nextnum "+
-					"       , lead(qna_title, 1) over(order by pk_qna_num desc) as nexttitle "+
-					" from tbl_qna_board "+
-					" ) v " +
-					" where currentnum = ? ";
+			String sql = "  select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle  "
+					+ "				from "
+					+ "					(  "
+					+ "				 select    "
+					+ "				        lag(B.pk_qna_num, 1) over(order by B.pk_qna_num desc) as prevnum "
+					+ "				      , lag(B.qna_title, 1) over(order by B.pk_qna_num desc) as prevtitle "
+					+ "				       , B.pk_qna_num as currentnum "
+					+ "				      , B.qna_title as currenttitle   "
+					+ "				      , lead(B.pk_qna_num, 1) over(order by B.pk_qna_num desc) as nextnum "
+					+ "				     , lead(B.qna_title, 1) over(order by B.pk_qna_num desc) as nexttitle  "
+					+ "				 from "
+					+ "                    ( "
+					+ "                     select pk_qna_num, qna_title "
+					+ "                        from tbl_qna_board "
+					+ "                        where isdelete = 0 "
+					+ "                    )B "
+					+ "                  "
+					+ "				 ) v " 
+					+ " where currentnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, currentNum);
@@ -618,10 +680,10 @@ public class BoardDAO implements InterBoardDAO {
 			qnaPrevNext.setNext_title(rs.getString(6));
 			
 			
-			System.out.println("이전글 번호 : " + qnaPrevNext.getPrev_num());
-			System.out.println("이전글 제목 : " + qnaPrevNext.getPrev_title());
-			System.out.println("다음글 번호 : " + qnaPrevNext.getNext_num());
-			System.out.println("다음글 제목 : " + qnaPrevNext.getNext_title());
+		//	System.out.println("이전글 번호 : " + qnaPrevNext.getPrev_num());
+		//	System.out.println("이전글 제목 : " + qnaPrevNext.getPrev_title());
+		//	System.out.println("다음글 번호 : " + qnaPrevNext.getNext_num());
+		//	System.out.println("다음글 제목 : " + qnaPrevNext.getNext_title());
 			
 			
 			}
@@ -693,8 +755,8 @@ public class BoardDAO implements InterBoardDAO {
 		int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 		int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 		
-		System.out.println("currentShowPageNo : " + currentShowPageNo);
-		System.out.println("sizePerPage : " + sizePerPage);
+	//	System.out.println("currentShowPageNo : " + currentShowPageNo);
+	//	System.out.println("sizePerPage : " + sizePerPage);
 		
 		conn = ds.getConnection();
 		
@@ -715,7 +777,7 @@ public class BoardDAO implements InterBoardDAO {
 					+ " 						  order by pk_qna_num desc " 
 					+ "                     	  ) V \r\n"
 					+ "		               ) T \r\n"
-					+ "		              where rno between ? and ? ";
+					+ "		   where rno between ? and ? ";
 		
 		pstmt = conn.prepareStatement(sql);
 		
@@ -827,7 +889,7 @@ public class BoardDAO implements InterBoardDAO {
 		cnt = Integer.parseInt(rs.getString(1));
 		board.setQnaCnt(cnt);
 		
-		System.out.println("몇개> " + cnt);
+	//	System.out.println("몇개> " + cnt);
 		
 		productQnaList.add(board);
 		
@@ -848,8 +910,106 @@ public class BoardDAO implements InterBoardDAO {
 
 	
 	
+	//비밀글 유무 알아오기
+	@Override
+	public int searchIssecret(int pk_qna_num) throws SQLException {
+		
 
+    	int result = 0;
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select qna_issecret\r\n"
+						+ " from tbl_qna_board\r\n"
+						+ " where pk_qna_num = ? ";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, pk_qna_num);
+			
+			rs = pstmt.executeQuery();
+			
+			rs.next();
+			
+			result = rs.getInt(1);
+				
+	
+		} catch(SQLException e) { 
+			e.printStackTrace();
+		}finally {
+			close();
+		}		
+		
+		return result;
+		
+	}
+	
+	// qna글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
+	@Override
+	public Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException {
+		
+		Map<String, String> map = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select qna_file_system_name, qna_file_original_name "
+						+ " from tbl_qna_board "
+						+ " where pk_qna_num = ? ";
+			
 
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_qna_num);
+			
+			rs = pstmt.executeQuery();
+			
+			if( rs.next() ) { //select된게 있다.
+				map.put("qna_file_system_name",rs.getString(1));
+				// 파일서버에 업로드되어지는 실제 제품설명서 파일명
+				
+				map.put("qna_file_original_name",rs.getString(2));
+				//웹클라이언트의 웹브라우저에서 파일을 업로드 할 때 올리는 제품설명서 파일명
+			}//end of if -----------------
+			
+		}finally {
+			close();
+		}
+		return map ;
+		
+	}//end of public Map<String, String> getQnaImgFileName(String pk_qna_num) throws SQLException-------------
+	
+	
+	// 리뷰 글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
+	@Override
+	public Map<String, String> getRevImgFileName(String pk_rnum) throws SQLException {
+		
+		Map<String, String> map = new HashMap<>();
+		
+		try {
+			conn = ds.getConnection();
+			
+			String sql =  " select rev_file_system_name, rev_file_original_name "
+						+ " from tbl_review_board "
+						+ " where pk_rnum = ? ";
+			
+
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, pk_rnum);
+			
+			rs = pstmt.executeQuery();
+			
+			if( rs.next() ) { //select된게 있다.
+				map.put("rev_file_system_name",rs.getString(1));
+				// 파일서버에 업로드되어지는 실제 제품설명서 파일명
+				
+				map.put("rev_file_original_name",rs.getString(2));
+				//웹클라이언트의 웹브라우저에서 파일을 업로드 할 때 올리는 제품설명서 파일명
+			}//end of if -----------------
+			
+		}finally {
+			close();
+		}
+		return map ;
+	}
 	
 	
 	
@@ -1089,7 +1249,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 			int result = 0;
 			int category = Integer.parseInt(paraMap.get("category"));
-			System.out.println("category : " + category);
+			// System.out.println("category : " + category);
 			
 			try {
 			conn = ds.getConnection();
@@ -1133,8 +1293,8 @@ public class BoardDAO implements InterBoardDAO {
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
-			System.out.println("currentShowPageNo : " + currentShowPageNo);
-			System.out.println("sizePerPage : " + sizePerPage);
+			// System.out.println("currentShowPageNo : " + currentShowPageNo);
+			// System.out.println("sizePerPage : " + sizePerPage);
 			
 			conn = ds.getConnection();
 			
@@ -1410,7 +1570,7 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " delete tbl_faq_board " 
+			String sql = " update tbl_faq_board set isdelete = 1 " 
 			+ " where pk_faq_board_num = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -1447,19 +1607,23 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			
-			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle "+
-					" from "+
-					" ( "+
-					" select   "+
-					"         lag(pk_faq_board_num, 1) over(order by pk_faq_board_num desc) as prevnum "+
-					"       , lag(faq_title, 1) over(order by pk_faq_board_num desc) as prevtitle "+
-					"       , pk_faq_board_num as currentnum "+
-					"       , faq_title as currenttitle "+
-					"       , lead(pk_faq_board_num, 1) over(order by pk_faq_board_num desc) as nextnum "+
-					"       , lead(faq_title, 1) over(order by pk_faq_board_num desc) as nexttitle "+
-					" from tbl_faq_board "+
-					" ) v " +
-					" where currentnum = ? ";
+			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle  "
+					+ "					 from "
+					+ "					 ( "
+					+ "					 select   "
+					+ "					         lag(B.pk_faq_board_num, 1) over(order by B.pk_faq_board_num desc) as prevnum  "
+					+ "					       , lag(B.faq_title, 1) over(order by B.pk_faq_board_num desc) as prevtitle  "
+					+ "					       , B.pk_faq_board_num as currentnum  "
+					+ "					       , B.faq_title as currenttitle  "
+					+ "					       , lead(B.pk_faq_board_num, 1) over(order by B.pk_faq_board_num desc) as nextnum  "
+					+ "					       , lead(B.faq_title, 1) over(order by B.pk_faq_board_num desc) as nexttitle  "
+					+ "					 from  ( "
+					+ "                            select pk_faq_board_num, faq_title "
+					+ "                            from tbl_faq_board "
+					+ "                            where isdelete = 0 "
+					+ "                            )B  "
+					+ "					 ) v "
+					+ "					 where currentnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, currentNum);
@@ -1524,12 +1688,12 @@ public class BoardDAO implements InterBoardDAO {
 			
 			String sql = " select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date "+
 			"      , RE_GRADE, RE_CONTENTS, RE_PASSWD, RE_WRITER, isdelete, P.pro_name, P.pro_imgfile_name, P.PRO_PRICE " +
-			"		, C.cate_name " +
+			"		, C.cate_name , rev_file_system_name, nvl(rev_file_original_name,'없음') as rev_file_original_name " +
 			" from tbl_review_board R JOIN tbl_product P " +
 			" ON R.FK_PNUM = P.pk_pro_num " +
 			" JOIN TBL_CATEGORY C " +
 			" ON P.fk_cate_num = C.pk_cate_num " +
-			" where PK_RNUM = ? ";
+			" where isdelete = 0 and PK_RNUM = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, pk_rnum);
@@ -1560,6 +1724,9 @@ public class BoardDAO implements InterBoardDAO {
 			category.setCate_name(rs.getString(14));
 			revVO.setCategory(category);
 			
+			revVO.setRev_file_system_name(rs.getString(15));
+			revVO.setRev_file_original_name(rs.getString(16));
+			
 			// System.out.println("받아왔니? " + faqVO.getFaq_contents());
 			}
 			
@@ -1582,19 +1749,23 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle "+
-					" from "+
-					" ( "+
-					" select   "+
-					"         lag(PK_RNUM, 1) over(order by PK_RNUM desc) as prevnum "+
-					"       , lag(RE_TITLE, 1) over(order by PK_RNUM desc) as prevtitle "+
-					"       , PK_RNUM as currentnum "+
-					"       , RE_TITLE as currenttitle "+
-					"       , lead(PK_RNUM, 1) over(order by PK_RNUM desc) as nextnum "+
-					"       , lead(RE_TITLE, 1) over(order by PK_RNUM desc) as nexttitle "+
-					" from tbl_review_board "+
-					" ) v " +
-					" where currentnum = ? ";
+			String sql = "  select prevnum, prevtitle, currentnum, currenttitle, nextnum, nexttitle  "
+					+ "					 from "
+					+ "					 ( "
+					+ "					 select   "
+					+ "					         lag(B.PK_RNUM, 1) over(order by B.PK_RNUM desc) as prevnum  "
+					+ "					       , lag(B.RE_TITLE, 1) over(order by B.PK_RNUM desc) as prevtitle  "
+					+ "					       , B.PK_RNUM as currentnum  "
+					+ "					       , B.RE_TITLE as currenttitle  "
+					+ "					       , lead(B.PK_RNUM, 1) over(order by B.PK_RNUM desc) as nextnum  "
+					+ "					       , lead(B.RE_TITLE, 1) over(order by B.PK_RNUM desc) as nexttitle  "
+					+ "					 from ( "
+					+ "                            select PK_RNUM, RE_TITLE "
+					+ "                            from tbl_review_board  "
+					+ "                            where isdelete = 0 "
+					+ "                            )B  "
+					+ "					 ) v  "
+					+ "					 where currentnum = ? ";
 	
 			
 			pstmt = conn.prepareStatement(sql);
@@ -1685,7 +1856,7 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " delete tbl_review_board " 
+			String sql = " update tbl_review_board  set isdelete = 1 " 
 			+ " where pk_rnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -1764,8 +1935,8 @@ public class BoardDAO implements InterBoardDAO {
 			int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 			int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 			
-			System.out.println("currentShowPageNo : " + currentShowPageNo);
-			System.out.println("sizePerPage : " + sizePerPage);
+			// System.out.println("currentShowPageNo : " + currentShowPageNo);
+			// System.out.println("sizePerPage : " + sizePerPage);
 			
 			conn = ds.getConnection();
 			
@@ -1838,19 +2009,20 @@ public class BoardDAO implements InterBoardDAO {
 			
 		} // public List<ReviewBoardVO> selectPagingProductRev(Map<String, String> paraMap) throws SQLException
 
+		// 리뷰게시판에 글 작성하기
 		@Override
 		public int writeRevBoard(Map<String, String> paraMap) throws SQLException {
 
 			int result = 0;
 			int grade = Integer.parseInt(paraMap.get("grade"));
-			System.out.println("grade : " + grade);
-			System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
+			// System.out.println("grade : " + grade);
+			// System.out.println("fk_pnum : " + paraMap.get("fk_pnum"));
 			
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " insert into tbl_review_board (PK_RNUM, FK_USERID, FK_PNUM, RE_TITLE, RE_WRITER, RE_GRADE,  RE_CONTENTS, RE_PASSWD) "
-			+ " values(SEQ_REVIEW_BOARD.nextval, ?, ?, ?, ?, ?, ?, ?) ";
+			String sql = " insert into tbl_review_board (PK_RNUM, FK_USERID, FK_PNUM, RE_TITLE, RE_WRITER, RE_GRADE,  RE_CONTENTS, RE_PASSWD, rev_file_system_name, rev_file_original_name) "
+			+ " values(SEQ_REVIEW_BOARD.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("userid"));
@@ -1860,7 +2032,8 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setInt(5, grade);
 			pstmt.setString(6, paraMap.get("content"));
 			pstmt.setString(7, paraMap.get("passwd"));
-			
+			pstmt.setString(8, "rev_file_system_name");
+			pstmt.setString(9, "rev_file_original_name");
 			
 			result = pstmt.executeUpdate();
 			
@@ -2034,8 +2207,8 @@ public class BoardDAO implements InterBoardDAO {
 				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
 				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
 				
-				System.out.println("currentShowPageNo : " + currentShowPageNo);
-				System.out.println("sizePerPage : " + sizePerPage);
+				// System.out.println("currentShowPageNo : " + currentShowPageNo);
+				// System.out.println("sizePerPage : " + sizePerPage);
 				
 				String colname = paraMap.get("searchType");
 				String searchWord = paraMap.get("searchWord");
@@ -2188,7 +2361,197 @@ public class BoardDAO implements InterBoardDAO {
 			return categoryList;
 			
 		} // end of public List<HashMap<String, String>> getFaqCateList() throws SQLException
+
+		@Override
+		public int getTotalPageAdminBoard(Map<String, String> paraMap) throws SQLException {
+
+			int totalPage = 0;
+			
+			String colname = paraMap.get("searchType");
+			String searchWord = paraMap.get("searchWord");
+			String re_option = "";
+			String qna_option = "";
+			
+			try {
+				conn = ds.getConnection();
+				
+				String sql = " select ceil( (revCnt + qnaCnt) / ? ) AS myCnt ";
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					re_option = "re_title";
+					qna_option = "qna_title";
+					sql +=  " from ( select COUNT(*) AS revCnt, re_title, re_contents from tbl_review_board " +
+						    " where "+re_option+" like '%'|| ? ||'%' ) R "+
+						    " , ( select COUNT(*) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						    " where "+qna_option+" like '%'|| ? ||'%' ) Q ";
+				}
+				else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					re_option = "re_contents";
+					qna_option = "qna_contents";
+					sql +=  " from ( select COUNT(*) AS revCnt, re_title, re_contents from tbl_review_board " +
+						    " where "+re_option+" like '%'|| ? ||'%' ) R "+
+						    " , ( select COUNT(*) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						    " where "+qna_option+" like '%'|| ? ||'%' ) Q ";
+				}
+				else { // 검색조건이 없을 때
+					sql += " from ( select COUNT(*) AS revCnt, re_title, re_contents from tbl_review_board " +
+						   " ) R "+
+						   " , ( select COUNT(*) AS qnaCnt, qna_title, qna_contents from tbl_qna_board " +
+						   " ) Q ";
+				}
+				// System.out.println(" 확인용 colname : " + colname);
+				// System.out.println(" 확인용 searchWord : " + searchWord);
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("sizePerPage"));
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					pstmt.setString(2, searchWord);
+					pstmt.setString(3, searchWord);
+				}
+				else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					pstmt.setString(2, searchWord);
+					pstmt.setString(3, searchWord);
+					
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				rs.next();
+				
+				totalPage = rs.getInt(1);
+			
+			} finally {
+			close();
+			}
+			
+			return totalPage;
+			
+		} // end of public int getTotalPageAdminBoard(Map<String, String> paraMap) throws SQLException -------------
+
+		@Override
+		public List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException {
+
+			MyBoardVO myBoardVO = null;
+			
+			List<MyBoardVO> adminBoardList = new ArrayList<>();
+			
+			try {
+			
+				int currentShowPageNo = Integer.parseInt(paraMap.get("currentShowPageNo"));
+				int sizePerPage = Integer.parseInt(paraMap.get("sizePerPage"));
+				
+				// System.out.println("currentShowPageNo : " + currentShowPageNo);
+				// System.out.println("sizePerPage : " + sizePerPage);
+				
+				String colname = paraMap.get("searchType");
+				String searchWord = paraMap.get("searchWord");
+				String re_option = "";
+				String qna_option = "";
+				
+				conn = ds.getConnection();
+				
+				String sql = "SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, qna_isdelete, re_isdelete "+
+							" FROM "+
+							" ( "+
+							"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, qna_isdelete, re_isdelete "+
+							"    from  "+
+							"        ( "+
+							"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents, A.isdelete AS qna_isdelete "+
+							"        from tbl_qna_board A "+
+							"        FULL OUTER JOIN tbl_review_board B "+
+							"        ON A.qna_title = B.re_title "+
+							"		 where A.fk_userid is not null and B.re_title is null "+
+							"        ) Q\n"+
+							"    FULL OUTER JOIN\n"+
+							"        (\n"+
+							"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents, B.isdelete AS re_isdelete "+
+							"        from tbl_qna_board A "+
+							"        FULL OUTER JOIN tbl_review_board B "+
+							"        ON A.qna_title = B.re_title "+
+							"		 where B.fk_userid is not null and A.qna_title is null "+	
+							"        ) R "+
+							"    ON Q.qna_title = R.re_title " +
+							"    ) V "+
+							" where rno between ? and ?";		
+				
+				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
+					re_option = "re_title";
+					qna_option = "qna_title";
+					sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
+				}
+				
+				if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					re_option = "re_contents";
+					qna_option = "qna_contents";
+					sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
+				}
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setInt(1, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+				pstmt.setInt(2, (currentShowPageNo * sizePerPage));
+				
+				
+				if( "my_title".equalsIgnoreCase(colname) || "my_contents".equalsIgnoreCase(colname) ) {
+					pstmt.setString(3, searchWord);
+					pstmt.setString(4, searchWord);
+				}
+				
+				rs = pstmt.executeQuery();
+				
+				while(rs.next()) {
+				
+					myBoardVO = new MyBoardVO();
+					
+					QnABoardVO qna = new QnABoardVO();
+					qna.setPk_qna_num(rs.getInt(1));
+					qna.setQna_title(rs.getString(2));
+					qna.setQna_date(rs.getString(3));
+					qna.setQna_contents(rs.getString(9));
+					qna.setIsdelete(rs.getInt(10));
+					myBoardVO.setQnaBoard(qna);
+					
+					ReviewBoardVO review = new ReviewBoardVO();
+					review.setPk_rnum(rs.getInt(4));
+					review.setRe_title(rs.getString(5));
+					review.setRe_date(rs.getString(6));
+					review.setRe_grade(rs.getInt(7));
+					review.setRe_contents(rs.getString(8));
+					review.setIsdelete(rs.getInt(11));
+					myBoardVO.setRevBoard(review);
+					
+					// System.out.println("잘들어감? => " + myBoardVO.getRevBoard().getRe_title());
+					// System.out.println("잘들어감? => " + myBoardVO.getQnaBoard().getQna_title());
+					
+					adminBoardList.add(myBoardVO);
+					
+				}//end of while(rs.next()) ------------ 
+			
+			
+			} catch(SQLException e){  
+				e.printStackTrace();
+			} catch(NumberFormatException e) { 
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			
+			return adminBoardList;
+			
+		} // end of public List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException
 		
+		
+		
+		
+
+		
+		
+		
+
+
+
 		
 		
 		

@@ -67,11 +67,8 @@ public interface InterMemberDAO {
 	/////////////////////////////////////////////// 파일 합치기
 	
 	
-	// 아이디를 입력받아서 해당 사용자의 마일리지액 조회
-//	Map<String, String> mgInfo (Map<String, String> paraMap) throws SQLException;
-
-	// 주문DB에서 데이터를 뽑아서 주문에 대한 상세정보 조회
-//	List<MileageVO> orderMileageInfo(Map<String, String> paraMap) throws SQLException;
+	// 주문내역조회
+	List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException;
 
 
 ///////////////////////////////////////////////////////////// 새로시작
@@ -96,7 +93,7 @@ public interface InterMemberDAO {
 	int userNormalStatusUpdate(String userid) throws SQLException;
 
 	// 쿠폰삭제하기 
-	int couponDelete(String couponid, String userid) throws SQLException;
+	int couponDelete() throws SQLException;
 	
 	// 모든 쿠폰 정보 보여주기
 	List<CouponVO> couponListInfo() throws SQLException;
@@ -113,6 +110,9 @@ public interface InterMemberDAO {
 	// 마이페이지 주문처리현황 4단계
 	int deliverStep4(String userid) throws SQLException;
 	
+	// 마이페이지 주문처리현황 5단계
+	int deliverStep5(String userid) throws SQLException;
+
 	// 마이페이지 지금까지 구매한 내역 조회하기
 	int allPrice(String userid) throws SQLException;
 	
@@ -121,6 +121,31 @@ public interface InterMemberDAO {
 
 	// 마이페이지 사용가능한 마일리지 금액 조회
 	int useMileage(String userid) throws SQLException;
+
+	// Ajax(JSON)를 사용하여 마일리지조회를 "더보기" 방식으로 페이징처리 해주기 전체개수 알아오기 // 
+	int totalMileageCount(Map<String, String> paraMap) throws SQLException;
+	
+	// 마일리지사용내역 전체조회
+	List<Map<String, String>> selectMileageListAll(Map<String, String> paraMap) throws SQLException;
+	
+	// 페이징되어진 마일리지 내역 조회
+	List<Map<String, String>> selectPagingmileage(Map<String, String> paraMap) throws SQLException;
+	
+	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기. 
+	int getMileageTotalPage(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징되어진 마일리지 내역 조회2
+	List<Map<String, String>> selectPagingmileage2(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징되어진 마일리지 내역 조회3
+	List<Map<String, String>> selectPagingmileage3(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기 2
+	int getMileageTotalPage2(Map<String, String> paraMap) throws SQLException;
+
+	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기 3
+	int getMileageTotalPage3(Map<String, String> paraMap) throws SQLException;
+
 
 	
 	

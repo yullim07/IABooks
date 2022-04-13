@@ -38,13 +38,13 @@ public class QnaUpdateEndAction extends AbstractController {
 			QnABoardVO qnaVO = new QnABoardVO();
 			
 			String pk_qna_num = request.getParameter("pk_qna_num");
-			System.out.println("좀 가져와봐 : " + pk_qna_num);
+		//	System.out.println("좀 가져와봐 : " + pk_qna_num);
 			String userid = loginuser.getUserid();
 			String title = request.getParameter("qnaSubject");
 			String content = request.getParameter("qnaContent");
 			String issecret = request.getParameter("qnaIssecret");
 			
-			System.out.println(" 받아온 번호 : " + pk_qna_num);
+		//	System.out.println(" 받아온 번호 : " + pk_qna_num);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			

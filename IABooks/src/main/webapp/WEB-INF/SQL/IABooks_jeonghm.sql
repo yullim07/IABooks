@@ -444,7 +444,7 @@ from tbl_faq_board
      4  2
 -----------------------------------------------------------
 
-
+/*
 
 desc TBL_FAQ_BOARD
 
@@ -737,5 +737,87 @@ FROM
 where rno between 1 and 10
 and re_title like '%' || '세계' || '%' or qna_title like '%' || '세계' || '%';
 
+select *
+from tbl_member;
+
+desc tbl_cart
+
+*/
+
+------ 220411
 
 
+/* 관심상품 */
+CREATE TABLE tbl_wishlist (
+	pk_wnum NUMBER NOT NULL, /* 관심상품번호 */
+	fk_userid VARCHAR2(20), /* 회원아이디 */
+	fk_pnum VARCHAR2(20), /* 국제표준도서번호 */
+	wdate DATE, /* 입력일자 */
+    w_status NUMBER(1) NOT NULL /* */
+);
+
+commit;
+
+DESC tbl_wishlist;
+desc tbl_cart;
+
+---
+
+  create sequence SEQ_WISHLIST
+  start with 1    -- 첫번쨰 출발은 1 부터 한다.
+  increment by 1  -- 증가치는 1이다. 1씩 증가한다.
+  maxvalue 10000      -- 최대값이 5이다.
+  minvalue 1      -- 최소값이 2이다.
+  cycle           -- 반복을 한다.
+  nocache;
+
+
+update tbl_wishlist set wdate= sysdate where pk_wnum = 1;
+
+insert into tbl_wishlist(PK_WNUM, FK_USERID, FK_PNUM, W_STATUS)
+values(SEQ_WISHLIST.nextval, 'gorush34', '9791196418335', 1);
+
+insert into tbl_wishlist(PK_WNUM, FK_USERID, FK_PNUM, W_STATUS)
+values(SEQ_WISHLIST.nextval, 'gorush34', '9791196832827', 1);
+
+insert into tbl_wishlist(PK_WNUM, FK_USERID, FK_PNUM, W_STATUS)
+values(SEQ_WISHLIST.nextval, 'gorush34', '9788991216983', 1);
+
+SELECT A.pk_cartno, A.fk_userid, A.fk_pro_num
+     , B.pro_name, B.fk_cate_num, C.cate_name 
+     , B.pro_imgfile_name, B.pro_price, B.pro_saleprice
+     , A.ck_odr_qty, A.c_status, A.ck_odr_qty*B.pro_saleprice AS partPrice
+FROM tbl_cart A LEFT OUTER JOIN tbl_product B 
+ON A.fk_pro_num = B.pk_pro_num 
+LEFT OUTER JOIN tbl_category C 
+ON B.fk_cate_num = C.pk_cate_num 
+WHERE A.c_status = 1 AND A.fk_userid = 'gorush34'
+
+SELECT A.PK_WNUM, A.FK_USERID, A.FK_PNUM
+     , B.pro_name, B.fk_cate_num, C.cate_name 
+     , B.pro_imgfile_name, B.pro_price, B.pro_saleprice, A.w_status
+FROM tbl_wishlist A LEFT OUTER JOIN tbl_product B 
+ON A.fk_pnum = B.pk_pro_num 
+LEFT OUTER JOIN tbl_category C 
+ON B.fk_cate_num = C.pk_cate_num 
+WHERE A.w_status = 1 AND A.fk_userid = 'gorush34'
+
+select *
+from tbl_wishlist
+
+
+select *
+from tbl_cart
+where fk_userid = 'gorush34';
+
+
+select fk_pnum
+from tbl_wishlist join tbl_product 
+on fk_pnum = pk_pro_num
+where fk_userid = 'gorush34' and pk_wnum = 1 
+
+select pro_qty 
+from tbl_product 
+where pk_pro_num = '9791196418335'
+
+9791196418335

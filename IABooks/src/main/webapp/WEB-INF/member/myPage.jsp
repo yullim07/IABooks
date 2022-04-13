@@ -106,6 +106,13 @@
 			location.href="<%= ctxPath %>/member/orderInfo.book";
 			
 		})// end of $("td.tbl_body_td").click
+		
+		// 주문내역조회 버튼으로 가기
+		$("input.orderETC").click(()=>{
+			
+			location.href="<%= ctxPath %>/member/orderInfo.book";
+			
+		})// end of $("td.tbl_body_td").click
 	
 		// 회원 정보
 		$("td.tbl_body2").click(()=>{
@@ -117,7 +124,7 @@
 		// 관심상품
 		$("td.tbl_body3").click(()=>{
 			
-			location.href="<%= ctxPath %>/member/interestedItem.book";
+			location.href="<%= ctxPath %>/product/wishList.book";
 			
 		})// end of $("td.tbl_body_td").click
 	
@@ -206,18 +213,11 @@
     	</tr>
     	
     	<tr>
-	    	<td class ="tbl_head_second_td_two"><strong>입금전<br><br>${requestScope.step1 }</strong></td>
+	    	<td class ="tbl_head_second_td_two"><strong>주문확인<br><br>${requestScope.step1 }</strong></td>
 	    	<td class ="tbl_head_second_td_two"><strong>배송준비중<br><br>${requestScope.step2 }</strong></td>
 	    	<td class ="tbl_head_second_td_two"><strong>배송중<br><br>${requestScope.step3 }</strong></td>
 	    	<td class ="tbl_head_second_td_two"><strong>배송완료<br><br>${requestScope.step4 }</strong></td>
-    	
-	    	<td>
-		    	<ul>
-		    		<li>취소 : <strong>?</strong></li>
-		    		<li>교환 : <strong>?</strong></li>
-		    		<li>반품 : <strong>?</strong></li>
-		    	</ul>
-	    	</td>
+	    	<td class ="tbl_head_second_td_two"><strong>주문특이사항<br><br>${requestScope.step5}</strong><input class="btn_jo orderETC" type="button" value="조회" ></td>
     	</tr>
     </table>
     <br>

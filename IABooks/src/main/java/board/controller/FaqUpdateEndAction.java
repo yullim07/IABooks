@@ -35,14 +35,14 @@ public class FaqUpdateEndAction extends AbstractController {
 			FaqBoardVO faqVO = new FaqBoardVO();
 			
 			String pk_faq_board_num = request.getParameter("pk_faq_board_num");
-			System.out.println("좀 가져와봐 : " + pk_faq_board_num);
+			// System.out.println("좀 가져와봐 : " + pk_faq_board_num);
 			String userid = loginuser.getUserid();
 			String title = request.getParameter("faqBoardTitle");
 			String writer = request.getParameter("faqBoardWriter");
 			String content = request.getParameter("faqBoardContent");
 			String category = request.getParameter("faqBoardCate");
 			
-			System.out.println(" 받아온 번호 : " + pk_faq_board_num);
+			// System.out.println(" 받아온 번호 : " + pk_faq_board_num);
 			
 			Map<String, String> paraMap = new HashMap<>();
 			

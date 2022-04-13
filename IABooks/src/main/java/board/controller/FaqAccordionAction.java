@@ -11,7 +11,7 @@ public class FaqAccordionAction extends AbstractController {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String method = request.getMethod(); // "GET" 또는 "POST"
-		System.out.println("method : " + method);
+		// System.out.println("method : " + method);
 		
 		
 			// 페이지 이동을 시킨다.

@@ -30,7 +30,7 @@ public class QnaDeleteAction extends AbstractController {
 		String loc = "";
 		String password = request.getParameter("password");
 		int pk_qna_num = Integer.parseInt(request.getParameter("pk_qna_num"));
-		System.out.println(" 삭제하기 위해 QnaDeleteAction 에서 받아온 번호 : " + pk_qna_num);
+	//	System.out.println(" 삭제하기 위해 QnaDeleteAction 에서 받아온 번호 : " + pk_qna_num);
 		qnaVO.setPk_qna_num(pk_qna_num);
 		qnaVO.setQna_passwd(password);
 		
