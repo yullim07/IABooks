@@ -26,15 +26,15 @@
 	text-align: center;
 }
 
-#admin_tbody > tr > td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(5), td:nth-child(6) {
+#my_tbody > tr > td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(5), td:nth-child(6) {
 	text-align: center;
 }
 
- #adminSearchContent, #adminsearchCate {
+ #mySearchContent {
 		font-size:14px;
 }
 
-#admin_tbody > tr > td:nth-child(4) {
+#my_tbody > tr > td:nth-child(4) {
 	padding-left : 20px;
 }
 
@@ -60,27 +60,6 @@ button#btn_isdelete, button#btn_delete {
 <script type="text/javascript">
 	
 	$(document).ready(function(){
-		
-		
-		// select 설정 시작 // 
-		
-		// **** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ****//
-		$("select#adminsearchCate").bind("change", function(){
-			
-			const frm = document.adminBoardFrm;
-			frm.action = "adminBoard.book";
-			frm.method = "get";
-			frm.submit();
-			
-		});
-		
-		if( "${requestScope.adminsearchCate}" != "" ) {
-			$("select#adminsearchCate").val("${requestScope.adminsearchCate}");
-		}
-		
-		
-		
-		// select 설정 끝 // 
 		
 		//전체체크박스설정		
 		$("input#selectAll").bind("click",function () {
@@ -163,24 +142,24 @@ button#btn_isdelete, button#btn_delete {
 		});//end of $("span#displaySelect").click(function () {
         		
 			
-		$("button#btn_adminSearch").click(function(){
+		$("button#btn_mySearch").click(function(){
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
 			
-			if($("select.adminSearchType").val() == "" ) {
+			if($("select.mySearchType").val() == "" ) {
 				alert("검색대상을 올바르게 선택하세요!! ");
 				return false; // submit을 하지 않고 종료
 			}
 			
-			if($("input#adminSearchWord").val().trim() == "") {
+			if($("input#mySearchWord").val().trim() == "") {
 				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! qwe2");
 				return false;
 			}
 			
-			$("input#adminSearchWord").bind("keyup", function(){
+			$("input#mySearchWord").bind("keyup", function(){
 				
 				if(event.keyCode == 13) {
 					// 검색어에서 엔터를 치면 검색하러 간다.
-					goadminBoardSearch();
+					goMyBoardSearch();
 				}
 				
 			});
@@ -191,9 +170,9 @@ button#btn_isdelete, button#btn_delete {
 		// alert("~~ 확인용 : ${requestScope.searchType} ");
 		// "~~ 확인용 : "
 		// 회원명 조건하고 했더니 "~~ 확인용 : name" 뜸
-		if( "${requestScope.adminSearchType}" != "" ) { // 반드시 if에 넣을때 쌍따옴표 꼭 붙여라!!(자바스크립트임)
-			$("select#adminSearchType").val("${requestScope.adminSearchType}");
-			$("input#adminSearchWord").val("${requestScope.adminSearchWord}");
+		if( "${requestScope.mySearchType}" != "" ) { // 반드시 if에 넣을때 쌍따옴표 꼭 붙여라!!(자바스크립트임)
+			$("select#mySearchType").val("${requestScope.mySearchType}");
+			$("input#mySearchWord").val("${requestScope.mySearchWord}");
 		}
 		
 		
@@ -202,17 +181,17 @@ button#btn_isdelete, button#btn_delete {
 	// Function Declaration
 	function goAdminBoardSearch(){
 	
-		if($("select.adminSearchType").val() == "" ) {
+		if($("select.mySearchType").val() == "" ) {
 			alert("검색대상을 올바르게 선택하세요!!");
 			return; // goAdminBoardSearch() 함수 종료.
 		}
 		
-		if($("input#adminSearchWord").val().trim() == "") {
+		if($("input#mySearchWord").val().trim() == "") {
 			alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
 			return;
 		}
 		
-		const frm = document.adminBoardFrm;
+		const frm = document.myBoardFrm;
 		frm.action = "adminBoard.book";
 		frm.method = "get";
 		frm.submit();
@@ -294,7 +273,7 @@ button#btn_isdelete, button#btn_delete {
 
 
 	    <div class="container">
-	    <form name="adminBoardFrm" method="get">
+	    <form name="myBoardFrm" method="get">
 			    <div class="title" >
 				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 				  	<h2>게시글관리</h2>
@@ -303,14 +282,6 @@ button#btn_isdelete, button#btn_delete {
 			    
 			   </div>
 			  <p class="mb-3"></p>
-			  
-			  <select class="cateDropdown" id="adminsearchCate" name="adminsearchCate" onchange="">
-				    <option value="">분류</option>
-				    <option value="all">전체</option>
-				    <option value="review">후기</option>
-				    <option value="qna">문의</option>
-              </select>
-			  
 			
 			  <table class="table" id="faq_table_all">
 			  <thead class="thead-light" id="faq_thead">
@@ -318,15 +289,15 @@ button#btn_isdelete, button#btn_delete {
 			    	<th width="4%"><input type="checkbox" id="selectAll" name="selectAll" /></td>
 			      	<th width="8%">번호</th>
 			        <th width="10%">카테고리</th>
-			        <th width="44%">제목</th>
-			        <th width="10%">작성자아이디</th>
+			        <th width="46%">제목</th>
+			        <th width="8%">작성자</th>
 			        <th width="16%">작성일</th>
 			        <th width="8%">게시상태</th>
 			    </tr>
 			  </thead>
-			  <tbody id="admin_tbody">
-			  	<c:if test="${not empty requestScope.adminBoardList}">
-			    <c:forEach var="board" items="${requestScope.adminBoardList}" >
+			  <tbody id="my_tbody">
+			  	<c:if test="${not empty requestScope.myBoardList}">
+			    <c:forEach var="board" items="${requestScope.myBoardList}" >
 			    	<c:if test="${board.revBoard.pk_rnum ne 0 }">
 				    <tr>
 				    	<%-- 체크박스 --%>
@@ -336,7 +307,7 @@ button#btn_isdelete, button#btn_delete {
 				      	<td><input type="hidden" id="pk_rnum"  value="${board.revBoard.pk_rnum}"/>${board.revBoard.pk_rnum}</td>
 				      	<td style="text-align: center;"><a href="<%= ctxPath%>/board/reviewBoard.book">타인의 책장</a></td>
 				      	<td><a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.revBoard.pk_rnum}">${board.revBoard.re_title}</a></td>
-				      	<td>${board.revBoard.fk_userid}</td>
+				      	<td>-</td>
 				      	<td>${board.revBoard.re_date}</td>
 				      	<c:if test="${board.revBoard.isdelete eq 0 }">
 				      		<td style="text-align: center;">공개</td>
@@ -356,7 +327,7 @@ button#btn_isdelete, button#btn_delete {
 				      	<td><input type="hidden" id="pk_qna_num" value="${board.qnaBoard.pk_qna_num}"/>${board.qnaBoard.pk_qna_num}</td>
 				      	<td style="text-align: center;"><a href="<%= ctxPath%>/board/qnaBoard.book">상품 Q&A</a></td>
 				      	<td><a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.qnaBoard.pk_qna_num}">${board.qnaBoard.qna_title}</a></td>
-				      	<td>${board.qnaBoard.fk_userid}</td>
+				      	<td>-</td>
 				      	<td>${board.qnaBoard.qna_date}</td>
 				      	<c:if test="${board.qnaBoard.isdelete eq 0 }">
 				      		<td style="text-align: center;">공개</td>
@@ -368,7 +339,7 @@ button#btn_isdelete, button#btn_delete {
 				    </c:if>
 			    </c:forEach> 
 			    </c:if> 
-			     <c:if test="${empty requestScope.adminBoardList}">
+			     <c:if test="${empty requestScope.myBoardList}">
 			     <tr id="notExist">
 			      	<td colspan="6">
 			      		<div>
@@ -391,7 +362,7 @@ button#btn_isdelete, button#btn_delete {
 						</span>
 				</tr>	
 			</tfoot>
-			<nav class="admin-5">
+			<nav class="my-5">
 				<div style="display: flex; width: 100%;">
 					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
 				</div>	
@@ -399,14 +370,14 @@ button#btn_isdelete, button#btn_delete {
 			
 			<div class="search_outer" id="tab_center">
 		 		<div class="search_inner">
-				    <select id="adminSearchContent" name="adminSearchType">
+				    <select id="mySearchContent" name="mySearchType">
 				    	<option value="">분류</option>
 				    	<option value="all">전체</option>
-				    	<option value="admin_title">제목</option>
-				        <option value="admin_contents">내용</option>
+				    	<option value="my_title">제목</option>
+				        <option value="my_contents">내용</option>
 				    </select>
-				    <input type="text" name="adminSearchWord" id="adminSearchWord"></input>
-				    <button class="btn btn_adminboard_search" name="btn_adminSearch" id="btn_adminSearch" onlick="goAdminBoardSearch();">찾기</button>
+				    <input type="text" name="mySearchWord" id="mySearchWord"></input>
+				    <button class="btn btn_myboard_search" name="btn_mySearch" id="btn_mySearch" onlick="goAdminBoardSearch();">찾기</button>
 			    </div>
 		    
 		  	</div>
