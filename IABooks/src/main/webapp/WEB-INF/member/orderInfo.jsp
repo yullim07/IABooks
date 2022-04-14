@@ -59,7 +59,7 @@ $(document).ready(function(){
         
         if($("input#toDate").val() == "" ){
             //From의 초기값을 오늘 날짜로 설정
-            $('input#fromDate').datepicker('setDate', '-3M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+            $('input#fromDate').datepicker('setDate', 'today-3M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
             //To의 초기값을 3일후로 설정
             $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 
@@ -267,6 +267,7 @@ div.pagination {
 	              <tr class = "tbl_bottom_line">
 	                 <td style = "width: 16%;">주문일자</td><td style=width:20%;>이미지</td><td>상품정보</td><td>수량</td><td>상품구매금액</td><td>주문처리상태</td>
 	              </tr>
+	              <c:if test="${not empty (requestScope.orderInfoPageList)}">
 	              <c:forEach var="map" items="${requestScope.orderInfoPageList}">
 	              <tr>
 	                 <td style="text-align:center;"><strong>${map.odr_date}</strong></td>
@@ -277,6 +278,14 @@ div.pagination {
 	              	 <td style="text-align:center;"><strong>${map.delivername}</strong></td>
 	              </tr>
 	              </c:forEach>
+	              </c:if>
+	              <c:if test="${empty (requestScope.orderInfoPageList)}">
+				<tr>
+					<td colspan="7" align="center" style="height: 100px;">
+						<strong>주문 정보가 존재하지 않습니다ㅎㅎ</strong>
+					</td>
+				</tr>
+			</c:if>
               </table>
 	                   
               	 <nav class="my-5">

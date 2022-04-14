@@ -67,12 +67,6 @@ public interface InterMemberDAO {
 	/////////////////////////////////////////////// 파일 합치기
 	
 	
-	// 주문내역조회
-	List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException;
-
-
-///////////////////////////////////////////////////////////// 새로시작
-	
 	
 	// == 페이징 처리가 되어진 모든 회원 또는 검색한 회원 목록 보여주기 ==
 	List<MemberVO> selectPagingMember(Map<String, String> paraMap) throws SQLException;
@@ -150,6 +144,11 @@ public interface InterMemberDAO {
 
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+
+	// 주문내역조회
+	List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException;
+
 	
 	// 페이징 처리를 위한 전체회원에 대한 총페이지 알아오기 
 	int getOrderInfoTotalPage(Map<String, Object> paraMap) throws SQLException;

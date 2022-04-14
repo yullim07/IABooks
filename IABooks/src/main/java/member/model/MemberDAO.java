@@ -1926,6 +1926,8 @@ public class MemberDAO implements InterMemberDAO {
 			  		return totalPage;
 				}
 			
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				
 				// 내 주문내역 조회 
 				@Override
 				public List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException {
@@ -2009,8 +2011,6 @@ public class MemberDAO implements InterMemberDAO {
 					return orderInfoList;
 				}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////				
-				
 				
 				// 페이징 처리를 위한 전체회원에 대한 총페이지 알아오기 
 				@Override
