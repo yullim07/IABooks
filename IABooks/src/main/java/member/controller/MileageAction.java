@@ -21,6 +21,12 @@ public class MileageAction extends AbstractController {
 		HttpSession session = request.getSession();
         // 메모리에 생성되어져 있는 session 을 불러오는 것이다.
 		
+		// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기 위한 것임.
+		super.goBackURL(request);
+		// 로그인을 하지 않은 상태에서 특정제품을 조회한 후 "장바구니 담기"나 "바로주문하기" 할때와 "제품후기쓰기" 를 할때 
+	    // 로그인 하라는 메시지를 받은 후 로그인 하면 시작페이지로 가는 것이 아니라 방금 조회한 특정제품 페이지로 돌아가기 위한 것임.
+
+		
 		if(session.getAttribute("loginuser") == null) {
 			
 			session.setAttribute("myPageLogin", "myPageLogin");
@@ -32,6 +38,7 @@ public class MileageAction extends AbstractController {
 			
 			String userid = (String)session.getAttribute("userid");
 			String count = "1";
+			
 			
 			InterMemberDAO mdao = new MemberDAO(); // mdao 라는 새로운 dao 객체 생성
 			
@@ -108,8 +115,8 @@ public class MileageAction extends AbstractController {
 			int index = 0;
 			// **** [맨처음][이전] 만들기 **** //
 			if( pageNo != 1 ) {
-				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&index="+index+"'>[맨처음]</a></li>"; 
-				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&index="+index+"'>[이전]</a></li>";  
+				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"'>[맨처음]</a></li>"; 
+				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"'>[이전]</a></li>";  
 			}
 						
 			while( !(loop > blockSize || pageNo > totalPage) ) {
@@ -128,8 +135,8 @@ public class MileageAction extends AbstractController {
 			// **** [다음][마지막] 만들기 **** //
 			// pageNo ==> 11
 			if( pageNo <= totalPage ) {
-				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&index="+index+"'>[다음]</a></li>";  
-				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&index="+index+"'>[마지막]</a></li>"; 
+				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"'>[다음]</a></li>";  
+				pageBar += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"'>[마지막]</a></li>"; 
 			}
 			
 			request.setAttribute("pageBar", pageBar); 
@@ -221,8 +228,8 @@ public class MileageAction extends AbstractController {
 			
 			// **** [맨처음][이전] 만들기 **** //
 			if( pageNo2 != 1 ) {
-				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage2+"&index="+index+"'>[맨처음]</a></li>"; 
-				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo2-1)+"&sizePerPage="+sizePerPage2+"&index="+index+"'>[이전]</a></li>";  
+				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage2+"'>[맨처음]</a></li>"; 
+				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo2-1)+"&sizePerPage="+sizePerPage2+"'>[이전]</a></li>";  
 			}
 			
 			while( !(loop2 > blockSize2 || pageNo2 > totalPage2) ) {
@@ -231,7 +238,7 @@ public class MileageAction extends AbstractController {
 					pageBar2 += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo2+"</a></li>"; 
 				}
 				else {
-					pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo2+"&sizePerPage="+sizePerPage2+"&index="+index+"'>"+pageNo2+"</a></li>";   
+					pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo2+"&sizePerPage="+sizePerPage2+"'>"+pageNo2+"</a></li>";   
 				}
 				
 				loop2++;
@@ -241,8 +248,8 @@ public class MileageAction extends AbstractController {
 			// **** [다음][마지막] 만들기 **** //
 			// pageNo ==> 11
 			if( pageNo2 <= totalPage2 ) {
-				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo2+"&sizePerPage="+sizePerPage2+"&index="+index+"'>[다음]</a></li>";  
-				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage2+"&sizePerPage="+sizePerPage2+"&index="+index+"'>[마지막]</a></li>"; 
+				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo2+"&sizePerPage="+sizePerPage2+"'>[다음]</a></li>";  
+				pageBar2 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage2+"&sizePerPage="+sizePerPage2+"'>[마지막]</a></li>"; 
 			}
 			
 			request.setAttribute("pageBar2", pageBar2); 
@@ -333,8 +340,8 @@ public class MileageAction extends AbstractController {
 			
 			// **** [맨처음][이전] 만들기 **** //
 			if( pageNo3 != 1 ) {
-				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage3+"&index="+index+"'>[맨처음]</a></li>"; 
-				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo3-1)+"&sizePerPage="+sizePerPage3+"&index="+index+"'>[이전]</a></li>";  
+				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo=1&sizePerPage="+sizePerPage3+"'>[맨처음]</a></li>"; 
+				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+(pageNo3-1)+"&sizePerPage="+sizePerPage3+"'>[이전]</a></li>";  
 			}
 			
 			while( !(loop3 > blockSize3 || pageNo3 > totalPage3) ) {
@@ -343,7 +350,7 @@ public class MileageAction extends AbstractController {
 					pageBar3 += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo3+"</a></li>"; 
 				}
 				else {
-					pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo3+"&sizePerPage="+sizePerPage3+"&index="+index+"'>"+pageNo3+"</a></li>";   
+					pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo3+"&sizePerPage="+sizePerPage3+"'>"+pageNo3+"</a></li>";   
 				}
 				
 				loop3++;
@@ -353,8 +360,8 @@ public class MileageAction extends AbstractController {
 			// **** [다음][마지막] 만들기 **** //
 			// pageNo ==> 11
 			if( pageNo3 <= totalPage3 ) {
-				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo3+"&sizePerPage="+sizePerPage3+"&index="+index+"'>[다음]</a></li>";  
-				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage3+"&sizePerPage="+sizePerPage3+"&index="+index+"'>[마지막]</a></li>"; 
+				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+pageNo3+"&sizePerPage="+sizePerPage3+"'>[다음]</a></li>";  
+				pageBar3 += "<li class='page-item'><a class='page-link' href='mileage.book?currentShowPageNo="+totalPage3+"&sizePerPage="+sizePerPage3+"'>[마지막]</a></li>"; 
 			}
 			
 			request.setAttribute("pageBar3", pageBar3); 

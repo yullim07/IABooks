@@ -708,4 +708,84 @@ select ceil(count(*)/10)
  where B.fk_userid= 'admin' and MILEAGEINFO < 0 
  
  
+ select deliverstatus , delivername
+ from tbl_deliverstatus
+
+-- 전체 주문내역 찍기 
+select fk_userid, odr_date, cate_name, pro_imgfile_name, pro_name, ck_odr_totalqty, odr_totalprice, delivername
+from
+(
+select row_number() over(order by ODR_DATE  desc) as rno, O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd')as odr_date  , C.cate_name, 
+P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername 
+ from tbl_order O 
+ join tbl_orderdetail G 
+ on o.pk_odrcode = g.fk_odrcode 
+ join tbl_product P 
+ on G.fk_pro_num = P.pk_pro_num 
+ join tbl_category C 
+ on C.pk_cate_num = P.fk_cate_num 
+ join tbl_deliverstatus D 
+ on G.ck_deliverstatus = D.deliverstatus 
+ where O.fk_userid = 'admin' 
+ and O.odr_date   between add_months(sysdate,-3)  and to_char(sysdate, 'yyyy-MM-dd')
+)V
+where V.rno between 1 and 5;
+ 
+
+select ceil(count(*)/10) 
+ from tbl_order O 
+ join tbl_orderdetail G 
+ on o.pk_odrcode = g.fk_odrcode 
+ join tbl_product P 
+ on G.fk_pro_num = P.pk_pro_num 
+ join tbl_category C 
+ on C.pk_cate_num = P.fk_cate_num 
+ join tbl_deliverstatus D 
+ on G.ck_deliverstatus = D.deliverstatus 
+ where O.fk_userid = 'admin' 
+ and O.odr_date   between add_months(sysdate,-3)  and to_char(sysdate, 'yyyy-MM-dd')
+
+ 
+ 
+ months between(sysdate,add_months(sysdate,-3))
+ 
+ -- 복사본
+select fk_userid, odr_date, cate_name, pro_imgfile_name, pro_name, ck_odr_totalqty, odr_totalprice, delivername
+from
+(
+select row_number() over(order by ODR_DATE  desc) as rno, O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd')as odr_date  , C.cate_name, 
+P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername 
+ from tbl_order O 
+ join tbl_orderdetail G 
+ on o.pk_odrcode = g.fk_odrcode 
+ join tbl_product P 
+ on G.fk_pro_num = P.pk_pro_num 
+ join tbl_category C 
+ on C.pk_cate_num = P.fk_cate_num 
+ join tbl_deliverstatus D 
+ on G.ck_deliverstatus = D.deliverstatus 
+ where O.fk_userid = 'admin' and D.deliverstatus = 1 
+ and O.odr_date   between add_months(sysdate,-3)  and to_char(sysdate, 'yyyy-MM-dd')
+)V
+where V.rno between 1 and 5;
+ 
+ 
+ 
+select row_number() over(order by ODR_DATE  desc) as rno O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername 
+from tbl_order O 
+join tbl_orderdetail G 
+on o.pk_odrcode = g.fk_odrcode 
+join tbl_product P 
+on G.fk_pro_num = P.pk_pro_num 
+join tbl_category C 
+on C.pk_cate_num = P.fk_cate_num 
+join tbl_deliverstatus D 
+on G.ck_deliverstatus = D.deliverstatus 
+where O.fk_userid = 'admin' 
+and O.odr_date  between '2021-08-12' and '2022-04-14'
+and d.deliverstatus between 1 and 6
+order by odr_date DESC
+
+
+                           
  
