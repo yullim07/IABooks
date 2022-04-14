@@ -151,7 +151,7 @@ button#btn_isdelete, button#btn_delete {
 			}
 			
 			if($("input#mySearchWord").val().trim() == "") {
-				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! qwe2");
+				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
 				return false;
 			}
 			
@@ -159,7 +159,7 @@ button#btn_isdelete, button#btn_delete {
 				
 				if(event.keyCode == 13) {
 					// 검색어에서 엔터를 치면 검색하러 간다.
-					goMyBoardSearch();
+					goAdminBoardSearch();
 				}
 				
 			});
@@ -313,7 +313,7 @@ button#btn_isdelete, button#btn_delete {
 				      		<td style="text-align: center;">공개</td>
 				      	</c:if>
 				      	<c:if test="${board.revBoard.isdelete eq 1 }">
-				      		<td style="text-align: center;">삭제</td>
+				      		<td style="text-align: center;">비공개</td>
 				      	</c:if>
 				    </tr>
 				    </c:if>
@@ -333,7 +333,7 @@ button#btn_isdelete, button#btn_delete {
 				      		<td style="text-align: center;">공개</td>
 				      	</c:if>
 				      	<c:if test="${board.qnaBoard.isdelete eq 1 }">
-				      		<td style="text-align: center;">삭제</td>
+				      		<td style="text-align: center;">비공개</td>
 				      	</c:if>
 				    </tr>
 				    </c:if>

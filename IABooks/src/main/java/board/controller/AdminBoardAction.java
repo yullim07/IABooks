@@ -74,9 +74,9 @@ public class AdminBoardAction extends AbstractController {
 			paraMap.put("userid", userid);
 			
 			// 검색조건이 있을 경우 시작
-			if(searchType != null && !"".equals(searchType) && !("my_title".equals(searchType) || "my_contents".equals(searchType)) ) {
-				// 사용자가 웹브라우저 주소입력란에서 searchType 장난을 친 경우
-				String message = "부적절한 검색타입입니다. 장난 그만해라.";
+			if(searchType != null && !"".equals(searchType) && !("my_title".equals(searchType) || "all".equals(searchType) || "my_contents".equals(searchType)) ) {	// 사용자가 웹브라우저 주소입력란에서 searchType 장난을 친 경우
+				
+				String message = "검색타입과 검색어를 설정해주세요.";
 				String loc = request.getContextPath()+"/board/admin/adminBoard.book";
 				
 				request.setAttribute("message", message);
