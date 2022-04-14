@@ -29,9 +29,6 @@
 		border: solid 1px grey;
 	}
 	
-	table#tblProdInput > thead > tr > td {
-	 
-	}
 	table#tblProdInput > tbody > tr > td {
 		font-size: 12pt;
 		height: 20pt;
@@ -72,8 +69,6 @@
 		
 		// * 카테고리 국제표준도서번호(ISBN번호) 도서명	 재입고상품여부 저자코드 저자명 출판사 출간일자
 		// 제품정가 제품판매가 포인트적립율 메인이미지 제본형태 규격 쪽수 제품수량 목차 책소개 추가이미지파일(선택)
-		
-		
 
 		// 카테고리를 선택하지 않은 경우 에러 메시지 출력
 		if ($("select#cateSel option:selected").length == 0) {
@@ -86,8 +81,8 @@
 			$("span.error").hide();
 		}
 		
-		
 		// --------------------------------------------------------------------------- // 
+		
 		// 카레고리 선택값 받아오기
 		$("select#cateSel").on("change", function() {   
 	         const catesel = $(this).val();
@@ -126,29 +121,6 @@
 			}
 		});
 		
-		
-		// --------------------------------------------------------------------------- // 
-		
-		
-		// 공백막기
-		// 숫자에 문자 입력시 alert
-		
-		
-		// 모든 input text 타입 공백 막기
-		/* var blankChk = /[\s]/g;
-		
-		$("table#tblProdInput").find("input[type=text]").each(function() {
-			var blank = $(this).val();
-			
-			if(blankChk.test(blank) == true) {
-				blank = blank.trim().val();
-				console.log("공백있음");
-			}
-		}); */
-	
-		// 모든 input text 타입 공백 막기
-		
-		
 		// --------------------------------------------------------------------------- // 
 		
 		// 및 엔터 치면 밑으로 내려가기 
@@ -167,7 +139,7 @@
 		});	
 		
 		// 초기값을 오늘 날짜로 설정
-	    $('input#datepicker').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
+	    $("input#datepicker").datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후) 
 		
 		
 		// --------------------------------------------------------------------------- // 
@@ -191,7 +163,7 @@
 		
 		// --------------------------------------------------------------------------- // 
 		
-		
+
 		// 제품 등록하기
 		$("input#btnRegister").click(function() {
 			
@@ -230,26 +202,29 @@
 		
 	}); // end of $(document).ready(function()) --------------------
 	
-	// 공백제거 근데 일일히 해야하나?
-	/* function blanck_trim(obj) {
-		var bt = $('#pro_name').val().replace(/ /gi, '');
-        $('#pro_name').val(bt);
-	} */
+	// Function Declaration
 	
-	// 공백 자동 제거해주고 맨 앞으로 가져가기
+	// 양쪽 공백만 제거해주기
+	function blanck_trim1(obj) {
+		obj.focus();
+		var str_obj = $(this).val();
+		str_obj.value = str_obj.trim().val();
+		
+		return false;
+		
+	} // end of function blanck_trim1(obj) ------------------------------
+	
+	// 문장 내에 존재하는 모든 공백 자동 제거해주고 맨 앞으로 가져가기
 	function blanck_trim2(obj) {
-		var str_space = /\s/;  // 공백체크
+		var str_space = /\s/;
 		if(str_space.exec(obj.value)) { //공백 체크
-			//alert("해당 항목에는 공백을 사용할수 없습니다.\n\n공백은 자동적으로 제거 됩니다.");
 			obj.focus();
 			obj.value = obj.value.replace(/\s| /gi,''); // 공백제거
+			
 			return false;
 		}
-	}
-	
-	
-	
-	
+	} // end of function blanck_trim2(obj) ------------------------------
+
 </script>
 
 <div class="container">
@@ -291,7 +266,8 @@
 					</td>
 					<td class="second_td">
 						<input type="text" style="width: 300px;" id="pk_pro_num" name="pk_pro_num" class="box infoData" 
-							oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" 
+							oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+							onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);
 							maxlength="20" />
 						<span class="error">필수입력</span>
 					</td>
@@ -302,7 +278,7 @@
 					</td>
 					<td class="second_td">
 						<input type="text" style="width: 300px;" name="pro_name" id="pro_name" class="box infoData"
-							onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);" 
+							onkeyup="blanck_trim1(this);" onchange="blanck_trim1(this);" 
 							maxlength="66" />
 						<span class="error">필수입력</span>
 					</td>
@@ -329,7 +305,7 @@
 					</td>
 					<td class="second_td">
 						<input type="text" style="width: 300px;" name="wr_name" id="wr_name" class="box infoData" 
-							onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);"
+							onkeyup="blanck_trim1(this);" onchange="blanck_trim1(this);"
 							maxlength="66" />
 						<span class="error">필수입력</span>
 					</td>
@@ -340,7 +316,7 @@
 					</td>
 					<td class="second_td">
 						<input type="text" style="width: 300px;" name="publisher" id="publisher" class="box infoData"
-							onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);" 
+							onkeyup="blanck_trim1(this);" onchange="blanck_trim1(this);"
 							maxlength="16"/>
 						<span class="error">필수입력</span>
 					</td>
@@ -360,7 +336,8 @@
 					</td>
 					<td width="40%" align="left" style="border-top: hidden; border-bottom: hidden;">
 						<input type="text" style="width: 100px;" name="pro_price" id="pro_price" class="box infoData" 
-							oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" 
+							oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+							onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);"
 							maxlength="8" /> 원 
 						<span class="error">필수입력</span>
 					</td>
@@ -372,6 +349,7 @@
 					<td class="second_td">
 						<input type="text" style="width: 100px;" name="pro_saleprice" id="pro_saleprice" class="box infoData" 
 							oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+							onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);"
 							maxlength="8" /> 원 
 						<span class="error">필수입력</span>
 					</td>
@@ -381,6 +359,7 @@
 					<td class="second_td">
 						<input type="text" style="width: 100px;" name="point_rate" id="point_rate" class="box" value="0.1"
 							oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+							onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);"
 							maxlength="10" /> 퍼센트
 					</td>
 				</tr>
@@ -410,7 +389,7 @@
 					<td width="20%" class="prodInputName">&nbsp;규격</td>
 					<td class="second_td">
 						<input type="text" style="width: 100px;" name="pro_size" id="pro_size" class="box"
-							onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);"
+							onkeyup="blanck_trim1(this);" onchange="blanck_trim1(this);"
 							maxlength="20" />
 						<!-- <span class="error">필수입력</span> -->
 					</td>
@@ -420,6 +399,7 @@
 					<td class="second_td">
 						<input type="text" style="width: 100px;" name="pro_pages" id="pro_pages" class="box" 
 						oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+						onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);"
 						maxlength="5" /> 쪽
 					</td>
 				</tr>
@@ -439,21 +419,24 @@
 				<tr>
 					<td width="25%" class="prodInputName">&nbsp;목차</td>
 					<td class="second_td">
-						<textarea name="pro_index" id="pro_index" rows="5" cols="60" onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);" /></textarea>
+						<textarea name="pro_index" id="pro_index" rows="5" cols="60"
+							onkeyup="blanck_trim1(this);" onchange="blanck_trim1(this);" /></textarea>
 					</td>
 				</tr>
 
 				<tr>
 					<td width="25%" class="prodInputName">&nbsp;책소개</td>
 					<td class="second_td">
-						<textarea name="pro_content" id="pro_content" rows="5" cols="60" onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);" /></textarea>
+						<textarea name="pro_content" id="pro_content" rows="5" cols="60"
+							onkeyup="blanck_trim1(this);" onchange="blanck_trim1(this);" /></textarea>
 					</td>
 				</tr>
 				
 				<tr>
 					<td width="25%" class="prodInputName">&nbsp;저자소개</td>
 					<td class="second_td">
-						<textarea name="wr_info" id="wr_info" rows="5" cols="60" onkeyup="blanck_trim2(this);" onchange="blanck_trim2(this);" /></textarea>
+						<textarea name="wr_info" id="wr_info" rows="5" cols="60"
+							onkeyup="blanck_trim1(this);" onchange="blanck_trim1(this);" /></textarea>
 					</td>
 				</tr>
 

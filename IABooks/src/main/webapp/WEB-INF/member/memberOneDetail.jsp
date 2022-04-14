@@ -84,19 +84,8 @@
 			
 	// function declaration 
 	function goMemberList() {
-		let goBackURL = "${requestScope.goBackURL}";
-		// /member/memberList.up?currentShowPageNo=5 sizePerPage=10 searchType=name searchWord=유
 		
-		// 자바스크립트에서는  replaceall 이 없고 replace 밖에 없다.
-    	// !!! 자바스크립트에서 replace를 replaceall 처럼 사용하기 !!! //
-     	// "korea kena" ==> "korea kena".replace("k","y") ==> "yorea kena"
-    	// "korea kena".replace(/k/gi, "y") ==> "yorea yena"  여기서 주의할 것은 /"k"/ 아니라 /k/ 와 같이 "" 가 없어야 한다.
-		
-    	// 변수 goBackURL 에 공백 " " 을 모두 "&"로 변경하도록 한다.
-    	goBackURL = goBackURL.replace(/ /gi , "&");
-    //	또는
-	//	goBackURL = goBackURL.replaceAll(" ", "&"); // 20년도에 스크립트에 replaceAll 함수 추가되었음
-		location.href = "<%= ctxPath%>" +goBackURL;
+		location.href = "<%= ctxPath%>" +"/member/memberList.book";
 	}		
 	
 	// 쿠폰조회

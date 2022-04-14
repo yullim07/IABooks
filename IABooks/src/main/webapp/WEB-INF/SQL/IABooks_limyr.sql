@@ -839,3 +839,5 @@ delete from tbl_product where pk_pro_num = '9791185428673';
 
 commit;
 
+select * from TBL_MAIN_IMAGE;
+
