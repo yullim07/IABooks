@@ -26,7 +26,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>타인의 책장</title>
+<title>in사과 : ${revVO.re_title} | 타인의 책장</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
@@ -121,10 +121,12 @@
 		      	<div class="detail " >
 		      		<%-- <img style="max-width:100%; height:auto;"  src="<%= ctxPath%>/images/board/leejh_images/review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg"/> --%>
 		      		<div>
-		      		<p>${revVO.re_contents}</p>
+		      		${revVO.re_contents}
 		      		<br/>
 		      		<br/>
-		      		
+		      		<c:if test="${revVO.rev_file_original_name ne '없음'}">
+			      		 <img src="/IABooks/images/${revVO.rev_file_system_name}" class="img-fluid" style="width:100%;" />
+			      	</c:if>
 		      		</div>
 		      	</div>
 		      
@@ -135,11 +137,17 @@
 		    <tr>
 		      <th>첨부파일</th>
 		      <td>
-			      	<img id="file_attach_2" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
-			      	<a class="file_attach" href="#">review-attachment-0515b276-bd69-4c97-84ae-76781fcfc993.jpeg</a>
+			      	<c:if test="${revVO.rev_file_original_name ne '없음'}">
+			      		<img id="file_attach_2" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" onmouseover="showImg(this)" onmouseout="hideImg(this)"/>
+	                    <a class="file_attach" href="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}">${revVO.rev_file_original_name}</a>
+	                </c:if>
+	                <c:if test="${revVO.rev_file_original_name eq '없음'}">
+	                   첨부파일없음
+	                </c:if>
 		      </td>
 		     
 		    </tr>
+		    <%--
 		    <tr>
 		      <th>비밀번호</th>
 		      <td class="password">
@@ -148,6 +156,8 @@
 		      	<span>삭제하려면 비밀번호를 입력하세요.</span>
 		      </td>
 		    </tr>
+		    
+		     --%>
 		    </tbody>
 		  
 		</table>

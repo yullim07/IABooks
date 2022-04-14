@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import board.model.BoardDAO;
-import board.model.FaqBoardVO;
+
 import board.model.InterBoardDAO;
 import board.model.ReviewBoardVO;
 import common.controller.AbstractController;
@@ -40,7 +40,7 @@ public class ReviewUpdateEndAction extends AbstractController {
 			String userid = loginuser.getUserid();
 			String title = request.getParameter("revBoardTitle");
 			String writer = request.getParameter("revBoardWriter");
-			String content = request.getParameter("faqBoardContent");
+			String content = request.getParameter("revBoardContent");
 			
 			System.out.println(" 받아온 번호 : " + pk_rnum);
 			

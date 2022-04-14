@@ -11,7 +11,7 @@
 <html>
 <head>
 
-	<title>header</title>
+	<title>in사과::header</title>
 	
 	<%-- Required meta tags --%>
 	<meta charset="utf-8">
@@ -38,6 +38,7 @@
 		$(document).ready(function() {
  			
 			$("input#searchWord").bind("keyup", function(event) {
+				console.lg("확인")
 				if(event.keyCode == 13) {
 					goSearch();
 				}
@@ -64,6 +65,14 @@
 			frm.method = "post";
 			frm.submit();
 		};
+		
+		function goAdminOrderList() {
+			const frm = document.createElement('form');
+			document.body.appendChild(frm);
+			frm.action = "<%= ctxPath%>/product/admin/adminOrderList.book";
+			frm.method = "post";
+			frm.submit();
+		};
 	</script>
 	
 </head>
@@ -82,18 +91,29 @@
           		<c:if test="${empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberRegister.book">회원가입</a></li></c:if>
           		<c:if test="${not empty sessionScope.loginuser}"><li class="bar bulkhead"><a class="nav-link scrollto" href="<%= ctxPath%>/member/memberUpdate.book">정보수정</a></li></c:if>
 				<li class="bar bulkhead"><a class="" onclick="goCart()"style="cursor: pointer;">장바구니</a></li>
+           		<c:if test="${not empty sessionScope.loginuser and sessionScope.loginuser.userid eq 'admin'}"> <%-- admin으로 로그인했으면 --%>
+					<li class="dropdown bulkhead"><a href="#" >관리자전용<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
+						<ul>
+							<li><a href="<%= ctxPath%>/member/memberList.book">회원목록</a></li>
+							<li><a href="<%= ctxPath%>/product/admin/productRegister.book">제품등록</a></li>
+							<li><a class="" onclick="goAdminOrderList()" style="cursor: pointer;">전체주문내역</a></li>
+							<li><a href="<%= ctxPath%>/board/admin/adminBoard.book">게시판관리</a></li>
+						</ul>
+					</li>
+				</c:if>
+           		
            		<li class="dropdown bulkhead"><a href="<%= ctxPath%>/member/myPage.book" >마이페이지<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
 					<ul>
-						<li><a href="#">주문조회</a></li>
+						<li><a href="<%= ctxPath %>/member/orderInfo.book">주문조회</a></li>
 						<li><a href="#">배송조회</a></li>
-						<li><a href="#">관심상품</a></li>
-						<li><a href="#">내게시물</a></li>
+						<li><a href="<%= ctxPath%>/product/wishList.book">관심상품</a></li>
+						<li><a href="<%= ctxPath%>/member/myBoard.book">내게시물</a></li>
             		</ul>
           		</li>
           
 				<li class="dropdown bulkhead"><a href="#">고객센터<i class="bi bi-chevron-down dropdown-indicator"></i></a>
             		<ul>
-              			<li><a href="#">자주 묻는 질문</a></li>
+              			<li><a href="<%= ctxPath%>/board/faqAccordion.book">자주 묻는 질문</a></li>
 						<li><a href="<%= ctxPath%>/board/qnaBoard.book">1:1문의</a></li>
 					</ul>
 				</li>	

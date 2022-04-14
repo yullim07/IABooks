@@ -1,5 +1,6 @@
-package product.controller2;
+package product.controller3.test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,26 +16,32 @@ import product.model.CartVO;
 import product.model.InterProductDAO;
 import product.model.ProductDAO;
 
-public class OrderAllAction extends AbstractController {
+public class OrderAllFromWishListAction extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		if(super.checkLogin(request)) {//로그인했으면 true
 			String method = request.getMethod();
 			
 			if("POST".equalsIgnoreCase(method)) {//포스트 방식이라며는 
-				HttpSession session = request.getSession();;
+				HttpSession session = request.getSession();
 				MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 				
 				String userid = loginuser.getUserid();
 				
 				InterProductDAO pdao = new ProductDAO();
+				TestInterProductDAO tpdao = new TestProductDAO();
 				Map<String, String> paraMap = new HashMap<>();
-				
+
 				paraMap.put("userid", userid);
+				
+				// 관심상품으로부터 장바구니 담기
+				tpdao.insertWishToCartAll(paraMap);
+				
 				List<CartVO> order = pdao.orderAll(paraMap);
+				
 				List<CouponVO> userCoupon = pdao.userCoupon(paraMap);
-				String userPoint = pdao.userPoint(paraMap);
 				
 				int totalPrice = pdao.totalPriceSelect(paraMap);
 				int shippingFee = 3000;
@@ -48,7 +55,6 @@ public class OrderAllAction extends AbstractController {
 				request.setAttribute("fk_userid", userid);
 				request.setAttribute("totalPrice", totalPrice);
 				request.setAttribute("finalPrice", finalPrice);
-				request.setAttribute("userPoint", userPoint);
 		
 				super.setViewPage("/WEB-INF/product/order.jsp");
 				
@@ -64,7 +70,7 @@ public class OrderAllAction extends AbstractController {
 			}
 			
 		}else {//비로그인으로 장바구니 추가할경우
-			String message = "장바구니는 로그인하신후 이용가능합니다.";
+			String message = "상품문의는 로그인하신후 이용가능합니다.";
 			String loc = "javascript:history.back()";
 			//String loc = "<%= ctxPath%>/login/join.book";
 			
@@ -76,6 +82,7 @@ public class OrderAllAction extends AbstractController {
 				
 		}
 		
+		
 	}
-	
+
 }

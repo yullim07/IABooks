@@ -18,6 +18,11 @@ public class CouponAction extends AbstractController {
 		HttpSession session = request.getSession();
         // 메모리에 생성되어져 있는 session 을 불러오는 것이다.
 		
+		// 로그인 또는 로그아웃을 하면 시작페이지로 가는 것이 아니라 방금 보았던 그 페이지로 그대로 가기 위한 것임.
+		super.goBackURL(request);
+		// 로그인을 하지 않은 상태에서 특정제품을 조회한 후 "장바구니 담기"나 "바로주문하기" 할때와 "제품후기쓰기" 를 할때 
+	    // 로그인 하라는 메시지를 받은 후 로그인 하면 시작페이지로 가는 것이 아니라 방금 조회한 특정제품 페이지로 돌아가기 위한 것임.
+		
 		
 		if(session.getAttribute("loginuser") == null) {
 			
@@ -26,38 +31,13 @@ public class CouponAction extends AbstractController {
 			setRedirect(false);
 			setViewPage("/login/join.book");
 			
-		} else {
+		} else { // 로그인을 한 상태에서 들어왔을 때
 			
 			String userid = (String)session.getAttribute("userid");
 			
 			String sizePerPage = "5";
 			String currentShowPageNo = request.getParameter("currentShowPageNo");
 			
-	/*		
-			// 쿠폰사용방지
-			String cenddate = "";
-			String user_cp_status = "";
-			boolean bool = true;
-	        	
-        	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			
-			LocalDate today = LocalDate.now();
-			String sToday = sdf.format(today);
-			
-			Date todayD = (Date) sdf.parse(sToday);
-			Date cenddateD = (Date) sdf.parse(cenddate);
-			
-			// 쿠폰 만료기간이 지나면 사용하지 못하도록 값 변경해준다.
-			if( cenddateD.after(todayD) ) {
-				bool = false;
-			}
-        	
-			if( user_cp_status == "0" ) {
-				bool = false;
-			}
-			
-			request.setAttribute("bool", bool);
-		*/		
 			Map<String, String> paraMap = new HashMap<>();
 			paraMap.put("userid", userid);
 			paraMap.put("sizePerPage", sizePerPage);
@@ -65,35 +45,12 @@ public class CouponAction extends AbstractController {
 			
 			InterMemberDAO mdao = new MemberDAO();
 			//////////////////////////////////////////////////////////////리스트가져오기
-			
-			List<CouponVO> couponList = mdao.selectCouponList(paraMap);
+			int n = mdao.deleteCouponList(paraMap);
+			if(n == 1) {
+				request.setAttribute("deleteCouponList", n);
+			}
 			
 			int couponNum = mdao.CouponNum(paraMap);
-			
-			
-			/*
-			
-			try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			
-			LocalDate today = LocalDate.now();
-			String sToday = sdf.format(today);
-			
-			Date todayD = sdf.parse(sToday);
-			Date cenddateD = sdf.parse(cenddate);
-			
-			// 쿠폰 만료기간이 지나면 사용하지 못하도록 값 변경해준다.
-			if( cenddateD.after(todayD) ) {
-				int n = mdao.expireCoupon(paraMap); 
-				
-				if(n==1) {
-					request.setAttribute("expireCoupon", n);
-				}
-			}
-				
-			} catch(Exception e) {
-			}
-			*/
 			
 			if(currentShowPageNo == null) {
 				currentShowPageNo = "1";
@@ -123,7 +80,7 @@ public class CouponAction extends AbstractController {
 			paraMap.put("currentShowPageNo", currentShowPageNo);
 			List<CouponVO> couponListP = mdao.selectPagingCouponList(paraMap);
 			
-			request.setAttribute("couponListP", couponListP);
+			
 			request.setAttribute("sizePerPage", sizePerPage);
 			
 			String pageBar = "";
@@ -185,11 +142,11 @@ public class CouponAction extends AbstractController {
 			currentURL = currentURL.replaceAll("&", " ");
 			// 확인용 currentURL =>/member/memberList.up?currentShowPageNo=5 sizePerPage=10 searchType=name searchWord=%EC%9C%A0
 			
+			request.setAttribute("couponListP", couponListP);
 			request.setAttribute("pageBar", pageBar);
-			request.setAttribute("couponList", couponList);
 			request.setAttribute("couponNum", couponNum);
 			request.setAttribute("goBackURL", currentURL);
-			
+
 			setRedirect(false);
 			setViewPage("/WEB-INF/member/coupon.jsp");
 			
