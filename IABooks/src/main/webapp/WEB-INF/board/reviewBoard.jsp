@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="java.util.Date"%>
 <%
    String ctxPath = request.getContextPath();
    
@@ -138,10 +142,15 @@
                    <td class="tbl_number mycenter">${num}</td>
                    <td class="tbl_bookname"> <a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${board.fk_pnum}"><img src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>${board.product.pro_name}</a>
                         
-                     
                    </td>
                    <td class="tbl_subject">
                        <a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.pk_rnum}">${board.re_title}</a>
+                       <c:set var="yesterday" value="<%= new Date(new Date().getTime() - 60*60*24*1000) %>"/>
+						<fmt:formatDate value="${yesterday}" pattern="yyyy-MM-dd HH:mm:ss" var="yesterday" />
+						
+				    	<c:if test="${ board.re_date > yesterday}">
+				    	<span class="new_tag">NEW</span>
+				    	</c:if>
                    </td>
                    <%-- <td class="tbl_writer mycenter">${board.re_writer}</td> --%>
                    <td class="tbl_writer mycenter">${board.member.name}</td>

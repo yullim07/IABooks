@@ -458,7 +458,7 @@
 				<tr>
 					<th>
 						<img src="<%=ctxPath%>/images/board/leejh_images/ico_move_prev.gif" id="img_prev" />
-						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.prev_num}">이전글</a>
+						<a >이전글</a>
 					</th>
 					
 					<td id="td_left" class="board_prev">
@@ -472,7 +472,7 @@
 				</tr>
 				<tr>
 					<th><img src="<%=ctxPath%>/images/board/leejh_images/ico_move_next.gif" id="img_next" />
-						<a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${qnaVO.next_num}">다음글</a>
+						<a >다음글</a>
 					</th>
 					<td id="td_left" class="board_next">
 						<c:if test="${not empty qnaVO.next_num}">

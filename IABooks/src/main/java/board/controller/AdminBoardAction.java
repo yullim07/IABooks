@@ -94,8 +94,8 @@ public class AdminBoardAction extends AbstractController {
 			paraMap.put("searchCate", searchCate);
 			
 			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 관리자 게시글관리에 대한 페이지 알아오기
-			// int totalPage = bdao.getTotalPageAdminBoard(paraMap);
-			int totalPage = tbdao.getTotalAdminPage(paraMap);
+			int totalPage = bdao.getTotalPageAdminBoard(paraMap);
+			// int totalPage = tbdao.getTotalAdminPage(paraMap);
 			// System.out.println("~~~확인용 totalPage => " + totalPage);
 			
 			if( Integer.parseInt(currentShowPageNo) > totalPage ) {
@@ -107,8 +107,8 @@ public class AdminBoardAction extends AbstractController {
 			MyBoardVO myBoardVO = new MyBoardVO();
 			
 			// 관리자페이지 게시글관리에에 보여줄 모든 게시글 불러오기
-			// List<MyBoardVO> myBoardList = bdao.selectPagingAdminBoard(paraMap); 
-			List<MyBoardVO> myBoardList = tbdao.selectPagingAdminBoard(paraMap);
+			List<MyBoardVO> myBoardList = bdao.selectPagingAdminBoard(paraMap); 
+			// List<MyBoardVO> myBoardList = tbdao.selectPagingAdminBoard(paraMap);
 			
 			request.setAttribute("myBoardList", myBoardList);
 			

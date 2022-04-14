@@ -151,6 +151,8 @@ $(document).ready( function () {
 //이메일 중복여부 검사하기
 function isExistEmailCheck() {
 	
+	$("span#emailCheckResult").hide();
+	
 	b_flagEmailDuplicateClick = true;
 	// 가입하기 버튼을 클릭시 "이메일중복확인" 을 클릭했는지 클릭안했는지를 알아보기위한 용도임.
 	
@@ -162,22 +164,19 @@ function isExistEmailCheck() {
 		dataType:"json",
 		success:function(json) {
 			
-			if(json.isExists) {
-				
-				// 세션에 올라온 email 과 입력해준 email 이 같은 경우 (즉, 이메일을 새로이 변경하지 않고 그대로 사용할 경우)
-				if( "${sessionScope.loginuser.email}" == $("input#email").val() ) {
-					$("span#emailCheckResult").html($("input#email").val()+" 은 사용가능합니다").css("color","green");
-				}
-				else { 
-				// 이메일을 새로이 변경한 경우인데 입력한 email 이 이미 사용중 이라면
-    				$("span#emailCheckResult").html($("input#email").val()+" 은 이미 사용중이므로 사용불가 합니다.").css("color","red");
-    				$("input#email").val("");
-				}
- 			}
-			else {
-				// 입력한 email 이 DB 테이블에 존재하지 않는 경우라면 
-				$("span#emailCheckResult").html($("input#email").val()+" 은 사용가능합니다").css("color","green");
-			}
+			const regExp = new RegExp(/^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i); 
+	 			const bool = regExp.test($("input#email").val());  	
+	 			
+	 				if(json.isExist) {	// 입력한 $("input#email").val() 값이 이미 사용중이라면
+	 					$("span#emailCheckResult").show();
+	 					$("span#emailCheckResult").html($("input#email").val()+"은 중복된 ID 이므로 사용 불가합니다.").css("color","red");
+	 					$("input#email").val("");
+	 				} else if( !bool ) {
+	 					
+	 				} else {	// 입력한 $("input#email").val() 값이 DB테이블(tbl_member)에 존재하지 않는 경우라면
+	 					$("span#emailCheckResult").show();
+	 					$("span#emailCheckResult").html($("input#email").val()+"은 사용 가능합니다.").css("color","green");
+	 				}
 			
 		},
 		error: function(request, status, error){

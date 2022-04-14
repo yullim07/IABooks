@@ -166,7 +166,7 @@
 		    <tr >
 		      <th>평점</th>
 		      <td class="star_grade" style="vertical-align: middle;">
-				  <input type="radio" id="grade" name="grade" value="5">
+				  <input type="radio" checked="checked" id="grade" name="grade" value="5">
 				  <label for="grade5"><span class="point" style="color:red;"><em>★★★★★</em></span></label>
 				  <input type="radio" id="grade" name="grade" value="4">
 				  <label for="grade4"><span class="point" style="color:red;"><em>★★★★</em></span></label>

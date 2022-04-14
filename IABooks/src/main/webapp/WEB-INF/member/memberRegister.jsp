@@ -242,7 +242,15 @@ $(document).ready(function() {
  	});
 
 	
-	
+ // 한글입력막기 스크립트
+ 	$("#userid").keyup(function(e) { 
+ 		if (!(e.keyCode >=37 && e.keyCode<=40)) {
+ 			var v = $(this).val();
+ 			$(this).val(v.replace(/[^a-z0-9]/gi,''));
+ 		}
+ 	});
+
+
 });// end of $(document).ready(function() 
 	
 	// 아이디 중복 여부 검사하기		
@@ -431,6 +439,9 @@ $(document).ready(function() {
 		
 	}
 	
+	
+	
+	
 </script>	
 	
 	
@@ -473,7 +484,7 @@ $(document).ready(function() {
 				<tr>
 					<th><label for="userid">아이디&nbsp;<span id="star">*</span></label></th>
 					<td>
-						<input type="text" class="requiredInfo" id="userid" name="userid" size="20"  maxlength='16' autofocus required autocomplete="off"  />
+						<input type="text" class="requiredInfo" id="userid" name="userid" size="20"  maxlength='16' autofocus required autocomplete="off" style="ime-mode:inactive;"  />
 						<span id="isExistIdCheck" class="duplicateCheck" onclick="isExistIdCheck();">아이디중복확인&nbsp;&nbsp;<i class="fas fa-angle-right"></i></span>
 						<br>
 						<span class="error">아이디를 입력해주세요.</span> 

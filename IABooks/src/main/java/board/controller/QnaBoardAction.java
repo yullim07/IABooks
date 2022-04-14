@@ -37,7 +37,7 @@ public class QnaBoardAction extends AbstractController {
    		
   
 		String searchContent = request.getParameter("searchContent"); 
-		String searchWord = request.getParameter("searchWord");
+		String searchWord = request.getParameter("qnaSearchWord");
 		//검색이 있을 경우 끝 //
       
       InterBoardDAO bdao = new BoardDAO();
