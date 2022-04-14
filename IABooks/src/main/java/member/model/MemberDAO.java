@@ -2022,7 +2022,7 @@ public class MemberDAO implements InterMemberDAO {
 	                    String sql  = " select ceil(count(*)/?) "
 	                          + " from  "
 	                          + " ( "
-	                          + " select O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
+	                          + " select O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, G.odr_price , D.delivername "
 	                          + " from tbl_order O "
 	                          + " join tbl_orderdetail G "
 	                          + " on o.pk_odrcode = g.fk_odrcode "
@@ -2089,10 +2089,10 @@ public class MemberDAO implements InterMemberDAO {
 	                  
 	                  conn = ds.getConnection();
 	                  
-	                  String sql = " select fk_userid , odr_date , cate_name, pro_imgfile_name , pro_name , ck_odr_totalqty, odr_totalprice , delivername "
+	                  String sql = " select fk_userid , odr_date , cate_name, pro_imgfile_name , pro_name , ck_odr_totalqty, odr_price , delivername "
 	                        + " from "
 	                        + " ( "
-	                        + " select row_number() over(order by O.ODR_DATE  desc) as rno, O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') as odr_date , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
+	                        + " select row_number() over(order by O.ODR_DATE  desc) as rno, O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') as odr_date , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, G.odr_price , D.delivername "
 	                        + " from tbl_order O "
 	                        + " join tbl_orderdetail G "
 	                        + " on o.pk_odrcode = g.fk_odrcode "
@@ -2136,8 +2136,9 @@ public class MemberDAO implements InterMemberDAO {
 	                    else {
 	                       pstmt.setString(2, paraMap.get("fromDate").toString());
 	                       pstmt.setString(3, paraMap.get("toDate").toString());
+	                       
 	                    }
-	                    
+	                   
 	                    
 	                    if( paraMap.get("status").toString() != "0") {
 	                       pstmt.setString(4, paraMap.get("status").toString());
@@ -2155,8 +2156,9 @@ public class MemberDAO implements InterMemberDAO {
 	                    rs = pstmt.executeQuery();
 	                    
 	                    while( rs.next()) {
-	                       Map<String, String> map = new HashMap<>();
 	                       
+	                    Map<String, String> map = new HashMap<>();
+	                    
 	                       map.put("userid" , rs.getString(1));
 	                       map.put("odr_date" , rs.getString(2));
 	                       map.put("cate_name" , rs.getString(3));

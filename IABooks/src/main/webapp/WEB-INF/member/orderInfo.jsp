@@ -25,8 +25,6 @@
 $(document).ready(function(){
 
    
-   sessionStorage.setItem("fromDate", "${requestScope.fromDate}");
-   
    // === 전체 datepicker 옵션 일괄 설정하기 ===  
     //     한번의 설정으로 $("input#fromDate"), $('input#toDate')의 옵션을 모두 설정할 수 있다.
     $(function() {
@@ -80,33 +78,32 @@ $(document).ready(function(){
 
 function today() {
     $('input#fromDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-    $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+    $('input#toDate').datepicker('setDate', 'today+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 }
 
 function week() {
     $('input#fromDate').datepicker('setDate', '-7D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-    $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+    $('input#toDate').datepicker('setDate', 'today+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 }
 
 function month() {
     $('input#fromDate').datepicker('setDate', '-1M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-    $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+    $('input#toDate').datepicker('setDate', 'today+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 }
 
 function threeMonth() {
     $('input#fromDate').datepicker('setDate', '-3M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-    $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+    $('input#toDate').datepicker('setDate', 'today+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 }
 
 function halfYear() {
     $('input#fromDate').datepicker('setDate', '-6M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
-    $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+    $('input#toDate').datepicker('setDate', 'today+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 }
 
 
 
 function goOrderInfo() {
-   
    
    
     const frm = document.orderInfoFrm;
@@ -250,7 +247,7 @@ div.pagination {
                     <!-- <td><input type="date" id="currentDate1"> ~ <input type = "date" id="endDate1"> <input type = "button" value="조회"></td> -->
                 <td>
                         From: <input type="text" id="fromDate" name="fromDate" value="${requestScope.fromDate }" >&nbsp;&nbsp; 
-                        To: <input type="text" id="toDate" name="toDate" value="${requestScope.toDate }">
+                        To: <input type="text" id="toDate" name="toDate" value="${requestScope.toDate}">
                         <button id="goOrderInfo" onClick="goOrderInfo()">조회</button>
                      </td>                    
                  </tr>

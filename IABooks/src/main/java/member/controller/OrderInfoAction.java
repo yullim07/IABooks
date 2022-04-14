@@ -35,6 +35,7 @@ public class OrderInfoAction extends AbstractController {
          
       } else { // 로그인을 한 상태에서 들어왔을 때
       
+    	  
       InterMemberDAO mdao = new MemberDAO();
       
       Map<String , Object> paraMap = new HashMap<>();
@@ -50,6 +51,8 @@ public class OrderInfoAction extends AbstractController {
       String fromDate = request.getParameter("fromDate");
       String toDate = request.getParameter("toDate");
       
+      System.out.println(toDate);
+      
          paraMap.put("today", today);
          paraMap.put("lastMonth_three", lastMonth_three);
          paraMap.put("fromDate", fromDate);
@@ -61,9 +64,6 @@ public class OrderInfoAction extends AbstractController {
          request.setAttribute("lastMonth_three", lastMonth_three);
          request.setAttribute("fromDate", String.valueOf(fromDate));
          request.setAttribute("toDate", String.valueOf(toDate));
-         
-         
-         
          
          
       if( !("1".equals(status) || "2".equals(status) || "3".equals(status) || "4".equals(status) || "5".equals(status) ) )  {
