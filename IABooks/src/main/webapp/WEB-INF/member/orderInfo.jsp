@@ -61,7 +61,7 @@ $(document).ready(function(){
             //From의 초기값을 오늘 날짜로 설정
             $('input#fromDate').datepicker('setDate', 'today-3M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
             //To의 초기값을 3일후로 설정
-            $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+            $('input#toDate').datepicker('setDate', 'today+1D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
 
         } else {
             $('input#fromDate').datepicker('setDate', '${requestScope.fromDate}'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)

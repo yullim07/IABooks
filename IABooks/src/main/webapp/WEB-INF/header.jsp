@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+	<link href="<%= ctxPath%>/images/product/icon.png" rel="shortcut icon" type="image/x-icon">
 	<title>in사과::header</title>
 	
 	<%-- Required meta tags --%>
