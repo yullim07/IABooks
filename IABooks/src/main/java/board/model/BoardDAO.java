@@ -2483,12 +2483,15 @@ public class BoardDAO implements InterBoardDAO {
 				conn = ds.getConnection();
 				
 				String sql = "SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, qna_isdelete, re_isdelete "+
+							"			, qna_userid, re_userid"+
 							" FROM "+
 							" ( "+
 							"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, qna_isdelete, re_isdelete "+
+							"			, qna_userid, re_userid"+
 							"    from  "+
 							"        ( "+
 							"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents, A.isdelete AS qna_isdelete "+
+							"		 , A.fk_userid AS qna_userid"+
 							"        from tbl_qna_board A "+
 							"        FULL OUTER JOIN tbl_review_board B "+
 							"        ON A.qna_title = B.re_title "+
@@ -2498,6 +2501,7 @@ public class BoardDAO implements InterBoardDAO {
 							"    FULL OUTER JOIN\n"+
 							"        (\n"+
 							"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents, B.isdelete AS re_isdelete "+
+							"		 , B.fk_userid AS re_userid"+
 							"        from tbl_qna_board A "+
 							"        FULL OUTER JOIN tbl_review_board B "+
 							"        ON A.qna_title = B.re_title "+
@@ -2543,6 +2547,7 @@ public class BoardDAO implements InterBoardDAO {
 					qna.setQna_date(rs.getString(3));
 					qna.setQna_contents(rs.getString(9));
 					qna.setIsdelete(rs.getInt(10));
+					qna.setFk_userid(rs.getString(12));
 					myBoardVO.setQnaBoard(qna);
 					
 					ReviewBoardVO review = new ReviewBoardVO();
@@ -2552,6 +2557,7 @@ public class BoardDAO implements InterBoardDAO {
 					review.setRe_grade(rs.getInt(7));
 					review.setRe_contents(rs.getString(8));
 					review.setIsdelete(rs.getInt(11));
+					review.setFk_userid(rs.getString(13));
 					myBoardVO.setRevBoard(review);
 					
 					// System.out.println("잘들어감? => " + myBoardVO.getRevBoard().getRe_title());

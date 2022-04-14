@@ -290,7 +290,7 @@ button#btn_isdelete, button#btn_delete {
 			      	<th width="8%">고유번호</th>
 			        <th width="10%">카테고리</th>
 			        <th width="46%">제목</th>
-			        <th width="8%">작성자</th>
+			        <th width="8%">작성아이디</th>
 			        <th width="16%">작성일</th>
 			        <th width="8%">게시상태</th>
 			    </tr>
@@ -307,7 +307,7 @@ button#btn_isdelete, button#btn_delete {
 				      	<td><input type="hidden" id="pk_rnum"  value="${board.revBoard.pk_rnum}"/>${board.revBoard.pk_rnum}</td>
 				      	<td style="text-align: center;"><a href="<%= ctxPath%>/board/reviewBoard.book">타인의 책장</a></td>
 				      	<td><a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.revBoard.pk_rnum}">${board.revBoard.re_title}</a></td>
-				      	<td>-</td>
+				      	<td>${board.revBoard.fk_userid}</td>
 				      	<td>${board.revBoard.re_date}</td>
 				      	<c:if test="${board.revBoard.isdelete eq 0 }">
 				      		<td style="text-align: center;">공개</td>
@@ -327,7 +327,7 @@ button#btn_isdelete, button#btn_delete {
 				      	<td><input type="hidden" id="pk_qna_num" value="${board.qnaBoard.pk_qna_num}"/>${board.qnaBoard.pk_qna_num}</td>
 				      	<td style="text-align: center;"><a href="<%= ctxPath%>/board/qnaBoard.book">상품 Q&A</a></td>
 				      	<td><a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.qnaBoard.pk_qna_num}">${board.qnaBoard.qna_title}</a></td>
-				      	<td>-</td>
+				      	<td>${board.qnaBoard.fk_userid}</td>
 				      	<td>${board.qnaBoard.qna_date}</td>
 				      	<c:if test="${board.qnaBoard.isdelete eq 0 }">
 				      		<td style="text-align: center;">공개</td>
