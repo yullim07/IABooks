@@ -218,7 +218,9 @@ public class BoardDAO implements InterBoardDAO {
 			String sql = " select ceil( count(*)/? ) "
 					   + " from tbl_qna_board Q"
 					   + " join tbl_member M"
-					   + " on Q.fk_userid = M.pk_userid";
+					   + " on Q.fk_userid = M.pk_userid "
+					   + " where Q.isdelete = 0 ";
+			
 					  // + " where fk_userid != 'admin' ";
 			
 			String colname = paraMap.get("searchContent");
@@ -227,7 +229,7 @@ public class BoardDAO implements InterBoardDAO {
 		//	System.out.println(" 확인용 searchWord : " + searchWord);
 			
 			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-				sql += " where " + colname + " like '%'|| ? ||'%' ";
+				sql += " and " + colname + " like '%'|| ? ||'%' ";
 				// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
 				// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 			}
@@ -1202,7 +1204,8 @@ public class BoardDAO implements InterBoardDAO {
 		
 		String sql = " select ceil( count(*)/? ) "+
 		" from tbl_faq_board A JOIN tbl_faq_category B "+
-		" ON A.FK_FAQ_C_NUM = B.PK_FAQ_C_NUM ";
+		" ON A.FK_FAQ_C_NUM = B.PK_FAQ_C_NUM "
+		+ " where A.isdelete = 0 ";
 		// + " where fk_userid != 'admin' ";
 		
 		String colname = paraMap.get("searchType");
@@ -1214,7 +1217,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		if( !"all".equalsIgnoreCase(searchCate) ) {
 		// 카테고리 값이 1(전체)이 아니고 검색종류 및 검색어가 있을 때
-		sql += " where B.FAQ_C_ENAME = ? ";
+		sql += " and B.FAQ_C_ENAME = ? ";
 		
 		if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 		sql += " and " + colname + " like '%'|| ? ||'%' ";
@@ -1439,7 +1442,8 @@ public class BoardDAO implements InterBoardDAO {
 			String sql = " select ceil( count(*)/? ) " +
 			" from tbl_review_board A JOIN tbl_product B " +
 			" ON A.FK_PNUM = B.PK_PRO_NUM " +
-			" JOIN tbl_member C ON A.FK_USERID = C.PK_USERID ";
+			" JOIN tbl_member C ON A.FK_USERID = C.PK_USERID "
+			+ "where A.isdelete = 0 ";
 			// + " where fk_userid != 'admin' ";
 			
 			String colname = paraMap.get("searchType");
@@ -1450,7 +1454,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 			// 검색종류 및 검색어가 있을 때
-			sql += " where " + colname + " like '%'|| ? ||'%' ";
+			sql += " and " + colname + " like '%'|| ? ||'%' ";
 			// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
 			// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 			}
