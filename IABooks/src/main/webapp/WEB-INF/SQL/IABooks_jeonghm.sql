@@ -850,3 +850,58 @@ FROM
         ) R
     ON Q.qna_title = R.re_title
 ) V
+
+
+select *
+from tbl_order 
+
+select *
+from tbl_orderdetail 
+
+select *
+from tbl_member 
+
+select
+
+select count(*)
+from tbl_member M
+JOIN tbl_order O
+ON M.pk_userid = O.fk_userid
+JOIN tbl_orderdetail D
+ON O.pk_odrcode = fk_odrcode
+where M.pk_userid = 'gorush34' and D.fk_pro_num = '9791167560605'
+
+
+SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, rownum 
+ FROM 
+(
+ SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, rownum AS rn
+ FROM  
+ (     
+    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents     
+    from          
+    (         
+        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents         
+        from tbl_qna_board A
+        FULL OUTER JOIN tbl_review_board B
+        ON A.qna_title = B.re_title
+        where A.fk_userid is not null and B.re_title is null
+        order by A.qna_date desc         
+    ) Q
+    FULL OUTER JOIN        
+    (        
+        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents
+        from tbl_qna_board A
+        FULL OUTER JOIN tbl_review_board B
+        ON A.qna_title = B.re_title
+        where B.fk_userid is not null and A.qna_title is null
+        order by B.re_date desc
+    ) R
+    ON Q.qna_title = R.re_title
+    ) V  
+    where V.pk_rnum is not null and V.pk_qna_num is null 
+) A
+where rn between 1 and 20
+    
+     
+

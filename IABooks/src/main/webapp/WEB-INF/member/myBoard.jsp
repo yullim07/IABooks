@@ -9,7 +9,7 @@
 	String ctxPath = request.getContextPath();
 	
 %>
-
+<title>in사과 : myBoard </title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -77,7 +77,7 @@
 			}
 			
 			if($("input#mySearchWord").val().trim() == "") {
-				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! qwe2");
+				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
 				return false;
 			}
 			
@@ -222,7 +222,7 @@
 			        <option value="my_contents">내용</option>
 			    </select>
 			    <input type="text" name="mySearchWord" id="mySearchWord"></input>
-			    <button class="btn btn_myboard_search" name="btn_mySearch" id="btn_mySearch" onlick="goMyBoardSearch();">찾기</button>
+			    <button class="btn btn_myboard_search" name="btn_mySearch" id="btn_mySearch" onclick="goMyBoardSearch();">찾기</button>
 			    </div>
 		    
 		  	</div>
