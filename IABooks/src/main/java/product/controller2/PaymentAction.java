@@ -70,7 +70,7 @@ public class PaymentAction extends AbstractController {
 				}
 					
 				int totalSale = cprice + pointPrice;
-				totalPrice = totalPrice - pointPrice;
+				totalPrice = totalPrice - totalSale;
 				
 				
 				
