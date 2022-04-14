@@ -147,6 +147,7 @@
 		      </td>
 		     
 		    </tr>
+		    <%--
 		    <tr>
 		      <th>비밀번호</th>
 		      <td class="password">
@@ -155,6 +156,8 @@
 		      	<span>삭제하려면 비밀번호를 입력하세요.</span>
 		      </td>
 		    </tr>
+		    
+		     --%>
 		    </tbody>
 		  
 		</table>
