@@ -1592,11 +1592,16 @@ public class ProductDAO implements InterProductDAO {
 								
 								if(n6 == 1) {//포인트 차감
 									if(!("".equals(totalPoint) || totalPoint == null) ){ 
+										String usePoint = (String) paraMap.get("usePoint");
+									
 										sql = " insert into "
 											+ " tbl_mileage(fk_userid, fk_odrcode, mileageinfo) "
 											+ " values (?, ?, ?) ";
 										
-										String usePoint = (String) paraMap.get("usePoint");
+										
+										if(usePoint == null || "".equalsIgnoreCase(usePoint)) {
+											usePoint = "0";
+										}
 										usePoint = "-" + usePoint;
 										pstmt = conn.prepareStatement(sql);
 										pstmt.setString(1, (String) paraMap.get("userid"));
