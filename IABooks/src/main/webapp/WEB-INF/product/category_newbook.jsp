@@ -27,7 +27,7 @@
 
 </style>
 
-<title>in사과 : New</title>
+<title>in사과::New</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 <%-- main --%>		
