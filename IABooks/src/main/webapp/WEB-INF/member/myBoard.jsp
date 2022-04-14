@@ -9,7 +9,7 @@
 	String ctxPath = request.getContextPath();
 	
 %>
-
+<title>in사과 : myBoard </title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -62,7 +62,7 @@
 			}
 			
 			if($("input#mySearchWord").val().trim() == "") {
-				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! qwe2");
+				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
 				return false;
 			}
 			

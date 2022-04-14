@@ -43,35 +43,40 @@ public class AddWishListAction extends AbstractController {
 				// 내 관심상품 목록에 있는지 검사
 				n = tpdao.checkInWishList(paraMap);
 				
+				JSONObject jsonObj = new JSONObject(); 
+				
 				if(n == 0) { //내 관심상품 목록에 없는 경우 insert
 					// 관심상품에 보고있는 상품을 insert
 					result = tpdao.AddWishList(paraMap);
 					
-					JSONObject jsonObj = new JSONObject(); 
+					
 					jsonObj.put("addWishList", result); 
-					jsonObj.put("pk_pro_num", pk_pro_num); 
-					String json = jsonObj.toString();
-					
-					request.setAttribute("json", json);
-					
-					super.setViewPage("/WEB-INF/jsonview.jsp");
-
 				}
-				else { //내 관심상품 목록에 있는 경우
+				else if( n == 1 ) { //내 관심상품 목록에 있는 경우
 					
 					n = 2;
+					/*
 					String message = "현재 관심상품 목록에 있는 상품입니다.";
-					//String loc = "javascript:history.back()";//
+					String loc = "javascript:history.back()";//
 					
 					request.setAttribute("message", message);
 					//request.setAttribute("loc", loc);
 					
 					//super.setRedirect(false);
 					super.setViewPage("/WEB-INF/jsonMsg.jsp");
+					*/
 					
-					return;
+					jsonObj.put("addWishList", n); 
+					
 				}
 				
+
+				jsonObj.put("pk_pro_num", pk_pro_num);
+				String json = jsonObj.toString();
+				
+				request.setAttribute("json", json);
+				
+				super.setViewPage("/WEB-INF/jsonview.jsp");
 				
 				
 			}else {//로그인사용자가 다른 사용자의 장바구니 추가할경우

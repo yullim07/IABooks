@@ -35,6 +35,9 @@ public interface TestInterBoardDAO {
 
 	// 관리자페이지 게시글관리에에 보여줄 모든 게시글 불러오기
 	List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException;
+
+	// 구매이력 확인
+	int checkBuyThisProduct(Map<String, String> paraMap) throws SQLException;
 	
 	
 }
