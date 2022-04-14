@@ -1620,7 +1620,7 @@ public class ProductDAO implements InterProductDAO {
 											if(n8 == 1)  {//판매량 체크
 												
 												for(int i=0; i<fk_pro_numArr.length; i++) {
-													sql = " update tbl_product set pro_saleprice = pro_saleprice + ? "
+													sql = " update tbl_product set pro_saleprice = pro_sales + ? "
 															+ " where pk_pro_num = ? "; 
 														
 													pstmt = conn.prepareStatement(sql);
