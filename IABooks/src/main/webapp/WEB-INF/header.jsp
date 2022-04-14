@@ -103,7 +103,7 @@
            		
            		<li class="dropdown bulkhead"><a href="<%= ctxPath%>/member/myPage.book" >마이페이지<i class="bi bi-chevron-down dropdown-indicator" ></i></a>
 					<ul>
-						<li><a href="#">주문조회</a></li>
+						<li><a href="<%= ctxPath %>/member/orderInfo.book">주문조회</a></li>
 						<li><a href="#">배송조회</a></li>
 						<li><a href="<%= ctxPath%>/product/wishList.book">관심상품</a></li>
 						<li><a href="<%= ctxPath%>/member/myBoard.book">내게시물</a></li>
