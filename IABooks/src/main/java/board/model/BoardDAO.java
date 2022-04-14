@@ -2493,6 +2493,7 @@ public class BoardDAO implements InterBoardDAO {
 							"        FULL OUTER JOIN tbl_review_board B "+
 							"        ON A.qna_title = B.re_title "+
 							"		 where A.fk_userid is not null and B.re_title is null "+
+							"		 order by A.qna_date desc "+
 							"        ) Q\n"+
 							"    FULL OUTER JOIN\n"+
 							"        (\n"+
@@ -2501,6 +2502,7 @@ public class BoardDAO implements InterBoardDAO {
 							"        FULL OUTER JOIN tbl_review_board B "+
 							"        ON A.qna_title = B.re_title "+
 							"		 where B.fk_userid is not null and A.qna_title is null "+	
+							"		 order by B.re_date desc "+
 							"        ) R "+
 							"    ON Q.qna_title = R.re_title " +
 							"    ) V "+

@@ -193,7 +193,7 @@ button#btn_isdelete, button#btn_delete {
 		
 		const frm = document.myBoardFrm;
 		frm.action = "adminBoard.book";
-		frm.method = "get";
+		frm.method = "post";
 		frm.submit();
 		
 	 } // end of function goAdminBoardSearch();
@@ -287,7 +287,7 @@ button#btn_isdelete, button#btn_delete {
 			  <thead class="thead-light" id="faq_thead">
 			    <tr style="text-align: center;">
 			    	<th width="4%"><input type="checkbox" id="selectAll" name="selectAll" /></td>
-			      	<th width="8%">번호</th>
+			      	<th width="8%">고유번호</th>
 			        <th width="10%">카테고리</th>
 			        <th width="46%">제목</th>
 			        <th width="8%">작성자</th>
