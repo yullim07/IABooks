@@ -27,7 +27,7 @@ public class MemberListAction extends AbstractController {
 		if( loginuser == null || !"admin".equals(loginuser.getUserid()) ) {
 			// 로그인을 안한 경우 또는 일반사용자로 로그인 한 경우
 			String message = "관리자만 접근이 가능합니다.";
-			String loc = "javascript:history.back()";
+			String loc = request.getContextPath()+"/index.book";
 			
 			request.setAttribute("message", message);
 			request.setAttribute("loc", loc);
