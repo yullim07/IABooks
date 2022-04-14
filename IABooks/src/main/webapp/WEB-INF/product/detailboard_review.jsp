@@ -136,7 +136,14 @@
 							<td class="tbl_number mycenter">${board.pk_rnum}</td>
 
 							
-							<td class="tbl_subject" id="td_left"><a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.pk_rnum}">${board.re_title}</a><img id="file_attach" name="file_attach" src="<%= ctxPath%>/images/board/leejh_images/ico_attach2.gif" <%-- onmouseover="showImg()" onmouseout="hideImg()"--%> /> <span id="mouseover_img" style="position: absolute;"></span> <span class="new_tag">NEW</span>
+							<td class="tbl_subject" id="td_left"><a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.pk_rnum}">${board.re_title}</a>
+									<c:set var="yesterday" value="<%= new Date(new Date().getTime() - 60*60*24*1000) %>"/>
+									<fmt:formatDate value="${yesterday}" pattern="yyyy-MM-dd HH:mm:ss" var="yesterday" />
+									
+							    	<c:if test="${ board.re_date > yesterday}">
+							    	<span class="new_tag">NEW</span>
+							    	</c:if>
+							</td>
 							<td class="tbl_writer mycenter">${board.re_writer}</td>
 							<td class="tbl_date mycenter">${board.re_date}</td>
 							<c:if test="${board.re_grade eq 1 }">
