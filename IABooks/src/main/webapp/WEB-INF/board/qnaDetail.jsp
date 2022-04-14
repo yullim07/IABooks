@@ -223,7 +223,7 @@
 	 	      // 수정취소 버튼 클릭시 
 	 	      $("button#btnCommentUpdate_NO").click(function(){
 	 	         $("div#cmtlist_content"+index).html(origin_elmt); // 원래의 제품후기 엘리먼트로 복원하기  
-	 	         $("div.commentUpdate").show(); // "후기수정" 글자 보여주기 
+	 	         $("button.commentUpdate").show(); // "후기수정" 글자 보여주기 
 	 	      });
 	 	      
 	 	      // 수정완료 버튼 클릭시 
