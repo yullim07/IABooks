@@ -1230,7 +1230,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 		// 카테고리 값이 없거나 1이고 검색종류 및 검색어가 있을 때
-		sql += " where " + colname + " like '%'|| ? ||'%' ";
+		sql += " and " + colname + " like '%'|| ? ||'%' ";
 		// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
 		// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 		}
@@ -2483,24 +2483,30 @@ public class BoardDAO implements InterBoardDAO {
 				conn = ds.getConnection();
 				
 				String sql = "SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, qna_isdelete, re_isdelete "+
+							"			, qna_userid, re_userid"+
 							" FROM "+
 							" ( "+
 							"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, qna_isdelete, re_isdelete "+
+							"			, qna_userid, re_userid"+
 							"    from  "+
 							"        ( "+
 							"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents, A.isdelete AS qna_isdelete "+
+							"		 , A.fk_userid AS qna_userid"+
 							"        from tbl_qna_board A "+
 							"        FULL OUTER JOIN tbl_review_board B "+
 							"        ON A.qna_title = B.re_title "+
 							"		 where A.fk_userid is not null and B.re_title is null "+
+							"		 order by A.qna_date desc "+
 							"        ) Q\n"+
 							"    FULL OUTER JOIN\n"+
 							"        (\n"+
 							"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents, B.isdelete AS re_isdelete "+
+							"		 , B.fk_userid AS re_userid"+
 							"        from tbl_qna_board A "+
 							"        FULL OUTER JOIN tbl_review_board B "+
 							"        ON A.qna_title = B.re_title "+
 							"		 where B.fk_userid is not null and A.qna_title is null "+	
+							"		 order by B.re_date desc "+
 							"        ) R "+
 							"    ON Q.qna_title = R.re_title " +
 							"    ) V "+
@@ -2541,6 +2547,7 @@ public class BoardDAO implements InterBoardDAO {
 					qna.setQna_date(rs.getString(3));
 					qna.setQna_contents(rs.getString(9));
 					qna.setIsdelete(rs.getInt(10));
+					qna.setFk_userid(rs.getString(12));
 					myBoardVO.setQnaBoard(qna);
 					
 					ReviewBoardVO review = new ReviewBoardVO();
@@ -2550,6 +2557,7 @@ public class BoardDAO implements InterBoardDAO {
 					review.setRe_grade(rs.getInt(7));
 					review.setRe_contents(rs.getString(8));
 					review.setIsdelete(rs.getInt(11));
+					review.setFk_userid(rs.getString(13));
 					myBoardVO.setRevBoard(review);
 					
 					// System.out.println("잘들어감? => " + myBoardVO.getRevBoard().getRe_title());
