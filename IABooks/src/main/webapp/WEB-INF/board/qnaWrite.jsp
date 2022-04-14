@@ -129,7 +129,7 @@
 </style>
  
 <meta charset="UTF-8">
-<title>상품Q&A 작성</title>
+<title>in사과::상품Q&A 작성</title>
 
 
 <jsp:include page="/WEB-INF/header.jsp"/>
@@ -139,7 +139,7 @@
 
 
 <!-- 직접 만든 CSS -->
-<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" />
+<%-- <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/style.css" /> --%>
 
 <!-- Optional JavaScript -->
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>
@@ -155,7 +155,7 @@
   <!--  -->
   
   <!-- include libraries(jQuery, bootstrap) -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 

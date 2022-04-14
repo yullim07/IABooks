@@ -18,7 +18,7 @@
 
   
 <meta charset="UTF-8">
-<title>타인의 책장</title>
+<title>in사과::타인의 책장</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 

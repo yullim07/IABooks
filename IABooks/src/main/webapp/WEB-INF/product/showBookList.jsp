@@ -58,7 +58,7 @@
 
 <%-- 종합 foreach 사용 출간일순 이름순 판매순 --%>	
 
-	<div class="title ">
+	<div class="title">
 		<br>
 		<h2>
 			<c:choose>

@@ -22,7 +22,7 @@
 
   
 <meta charset="UTF-8">
-<title>in사과 : 타인의 책장 | 글 작성 공간</title>
+<title>in사과::타인의 책장 | 글 작성 공간</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 

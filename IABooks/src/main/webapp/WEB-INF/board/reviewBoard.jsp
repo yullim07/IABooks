@@ -28,7 +28,7 @@
 
      
 <meta charset="UTF-8">
-<title>in사과 : 타인의 책장</title>
+<title>in사과::타인의 책장</title>
 
 
 <%-- Bootstrap CSS --%>
@@ -110,13 +110,19 @@
 <div class="contents">
 
   
-  <div class="title" >
-     <div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /> --%></div>
+<%--   <div class="title" >
+     <div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
      <h2 >타인의 책장</h2>
      <div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
      <span >후기가 작성된 공간입니다.</span>
     
-  </div>
+  </div> --%>
+  
+  
+	<div class="title">
+		<br>
+		<h2 >타인의 책장&nbsp;</h2><span>&nbsp;후기가 작성된 공간입니다.</span>
+	</div>
   <p class="mb-3"></p>
   
   <form name="revBoardFrm" method="get">

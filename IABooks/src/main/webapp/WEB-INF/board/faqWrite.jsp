@@ -18,7 +18,7 @@
 
   
 <meta charset="UTF-8">
-<title>FAQ 글 작성하기</title>
+<title>in사과::FAQ 글 작성하기</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -29,7 +29,7 @@
   <!--  -->
   
  <!-- include libraries(jQuery, bootstrap) -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
 
@@ -70,13 +70,17 @@
 <div class="container">
 
 <div class="contents">
-  <div class="title" >
+<%--   <div class="title" >
   	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
   	<h2 >FAQ</h2>
   	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
   	<span >이용안내 FAQ입니다.</span>
     
-  </div>
+  </div> --%>
+  	<div class="title">
+		<br>
+		<h2 >FAQ&nbsp;</h2><span>&nbsp;이용안내 FAQ입니다.</span>
+		</div>
   <p class="mb-3"></p>
   
   <form name="faqSubmitFrm">

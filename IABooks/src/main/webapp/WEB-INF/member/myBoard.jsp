@@ -9,7 +9,7 @@
 	String ctxPath = request.getContextPath();
 	
 %>
-<title>in사과 : myBoard </title>
+<title>in사과::myBoard </title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -134,13 +134,17 @@
 
 	    <div class="container">
 	    <form name="myBoardFrm" method="get">
-			    <div class="title" >
-				  	<div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /> --%></div>
+<%-- 			    <div class="title" >
+				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 				  	<h2>내가 쓴 글</h2>
 				  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 				  	<span >내가 작성했던 글들을 볼 수 있습니다.</span>
 			    
-			   </div>
+			   </div> --%>
+		<div class="title">
+		<br>
+		<h2 >내가 쓴 글&nbsp;</h2><span >&nbsp;내가 작성했던 글들을 볼 수 있습니다.</span>
+		</div>
 			  <p class="mb-3"></p>
 			
 				<select class="cateDropdown" id="mysearchCate" name="mysearchCate" onchange="">

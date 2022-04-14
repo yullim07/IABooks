@@ -12,7 +12,7 @@
 <!-- 내가만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
 
-<title>게시물 관리</title>
+<title>in사과::게시물 관리</title>
 
 
 <script type="text/javascript">

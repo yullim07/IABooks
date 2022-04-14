@@ -9,7 +9,7 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<title>회원가입</title>
+<title>in사과::회원가입</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -474,10 +474,15 @@ $(document).ready(function() {
 <div class="container">
 
 	<form name="registerFrm" action="registerSuccess.book">
-		<br>
+<%-- 		<br>
 		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 가입</strong>
 		<hr style="border: solid 2px #e8e8e8;">
-		<br><br>
+		<br><br> --%>
+		<div class="title">
+		<br>
+		<h2 >회원 가입</h2>
+		</div>
+		
 			<strong style="font-size: 16pt;">기본정보</strong>
 			<p><img src="<%= ctxPath%>/images/member/bar_eee.gif" style="width: 2px; height: 20px;" />&nbsp;&nbsp;<span id="star">*</span> 필수입력사항</p>
 			<table class="register">

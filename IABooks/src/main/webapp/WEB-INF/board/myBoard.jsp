@@ -16,7 +16,7 @@
 </style>
 
 <meta charset="UTF-8">
-<title>in사과 : 내가 쓴 글</title>
+<title>in사과::내가 쓴 글</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 <!-- 직접 만든 CSS -->

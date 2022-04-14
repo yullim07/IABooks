@@ -5,7 +5,7 @@
 %>
 
 <meta charset="UTF-8">
-<title>장바구니 이용안내</title>
+<title>in사과::장바구니 이용안내</title>
 
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" href="<%=ctxPath %>/bootstrap-4.6.0-dist/css/bootstrap.min.css" type="text/css">
@@ -35,7 +35,7 @@
 	margin-left: 0;
 }
 
-li {
+.card-body li {
 	font-size: 12px;
 	line-height: 18px;
 	color: #707070;

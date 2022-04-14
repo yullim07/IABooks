@@ -111,12 +111,17 @@
 <div class="container">
 	<div class="contents">
 	  
-		<div class="title" >
-			<div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /> --%></div>
+<%-- 		<div class="title" >
+			<div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
 		  	<h2 >상품 Q&A</h2>
 		  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
 		  	<span >상품 Q&A입니다. 상품에 관해서 궁금하신 점을 질문해주세요.</span>
-	  	</div>
+	  	</div> --%>
+	  	
+	<div class="title">
+		<br>
+		<h2 >상품 Q&A&nbsp;</h2><span>&nbsp;상품 Q&A입니다. 상품에 관해서 궁금하신 점을 질문해주세요.</span>
+	</div>
 	  
 	  	<p class="mb-3"></p>
 	  

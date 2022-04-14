@@ -18,7 +18,7 @@
 
   
 <meta charset="UTF-8">
-<title>FAQ 글 수정하기</title>
+<title>in사과::FAQ 글 수정하기</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 

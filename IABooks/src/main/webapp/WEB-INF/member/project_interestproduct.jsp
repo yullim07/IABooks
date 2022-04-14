@@ -62,7 +62,7 @@
 	
 	
 </style>
-<title>관심상품</title>
+<title>in사과::관심상품</title>
 
 <jsp:include page="<%= ctxPath %>/WEB-INF/header.jsp"/>
 <div class="container">

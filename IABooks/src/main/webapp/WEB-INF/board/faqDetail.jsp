@@ -14,7 +14,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>FAQ 상세보기</title>
+<title>in사과::FAQ 상세보기</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />

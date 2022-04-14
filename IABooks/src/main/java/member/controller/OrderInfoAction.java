@@ -51,7 +51,7 @@ public class OrderInfoAction extends AbstractController {
       String fromDate = request.getParameter("fromDate");
       String toDate = request.getParameter("toDate");
       
-      System.out.println(toDate);
+      
       
          paraMap.put("today", today);
          paraMap.put("lastMonth_three", lastMonth_three);
@@ -125,18 +125,19 @@ public class OrderInfoAction extends AbstractController {
       
       
       // **** [맨처음][이전] 만들기 **** //
+      
       if( pageNo != 1 ) {
-            pageBar += "<li class='page-item'><a class='page-link' href='orderInfo.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>[맨처음]</a></li>"; 
-            pageBar += "<li class='page-item'><a class='page-link' href='orderInfo.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>[이전]</a></li>";  
+            pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='orderInfo.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>[맨처음]</a></li>"; 
+            pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='orderInfo.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>[이전]</a></li>";  
          }
                   
          while( !(loop > blockSize || pageNo > totalPage) ) {
          
             if( pageNo == Integer.parseInt(currentShowPageNo) ) {
-               pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>"; 
+               pageBar += "<li class='page-item active pageicon'><a class='page-link' aria-label='Previous' href='#'>"+pageNo+"</a></li>"; 
             }
             else {
-               pageBar += "<li class='page-item'><a class='page-link' href='orderInfo.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>"+pageNo+"</a></li>";   
+               pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='orderInfo.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>"+pageNo+"</a></li>";   
             }
             
             loop++;
@@ -146,9 +147,12 @@ public class OrderInfoAction extends AbstractController {
          // **** [다음][마지막] 만들기 **** //
          // pageNo ==> 11
          if( pageNo <= totalPage ) {
-            pageBar += "<li class='page-item'><a class='page-link' href='orderInfo.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>[다음]</a></li>";  
-            pageBar += "<li class='page-item'><a class='page-link' href='orderInfo.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>[마지막]</a></li>"; 
+            pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='orderInfo.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>[다음]</a></li>";  
+            pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='orderInfo.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&orderstatus="+status+"&fromDate="+fromDate+"&toDate="+toDate+"'>[마지막]</a></li>"; 
          }
+         
+
+         
          
          request.setAttribute("pageBar", pageBar); 
       // **** ============ 페이지바 만들기 끝 ============ **** //

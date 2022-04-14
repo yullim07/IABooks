@@ -32,7 +32,7 @@
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Imagetoolbar" content="no" />
 
-<title>타인의 책장</title>
+<title>in사과::타인의 책장</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 

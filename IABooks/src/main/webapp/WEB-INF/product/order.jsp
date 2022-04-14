@@ -332,10 +332,14 @@
 <jsp:include page="/WEB-INF/header.jsp"/>
 
 	<div class="container">
-	<div class="titleArea">
+<%-- 	<div class="titleArea">
 		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;주문서 작성</strong>
 		<hr style="border: solid 2px #e8e8e8; margin-bottom: 3%;">
-    </div>
+    </div> --%>
+         <div class="title">
+		<br>
+		<h2 >주문서 작성</h2>
+		</div>
 	
 	<div class="orderImg">
 		<img src="<%= ctxPath %>/images/product/order.jpg" />

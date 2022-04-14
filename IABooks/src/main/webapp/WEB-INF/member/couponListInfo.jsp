@@ -7,7 +7,7 @@
 %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<title>쿠폰조회</title>
+<title>in사과::쿠폰조회</title>
 
 <!-- Required meta tags -->
 <meta charset="utf-8">

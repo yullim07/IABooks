@@ -181,10 +181,14 @@ div.pagination {
 <title>in사과::주문조회</title>
 <div class="container">
 	
-	<div class="titleArea">
+<%-- 	<div class="titleArea">
 		<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;주문조회</strong>
 		<hr style="border: solid 2px #e8e8e8; margin-bottom: 3%;">
-    </div>
+    </div> --%>
+     		<div class="title">
+		<br>
+		<h2 >주문조회</h2>
+		</div>
 	
          <ul class="nav nav-tabs navbar-expand-sm bg-light navbar-light">
 	           <li class="nav-item">

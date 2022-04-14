@@ -24,11 +24,11 @@ public class AdminOrderListAction  extends AbstractController {
 			HttpSession session = request.getSession();
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			String userid = loginuser.getUserid();
-			System.out.println("확인");
+			
 			if("admin".equalsIgnoreCase(userid)) {
-				System.out.println("확인11");
+				
 				if("POST".equalsIgnoreCase(method)) {//포스트 방식이라며는 
-					System.out.println("확인22");
+					
 					InterProductDAO pdao = new ProductDAO();
 					Map<String, String> paraMap = new HashMap<>();
 					

@@ -344,10 +344,14 @@
 <jsp:include page="../header.jsp" />
 <div class="container">
 			
-<br>&nbsp;<strong style="font-size: 16pt;">
+<%-- <br>&nbsp;<strong style="font-size: 16pt;">
 <img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;장바구니</strong>
 <hr style="border: solid 2px #e8e8e8;">
-
+ --%>
+ 		<div class="title">
+		<br>
+		<h2 >장바구니</h2>
+		</div>
 	<div class="orderImg">
 		<img src="<%= ctxPath %>/images/product/cart.jpg" />
 	</div>

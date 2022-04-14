@@ -9,7 +9,7 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<title>주문서작성</title>
+<title>in사과::주문서작성</title>
 
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.min.css">

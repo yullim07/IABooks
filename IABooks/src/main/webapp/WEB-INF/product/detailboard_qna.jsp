@@ -19,7 +19,7 @@
 %>
 
 <meta charset="UTF-8">
-<title>상품상세페이지 상품후기 목록</title>
+<title>in사과::상품상세페이지 상품후기 목록</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />

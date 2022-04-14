@@ -14,7 +14,7 @@
 <style type="text/css" >
 
 </style>
-
+<title>in사과::회원전체목록</title>
 <jsp:include page="/WEB-INF/header.jsp"/>
 
 <script type="text/javascript">
@@ -140,9 +140,13 @@ table#memberTbl tr {
 
 <div class="container">
 
-	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;회원전체목록</strong>
+	<%-- <br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;회원전체목록</strong>
 	<hr style="border: solid 2px #e8e8e8;">
-	
+	 --%>
+	 	<div class="title">
+		<br>
+		<h2 >회원전체목록</h2>
+		</div>
 	<%--<form name="memberFrm">--%>
 		<form name="memberFrm" action="memberList.up" method="GET">
 			

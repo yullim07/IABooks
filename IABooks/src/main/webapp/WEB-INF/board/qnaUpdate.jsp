@@ -25,7 +25,7 @@
 
   
 <meta charset="UTF-8">
-<title>in사과 : ${qnaVO.qna_title} | 글 수정 공간</title>
+<title>in사과::${qnaVO.qna_title} | 글 수정 공간</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 

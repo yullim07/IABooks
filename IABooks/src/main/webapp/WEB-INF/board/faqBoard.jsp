@@ -12,7 +12,7 @@
 
 
 <meta charset="UTF-8">
-<title>in사과 : FAQ</title>
+<title>in사과::FAQ</title>
 
 <%-- Bootstrap CSS --%>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
@@ -135,13 +135,18 @@
 <jsp:include page="/WEB-INF/header.jsp"/>
 	    <div class="container">
 	    <form name="faqBoardFrm" method="get">
-			    <div class="title" >
-				  	<div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /> --%></div>
+<%-- 			    <div class="title" >
+				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 				  	<h2>FAQ</h2>
 				  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 				  	<span >이용안내 FAQ입니다.</span>
 			    
-			   </div>
+			   </div> --%>
+			   
+		<div class="title">
+		<br>
+		<h2 >FAQ&nbsp;</h2><span>&nbsp;이용안내 FAQ입니다.</span>
+		</div>
 			  <!-- <p class="mb-3"></p> -->
 			
 			  	<select class="cateDropdown" id="faqsearchCate" name="faqsearchCate" onchange="">

@@ -35,7 +35,7 @@
 	<script src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> 
 	<script type="text/javascript" src="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.js" ></script>
 
-<title>쿠폰등록하기</title>
+<title>in사과::쿠폰등록하기</title>
 
 
 

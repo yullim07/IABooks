@@ -9,7 +9,7 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-<title>쿠폰</title>
+<title>in사과::쿠폰</title>
 <jsp:include page="/WEB-INF/header.jsp"/>
 <!-- 내가만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/member/style_member.css" />
@@ -126,7 +126,7 @@ function isExistCouponCheck() {
 <style type="text/css">
 
 	a.admin_coupon {
-		margin-top: 20px;
+		margin-top: 0px  !important;
 		width: 200px;
 		height: 36px;
 		background-color: #1a6dff;
@@ -154,8 +154,12 @@ function isExistCouponCheck() {
 		<a class="admin_coupon" href="javascript:generateCoupon('${(sessionScope.loginuser).userid}');" >쿠폰 발급하기</a>
 		<a class="admin_coupon" href="javascript:couponListInfo('${(sessionScope.loginuser).userid}');" style="margin: 20px;" >모든쿠폰목록보기</a>
 	</c:if>
-	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이쿠폰</strong>
-	<hr style="border: solid 2px #e8e8e8;">
+<%-- 	<br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;마이쿠폰</strong>
+	<hr style="border: solid 2px #e8e8e8;"> --%>
+		<div class="title">
+		<br>
+		<h2 style="display: inline-block;">마이쿠폰&nbsp;</h2>
+		</div>
 		<strong>마이 쿠폰 목록</strong><p style="float: right;">사용가능 쿠폰 <span>${requestScope.couponNum}</span> 장</p>
 	
 	

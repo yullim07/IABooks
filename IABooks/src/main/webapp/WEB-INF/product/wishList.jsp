@@ -316,9 +316,13 @@
 <jsp:include page="../header.jsp" />
 <div class="container">
 			
-<br>&nbsp;<strong style="font-size: 16pt;">
+<%-- <br>&nbsp;<strong style="font-size: 16pt;">
 <img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;관심상품</strong>
-<hr style="border: solid 2px #e8e8e8;">
+<hr style="border: solid 2px #e8e8e8;"> --%>
+      	<div class="title">
+		<br>
+		<h2 >관심상품</h2>
+		</div>
 
 <div class="cartInfo">
 	<form name="cartFrm">

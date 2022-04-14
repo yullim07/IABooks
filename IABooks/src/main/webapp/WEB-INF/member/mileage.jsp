@@ -9,7 +9,7 @@
 <%
 	String ctxPath = request.getContextPath();
 %>
-<title>적립금</title>
+<title>in사과::적립금</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -77,10 +77,14 @@ span.pointTable {
 
 
 <div class="container">
-	<br>
+<%-- 	<br>
 	&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  /> 적립금 </strong> &nbsp;
 	<img src="<%= ctxPath%>/images/bar_eee.gif" style="width: 2px; height: 20px;" /> &nbsp; 고객님의 사용가능한 적립금 입니다.
-	<hr style="border: solid 2px #e8e8e8;">
+	<hr style="border: solid 2px #e8e8e8;"> --%>
+			<div class="title">
+		<br>
+		<h2 style="display: inline-block;">적립금&nbsp;</h2><span style="font-size: 14px; color: #939393;">&nbsp;고객님의 사용가능한 적립금 입니다.</span>
+		</div>
 	
 	<table class="pointTable">
 			<tr >

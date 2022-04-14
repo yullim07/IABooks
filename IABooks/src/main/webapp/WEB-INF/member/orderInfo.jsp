@@ -10,7 +10,7 @@
 <%
    String ctxPath = request.getContextPath();
 %>
-
+<title>in사과::주문조회</title>
 <jsp:include page="/WEB-INF/header.jsp"/>
 
    <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/jquery-ui-1.13.1.custom/jquery-ui.css" >
@@ -202,16 +202,19 @@ div.pagination {
       font-weight:bold;
       background-color: black;
      }
-
-
+     
 </style>
-<title>주문조회</title>
+
 <div class="container">
-   
-   <div class="titleArea">
+ 
+<%--    <div class="titleArea">
       <br>&nbsp;<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"/>&nbsp;주문조회</strong>
       <hr style="border: solid 2px #e8e8e8; margin-bottom: 3%;">
-    </div>
+    </div> --%>
+      	<div class="title">
+		<br>
+		<h2 >주문조회</h2>
+		</div>
    
          <ul class="nav nav-tabs navbar-expand-sm bg-light navbar-light">
               <li class="nav-item">
@@ -285,13 +288,22 @@ div.pagination {
          </c:if>
               </table>
                       
-                  <nav class="my-5">
+                   <nav class="my-5">
                 <div style="display: flex; width: 100%;">
                    <ul class="pagination" style='margin:auto;'>
                       ${requestScope.pageBar}
                    </ul>
                 </div>
-             </nav>    
+             </nav>  
+             
+ <%--             	페이지 네비게이션
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center ">
+		ShowBookListAction 작성
+			${requestScope.pageBar}
+	  	</ul>
+	</nav> --%>
+                
            </div>
         </div> 
    

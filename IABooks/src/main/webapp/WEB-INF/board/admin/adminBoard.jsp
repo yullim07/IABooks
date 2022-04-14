@@ -10,7 +10,7 @@
 	
 %>
 
-
+<title>in사과::게시판관리</title>
 <jsp:include page="/WEB-INF/header.jsp"/>
 
 <!-- 직접 만든 CSS -->
@@ -274,13 +274,17 @@ button#btn_isdelete, button#btn_delete {
 
 	    <div class="container">
 	    <form name="myBoardFrm" method="get">
-			    <div class="title" >
+<%-- 			    <div class="title" >
 				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
 				  	<h2>게시글관리</h2>
 				  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 				  	<span >리뷰및 상품문의 게시판의 글들을 관리할 수 있습니다.</span>
 			    
-			   </div>
+			   </div> --%>
+		<div class="title">
+		<br>
+		<h2 >게시글관리&nbsp;</h2><span>&nbsp;리뷰및 상품문의 게시판의 글들을 관리할 수 있습니다.</span>
+		</div>
 			  <p class="mb-3"></p>
 			
 			  <table class="table" id="faq_table_all">

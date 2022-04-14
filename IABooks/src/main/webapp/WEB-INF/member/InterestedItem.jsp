@@ -21,7 +21,7 @@
  
 </style>
 
-<title>관심상품</title>
+<title>in사과::관심상품</title>
 
 	
 <div class="container">

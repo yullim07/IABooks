@@ -9,7 +9,7 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<title> FAQ 게시판 글쓰기 완료</title>
+<title>in사과::FAQ 게시판 글쓰기 완료</title>
 
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
 

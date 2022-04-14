@@ -9,7 +9,7 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<title>회원 정보 수정</title>
+<title>in사과::회원 정보 수정</title>
 
 
 <jsp:include page="/WEB-INF/header.jsp"/>	
@@ -315,11 +315,14 @@ function updateInfoCancel() {
 
 <div class="container">
 	<form name="updateFrm" action="updateMember.book">
-		<br>
+<%-- 		<br>
 		<strong style="font-size: 16pt;"><img src="<%= ctxPath%>/images/member/ico_heading.gif" style="width: 6px; height: 20px;"  />  회원 정보 수정</strong>
-		<hr style="border: solid 2px #e8e8e8;">
+		<hr style="border: solid 2px #e8e8e8;"> --%>
+		<div class="title">
+		<br>
+		<h2 >  회원 정보 수정</h2>
+		</div>
 		
-		<br><br>
 		<strong style="font-size: 16pt;">기본정보</strong>
 		<p id="floatR"><span id="star">*</span> 필수입력사항</p>
 		

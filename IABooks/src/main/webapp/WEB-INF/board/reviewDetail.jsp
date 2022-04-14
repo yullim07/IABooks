@@ -26,7 +26,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>in사과 : ${revVO.re_title} | 타인의 책장</title>
+<title>in사과::${revVO.re_title} | 타인의 책장</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />

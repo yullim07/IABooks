@@ -68,6 +68,61 @@ ul li {
 	list-style: none;
 }
 
+
+  div.title {
+    min-height: 30px;
+    max-height: 56px;
+    padding: 0 0 10px;
+    border-bottom: 1px solid #ddd;
+    margin: 20px 0 30px;
+  }
+  
+  div.title h2 {
+    padding: 0 0 0 12px !important ;
+    margin-left: 5px !important ;
+    color: #333 !important ;
+    font-size: 16px !important ;
+    background: url('../../images/product/ico_heading.gif') 0 50% no-repeat;
+    font-weight: normal !important ;
+  }
+  
+/*   
+   ul.pagination li {
+	border: none !important;
+  }
+
+  ul.pagination li.pageicon {
+	position: relative !important;
+	top: 2.5px !important; 
+	margin: 0 -3px !important;
+  }
+
+  ul.pagination a {
+	color: #939393 !important;
+	font-size: 12px !important;
+	border: none !important;
+	font-weight: bold !important;
+  }
+
+  ul.pagination li.pagenum a {
+	font-size: 13px !important;
+  }
+  
+  ul.pagination a:hover {
+	background-color: white !important;
+	color: #333333 !important;
+  }
+
+  ul.pagination a:focus {
+	box-shadow: none !important;
+	color: #333333 !important;
+  }
+  
+  ul.pagination a.active {
+	color: #333333 !important ; 
+  }  
+   */
+
 /*--------------------------------------------------------------
 # Desktop Navigation 
 --------------------------------------------------------------*/

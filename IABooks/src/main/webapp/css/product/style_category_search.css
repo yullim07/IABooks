@@ -88,6 +88,7 @@ ul.booklist {
 @media (min-width: 992px) {	
   div.title {
     min-height: 30px;
+    height: 56px;
     padding: 0 0 10px;
     border-bottom: 1px solid #ddd;
     margin: 20px 0 30px;

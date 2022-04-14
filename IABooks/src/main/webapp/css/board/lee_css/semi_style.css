@@ -7,19 +7,23 @@
 }
 
 	 div.title {
-        margin: 20px 0 20px 0;
-        border-bottom: 1px solid #e8e8e8;
-        min-height: 30px;
+    min-height: 30px;
+    max-height: 56px;
+    padding: 0 0 10px;
+    border-bottom: 1px solid #ddd;
+    margin: 20px 0 30px;
     }
     div.title > div.title_icon{
     	display:inline-block; 
     	margin-left: 10px;
     }
     div.title > h2{
-    	display:inline-block; 
-    	font-size:18px; 
-    	font-weight: bold; 
-    	padding: 0 0 0 14px;
+    padding: 0 0 0 12px !important ;
+    margin-left: 5px !important ;
+    color: #333 !important ;
+    font-size: 16px !important ;
+    display: inline-block;
+   /*  background: url('../../images/product/ico_heading.gif') 0 50% no-repeat; */
 	}
 	div.title> div.bar_icon{
     	display:inline-block;
