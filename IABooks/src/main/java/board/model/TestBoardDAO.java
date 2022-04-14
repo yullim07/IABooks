@@ -724,62 +724,33 @@ public class TestBoardDAO implements TestInterBoardDAO {
 				
 				conn = ds.getConnection();
 				String sql = "";
-				/*
-					sql = "SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, qna_isdelete, re_isdelete "+
+				
+				sql = " SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, Q_isdelete, R_isdelete "+
 						" FROM "+
 						" ( "+
-						"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, qna_isdelete, re_isdelete "+
+						"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents, Q_isdelete, R_isdelete "+
 						"    from  "+
 						"        ( "+
-						"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents, A.isdelete AS qna_isdelete "+
+						"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents, A.isdelete AS Q_isdelete "+
 						"        from tbl_qna_board A "+
 						"        FULL OUTER JOIN tbl_review_board B "+
 						"        ON A.qna_title = B.re_title "+
-						"		 where A.fk_userid is not null and B.re_title is null "+
+						"        where A.fk_userid is not null and B.re_title is null " +
+						" 		 order by qna_date desc "+
 						"        ) Q\n"+
 						"    FULL OUTER JOIN\n"+
 						"        (\n"+
-						"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents, B.isdelete AS re_isdelete "+
+						"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents, B.isdelete AS R_isdelete "+
 						"        from tbl_qna_board A "+
 						"        FULL OUTER JOIN tbl_review_board B "+
 						"        ON A.qna_title = B.re_title "+
-						"		 where B.fk_userid is not null and A.qna_title is null "+	
+						"        where B.fk_userid is not null and A.qna_title is null " +
+						" 		 order by re_date desc "+
 						"        ) R "+
-						"    ON Q.qna_title = R.re_title " +
-						"    ) V "+
-						" where rno between ? and ?";		
-				*/
-				
-				
-				
-				sql = " SELECT pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents "+
-						" FROM "+
-						" ( "+
-						"    select rownum AS rno, pk_qna_num, qna_title, qna_date, pk_rnum, re_title, re_date, re_grade, re_contents, qna_contents "+
-						"    from  "+
-						"        ( "+
-						"        select A.pk_qna_num AS pk_qna_num, A.qna_title AS qna_title, TO_CHAR(A.qna_date, 'yyyy-mm-dd') AS qna_date, A.qna_contents AS qna_contents "+
-						"        from tbl_qna_board A "+
-						"        FULL OUTER JOIN tbl_review_board B "+
-						"        ON A.qna_title = B.re_title "+
-						"		 where A.fk_userid is not null and B.re_title is null "+
-						"        order by A.qna_date desc "+
-						"        ) Q\n"+
-						"    FULL OUTER JOIN\n"+
-						"        (\n"+
-						"        select B.pk_rnum AS pk_rnum, B.re_title AS re_title, TO_CHAR(B.re_date, 'yyyy-mm-dd') AS re_date, B.re_grade AS re_grade, B.re_contents AS re_contents"+
-						"        from tbl_qna_board A "+
-						"        FULL OUTER JOIN tbl_review_board B "+
-						"        ON A.qna_title = B.re_title "+
-						"		 where B.fk_userid is not null and A.qna_title is null "+	
-						"        order by B.re_date desc "+
-						"        ) R "+
-						"    ON Q.qna_title = R.re_title " +
-						"    ) V "+
-						" where rno between ? and ?";
-				
+						"    ON Q.qna_title = R.re_title ";
+
 				if("review".equalsIgnoreCase(searchCate)) { // 카테고리가 후기이면서
-					sql += " and pk_rnum is not null and pk_qna_num is null ";
+					sql += " where R.pk_rnum is not null and Q.pk_qna_num is null ";
 					
 					if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
 						re_option = "re_title";
@@ -793,7 +764,7 @@ public class TestBoardDAO implements TestInterBoardDAO {
 					
 				}
 				else if("qna".equalsIgnoreCase(searchCate)) { // 카테고리가 문의이면서
-					sql += " and pk_qna_num is not null and pk_rnum is null ";
+					sql += " where Q.pk_qna_num is not null and R.pk_rnum is null ";
 					
 					if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
 						qna_option = "qna_title";
@@ -812,13 +783,16 @@ public class TestBoardDAO implements TestInterBoardDAO {
 						qna_option = "qna_title";
 						sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
 					}
-					
-					if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
+					else if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
 						re_option = "re_contents";
 						qna_option = "qna_contents";
 						sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
 					}
 				}
+				
+				sql +=	"    ) V "+
+						" where rno between ? and ?";		
+				
 					
 				pstmt = conn.prepareStatement(sql);
 				
@@ -840,6 +814,8 @@ public class TestBoardDAO implements TestInterBoardDAO {
 				
 				rs = pstmt.executeQuery();
 				
+				
+				
 				QnABoardVO qna = null;
 				ReviewBoardVO review = null;
 				
@@ -851,7 +827,8 @@ public class TestBoardDAO implements TestInterBoardDAO {
 						qna.setQna_title(rs.getString(2));
 						qna.setQna_date(rs.getString(3));
 						qna.setQna_contents(rs.getString(9));
-						qna.setFk_userid(rs.getString(10));
+						qna.setIsdelete(rs.getInt(10));
+						// qna.setFk_userid(rs.getString(10));
 						myBoardVO.setQnaBoard(qna);
 					}
 					else if("review".equalsIgnoreCase(searchCate)) {
@@ -862,7 +839,8 @@ public class TestBoardDAO implements TestInterBoardDAO {
 						review.setRe_date(rs.getString(6));
 						review.setRe_grade(rs.getInt(7));
 						review.setRe_contents(rs.getString(8));
-						review.setFk_userid(rs.getString(11));
+						review.setIsdelete(rs.getInt(11));
+						// review.setFk_userid(rs.getString(11));
 						myBoardVO.setRevBoard(review);
 						
 					}
@@ -905,6 +883,42 @@ public class TestBoardDAO implements TestInterBoardDAO {
 			return adminBoardList;
 			
 		} // end of public List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException---------------
+
+		// 구매이력 확인
+		@Override
+		public int checkBuyThisProduct(Map<String, String> paraMap) throws SQLException {
+
+			int n = 0;
+			
+			try {
+				
+				conn = ds.getConnection();
+				
+				String sql = " select count(*) "+
+							 " from tbl_member M "+
+							 " JOIN tbl_order O "+
+							 " ON M.pk_userid = O.fk_userid "+
+							 " JOIN tbl_orderdetail D "+
+							 " ON O.pk_odrcode = fk_odrcode "+
+							 " where M.pk_userid = ? and D.fk_pro_num = ? ";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, paraMap.get("userid"));
+				pstmt.setString(2, paraMap.get("pk_pro_num"));			
+				
+				rs = pstmt.executeQuery();
+				rs.next();
+				n = rs.getInt(1);
+				
+			} catch(NumberFormatException e) { 
+				e.printStackTrace();
+			} finally {
+				close();
+			}
+			
+			return n;
+			
+		} // end of public int checkBuyThisProduct(Map<String, String> paraMap) throws SQLException
 
 	
 	
