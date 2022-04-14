@@ -11,7 +11,8 @@ public class ProductVO {
 	private int pro_price;   			//도서정가 디폴트 0
 	private int pro_saleprice;   		//도서판매가 디폴트 0
 	private String pro_index; 			//목차(대용량)
-	private int point_rate;   			//포인트적립률 디폴트 0.01
+	//private int point_rate;   			//포인트적립률 디폴트 0.01
+	private double point_rate;
 	private String pro_inputdate;     	//도서입고일자 디폴트 sysdate
 	private int pro_qty;   				//도서재고량 디폴트 100
 	private int pro_sales;  			//판매량 디폴트 0
@@ -72,7 +73,7 @@ public class ProductVO {
 	// ================================================================================= //
 	
 	public ProductVO(String pk_pro_num, int fk_cate_num, String pro_name, String pro_publish_date, String publisher,
-			int pro_price, int pro_saleprice, String pro_index, int point_rate, String pro_inputdate, int pro_qty,
+			int pro_price, int pro_saleprice, String pro_index, double point_rate, String pro_inputdate, int pro_qty,
 			int pro_sales, int pro_viewcnt, String pro_size, String pro_bindtype, int pro_pages,
 			String pro_imgfile_name, int fk_wr_code, String pro_content, int pro_restock, int pro_soldout,
 			CategoryVO category, WriterVO writer) {
@@ -193,11 +194,11 @@ public class ProductVO {
 		this.pro_index = pro_index;
 	}
 
-	public int getPoint_rate() {
+	public double getPoint_rate() {
 		return point_rate;
 	}
 
-	public void setPoint_rate(int point_rate) {
+	public void setPoint_rate(double point_rate) {
 		this.point_rate = point_rate;
 	}
 

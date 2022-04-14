@@ -13,7 +13,10 @@
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
-<!-- 직접 만든 CSS -->
+<%-- Bootstrap CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
 
 <!-- Font Awesome 5 Icons -->
@@ -22,37 +25,49 @@
 
 <style type="text/css">
 
-#faq_thead > tr > th {
-	text-align: center;
-}
+	#faq_thead > tr > th {
+		text-align: center;
+	}
+	
+	#my_tbody > tr > td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(5), td:nth-child(6) {
+		text-align: center;
+	}
+	
+	 #mySearchContent {
+			font-size:14px;
+	}
+	
+	#my_tbody > tr > td:nth-child(4) {
+		padding-left : 20px;
+	}
+	
+	tr#tr_go {
+		float: left;
+	}
+	
+	button#btn_isdelete, button#btn_delete {
+		padding-top : 10px;
+	    width: 100px;
+	    height: 24px;
+	    background-color: #999;
+	    color: white;
+	    font-size: 12px;
+	    vertical-align: middle; 
+	    padding: 0;
+	    cursor: pointer;
+	}
 
-#my_tbody > tr > td:nth-child(1), td:nth-child(2), td:nth-child(3), td:nth-child(5), td:nth-child(6) {
-	text-align: center;
-}
-
- #mySearchContent {
-		font-size:14px;
-}
-
-#my_tbody > tr > td:nth-child(4) {
-	padding-left : 20px;
-}
-
-tr#tr_go {
-	float: left;
-}
-
-button#btn_isdelete, button#btn_delete {
-	padding-top : 10px;
-    width: 100px;
-    height: 24px;
-    background-color: #999;
-    color: white;
-    font-size: 12px;
-    vertical-align: middle; 
-    padding: 0;
-    cursor: pointer;
-}
+	a {
+	  	color: #333333;
+	  	text-decoration: none;
+	}
+	a:hover {
+  		color: #333333;
+ 	}
+ 	
+ 	a.page-num{
+ 		padding: 10px 12px 6px 12px;
+ 	}
 </style>
 
 
@@ -275,7 +290,7 @@ button#btn_isdelete, button#btn_delete {
 	    <div class="container">
 	    <form name="myBoardFrm" method="get">
 			    <div class="title" >
-				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
+				  	<div class="title_icon" ></div>
 				  	<h2>게시글관리</h2>
 				  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 				  	<span >리뷰및 상품문의 게시판의 글들을 관리할 수 있습니다.</span>
@@ -362,10 +377,12 @@ button#btn_isdelete, button#btn_delete {
 						</span>
 				</tr>	
 			</tfoot>
-			<nav class="my-5">
-				<div style="display: flex; width: 100%;">
-					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
-				</div>	
+			
+		  	<%--페이지 네비게이션 --%>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center ">
+					${requestScope.pageBar}
+			  	</ul>
 			</nav>
 			
 			<div class="search_outer" id="tab_center">

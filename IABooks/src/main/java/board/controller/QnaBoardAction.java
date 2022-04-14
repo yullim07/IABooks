@@ -120,6 +120,7 @@ public class QnaBoardAction extends AbstractController {
       // ~~~확인용 totalPage => 21
       
       
+      
       // === GET 방식이므로 사용자가 웹브라우저 주소창에서 currentShowPageNo 에 토탈페이지수 보다 큰 값을 입력하여
       //     장난친 경우라면 currentShowPageNo 는 1 페이지로 만들도록 한다. ==== //
 		
@@ -135,6 +136,17 @@ public class QnaBoardAction extends AbstractController {
       
       request.setAttribute("qnaboardList", qnaboardList);
       request.setAttribute("sizePerPage", sizePerPage);
+      
+      // 개시글 수 불러오기 시작
+      TestInterBoardDAO tbdao = new TestBoardDAO();
+      QnABoardVO qvo = new QnABoardVO();
+      qvo = tbdao.getTotalQnaCnt(paraMap);
+      qvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+      qvo.setSizePerPage(Integer.parseInt(sizePerPage));
+      
+      request.setAttribute("qvo", qvo);
+      
+      // 게시글 수 불러오기 끝
       
       
       // *** ======== 페이지바 만들기 시작 ========= *** //
@@ -162,21 +174,26 @@ public class QnaBoardAction extends AbstractController {
 		
       
    // **** [맨처음][이전] 만들기 **** //
+		
+		 pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='qnaBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"
+					+ "<span aria-hidden='true'><i class='bi bi-chevron-double-left'></i></span></a></li>";
+		
    		if(pageNo != 1) {
    		// if(Integer.parseInt(currentShowPageNo) >= 2) {
-   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>&lt;&lt;</a></li>";
-   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>&lt;</a></li>";
+   			
+   			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='qnaBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"
+   				    + "<span aria-hidden='true'><i class='bi bi-chevron-left'></i></span></a></li>";
    		}
    		
    		while( !(loop > blockSize || pageNo > totalPage) ) {
-   			// 루프가 블락사이즈(3,5,10)을 넘어가거나 || 페이지번호가 총 페이지수를 넘어가기 전까지 반복
+   			// 루프가 블락사이즈(10)을 넘어가거나 || 페이지번호가 총 페이지수를 넘어가기 전까지 반복
    			if( pageNo == Integer.parseInt(currentShowPageNo) ) {
    				//내가 보고자하는 페이지
-   				pageBar += "<li class='page-item active'><a class='page-link' href='#"+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a></li>";
+   				pageBar += "<li class='page-item pagenum '><a class='page-link active'  href='#"+pageNo+"&sizePerPage="+sizePerPage+"'>"+pageNo+"</a></li>";
    				// 현재페이지 링크 제거
    			}
    			else {
-   				pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
+   				pageBar += "<li class='page-item pagenum'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
    			}
    			loop++;
    			pageNo++;
@@ -186,9 +203,13 @@ public class QnaBoardAction extends AbstractController {
    		// pageNo ==> 11
    		if(pageNo <= totalPage) {
    			// 마지막 페이지랑 같으면 다음 마지막이 없어져야 됨
-   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>&gt;</a></li>";
-   			pageBar += "<li class='page-item'><a class='page-link' href='qnaBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>&gt;&gt;</a></li>";
+   			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='qnaBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"
+   					 + "<span aria-hidden='true'><i class='bi bi-chevron-right'></i></span></a></li>";
+   			
    		}
+   		
+   		pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='qnaBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&sizePerPage="+sizePerPage+"&searchContent="+searchContent+"&searchWord="+searchWord+"'>"
+   				+ "<span aria-hidden='true'><i class='bi bi-chevron-double-right'></i></span></a></li>";
    		
    		request.setAttribute("pageBar", pageBar);
    		
@@ -200,12 +221,8 @@ public class QnaBoardAction extends AbstractController {
 		request.setAttribute("searchWord", searchWord);
 		
    		
-   		
-   		
       //   super.setRedirect(false);
          super.setViewPage("/WEB-INF/board/qnaBoard.jsp");
-      
-
    }
 
 }

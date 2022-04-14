@@ -15,7 +15,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>상품 Q&A</title>
+<title>in사과 : 고객센터 | 자주 묻는 질문</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />

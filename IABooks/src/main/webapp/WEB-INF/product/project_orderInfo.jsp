@@ -91,7 +91,7 @@ div.pagination {
 
 
 </style>
-<title>주문조회</title>
+<title>in사과::주문조회</title>
 <jsp:include page="/header_orgin.jsp"/>
 <div class="container">
 	

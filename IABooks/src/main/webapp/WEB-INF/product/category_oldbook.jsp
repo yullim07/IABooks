@@ -27,7 +27,7 @@
 
 </style>
 
-<title>in사과 : oldbook</title>
+<title>in사과::oldbook</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 <%-- main --%>		

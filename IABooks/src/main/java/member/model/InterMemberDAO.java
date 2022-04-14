@@ -61,12 +61,6 @@ public interface InterMemberDAO {
 	
 	// 쿠폰등록시 이상한 쿠폰번호 쓰는 거 막기
 	boolean CPDuplicateCheck(Map<String, String> paraMap) throws SQLException;
-  
-
-	
-	/////////////////////////////////////////////// 파일 합치기
-	
-	
 	
 	// == 페이징 처리가 되어진 모든 회원 또는 검색한 회원 목록 보여주기 ==
 	List<MemberVO> selectPagingMember(Map<String, String> paraMap) throws SQLException;
@@ -125,40 +119,29 @@ public interface InterMemberDAO {
 	// 페이징되어진 마일리지 내역 조회
 	List<Map<String, String>> selectPagingmileage(Map<String, String> paraMap) throws SQLException;
 	
-	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기. 
-	int getMileageTotalPage(Map<String, String> paraMap) throws SQLException;
-
 	// 페이징되어진 마일리지 내역 조회2
 	List<Map<String, String>> selectPagingmileage2(Map<String, String> paraMap) throws SQLException;
-
+	
 	// 페이징되어진 마일리지 내역 조회3
 	List<Map<String, String>> selectPagingmileage3(Map<String, String> paraMap) throws SQLException;
+	
+	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기. 
+	int getMileageTotalPage(Map<String, String> paraMap) throws SQLException;
 
 	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기 2
 	int getMileageTotalPage2(Map<String, String> paraMap) throws SQLException;
 
 	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기 3
 	int getMileageTotalPage3(Map<String, String> paraMap) throws SQLException;
-
 	
-
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
 	// 주문내역조회
-	List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException;
+    List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException;
 
-	
 	// 페이징 처리를 위한 전체회원에 대한 총페이지 알아오기 
-	int getOrderInfoTotalPage(Map<String, Object> paraMap) throws SQLException;
+    int getOrderInfoTotalPage(Map<String, Object> paraMap) throws SQLException;
 
 	// 페이징 처리를 위한 목록 불러오기
 	List<Map<String, String>> selectPagingOrderInfo(Map<String, Object> paraMap);
-	
-	
-
-
 	
 	
 

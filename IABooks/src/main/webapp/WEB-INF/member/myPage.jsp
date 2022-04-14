@@ -189,7 +189,7 @@
             <td class="tbl_head_first" width="15%;">
                <ul class="tbl_head_first">
                   <li class="tbl_head_first"><strong style="color:#00BBCC; "><fmt:formatNumber type="number" pattern="###,###">${requestScope.mileage}</fmt:formatNumber>원</strong>&nbsp;<input class="btn_jo mileage" type="button" value="조회" ></li>
-                  <li class="tbl_head_first"><strong>${requestScope.allPrice}원(${requestScope.ordcount}회)</strong></li>
+                  <li class="tbl_head_first"><strong><fmt:formatNumber type="number" pattern="###,###">${requestScope.allPrice}</fmt:formatNumber>원(${requestScope.ordcount}회)</strong></li>
                </ul>
             </td>
             

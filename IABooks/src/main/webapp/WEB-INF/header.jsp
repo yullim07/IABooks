@@ -11,7 +11,7 @@
 <html>
 <head>
 
-	<title>header</title>
+	<title>in사과::header</title>
 	
 	<%-- Required meta tags --%>
 	<meta charset="utf-8">
@@ -64,6 +64,14 @@
 			frm.method = "post";
 			frm.submit();
 		};
+		
+		function goAdminOrderList() {
+			const frm = document.createElement('form');
+			document.body.appendChild(frm);
+			frm.action = "<%= ctxPath%>/product/admin/adminOrderList.book";
+			frm.method = "post";
+			frm.submit();
+		};
 	</script>
 	
 </head>
@@ -87,7 +95,7 @@
 						<ul>
 							<li><a href="<%= ctxPath%>/member/memberList.book">회원목록</a></li>
 							<li><a href="<%= ctxPath%>/product/admin/productRegister.book">제품등록</a></li>
-							<li><a href="#">전체주문내역</a></li>
+							<li><a class="" onclick="goAdminOrderList()" style="cursor: pointer;">전체주문내역</a></li>
 							<li><a href="<%= ctxPath%>/board/admin/adminBoard.book">게시판관리</a></li>
 						</ul>
 					</li>

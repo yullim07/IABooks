@@ -3,11 +3,9 @@ package member.model;
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Date;
 import java.util.HashMap;
 
 import javax.naming.Context;
@@ -1926,265 +1924,262 @@ public class MemberDAO implements InterMemberDAO {
 			  		return totalPage;
 				}
 			
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////
 				
-				// 내 주문내역 조회 
-				@Override
-				public List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException {
-					
-					List<Map<String, String>> orderInfoList = new ArrayList<>(); 
-					
-					try {
-						
-						conn = ds.getConnection();
-						
-						String sql = " select O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
-								+ " from tbl_order O "
-								+ " join tbl_orderdetail G "
-								+ " on o.pk_odrcode = g.fk_odrcode "
-								+ " join tbl_product P "
-								+ " on G.fk_pro_num = P.pk_pro_num "
-								+ " join tbl_category C "
-								+ " on C.pk_cate_num = P.fk_cate_num "
-								+ " join tbl_deliverstatus D "
-								+ " on G.ck_deliverstatus = D.deliverstatus "
-								+ " where O.fk_userid = ? "
-								+ " and O.odr_date  between ? and ? ";
-						
-								if( paraMap.get("status").toString() == "0") {
-									sql += "and d.deliverstatus between '0' and '6'"
-										+ " order by odr_date DESC ";
-								}
-								else {
-									sql += "and d.deliverstatus = ? "
-										+ " order by odr_date DESC ";
-								}
-						
-					         
-				        pstmt = conn.prepareStatement(sql);
-				        
-				        pstmt.setString(1, paraMap.get("userid").toString());
-				        
-				        // if( paraMap.get("fromDate").toString().equals(null) || paraMap.get("toDate").toString().equals( null ) ) {
-				        if( paraMap.get("fromDate") == null || paraMap.get("toDate") == null  ) { 	
-				        	pstmt.setString(2, paraMap.get("lastMonth_three").toString());
-					        pstmt.setString(3, paraMap.get("today").toString());
-				        	
-				        }
-				        else {
-				        	
-				        	pstmt.setString(2, paraMap.get("fromDate").toString());
-				        	pstmt.setString(3, paraMap.get("toDate").toString());
-				        }
-				        
-				        
-				        
-				        if( paraMap.get("status").toString() != "0") {
-				        	pstmt.setString(4, paraMap.get("status").toString());
-						}
-				        
-						
-				        
-				        rs = pstmt.executeQuery();
-				        
-				        while( rs.next()) {
-				        	Map<String, String> map = new HashMap<>();
-				        	
-				        	map.put("userid" , rs.getString(1));
-				        	map.put("odr_date" , rs.getString(2));
-				        	map.put("cate_name" , rs.getString(3));
-				        	map.put("pro_imgfile_name" , rs.getString(4));
-				        	map.put("pro_name" , rs.getString(5));
-				        	map.put("ck_odr_totalqty" , rs.getString(6));
-				        	map.put("odr_totalprice" , rs.getString(7));
-				        	map.put("delivername" , rs.getString(8));
-				        	
-				        	orderInfoList.add(map);
-				        }
-						
-					} catch(Exception e) { 
-					    e.printStackTrace();	
-					} finally {
-						close();
-					}
-					
-					return orderInfoList;
-				}
+	            // 내 주문내역 조회 
+	            @Override
+	            public List<Map<String, String>> orderInfo (Map<String, Object> paraMap) throws SQLException {
+	               
+	               List<Map<String, String>> orderInfoList = new ArrayList<>(); 
+	               
+	               try {
+	                  
+	                  conn = ds.getConnection();
+	                  
+	                  String sql = " select O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
+	                        + " from tbl_order O "
+	                        + " join tbl_orderdetail G "
+	                        + " on o.pk_odrcode = g.fk_odrcode "
+	                        + " join tbl_product P "
+	                        + " on G.fk_pro_num = P.pk_pro_num "
+	                        + " join tbl_category C "
+	                        + " on C.pk_cate_num = P.fk_cate_num "
+	                        + " join tbl_deliverstatus D "
+	                        + " on G.ck_deliverstatus = D.deliverstatus "
+	                        + " where O.fk_userid = ? "
+	                        + " and O.odr_date  between ? and ? ";
+	                  
+	                        if( paraMap.get("status").toString() == "0") {
+	                           sql += "and d.deliverstatus between '0' and '6'"
+	                              + " order by odr_date DESC ";
+	                        }
+	                        else {
+	                           sql += "and d.deliverstatus = ? "
+	                              + " order by odr_date DESC ";
+	                        }
+	                  
+	                        
+	                    pstmt = conn.prepareStatement(sql);
+	                    
+	                    pstmt.setString(1, paraMap.get("userid").toString());
+	                    
+	                    // if( paraMap.get("fromDate").toString().equals(null) || paraMap.get("toDate").toString().equals( null ) ) {
+	                    if( paraMap.get("fromDate") == null || paraMap.get("toDate") == null  ) {    
+	                       pstmt.setString(2, paraMap.get("lastMonth_three").toString());
+	                       pstmt.setString(3, paraMap.get("today").toString());
+	                       
+	                    }
+	                    else {
+	                       
+	                       pstmt.setString(2, paraMap.get("fromDate").toString());
+	                       pstmt.setString(3, paraMap.get("toDate").toString());
+	                    }
+	                    
+	                    
+	                    
+	                    if( paraMap.get("status").toString() != "0") {
+	                       pstmt.setString(4, paraMap.get("status").toString());
+	                  }
+	                    
+	                  
+	                    
+	                    rs = pstmt.executeQuery();
+	                    
+	                    while( rs.next()) {
+	                       Map<String, String> map = new HashMap<>();
+	                       
+	                       map.put("userid" , rs.getString(1));
+	                       map.put("odr_date" , rs.getString(2));
+	                       map.put("cate_name" , rs.getString(3));
+	                       map.put("pro_imgfile_name" , rs.getString(4));
+	                       map.put("pro_name" , rs.getString(5));
+	                       map.put("ck_odr_totalqty" , rs.getString(6));
+	                       map.put("odr_totalprice" , rs.getString(7));
+	                       map.put("delivername" , rs.getString(8));
+	                       
+	                       orderInfoList.add(map);
+	                    }
+	                  
+	               } catch(Exception e) { 
+	                   e.printStackTrace();   
+	               } finally {
+	                  close();
+	               }
+	               
+	               return orderInfoList;
+	            }
 
+	            
+	            // 페이징 처리를 위한 전체회원에 대한 총페이지 알아오기 
+	            @Override
+	            public int getOrderInfoTotalPage(Map<String, Object> paraMap) throws SQLException {
+	               
+	               int OrderInfototalPage = 0;
+	                 
+	                 try {
+	                    conn = ds.getConnection();
+	                    
+	                    String sql  = " select ceil(count(*)/?) "
+	                          + " from  "
+	                          + " ( "
+	                          + " select O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
+	                          + " from tbl_order O "
+	                          + " join tbl_orderdetail G "
+	                          + " on o.pk_odrcode = g.fk_odrcode "
+	                          + " join tbl_product P "
+	                          + " on G.fk_pro_num = P.pk_pro_num "
+	                          + " join tbl_category C "
+	                          + " on C.pk_cate_num = P.fk_cate_num "
+	                          + " join tbl_deliverstatus D "
+	                          + " on G.ck_deliverstatus = D.deliverstatus "
+	                          + " where O.fk_userid = ? "
+	                          + " and O.odr_date  between ? and ? ";
+	                       
+	                          if( paraMap.get("status").toString() == "0") {
+	                           sql += "and d.deliverstatus between '0' and '6'"
+	                              + " order by odr_date DESC )";
+	                        }
+	                        else {
+	                           sql += "and d.deliverstatus = ? "
+	                              + " order by odr_date DESC )";
+	                        }
+	                    
+	              pstmt = conn.prepareStatement(sql);
+	              
+	              pstmt.setString(1, (String) paraMap.get("sizePerPage"));
+	              
+	              pstmt.setString(2, paraMap.get("userid").toString());
+	              
+	              // if( paraMap.get("fromDate").toString().equals(null) || paraMap.get("toDate").toString().equals( null ) ) {
+	              if( paraMap.get("fromDate") == null || paraMap.get("toDate") == null  ) {    
+	                 pstmt.setString(3, paraMap.get("lastMonth_three").toString());
+	                 pstmt.setString(4, paraMap.get("today").toString());
+	              }
+	              else {
+	                 pstmt.setString(3, paraMap.get("fromDate").toString());
+	                 pstmt.setString(4, paraMap.get("toDate").toString());
+	              }
+	              
+	              
+	              if( paraMap.get("status").toString() != "0") {
+	                 pstmt.setString(5, paraMap.get("status").toString());
+	            }
+	                    
+	              rs = pstmt.executeQuery();
+	                    
+	                  if(rs.next()) {
+	                    OrderInfototalPage = rs.getInt(1);
+	                    }
+	                    
+	                 } catch (SQLException e) {
+	                       e.printStackTrace();
+	                 } finally {
+	                    close();
+	                 }
+	                 return OrderInfototalPage;
+	            }
+
+	            // 페이징 처리를 위한 목록 불러오기
+	            @Override
+	            public List<Map<String, String>> selectPagingOrderInfo(Map<String, Object> paraMap) {
+	               
+	               List<Map<String, String>> orderInfoPageList = new ArrayList<>(); 
+	               
+	               try {
+	                  
+	                  conn = ds.getConnection();
+	                  
+	                  String sql = " select fk_userid , odr_date , cate_name, pro_imgfile_name , pro_name , ck_odr_totalqty, odr_totalprice , delivername "
+	                        + " from "
+	                        + " ( "
+	                        + " select row_number() over(order by O.ODR_DATE  desc) as rno, O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') as odr_date , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
+	                        + " from tbl_order O "
+	                        + " join tbl_orderdetail G "
+	                        + " on o.pk_odrcode = g.fk_odrcode "
+	                        + " join tbl_product P "
+	                        + " on G.fk_pro_num = P.pk_pro_num "
+	                        + " join tbl_category C "
+	                        + " on C.pk_cate_num = P.fk_cate_num "
+	                        + " join tbl_deliverstatus D "
+	                        + " on G.ck_deliverstatus = D.deliverstatus "
+	                        + " where O.fk_userid = ? "
+	                        + " and O.odr_date  between ? and ? ";
+	                        
+	                  
+	                        if( paraMap.get("status").toString() == "0") {
+	                           sql += "and d.deliverstatus between '0' and '6'"
+	                              + " order by odr_date DESC ";
+	                        }
+	                        else {
+	                           sql += "and d.deliverstatus = ? "
+	                              + " order by odr_date DESC ";
+	                        }
+	                  
+	                        sql +=  " )V "
+	                              + " where V.rno between ? and ? ";
+	                    
+	                     
+	                        
+	                    pstmt = conn.prepareStatement(sql);
+	                    
+	                    int currentShowPageNo = Integer.parseInt((String) paraMap.get("currentShowPageNo") );
+	                    int sizePerPage = Integer.parseInt((String) paraMap.get("sizePerPage") );   
+	                    
+	                    
+	                    pstmt.setString(1, paraMap.get("userid").toString());
+	                    
+	                    // if( paraMap.get("fromDate").toString().equals(null) || paraMap.get("toDate").toString().equals( null ) ) {
+	                    if( paraMap.get("fromDate") == null || paraMap.get("toDate") == null  ) {    
+	                       pstmt.setString(2, paraMap.get("lastMonth_three").toString());
+	                       pstmt.setString(3, paraMap.get("today").toString());
+	                    }
+	                    else {
+	                       pstmt.setString(2, paraMap.get("fromDate").toString());
+	                       pstmt.setString(3, paraMap.get("toDate").toString());
+	                    }
+	                    
+	                    
+	                    if( paraMap.get("status").toString() != "0") {
+	                       pstmt.setString(4, paraMap.get("status").toString());
+	                       
+	                       pstmt.setInt(5, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+	                       pstmt.setInt(6, (currentShowPageNo * sizePerPage));
+	                       
+	                  }
+	                    else {
+	                       pstmt.setInt(4, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
+	                       pstmt.setInt(5, (currentShowPageNo * sizePerPage));
+	                    }
+	                  
+	                    
+	                    rs = pstmt.executeQuery();
+	                    
+	                    while( rs.next()) {
+	                       Map<String, String> map = new HashMap<>();
+	                       
+	                       map.put("userid" , rs.getString(1));
+	                       map.put("odr_date" , rs.getString(2));
+	                       map.put("cate_name" , rs.getString(3));
+	                       map.put("pro_imgfile_name" , rs.getString(4));
+	                       map.put("pro_name" , rs.getString(5));
+	                       map.put("ck_odr_totalqty" , rs.getString(6));
+	                       map.put("odr_totalprice" , rs.getString(7));
+	                       map.put("delivername" , rs.getString(8));
+	                       
+	                       orderInfoPageList.add(map);
+	                    }
+	                  
+	               } catch(Exception e) { 
+	                   e.printStackTrace();   
+	               } finally {
+	                  close();
+	               }
+	               
+	               return orderInfoPageList;
+	            }
 				
-				// 페이징 처리를 위한 전체회원에 대한 총페이지 알아오기 
-				@Override
-				public int getOrderInfoTotalPage(Map<String, Object> paraMap) throws SQLException {
-					
-					int OrderInfototalPage = 0;
-			  		
-			  		try {
-			  			conn = ds.getConnection();
-			  			
-			  			String sql  = " select ceil(count(*)/?) "
-			  					+ " from  "
-			  					+ " ( "
-			  					+ " select O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
-			  					+ " from tbl_order O "
-			  					+ " join tbl_orderdetail G "
-			  					+ " on o.pk_odrcode = g.fk_odrcode "
-			  					+ " join tbl_product P "
-			  					+ " on G.fk_pro_num = P.pk_pro_num "
-			  					+ " join tbl_category C "
-			  					+ " on C.pk_cate_num = P.fk_cate_num "
-			  					+ " join tbl_deliverstatus D "
-			  					+ " on G.ck_deliverstatus = D.deliverstatus "
-			  					+ " where O.fk_userid = ? "
-			  					+ " and O.odr_date  between ? and ? ";
-			  				
-			  					if( paraMap.get("status").toString() == "0") {
-									sql += "and d.deliverstatus between '0' and '6'"
-										+ " order by odr_date DESC )";
-								}
-								else {
-									sql += "and d.deliverstatus = ? "
-										+ " order by odr_date DESC )";
-								}
-			  			
-		        pstmt = conn.prepareStatement(sql);
-		        
-		        pstmt.setString(1, (String) paraMap.get("sizePerPage"));
-		        
-		        pstmt.setString(2, paraMap.get("userid").toString());
-		        
-		        // if( paraMap.get("fromDate").toString().equals(null) || paraMap.get("toDate").toString().equals( null ) ) {
-		        if( paraMap.get("fromDate") == null || paraMap.get("toDate") == null  ) { 	
-		        	pstmt.setString(3, paraMap.get("lastMonth_three").toString());
-			        pstmt.setString(4, paraMap.get("today").toString());
-		        }
-		        else {
-		        	pstmt.setString(3, paraMap.get("fromDate").toString());
-		        	pstmt.setString(4, paraMap.get("toDate").toString());
-		        }
-		        
-		        
-		        if( paraMap.get("status").toString() != "0") {
-		        	pstmt.setString(5, paraMap.get("status").toString());
-				}
-			  			
-			  	rs = pstmt.executeQuery();
-			  			
-			  		 if(rs.next()) {
-			  			OrderInfototalPage = rs.getInt(1);
-			  			}
-			  			
-			  		} catch (SQLException e) {
-			  				e.printStackTrace();
-			  		} finally {
-			  			close();
-			  		}
-			  		return OrderInfototalPage;
-				}
 
-				// 페이징 처리를 위한 목록 불러오기
-				@Override
-				public List<Map<String, String>> selectPagingOrderInfo(Map<String, Object> paraMap) {
-					
-					List<Map<String, String>> orderInfoPageList = new ArrayList<>(); 
-					
-					try {
-						
-						conn = ds.getConnection();
-						
-						String sql = " select fk_userid , odr_date , cate_name, pro_imgfile_name , pro_name , ck_odr_totalqty, odr_totalprice , delivername "
-								+ " from "
-								+ " ( "
-								+ " select row_number() over(order by O.ODR_DATE  desc) as rno, O.fk_userid , to_char(O.odr_date , 'yyyy-MM-dd') as odr_date , C.cate_name, P.pro_imgfile_name , P.pro_name , G.ck_odr_totalqty, O.odr_totalprice , D.delivername "
-								+ " from tbl_order O "
-								+ " join tbl_orderdetail G "
-								+ " on o.pk_odrcode = g.fk_odrcode "
-								+ " join tbl_product P "
-								+ " on G.fk_pro_num = P.pk_pro_num "
-								+ " join tbl_category C "
-								+ " on C.pk_cate_num = P.fk_cate_num "
-								+ " join tbl_deliverstatus D "
-								+ " on G.ck_deliverstatus = D.deliverstatus "
-								+ " where O.fk_userid = ? "
-								+ " and O.odr_date  between ? and ? ";
-								
-						
-								if( paraMap.get("status").toString() == "0") {
-									sql += "and d.deliverstatus between '0' and '6'"
-										+ " order by odr_date DESC ";
-								}
-								else {
-									sql += "and d.deliverstatus = ? "
-										+ " order by odr_date DESC ";
-								}
-						
-								sql +=  " )V "
-										+ " where V.rno between ? and ? ";
-					     
-							
-								
-				        pstmt = conn.prepareStatement(sql);
-				        
-				        int currentShowPageNo = Integer.parseInt((String) paraMap.get("currentShowPageNo") );
-			  			int sizePerPage = Integer.parseInt((String) paraMap.get("sizePerPage") );	
-				        
-				        
-				        pstmt.setString(1, paraMap.get("userid").toString());
-				        
-				        // if( paraMap.get("fromDate").toString().equals(null) || paraMap.get("toDate").toString().equals( null ) ) {
-				        if( paraMap.get("fromDate") == null || paraMap.get("toDate") == null  ) { 	
-				        	pstmt.setString(2, paraMap.get("lastMonth_three").toString());
-					        pstmt.setString(3, paraMap.get("today").toString());
-				        }
-				        else {
-				        	pstmt.setString(2, paraMap.get("fromDate").toString());
-				        	pstmt.setString(3, paraMap.get("toDate").toString());
-				        }
-				        
-				        
-				        if( paraMap.get("status").toString() != "0") {
-				        	pstmt.setString(4, paraMap.get("status").toString());
-				        	
-				        	pstmt.setInt(5, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-			  				pstmt.setInt(6, (currentShowPageNo * sizePerPage));
-				        	
-						}
-				        else {
-				        	pstmt.setInt(4, (currentShowPageNo * sizePerPage) - (sizePerPage - 1));
-			  				pstmt.setInt(5, (currentShowPageNo * sizePerPage));
-				        }
-						
-				        
-				        rs = pstmt.executeQuery();
-				        
-				        while( rs.next()) {
-				        	Map<String, String> map = new HashMap<>();
-				        	
-				        	map.put("userid" , rs.getString(1));
-				        	map.put("odr_date" , rs.getString(2));
-				        	map.put("cate_name" , rs.getString(3));
-				        	map.put("pro_imgfile_name" , rs.getString(4));
-				        	map.put("pro_name" , rs.getString(5));
-				        	map.put("ck_odr_totalqty" , rs.getString(6));
-				        	map.put("odr_totalprice" , rs.getString(7));
-				        	map.put("delivername" , rs.getString(8));
-				        	
-				        	orderInfoPageList.add(map);
-				        }
-						
-					} catch(Exception e) { 
-					    e.printStackTrace();	
-					} finally {
-						close();
-					}
-					
-					return orderInfoPageList;
-				}
 
-				
-				  
-			
-		
-					
 			
 
 }

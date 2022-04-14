@@ -27,7 +27,7 @@
 
 </style>
 
-<title>in사과 : Restock</title>
+<title>in사과::Restock</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 <%-- main --%>		

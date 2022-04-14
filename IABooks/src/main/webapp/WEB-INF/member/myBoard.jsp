@@ -13,7 +13,10 @@
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
-<!-- 직접 만든 CSS -->
+<%-- Bootstrap CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/jeong_css/semi_style.css" />
 
 <!-- Font Awesome 5 Icons -->
@@ -22,13 +25,25 @@
 
 <style type="text/css">
 
-#my_tbody > tr > td:nth-child(2), td:nth-child(4) {
-	text-align: center;
-}
-
- #mySearchContent, #mysearchCate {
-		font-size:14px;
-}
+	#my_tbody > tr > td:nth-child(2), td:nth-child(4) {
+		text-align: center;
+	}
+	
+	#mySearchContent, #mysearchCate {
+			font-size:14px;
+	}
+	
+	a {
+	  	color: #333333;
+	  	text-decoration: none;
+	}
+	a:hover {
+  		color: #333333;
+ 	}
+ 	
+ 	a.page-num{
+ 		padding: 10px 12px 6px 12px;
+ 	}
 
 </style>
 
@@ -38,17 +53,19 @@
 	
 	$(document).ready(function(){
 		
-		/*
+		// **** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ****//
+		$("select#mysearchCate").bind("change", function(){
+			
+			const frm = document.myBoardFrm;
+			frm.action = "myBoard.book";
+			frm.method = "get";
+			frm.submit();
+			
+		});
 		
-		if( "${sessionScope.loginuser.userid}" == "admin" ) {
-			$("button#btn_write").show();
+		if( "${requestScope.mysearchCate}" != "" ) {
+			$("select#mysearchCate").val("${requestScope.mysearchCate}");
 		}
-		else {
-			$("button#btn_write").hide();
-		}
-		 
-		*** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ***
-		*/
 		
 		
 		$("button#btn_mySearch").click(function(){
@@ -85,7 +102,7 @@
 		}
 		
 		
-	});
+	}); // end of $(document).ready(function(){})----------------
 
 	// Function Declaration
 	function goMyBoardSearch(){
@@ -118,7 +135,7 @@
 	    <div class="container">
 	    <form name="myBoardFrm" method="get">
 			    <div class="title" >
-				  	<div class="title_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /></div>
+				  	<div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/jeonghm_images/ico_heading.gif" /> --%></div>
 				  	<h2>내가 쓴 글</h2>
 				  	<div class="bar_icon" ><img src="<%= ctxPath%>/images/board/jeonghm_images/bar_eee.gif" /></div>
 				  	<span >내가 작성했던 글들을 볼 수 있습니다.</span>
@@ -143,24 +160,37 @@
 			    </tr>
 			  </thead>
 			  <tbody id="my_tbody">
-			  	<c:if test="${not empty requestScope.myBoardList}">
+			  	<c:set var="rnum" value="${requestScope.rvo.totalCnt - ( (requestScope.rvo.currentShowPageNo-1) *10 ) }" />
+			  	<c:set var="qnum" value="${requestScope.qvo.totalCnt - ( (requestScope.qvo.currentShowPageNo-1) *10 ) }" />
+			    <c:if test="${not empty requestScope.myBoardList}">
 			    <c:forEach var="board" items="${requestScope.myBoardList}" >
-			    	<c:if test="${board.revBoard.pk_rnum ne 0 }">
+			    	<c:if test="${not empty board.revBoard.pk_rnum }">
+			    	<c:if test="${board.revBoard.pk_rnum ne 0}">
 				    <tr>
-				      	<td>${board.revBoard.pk_rnum}</td>
-				      	<td><a href="<%= ctxPath%>/board/reviewBoard.book">타인의 책장</a></td>
+				      	<td>
+							R-${rnum}
+							<input type="hidden" value="${board.revBoard.pk_rnum}" name="pk_rnum" id="pk_rnum" />
+						</td>
+				      	<td id="cate_"><a href="<%= ctxPath%>/board/reviewBoard.book">타인의 책장</a></td>
 				      	<td><a href="<%= ctxPath%>/board/reviewDetail.book?pk_rnum=${board.revBoard.pk_rnum}">${board.revBoard.re_title}</a></td>
 				      	<td>${board.revBoard.re_date}</td>
 				    </tr>
+				    <c:set var="rnum" value="${rnum-1 }"></c:set>
 				    </c:if>
-			    
-			    	<c:if test="${board.qnaBoard.pk_qna_num ne 0 }">
+			    	</c:if>
+			    	<c:if test="${not empty board.qnaBoard.pk_qna_num}">
+			    	<c:if test="${board.qnaBoard.pk_qna_num ne 0}">
 				    <tr>
-				      	<td>${board.qnaBoard.pk_qna_num}</td>
-				      	<td><a href="<%= ctxPath%>/board/qnaBoard.book">상품 Q&A</a></td>
+				      	<td>
+				      		Q-${qnum}
+				      		<input type="hidden" value="${board.qnaBoard.pk_qna_num}" name="pk_qna_num" id="pk_qna_num" />
+				      	</td>
+				      	<td id="cate_qna"><a href="<%= ctxPath%>/board/qnaBoard.book">상품문의</a></td>
 				      	<td><a href="<%= ctxPath%>/board/qnaDetail.book?pk_qna_num=${board.qnaBoard.pk_qna_num}">${board.qnaBoard.qna_title}</a></td>
 				      	<td>${board.qnaBoard.qna_date}</td>
 				    </tr>
+				    <c:set var="qnum" value="${qnum-1 }"></c:set>
+				    </c:if>
 				    </c:if>
 			    </c:forEach> 
 			    </c:if> 
@@ -176,10 +206,11 @@
 			  </tbody>
 			</table>
 			
-			<nav class="my-5">
-				<div style="display: flex; width: 100%;">
-					<ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
-				</div>	
+		  	<%--페이지 네비게이션 --%>
+			<nav aria-label="Page navigation example">
+				<ul class="pagination justify-content-center ">
+					${requestScope.pageBar}
+			  	</ul>
 			</nav>
 			
 			<div class="search_outer" id="tab_center">
@@ -192,10 +223,11 @@
 			    </select>
 			    <input type="text" name="mySearchWord" id="mySearchWord"></input>
 			    <button class="btn btn_myboard_search" name="btn_mySearch" id="btn_mySearch" onlick="goMyBoardSearch();">찾기</button>
-			    <button class="btn btn_myboard_reset" name="btn_myReset" id="btn_myReset" onlick="location.href='<%= ctxPath%>/member/myBoard.book'">목록</button>
 			    </div>
 		    
 		  	</div>
+		  	
+		  	
 		</form>	
 		</div> <!-- container 끝 -->
 		

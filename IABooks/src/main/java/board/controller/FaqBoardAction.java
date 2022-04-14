@@ -127,20 +127,24 @@ public class FaqBoardAction extends AbstractController {
 		}
 		
 		// **** [맨처음][이전] 만들기 **** //
+		
+		pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='faqBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>"
+				+ "<span aria-hidden='true'><i class='bi bi-chevron-double-left'></i></span></a></li>";
 		if(pageNo != 1) {
 		// if(Integer.parseInt(currentShowPageNo) >= 2) {
-			pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a></li>";
-			pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a></li>";
+			
+			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='faqBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>"
+					+ "<span aria-hidden='true'><i class='bi bi-chevron-left'></i></span></a></li>";
 		}
 		
 		while( !(loop > blockSize || pageNo > totalPage) ) {
 			// 루프가 블락사이즈(10)을 넘어가거나 || 페이지번호가 총 페이지수를 넘어가기 전까지 반복
 			if( pageNo == Integer.parseInt(currentShowPageNo) ) {
-				pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
+				pageBar +=  "<li class='page-item pagenum '><a class='page-link active page-num'  href='#'>"+pageNo+"</a></li>";
 				// 현재페이지 링크 제거
 			}
 			else {
-				pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
+				pageBar += "<li class='page-item pagenum'><a class='page-link page-num' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
 			}
 			loop++;
 			pageNo++;
@@ -150,9 +154,13 @@ public class FaqBoardAction extends AbstractController {
 		// pageNo ==> 11
 		if(pageNo <= totalPage) {
 			// 마지막 페이지랑 같으면 다음 마지막이 없어져야 됨
-			pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a></li>";
-			pageBar += "<li class='page-item'><a class='page-link' href='faqBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>[마지막]</a></li>";
+			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='faqBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>"
+					 + "<span aria-hidden='true'><i class='bi bi-chevron-right'></i></span></a></li>";
+			
+			
 		}
+		pageBar +=  "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='faqBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchCate="+searchCate+"&searchType="+searchType+"&searchWord="+searchWord+"'>"
+				+ "<span aria-hidden='true'><i class='bi bi-chevron-double-right'></i></span></a></li>";
 		
 		request.setAttribute("pageBar", pageBar);
 		
