@@ -787,5 +787,32 @@ and d.deliverstatus between 1 and 6
 order by odr_date DESC
 
 
-                           
+select *
+from tbl_member
+
+
+select mileageInfo
+ from tbl_mileage I 
+ join tbl_member M 
+ on M.pk_userid = I.fk_userid 
+ join tbl_order O 
+ on I.fk_odrcode = O.pk_odrcode 
+ where m.pk_userid = 'moonby';
+
+
+
+select MILEAGEINFO, FK_ODRCODE, PRO_NAME, to_char(ODR_DATE, 'yyyy-MM-dd') 
+ from  
+ ( 
+ select row_number() over(order by ODR_DATE  desc) AS RNO, 
+ MILEAGEINFO, A.FK_ODRCODE, PRO_NAME, ODR_DATE 
+ from tbl_mileage A join tbl_order B 
+ on A.FK_ODRCODE = B.PK_ODRCODE 
+ join tbl_orderdetail C 
+ on B.PK_ODRCODE = C.FK_ODRCODE 
+ join TBL_PRODUCT D 
+ on D.PK_PRO_NUM = C.FK_PRO_NUM 
+ where B.fk_userid= ? 
+ )V 
+ where V.RNO between ? and ?                           
  

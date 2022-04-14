@@ -1636,7 +1636,7 @@ public class MemberDAO implements InterMemberDAO {
 			  					   + " on B.PK_ODRCODE = C.FK_ODRCODE "
 			  					   + " join TBL_PRODUCT D "
 			  					   + " on D.PK_PRO_NUM = C.FK_PRO_NUM "
-			  					   + " where B.fk_userid= ? "
+			  					   + " where B.fk_userid= ? and mileageinfo != '0' and mileageinfo != '-0' "
 			  					   + " )V "
 			  					   + " where V.RNO between ? and ? ";
 			  						
@@ -1701,7 +1701,7 @@ public class MemberDAO implements InterMemberDAO {
 				  					+ " on B.PK_ODRCODE = C.FK_ODRCODE "
 				  					+ " join TBL_PRODUCT D "
 				  					+ " on D.PK_PRO_NUM = C.FK_PRO_NUM "
-				  					+ " where B.fk_userid= ?    ";
+				  					+ " where B.fk_userid= ?  and mileageinfo != '0' and mileageinfo != '-0'  ";
 			  			
 			  			pstmt = conn.prepareStatement(sql);
 			  			pstmt.setString(1, paraMap.get("sizePerPage"));
