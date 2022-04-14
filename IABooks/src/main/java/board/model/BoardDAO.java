@@ -1230,7 +1230,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 		// 카테고리 값이 없거나 1이고 검색종류 및 검색어가 있을 때
-		sql += " where " + colname + " like '%'|| ? ||'%' ";
+		sql += " and " + colname + " like '%'|| ? ||'%' ";
 		// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
 		// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 		}
