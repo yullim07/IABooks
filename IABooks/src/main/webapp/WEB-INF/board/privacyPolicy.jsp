@@ -22,7 +22,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>개인정보처리방침</title>
+<title>in사과 : 개인정보처리방침</title>
 
 
 

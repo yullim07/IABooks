@@ -24,7 +24,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>이용약관</title>
+<title>in사과 : 이용약관</title>
 
 
 
