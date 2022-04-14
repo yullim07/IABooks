@@ -182,17 +182,16 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			String sql = " insert into tbl_qna_board (pk_qna_num, fk_pnum, fk_userid, qna_title,  qna_contents , qna_passwd, qna_issecret, qna_file_system_name, qna_file_original_name ) "
-	                   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, ?, ? ,?, ?) ";
+	                   + " values(SEQ_QNA_BOARD.nextval, ?, ?, ?, ?, 1, ? ,?, ?) ";
 	         
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("fk_pnum"));
 			pstmt.setString(2, paraMap.get("userid"));
 			pstmt.setString(3, paraMap.get("subject"));
 			pstmt.setString(4, paraMap.get("content"));
-			pstmt.setString(5, paraMap.get("passwd"));
-			pstmt.setString(6, paraMap.get("issecret"));
-			pstmt.setString(7, paraMap.get("qna_file_system_name"));
-			pstmt.setString(8, paraMap.get("qna_file_original_name"));
+			pstmt.setString(5, paraMap.get("issecret"));
+			pstmt.setString(6, paraMap.get("qna_file_system_name"));
+			pstmt.setString(7, paraMap.get("qna_file_original_name"));
 			
 			
 			result = pstmt.executeUpdate();
@@ -219,7 +218,9 @@ public class BoardDAO implements InterBoardDAO {
 			String sql = " select ceil( count(*)/? ) "
 					   + " from tbl_qna_board Q"
 					   + " join tbl_member M"
-					   + " on Q.fk_userid = M.pk_userid";
+					   + " on Q.fk_userid = M.pk_userid "
+					   + " where Q.isdelete = 0 ";
+			
 					  // + " where fk_userid != 'admin' ";
 			
 			String colname = paraMap.get("searchContent");
@@ -228,7 +229,7 @@ public class BoardDAO implements InterBoardDAO {
 		//	System.out.println(" 확인용 searchWord : " + searchWord);
 			
 			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
-				sql += " where " + colname + " like '%'|| ? ||'%' ";
+				sql += " and " + colname + " like '%'|| ? ||'%' ";
 				// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
 				// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 			}
@@ -498,13 +499,13 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			String sql = " insert into tbl_comment(pk_cmt_num, fk_userid, fk_qna_num, cmt_passwd, cmt_contents) \r\n"
-					+ "values(SEQ_COMMENT.nextval, ?, ?, ?, ?)";
+					+ "values(SEQ_COMMENT.nextval, ?, ?, 1, ?)";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, cvo.getFk_userid());
 			pstmt.setInt( 2, cvo.getFk_qna_num());
-			pstmt.setString(3, cvo.getCmt_passwd());
-			pstmt.setString(4, cvo.getCmt_contents());
+			/* pstmt.setString(3, cvo.getCmt_passwd()); */
+			pstmt.setString(3, cvo.getCmt_contents());
 			
 			result = pstmt.executeUpdate();
 			
@@ -525,9 +526,10 @@ public class BoardDAO implements InterBoardDAO {
 		try {
 			conn = ds.getConnection();
 			
-			String sql = " select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete \r\n"
-					+ "			from tbl_comment \r\n"
-					+ "			where isdelete = 0 and fk_qna_num = ? ";
+			String sql = " select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete  "
+					+ "			from tbl_comment "
+					+ "			where isdelete = 0 and fk_qna_num = ?"
+					+ "			order by cmt_date ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, fk_qna_num); 
@@ -600,6 +602,33 @@ public class BoardDAO implements InterBoardDAO {
 		
 		return cVO;
 	}
+
+	
+	
+	// Ajax 를 이용한 특정 글의 댓글을 수정(update)하기
+	@Override
+	public int commentUpdate(Map<String, String> paraMap) throws SQLException{
+		int n = 0;
+		  
+		  try {
+		     conn = ds.getConnection();
+		     
+		     String sql = " update tbl_comment set cmt_contents = ? , cmt_date = sysdate "
+		                + " where pk_cmt_num = ? ";
+		          
+		  pstmt = conn.prepareStatement(sql);
+		  pstmt.setString(1, paraMap.get("cmt_contents"));
+		  pstmt.setString(2, paraMap.get("pk_cmt_num"));
+		     
+		     n = pstmt.executeUpdate();
+		     
+		  } finally {
+		     close();
+		  }
+		  
+		  return n;
+	}
+			
 	
 	
 	// 댓글 삭제하기 
@@ -1175,7 +1204,8 @@ public class BoardDAO implements InterBoardDAO {
 		
 		String sql = " select ceil( count(*)/? ) "+
 		" from tbl_faq_board A JOIN tbl_faq_category B "+
-		" ON A.FK_FAQ_C_NUM = B.PK_FAQ_C_NUM ";
+		" ON A.FK_FAQ_C_NUM = B.PK_FAQ_C_NUM "
+		+ " where A.isdelete = 0 ";
 		// + " where fk_userid != 'admin' ";
 		
 		String colname = paraMap.get("searchType");
@@ -1187,7 +1217,7 @@ public class BoardDAO implements InterBoardDAO {
 		
 		if( !"all".equalsIgnoreCase(searchCate) ) {
 		// 카테고리 값이 1(전체)이 아니고 검색종류 및 검색어가 있을 때
-		sql += " where B.FAQ_C_ENAME = ? ";
+		sql += " and B.FAQ_C_ENAME = ? ";
 		
 		if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 		sql += " and " + colname + " like '%'|| ? ||'%' ";
@@ -1412,7 +1442,8 @@ public class BoardDAO implements InterBoardDAO {
 			String sql = " select ceil( count(*)/? ) " +
 			" from tbl_review_board A JOIN tbl_product B " +
 			" ON A.FK_PNUM = B.PK_PRO_NUM " +
-			" JOIN tbl_member C ON A.FK_USERID = C.PK_USERID ";
+			" JOIN tbl_member C ON A.FK_USERID = C.PK_USERID "
+			+ "where A.isdelete = 0 ";
 			// + " where fk_userid != 'admin' ";
 			
 			String colname = paraMap.get("searchType");
@@ -1423,7 +1454,7 @@ public class BoardDAO implements InterBoardDAO {
 			
 			if( colname != null && !"".equals(colname) && searchWord != null && !"".equals(searchWord) ) {
 			// 검색종류 및 검색어가 있을 때
-			sql += " where " + colname + " like '%'|| ? ||'%' ";
+			sql += " and " + colname + " like '%'|| ? ||'%' ";
 			// 위치홀더에 들어오는 값은 데이터값만 들어올 수 있지
 			// 위치홀더에는 컬럼명이나 테이블 명은 들어올 수 없다 => 변수처리로 넣어준다.(중요)
 			}
@@ -1816,16 +1847,15 @@ public class BoardDAO implements InterBoardDAO {
 			try {
 			conn = ds.getConnection();
 			
-			String sql = " update tbl_review_board set re_title = ?, re_contents= ?, re_writer = ? ,rev_file_system_name = ?, rev_file_original_name = ?"+
-			" where pk_rnum = ? ";
+			String sql = " update tbl_review_board set re_title = ?, re_contents= ?, re_writer = ? "+
+						 " where pk_rnum = ? ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("title"));
 			pstmt.setString(2, paraMap.get("content"));
 			pstmt.setString(3, paraMap.get("writer"));
-			pstmt.setInt(4, pk_rnum);
-			pstmt.setString(5, paraMap.get("rev_file_system_name"));
-			pstmt.setString(6, paraMap.get("rev_file_original_name"));
+			pstmt.setInt(4,  pk_rnum);
+			
 			// System.out.println("들어왔니 번호야? : " + pk_rnum);
 			
 			int n = pstmt.executeUpdate();
@@ -2023,7 +2053,7 @@ public class BoardDAO implements InterBoardDAO {
 			conn = ds.getConnection();
 			
 			String sql = " insert into tbl_review_board (PK_RNUM, FK_USERID, FK_PNUM, RE_TITLE, RE_WRITER, RE_GRADE,  RE_CONTENTS, RE_PASSWD, rev_file_system_name, rev_file_original_name) "
-			+ " values(SEQ_REVIEW_BOARD.nextval, ?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+			+ " values(SEQ_REVIEW_BOARD.nextval, ?, ?, ?, ?, ?, ?, 1, ?, ?) ";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, paraMap.get("userid"));
@@ -2032,9 +2062,9 @@ public class BoardDAO implements InterBoardDAO {
 			pstmt.setString(4, paraMap.get("writer"));
 			pstmt.setInt(5, grade);
 			pstmt.setString(6, paraMap.get("content"));
-			pstmt.setString(7, paraMap.get("passwd"));
-			pstmt.setString(8, paraMap.get("rev_file_system_name"));
-			pstmt.setString(9, paraMap.get("rev_file_original_name"));
+			/* pstmt.setString(7, paraMap.get("passwd")); */
+			pstmt.setString(7, paraMap.get("rev_file_system_name"));
+			pstmt.setString(8, paraMap.get("rev_file_original_name"));
 			
 			result = pstmt.executeUpdate();
 			
@@ -2542,6 +2572,7 @@ public class BoardDAO implements InterBoardDAO {
 			return adminBoardList;
 			
 		} // end of public List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException
+		
 		
 		
 		

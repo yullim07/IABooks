@@ -27,7 +27,7 @@
 
 </style>
 
-<title>in사과 : Best 20</title>
+<title>in사과::Best 20</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 <%-- main --%>		

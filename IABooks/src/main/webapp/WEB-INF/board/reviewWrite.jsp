@@ -22,7 +22,7 @@
 
   
 <meta charset="UTF-8">
-<title>타인의 책장</title>
+<title>in사과 : 타인의 책장 | 글 작성 공간</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -127,6 +127,7 @@
 		<c:set var="pk_pro_num" value="${requestScope.pk_pro_num}" />
 		<input type="hidden" class="pk_pro_num" name="pk_pro_num" id="pk_pro_num" value="${pk_pro_num}">
 		<input type="hidden" class="fk_pnum" name="fk_pnum" id="fk_pnum" value="${revVO.fk_pnum}">
+		<input type="hidden" id="re_passwd" name="re_passwd" value="${revVO.re_passwd}" />
 		<table class=" write_review">
 		  	<%-- <tbody> --%>
 		    <tr>
@@ -206,12 +207,16 @@
 		      	
 		      </td>
 		    </tr>
+		    
+		  <%-- 
 		    <tr>
 		      <th>비밀번호</th>
 		      <td>
 		      	<input type="password" id="reviewBoardPasswd" name="reviewBoardPasswd" size="20" maxlength="20" required />
 		      </td>
 		    </tr>
+		   --%>
+		   
 		    <%-- </tbody> --%>
 		  
 		</table>

@@ -4,7 +4,13 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
+<%@ page import="board.model.BoardDAO" %>
+<%@ page import="board.model.QnABoardVO" %>
+<%@ page import="java.util.List"%>
+<%@ page import="java.util.ArrayList"%>
 <%
 	String ctxPath = request.getContextPath();
 	
@@ -18,7 +24,7 @@
 
   
 <meta charset="UTF-8">
-<title>FAQ 글 수정하기</title>
+<title>in사과 : ${revVO.re_title} | 글 수정 공간</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -88,16 +94,16 @@
   </div>
   <p class="mb-3"></p>
   
-  <c:set var="revVO" value="${revVO}" />
-  <form name="editFrm" enctype="multipart/form-data">
+  <c:set var="revVO" value="${requestScope.revVO}" />
+  <form name="editFrm">
 	<div class="table table-responsive">
 		<table class=" write_review">
-		  	<tbody>
+		  	
 		    <tr>
 		      <th class="col-2" >제목</th>
 		      <td class="col-10" ><input type="text" id="revBoardTitle" name="revBoardTitle" value="${(requestScope.revVO).re_title}"/></td>
 		    </tr>
-		  	</tr>
+		  	
 		    <tr class="notMember">
 		      <th>작성자</th>
 		      <td><input type="text" id="revBoardWriter" name="revBoardWriter" value="${(requestScope.revVO).re_writer}" /></td>
@@ -107,7 +113,7 @@
 		      
 		      <td colspan="2">
 		      	
-		      		<textarea class="summernote" name="reviewBoardContent" id="reviewBoardContent">${(requestScope.revVO).re_contents}</textarea>
+		      		<textarea class="summernote" name="revBoardContent" id="revBoardContent">${(requestScope.revVO).re_contents}</textarea>
                         <script>
 	                        $('.summernote').summernote({
 	                        	height: 300,                 // 에디터 높이
@@ -121,17 +127,16 @@
 		  
 		      </td>
 		    </tr>
+		    <%-- 
 		    <tr>
 		      <th>첨부파일1</th>
 		      <td class="" >
-		      	<input  name="rev_file" id="rev_file" type="file" value="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}"/> <%--  button으로 할지 input으로 할지 고민고민 --%>
-		      	<%-- <a class="file_attach" href="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}">${revVO.rev_file_original_name}</a> --%>
+		      	<input  name="rev_file" id="rev_file" type="file" value="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}"/>  button으로 할지 input으로 할지 고민고민
+		      	<a class="file_attach" href="<%= ctxPath%>/board/fileDownload_rev.book?pk_rnum=${revVO.pk_rnum}">${revVO.rev_file_original_name}</a>
 		      </td>
 		    </tr>
+		     --%>
 		    
-		    
-		    
-		    </tbody>
 		  
 		</table>
 		<input type="hidden" name="pk_rnum" id="pk_rnum" value="${(requestScope.revVO).pk_rnum}">

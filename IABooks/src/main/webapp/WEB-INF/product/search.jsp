@@ -48,7 +48,7 @@
 
 </style>
 
-<title>in사과 : search</title>
+<title>in사과::search</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 <%-- main --%>		

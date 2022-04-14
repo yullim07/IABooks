@@ -25,7 +25,7 @@
 
   
 <meta charset="UTF-8">
-<title>상품 Q&A</title>
+<title>in사과 : 상품 Q&A | 글 작성 공간</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
@@ -249,13 +249,14 @@
 		      	
 		      </td>
 		    </tr>
-		     
+		     <%--
 		    <tr>
 		      <th>비밀번호</th>
 		      <td>
 		      	<input id="qnaPasswd" name="qnaPasswd" type="password" class="requiredInfo"/>
 		      </td>
 		    </tr>
+		    --%>
 		    <tr>
 				<th scope="row">비밀글설정</th>
 				<td><input checked="checked" type="radio" name="qnaIssecret" id="qnaPublic" value="0"/>공개글&nbsp;<input type="radio" name="qnaIssecret" id="qnaSecret" value="1" />비밀글</td>

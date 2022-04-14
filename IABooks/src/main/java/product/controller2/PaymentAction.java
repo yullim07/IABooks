@@ -63,8 +63,16 @@ public class PaymentAction extends AbstractController {
 				if(! (useCouponId == null || "".equals(useCouponId)) ) {
 					cprice = Integer.parseInt(pdao.cpriceCheck(paraMap) ); 
 				}
-				int totalSale = cprice + Integer.parseInt(usePoint);
-				totalPrice = totalPrice - totalSale;
+				
+				int pointPrice = 0;
+				if(! (usePoint == null || "".equals(usePoint)) ) {
+					pointPrice = Integer.parseInt(usePoint);
+				}
+					
+				int totalSale = cprice + pointPrice;
+				totalPrice = totalPrice - pointPrice;
+				
+				
 				
 				
 				

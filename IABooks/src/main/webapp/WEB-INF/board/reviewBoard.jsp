@@ -24,10 +24,16 @@
 
      
 <meta charset="UTF-8">
-<title>타인의 책장</title>
+<title>in사과 : 타인의 책장</title>
 
+
+<%-- Bootstrap CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
+<%-- 직접 만든 CSS --%>
+<link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/product/style_category_search.css" />
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
+
 <jsp:include page="/WEB-INF/header.jsp"/>
 
 
@@ -95,23 +101,16 @@
 
 
 
-   
-   
-
-
-
-
-
 <div class="container">
 
 <div class="contents">
 
   
   <div class="title" >
-     <div class="title_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /></div>
+     <div class="title_icon" ><%-- <img src="<%= ctxPath%>/images/board/leejh_images/ico_heading.gif" /> --%></div>
      <h2 >타인의 책장</h2>
      <div class="bar_icon" ><img src="<%= ctxPath%>/images/board/leejh_images/bar_eee.gif" /></div>
-     <span >후기를 작성하는 공간입니다.</span>
+     <span >후기가 작성된 공간입니다.</span>
     
   </div>
   <p class="mb-3"></p>
@@ -132,10 +131,11 @@
           </thead>
           
           <tbody>
+          <c:set var="num" value="${requestScope.rvo.totalCnt - ( (requestScope.rvo.currentShowPageNo-1) *10 ) }" />
           	 <c:if test="${not empty requestScope.reviewList}">
 			 <c:forEach var="board" items="${requestScope.reviewList}" >
                    <tr>
-                   <td class="tbl_number mycenter">${board.pk_rnum}</td>
+                   <td class="tbl_number mycenter">${num}</td>
                    <td class="tbl_bookname"> <a href="<%= ctxPath%>/product/showBookDetail.book?pronum=${board.fk_pnum}"><img src="<%= ctxPath%>/images/product/${board.category.cate_name}/${board.product.pro_imgfile_name}" id="thumbimg"/>${board.product.pro_name}</a>
                         
                      
@@ -162,7 +162,7 @@
 				   <td align="center"><img src="<%= ctxPath%>/images/board/jeonghm_images/ico_point5.gif" /></td>
 				   </c:if>
                 </tr>
-             
+             	 <c:set var="num" value="${num-1 }"></c:set>
              </c:forEach>   
  			 </c:if>
  			 <c:if test="${empty requestScope.reviewList}">
@@ -177,20 +177,22 @@
          </tbody>
          
         </table>
+        <%-- 
         <div class="write_btn_zone">
              <a href="<%= ctxPath%>/board/reviewWrite.book"  class="btn btn-dark" id="write_btn">글쓰기</a> 
           </div>
-        
+         --%>
       </div>
-        
+       
         </div>
    
 
-   <nav class="my-5">
-      <div style="display: flex; width: 100%;">
-         <ul class="pagination" style='margin:auto;'>${requestScope.pageBar}</ul>
-      </div>   
-   </nav>
+  	<%--페이지 네비게이션 --%>
+	<nav aria-label="Page navigation example">
+		<ul class="pagination justify-content-center ">
+			${requestScope.pageBar}
+	  	</ul>
+	</nav>
      
     
     <div class="search_outer" >

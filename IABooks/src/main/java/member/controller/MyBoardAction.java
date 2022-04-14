@@ -103,11 +103,11 @@ public class MyBoardAction extends AbstractController {
 			 * myCateMap.put("ename", "qna"); myCateMap.put("name", "상품 Q&A");
 			 * myCateList.add(myCateMap);
 			 */
-			
+			// System.out.println("카테고리 : " + searchCate);
 			
 			// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 내게시글에 대한 페이지 알아오기
-			int totalPage = bdao.getTotalMyPage(paraMap);
-			int totalPage2 = tbdao.getTotalMyPage(paraMap);
+			// int totalPage = bdao.getTotalMyPage(paraMap);
+			int totalPage = tbdao.getTotalMyPage(paraMap); // 카테고리 삽입버전
 			// System.out.println("~~~확인용 totalPage => " + totalPage);
 			
 			if( Integer.parseInt(currentShowPageNo) > totalPage ) {
@@ -116,9 +116,10 @@ public class MyBoardAction extends AbstractController {
 			
 			paraMap.put("currentShowPageNo", currentShowPageNo);
 			
-			MyBoardVO myBoardVO = new MyBoardVO();
+			MyBoardVO myBoardVO = new MyBoardVO(); 
 			
-			List<MyBoardVO> myBoardList = bdao.selectPagingMyBoard(paraMap); 
+			// List<MyBoardVO> myBoardList = bdao.selectPagingMyBoard(paraMap); 
+			List<MyBoardVO> myBoardList = tbdao.selectPagingMyBoard(paraMap); // 카테고리 삽입버전
 			
 			// ReviewBoardVO revVO = new ReviewBoardVO();
 			// revVO = myBoardVO.getRevBoard();
@@ -126,6 +127,27 @@ public class MyBoardAction extends AbstractController {
 			// QnABoardVO qnaVO = new QnABoardVO();
 			// qnaVO = myBoardVO.getQnaBoard();
 			request.setAttribute("myBoardList", myBoardList);
+			
+			
+			// 게시글 수 불러오기 시작
+	        String needid = "myboard"; // 내 게시판 전용 식별도구
+	        paraMap.put("needid", needid);
+			
+			ReviewBoardVO rvo = new ReviewBoardVO();
+	        rvo = tbdao.getTotalReviewCnt(paraMap);
+	        rvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+	        rvo.setSizePerPage(Integer.parseInt(sizePerPage));
+	      
+	        request.setAttribute("rvo", rvo);
+	        
+	        QnABoardVO qvo = new QnABoardVO();
+	        qvo = tbdao.getTotalQnaCnt(paraMap);
+	        qvo.setCurrentShowPageNo(Integer.parseInt(currentShowPageNo));
+	        qvo.setSizePerPage(Integer.parseInt(sizePerPage));
+	        
+	        request.setAttribute("qvo", qvo);
+	       
+	      // 게시글 수 불러오기 끝
 			
 			String pageBar = "";
 			
@@ -146,20 +168,24 @@ public class MyBoardAction extends AbstractController {
 			}
 			
 			// **** [맨처음][이전] 만들기 **** //
+			pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='myBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"
+					+ "<span aria-hidden='true'><i class='bi bi-chevron-double-left'></i></span></a></li>";
+			
 			if(pageNo != 1) {
 			// if(Integer.parseInt(currentShowPageNo) >= 2) {
-				pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo=1&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[맨처음]</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[이전]</a></li>";
+				
+				pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Previous' href='myBoard.book?currentShowPageNo="+(pageNo-1)+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"
+						+ "<span aria-hidden='true'><i class='bi bi-chevron-left'></i></span></a></li>";
 			}
 			
 			while( !(loop > blockSize || pageNo > totalPage) ) {
 				// 루프가 블락사이즈(10)을 넘어가거나 || 페이지번호가 총 페이지수를 넘어가기 전까지 반복
 				if( pageNo == Integer.parseInt(currentShowPageNo) ) {
-					pageBar += "<li class='page-item active'><a class='page-link' href='#'>"+pageNo+"</a></li>";
+					pageBar += "<li class='page-item pagenum '><a class='page-link active page-num' href='#'>"+pageNo+"</a></li>";
 					// 현재페이지 링크 제거
 				}
 				else {
-					pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
+					pageBar += "<li class='page-item pagenum'><a class='page-link page-num' href='myBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"+pageNo+"</a></li>";
 				}
 				loop++;
 				pageNo++;
@@ -169,9 +195,12 @@ public class MyBoardAction extends AbstractController {
 			// pageNo ==> 11
 			if(pageNo <= totalPage) {
 				// 마지막 페이지랑 같으면 다음 마지막이 없어져야 됨
-				pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[다음]</a></li>";
-				pageBar += "<li class='page-item'><a class='page-link' href='myBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>[마지막]</a></li>";
+				pageBar += "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='myBoard.book?currentShowPageNo="+pageNo+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"
+						+ "<span aria-hidden='true'><i class='bi bi-chevron-right'></i></span></a></li>";
+				
 			}
+			pageBar +=  "<li class='page-item pageicon'><a class='page-link' aria-label='Next' href='myBoard.book?currentShowPageNo="+totalPage+"&sizePerPage="+sizePerPage+"&searchType="+searchType+"&searchWord="+searchWord+"'>"
+					+ "<span aria-hidden='true'><i class='bi bi-chevron-double-right'></i></span></a></li>";
 			
 			request.setAttribute("pageBar", pageBar);
 			

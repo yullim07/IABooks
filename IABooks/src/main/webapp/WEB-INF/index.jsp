@@ -269,7 +269,7 @@
 </style>
 
 
-<title>in사과 : main</title>
+<title>in사과::main</title>
 
 <jsp:include page="header.jsp"/>
 <%-- main --%>	
