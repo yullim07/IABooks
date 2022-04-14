@@ -91,7 +91,7 @@
 				
 				if(event.keyCode == 13) {
 					// 검색어에서 엔터를 치면 검색하러 간다.
-					goSearch();
+					goFaqSearch();
 				}
 				
 			});
@@ -111,11 +111,11 @@
 	
 	
 	// Function Declaration
-	function goSearch(){
+	function goFaqSearch(){
 		
 		if($("select.faqsearchType").val() == "" ) {
 			alert("검색대상을 올바르게 선택하세요!!");
-			return; // goSearch() 함수 종료.
+			return; // goFaqSearch() 함수 종료.
 		}
 		
 		if($("input#faqsearchWord").val().trim() == "") {
@@ -209,7 +209,7 @@
 			
 			    </select>
 			    <input type="text" name="faqsearchWord" id="faqsearchWord"></input>
-			    <button class="btn btn_faq_search" id="faq_search" name="faq_search" onclick="goSearch();" >찾기</button>
+			    <button class="btn btn_faq_search" id="faq_search" name="faq_search" onclick="goFaqSearch();" >찾기</button>
 			    <button class="btn btn_faq_write" type="button" id="btn_write" style="float:right;" name="btn_write" onclick="location.href='<%= ctxPath%>/board/faqWrite.book'">글쓰기</button>
 			    </div>
 		    
