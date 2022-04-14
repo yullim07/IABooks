@@ -347,7 +347,7 @@ public class BoardDAO implements InterBoardDAO {
 				
 				rs = pstmt.executeQuery();
 				
-				rs.next();
+				if(rs.next()) {
 				
 				qnaVO = new QnABoardVO();
 				
@@ -380,7 +380,7 @@ public class BoardDAO implements InterBoardDAO {
 				qnaVO.setQna_file_original_name(rs.getString(17));
 			//	System.out.println("비밀이야?"+ qnaVO.getQna_issecret());
 			//	System.out.println("보자구"+qnaVO.getQna_readcount());
-				
+				}
 			
 		} catch(SQLException e) { 
 			e.printStackTrace();
@@ -2212,10 +2212,12 @@ public class BoardDAO implements InterBoardDAO {
 				
 				rs = pstmt.executeQuery();
 				
-				rs.next();
+				if(rs.next()) {
 				
-				totalPage = rs.getInt(1);
+					totalPage = rs.getInt(1);
 			
+				}
+				
 			} finally {
 			close();
 			}
@@ -2513,14 +2515,14 @@ public class BoardDAO implements InterBoardDAO {
 							" where rno between ? and ?";		
 				
 				if( "my_title".equalsIgnoreCase(colname) ) { // 검색조건이 제목일 때
-					re_option = "re_title";
-					qna_option = "qna_title";
+					re_option = "V.re_title";
+					qna_option = "V.qna_title";
 					sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
 				}
 				
 				if( "my_contents".equalsIgnoreCase(colname) ) { // 검색조건이 내용일 때
-					re_option = "re_contents";
-					qna_option = "qna_contents";
+					re_option = "V.re_contents";
+					qna_option = "V.qna_contents";
 					sql += " and "+re_option+" like '%'|| ? ||'%' or "+qna_option+" like '%'|| ? ||'%' ";
 				}
 				
