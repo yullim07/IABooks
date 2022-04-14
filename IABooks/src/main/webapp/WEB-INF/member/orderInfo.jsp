@@ -24,6 +24,9 @@
 
 $(document).ready(function(){
 
+	
+	sessionStorage.setItem("fromDate", "${requestScope.fromDate}");
+	
 	// === 전체 datepicker 옵션 일괄 설정하기 ===  
     //     한번의 설정으로 $("input#fromDate"), $('input#toDate')의 옵션을 모두 설정할 수 있다.
     $(function() {
@@ -54,12 +57,22 @@ $(document).ready(function(){
         $("input#toDate").datepicker();
         
         
-        //From의 초기값을 오늘 날짜로 설정
-        $('input#fromDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+        if($("input#toDate").val() == "" ){
+            //From의 초기값을 오늘 날짜로 설정
+            $('input#fromDate').datepicker('setDate', '-3M'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+            //To의 초기값을 3일후로 설정
+            $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+
+        } else {
+            $('input#fromDate').datepicker('setDate', '${requestScope.fromDate}'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+            //To의 초기값을 3일후로 설정
+            $('input#toDate').datepicker('setDate', '${requestScope.toDate}'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+        }
         
-        //To의 초기값을 3일후로 설정
-        $('input#toDate').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, +1M:한달후, +1Y:일년후)
+        
     });
+	
+	
 	
 	
 	
@@ -92,6 +105,16 @@ function halfYear() {
 
 
 
+function goOrderInfo() {
+	
+	
+	
+    const frm = document.orderInfoFrm;
+    frm.action = "<%=request.getContextPath()%>/member/orderInfo.book"
+    frm.method = "post"
+    frm.submit();
+
+}
 
 
 </script>
@@ -203,20 +226,20 @@ div.pagination {
       <div class="tab-content py-3">
            
            <div class="tab-pane container active"  id="menu1">
-             <form action="<%=request.getContextPath()%>/member/orderInfo.book" method="post">
+             <form name="orderInfoFrm" >
               <table>
                  <tr class = "option">
 	                 <td >
 	                     <select name="orderstatus">
-	                       <option value = "null" >전체</option>
+	                       <option value = "0" >전체</option>
 	                       <option value = "1" >주문완료</option>
-	                       <option value = "2">배송준비중</option>
-	                       <option value = "3">배송중</option>
-	                       <option value = "4">배송완료</option>
-	                       <option value = "5">주문취소</option>
+	                       <option value = "2" >배송준비중</option>
+	                       <option value = "3" >배송중</option>
+	                       <option value = "4" >배송완료</option>
+	                       <option value = "5" >주문취소</option>
 	                     </select>
 	                 </td>
-	                 </form>
+	                 
 	                 <td>
 	                 	 <input class="orderDay" type = "button" value = "오늘" onclick="today();">
 		                 <input class="orderDay" type = "button" value = "일주일" onclick="week();">
@@ -226,13 +249,13 @@ div.pagination {
 	                 </td>
 	                 <!-- <td><input type="date" id="currentDate1"> ~ <input type = "date" id="endDate1"> <input type = "button" value="조회"></td> -->
 					 <td>
-			            From: <input type="text" id="fromDate">&nbsp;&nbsp; 
-			            To: <input type="text" id="toDate">  
-			            <input type = "submit" id="goOrderInfo" value="조회">
-	       			 </td>	                 
+                        From: <input type="text" id="fromDate" name="fromDate" value="${requestScope.fromDate }" >&nbsp;&nbsp; 
+                        To: <input type="text" id="toDate" name="toDate" value="${requestScope.toDate }">
+                        <button id="goOrderInfo" onClick="goOrderInfo()">조회</button>
+                     </td>	                 
                  </tr>
               </table>
-	         
+	         </form>
 	            	<ul style= "margin-bottom: 5%;">
 						<li class="sm">기본적으로 최근 3개월간의 자료가 조회되며, 기간 검색시 지난 주문내역을 조회하실 수 있습니다.</li>
 				        <li class="sm">주문번호를 클릭하시면 해당 주문에 대한 상세내역을 확인하실 수 있습니다.</li>
@@ -244,7 +267,7 @@ div.pagination {
 	              <tr class = "tbl_bottom_line">
 	                 <td style = "width: 16%;">주문일자</td><td style=width:20%;>이미지</td><td>상품정보</td><td>수량</td><td>상품구매금액</td><td>주문처리상태</td>
 	              </tr>
-	              <c:forEach var="map" items="${requestScope.orderInfoList}">
+	              <c:forEach var="map" items="${requestScope.orderInfoPageList}">
 	              <tr>
 	                 <td style="text-align:center;"><strong>${map.odr_date}</strong></td>
 	                 <td style="text-align:center;"><strong><img style="width: 60%;" src="<%= ctxPath %>/images/product/${map.cate_name}/${map.pro_imgfile_name}" /></strong></td>
@@ -255,33 +278,14 @@ div.pagination {
 	              </tr>
 	              </c:forEach>
               </table>
-              	 <div style="text-align:center;">
-			        <span>
-				        <div class="pagination pagination-sm justify-content-center">
-						     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a>
-						     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a>
-						     <a class="active" href="#">1</a>
-						     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a>
-						     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
-   						</div>
-			        </span>
-	        	</div>
-           </div>
-         
-       
-	       <div class="tab-pane container" id="menu2">
 	                   
-              	<div style="text-align:center;">
-			        <span>
-				       <div class="pagination pagination-sm justify-content-center">
-					     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_first.gif" /></a>
-					     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_prev.gif" /></a>
-					     <a class="active" href="#">1</a>
-					     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_next.gif" /></a>
-					     <a href="#"><img src="<%= ctxPath %>/images/member/btn_page_last.gif" /></a>
-   						</div>
-			        </span>
-	        	</div>
+              	 <nav class="my-5">
+			    	<div style="display: flex; width: 100%;">
+			    		<ul class="pagination" style='margin:auto;'>
+			    			${requestScope.pageBar}
+			    		</ul>
+			    	</div>
+			    </nav>    
 	        </div>
         </div> 
    

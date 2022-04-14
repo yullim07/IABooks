@@ -146,6 +146,19 @@ public interface InterMemberDAO {
 	// 페이징 처리를 위한 마일리지에 대한 총페이지 알아오기 3
 	int getMileageTotalPage3(Map<String, String> paraMap) throws SQLException;
 
+	
+
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	// 페이징 처리를 위한 전체회원에 대한 총페이지 알아오기 
+	int getOrderInfoTotalPage(Map<String, Object> paraMap) throws SQLException;
+
+	// 페이징 처리를 위한 목록 불러오기
+	List<Map<String, String>> selectPagingOrderInfo(Map<String, Object> paraMap);
+	
+	
+
 
 	
 	
