@@ -74,11 +74,11 @@ public class QnaSubmitAction extends AbstractController {
 			String userid = loginuser.getUserid();
 			String subject = mtrequest.getParameter("qnaSubject");
 			String content = mtrequest.getParameter("qnaContent");
-			
+			/*
 			content = content.replaceAll("<", "&lt;");		
 			content = content.replaceAll(">", "&gt;");
 			content = content.replaceAll("\r\n", "<br>");
-			
+			*/
 			String passwd = mtrequest.getParameter("qnaPasswd");
 			String issecret = mtrequest.getParameter("qnaIssecret");
 			

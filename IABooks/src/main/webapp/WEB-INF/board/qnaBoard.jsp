@@ -25,7 +25,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>상품 Q&A</title>
+<title>in사과 : 상품 Q&A</title>
 
 <%-- Bootstrap CSS --%>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 

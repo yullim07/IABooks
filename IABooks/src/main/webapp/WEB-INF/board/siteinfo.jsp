@@ -15,7 +15,7 @@
 
 	  
 <meta charset="UTF-8">
-<title>인디펍 :: 독립출판 온라인 서점</title>
+<title>in사과 : 쇼핑몰 이용안내</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />

@@ -24,7 +24,7 @@
 
   
 <meta charset="UTF-8">
-<title>FAQ 글 수정하기</title>
+<title>in사과 : ${revVO.re_title} | 글 수정 공간</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 
