@@ -282,7 +282,7 @@ div.pagination {
                  <c:if test="${empty (requestScope.orderInfoPageList)}">
             <tr>
                <td colspan="7" align="center" style="height: 100px;">
-                  <strong>주문 정보가 존재하지 않습니다ㅎㅎ</strong>
+                  <strong>주문 정보가 존재하지 않습니다</strong>
                </td>
             </tr>
          </c:if>
