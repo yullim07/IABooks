@@ -35,7 +35,8 @@ public class PaymentAction extends AbstractController {
 				String[] partPriceArr = request.getParameterValues("partPrice");
 				String useCouponId = request.getParameter("useCouponId");
 				String usePoint = request.getParameter("usePoint");
-				
+				//String totalSale = request.getParameter("totalSale");
+			
 				String pk_cartnoJoin =  String.join(",", pk_cartnoArr);
 				String fk_pro_numJoin = String.join(",", fk_pro_numArr);
 				String pqtyJoin = String.join(",", pqtyArr);

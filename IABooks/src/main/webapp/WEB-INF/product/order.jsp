@@ -23,56 +23,21 @@
 	
 <script type="text/javascript" src="<%= ctxPath%>/js/jquery-3.6.0.min.js"></script>	
 <script type="text/javascript">
-	$(document).ready(function(){
 		let backupPoint = 0;
 		let backupCoupon = 0;
+	$(document).ready(function(){
+		//let backupPoint = 0;
+		//let backupCoupon = 0;
 		
-		$("button#pointBtn").click(function() {
-			const userPoint = Number($("input#userPoint").val());
-			let usePoint = Number($("input#usePoint").val() );
-			//let finalPrice = Number($("input#finalPrice").val() );
-			let totalprice = Number($("input#totalprice").val() );
-			let totalSale = Number($("input#totalSale").val() );
-			if(userPoint < usePoint) {
-				alert("보유중인 포인트가 부족합니다.");
-				
-				totalSale -= backupPoint;
-				totalprice -= totalSale;
-				backupPoint = 0;
-				
-				$("input#usePoint").val('');
-				$("input#totalSale").val(totalSale);
-				$("input#paymentPrice").val(totalprice);
-				
-				totalprice = totalprice.toLocaleString('en');
-				totalSale = totalSale.toLocaleString('en');
-				
-				$("span#lastPrice").text(totalprice+"원");
-				$("span#discount").text(totalSale+"원");
-				
-				
-
-			}else{
-				alert("포인트가 적용되었습니다.");
-				totalSale -= backupPoint;
-				totalSale += usePoint;
-				backupPoint = usePoint;
-				
-				totalprice = totalprice - totalSale;
-				
-				$("input#totalSale").val(totalSale);
-				$("input#usePoint").val(usePoint);
-				$("input#paymentPrice").val(totalprice);
-				
-				totalprice = totalprice.toLocaleString('en');
-				totalSale = totalSale.toLocaleString('en');
-				
-				$("span#lastPrice").text(totalprice+"원");
-				$("span#discount").text(totalSale+"원");
-				
-			}
+		
+		$("input#usePoint").change(function() {
+			pointCheck();
 		});
-		
+					
+	/* 	
+		$("button#pointBtn").click(function() 
+		});
+		 */
 		//회원정보동일 버튼클릭시 발생
 		$("input#user_address").click(function() {
 			userAddress();
@@ -271,7 +236,7 @@
 			alert("필수입력사항을 모두 입력해주세요")
 			return;
 			
-		}
+		}		
 		 var frm = document.paymentFrm;
 		 frm.action ="<%= ctxPath%>/product/payment.book";
 		 frm.method="post";
@@ -311,6 +276,51 @@
 		});//end of $.ajax
 	}//end of function  proDeleteSelect(cnt, cartNoStr) 
 	
+	function pointCheck() {
+		const userPoint = Number($("input#userPoint").val());
+		let usePoint = Number($("input#usePoint").val() );
+		//let finalPrice = Number($("input#finalPrice").val() );
+		let totalprice = Number($("input#totalprice").val() );
+		let totalSale = Number($("input#totalSale").val() );
+		if(userPoint < usePoint) {
+			alert("보유중인 포인트가 부족합니다.");
+			
+			totalSale -= backupPoint;
+			totalprice -= totalSale;
+			backupPoint = 0;
+			
+			$("input#usePoint").val('');
+			$("input#totalSale").val(totalSale);
+			$("input#paymentPrice").val(totalprice);
+			
+			totalprice = totalprice.toLocaleString('en');
+			totalSale = totalSale.toLocaleString('en');
+			
+			$("span#lastPrice").text(totalprice+"원");
+			$("span#discount").text(totalSale+"원");
+			
+			
+
+		}else{
+			alert("포인트가 적용되었습니다.");
+			totalSale -= backupPoint;
+			totalSale += usePoint;
+			backupPoint = usePoint;
+			
+			totalprice = totalprice - totalSale;
+			
+			$("input#totalSale").val(totalSale);
+			$("input#usePoint").val(usePoint);
+			$("input#paymentPrice").val(totalprice);
+			
+			totalprice = totalprice.toLocaleString('en');
+			totalSale = totalSale.toLocaleString('en');
+			
+			$("span#lastPrice").text(totalprice+"원");
+			$("span#discount").text(totalSale+"원");
+			
+		}
+	}
 	
 </script>
 
@@ -510,7 +520,6 @@
 						<td colspan="2"><input type="text" class="usePoint" id="usePoint" name="usePoint" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
 						<span>  &nbsp;사용가능한 포인트 : ${requestScope.userPoint}</span>
 						<input type="hidden" class="userPoint" id="userPoint" name="userPoint" value="${requestScope.userPoint}">
-						<button type="button" id="pointBtn" >적용</button>
 						</td>
 						
 					</tr>

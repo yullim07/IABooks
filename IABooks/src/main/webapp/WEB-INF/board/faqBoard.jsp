@@ -74,7 +74,7 @@
 			$("select#faqsearchCate").val("${requestScope.faqsearchCate}");
 		}
 		
-		$("button#btn_search").click(function(){
+		$("button#faq_search").click(function(){
 			// console.log(이 form 이 submit 될 때 함수 실행하겠다.);	
 			
 			if($("select.faqsearchType").val() == "" ) {
@@ -91,12 +91,12 @@
 				
 				if(event.keyCode == 13) {
 					// 검색어에서 엔터를 치면 검색하러 간다.
-					goSearch();
+					goFaqSearch();
 				}
 				
 			});
 			
-		}); // end of $("button#btn_search").click(function(){})----------------
+		}); // end of $("button#faq_search").click(function(){})----------------
 		
 		// 검색조건을 넣은 후, action단에서 페이지바를 보여주고 다른 페이징 처리를 할 때 검색조건을 넣어준다
 		// alert("~~ 확인용 : ${requestScope.searchType} ");
@@ -111,11 +111,11 @@
 	
 	
 	// Function Declaration
-	function goSearch(){
+	function goFaqSearch(){
 		
 		if($("select.faqsearchType").val() == "" ) {
 			alert("검색대상을 올바르게 선택하세요!!");
-			return; // goSearch() 함수 종료.
+			return; // goFaqSearch() 함수 종료.
 		}
 		
 		if($("input#faqsearchWord").val().trim() == "") {
@@ -209,7 +209,7 @@
 			
 			    </select>
 			    <input type="text" name="faqsearchWord" id="faqsearchWord"></input>
-			    <button class="btn btn_faq_search" id="btn_search" name="btn_search" onclick="goSearch();" >찾기</button>
+			    <button class="btn btn_faq_search" id="faq_search" name="faq_search" onclick="goFaqSearch();" >찾기</button>
 			    <button class="btn btn_faq_write" type="button" id="btn_write" style="float:right;" name="btn_write" onclick="location.href='<%= ctxPath%>/board/faqWrite.book'">글쓰기</button>
 			    </div>
 		    
