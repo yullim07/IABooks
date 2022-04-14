@@ -27,31 +27,19 @@
 
 $(document).ready(function() {
 
-	$("div#menu2").hide();
-	$("div#menu3").hide();
 	
-	$("select").bind().change(function () {
-		
-		if($("select").val() == 1) {
-			$("div#menu2").hide();
-			$("div#menu3").hide();
-			$("div#menu1").show();
-		}
-		if($("select").val() == 2) {
-			$("div#menu1").hide();
-			$("div#menu3").hide();
-			$("div#menu2").show();
-		}
-		if($("select").val() == 3) {
-			$("div#menu1").hide();
-			$("div#menu2").hide();
-			$("div#menu3").show();
-		}
-		
-		
-	})
 	
 });
+
+
+function mgctFrm() {
+	
+	const frm = document.mgctFrm;
+	frm.action = "mileage.book";
+	frm.method = "post";
+	frm.submit();
+	
+}
 
 		      
 </script>
@@ -92,15 +80,33 @@ span.pointTable {
 				</td>
 			</tr>
 	</table>
-		
-		<select name="mgct">
-			<option value="1" selected="selected">전체</option>
-			<option value="2">적립</option>
-			<option value="3">사용</option>
-		</select>
-		
+		<form name="mgctFrm">
+			<select name="mgct">
+				<c:if test="${empty requestScope.mgct}">
+					<option value="1" selected="selected">전체</option>
+					<option value="2">적립</option>
+					<option value="3">사용</option>
+				</c:if>
+				<c:if test="${requestScope.mgct eq '1'}">
+					<option value="1" selected="selected">전체</option>
+					<option value="2">적립</option>
+					<option value="3">사용</option>
+				</c:if>
+				<c:if test="${requestScope.mgct eq '2' }">
+					<option value="1">전체</option>
+					<option value="2" selected="selected">적립</option>
+					<option value="3">사용</option>
+				</c:if>
+				<c:if test="${requestScope.mgct eq '3' }">
+					<option value="1">전체</option>
+					<option value="2">적립</option>
+					<option value="3" selected="selected">사용</option>
+				</c:if>
+			</select>
+			<button onclick="mgct();" >조회</button>
+		</form>
 		  <!-- 적립내역보기 -->
-		  <div id="menu1">
+		  
 		    <table class="point_menu">
 		    	<thead>
 		    		<tr align="center">
@@ -158,129 +164,7 @@ span.pointTable {
 			    		</ul>
 			    	</div>
 			    </nav>    
-		  </div>
-		
-		  <!-- 적립 -->
-		  <div id="menu2">
-		     <table class="point_menu">
-		    	<thead >
-		    		<tr align="center">
-						<td>번호</td>
-						<td>유형</td>
-						<td>주문날짜</td>
-						<td>적립금</td>
-						<td>관련주문</td>
-						<td>내용</td>
-		    		</tr>
-		    	</thead>
-		    	<tbody class="menu">
-		    		<c:if test="${not empty requestScope.mileageList2}">
-				   	  	  <c:forEach var="map" items="${requestScope.mileageList2}" varStatus="i">
-				   	  	  	  <tr align="center">
-				   	  	  	  	<td>${i.index+1}</td>
-				   	  	  	  	 <td>	
-					   	  	  	  	<c:choose>
-					   	  	  	  	  <c:when test="${map.MILEAGEINFO > 0}">
-					   	  	  	  			<span style="color:blue;">적립</span>
-					   	  	  	  	  </c:when>
-					   	  	  	  	  <c:otherwise>
-					   	  	  	  			<span style="color:red;">사용</span>
-					   	  	  	  	  </c:otherwise>
-					   	  	  	  	</c:choose> 
-				   	  	  	  	  </td>
-				   	  	  	  	  <td>
-				   	  	  	  	  <c:choose>
-					   	  	  	  	  <c:when test="${map.MILEAGEINFO > 0}">
-					   	  	  	  			<span style="color:blue;">${map.MILEAGEINFO}</span>
-					   	  	  	  	  </c:when>
-					   	  	  	  	  <c:otherwise>
-					   	  	  	  			<span style="color:red;">${map.MILEAGEINFO}</span>
-					   	  	  	  	  </c:otherwise>
-					   	  	  	  </c:choose> 
-				   	  	  	  	  </td>
-				   	  	  	  	  <td>${map.ODRCODE}</td>
-				   	  	  	  	  <td>${map.PRO_NAME}</td>
-				   	  	  	  	  <td>${map.ODR_DATE}</td>
-				   	  	  	  </tr>
-				   	  	  </c:forEach>
-			   	  	  </c:if>
-			   	  	  <c:if test="${empty requestScope.mileageList2}">
-			    		<tr>
-			    			<td colspan="6" align="center"><span>적립금내역이없습니다.</span></td>
-			    			<!-- 나중에 데이터값에 따라 태그 수정 -->
-			    		</tr>
-		    		  </c:if>
-		    	</tbody>	
-		    </table>
-		    <nav class="my-5">
-				<div style="display: flex; width: 100%;">
-			 		<ul class="pagination" style='margin:auto;'>
-			   			${requestScope.pageBar2}
-			   		</ul>
-			   	</div>
-			 </nav> 
-		   </div>
 		  
-		  <!-- 사용 -->
-		  <div id="menu3">
-		     <table class="point_menu">
-		    	<thead >
-		    		<tr align="center">
-						<td>번호</td>
-						<td>유형</td>
-						<td>주문날짜</td>
-						<td>적립금</td>
-						<td>관련주문</td>
-						<td>내용</td>
-		    		</tr>
-		    	</thead>
-		    	<tbody class="menu">
-		    		<c:if test="${not empty requestScope.mileageList3}">
-				   	  	  <c:forEach var="map" items="${requestScope.mileageList3}" varStatus="i">
-				   	  	  	  <tr align="center">
-				   	  	  	  	 <td>${i.index+1}</td>
-				   	  	  	  	 <td>	
-					   	  	  	  	<c:choose>
-					   	  	  	  	  <c:when test="${map.MILEAGEINFO > 0}">
-					   	  	  	  			<span style="color:blue;">적립</span>
-					   	  	  	  	  </c:when>
-					   	  	  	  	  <c:otherwise>
-					   	  	  	  			<span style="color:red;">사용</span>
-					   	  	  	  	  </c:otherwise>
-					   	  	  	  	</c:choose> 
-				   	  	  	  	  </td>
-				   	  	  	  	  <td>
-				   	  	  	  	  <c:choose>
-					   	  	  	  	  <c:when test="${map.MILEAGEINFO > 0}">
-					   	  	  	  			<span style="color:blue;">${map.MILEAGEINFO}</span>
-					   	  	  	  	  </c:when>
-					   	  	  	  	  <c:otherwise>
-					   	  	  	  			<span style="color:red;">${map.MILEAGEINFO}</span>
-					   	  	  	  	  </c:otherwise>
-					   	  	  	  </c:choose> 
-				   	  	  	  	  </td>
-				   	  	  	  	  <td>${map.ODRCODE}</td>
-				   	  	  	  	  <td>${map.PRO_NAME}</td>
-				   	  	  	  	  <td>${map.ODR_DATE}</td>
-				   	  	  	  </tr>
-				   	  	  </c:forEach>
-			   	  	  </c:if>
-			   	  	  <c:if test="${empty requestScope.mileageList3}">
-			    		<tr>
-			    			<td colspan="6" align="center"><span>적립금내역이없습니다.</span></td>
-			    			<!-- 나중에 데이터값에 따라 태그 수정 -->
-			    		</tr>
-		    		  </c:if>
-		    	</tbody>
-		    </table>
-    			<nav class="my-5">
-			    	<div style="display: flex; width: 100%;">
-			    		<ul class="pagination" style='margin:auto;'>
-			    			${requestScope.pageBar3}
-			    		</ul>
-			    	</div>
-			    </nav>    
-		  </div>
 		
 		  
 </div>

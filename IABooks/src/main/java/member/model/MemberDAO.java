@@ -1625,6 +1625,8 @@ public class MemberDAO implements InterMemberDAO {
 			  		try {
 			  			conn = ds.getConnection();
 			  			
+			  			String mgct = paraMap.get("mgct");
+			  			
 			  			String sql = " select MILEAGEINFO, FK_ODRCODE, PRO_NAME, to_char(ODR_DATE, 'yyyy-MM-dd') "
 				  				   + " from  "
 				  				   + " ( "
@@ -1635,10 +1637,22 @@ public class MemberDAO implements InterMemberDAO {
 			  					   + " join tbl_orderdetail C "
 			  					   + " on B.PK_ODRCODE = C.FK_ODRCODE "
 			  					   + " join TBL_PRODUCT D "
-			  					   + " on D.PK_PRO_NUM = C.FK_PRO_NUM "
-			  					   + " where B.fk_userid= ? and mileageinfo != '0' and mileageinfo != '-0' "
-			  					   + " )V "
-			  					   + " where V.RNO between ? and ? ";
+			  					   + " on D.PK_PRO_NUM = C.FK_PRO_NUM ";
+			  					   System.out.println(mgct);
+			  					  if("2".equals(mgct)) {
+			  						  sql += " where B.fk_userid= ? , mileageinfo != '0' , mileageinfo != '-0' "
+			  						  		+ " , mileageinfo > 0 ";
+			  					  } else if("3".equals(mgct)) {
+			  						  sql += " where B.fk_userid= ? and mileageinfo != '0' and mileageinfo != '-0' "
+			  						  		+ " and mileageinfo < 0 ";
+			  					  } else {
+			  						 sql +=  " where B.fk_userid= ? and mileageinfo != '0' and mileageinfo != '-0' " ;
+			  					  }
+			  					   
+			  					   sql += " )V "
+					  				    + " where V.RNO between ? and ? ";				   
+			  					   
+			  					   
 			  						
 			  							
 			  			pstmt = conn.prepareStatement(sql);
