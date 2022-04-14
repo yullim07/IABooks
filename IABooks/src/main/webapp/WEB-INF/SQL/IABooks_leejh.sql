@@ -1068,7 +1068,7 @@ ALTER TABLE tbl_comment
  
  
  select * 
- from tbl_review_board;
+ from tbl_qna_board;
 
 
 select PK_RNUM, FK_PNUM, FK_USERID, RE_TITLE, to_char(re_date,'yyyy-mm-dd hh24:mi:ss') AS re_date 
@@ -1131,3 +1131,19 @@ from tbl_review_board;
 
 update tbl_review_board set re_title = 'wow', re_contents= 'wow', re_writer = '김재희'
 	where pk_rnum = 64 
+    
+    
+    select *
+    from tbl_comment;
+    
+    commit;
+    
+    update tbl_comment set cmt_contents = '댓글남기기2' , cmt_date = sysdate
+		 where pk_cmt_num = 18 
+         
+         
+         
+     select pk_cmt_num , fk_userid, fk_qna_num, cmt_passwd, cmt_contents, cmt_date, isdelete  
+							from tbl_comment 
+					where isdelete = 0 
+                    order by cmt_date desc;

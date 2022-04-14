@@ -8,7 +8,7 @@
 %>
 
 <%-- <meta charset="UTF-8"> --%>
-<title>${qnaVO.qna_title} | 상품Q&A</title>
+<title>in사과 : ${qnaVO.qna_title} | 상품Q&A</title>
 
 <!-- 직접 만든 CSS -->
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/css/board/lee_css/semi_style.css" />
@@ -45,13 +45,13 @@
      	border: solid 1px gray;
    }
    
-   div#cmtlist_content{
+   div#cmtlist_content_box{
    		padding: 20px 0 20px 25px; 
    		border: 1px solid  #e9e9e9; 
    		min-height: 60px;
    }
    
-   span.markColor {color: #ff0000; }
+  
    
    div.customDisplay {display: inline-block;
                       margin: 1% 3% 0 0;
@@ -59,12 +59,7 @@
                    
    div.spacediv {margin-bottom: 5%;}
    
-   div.commentDel {font-size: 8pt;
-                   font-style: italic;
-                   cursor: pointer; }
-   
-   div.commentDel:hover {background-color: navy;
-                         color: white;   }
+ 
 </style>
 
 
@@ -129,6 +124,9 @@
 		});
 		
 		
+		
+		
+		
 	});//end of $(document).ready(function(){})--------------
 	
 	
@@ -159,7 +157,7 @@
 	        			 var writeuserid = item.fk_userid;
 	        			 html += "<div id='cmtlist_header'>" ;
 	        			 if( writeuserid == 'admin'){
-	        				 html += "<div> <strong>인디펍</strong>";
+	        				 html += "<div> <strong>관리자</strong>";
 	        			 }
 	        			 else{
 	        				  html += "<div> <strong>"+writeuserid.substr(0,2)+"*****</strong>";
@@ -167,11 +165,11 @@
 	        			  html  += "<span>"+item.cmt_date+"</span>";
 	        			  if( loginuserid != "" && writeuserid == loginuserid ) {
 	        					html += "<button class='cmtButton' type='button' onclick='delMyComment("+item.pk_cmt_num+")'>삭제</button>"
-	        				   		  + "<button class='cmtButton' type='button' onclick='UpdateMyComment("+item.pk_cmt_num+")'>수정</button>";
+	        				   		  + "<button class='cmtButton commentUpdate' type='button' onclick='updateMyComment("+index+","+item.pk_cmt_num+")'>수정</button>";
 	        			  }
 	        			          				   
 	        			  html += "</div> </div>"
-	        				   + "<div id='cmtlist_content'>"+item.cmt_contents+"</div> </div>";
+	        				   + " <div id='cmtlist_content_box'><div id='cmtlist_content"+index+"'>"+item.cmt_contents+"</div></div> </div>";
 	        				 
 		                 /*  if( loginuserid == "") {
 		                     html += "<div class='customDisplay spacediv'>&nbsp;</div>";
@@ -202,6 +200,61 @@
 	        });//end of ajax()
 	    }//end of fucntion listComment
 		
+	    
+	 // 특정 제품의 제품후기를 수정하는 함수
+	    function updateMyComment(index, pk_cmt_num){
+	 	   
+	 	    const origin_elmt = $("div#cmtlist_content"+index).html(); // 원래의 제품후기 엘리먼트
+	 	   // alert(origin_elmt);   
+	 	      
+	 	      const cmt_contents = $("div#cmtlist_content"+index).text(); // 원래의 제품후기 내용 
+	 	   // alert(review_contents);
+	 	   
+	 	      $("button.commentUpdate").hide(); // "후기수정" 글자 감추기
+	 	      
+	 	      // "후기수정" 을 위한 엘리먼트 만들기 
+	 	      let html = "<textarea id='edit_textarea' style='font-size: 14px; width: 40%; height: 50px;'>"+cmt_contents+"</textarea>";
+	 	          html += "<div style='display: inline-block; position: relative; top: -20px; left: 10px; font-size: 12px; height: 25px; padding: 0;'><button type='button' class='btn btn-sm btn-outline-secondary' id='btnCommentUpdate_OK'><span>수정완료</span></button></div>";
+	 	          html += "<div style='display: inline-block; position: relative; top: -20px; left: 20px; font-size: 12px; height: 25px; padding: 0;'><button type='button' class='btn btn-sm btn-outline-secondary' id='btnCommentUpdate_NO'><span>수정취소</span></button></div>";  
+	 	      
+	 	      // 원래의 제품후기 엘리먼트에 위에서 만든 "후기수정" 을 위한 엘리먼트로 교체하기  
+	 	      $("div#cmtlist_content"+index).html(html);
+	 	      
+	 	      // 수정취소 버튼 클릭시 
+	 	      $("button#btnCommentUpdate_NO").click(function(){
+	 	         $("div#cmtlist_content"+index).html(origin_elmt); // 원래의 제품후기 엘리먼트로 복원하기  
+	 	         $("button.commentUpdate").show(); // "후기수정" 글자 보여주기 
+	 	      });
+	 	      
+	 	      // 수정완료 버튼 클릭시 
+	 	      $("button#btnCommentUpdate_OK").click(function(){
+	 	      // alert(review_seq); // 수정할 제품후기 번호 
+	 	      // alert($("textarea#edit_textarea").val()); // 수정할 제품후기 내용
+	 	      
+	 	         $.ajax({
+	 	            url:"<%= ctxPath%>/board/commentUpdate.book",
+	 	            type:"POST",
+	 	            data:{"pk_cmt_num":pk_cmt_num
+	 	                ,"cmt_contents":$("textarea#edit_textarea").val()},
+	 	            dataType:"JSON",
+	 	            success:function(json) { // {"n":1} 또는 {"n":0}
+	 	               if(json.n == 1) {
+	 	            	  listComment();
+	 	               }
+	 	               else {
+	 	                  alert("댓글 수정이 실패되었습니다.");
+	 	                 listComment();
+	 	               }
+	 	            },
+	 	            error: function(request, status, error){
+	 	               alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+	 	            }   
+	 	         });
+	 	         
+	 	      });
+	 	   
+	    }//end of function updateMyReview(index, review_seq){}---------------------- 
+	
 	    
 	 // 특정 글의 댓글을 삭제하는 함수
 	    function delMyComment(pk_cmt_num) {
@@ -235,40 +288,7 @@
 	       
 	    }// end of function delMyReview(review_seq) {}--------------------------  
 	    
-		 // 특정 글의 댓글을 수정버튼 클릭 시 
-		 
-	    function UpdateMyComment(pk_cmt_num) {
-	       
-	       const bool = confirm("댓글 수정할려구?");
-	    //  console.log("bool => " + bool); // bool => true , bool => false
-	       const queryString = $("form[name=commentFrm]").serialize();
-	       if(bool) {
-	       
-	          $.ajax({
-	             url:"<%= ctxPath%>/board/commentUpdateStart.book",
-	             type:"POST",
-	             data:{"pk_cmt_num":pk_cmt_num},
-	             dataType:"JSON",
-	             success:function(json) { // {"n":1} 또는 {"n":0}
-	                if(json.n == 1) {
-	                   alert("댓글 삭제가 성공되었습니다.");
-	                   
-	                   listComment();
-	                }
-	                else {
-	                   alert("댓글 삭제가 실패했습니다.");
-	                }
-	             },
-	             error: function(request, status, error){
-	                alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
-	             }
-	          });
-	       
-	       }
-	       
-	    }// end of function delMyReview(review_seq) {}--------------------------  	    
-	
-	
+	    
 
 </script>
 
@@ -395,13 +415,14 @@
 	
 		
 	<div>
+		<strong style="font-size: 14px; margin-left: 12px;">댓글 목록</strong>
 		<!-- 댓글 목록 -->
 		<div id="listComment"></div>
 		
 		<%-- 댓글달기 --%>
 		<!-- 댓글이 등록이 되면 listComment에 댓글이 쌓이게 된다 -->
 		<div class="comment" style=" font-size: 14px; padding:10px 20px; background-color:#fbfafa; border: 1px solid #e9e9e9; margin-top: 30px; min-height: 140px;">
-			<form class="comment" method="post">  
+			<form class="comment" name="comment" method="post">  
 			<c:set var="qnaVO" value="${qnaVO}" />
 			<c:if test="${ not empty sessionScope.loginuser }">
 			 

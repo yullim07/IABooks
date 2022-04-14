@@ -124,14 +124,15 @@
                         </script>
 		      </td>
 		    </tr>
+		    <%-- 
 		    <tr>
 		      <th>첨부파일1</th>
 		      <td class="" >
-		      	<button  name="file_attach" id="file_attach" type="button">파일 선택</button> <%--  button으로 할지 input으로 할지 고민고민 --%>
+		      	<button  name="file_attach" id="file_attach" type="button">파일 선택</button> 
 		      	<span>선택된 파일 없음</span>
 		      </td>
 		    </tr>
-		    
+		    --%>
 		    
 		    
 		    </tbody>

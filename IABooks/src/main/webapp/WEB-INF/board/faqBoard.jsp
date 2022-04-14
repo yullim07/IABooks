@@ -9,7 +9,10 @@
 	String ctxPath = request.getContextPath();
 %>
 
-<jsp:include page="/WEB-INF/header.jsp"/>
+
+
+<meta charset="UTF-8">
+<title>in사과 : FAQ</title>
 
 <%-- Bootstrap CSS --%>
 <link rel="stylesheet" type="text/css" href="<%= ctxPath%>/bootstrap-4.6.0-dist/css/bootstrap.min.css" > 
@@ -129,7 +132,7 @@
 	
 	
 </script>
-
+<jsp:include page="/WEB-INF/header.jsp"/>
 	    <div class="container">
 	    <form name="faqBoardFrm" method="get">
 			    <div class="title" >

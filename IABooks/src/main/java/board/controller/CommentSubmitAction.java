@@ -47,7 +47,12 @@ public class CommentSubmitAction extends AbstractController {
 				String fk_qna_num = (String) request.getParameter("pk_qna_num");
 				  
 				  
-
+				// !!!! 크로스 사이트 스크립트 공격에 대응하는 안전한 코드(시큐어코드) 작성하기 !!!! //
+				cmtContent = cmtContent.replaceAll("<", "&lt;");
+				cmtContent = cmtContent.replaceAll(">", "&gt;");
+		       
+		        // 입력한 내용에서 엔터는 <br>로 변환시키기 
+				cmtContent = cmtContent.replaceAll("\r\n", "<br>");
 				
 				CommentVO cVO = new CommentVO();
 					  

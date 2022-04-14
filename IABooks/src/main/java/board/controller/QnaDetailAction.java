@@ -42,11 +42,15 @@ public class QnaDetailAction extends AbstractController {
 			
 			qnaVO.setPk_qna_num(pk_qna_num);
 			
+	
+			qnaVO = bdao.getqnaContent(pk_qna_num);
+
 			if( loginuser == null || !( loginuser.getUserid().equals(qnaVO.getFk_userid()) )){
 				bdao.qnaReadCountUp(pk_qna_num);
 			}
-			
 			qnaVO = bdao.readqnaContent(pk_qna_num);
+			
+			
 	
 		
 			

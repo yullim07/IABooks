@@ -61,7 +61,10 @@ public interface InterBoardDAO {
 
 	   //비밀글 유무 알아오기
 	   int searchIssecret(int pk_qna_num) throws SQLException;
-
+	   
+	// Ajax 를 이용한 특정 글의 댓글을 수정(update)하기
+	   int commentUpdate(Map<String, String> paraMap) throws SQLException;
+	   
 	   // 댓글 삭제하기 
 	   int deleteComment(CommentVO cVO) throws SQLException;
 	
@@ -75,7 +78,7 @@ public interface InterBoardDAO {
 	   // 리뷰 글번호를 가지고서 해당 글 첨부파일의 서버에 업로드되어진 파일명과 오리지널 파일명을 조회해오기 
 	   Map<String, String> getRevImgFileName(String pk_rnum) throws SQLException;
 	
-	
+	   
 	
 	
 	
@@ -205,6 +208,8 @@ public interface InterBoardDAO {
 
 	// 관리자페이지 게시글관리에에 보여줄 모든 게시글 불러오기
 	List<MyBoardVO> selectPagingAdminBoard(Map<String, String> paraMap) throws SQLException;
+	
+	
 
 	
 
