@@ -38,6 +38,7 @@
 		$(document).ready(function() {
  			
 			$("input#searchWord").bind("keyup", function(event) {
+				console.lg("확인")
 				if(event.keyCode == 13) {
 					goSearch();
 				}
