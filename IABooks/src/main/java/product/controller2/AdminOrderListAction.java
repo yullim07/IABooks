@@ -14,7 +14,7 @@ import product.model.InterProductDAO;
 import product.model.ProductDAO;
 
 
-public class OrderListAction  extends AbstractController {
+public class AdminOrderListAction  extends AbstractController {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -24,11 +24,11 @@ public class OrderListAction  extends AbstractController {
 			HttpSession session = request.getSession();
 			MemberVO loginuser = (MemberVO) session.getAttribute("loginuser");
 			String userid = loginuser.getUserid();
-			
+			System.out.println("확인");
 			if("admin".equalsIgnoreCase(userid)) {
-				
-				if("GET".equalsIgnoreCase(method)) {//포스트 방식이라며는 
-					
+				System.out.println("확인11");
+				if("POST".equalsIgnoreCase(method)) {//포스트 방식이라며는 
+					System.out.println("확인22");
 					InterProductDAO pdao = new ProductDAO();
 					Map<String, String> paraMap = new HashMap<>();
 					
@@ -40,7 +40,7 @@ public class OrderListAction  extends AbstractController {
 					request.setAttribute("orderList", orderList);
 					request.setAttribute("deliverstatusList", deliverstatusList);
 					
-					super.setViewPage("/WEB-INF/product/admin/orderList.jsp");
+					super.setViewPage("/WEB-INF/product/admin/adminOrderList.jsp");
 					
 				}else{
 					String message = "비정상적인 경로로 들어왔습니다";

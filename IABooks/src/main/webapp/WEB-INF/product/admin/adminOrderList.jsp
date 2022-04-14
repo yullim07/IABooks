@@ -237,7 +237,7 @@ div.pagination {
 	a
 
 </style>
-<title>주문조회</title>
+<title>in사과::전체주문조회</title>
 
 <div class="container">
 	

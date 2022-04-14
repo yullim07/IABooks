@@ -33,7 +33,7 @@ $(document).ready(function () {
 
 </style>
 
-<title>in사과 : total</title>
+<title>in사과::total</title>
 
 <jsp:include page="/WEB-INF/header.jsp"/>
 <%-- main --%>		

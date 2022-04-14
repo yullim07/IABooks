@@ -84,6 +84,13 @@
 			const pk_cartno = $(this).parent().parent().find("input#pk_cartno").val();
 			proDeleteOne(pk_cartno);
 		});//end of $("li#btn_delete").click(function ()
+		
+		//장바구니이동
+		$("div#btn_wish").click(function () {
+			//const pk_cartno = $(this).parent().parent().find("input#pk_cartno").val();
+			const fk_pro_num = $(this).parent().parent().find("input#fk_pro_num").val();
+			cartToWishOne(fk_pro_num);
+		});//end of $("li#btn_delete").click(function ()		
 				
 		//선택상품 삭제		
 		$("span#deleteSelect").click(function () {
@@ -177,6 +184,38 @@
 					alert("삭제되었습니다.");
 					location.reload();
 				}else{
+					alert("오류발생"); 
+				}
+
+			},
+			error: function(request, status, error){
+				//alert("code: "+request.status+"\n"+"message: "+request.responseText+"\n"+"error: "+error);
+				
+				if(request.responseText.match("로그인")){
+					if(!alert(request.responseText)) document.location = "<%= ctxPath%>/login/join.book";
+				}else{
+					alert(request.responseText);
+					location.reload();
+				}
+				
+			}
+		});//end of $.ajax
+	}//end of function DeleteOne()
+	
+	//관심상품 버튼함수
+	function cartToWishOne(fk_pro_num) {
+		$.ajax({
+			url:"<%= ctxPath%>/product/cartToWishOne.book",
+			type:"POST",
+			data:{"fk_pro_num":fk_pro_num}, 
+			dataType:"JSON",
+			success:function(json) {
+				if(json.cartToWishOne == 1) {
+					alert("관심상품에 추가되었습니다.");
+				}else if(json.cartToWishOne == 2){
+					alert("관심상품에 이미있습니다.");
+				}
+				else{
 					alert("오류발생"); 
 				}
 

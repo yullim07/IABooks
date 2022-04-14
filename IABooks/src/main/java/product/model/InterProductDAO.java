@@ -6,7 +6,6 @@ import java.util.*;
 //import java.util.Map;
 
 import member.model.CouponVO;
-import member.model.MemberVO;
 
 public interface InterProductDAO {
 	
@@ -90,16 +89,12 @@ public interface InterProductDAO {
 	List<HashMap<String, String>> deliverstatusList() throws SQLException;
 	//관리자 전용 구매내역 회원정보
 	Map<String, String> orderMemberInfo(Map<String, String> paraMap)throws SQLException;
-	
-	
+	//관심상품에 존재하는지 확인
+	String getOneCartPnum(Map<String, String> paraMap)throws SQLException;
+	//장바구니있는상품 관심상품에 추가
+	int insertAddWish(Map<String, String> paraMap)throws SQLException;
 	
 	////////////////////////////////////////////////////////////////////////////////////////////////
-
-	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
-	ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
-	
-	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
-	List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
 
 	// 장바구니 조회하기 메소드
 	List<CartVO> getCart(String fk_userid) throws SQLException;
@@ -107,41 +102,23 @@ public interface InterProductDAO {
 	// VO 를 사용하지 않고 Map 으로 tbl_category 테이블에서 카테고리번호(pk_cate_num), 카테고리명(cate_name)을 조회해오기
 	List<HashMap<String, String>> getCategoryList() throws SQLException;
 
-	// tbl_writer 테이블에 작가정보 insert 하기
-	int writerInsert(WriterVO wvo) throws SQLException;
-	
 	// tbl_product 테이블에 제품정보 insert 하기 
 	int productInsert(ProductVO pvo) throws SQLException;
-	
-	// tbl_product 테이블에 카테고리를 가져오기 위해 select 해오기
-	List<HashMap<String, String>> getCategoryListSelect() throws SQLException;
-	
-	// 작가코드(seq_tbl_writer 값) 중복검사하기
-	public boolean wr_codeDuplicateCheck(String wrcode) throws SQLException;
 
-	// 작가코드 존재하는지 찾기
-	String findWr_code(Map<String, String> paraMap)  throws SQLException;
+	// 작가존재여부
+	int findWrcode(Map<String, String> paraMap) throws SQLException;
 	
-	// 작가코드(seq_tbl_writer 값)을 가져오기 
-	int getSeq_tbl_writer() throws SQLException;
+	// 작가없을경우 작가 추가
+	int writerInsert(Map<String, String> paraMap) throws SQLException;
 	
+	//도서표준번호 존재여부
+	String findProNum(Map<String, String> paraMap) throws SQLException;
 	
-	// tbl_product_imagefile 테이블에 insert 하기 << 추가이미지 테이블
-	// int product_imagefile_Insert(Map<String, String> paraMap) throws SQLException;
+	//도서표준번호 있다면 업데이트
+	int productUpdate(Map<String, String> paraMap) throws SQLException;
+	
+	//작가코드 채번하기
+	int getSeq_tbl_writer()throws SQLException;
 
-	// 제품번호를 가지고서 해당 제품의 정보를 조회해오기 
-	//ProductVO selectOneProductByPnum(String pk_pro_num) throws SQLException;
-
-	// 제품번호를 가지고서 해당 제품의 추가된 이미지 정보를 조회해오기 
-	//List<String> getImagesByPnum(String pk_pro_num) throws SQLException;
-
-
-
-
-	
-	
-	
-	
-	
 	
 }
