@@ -812,7 +812,16 @@ select MILEAGEINFO, FK_ODRCODE, PRO_NAME, to_char(ODR_DATE, 'yyyy-MM-dd')
  on B.PK_ODRCODE = C.FK_ODRCODE 
  join TBL_PRODUCT D 
  on D.PK_PRO_NUM = C.FK_PRO_NUM 
- where B.fk_userid= ? 
+ where B.fk_userid= 'admin' and mileageinfo != '0' and mileageinfo != '-0'
  )V 
- where V.RNO between ? and ?                           
+ where V.RNO between  and                            
  
+ 
+ select ceil(count(*)/10) 
+ from tbl_mileage A join tbl_order B 
+ on A.FK_ODRCODE = B.PK_ODRCODE 
+ join tbl_orderdetail C 
+ on B.PK_ODRCODE = C.FK_ODRCODE 
+ join TBL_PRODUCT D 
+ on D.PK_PRO_NUM = C.FK_PRO_NUM 
+ where B.fk_userid= 'admin'  and mileageinfo != '0' and mileageinfo != '-0'  
