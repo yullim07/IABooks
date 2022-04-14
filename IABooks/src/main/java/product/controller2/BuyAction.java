@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import common.controller.AbstractController;
+import member.model.CouponVO;
 import member.model.MemberVO;
 import product.model.CartVO;
 import product.model.InterProductDAO;
@@ -39,7 +40,8 @@ public class BuyAction extends AbstractController {
 				paraMap.put("pk_pro_num", pk_pro_num);
 				paraMap.put("userid", userid);
 				paraMap.put("now_pro_qty", now_pro_qty);
-				
+				List<CouponVO> userCoupon = pdao.userCoupon(paraMap);
+				String userPoint = pdao.userPoint(paraMap);
 				Map<String, Integer> qtyCheck = pdao.qtyCheck(paraMap);
 				Map<String, Integer> cartQtyCheck = pdao.cartQtyCheck(paraMap);
 				
@@ -73,12 +75,12 @@ public class BuyAction extends AbstractController {
 						if(totalPrice < 50000) {
 							finalPrice = totalPrice + shippingFee;
 						}
-						
+						request.setAttribute("userPoint", userPoint);
 						request.setAttribute("order", order);
 						request.setAttribute("fk_userid", userid);
 						request.setAttribute("totalPrice", totalPrice);
 						request.setAttribute("finalPrice", finalPrice);
-				
+						request.setAttribute("userCoupon", userCoupon);
 						super.setViewPage("/WEB-INF/product/order.jsp");
 					}
 					
