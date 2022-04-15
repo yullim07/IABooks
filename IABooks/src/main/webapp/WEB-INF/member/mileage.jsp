@@ -110,10 +110,10 @@ span.pointTable {
 		    		<tr align="center">
 						<td>번호</td>
 						<td>유형</td>
-						<td>주문날짜</td>
 						<td>적립금</td>
 						<td>관련주문</td>
 						<td>내용</td>
+						<td>주문날짜</td>
 		    		</tr>
 		    	</thead>
 		    	<tbody>
@@ -171,10 +171,10 @@ span.pointTable {
 		    		<tr align="center">
 						<td>번호</td>
 						<td>유형</td>
-						<td>주문날짜</td>
 						<td>적립금</td>
 						<td>관련주문</td>
 						<td>내용</td>
+						<td>주문날짜</td>
 		    		</tr>
 		    	</thead>
 		    	<tbody class="menu">
@@ -232,10 +232,10 @@ span.pointTable {
 		    		<tr align="center">
 						<td>번호</td>
 						<td>유형</td>
-						<td>주문날짜</td>
 						<td>적립금</td>
 						<td>관련주문</td>
 						<td>내용</td>
+						<td>주문날짜</td>
 		    		</tr>
 		    	</thead>
 		    	<tbody class="menu">

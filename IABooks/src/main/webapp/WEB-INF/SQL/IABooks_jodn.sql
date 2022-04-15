@@ -1,9 +1,10 @@
-select *
+select pwd, uq_email, uq_phone
 from tbl_member;
 
 alter table tbl_user_coupon_status add coupon number default 0;
 
-
+select *
+from TBL_DELIVERSTATUS
 
 
 select *
@@ -812,9 +813,10 @@ select MILEAGEINFO, FK_ODRCODE, PRO_NAME, to_char(ODR_DATE, 'yyyy-MM-dd')
  on B.PK_ODRCODE = C.FK_ODRCODE 
  join TBL_PRODUCT D 
  on D.PK_PRO_NUM = C.FK_PRO_NUM 
- where B.fk_userid= 'admin' and mileageinfo != '0' and mileageinfo != '-0'
+ where B.fk_userid= 'admin' and mileageinfo != '0' and mileageinfo != '-0' and mileageinfo >0
  )V 
- where V.RNO between  and                            
+ where V.RNO between 1 and 5                            
+ 
  
  
  select ceil(count(*)/10) 
