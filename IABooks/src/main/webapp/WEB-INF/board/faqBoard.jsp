@@ -59,6 +59,7 @@
 		else {
 			$("button#btn_write").hide();
 		}
+
 		
 		// **** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ****//
 		$("select#faqsearchCate").bind("change", function(){
@@ -83,7 +84,7 @@
 			}
 			
 			if($("input#faqsearchWord").val().trim() == "") {
-				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!! qwe2");
+				alert("검색어는 공백만으로 되지 않습니다. 검색어를 올바르게 입력하세요!!");
 				return false;
 			}
 			
@@ -109,7 +110,6 @@
 		
 	}); // end of $(document).ready(function(){})---------------------
 	
-	
 	// Function Declaration
 	function goFaqSearch(){
 		
@@ -130,6 +130,15 @@
 		
 	}
 	
+	// **** select 태그에 대한 이벤트는 click 이 아니라 change 이다(중요 암기) ****//
+	function goFaqCateSearch(){
+		
+		const frm = document.faqBoardFrm;
+		frm.action = "faqBoard.book";
+		frm.method = "get";
+		frm.submit();
+		
+	}
 	
 </script>
 <jsp:include page="/WEB-INF/header.jsp"/>
@@ -149,7 +158,7 @@
 		</div>
 			  <!-- <p class="mb-3"></p> -->
 			
-			  	<select class="cateDropdown" id="faqsearchCate" name="faqsearchCate" onchange="">
+			  	<select class="cateDropdown" id="faqsearchCate" name="faqsearchCate" onchange="goFaqCateSearch()">
 				    <option value="">분류</option>
 				    <c:forEach items="${requestScope.faqCateList}" var="map">
 				      <option value="${map.faq_c_ename}" ${map.faq_c_ename == 'all' ? 'selected="selected"' : ''}>${map.faq_c_name}</option>

@@ -79,6 +79,12 @@ public class FaqBoardAction extends AbstractController {
 		paraMap.put("searchCate", searchCate);
 		// 검색조건이 있을 경우 끝
 		
+		// FAQ 카테고리 불러오기
+		List<HashMap<String, String>> faqCateList = bdao.getFaqCateList();
+		
+		request.setAttribute("faqCateList", faqCateList);
+				
+		
 		// 페이징 처리를 위한 검색이 있는 또는 검색이 없는 전체 리뷰게시글에 대한 페이지 알아오기
 		int totalPage = bdao.getTotalfaqPage(paraMap);
 		// System.out.println("~~~ 확인용 totalPage => " + totalPage);
@@ -93,10 +99,6 @@ public class FaqBoardAction extends AbstractController {
 		
 		paraMap.put("currentShowPageNo", currentShowPageNo);
 		
-		// FAQ 카테고리 불러오기
-		List<HashMap<String, String>> faqCateList = bdao.getFaqCateList();
-		
-		request.setAttribute("faqCateList", faqCateList);
 		
 		// FAQ 글 목록 불러오기
 		List<FaqBoardVO> faqBoardList = bdao.selectPagingFaqBoard(paraMap); 
